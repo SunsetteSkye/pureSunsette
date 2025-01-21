@@ -4,4 +4,5 @@ HighCriticalMoves:
 	db CRABHAMMER
 	db SLASH
 	db POISON_GAS ; PureRGBnote: ADDED:
+	db CUT ; Sunsette Added
 	db -1 ; end

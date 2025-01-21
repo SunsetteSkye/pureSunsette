@@ -1,6 +1,6 @@
 	db DEX_GOLEM ; pokedex id
 
-	db  80, 110, 130,  45,  65
+	db  80, 110, 130,  45,  75
 	;   hp  atk  def  spd  spc
 
 	db ROCK, GROUND ; type

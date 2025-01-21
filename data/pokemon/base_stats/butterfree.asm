@@ -1,6 +1,6 @@
 	db DEX_BUTTERFREE ; pokedex id
 
-	db  70,  25,  75,  95,  92
+	db  70,  25,  95,  75,  92
 	;   hp  atk  def  spd  spc
 
 	db BUG, PSYCHIC_TYPE ; type
@@ -23,6 +23,8 @@
 	HYPER_BEAM,\
 	AMNESIA,\
 	BARRIER,\
+	RAZOR_LEAF,\
+	SOLARBEAM,\
 	PSYCHIC_M,\
 	MEGA_DRAIN,\
 	SWORDS_DANCE,\
@@ -31,6 +33,7 @@
 	BARRAGE,\
 	SLAM,\ ; FILTHY SLAM
 	MEDITATE,\
+	LOVELY_KISS,\
 	SKY_ATTACK,\
 	LIGHT_SCREEN,\
 	THUNDER_WAVE,\

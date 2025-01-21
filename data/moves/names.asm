@@ -131,7 +131,7 @@ MoveNames::
 	li "SWIFT"
 	li "SKULL BASH"
 	li "SPIKE CANNON"
-	li "STATIC SNAG" ; changed from CONSTRICT
+	li "STRANGLEVINE" ; changed from CONSTRICT
 	li "AMNESIA"
 	li "FIREWALL" ; changed from KINESIS
 	li "SOFTBOILED"

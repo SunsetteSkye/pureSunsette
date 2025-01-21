@@ -25,7 +25,7 @@ WildPalettePointers:
 	dw SeaRoutesWildPalettes   ; CINNABAR_ISLAND
 	dw DefaultPalettes         ; INDIGO_PLATEAU
 	dw DefaultPalettes         ; unused
-	dw DefaultPalettes         ; ROUTE_1
+	dw Route1WildPalettes         ; ROUTE_1
 	dw DefaultPalettes         ; ROUTE_2
 	dw DefaultPalettes         ; ROUTE_3
 	dw DefaultPalettes         ; ROUTE_4
@@ -64,7 +64,7 @@ WildPalettePointers:
 	dw DefaultPalettes
 	dw DefaultPalettes
 	dw DefaultPalettes
-	dw DefaultPalettes ; ViridianForest
+	dw ViridianForestWildPalettes ; ViridianForest
 	dw DefaultPalettes
 	dw DefaultPalettes
 	dw DefaultPalettes

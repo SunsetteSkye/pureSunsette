@@ -5,11 +5,11 @@ ViridianForestWildMons:
 	db  3, WEEDLE
 	db  5, CATERPIE
 	db  4, VENONAT
-	db  6, PIKACHU
+	db  4, PIKACHU
 	db  5, VENONAT
 	db  3, PIKACHU
 	db  3, PIKACHU
-	db  5, PIKACHU
+	db  8, PIDGEOTTO
 	end_grass_wildmons
 
 	def_water_wildmons 0 ; encounter rate

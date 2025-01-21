@@ -352,7 +352,7 @@ IvysaurEvosMoves:
 	db 13, VINE_WHIP
 	db 16, POISONPOWDER
 	db 19, STUN_SPORE
-	db 24, CONSTRICT ; STATIC SNAG
+	db 24, ACID
 	db 29, RAZOR_LEAF
 	db 35, SLEEP_POWDER
 	db 38, GROWTH
@@ -366,12 +366,13 @@ ExeggutorEvosMoves:
 	db 14, LEECH_SEED
 	db 18, MEGA_DRAIN
 	db 20, STUN_SPORE
-	db 23, REFLECT
-	db 27, PSYBEAM
-	db 32, BARRAGE
-	db 36, SLEEP_POWDER
-	db 48, SOLARBEAM
+	db 23, PSYBEAM
+	db 27, BARRAGE
+	db 32, RAZOR_LEAF
+	db 36, PSYCHIC_M
+	db 48, GROWTH
 	db 53, EGG_BOMB
+	db 60, SOLARBEAM
 	db 0
 
 LickitungEvosMoves:
@@ -398,13 +399,14 @@ ExeggcuteEvosMoves:
 	db 14, LEECH_SEED
 	db 18, MEGA_DRAIN
 	db 20, STUN_SPORE
-	db 23, REFLECT
-	db 27, PSYBEAM
-	db 32, BARRAGE
+	db 23, PSYBEAM
+	db 27, BARRAGE
+	db 32, RAZOR_LEAF
 	db 34, SOFTBOILED
-	db 36, SLEEP_POWDER
-	db 48, SOLARBEAM
+	db 36, PSYCHIC_M
+	db 48, GROWTH
 	db 53, EGG_BOMB
+	db 60, SOLARBEAM
 	db 0
 
 GrimerEvosMoves:
@@ -563,7 +565,7 @@ ShellderEvosMoves:
 	db EVOLVE_ITEM, WATER_STONE, 1, CLOYSTER
 	db 0
 ; Learnset
-	db 18, CLAMP
+	db 18, BIND
 	db 23, WITHDRAW
 	db 28, AURORA_BEAM
 	db 32, WATERFALL
@@ -581,7 +583,7 @@ TentacoolEvosMoves:
 	db 7, POISON_STING
 	db 13, WATER_GUN
 	db 15, SUPERSONIC
-	db 18, CONSTRICT ; STATIC SNAG
+	db 18, ACID
 	db 21, WRAP
 	db 23, CONFUSE_RAY
 	db 26, MEGA_DRAIN
@@ -671,14 +673,14 @@ TangelaEvosMoves:
 	db 0
 ; Learnset
 	db 14, POISONPOWDER
-	db 18, CONSTRICT ; STATIC_SNAG
-	db 23, STUN_SPORE
-	db 26, MEGA_DRAIN
+	db 18, MEGA_DRAIN
+	db 23, WITHDRAW
+	db 26, NIGHT_SHADE
 	db 30, AMNESIA
-	db 34, RAZOR_LEAF
+	db 34, CONSTRICT ;STRANGLEVINE
 	db 44, SPORE
 	db 49, DREAM_EATER
-	db 54, SELFDESTRUCT
+	db 54, HYDRO_PUMP
 	db 0
 
 NothingEvosMoves:
@@ -737,19 +739,19 @@ FearowEvosMoves:
 
 PidgeyEvosMoves:
 ; Evolutions
-	db EVOLVE_LEVEL, 18, PIDGEOTTO
+	db EVOLVE_LEVEL, 24, PIDGEOTTO
 	db 0
 ; Learnset
-	db 5, GUST
-	db 6, SAND_ATTACK
-	db 12, QUICK_ATTACK
-	db 19, WING_ATTACK
-	db 26, RAZOR_WIND ; ROOST
-	db 28, SHARPEN
-	db 32, FURY_ATTACK
-	db 35, GLARE
-	db 41, TAKE_DOWN ; HEAT RUSH
-	db 48, SKULL_BASH
+	db 5, SAND_ATTACK
+	db 8, GUST
+	db 12, RAZOR_WIND ; ROOST
+	db 19, QUICK_ATTACK
+	db 26, VINE_WHIP
+	db 28, FURY_ATTACK
+	db 32, SHARPEN
+	db 35, SLASH
+	db 41, GLARE
+	db 48, PETAL_DANCE
 	db 54, WHIRLWIND
 	db 60, HYPER_BEAM
 	db 0
@@ -892,7 +894,7 @@ ArbokEvosMoves:
 	db 10, BITE
 	db 13, SMOG
 	db 17, GLARE
-	db 19, CONSTRICT ; STATIC SNAG
+	db 19, BIND
 	db 22, MEGA_DRAIN
 	db 26, SLAM ; FILTHY SLAM
 	db 30, WITHDRAW
@@ -910,8 +912,8 @@ ParasectEvosMoves:
 ; Learnset
 	db 13, STUN_SPORE
 	db 15, MEGA_DRAIN
-	db 18, CONSTRICT ; STATIC SNAG
-	db 21, LEECH_LIFE
+	db 18, LEECH_LIFE
+	db 21, CONSTRICT ;STRANGLEVINE
 	db 25, BARRAGE
 	db 28, SPORE
 	db 33, GROWTH
@@ -1070,7 +1072,7 @@ SeelEvosMoves:
 	db 16, HEADBUTT
 	db 21, AURORA_BEAM
 	db 24, BUBBLEBEAM
-	db 26, CONSTRICT ;STATIC SNAG
+	db 26, CONSTRICT ;STRANGLEVINE
 	db 30, REST
 	db 32, BODY_SLAM
 	db 35, ICE_BEAM
@@ -1295,7 +1297,7 @@ VulpixEvosMoves:
 	db 35, FLAMETHROWER
 	db 44, AMNESIA
 	db 50, PSYCHIC_M
-	db 56, SONICBOOM
+	db 56, DREAM_EATER
 	db 60, FIRE_SPIN
 	db 0
 
@@ -1312,7 +1314,7 @@ NinetalesEvosMoves:
 	db 35, FLAMETHROWER
 	db 44, AMNESIA
 	db 50, PSYCHIC_M
-	db 56, SONICBOOM
+	db 56, DREAM_EATER
 	db 60, FIRE_SPIN
 	db 0
 
@@ -1638,7 +1640,7 @@ EkansEvosMoves:
 	db 10, BITE
 	db 13, SMOG
 	db 17, GLARE
-	db 19, CONSTRICT ; STATIC SNAG
+	db 19, BIND
 	db 23, MEGA_DRAIN
 	db 26, SLAM ; FILTHY SLAM
 	db 30, WITHDRAW
@@ -1657,8 +1659,8 @@ ParasEvosMoves:
 ; Learnset
 	db 13, STUN_SPORE
 	db 15, MEGA_DRAIN
-	db 18, CONSTRICT ; STATIC SNAG
-	db 21, LEECH_LIFE
+	db 18, LEECH_LIFE
+	db 21, CONSTRICT ; STATIC SNAG
 	db 25, BARRAGE
 	db 28, SPORE
 	db 33, GROWTH
@@ -1810,7 +1812,7 @@ DewgongEvosMoves:
 	db 16, HEADBUTT
 	db 21, AURORA_BEAM
 	db 24, BUBBLEBEAM
-	db 26, CONSTRICT ;STATIC SNAG
+	db 26, CONSTRICT ;STRANGLEVINE
 	db 30, REST
 	db 32, BODY_SLAM
 	db 35, ICE_BEAM
@@ -1992,7 +1994,7 @@ CloysterEvosMoves:
 ; Evolutions
 	db 0
 ; Learnset
-	db 18, CLAMP
+	db 18, BIND
 	db 23, WITHDRAW
 	db 28, AURORA_BEAM
 	db 32, WATERFALL
@@ -2126,19 +2128,19 @@ AlakazamEvosMoves:
 
 PidgeottoEvosMoves:
 ; Evolutions
-	db EVOLVE_LEVEL, 36, PIDGEOT
+	db EVOLVE_LEVEL, 48, PIDGEOT
 	db 0
 ; Learnset
-	db 5, GUST
-	db 6, SAND_ATTACK
-	db 12, QUICK_ATTACK
-	db 19, WING_ATTACK
-	db 26, RAZOR_WIND ; ROOST
-	db 29, SHARPEN
-	db 32, FURY_ATTACK
-	db 35, GLARE
-	db 43, SLASH
-	db 48, SKULL_BASH
+	db 5, SAND_ATTACK
+	db 8, GUST
+	db 12, RAZOR_WIND ; ROOST
+	db 19, QUICK_ATTACK
+	db 26, VINE_WHIP
+	db 28, FURY_ATTACK
+	db 32, SHARPEN
+	db 35, SLASH
+	db 41, GLARE
+	db 48, PETAL_DANCE
 	db 54, WHIRLWIND
 	db 60, HYPER_BEAM
 	db 0
@@ -2147,16 +2149,16 @@ PidgeotEvosMoves:
 ; Evolutions
 	db 0
 ; Learnset
-	db 5, GUST
-	db 6, SAND_ATTACK
-	db 12, QUICK_ATTACK
-	db 19, WING_ATTACK
-	db 26, RAZOR_WIND ; ROOST
-	db 29, SHARPEN
-	db 32, FURY_ATTACK
-	db 35, GLARE
-	db 43, SLASH
-	db 48, SKULL_BASH
+	db 5, SAND_ATTACK
+	db 8, GUST
+	db 12, RAZOR_WIND ; ROOST
+	db 19, QUICK_ATTACK
+	db 26, VINE_WHIP
+	db 28, FURY_ATTACK
+	db 32, SHARPEN
+	db 35, SLASH
+	db 41, GLARE
+	db 48, PETAL_DANCE
 	db 54, WHIRLWIND
 	db 60, HYPER_BEAM
 	db 0
@@ -2185,7 +2187,7 @@ BulbasaurEvosMoves:
 	db 11, VINE_WHIP
 	db 14, POISONPOWDER
 	db 18, STUN_SPORE
-	db 21, CONSTRICT ; STATIC SNAG
+	db 21, ACID
 	db 25, RAZOR_LEAF
 	db 33, SLEEP_POWDER
 	db 38, GROWTH
@@ -2200,7 +2202,7 @@ VenusaurEvosMoves:
 	db 13, VINE_WHIP
 	db 17, POISONPOWDER
 	db 20, STUN_SPORE
-	db 24, CONSTRICT ; STATIC SNAG
+	db 24, ACID
 	db 30, RAZOR_LEAF
 	db 36, SLEEP_POWDER
 	db 40, GROWTH
@@ -2214,7 +2216,7 @@ TentacruelEvosMoves:
 	db 7, POISON_STING
 	db 12, SUPERSONIC
 	db 15, WATER_GUN
-	db 18, CONSTRICT ; STATIC SNAG
+	db 18, CONSTRICT ;STRANGLEVINE
 	db 21, WRAP
 	db 23, CONFUSE_RAY
 	db 26, MEGA_DRAIN
@@ -2268,7 +2270,7 @@ PonytaEvosMoves:
 ; Learnset
 	db 9, TAIL_WHIP
 	db 18, KINESIS ; FIREWALL
-	db 21, STOMP
+	db 21, JUMP_KICK
 	db 25, FOCUS_ENERGY
 	db 28, HEADBUTT
 	db 33, TAKE_DOWN ; HEAT RUSH
@@ -2285,7 +2287,7 @@ RapidashEvosMoves:
 ; Learnset
 	db 9, TAIL_WHIP
 	db 18, KINESIS ; FIREWALL
-	db 21, STOMP
+	db 21, JUMP_KICK
 	db 25, FOCUS_ENERGY
 	db 28, HEADBUTT
 	db 33, TAKE_DOWN ; HEAT RUSH

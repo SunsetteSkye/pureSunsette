@@ -4,76 +4,76 @@
 SuperPalettes:
 ; entries correspond to PAL_* constants
 	table_width 2 * 4, SuperPalettes
-	RGB 31,29,31, 21,28,11, 20,26,31, 03,02,02 ; PAL_ROUTE
-	RGB 31,29,31, 25,28,27, 20,26,31, 03,02,02 ; PAL_PALLET
-	RGB 31,29,31, 17,26,03, 20,26,31, 03,02,02 ; PAL_VIRIDIAN
-	RGB 31,29,31, 23,23,22, 20,26,31, 03,02,02 ; PAL_PEWTER ; PureRGBnote: CHANGED: slightly changed this palette to be more grey
-	RGB 31,29,31, 17,20,30, 20,26,31, 03,02,02 ; PAL_CERULEAN
-	RGB 31,29,31, 27,20,27, 20,26,31, 03,02,02 ; PAL_LAVENDER
-	RGB 31,29,31, 30,18,00, 20,26,31, 03,02,02 ; PAL_VERMILION
-	RGB 31,29,31, 16,30,22, 20,26,31, 03,02,02 ; PAL_CELADON
-	RGB 31,29,31, 27,27,03, 20,26,31, 03,02,02 ; PAL_SAFFRON
-	RGB 31,29,31, 31,15,22, 20,26,31, 03,02,02 ; PAL_FUCHSIA
-	RGB 31,29,31, 26,10,06, 20,26,31, 03,02,02 ; PAL_CINNABAR
-	RGB 31,29,31, 22,14,24, 20,26,31, 03,02,02 ; PAL_INDIGO
-	RGB 31,29,31, 20,26,31, 17,23,10, 03,02,02 ; PAL_TOWNMAP
+	RGB 31,31,31, 21,28,11, 20,26,31, 00,00,00 ; PAL_ROUTE
+	RGB 31,31,31, 25,28,27, 20,26,31, 00,00,00 ; PAL_PALLET
+	RGB 31,31,31, 21,28,14, 09,15,11, 00,00,00 ; PAL_VIRIDIAN	; greener palette, but still works for the pond
+	RGB 31,31,31, 23,23,23, 11,15,23, 00,00,00 ; PAL_PEWTER ; Sunsette: Updated the palette again
+	RGB 31,31,31, 17,26,30, 14,14,27, 00,00,00 ; PAL_CERULEAN ; reversed bright and dark, suitable for wartortle and less eyeblinding as a map
+	RGB 31,31,31, 26,22,31, 12,16,30, 00,00,00 ; PAL_LAVENDER ; Sunsette: More somber colors, works better for pokemon too
+	RGB 31,31,31, 30,18,00, 20,26,31, 00,00,00 ; PAL_VERMILION
+	RGB 31,31,31, 16,30,22, 20,26,31, 00,00,00 ; PAL_CELADON
+	RGB 31,31,31, 31,25,02, 25,13,15, 00,00,00 ; PAL_SAFFRON ; Sunsette: CHANGED More golden Saffron. Don't need water palette.
+	RGB 31,31,31, 31,15,22, 20,26,31, 00,00,00 ; PAL_FUCHSIA
+	RGB 31,31,31, 26,10,06, 20,26,31, 00,00,00 ; PAL_CINNABAR
+	RGB 31,31,31, 22,14,24, 20,26,31, 00,00,00 ; PAL_INDIGO
+	RGB 31,31,31, 20,26,31, 10,18,07, 00,00,00 ; PAL_TOWNMAP
 IF DEF(_RED)
-	RGB 31,29,31, 30,30,17, 17,23,10, 21,00,04 ; PAL_LOGO1
+	RGB 31,31,31, 30,30,17, 17,23,10, 21,00,04 ; PAL_LOGO1
 ENDC
 IF DEF(_BLUE)
-	RGB 31,29,31, 30,30,17, 21,00,04, 14,19,29 ; PAL_LOGO1
+	RGB 31,31,31, 30,30,17, 21,00,04, 14,19,29 ; PAL_LOGO1
 ENDC
 IF DEF(_GREEN)
-	RGB 31,29,31, 30,30,17, 21,00,04, 12,23,00 ; PAL_LOGO1 
+	RGB 31,31,31, 30,30,17, 21,00,04, 12,23,00 ; PAL_LOGO1 
 ENDC
-	RGB 31,29,31, 30,30,17, 18,18,24, 07,07,16 ; PAL_LOGO2
-	RGB 31,29,31, 24,20,30, 11,20,30, 03,02,02 ; PAL_0F
-	RGB 31,29,31, 30,22,17, 16,14,19, 03,02,02 ; PAL_MEWMON
-	RGB 31,29,31, 18,20,27, 11,15,23, 03,02,02 ; PAL_BLUEMON
-	RGB 31,29,31, 31,20,10, 26,10,06, 03,02,02 ; PAL_REDMON
-	RGB 31,29,31, 21,25,29, 14,19,25, 03,02,02 ; PAL_CYANMON
-	RGB 31,29,31, 27,22,24, 21,15,23, 03,02,02 ; PAL_PURPLEMON
-	RGB 31,29,31, 28,20,15, 21,14,09, 03,02,02 ; PAL_BROWNMON
-	RGB 31,29,31, 20,26,16, 09,20,11, 03,02,02 ; PAL_GREENMON
-	RGB 31,29,31, 30,22,24, 28,15,21, 03,02,02 ; PAL_PINKMON
-	RGB 31,29,31, 31,28,14, 26,20,00, 03,02,02 ; PAL_YELLOWMON
-	RGB 31,29,31, 26,21,22, 15,15,18, 03,02,02 ; PAL_GREYMON
+	RGB 31,31,31, 30,30,17, 18,18,24, 07,07,16 ; PAL_LOGO2
+	RGB 31,31,31, 24,20,30, 11,20,30, 00,00,00 ; PAL_0F
+	RGB 31,31,31, 30,22,17, 16,14,19, 00,00,00 ; PAL_MEWMON
+	RGB 31,31,31, 12,17,26, 04,06,13, 00,00,00 ; PAL_BLUEMON	; Sunsette: richened colors 2 and 3 and moved more purple
+	RGB 31,31,31, 31,20,10, 25,07,05, 00,00,00 ; PAL_REDMON
+	RGB 31,31,31, 22,26,30, 11,15,23, 00,00,00 ; PAL_CYANMON	; Sunsette: made more pastel, use Cerulean for most formerly Cyanmons
+	RGB 31,31,31, 26,20,28, 19,03,15, 00,00,00 ; PAL_PURPLEMON ; Sunsette: Changed colors 2 and 3 to be more vibrant
+	RGB 31,31,31, 23,15,11, 13,06,03, 00,00,00 ; PAL_BROWNMON ; Sunsette: Darkened and Saturated
+	RGB 31,31,31, 20,26,16, 03,13,05, 00,00,00 ; PAL_GREENMON ; Darkened color 3
+	RGB 31,31,31, 30,22,24, 28,15,21, 00,00,00 ; PAL_PINKMON
+	RGB 31,31,31, 31,26,10, 17,08,04, 00,00,00 ; PAL_YELLOWMON ; darkened color 2, color 3 is brown. use yellowbar for pokemon that are lighter only
+	RGB 31,31,31, 27,27,28, 19,11,22, 00,00,00 ; PAL_GREYMON	; Aerodactyl / Shellder Color Set, made more purple
 IF DEF(_GREEN)
-	RGB 31,29,31, 26,21,22, 21,00,04, 03,02,02 ; PAL_SLOTS1
+	RGB 31,31,31, 26,21,22, 25,07,05, 00,00,00 ; PAL_SLOTS1	; used Green Slots1 as a basis and made them version-identical. voltorb palette.
 ELSE
-	RGB 31,29,31, 26,21,22, 27,20,06, 03,02,02 ; PAL_SLOTS1
+	RGB 31,31,31, 26,21,22, 25,07,05, 00,00,00 ; PAL_SLOTS1	; used Green Slots1 as a basis and made them version-identical. voltorb palette.
 ENDC
 IF DEF(_RED)
-	RGB 31,29,31, 31,31,17, 25,17,21, 03,02,02 ; PAL_SLOTS2
-	RGB 31,29,31, 22,31,16, 25,17,21, 03,02,02 ; PAL_SLOTS3
-	RGB 31,29,31, 16,19,29, 25,17,21, 03,02,02 ; PAL_SLOTS4
+	RGB 31,31,31, 31,31,17, 25,17,21, 00,00,00 ; PAL_SLOTS2
+	RGB 31,31,31, 19,26,16, 11,15,25, 00,00,00 ; PAL_SLOTS3 ; used Blue Slots3 as a base and made version-identical. Omastar.
+	RGB 31,31,31, 17,26,30, 25,07,05, 00,00,00 ; PAL_SLOTS4 ; used Red Slots4 as a base and made version-identical. Tentacool.
 ENDC
 IF DEF(_BLUE)
-	RGB 31,29,31, 31,31,17, 16,19,29, 03,02,02 ; PAL_SLOTS2
-	RGB 31,29,31, 22,31,16, 16,19,29, 03,02,02 ; PAL_SLOTS3
-	RGB 31,29,31, 25,17,21, 16,19,29, 03,02,02 ; PAL_SLOTS4
+	RGB 31,31,31, 31,31,17, 16,19,29, 00,00,00 ; PAL_SLOTS2
+	RGB 31,31,31, 19,26,16, 11,15,25, 00,00,00 ; PAL_SLOTS3 ; used Blue Slots3 as a base and made version-identical. Omastar.
+	RGB 31,31,31, 17,26,30, 25,07,05, 00,00,00 ; PAL_SLOTS4 ; used Red Slots4 as a base and made version-identical. Tentacool.
 ENDC
 IF DEF(_GREEN)
-	RGB 31,29,31, 29,26,04, 18,23,12, 03,02,02 ; PAL_SLOTS2
-	RGB 31,29,31, 26,14,20, 18,23,12, 03,02,02 ; PAL_SLOTS3
-	RGB 31,29,31, 16,19,29, 18,23,12, 03,02,02 ; PAL_SLOTS4
+	RGB 31,31,31, 29,26,04, 18,23,12, 00,00,00 ; PAL_SLOTS2
+	RGB 31,31,31, 19,26,16, 11,15,25, 00,00,00 ; PAL_SLOTS3 ; used Blue Slots3 as a base and made version-identical. Omastar.
+	RGB 31,31,31, 17,26,30, 25,07,05, 00,00,00 ; PAL_SLOTS4 ; used Red Slots4 as a base and made version-identical. Tentacool.
 ENDC
-	RGB 31,29,31, 07,07,07, 02,03,03, 03,02,02 ; PAL_BLACK
-	RGB 31,29,31, 30,26,15, 09,20,11, 03,02,02 ; PAL_GREENBAR
-	RGB 31,29,31, 30,26,15, 26,20,00, 03,02,02 ; PAL_YELLOWBAR
-	RGB 31,29,31, 30,26,15, 26,10,06, 03,02,02 ; PAL_REDBAR
-	RGB 31,29,31, 30,22,17, 11,15,23, 03,02,02 ; PAL_BADGE
-	RGB 31,29,31, 21,14,09, 18,24,22, 03,02,02 ; PAL_CAVE
-	RGB 31,29,31, 31,28,14, 24,20,10, 03,02,02 ; PAL_GAMEFREAK
+	RGB 31,31,31, 11,10,11, 04,05,05, 00,00,00 ; PAL_BLACK	; Sunsette: Changed to be a little brighter on colors 2 and 3
+	RGB 31,31,31, 30,26,15, 09,20,11, 00,00,00 ; PAL_GREENBAR
+	RGB 31,31,31, 30,26,15, 26,20,00, 00,00,00 ; PAL_YELLOWBAR
+	RGB 31,31,31, 30,26,15, 25,07,05, 00,00,00 ; PAL_REDBAR
+	RGB 31,31,31, 30,22,17, 11,15,23, 00,00,00 ; PAL_BADGE
+	RGB 31,31,31, 15,09,06, 07,07,06, 00,00,00 ; PAL_CAVE	; removed the green, swapped colors 2 and 3 to allow for pokemon use
+	RGB 31,31,31, 30,26,15, 28,20,14, 00,00,00 ; PAL_GAMEFREAK
 ;;;;;;;;;; PureRGBnote: ADDED: new palettes used for various reasons
-	RGB 31,29,31, 15,15,15, 10,11,11, 03,02,02 ; PAL_BLACKMON ; black alt palette pokemon
-	RGB 31,29,31, 25,25,27, 20,20,23, 03,02,02 ; PAL_WHITEMON ; white alt palette pokemon
-	RGB 31,29,31, 20,26,31, 17,23,10, 03,02,02 ; PAL_BLUEGREENMON ; blue/green alt palette pokemon
-	RGB 31,29,31, 31,29,31, 02,03,03, 03,02,02 ; PAL_BLACK2 ; default move animation palette
-	RGB 31,29,31, 31,28,14, 03,03,03, 03,02,02 ; PAL_ULTRABALL ; ultra ball palette when throwing one in battle
-	RGB 31,29,31, 18,24,22, 21,14,09, 03,02,02 ; PAL_SAFARIBALL ; safari ball palette when throwing one in battle
-	RGB 31,29,31, 14,17,31, 10,11,11, 03,02,02 ; PAL_SECRETLAB
-	RGB 31,29,31, 29,04,00, 10,11,11, 03,02,02 ; PAL_VOLCANO
-	RGB 31,29,31, 26,00,00, 18,00,00, 03,02,02 ; PAL_REALLY_REDMON
+	RGB 31,31,31, 15,15,15, 05,06,06, 00,00,00 ; PAL_BLACKMON ; black alt palette pokemon
+	RGB 31,31,31, 27,27,28, 16,14,19, 00,00,00 ; PAL_WHITEMON ; white alt palette pokemon ; Sunsette: Changed to be a little brighter on color 2
+	RGB 31,31,31, 27,11,07, 16,06,20, 00,00,00 ; PAL_REDPURPLEMON ; blue/green alt palette pokemon ; Sunsette: Changed to a dusky set of colors: red/purple
+	RGB 31,31,31, 31,31,31, 02,03,03, 00,00,00 ; PAL_BLACK2 ; default move animation palette
+	RGB 31,31,31, 31,28,14, 03,03,03, 00,00,00 ; PAL_ULTRABALL ; ultra ball palette when throwing one in battle
+	RGB 31,31,31, 18,22,20, 16,12,10, 00,00,00 ; PAL_SAFARIBALL ; safari ball palette when throwing one in battle
+	RGB 31,31,31, 14,17,31, 10,11,11, 00,00,00 ; PAL_SECRETLAB
+	RGB 31,31,31, 29,04,00, 10,11,11, 00,00,00 ; PAL_VOLCANO
+	RGB 31,31,31, 25,11,07, 15,05,04, 00,00,00 ; PAL_REALLY_REDMON ; improved contrast on color 3, desaturated and lightened color 2
 ;;;;;;;;;;
 	assert_table_length NUM_SGB_PALS

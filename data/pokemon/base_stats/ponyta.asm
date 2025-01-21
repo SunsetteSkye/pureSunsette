@@ -3,14 +3,14 @@
 	db  50,  85,  55,  90,  65
 	;   hp  atk  def  spd  spc
 
-	db FIRE, NORMAL ; type
+	db FIRE, FIGHTING ; type
 	db 190 ; catch rate
 	db 152 ; base exp
 
 	INCBIN "gfx/pokemon/front/ponyta.pic", 0, 1 ; sprite dimensions
 	dw PonytaPicFront, PonytaPicBackSW
 
-	db EMBER, TACKLE, NO_MOVE, NO_MOVE ; level 1 learnset
+	db EMBER, LOW_KICK, NO_MOVE, NO_MOVE ; level 1 learnset
 	db GROWTH_MEDIUM_FAST ; growth rate
 
 	; tm/hm learnset
@@ -20,9 +20,16 @@
 	BODY_SLAM,\
 	DOUBLE_EDGE,\
 	AURORA_BEAM,\
+	HYPER_BEAM,\
+	HI_JUMP_KICK,\
+	ROLLING_KICK,\ 
 	BARRIER,\
 	SOLARBEAM,\
 	DRAGON_RAGE,\
+	THUNDERBOLT,\
+	THUNDER,\
+	EARTHQUAKE,\
+	PSYCHIC_M,\
 	KINESIS,\ ; FIREWALL
 	SWORDS_DANCE,\
 	REFLECT,\
@@ -32,6 +39,7 @@
 	FIRE_BLAST,\
 	FLAMETHROWER,\
 	SLAM,\ ; FILTHY SLAM
+	LOVELY_KISS,\
 	LIGHT_SCREEN,\
 	GLARE,\
 	SUBSTITUTE,\

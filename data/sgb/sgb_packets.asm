@@ -224,13 +224,13 @@ PalPacket_Empty:          PAL_SET 0, 0, 0, 0
 PalPacket_PartyMenu:      PAL_SET PAL_MEWMON, PAL_GREENBAR, PAL_YELLOWBAR, PAL_REDBAR
 PalPacket_Black:          PAL_SET PAL_BLACK, PAL_BLACK, PAL_BLACK, PAL_BLACK
 PalPacket_TownMap:        PAL_SET PAL_TOWNMAP, 0, 0, 0
-PalPacket_Pokedex:        PAL_SET PAL_BROWNMON, 0, 0, 0
+PalPacket_Pokedex:        PAL_SET PAL_FUCHSIA, 0, 0, 0
 PalPacket_Slots:          PAL_SET PAL_SLOTS1, PAL_SLOTS2, PAL_SLOTS3, PAL_SLOTS4
 PalPacket_Titlescreen:    PAL_SET PAL_LOGO2, PAL_LOGO1, PAL_MEWMON, PAL_PURPLEMON
 PalPacket_TrainerCard:    PAL_SET PAL_MEWMON, PAL_BADGE, PAL_REDMON, PAL_YELLOWMON
 PalPacket_Generic:        PAL_SET PAL_MEWMON, 0, 0, 0
-PalPacket_NidorinoIntro:  PAL_SET PAL_PURPLEMON, PAL_BLACK, 0, 0
-PalPacket_GameFreakIntro: PAL_SET PAL_GAMEFREAK, PAL_REDMON, PAL_VIRIDIAN, PAL_BLUEMON
+PalPacket_NidorinoIntro:  PAL_SET PAL_BLACKMON, PAL_BLACK, 0, 0
+PalPacket_GameFreakIntro: PAL_SET PAL_GAMEFREAK, PAL_PINKMON, PAL_SAFFRON, PAL_PINKMON
 
 PalTrnPacket:  PAL_TRN
 MltReq1Packet: MLT_REQ 1
@@ -326,11 +326,11 @@ DataSndPacket8:
 	db  $EA                 ; nop
 	db  $EA                 ; nop
 
-PalPacket_Movedex:        PAL_SET PAL_BLUEGREENMON, 0, 0, 0
+PalPacket_Movedex:        PAL_SET PAL_SLOTS3, 0, 0, 0
 
 ; PureRGBnote: ADDED: used when you turn on the "rainbow" palette in Celadon City.
 
-PalPacket_Celadon:        PAL_SET PAL_REDMON, PAL_ROUTE, PAL_BLUEMON, PAL_YELLOWMON
+PalPacket_Celadon:        PAL_SET PAL_REDMON, PAL_VIRIDIAN, PAL_CERULEAN, PAL_SAFFRON
 
 BlkPacket_Celadon:
 	ATTR_BLK 4

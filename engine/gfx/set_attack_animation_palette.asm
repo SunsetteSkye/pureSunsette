@@ -87,15 +87,15 @@ SetAttackAnimPal:
 	pop hl
 	ret	
 TypePalColorList:
-	db PAL_BLACK2;normal
-	db PAL_GREYMON;fighting
-	db PAL_MEWMON;flying
+	db PAL_GAMEFREAK;normal
+	db PAL_MEWMON;fighting
+	db PAL_WHITEMON;flying
 	db PAL_PURPLEMON;poison
-	db PAL_BROWNMON;ground
-	db PAL_GREYMON;rock
+	db PAL_CAVE;ground
+	db PAL_SAFARIBALL;rock
 	db PAL_BLACK2;typeless
 	db PAL_GREENBAR;bug
-	db PAL_PURPLEMON;ghost
+	db PAL_REDPURPLEMON;ghost
 	db PAL_BLACK2;crystal (no moves)
 	db PAL_WHITEMON; bonemerang
 	db PAL_BLACK2;unused
@@ -108,13 +108,13 @@ TypePalColorList:
 	db PAL_BLACK2;unused
 	db PAL_BLACK2;unused
 	db PAL_REDMON;fire
-	db PAL_BLUEMON;water
-	db PAL_GREENMON;grass
-	db PAL_YELLOWMON;electric
+	db PAL_CYANMON;water
+	db PAL_VIRIDIAN;grass
+	db PAL_GAMEFREAK;electric
 	db PAL_PINKMON;psychic
 	db PAL_CYANMON;ice
-	db PAL_0F;dragon
-	db PAL_BLACK2;tri
+	db PAL_LAVENDER;dragon
+	db PAL_BLACK;tri
 
 GetSpecificAnimPalettes: ; animations that have specific mappings
 	ld a, [wAnimationID]

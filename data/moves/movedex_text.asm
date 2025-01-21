@@ -149,9 +149,9 @@ _SwordsDanceDexEntry::
 	next "to raise fighting"
 	next "spirit."
 
-	bage "Greatly raises"
-	next "<user>'s ATTACK."
-	next "(+2 ATTACK)"
+	bage "Raises ATTACK"
+	next "and ACCURACY."
+	next "(+1 Each)"
 	dex
 
 _CutDexEntry::
@@ -173,15 +173,18 @@ _GustDexEntry::
 	text "Kicks up a gust"
 	next "of wind towards"
 	next "the <opponent>.@"
-
-	text_jump _GenericNoAdditionalEffectText
+	
+	text_call _Generic30PercentFlinchText
 
 _WingAttackDexEntry::
 	text "Strikes and slaps"
 	next "the foe with"
 	next "wings.@"
 
-	text_jump _GenericAlwaysGoesFirstText
+	bage "Also raises the"
+	next "user's SPEED."
+	next "(+1 SPEED)"
+	dex
 
 _WhirlwindDexEntry::
 	text "A massive tornado"
@@ -227,7 +230,7 @@ _VineWhipDexEntry::
 	next "with a plant"
 	next "vine.@"
 
-	text_jump _GenericNoAdditionalEffectText
+	text_jump _Generic30PercentFlinchText
 
 _StompDexEntry::
 	text "Stomps on the foe"
@@ -301,9 +304,13 @@ _HornAttackDexEntry::
 _FuryAttackDexEntry::
 	text "Angrily jabs the"
 	next "foe with beak or"
-	next "horn rapidly.@"
+	next "horn twice.@"
 
-	text_jump _GenericHitsTwiceText
+	_Generic33PercentLowerSpeedText::
+	bage "33% chance to"
+	next "lower foe's SPEED."
+	next "(-1 SPEED)"
+	dex
 
 _HornDrillDexEntry::
 	text "Violently drills"
@@ -572,8 +579,8 @@ _HydroPumpDexEntry::
 
 _SurfDexEntry::
 	text "The whole area"
-	next "is flooded with"
-	next "deep water.@"
+	next "is flooded. This"
+	next "can't miss.@"
 
 	text_call _GenericNoAdditionalEffectText
 
@@ -619,11 +626,7 @@ _BubblebeamDexEntry::
 	next "is fired at the"
 	next "foe."
 	; fall through
-_Generic33PercentLowerSpeedText::
-	bage "33% chance to"
-	next "lower foe's SPEED."
-	next "(-1 SPEED)"
-	dex
+	text_jump _Generic30PercentConfusionText
 
 _AuroraBeamDexEntry::
 	text "A beautiful"
@@ -721,7 +724,7 @@ _StrengthDexEntry::
 	next "with a massive"
 	next "built up power.@"
 
-	text_call _GenericNoAdditionalEffectText
+	text_call _GenericRaisesAttack1StageText
 
 	bage "Usable outside of"
 	next "battle to push"
@@ -791,7 +794,7 @@ _SolarbeamDexEntry::
 	next "into a powerful"
 	next "searing beam.@"
 
-	text_jump _Generic10PercentBurnText
+	text_jump _Generic25PercentRecoilText
 
 _PoisonPowderDexEntry::
 	text "A poisonous dust"
@@ -828,11 +831,11 @@ _PetalDanceDexEntry::
 	next "by spreading"
 	next "petals all over."
 
-	bage "It then becomes"
+	bage "Foes become"
 	next "fixated on this"
 	next "flowery dance.@"
 
-	text_jump _GenericThrashEffectText
+	text_jump _Generic30PercentConfusionText
 
 _StringShotDexEntry::
 	text "Fires thick"
@@ -849,7 +852,7 @@ _DragonRageDexEntry::
 	next "by a shockwave of"
 	next "draconic rage.@"
 
-	text_jump _GenericNoAdditionalEffectText
+	text_jump _Generic33PercentLowerSpecialText
 
 _FireSpinDexEntry::
 	text "A swirling pillar"
@@ -889,13 +892,13 @@ _ThunderWaveDexEntry::
 
 _ThunderDexEntry::
 	text "A thunderstorm"
-	next "is conjured up,"
-	next "dropping a"
+	next "drops a titanic"
+	next "lightning bolt"
 
-	bage "titanic lightning"
-	next "bolt on the foe.@"
+	bage "on the foe that"
+	next "can't miss.@"
 
-	text_jump _Generic10PercentParalysisText
+	text_jump _GenericNoAdditionalEffectText
 
 _RockThrowDexEntry::
 	text "Rocks are dropped"
@@ -905,8 +908,8 @@ _RockThrowDexEntry::
 
 _EarthquakeDexEntry::
 	text "The <user> sets"
-	next "off a powerful"
-	next "earthquake."
+	next "off a quake that"
+	next "can't miss."
 
 	bage "Commonly referred"
 	next "to by trainers as"
@@ -1008,8 +1011,8 @@ _AgilityDexEntry::
 	dex
 
 _QuickAttackDexEntry::
-	text "A super fast"
-	next "lunging attack.@"
+	text "A fast lunge that"
+	next "can't miss.@"
 
 	text_jump _GenericAlwaysGoesFirstText
 
@@ -1096,7 +1099,7 @@ _RecoverDexEntry::
 	text "Regenerates"
 	next "cells to heal"
 	next "<user>'s damage.@"
-
+	; fall through
 	text_jump _GenericHealsHalfText
 
 _HardenDexEntry::
@@ -1400,23 +1403,23 @@ _SpikeCannonDexEntry::
 
 _ConstrictDexEntry::
 	text "The <opponent> is"
-	next "snared with an"
-	next "electrostatically"
+	next "snared with a"
+	next "powerful tendril"
 
-	bage "charged tendril"
-	next "or tail, electro-"
-	next "cuting the foe.@"
+	bage "or vine or such"
+	next "that chokes the"
+	next "foe.@"
 
-	text_jump _Generic30PercentParalysisText
+	text_jump _Generic33PercentLowerSpecialText
 
 _AmnesiaDexEntry::
 	text "The <user> empties"
 	next "its mind to"
 	next "forget concerns."
 
-	bage "Greatly raises"
+	bage "Raises the"
 	next "<user>'s SPECIAL."
-	next "(+2 SPECIAL)"
+	next "(+1 SPECIAL)"
 	dex
 
 _KinesisDexEntry::
@@ -1480,13 +1483,9 @@ _GlareDexEntry::
 	dex
 
 _DreamEaterDexEntry::
-	text "Eats a sleeping"
-	next "foe's dreams to"
+	text "Eat a foe's hopes"
+	next "and dreams to"
 	next "regain HP."
-
-	bage "Only works when"
-	next "the <opponent> is"
-	next "asleep.@"
 
 	text_jump _GenericAbsorbMoveText
 
@@ -1592,7 +1591,7 @@ _FlashDexEntry::
 
 	text_call _GenericAlwaysGoesFirstText
 	text_end
-	text_jump _Generic10PercentFlinchText
+	text_jump _Generic30PercentFlinchText
 
 _PsywaveDexEntry::
 	text "A small psychic"
@@ -1688,13 +1687,13 @@ _RockSlideDexEntry::
 	next "rocks rain on"
 	next "top of the foe.@"
 
-	text_jump _Generic10PercentFlinchText
+	text_jump _Generic30PercentFlinchText
 
 _HyperFangDexEntry::
 	text "Giant teeth gnash"
 	next "the <opponent>.@"
 
-	text_jump _Generic10PercentFlinchText
+	text_jump _Generic30PercentFlinchText
 
 _SharpenDexEntry::
 	text "The <user> sharpens"

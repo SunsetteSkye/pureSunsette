@@ -71,7 +71,7 @@ ENDC
 ;;;;;;;;;; PureRGBnote: ADDED: new palettes used for various reasons
 	RGB 29,31,30, 15,15,15, 10,11,11, 03,02,02 ; PAL_BLACKMON ; black alt palette pokemon
 	RGB 29,31,30, 25,25,27, 20,20,23, 03,02,02 ; PAL_WHITEMON ; white alt palette pokemon
-	RGB 29,31,30, 20,26,31, 17,23,10, 03,02,02 ; PAL_BLUEGREENMON ; blue/green alt palette pokemon
+	RGB 29,31,30, 20,26,31, 17,23,10, 03,02,02 ; PAL_REDPURPLEMON ; blue/green alt palette pokemon
 	RGB 29,31,30, 29,31,30, 02,03,03, 03,02,02 ; PAL_BLACK2 ; default move animation palette
 	RGB 29,31,30, 31,28,14, 03,03,03, 03,02,02 ; PAL_ULTRABALL ; ultra ball palette when throwing one in battle
 	RGB 29,31,30, 18,24,22, 21,14,09, 03,02,02 ; PAL_SAFARIBALL ; safari ball palette when throwing one in battle

@@ -15,7 +15,7 @@ GetTypePalette:
 TypePaletteMapping:
 	db PAL_WHITEMON;normal
 	db PAL_BROWNMON;fighting
-	db PAL_MEWMON;flying
+	db PAL_PEWTER;flying
 	db PAL_PURPLEMON;poison
 	db PAL_REDMON;ground
 	db PAL_GREYMON;rock
