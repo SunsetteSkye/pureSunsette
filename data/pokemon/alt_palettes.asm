@@ -117,7 +117,7 @@ AltMonsterPalettes: ; pokemon have alternate palettes depending on where you enc
 	db PAL_PEWTER				; RHYDON
 	db PAL_GREENBAR				; CHANSEY
 	db PAL_REDPURPLEMON			; TANGELA
-	db PAL_PEWTER				; KANGASKHAN
+	db PAL_WHITEMON				; KANGASKHAN
 	db PAL_SLOTS3				; HORSEA
 	db PAL_SLOTS3				; SEADRA
 	db PAL_PEWTER				; GOLDEEN
