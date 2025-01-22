@@ -181,10 +181,7 @@ _WingAttackDexEntry::
 	next "the foe with"
 	next "wings.@"
 
-	bage "Also raises the"
-	next "user's SPEED."
-	next "(+1 SPEED)"
-	dex
+	text_call _GenericNoAdditionalEffectText
 
 _WhirlwindDexEntry::
 	text "A massive tornado"

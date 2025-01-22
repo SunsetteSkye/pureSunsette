@@ -29,7 +29,7 @@ Moves:
 	move SWORDS_DANCE, ATTACK_ACCURACY_UP1_EFFECT,   0, FIRE,         100, 30
 	move CUT,          NO_ADDITIONAL_EFFECT,        55, BUG,          100, 30
 	move GUST,         FLINCH_SIDE_EFFECT2,     	45, FLYING,       100, 20
-	move WING_ATTACK,  SPEED_UP_SIDE_EFFECT,        50, FLYING,       100, 35 
+	move WING_ATTACK,  NO_ADDITIONAL_EFFECT,        65, FLYING,       100, 35 
 	move WHIRLWIND,    CONFUSION_BIG_SIDE_EFFECT,  110, FLYING,        85, 10
 	move FLY,          EVASION_UP2_EFFECT,           0, FLYING,       100,  5
 	move BIND,         TRAPPING_EFFECT,             25, ROCK,          85, 15
