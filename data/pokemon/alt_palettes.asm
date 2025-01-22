@@ -93,7 +93,7 @@ AltMonsterPalettes: ; pokemon have alternate palettes depending on where you enc
 	db PAL_SAFARIBALL			; GRIMER
 	db PAL_SAFARIBALL			; MUK
 	db PAL_BLUEMON				; SHELLDER
-	db PAL_BLUEMON				; CLOYSTER
+	db PAL_PEWTER				; CLOYSTER
 	db PAL_GREENBAR 			; GASTLY
 	db PAL_GREENBAR 			; HAUNTER
 	db PAL_GREENBAR				; GENGAR
@@ -106,8 +106,8 @@ AltMonsterPalettes: ; pokemon have alternate palettes depending on where you enc
 	db PAL_GREENBAR				; ELECTRODE
 	db PAL_CAVE					; EXEGGCUTE
 	db PAL_SAFFRON				; EXEGGUTOR
-	db PAL_PEWTER				; CUBONE
-	db PAL_PEWTER				; MAROWAK
+	db PAL_CYANMON				; CUBONE
+	db PAL_CYANMON				; MAROWAK
 	db PAL_WHITEMON				; HITMONLEE
 	db PAL_PEWTER				; HITMONCHAN
 	db PAL_TOWNMAP				; LICKITUNG

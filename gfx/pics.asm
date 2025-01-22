@@ -69,8 +69,6 @@ OnixPicBackSW::       INCBIN "gfx/pokemon/back_sw/onixb.pic"
 OnixPicFrontAlt::     INCBIN "gfx/pokemon/front_alt/onix.pic"
 FearowPicFront::      INCBIN "gfx/pokemon/front/fearow.pic"
 FearowPicBackSW::     INCBIN "gfx/pokemon/back_sw/fearowb.pic"
-PidgeyPicFront::      INCBIN "gfx/pokemon/front/pidgey.pic"
-PidgeyPicBackSW::     INCBIN "gfx/pokemon/back_sw/pidgeyb.pic"
 SlowpokePicFront::    INCBIN "gfx/pokemon/front/slowpoke.pic"
 SlowpokePicBackSW::   INCBIN "gfx/pokemon/back_sw/slowpokeb.pic"
 KadabraPicFront::     INCBIN "gfx/pokemon/front/kadabra.pic"
@@ -627,6 +625,9 @@ LavaSuitBattlePic::   INCBIN "gfx/player/lava_suitb.pic"
 ScubaSuitBattlePicSW:: INCBIN "gfx/player/scuba_suitb_big.pic"
 ScubaSuitBattlePic::   INCBIN "gfx/player/scuba_suitb.pic"
 
+SECTION "Pics Sunny", ROMX
+PidgeyPicFront::      INCBIN "gfx/pokemon/front/pidgey.pic"
+PidgeyPicBackSW::     INCBIN "gfx/pokemon/back_sw/pidgeyb.pic"
 
 SECTION "Type Icons", ROMX
 

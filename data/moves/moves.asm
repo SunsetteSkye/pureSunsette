@@ -75,7 +75,7 @@ Moves:
 	move PSYBEAM,      CONFUSION_SIDE_EFFECT,       65, PSYCHIC_TYPE, 100, 20
 	move BUBBLEBEAM,   CONFUSION_BIG_SIDE_EFFECT,   65, WATER,        100, 20
 	move AURORA_BEAM,  ATTACK_DOWN_SIDE_EFFECT,     65, ICE,          100, 20
-	move HYPER_BEAM,   HYPER_BEAM_EFFECT,          150, NORMAL,        90,  5
+	move HYPER_BEAM,   HYPER_BEAM_EFFECT,          150, NORMAL,        80,  5
 	move PECK,         NO_ADDITIONAL_EFFECT,        40, FLYING,       100, 35
 	move DRILL_PECK,   FLINCH_SIDE_EFFECT2,         80, FLYING,       100, 20
 	move SUBMISSION,   ATTACK_UP_SIDE_EFFECT,       60, FIGHTING,     100, 10 
@@ -103,7 +103,7 @@ Moves:
 	move ROCK_THROW,   NO_ADDITIONAL_EFFECT,        65, ROCK,         100, 15
 	move EARTHQUAKE,   SWIFT_EFFECT,    		   100, GROUND,       100, 10
 	move FISSURE,      OHKO_EFFECT,                  1, GROUND,        30,  5
-	move DIG,          CHARGE_EFFECT,              100, GROUND,       100, 10
+	move DIG,          CHARGE_EFFECT,               80, GROUND,       100, 20
 	move TOXIC,        POISON_EFFECT,                0, POISON,        90, 10
 	move CONFUSION,    CONFUSION_SIDE_EFFECT,       50, PSYCHIC_TYPE, 100, 25
 	move PSYCHIC_M,    SPECIAL_DOWN_SIDE_EFFECT,    90, PSYCHIC_TYPE, 100, 10

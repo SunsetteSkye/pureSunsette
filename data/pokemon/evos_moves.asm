@@ -1128,8 +1128,8 @@ FarfetchdEvosMoves:
 	db 27, SLASH
 	db 31, RAZOR_LEAF
 	db 35, SONICBOOM
-	db 40, POISON_GAS
-	db 45, WHIRLWIND
+	db 40, SKY_ATTACK
+	db 45, PETAL_DANCE
 	db 0
 
 VenonatEvosMoves:

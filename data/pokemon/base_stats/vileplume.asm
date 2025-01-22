@@ -3,7 +3,7 @@
 	db  105, 80,  85,  50, 115
 	;   hp  atk  def  spd  spc
 
-	db GRASS, POISON ; type
+	db GRASS, GHOST ; type
 	db 45 ; catch rate
 	db 184 ; base exp
 
