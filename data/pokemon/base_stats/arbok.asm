@@ -3,7 +3,7 @@
 	db  85,  95,  69,  96,  70
 	;   hp  atk  def  spd  spc
 
-	db POISON, POISON ; type
+	db POISON, NORMAL ; type
 	db 90 ; catch rate
 	db 147 ; base exp
 
@@ -18,7 +18,6 @@
 	PIN_MISSILE,\
 	TOXIC,\
 	BODY_SLAM,\
-	SLASH,\
 	DOUBLE_EDGE,\
 	HYPER_BEAM,\
 	BARRIER,\

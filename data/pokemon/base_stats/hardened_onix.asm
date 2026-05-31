@@ -1,7 +1,7 @@
 ; PureRGBnote: ADDED: powered up version of onix with better stats and less weaknesses.
 	db DEX_ONIX ; pokedex id
 
-	db  80,  85, 180,  80,  75
+	db  80,  95, 180,  80,  90
 	;   hp  atk  def  spd  spc
 
 	db CRYSTAL, GROUND ; type
@@ -11,7 +11,7 @@
 	INCBIN "gfx/pokemon/front/onix.pic", 0, 1 ; sprite dimensions
 	dw OnixPicFront, OnixPicBackSW
 
-	db TACKLE, HARDEN, GROWL, NO_MOVE ; level 1 learnset
+	db TACKLE, HARDEN, GROWL, BIND ; level 1 learnset
 	db GROWTH_FAST ; growth rate
 
 	; tm/hm learnset

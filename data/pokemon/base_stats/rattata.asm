@@ -1,6 +1,6 @@
 	db DEX_RATTATA ; pokedex id
 
-	db  30,  56,  35,  72,  25
+	db  30,  56,  35,  72,  35
 	;   hp  atk  def  spd  spc
 
 	db NORMAL, NORMAL ; type
@@ -29,6 +29,7 @@
 	THUNDERBOLT,\
 	THUNDER,\
 	DIG,\
+	KINESIS,\ ; FIREWALL
 	SWORDS_DANCE,\
 	BIDE,\
 	AGILITY,\

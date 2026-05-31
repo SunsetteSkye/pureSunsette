@@ -1,3 +1,13 @@
+# PureSunsette
+
+A mostly graphical edit of PureRGB for my own purposes.
+
+![full color roster](screenshots/palettework.png)
+
+Other changes include some minor QoL for some moves, nerfs to some boosting moves, blatant pidgey favoritism, a new type chart, and monster type changes for Victreebel, Tangela, Vileplume, Rapidash, and Parasect.
+
+![type chart](screenshots/typechart.png)
+
 # Pokémon PureRGB (PureRed, PureGreen, PureBlue)
 
 A purist's enhancement of Pokémon Red, Green, and Blue based on the pokered disassembly.

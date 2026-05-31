@@ -1,9 +1,9 @@
 	db DEX_RATICATE ; pokedex id
 
-	db  65,  101,  60,  97,  50
+	db  65,  111,  60,  107,  60
 	;   hp  atk  def  spd  spc
 
-	db NORMAL, NORMAL ; type
+	db NORMAL, GROUND ; type
 	db 125 ; catch rate
 	db 116 ; base exp
 
@@ -34,6 +34,7 @@
 	THUNDERBOLT,\
 	THUNDER,\
 	DIG,\
+	KINESIS,\ ; FIREWALL
 	SWORDS_DANCE,\
 	BIDE,\
 	AGILITY,\
@@ -44,6 +45,7 @@
 	GLARE,\
 	SUBSTITUTE,\
 	CUT,\
+	SURF,\
 	STRENGTH,\
 	FLASH
 	; end

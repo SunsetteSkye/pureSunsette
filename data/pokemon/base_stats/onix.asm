@@ -1,6 +1,6 @@
 	db DEX_ONIX ; pokedex id
 
-	db  55,  25, 180,  80,  75
+	db  55,  65, 180,  80,  75
 	;   hp  atk  def  spd  spc
 
 	db ROCK, GROUND ; type
@@ -10,7 +10,7 @@
 	INCBIN "gfx/pokemon/front/onix.pic", 0, 1 ; sprite dimensions
 	dw OnixPicFront, OnixPicBackSW
 
-	db TACKLE, SCREECH, HARDEN, NO_MOVE ; level 1 learnset
+	db TACKLE, SCREECH, HARDEN, BIND ; level 1 learnset
 	db GROWTH_FAST ; growth rate
 
 	; tm/hm learnset

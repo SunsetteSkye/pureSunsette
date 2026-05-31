@@ -16,10 +16,10 @@
 	; tm/hm learnset
 	tmhm \
 	ICE_PUNCH,\
+	LEECH_SEED,\
 	FIRE_PUNCH,\
 	TOXIC,\
 	BODY_SLAM,\
-	SLASH,\
 	DOUBLE_EDGE,\
 	BUBBLEBEAM,\
 	AURORA_BEAM,\

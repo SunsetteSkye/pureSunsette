@@ -159,7 +159,7 @@ _CutDexEntry::
 	next "with a claw, barb"
 	next "tooth, wing, etc.@"
 
-	text_call _GenericNoAdditionalEffectText
+	text_call _GenericOftenLandsCriticalHitsText
 
 	bage "Usable outside"
 	next "battle to cut down"
@@ -173,15 +173,26 @@ _GustDexEntry::
 	text "Kicks up a gust"
 	next "of wind towards"
 	next "the <opponent>.@"
+<<<<<<< HEAD
 	
 	text_call _Generic30PercentFlinchText
+=======
+
+	text_jump _Generic33PercentLowerSpeedText
+>>>>>>> 82098c034b04430d35be9a20daa414478faaf44f
 
 _WingAttackDexEntry::
 	text "Strikes and slaps"
 	next "the foe with"
 	next "wings.@"
 
+<<<<<<< HEAD
 	text_call _GenericNoAdditionalEffectText
+=======
+	text_call _GenericAlwaysGoesFirstText
+	text_end
+	text_jump _Generic30PercentFlinchText
+>>>>>>> 82098c034b04430d35be9a20daa414478faaf44f
 
 _WhirlwindDexEntry::
 	text "A massive tornado"
@@ -415,7 +426,9 @@ _PinMissileDexEntry::
 	next "pins or needles"
 	next "flurry the foe.@"
 	
-	text_jump _Generic2To5HitsText
+	text_call _Generic2To5HitsText
+	text_end
+	text_jump _GenericAlwaysGoesFirstText
 
 _LeerDexEntry::
 	text "The <user> glowers"
@@ -571,7 +584,7 @@ _HydroPumpDexEntry::
 
 	bage "at the <opponent>.@"
 
-	text_jump _GenericNoAdditionalEffectText
+	text_jump _Generic33PercentLowerSpeedText
 
 
 _SurfDexEntry::
@@ -579,7 +592,7 @@ _SurfDexEntry::
 	next "is flooded. This"
 	next "can't miss.@"
 
-	text_call _GenericNoAdditionalEffectText
+	text_call _Generic33PercentLowerSpeedText
 
 	bage "Usable outside"
 	next "battle to travel"
@@ -721,7 +734,11 @@ _StrengthDexEntry::
 	next "with a massive"
 	next "built up power.@"
 
+<<<<<<< HEAD
 	text_call _GenericRaisesAttack1StageText
+=======
+	text_call _Generic33PercentLowerSpeedText
+>>>>>>> 82098c034b04430d35be9a20daa414478faaf44f
 
 	bage "Usable outside of"
 	next "battle to push"
@@ -791,7 +808,13 @@ _SolarbeamDexEntry::
 	next "into a powerful"
 	next "searing beam.@"
 
+<<<<<<< HEAD
 	text_jump _Generic25PercentRecoilText
+=======
+	bage "30% chance to"
+	next "burn the foe"
+	dex
+>>>>>>> 82098c034b04430d35be9a20daa414478faaf44f
 
 _PoisonPowderDexEntry::
 	text "A poisonous dust"
@@ -849,7 +872,13 @@ _DragonRageDexEntry::
 	next "by a shockwave of"
 	next "draconic rage.@"
 
+<<<<<<< HEAD
 	text_jump _Generic33PercentLowerSpecialText
+=======
+	bage "30% chance to"
+	next "burn the foe"
+	dex
+>>>>>>> 82098c034b04430d35be9a20daa414478faaf44f
 
 _FireSpinDexEntry::
 	text "A swirling pillar"
@@ -895,7 +924,11 @@ _ThunderDexEntry::
 	bage "on the foe that"
 	next "can't miss.@"
 
+<<<<<<< HEAD
 	text_jump _GenericNoAdditionalEffectText
+=======
+	text_jump _Generic30PercentParalysisText
+>>>>>>> 82098c034b04430d35be9a20daa414478faaf44f
 
 _RockThrowDexEntry::
 	text "Rocks are dropped"
@@ -1048,7 +1081,7 @@ _NightShadeDexEntry::
 	next "engulfs the foe,"
 	next "scaring them.@"
 
-	text_jump _GenericNoAdditionalEffectText
+	text_jump _Generic30PercentParalysisText
 
 _MimicDexEntry::
 	text "The <user> mimics"

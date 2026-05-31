@@ -1,9 +1,9 @@
 	db DEX_BLASTOISE ; pokedex id
 
-	db  79,  83, 100,  78,  85
+	db  79,  93, 100,  58,  95
 	;   hp  atk  def  spd  spc
 
-	db WATER, WATER ; type
+	db WATER, NORMAL ; type
 	db 45 ; catch rate
 	db 210 ; base exp
 
@@ -18,7 +18,6 @@
 	ICE_PUNCH,\
 	TOXIC,\
 	BODY_SLAM,\
-	SLASH,\
 	DOUBLE_EDGE,\
 	BUBBLEBEAM,\
 	AURORA_BEAM,\

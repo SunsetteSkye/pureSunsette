@@ -1,6 +1,10 @@
 	db DEX_PIDGEOTTO ; pokedex id
 
+<<<<<<< HEAD
 	db  63,  70,  55, 101,  80
+=======
+	db  63,  81,  55, 101,  80
+>>>>>>> 82098c034b04430d35be9a20daa414478faaf44f
 	;   hp  atk  def  spd  spc
 
 	db NORMAL, FLYING ; type
@@ -10,8 +14,13 @@
 	INCBIN "gfx/pokemon/front/pidgeotto.pic", 0, 1 ; sprite dimensions
 	dw PidgeottoPicFront, PidgeottoPicBackSW
 
+<<<<<<< HEAD
 	db SCRATCH, NO_MOVE, NO_MOVE, NO_MOVE ; level 1 learnset
 	db GROWTH_MEDIUM_SLOW ; growth rate
+=======
+	db TACKLE, NO_MOVE, NO_MOVE, NO_MOVE ; level 1 learnset
+	db GROWTH_SLOW ; growth rate
+>>>>>>> 82098c034b04430d35be9a20daa414478faaf44f
 
 	; tm/hm learnset
 	tmhm \
@@ -25,7 +34,10 @@
 	HYPER_BEAM,\
 	BARRIER,\
 	RAZOR_LEAF,\
+<<<<<<< HEAD
 	SOLARBEAM,\
+=======
+>>>>>>> 82098c034b04430d35be9a20daa414478faaf44f
 	DRAGON_RAGE,\
 	THUNDERBOLT,\
 	THUNDER,\

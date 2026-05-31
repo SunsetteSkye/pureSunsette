@@ -3,7 +3,7 @@
 	db  59,  63,  80,  58,  65
 	;   hp  atk  def  spd  spc
 
-	db WATER, WATER ; type
+	db WATER, NORMAL ; type
 	db 45 ; catch rate
 	db 143 ; base exp
 
@@ -18,7 +18,6 @@
 	ICE_PUNCH,\
 	TOXIC,\
 	BODY_SLAM,\
-	SLASH,\
 	DOUBLE_EDGE,\
 	BUBBLEBEAM,\
 	AURORA_BEAM,\

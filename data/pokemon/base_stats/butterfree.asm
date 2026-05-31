@@ -42,6 +42,7 @@
 	SUBSTITUTE,\
 	CUT,\
 	FLY,\
+	SURF,\
 	FLASH
 	;end
 

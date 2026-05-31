@@ -35,6 +35,7 @@
 	GLARE,\
 	SUBSTITUTE,\
 	CUT,\
+	SURF,\
 	STRENGTH,\
 	FLASH
 	; end

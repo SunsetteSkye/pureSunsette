@@ -8,6 +8,7 @@ PriorityMoves:
 	db TRANSFORM
 	db MIRROR_MOVE
 	db SONICBOOM
+	db PIN_MISSILE
 	db -1 ; end
 
 FarCheckPriority:

@@ -3,7 +3,7 @@
 	db 135, 105,  75,  50,  75
 	;   hp  atk  def  spd  spc
 
-	db POISON, POISON ; type
+	db POISON, FIGHTING ; type
 	db 75 ; catch rate
 	db 157 ; base exp
 
@@ -16,10 +16,10 @@
 	; tm/hm learnset
 	tmhm \
 	ICE_PUNCH,\
+	LEECH_SEED,\
 	FIRE_PUNCH,\
 	TOXIC,\
 	BODY_SLAM,\
-	SLASH,\
 	DOUBLE_EDGE,\
 	BUBBLEBEAM,\
 	AURORA_BEAM,\
