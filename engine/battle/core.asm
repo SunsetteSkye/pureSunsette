@@ -4334,6 +4334,10 @@ GetDamageVarsForPlayerAttack:
 	and a
 	ld d, a ; d = move power
 	ret z ; return if move power is zero
+	; PureRGBnote: CHANGED: hyper beam always attacks using special
+	ld a, [wPlayerMoveEffect]
+	cp HYPER_BEAM_EFFECT
+	jr z, .specialAttack
 	ld a, [hl] ; a = [wPlayerMoveType]
 	cp GHOST
 	jr z, DynamicTypeCheckPlayer
@@ -4461,6 +4465,10 @@ GetDamageVarsForEnemyAttack:
 	ld d, a ; d = move power
 	and a
 	ret z ; return if move power is zero
+; PureRGBnote: CHANGED: hyper beam always attacks using special
+	ld a, [wEnemyMoveEffect]
+	cp HYPER_BEAM_EFFECT
+	jr z, .specialAttack
 	ld a, [hl] ; a = [wEnemyMoveType]
 	cp GHOST
 	jr z, DynamicTypeCheckEnemy
