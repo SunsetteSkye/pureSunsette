@@ -285,12 +285,12 @@ SpearowEvosMoves:
 	db 9, LEER
 	db 13, FURY_SWIPES ; DUST CLAW
 	db 18, WING_ATTACK
-	db 22, SUBMISSION
+	db 22, SONICBOOM
 	db 26, MIRROR_MOVE
 	db 30, FURY_ATTACK
 	db 33, AGILITY
 	db 37, DRILL_PECK
-	db 45, SONICBOOM
+	db 45, NIGHT_SHADE
 	db 50, SPIKE_CANNON
 	db 0
 
@@ -649,14 +649,14 @@ BlastoiseEvosMoves:
 	db 0
 ; Learnset
 	db 8, BUBBLE
-	db 11, DEFENSE_CURL
+	db 11, BITE
 	db 14, WATER_GUN
-	db 18, BITE
+	db 18, LOW_KICK
 	db 23, WITHDRAW
-	db 28, RAGE
-	db 34, COUNTER ; DRAIN PUNCH
-	db 39, SKULL_BASH
-	db 45, HYDRO_PUMP
+	db 28, SUBMISSION
+	db 33, COUNTER ; DRAIN PUNCH
+	db 35, SKULL_BASH
+	db 42, HYDRO_PUMP
 	db 0
 
 PinsirEvosMoves:
@@ -739,12 +739,12 @@ FearowEvosMoves:
 ; Learnset
 	db 13, FURY_SWIPES ; DUST CLAW
 	db 18, WING_ATTACK
-	db 22, SUBMISSION
+	db 22, SONICBOOM
 	db 26, MIRROR_MOVE
 	db 30, FURY_ATTACK
 	db 33, AGILITY
 	db 37, DRILL_PECK
-	db 45, SONICBOOM
+	db 45, NIGHT_SHADE
 	db 50, SPIKE_CANNON
 	db 0
 
@@ -755,9 +755,9 @@ PidgeyEvosMoves:
 ; Learnset
 	db 5, SAND_ATTACK
 	db 8, GUST
-	db 12, RAZOR_WIND ; ROOST
-	db 19, QUICK_ATTACK
-	db 26, VINE_WHIP
+	db 12, QUICK_ATTACK
+	db 19, MIRROR_MOVE
+	db 26, SONICBOOM
 	db 28, FURY_ATTACK
 	db 32, SHARPEN
 	db 35, SLASH
@@ -805,18 +805,18 @@ GravelerEvosMoves:
 	db 0
 ; Learnset
 	db 11, HARDEN
-	db 13, FURY_SWIPES ; DUST CLAW
+	db 13, SEISMIC_TOSS
 	db 16, ROCK_THROW
 	db 19, DEFENSE_CURL
 	db 21, SELFDESTRUCT
 	db 28, ROCK_SLIDE
-	db 31, BARRAGE
+	db 31, DIZZY_PUNCH
 	db 34, GLARE
 	db 39, EARTHQUAKE
 	db 46, EXPLOSION
 	db 52, MEGA_KICK
 	db 60, FISSURE
-	db 65, MIRROR_MOVE
+	db 65, SUBMISSION
 	db 0
 
 ChanseyEvosMoves:
@@ -874,11 +874,11 @@ HitmonleeEvosMoves:
 	db 0
 ; Learnset
 	db 20, JUMP_KICK
-	db 24, STOMP
+	db 24, QUICK_ATTACK
 	db 27, ROLLING_KICK
 	db 31, FOCUS_ENERGY
 	db 36, SUBMISSION
-	db 41, MIRROR_MOVE
+	db 41, FURY_ATTACK
 	db 46, COUNTER ; DRAIN PUNCH
 	db 53, HI_JUMP_KICK
 	db 0
@@ -1189,7 +1189,7 @@ DoduoEvosMoves:
 	db 26, ROLLING_KICK
 	db 30, DRILL_PECK
 	db 35, TRI_ATTACK
-	db 41, EARTHQUAKE
+	db 41, MEGA_KICK
 	db 49, TWINEEDLE
 	db 0
 
@@ -1549,7 +1549,7 @@ EeveeEvosMoves:
 	db 6, SHARPEN
 	db 10, QUICK_ATTACK
 	db 14, ROAR
-	db 18, STOMP
+	db 18, BITE
 	db 25, HEADBUTT
 	db 30, TRI_ATTACK
 	db 0
@@ -1561,7 +1561,7 @@ FlareonEvosMoves: ; Automatically tries to learn EMBER on evolution
 	db 6, SHARPEN
 	db 10, QUICK_ATTACK
 	db 14, ROAR
-	db 18, STOMP
+	db 18, BITE
 	db 21, KINESIS ; FIREWALL
 	db 25, RAGE
 	db 28, AGILITY
@@ -1578,7 +1578,7 @@ JolteonEvosMoves: ; Automatically tries to learn THUNDERSHOCK on evolution
 	db 6, SHARPEN
 	db 10, QUICK_ATTACK
 	db 14, ROAR
-	db 18, STOMP
+	db 18, BITE
 	db 21, THUNDER_WAVE
 	db 25, DOUBLE_TEAM
 	db 28, THUNDERBOLT
@@ -1595,7 +1595,7 @@ VaporeonEvosMoves: ; Automatically tries to learn WATER_GUN on evolution
 	db 6, SHARPEN
 	db 10, QUICK_ATTACK
 	db 14, ROAR
-	db 18, STOMP
+	db 18, BITE
 	db 21, BUBBLEBEAM
 	db 25, ACID_ARMOR
 	db 28, AURORA_BEAM
@@ -1759,7 +1759,7 @@ DodrioEvosMoves:
 	db 26, ROLLING_KICK
 	db 30, DRILL_PECK
 	db 35, TRI_ATTACK
-	db 41, EARTHQUAKE
+	db 41, MEGA_KICK
 	db 49, TWINEEDLE
 	db 0
 
@@ -2147,9 +2147,9 @@ PidgeottoEvosMoves:
 ; Learnset
 	db 5, SAND_ATTACK
 	db 8, GUST
-	db 12, RAZOR_WIND ; ROOST
-	db 19, QUICK_ATTACK
-	db 26, VINE_WHIP
+	db 12, QUICK_ATTACK
+	db 19, MIRROR_MOVE
+	db 26, SONICBOOM
 	db 28, FURY_ATTACK
 	db 32, SHARPEN
 	db 35, SLASH
@@ -2165,9 +2165,9 @@ PidgeotEvosMoves:
 ; Learnset
 	db 5, SAND_ATTACK
 	db 8, GUST
-	db 12, RAZOR_WIND ; ROOST
-	db 19, QUICK_ATTACK
-	db 26, VINE_WHIP
+	db 12, QUICK_ATTACK
+	db 19, MIRROR_MOVE
+	db 26, SONICBOOM
 	db 28, FURY_ATTACK
 	db 32, SHARPEN
 	db 35, SLASH
@@ -2385,18 +2385,18 @@ GeodudeEvosMoves:
 	db 0
 ; Learnset
 	db 11, HARDEN
-	db 13, FURY_SWIPES ; DUST CLAW
+	db 13, SEISMIC_TOSS
 	db 16, ROCK_THROW
 	db 19, DEFENSE_CURL
 	db 21, SELFDESTRUCT
 	db 28, ROCK_SLIDE
-	db 31, BARRAGE
+	db 31, DIZZY_PUNCH
 	db 34, GLARE
 	db 39, EARTHQUAKE
 	db 46, EXPLOSION
 	db 52, MEGA_KICK
 	db 60, FISSURE
-	db 65, MIRROR_MOVE
+	db 65, SUBMISSION
 	db 0
 
 PorygonEvosMoves:
@@ -2463,11 +2463,11 @@ SquirtleEvosMoves:
 	db 0
 ; Learnset
 	db 8, BUBBLE
-	db 11, DEFENSE_CURL
+	db 11, BITE
 	db 14, WATER_GUN
-	db 18, BITE
+	db 18, LOW_KICK
 	db 23, WITHDRAW
-	db 28, RAGE
+	db 28, SUBMISSION
 	db 33, COUNTER ; DRAIN PUNCH
 	db 35, SKULL_BASH
 	db 42, HYDRO_PUMP
@@ -2496,11 +2496,11 @@ WartortleEvosMoves:
 	db 0
 ; Learnset
 	db 8, BUBBLE
-	db 11, DEFENSE_CURL
+	db 11, BITE
 	db 14, WATER_GUN
-	db 18, BITE
+	db 18, LOW_KICK
 	db 23, WITHDRAW
-	db 28, RAGE
+	db 28, SUBMISSION
 	db 33, COUNTER ; DRAIN PUNCH
 	db 35, SKULL_BASH
 	db 42, HYDRO_PUMP

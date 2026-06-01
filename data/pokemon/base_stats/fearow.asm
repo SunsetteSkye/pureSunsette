@@ -3,7 +3,7 @@
 	db  85, 100,  65, 100,  61
 	;   hp  atk  def  spd  spc
 
-	db FIGHTING, FLYING ; type
+	db GHOST, FLYING ; type
 	db 90 ; catch rate
 	db 162 ; base exp
 

@@ -181,6 +181,11 @@ _BecameConfusedText::
 	text "<TARGET>"
 	line "became confused!"
 	prompt
+	
+_HyperBeamConfusedText::
+	text "<USER>"
+	line "became confused!"
+	prompt
 
 _MimicLearnedMoveText::
 	text "<USER>"

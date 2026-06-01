@@ -1,6 +1,6 @@
 	db DEX_ELECTABUZZ ; pokedex id
 
-	db  65,  93,  57, 105,  95
+	db  75,  93,  57, 105,  95
 	;   hp  atk  def  spd  spc
 
 	db ELECTRIC, FIGHTING ; type

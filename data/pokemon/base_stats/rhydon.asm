@@ -1,9 +1,9 @@
 	db DEX_RHYDON ; pokedex id
 
-	db 105, 130, 120,  40,  45
+	db 105, 130, 120,  40, 105
 	;   hp  atk  def  spd  spc
 
-	db ROCK, DRAGON ; type
+	db GROUND, ROCK ; type
 	db 60 ; catch rate
 	db 255 ; base exp
 

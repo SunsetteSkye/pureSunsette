@@ -648,8 +648,8 @@ _HyperBeamDexEntry::
 	next "the next turn."
 
 	bage "If the <opponent>"
-	next "faints, no rest"
-	next "is necessary"
+	next "faints, confused"
+	next "instead."
 	dex
 
 _PeckDexEntry::

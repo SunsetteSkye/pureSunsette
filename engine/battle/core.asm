@@ -3480,7 +3480,19 @@ MirrorMoveCheck:
 	ld a, [hli]
 	ld b, [hl]
 	or b
-	ret z ; don't do anything else if the enemy fainted
+	jr nz, .enemyStillStanding
+; PureRGB: a KO skips Hyper Beam's recharge (Gen 1 bug), so confuse the user instead
+	ld a, [wPlayerMoveEffect]
+	cp HYPER_BEAM_EFFECT
+	ret nz
+	ld hl, wPlayerBattleStatus1
+	set CONFUSED, [hl]
+	ld a, 2
+	ld [wPlayerConfusedCounter], a
+	ld hl, HyperBeamConfusedText
+	rst _PrintText
+	ret
+.enemyStillStanding
 	; call HandleBuildingRage ; PureRGBnote: CHANGED: rage effect changed so don't need this code
 
 	ld hl, wPlayerBattleStatus1
@@ -3855,6 +3867,10 @@ FlinchedText:
 
 MustRechargeText:
 	text_far _MustRechargeText
+	text_end
+	
+HyperBeamConfusedText:          
+	text_far _HyperBeamConfusedText
 	text_end
 
 DisabledNoMoreText:
@@ -6184,9 +6200,22 @@ EnemyCheckIfMirrorMoveEffect:
 	call c, JumpMoveEffect
 	ld hl, wBattleMonHP
 	ld a, [hli]
-	ld b, [hl]
 	or b
-	ret z
+	jr nz, .playerStillStanding
+; PureRGB: a KO skips Hyper Beam's recharge (Gen 1 bug), so confuse the user instead
+	ld a, [wEnemyMoveEffect]
+	cp HYPER_BEAM_EFFECT
+	ret nz
+	ld hl, wEnemyBattleStatus1
+	set CONFUSED, [hl]
+	ld a, 2
+	ld [wEnemyConfusedCounter], a
+	ld hl, HyperBeamConfusedText
+	rst _PrintText
+	ret
+.playerStillStanding
+	ld hl, wEnemyBattleStatus1
+	bit ATTACKING_MULTIPLE_TIMES, [hl] ; is mon hitting multiple times? (example: double kick)
 	; call HandleBuildingRage ; PureRGBnote: CHANGED: rage has a different effect so this code isn't needed
 	ld hl, wEnemyBattleStatus1
 	bit ATTACKING_MULTIPLE_TIMES, [hl] ; is mon hitting multiple times? (example: double kick)

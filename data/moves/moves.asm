@@ -35,7 +35,7 @@ Moves:
 	move BIND,         TRAPPING_EFFECT,             25, ROCK,          85, 15
 	move SLAM,         NO_ADDITIONAL_EFFECT,        90, POISON,       100, 20 ; -> FILTHY SLAM
 	move VINE_WHIP,    FLINCH_SIDE_EFFECT2,         45, GRASS,        100, 15 
-	move STOMP,        FLINCH_SIDE_EFFECT2,         65, NORMAL,       100, 20
+	move STOMP,        FLINCH_SIDE_EFFECT2,         65, FIGHTING,       100, 20
 	move DOUBLE_KICK,  ATTACK_TWICE_EFFECT,         30, FIGHTING,     100, 30
 	move MEGA_KICK,    NO_ADDITIONAL_EFFECT,       120, FIGHTING,      95,  5
 	move JUMP_KICK,    JUMP_KICK_EFFECT,            70, FIGHTING,      95, 25
