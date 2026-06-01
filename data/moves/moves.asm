@@ -58,11 +58,7 @@ Moves:
 	move LEER,         DEFENSE_DOWN1_EFFECT,         0, NORMAL,       100, 30
 	move BITE,         FLINCH_SIDE_EFFECT1,         65, NORMAL,       100, 25
 	move GROWL,        ATTACK_DOWN1_EFFECT,          0, NORMAL,       100, 40
-<<<<<<< HEAD
 	move ROAR,         ATTACK_DOWN_SIDE_EFFECT,     60, DRAGON,       100, 20
-=======
-	move ROAR,         ATTACK_DOWN_SIDE_EFFECT,     50, DRAGON,       100, 20
->>>>>>> 82098c034b04430d35be9a20daa414478faaf44f
 	move SING,         SLEEP_EFFECT,                 0, NORMAL,        55, 15
 	move SUPERSONIC,   CONFUSION_EFFECT,             0, NORMAL,        55, 20
 	move SONICBOOM,    FLINCH_SIDE_EFFECT1,         50, GHOST,        100, 15 ; priority move
@@ -71,15 +67,9 @@ Moves:
 	move EMBER,        BURN_SIDE_EFFECT1,           50, FIRE,         100, 25
 	move FLAMETHROWER, BURN_SIDE_EFFECT1,           95, FIRE,         100, 15
 	move MIST,         MIST_EFFECT,                  0, ICE,          100, 30
-<<<<<<< HEAD
 	move WATER_GUN,    NO_ADDITIONAL_EFFECT,        55, WATER,        100, 25
 	move HYDRO_PUMP,   NO_ADDITIONAL_EFFECT,       120, WATER,         95,  5
 	move SURF,         SWIFT_EFFECT,  		        95, WATER,        100, 15
-=======
-	move WATER_GUN,    NO_ADDITIONAL_EFFECT,        40, WATER,        100, 25
-	move HYDRO_PUMP,   SPEED_DOWN_SIDE_EFFECT,     120, WATER,         90, 10
-	move SURF,         SPEED_DOWN_SIDE_EFFECT,      95, WATER,        100, 15
->>>>>>> 82098c034b04430d35be9a20daa414478faaf44f
 	move ICE_BEAM,     FREEZE_SIDE_EFFECT,          95, ICE,          100, 10
 	move BLIZZARD,     FREEZE_SIDE_EFFECT,         120, ICE,           85,  5
 	move PSYBEAM,      CONFUSION_SIDE_EFFECT,       65, PSYCHIC_TYPE, 100, 20
@@ -94,15 +84,15 @@ Moves:
 	move SEISMIC_TOSS, SPECIAL_DAMAGE_EFFECT,        1, FIGHTING,     100, 20
 	move STRENGTH,     ATTACK_UP_SIDE_EFFECT,       60, ROCK,  	      100, 15
 	move ABSORB,       DRAIN_HP_EFFECT,             40, GRASS,        100, 20
-	move MEGA_DRAIN,   DRAIN_HP_EFFECT,             60, GRASS,        100, 10
+	move MEGA_DRAIN,   DRAIN_HP_EFFECT,             65, GRASS,        100, 10
 	move LEECH_SEED,   LEECH_SEED_EFFECT,            0, GRASS,        100, 10
 	move GROWTH,       GROWTH_EFFECT,                0, GRASS,        100, 10 
-	move RAZOR_LEAF,   NO_ADDITIONAL_EFFECT,        50, GRASS,        100, 25 ; high crit ratio
-	move SOLARBEAM,    RECOIL_EFFECT,       	   120, GRASS,        100, 10
+	move RAZOR_LEAF,   NO_ADDITIONAL_EFFECT,        45, GRASS,        100, 25 ; high crit ratio
+	move SOLARBEAM,    RECOIL_EFFECT,       	   100, GRASS,        100,  5
 	move POISONPOWDER, POISON_EFFECT,                0, POISON,        75, 35
 	move STUN_SPORE,   PARALYZE_EFFECT,              0, GRASS,         75, 30
 	move SLEEP_POWDER, SLEEP_EFFECT,                 0, GRASS,         75, 15
-	move PETAL_DANCE,  CONFUSION_BIG_SIDE_EFFECT,  100, GRASS,        100, 10
+	move PETAL_DANCE,  CONFUSION_BIG_SIDE_EFFECT,  110, GRASS,         85, 10
 	move STRING_SHOT,  SPEED_DOWN1_EFFECT,           0, BUG,           95, 40
 	move DRAGON_RAGE,  SPECIAL_DOWN_SIDE_EFFECT,    95, DRAGON,       100, 10
 	move FIRE_SPIN,    TRAPPING_EFFECT,             25, FIRE,          85, 15

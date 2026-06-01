@@ -29,7 +29,7 @@ TypeEffects:
 	db GRASS,        BUG,          NOT_VERY_EFFECTIVE
 	db GRASS,        POISON,       NOT_VERY_EFFECTIVE
 	db GRASS,        ROCK,         SUPER_EFFECTIVE
-	db GRASS,        FLYING,       NOT_VERY_EFFECTIVE
+	db GRASS,        FLYING,       EFFECTIVE ; Flying no longer resists Grass
 	db ICE,          WATER,        NOT_VERY_EFFECTIVE
 	db ICE,          GRASS,        EFFECTIVE ; Grass no longer weak to Ice
 	db ICE,          GROUND,       SUPER_EFFECTIVE
