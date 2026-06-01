@@ -3,11 +3,7 @@
 	db  40,  80,  35,  70,  70
 	;   hp  atk  def  spd  spc
 
-<<<<<<< HEAD
 	db NORMAL, FIGHTING ; type
-=======
-	db FIGHTING, NORMAL ; type
->>>>>>> 82098c034b04430d35be9a20daa414478faaf44f
 	db 190 ; catch rate
 	db 74 ; base exp
 

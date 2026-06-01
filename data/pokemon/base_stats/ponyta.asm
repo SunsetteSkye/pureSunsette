@@ -3,11 +3,7 @@
 	db  50,  85,  55,  90,  65
 	;   hp  atk  def  spd  spc
 
-<<<<<<< HEAD
 	db FIRE, FIGHTING ; type
-=======
-	db FIRE, PSYCHIC_TYPE ; type
->>>>>>> 82098c034b04430d35be9a20daa414478faaf44f
 	db 190 ; catch rate
 	db 152 ; base exp
 
@@ -30,12 +26,9 @@
 	BARRIER,\
 	SOLARBEAM,\
 	DRAGON_RAGE,\
-<<<<<<< HEAD
 	THUNDERBOLT,\
 	THUNDER,\
 	EARTHQUAKE,\
-=======
->>>>>>> 82098c034b04430d35be9a20daa414478faaf44f
 	PSYCHIC_M,\
 	KINESIS,\ ; FIREWALL
 	SWORDS_DANCE,\

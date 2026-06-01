@@ -3,11 +3,7 @@
 	db  65,  55, 140,  60, 100
 	;   hp  atk  def  spd  spc
 
-<<<<<<< HEAD
 	db GRASS, WATER ; type
-=======
-	db GRASS, GHOST ; type
->>>>>>> 82098c034b04430d35be9a20daa414478faaf44f
 	db 85 ; catch rate
 	db 166 ; base exp
 

@@ -109,7 +109,6 @@ TypeEffects:
 	db FIRE,         MAGMA,        NO_EFFECT
 	db ELECTRIC,     MAGMA,        NO_EFFECT
 	db ELECTRIC,     FIRE,         NOT_VERY_EFFECTIVE
-<<<<<<< HEAD
 	db PSYCHIC_TYPE,	     NORMAL,       NOT_VERY_EFFECTIVE
 	db POISON,	     FLYING,       NOT_VERY_EFFECTIVE
 	db POISON,		 ICE,		   SUPER_EFFECTIVE
@@ -119,12 +118,5 @@ TypeEffects:
 	db GHOST,        ICE,          NOT_VERY_EFFECTIVE
 	db ICE,			 FIGHTING,	   NOT_VERY_EFFECTIVE
 	db PSYCHIC_TYPE,		 GRASS,			NOT_VERY_EFFECTIVE
-=======
-	db ICE,	         NORMAL,       NOT_VERY_EFFECTIVE
-	db GROUND,       FIGHTING,     NOT_VERY_EFFECTIVE
-	db DRAGON,       ICE, 	       NOT_VERY_EFFECTIVE
-	db DRAGON,       FIGHTING,     NOT_VERY_EFFECTIVE
-	db GHOST,        ICE,          NOT_VERY_EFFECTIVE
->>>>>>> 82098c034b04430d35be9a20daa414478faaf44f
 	db -1 ; end
 

@@ -173,26 +173,13 @@ _GustDexEntry::
 	text "Kicks up a gust"
 	next "of wind towards"
 	next "the <opponent>.@"
-<<<<<<< HEAD
-	
 	text_call _Generic30PercentFlinchText
-=======
-
-	text_jump _Generic33PercentLowerSpeedText
->>>>>>> 82098c034b04430d35be9a20daa414478faaf44f
 
 _WingAttackDexEntry::
 	text "Strikes and slaps"
 	next "the foe with"
 	next "wings.@"
-
-<<<<<<< HEAD
-	text_call _GenericNoAdditionalEffectText
-=======
-	text_call _GenericAlwaysGoesFirstText
-	text_end
 	text_jump _Generic30PercentFlinchText
->>>>>>> 82098c034b04430d35be9a20daa414478faaf44f
 
 _WhirlwindDexEntry::
 	text "A massive tornado"
@@ -733,12 +720,7 @@ _StrengthDexEntry::
 	text "Slugs the foe"
 	next "with a massive"
 	next "built up power.@"
-
-<<<<<<< HEAD
 	text_call _GenericRaisesAttack1StageText
-=======
-	text_call _Generic33PercentLowerSpeedText
->>>>>>> 82098c034b04430d35be9a20daa414478faaf44f
 
 	bage "Usable outside of"
 	next "battle to push"
@@ -807,14 +789,7 @@ _SolarbeamDexEntry::
 	text "Focuses sunlight"
 	next "into a powerful"
 	next "searing beam.@"
-
-<<<<<<< HEAD
 	text_jump _Generic25PercentRecoilText
-=======
-	bage "30% chance to"
-	next "burn the foe"
-	dex
->>>>>>> 82098c034b04430d35be9a20daa414478faaf44f
 
 _PoisonPowderDexEntry::
 	text "A poisonous dust"
@@ -871,14 +846,8 @@ _DragonRageDexEntry::
 	text "The foe is hit"
 	next "by a shockwave of"
 	next "draconic rage.@"
-
-<<<<<<< HEAD
 	text_jump _Generic33PercentLowerSpecialText
-=======
-	bage "30% chance to"
-	next "burn the foe"
 	dex
->>>>>>> 82098c034b04430d35be9a20daa414478faaf44f
 
 _FireSpinDexEntry::
 	text "A swirling pillar"
@@ -923,12 +892,7 @@ _ThunderDexEntry::
 
 	bage "on the foe that"
 	next "can't miss.@"
-
-<<<<<<< HEAD
 	text_jump _GenericNoAdditionalEffectText
-=======
-	text_jump _Generic30PercentParalysisText
->>>>>>> 82098c034b04430d35be9a20daa414478faaf44f
 
 _RockThrowDexEntry::
 	text "Rocks are dropped"

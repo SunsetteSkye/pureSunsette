@@ -680,7 +680,6 @@ TangelaEvosMoves:
 	db 0
 ; Learnset
 	db 14, POISONPOWDER
-<<<<<<< HEAD
 	db 18, MEGA_DRAIN
 	db 23, WITHDRAW
 	db 26, NIGHT_SHADE
@@ -689,16 +688,6 @@ TangelaEvosMoves:
 	db 44, SPORE
 	db 49, DREAM_EATER
 	db 54, HYDRO_PUMP
-=======
-	db 18, CONSTRICT ; STATIC_SNAG
-	db 23, STUN_SPORE
-	db 26, MEGA_DRAIN
-	db 30, NIGHT_SHADE
-	db 34, RAZOR_LEAF
-	db 44, SLEEP_POWDER
-	db 49, DREAM_EATER
-	db 54, GROWTH
->>>>>>> 82098c034b04430d35be9a20daa414478faaf44f
 	db 0
 
 NothingEvosMoves:
@@ -761,7 +750,6 @@ FearowEvosMoves:
 
 PidgeyEvosMoves:
 ; Evolutions
-<<<<<<< HEAD
 	db EVOLVE_LEVEL, 24, PIDGEOTTO
 	db 0
 ; Learnset
@@ -775,21 +763,6 @@ PidgeyEvosMoves:
 	db 35, SLASH
 	db 41, GLARE
 	db 48, PETAL_DANCE
-=======
-	db EVOLVE_LEVEL, 25, PIDGEOTTO
-	db 0
-; Learnset
-	db 5, GUST
-	db 6, SAND_ATTACK
-	db 12, QUICK_ATTACK
-	db 19, WING_ATTACK
-	db 26, SONICBOOM
-	db 28, GLARE
-	db 32, FURY_ATTACK
-	db 35, PETAL_DANCE
-	db 41, WITHDRAW
-	db 48, SKULL_BASH
->>>>>>> 82098c034b04430d35be9a20daa414478faaf44f
 	db 54, WHIRLWIND
 	db 60, HYPER_BEAM
 	db 0
@@ -2169,7 +2142,6 @@ AlakazamEvosMoves:
 
 PidgeottoEvosMoves:
 ; Evolutions
-<<<<<<< HEAD
 	db EVOLVE_LEVEL, 48, PIDGEOT
 	db 0
 ; Learnset
@@ -2183,21 +2155,6 @@ PidgeottoEvosMoves:
 	db 35, SLASH
 	db 41, GLARE
 	db 48, PETAL_DANCE
-=======
-	db EVOLVE_LEVEL, 45, PIDGEOT
-	db 0
-; Learnset
-	db 5, GUST
-	db 6, SAND_ATTACK
-	db 12, QUICK_ATTACK
-	db 19, WING_ATTACK
-	db 26, SONICBOOM
-	db 28, GLARE
-	db 32, FURY_ATTACK
-	db 35, PETAL_DANCE
-	db 41, WITHDRAW
-	db 48, SKULL_BASH
->>>>>>> 82098c034b04430d35be9a20daa414478faaf44f
 	db 54, WHIRLWIND
 	db 60, HYPER_BEAM
 	db 0
@@ -2206,7 +2163,6 @@ PidgeotEvosMoves:
 ; Evolutions
 	db 0
 ; Learnset
-<<<<<<< HEAD
 	db 5, SAND_ATTACK
 	db 8, GUST
 	db 12, RAZOR_WIND ; ROOST
@@ -2217,18 +2173,6 @@ PidgeotEvosMoves:
 	db 35, SLASH
 	db 41, GLARE
 	db 48, PETAL_DANCE
-=======
-	db 5, GUST
-	db 6, SAND_ATTACK
-	db 12, QUICK_ATTACK
-	db 19, WING_ATTACK
-	db 26, SONICBOOM
-	db 28, GLARE
-	db 32, FURY_ATTACK
-	db 35, PETAL_DANCE
-	db 41, WITHDRAW
-	db 48, SKULL_BASH
->>>>>>> 82098c034b04430d35be9a20daa414478faaf44f
 	db 54, WHIRLWIND
 	db 60, HYPER_BEAM
 	db 0
