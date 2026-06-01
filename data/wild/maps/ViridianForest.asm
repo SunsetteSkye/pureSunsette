@@ -5,11 +5,7 @@ ViridianForestWildMons:
 	db  3, WEEDLE
 	db  5, CATERPIE
 	db  4, VENONAT
-<<<<<<< HEAD
-	db  4, PIKACHU
-=======
 	db  6, PIDGEOTTO
->>>>>>> 82098c034b04430d35be9a20daa414478faaf44f
 	db  5, VENONAT
 	db  3, PIKACHU
 	db  3, PIKACHU
