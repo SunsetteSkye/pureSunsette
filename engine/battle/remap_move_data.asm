@@ -90,8 +90,8 @@ RemappableMoves::
 	db DIZZY_PUNCH, KANGASKHAN, 110, 0
 	db LICK, LICKITUNG, 70, 0
 	db SPIKE_CANNON, OMASTAR, 70, 0
-	db WHIRLWIND, PIDGEOT, -1, 100
-	db HYPER_BEAM, PIDGEOT, -1, 100
+	db WHIRLWIND, PIDGEOT, -1, 100 percent
+	db HYPER_BEAM, PIDGEOT, -1, 100 percent
 	db -1
 
 ModifierFuncs:

@@ -118,5 +118,6 @@ TypeEffects:
 	db GHOST,        ICE,          NOT_VERY_EFFECTIVE
 	db ICE,			 FIGHTING,	   NOT_VERY_EFFECTIVE
 	db PSYCHIC_TYPE,		 GRASS,			NOT_VERY_EFFECTIVE
+	db BUG,			 DRAGON,			SUPER_EFFECTIVE
 	db -1 ; end
 

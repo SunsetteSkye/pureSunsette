@@ -15,7 +15,6 @@
 
 	tmhm \
 	RAZOR_WIND,\ ; ROOST
-	LEECH_SEED,\ 
 	PIN_MISSILE,\
 	TOXIC,\
 	BODY_SLAM,\
