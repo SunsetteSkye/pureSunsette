@@ -19,7 +19,7 @@ ENDM
 	music_const MUSIC_MEET_PROF_OAK,       Music_MeetProfOak
 	music_const MUSIC_MEET_RIVAL,          Music_MeetRival
 	music_const MUSIC_MUSEUM_GUY,          Music_MuseumGuy
-	music_const MUSIC_SAFARI_ZONE,         Music_SafariZone
+	music_const MUSIC_EVOLUTION,           Music_Evolution
 	music_const MUSIC_PKMN_HEALED,         Music_PkmnHealed
 	music_const MUSIC_ROUTES1,             Music_Routes1
 	music_const MUSIC_ROUTES2,             Music_Routes2
@@ -227,9 +227,9 @@ DEF BATTLE_SFX_START EQUS "SFX_PECK"
 	music_const SFX_BATTLE_34,          SFX_Battle_34
 	music_const SFX_BATTLE_35,          SFX_Battle_35
 	music_const SFX_BATTLE_36,          SFX_Battle_36
-	music_const SFX_SILPH_SCOPE,        SFX_Silph_Scope
-DEF BATTLE_SFX_END   EQUS "SFX_SILPH_SCOPE + 1"
-DEF MAX_SFX_ID_2 EQUS "SFX_SILPH_SCOPE"
+	music_const SFX_TRAINER_APPEARED,   SFX_Trainer_Appeared
+DEF BATTLE_SFX_END   EQUS "SFX_TRAINER_APPEARED + 1"
+DEF MAX_SFX_ID_2 EQUS "SFX_TRAINER_APPEARED"
 
 	; AUDIO_3
 	music_const SFX_INTRO_LUNGE,        SFX_Intro_Lunge
@@ -251,3 +251,4 @@ DEF SFX_STOP_ALL_MUSIC EQU $ff
 	const MUSIC_SECRET_LAB1
 	const MUSIC_SECRET_LAB2
 	const MUSIC_HERE_COMES_TEAM_GR
+	const MUSIC_SAFARI_ZONE_EXPANDED

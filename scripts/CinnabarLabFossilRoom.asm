@@ -10,43 +10,8 @@ CinnabarLabFossilRoom_TextPointers:
 
 Lab4Script_GetFossilsInBag:
 ; construct a list of all fossils in the player's bag
-	xor a
-	ld [wFilteredBagItemsCount], a
-	ld de, wFilteredBagItems
-	ld hl, FossilsList
-.loop
-	ld a, [hli]
-	and a
-	jr z, .done
-	push hl
-	push de
-	ld [wTempByteValue], a
-	ld b, a
-	predef GetQuantityOfItemInBag
-	pop de
-	pop hl
-	ld a, b
-	and a
-	jr z, .loop
-	; A fossil is in the bag
-	ld a, [wTempByteValue]
-	ld [de], a
-	inc de
-	push hl
-	ld hl, wFilteredBagItemsCount
-	inc [hl]
-	pop hl
-	jr .loop
-.done
-	ld a, $ff
-	ld [de], a
-	ret
-
-FossilsList:
-	db DOME_FOSSIL
-	db HELIX_FOSSIL
-	db OLD_AMBER
-	db 0 ; end
+	ld de, FossilsList
+	jpfar GetListOfItemsInBag
 
 CinnabarLabFossilRoomScientist1Text:
 	text_asm
@@ -81,8 +46,13 @@ CinnabarLabFossilRoomScientist1Text:
 	ld c, 30
 	call GivePokemon
 	jr nc, .done
+	ld a, [wFossilMon]
+	cp AERODACTYL
+	jr nz, .notAerodactyl
+	SetEvent EVENT_CINNABAR_LAB_REVIVED_AERODACTYL
+.notAerodactyl
 	ResetEvents EVENT_GAVE_FOSSIL_TO_LAB, EVENT_LAB_STILL_REVIVING_FOSSIL, EVENT_LAB_HANDING_OVER_FOSSIL_MON
-	jr .done
+	rst TextScriptEnd
 
 .Text:
 	text_far _CinnabarLabFossilRoomScientist1Text
@@ -131,8 +101,6 @@ CinnabarLabFossilRoomColorChangerText:
 	ld hl, LabColorChangerGreeting
 	rst _PrintText
 	call YesNoChoice
-	ld a, [wCurrentMenuItem]
-	and a
 	jr nz, .noDeutsch
 	ld hl, LabColorChangerGreetingYes
 	jr .doneGreeting
@@ -152,8 +120,6 @@ CinnabarLabFossilRoomColorChangerText:
 	ld hl, LabColorChangerStart
 	rst _PrintText
 	call YesNoChoice
-	ld a, [wCurrentMenuItem]
-	and a
 	jp nz, .noColorChange
 	ld hl, LabColorChangerNext
 	rst _PrintText
@@ -177,8 +143,6 @@ CinnabarLabFossilRoomColorChangerText:
 	ld hl, LabColorChangerPicsShown
 	rst _PrintText
 	call YesNoChoice
-	ld a, [wCurrentMenuItem]
-	and a
 	jr nz, .showPartySelection
 	ld hl, LabColorChangerStartColorChange
 	rst _PrintText
@@ -240,12 +204,9 @@ ShowBeforeAfterImages:
 	call GBPalWhiteOut ; zero all palettes
 	call ClearScreen
 	call UpdateSprites
-	ld hl, wStatusFlags2
-	set BIT_NO_AUDIO_FADE_OUT, [hl]
-	ld a, $33 ; 3/7 volume
-	ldh [rNR50], a
+	call HalfVolume
 	
-	ld b, SET_PAL_BEFORE_AFTER
+	ld d, SET_PAL_BEFORE_AFTER
 	call RunPaletteCommand
 	
 	call Delay3
@@ -271,15 +232,10 @@ ShowBeforeAfterImages:
 	.waitForButtonPress
 	call JoypadLowSensitivity
 	ldh a, [hJoy5]
-	and A_BUTTON | B_BUTTON
+	and PAD_A | PAD_B
 	jr z, .waitForButtonPress
 
-	ld hl, wStatusFlags2
-	res BIT_NO_AUDIO_FADE_OUT, [hl]
- 	ld a, $77
- 	ldh [rNR50], a ; full volume
-	
-	ret
+	jp MaxVolume
 
 BeforeString:
 	db "BEFORE@"
@@ -297,9 +253,8 @@ DoColorSwap:
 	ld bc, wPartyMon2 - wPartyMon1
 	call AddNTimes ; we are jumping to the index of the chosen pokemon by incrementing N times where N = a
 	ld a, [hl] ; hl points to the flags data of the chosen pokemon now 
-	and 1 ; only the first bit of flags is used for alt color palette setting
-	xor 1 ; toggle the value
-	ld [hl], a ; store it
+	xor 1 ; toggle the lowest bit
+	ld [hl], a ; store the modified value
 	call GBFadeOutToBlack
 	call FiddlingAroundSounds
 	call GBFadeInFromBlack

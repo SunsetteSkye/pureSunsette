@@ -18,9 +18,7 @@ VictoryRoad2FResetBoulderEventScript:
 	ret ; avoids running the below code twice because bit 5 of wCurrentMapScriptFlags is always set when bit 6 is set too
 
 VictoryRoad2FCheckBoulderEventScript::
-	ld hl, wCurrentMapScriptFlags
-	bit BIT_CUR_MAP_LOADED_1, [hl]
-	res BIT_CUR_MAP_LOADED_1, [hl]
+	call WasMapJustLoaded
 	ret z
 	CheckEvent EVENT_VICTORY_ROAD_2_BOULDER_ON_SWITCH1
 	jr z, .not_on_switch
@@ -36,7 +34,7 @@ VictoryRoad2FCheckBoulderEventScript::
 	lb bc, 7, 11
 VictoryRoad2FReplaceTileBlockScript:
 	ld [wNewTileBlockID], a
-	predef_jump ReplaceTileBlock
+	jp ReplaceTileBlock
 
 VictoryRoad2F_ScriptPointers:
 	def_script_pointers
@@ -48,8 +46,9 @@ VictoryRoad2FDefaultScript:
 	ld a, [wMiscFlags]
 	bit BIT_BOULDER_DUST, a
 	ret nz ; PureRGBnote: ADDED: if a boulder animation is playing forget doing this, helps reduce lag
-	ld hl, .SwitchCoords
-	call CheckBoulderCoords
+	ld de, VictoryRoad2FBoulderSwitchCoords
+	ld c, BANK(VictoryRoad2FBoulderSwitchCoords)
+	callfar CheckBoulderCoords
 	jp nc, CheckFightingMapTrainers
 	EventFlagAddress hl, EVENT_VICTORY_ROAD_2_BOULDER_ON_SWITCH1
 	ld a, [wCoordIndex]
@@ -71,7 +70,7 @@ VictoryRoad2FDefaultScript:
 	set BIT_CUR_MAP_LOADED_1, [hl]
 	ret
 
-.SwitchCoords:
+VictoryRoad2FBoulderSwitchCoords:
 	dbmapcoord  1, 16
 	dbmapcoord  9, 16
 	db -1 ; end
@@ -109,40 +108,22 @@ MoltresTrainerHeader:
 	db -1 ; end
 
 VictoryRoad2FHikerText:
-	text_asm
-	ld hl, VictoryRoad2TrainerHeader0
-	call TalkToTrainer
-	rst TextScriptEnd
+	script_trainer VictoryRoad2TrainerHeader0
 
 VictoryRoad2FSuperNerd1Text:
-	text_asm
-	ld hl, VictoryRoad2TrainerHeader1
-	call TalkToTrainer
-	rst TextScriptEnd
+	script_trainer VictoryRoad2TrainerHeader1
 
 VictoryRoad2FCooltrainerMText:
-	text_asm
-	ld hl, VictoryRoad2TrainerHeader2
-	call TalkToTrainer
-	rst TextScriptEnd
+	script_trainer VictoryRoad2TrainerHeader2
 
 VictoryRoad2FSuperNerd2Text:
-	text_asm
-	ld hl, VictoryRoad2TrainerHeader3
-	call TalkToTrainer
-	rst TextScriptEnd
+	script_trainer VictoryRoad2TrainerHeader3
 
 VictoryRoad2FSuperNerd3Text:
-	text_asm
-	ld hl, VictoryRoad2TrainerHeader4
-	call TalkToTrainer
-	rst TextScriptEnd
+	script_trainer VictoryRoad2TrainerHeader4
 
 VictoryRoad2FMoltresText:
-	text_asm
-	ld hl, MoltresTrainerHeader
-	call TalkToTrainer
-	rst TextScriptEnd
+	script_trainer MoltresTrainerHeader
 
 VictoryRoad2FMoltresBattleText:
 	text_far _VictoryRoad2FMoltresBattleText

@@ -3,13 +3,14 @@
 ShowConversionMenu::
 	ld a, [wLinkState]
 	cp LINK_STATE_BATTLING
-	ret z ; in link battles we will always use ATTACK mode
+	ld a, 0
+	jr z, .choseMode2 ; in link battles we will always use ATTACK mode
 	call LoadScreenTilesFromBuffer1
 	call Delay3
 	ld hl, .chooseConversionMode
 	rst _PrintText
 	ld hl, ConversionMenu
-	ld b, A_BUTTON | B_BUTTON
+	ld b, PAD_A | PAD_B
 	call DisplayMultiChoiceTextBox
 	jr nz, .back
 	call LoadScreenTilesFromBuffer1
@@ -27,6 +28,7 @@ ShowConversionMenu::
 	jr ShowConversionMenu
 .choseMode
 	ld a, [wCurrentMenuItem]
+.choseMode2
 	ld [wPlayerConversionMode], a
 	scf
 	ret

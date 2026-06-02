@@ -20,6 +20,7 @@ UndergroundPathWestEast_TextPointers:
 	dw_const UndergroundPathWestEastTrainer1Text,  TEXT_UNDERGROUNDPATHWESTEAST_GENTLEMAN1
 	dw_const UndergroundPathWestEastTrainer2Text,  TEXT_UNDERGROUNDPATHWESTEAST_GENTLEMAN2
 	dw_const UndergroundPathWestEastTrainer3Text,  TEXT_UNDERGROUNDPATHWESTEAST_COOL_KID
+	dw_const UndergroundPathWestEastBrunetteGirl,  TEXT_UNDERGROUNDPATHWESTEAST_BRUNETTE_GIRL
 
 UndergroundPathWestEastTrainerHeaders:
 	def_trainers 3
@@ -32,10 +33,13 @@ UndergroundPathWestEastTrainerHeader2:
 	db -1 ;end
 
 UndergroundPathWestEastTrainer1Text:
-	text_asm
-	ld hl, UndergroundPathWestEastTrainerHeader0
-	call TalkToTrainer
-	rst TextScriptEnd
+	script_trainer UndergroundPathWestEastTrainerHeader0
+
+UndergroundPathWestEastTrainer2Text:
+	script_trainer UndergroundPathWestEastTrainerHeader1
+
+UndergroundPathWestEastTrainer3Text:
+	script_trainer UndergroundPathWestEastTrainerHeader2
 
 UndergroundPathWestEastBattleText1:
 	text_far _UndergroundPathWestEastBattleText1
@@ -49,12 +53,6 @@ UndergroundPathWestEastAfterBattleText1:
 	text_far _UndergroundPathWestEastAfterBattleText1
 	text_end
 
-UndergroundPathWestEastTrainer2Text:
-	text_asm
-	ld hl, UndergroundPathWestEastTrainerHeader1
-	call TalkToTrainer
-	rst TextScriptEnd
-
 UndergroundPathWestEastBattleText2:
 	text_far _UndergroundPathWestEastBattleText2
 	text_end
@@ -67,12 +65,6 @@ UndergroundPathWestEastAfterBattleText2:
 	text_far _UndergroundPathWestEastAfterBattleText2
 	text_end
 
-UndergroundPathWestEastTrainer3Text:
-	text_asm
-	ld hl, UndergroundPathWestEastTrainerHeader2
-	call TalkToTrainer
-	rst TextScriptEnd
-
 UndergroundPathWestEastBattleText3:
 	text_far _UndergroundPathWestEastBattleText3
 	text_end
@@ -83,4 +75,8 @@ UndergroundPathWestEastEndBattleText3:
 
 UndergroundPathWestEastAfterBattleText3:
 	text_far _UndergroundPathWestEastAfterBattleText3
+	text_end
+
+UndergroundPathWestEastBrunetteGirl:
+	text_far _GrimerEventGirlText
 	text_end

@@ -38,7 +38,7 @@ ENDC
 	ld c, a
 	ld a, MUSIC_MEET_PROF_OAK ; "oak appears" music
 	call PlayMusic
-	ld a, SELECT | START | D_RIGHT | D_LEFT | D_UP | D_DOWN
+	ld a, PAD_SELECT | PAD_START | PAD_CTRL_PAD
 	ld [wJoyIgnore], a
 	SetEvent EVENT_OAK_APPEARED_IN_PALLET
 
@@ -53,11 +53,9 @@ PalletTownOakHeyWaitScript:
 	ld a, TEXT_PALLETTOWN_OAK
 	ldh [hTextID], a
 	call DisplayTextID
-	ld a, A_BUTTON | B_BUTTON | SELECT | START | D_RIGHT | D_LEFT | D_UP | D_DOWN
-	ld [wJoyIgnore], a
-	ld a, HS_PALLET_TOWN_OAK
-	ld [wMissableObjectIndex], a
-	predef ShowObject
+	call DisableAllJoypad
+	ld c, TOGGLE_PALLET_TOWN_OAK
+	call ShowObject
 
 	; trigger the next script
 	ld a, SCRIPT_PALLETTOWN_OAK_WALKS_TO_PLAYER
@@ -78,16 +76,15 @@ PalletTownOakWalksToPlayerScript:
 	ld a, 1
 	swap a
 	ldh [hNPCSpriteOffset], a
-	predef CalcPositionOfPlayerRelativeToNPC
+	callfar CalcPositionOfPlayerRelativeToNPC
 	ld hl, hNPCPlayerYDistance
 	dec [hl]
-	predef FindPathToPlayer ; load Oak's movement into wNPCMovementDirections2
+	callfar FindPathToPlayer ; load Oak's movement into wNPCMovementDirections2
 	ld de, wNPCMovementDirections2
 	ld a, PALLETTOWN_OAK
 	ldh [hSpriteIndex], a
 	call MoveSprite
-	ld a, A_BUTTON | B_BUTTON | SELECT | START | D_RIGHT | D_LEFT | D_UP | D_DOWN
-	ld [wJoyIgnore], a
+	call DisableAllJoypad
 
 	; trigger the next script
 	ld a, SCRIPT_PALLETTOWN_OAK_NOT_SAFE_COME_WITH_ME
@@ -102,14 +99,13 @@ PalletTownOakNotSafeComeWithMeScript:
 	ld [wSpritePlayerStateData1FacingDirection], a
 	ld a, TRUE
 	ld [wOakWalkedToPlayer], a
-	ld a, SELECT | START | D_RIGHT | D_LEFT | D_UP | D_DOWN
+	ld a, PAD_SELECT | PAD_START | PAD_CTRL_PAD
 	ld [wJoyIgnore], a
 	ld a, TEXT_PALLETTOWN_OAK
 	ldh [hTextID], a
 	call DisplayTextID
 ; set up movement script that causes the player to follow Oak to his lab
-	ld a, A_BUTTON | B_BUTTON | SELECT | START | D_RIGHT | D_LEFT | D_UP | D_DOWN
-	ld [wJoyIgnore], a
+	call DisableAllJoypad
 	ld a, PALLETTOWN_OAK
 	ld [wSpriteIndex], a
 	xor a
@@ -140,12 +136,10 @@ PalletTownDaisyScript:
 	CheckBothEventsSet EVENT_GOT_TOWN_MAP, EVENT_ENTERED_BLUES_HOUSE, 1
 	jr nz, .next
 	SetEvent EVENT_DAISY_WALKING
-	ld a, HS_DAISY_SITTING
-	ld [wMissableObjectIndex], a
-	predef HideObject
-	ld a, HS_DAISY_WALKING
-	ld [wMissableObjectIndex], a
-	predef_jump ShowObject
+	ld c, TOGGLE_DAISY_SITTING
+	call HideObject
+	ld c, TOGGLE_DAISY_WALKING
+	jp ShowObject
 .next
 	CheckEvent EVENT_GOT_POKEBALLS_FROM_OAK
 	ret z
@@ -166,13 +160,11 @@ PalletTownOakText:
 	text_asm
 	ld a, [wOakWalkedToPlayer]
 	and a
-	jr nz, .next
+	ld hl, .ItsUnsafeText
+	jr nz, .done
 	ld a, 1
 	ld [wDoNotWaitForButtonPressAfterDisplayingText], a
 	ld hl, .HeyWaitDontGoOutText
-	jr .done
-.next
-	ld hl, .ItsUnsafeText
 .done
 	rst _PrintText
 	rst TextScriptEnd
@@ -185,7 +177,7 @@ PalletTownOakText:
 	xor a
 	ld [wEmotionBubbleSpriteIndex], a ; player's sprite
 	ld [wWhichEmotionBubble], a ; EXCLAMATION_BUBBLE
-	predef EmotionBubble
+	callfar EmotionBubble
 	ld a, PLAYER_DIR_DOWN
 	ld [wPlayerMovingDirection], a
 	rst TextScriptEnd
@@ -211,8 +203,15 @@ PalletTownSignText:
 	text_end
 
 PalletTownPlayersHouseSignText:
+IF DEF(_DEBUG)
+	text_asm
+	callfar GBCSetCPU1xSpeed
+	callfar HallOfFamePC
+	jp SoftReset
+ELSE
 	text_far _PalletTownPlayersHouseSignText
 	text_end
+ENDC
 
 PalletTownRivalsHouseSignText:
 	text_far _PalletTownRivalsHouseSignText

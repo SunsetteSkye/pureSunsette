@@ -1,6 +1,14 @@
 ; PureRGBnote: ADDED: new trainers on this route.
 
 Route6_Script:
+	call WasMapJustLoaded
+	jr nz, .mapLoad
+	bit BIT_CROSSED_MAP_CONNECTION, [hl]
+	res BIT_CROSSED_MAP_CONNECTION, [hl]
+	jr z, .notMapLoad
+.mapLoad
+	SetFlag FLAG_MAP_HAS_OVERWORLD_ANIMATION
+.notMapLoad
 	call EnableAutoTextBoxDrawing
 	ld hl, Route6TrainerHeaders
 	ld de, Route6_ScriptPointers
@@ -25,9 +33,11 @@ Route6_TextPointers:
 	dw_const Route6Youngster2Text,          TEXT_ROUTE6_YOUNGSTER2
 	dw_const Route6Text7,                   TEXT_ROUTE6_ROOKIE
 	dw_const Route6Text8,                   TEXT_ROUTE6_BURGLAR
+	dw_const Route6ShadowText,              TEXT_ROUTE6_PSYDUCK_SHADOW
 	dw_const PickUp3ItemText,               TEXT_ROUTE6_ITEM1 ; PureRGBnote: ADDED: new item on this route.
 	dw_const Route6UndergroundPathSignText, TEXT_ROUTE6_UNDERGROUND_PATH_SIGN
 	dw_const Route6TrainerTipsText,         TEXT_ROUTE6_TRAINER_TIPS
+	dw_const Route6ShadowText,              TEXT_ROUTE6_SHADOW2
 
 Route6TrainerHeaders:
 	def_trainers
@@ -50,10 +60,28 @@ Route6TrainerHeader7:
 	db -1 ; end
 
 Route6CooltrainerM1Text:
-	text_asm
-	ld hl, Route6TrainerHeader0
-	call TalkToTrainer
-	rst TextScriptEnd
+	script_trainer Route6TrainerHeader0
+
+Route6CooltrainerF1Text:
+	script_trainer Route6TrainerHeader1
+
+Route6Youngster1Text:
+	script_trainer Route6TrainerHeader2
+
+Route6CooltrainerM2Text:
+	script_trainer Route6TrainerHeader3
+
+Route6CooltrainerF2Text:
+	script_trainer Route6TrainerHeader4
+
+Route6Youngster2Text:
+	script_trainer Route6TrainerHeader5
+
+Route6Text7:
+	script_trainer Route6TrainerHeader6
+
+Route6Text8:
+	script_trainer Route6TrainerHeader7
 
 Route6CooltrainerM1BattleText:
 	text_far _Route6CooltrainerM1BattleText
@@ -67,12 +95,6 @@ Route6CooltrainerAfterBattleText: ; used by both COOLTRAINER_M1 and COOLTRAINER_
 	text_far _Route6CooltrainerAfterBattleText
 	text_end
 
-Route6CooltrainerF1Text:
-	text_asm
-	ld hl, Route6TrainerHeader1
-	call TalkToTrainer
-	rst TextScriptEnd
-
 Route6CooltrainerF1BattleText:
 	text_far _Route6CooltrainerF1BattleText
 	text_end
@@ -80,12 +102,6 @@ Route6CooltrainerF1BattleText:
 Route6CooltrainerF1EndBattleText:
 	text_far _Route6CooltrainerF1EndBattleText
 	text_end
-
-Route6Youngster1Text:
-	text_asm
-	ld hl, Route6TrainerHeader2
-	call TalkToTrainer
-	rst TextScriptEnd
 
 Route6Youngster1BattleText:
 	text_far _Route6Youngster1BattleText
@@ -97,13 +113,10 @@ Route6Youngster1EndBattleText:
 
 Route6Youngster1AfterBattleText:
 	text_far _Route6Youngster1AfterBattleText
-	text_end
-
-Route6CooltrainerM2Text:
 	text_asm
-	ld hl, Route6TrainerHeader3
-	call TalkToTrainer
-	rst TextScriptEnd
+	lb hl, DEX_VENONAT, BUG_CATCHER
+	ld de, Route6VenonatLearnsetText
+	predef_jump LearnsetTrainerScript
 
 Route6CooltrainerM2BattleText:
 	text_far _Route6CooltrainerM2BattleText
@@ -117,12 +130,6 @@ Route6CooltrainerM2AfterBattleText:
 	text_far _Route6CooltrainerM2AfterBattleText
 	text_end
 
-Route6CooltrainerF2Text:
-	text_asm
-	ld hl, Route6TrainerHeader4
-	call TalkToTrainer
-	rst TextScriptEnd
-
 Route6CooltrainerF2BattleText:
 	text_far _Route6CooltrainerF2BattleText
 	text_end
@@ -135,12 +142,6 @@ Route6CooltrainerF2AfterBattleText:
 	text_far _Route6CooltrainerF2AfterBattleText
 	text_end
 
-Route6Youngster2Text:
-	text_asm
-	ld hl, Route6TrainerHeader5
-	call TalkToTrainer
-	rst TextScriptEnd
-
 Route6Youngster2BattleText:
 	text_far _Route6Youngster2BattleText
 	text_end
@@ -151,13 +152,10 @@ Route6Youngster2EndBattleText:
 
 Route6Youngster2AfterBattleText:
 	text_far _Route6Youngster2AfterBattleText
-	text_end
-
-Route6Text7:
 	text_asm
-	ld hl, Route6TrainerHeader6
-	call TalkToTrainer
-	rst TextScriptEnd
+	lb hl, DEX_BUTTERFREE, BUG_CATCHER
+	ld de, Route6ButterfreeLearnsetText
+	predef_jump LearnsetTrainerScript
 
 Route6BattleText7:
 	text_far _Route6BattleText7
@@ -170,12 +168,6 @@ Route6EndBattleText7:
 Route6AfterBattleText7:
 	text_far _Route6AfterBattleText7
 	text_end
-
-Route6Text8:
-	text_asm
-	ld hl, Route6TrainerHeader7
-	call TalkToTrainer
-	rst TextScriptEnd
 
 Route6BattleText8:
 	text_far _Route6BattleText8
@@ -197,3 +189,46 @@ Route6UndergroundPathSignText:
 Route6TrainerTipsText:
 	text_far _Route6TrainerTipsText
 	text_end
+
+Route6ShadowText:
+	text_far _Route6ShadowText
+	text_end
+
+PsyduckShadowFlicker::
+	CheckEvent FLAG_BALL_DESIGNER_TURNED_OFF
+	ret nz
+	CheckEvent EVENT_SNAPPED_CAMERA_PIC_DRENCH_BALL
+	ret nz
+	ld a, ROUTE6_PSYDUCK_SHADOW
+	ldh [hSpriteIndex], a
+	ld a, SPRITESTATEDATA2_MAPX
+	ldh [hSpriteDataOffset], a
+	call GetPointerWithinSpriteStateData2
+	ld b, 26 + 4
+	ld a, [wYCoord]
+	cp 28
+	jr nz, .noShadowSprite
+	ld a, [wXCoord]
+	cp 4
+	jr nc, .noShadowSprite
+	ld a, [hl]
+	cp 26 + 4
+	ld b, 2 + 4
+	jr z, .noShadowSprite
+	ld b, 26 + 4
+.noShadowSprite
+	ld [hl], b
+	ret
+
+PsyduckShadowDistance::
+	CheckEvent FLAG_BALL_DESIGNER_TURNED_OFF
+	ret nz
+	CheckEvent EVENT_SNAPPED_CAMERA_PIC_DRENCH_BALL
+	ret nz
+	ld a, [wSpritePlayerStateData1FacingDirection]
+	cp SPRITE_FACING_UP
+	ret nz
+.showShadowText
+	ld a, TEXT_ROUTE6_SHADOW2
+	ldh [hTextID], a
+	jp DisplayTextID

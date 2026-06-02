@@ -14,29 +14,18 @@ VermilionGym_Script:
 
 VermilionGymSetDoorTile:
 	CheckEvent EVENT_2ND_LOCK_OPENED
-	jr nz, .doorsOpen
-	ld a, $24 ; double door tile ID
-	jr .replaceTile
-.doorsOpen
-	ld a, SFX_GO_INSIDE
-	rst _PlaySound
 	ld a, $5 ; clear floor tile ID
+	jr nz, .replaceTile
+	ld a, $24 ; double door tile ID
 .replaceTile
 	ld [wNewTileBlockID], a
 	lb bc, 2, 2
-	predef ReplaceTileBlock
+	call ReplaceTileBlock
 	ld hl, wCurrentMapScriptFlags
 	bit BIT_MAP_LOADED_AFTER_BATTLE, [hl]
 	res BIT_MAP_LOADED_AFTER_BATTLE, [hl]
 	ret z
 	jp GBFadeInFromWhite ; PureRGBnote: ADDED: since trainer instantly talks to us after battle we need to fade back in here
-
-VermilionGymResetScripts:
-	xor a
-	ld [wJoyIgnore], a
-	ld [wVermilionGymCurScript], a
-	ld [wCurMapScript], a
-	ret
 
 VermilionGym_ScriptPointers:
 	def_script_pointers
@@ -45,14 +34,23 @@ VermilionGym_ScriptPointers:
 	dw_const EndTrainerBattle,                      SCRIPT_VERMILIONGYM_END_BATTLE
 	dw_const VermilionGymLTSurgeAfterBattleScript,  SCRIPT_VERMILIONGYM_LT_SURGE_AFTER_BATTLE
 
+
+
+VermilionGymResetScripts:
+	call ResetMapScripts
+	; a = 0 from ResetMapScripts
+	ld [wVermilionGymCurScript], a
+	ret
+
 VermilionGymLTSurgeAfterBattleScript:
 	ld a, [wIsInBattle]
 	cp $ff ; did we lose?
-	jp z, VermilionGymResetScripts
-	ld a, D_RIGHT | D_LEFT | D_UP | D_DOWN
-	ld [wJoyIgnore], a
+	jr z, VermilionGymResetScripts
+	call DisableDpad
 
 VermilionGymLTSurgeReceiveTM24Script:
+	ld d, VERMILIONGYM_LT_SURGE
+	callfar MakeSpriteFacePlayer
 	ld a, TEXT_VERMILIONGYM_LT_SURGE_THUNDER_BADGE_INFO
 	ldh [hTextID], a
 	call DisplayTextID
@@ -72,13 +70,14 @@ VermilionGymLTSurgeReceiveTM24Script:
 .gym_victory
 	ld hl, wObtainedBadges
 	set BIT_THUNDERBADGE, [hl]
-	ld hl, wBeatGymFlags
-	set BIT_THUNDERBADGE, [hl]
 
 	; deactivate gym trainers
 	SetEventRange EVENT_BEAT_VERMILION_GYM_TRAINER_0, EVENT_BEAT_VERMILION_GYM_TRAINER_2
 
-	jp VermilionGymResetScripts
+	ld a, VERMILIONGYM_LT_SURGE
+	ldh [hSpriteIndex], a
+	call SetSpriteMovementBytesToFF
+	jr VermilionGymResetScripts
 
 VermilionGym_TextPointers:
 	def_text_pointers
@@ -92,6 +91,9 @@ VermilionGym_TextPointers:
 	dw_const VermilionGymLTSurgeThunderBadgeInfoText, TEXT_VERMILIONGYM_LT_SURGE_THUNDER_BADGE_INFO
 	dw_const VermilionGymLTSurgeReceivedTM24Text,     TEXT_VERMILIONGYM_LT_SURGE_RECEIVED_TM24
 	dw_const VermilionGymLTSurgeTM24NoRoomText,       TEXT_VERMILIONGYM_LT_SURGE_TM24_NO_ROOM
+	dw_const VermilionGymTrashText,                   TEXT_VERMILIONGYM_ONLY_TRASH_HERE
+	dw_const VermilionGymTrashSuccessText1,           TEXT_VERMILIONGYM_FOUND_FIRST_SWITCH
+	dw_const VermilionGymTrashSuccessText3,           TEXT_VERMILIONGYM_FOUND_SECOND_SWITCH
 
 VermilionGymTrainerHeaders:
 	def_trainers 2
@@ -166,10 +168,13 @@ VermilionGymLTSurgeReceivedThunderBadgeText:
 	text_end
 
 VermilionGymGentlemanText:
-	text_asm
-	ld hl, VermilionGymTrainerHeader0
-	call TalkToTrainer
-	rst TextScriptEnd
+	script_trainer VermilionGymTrainerHeader0
+
+VermilionGymSuperNerdText:
+	script_trainer VermilionGymTrainerHeader1
+
+VermilionGymSailorText:
+	script_trainer VermilionGymTrainerHeader2
 
 VermilionGymGentlemanBattleText:
 	text_far _VermilionGymGentlemanBattleText
@@ -179,33 +184,66 @@ VermilionGymGentlemanEndBattleText:
 	text_far _VermilionGymGentlemanEndBattleText
 	text_end
 
+VermilionGymGetTrainerText:
+	call .getWhich
+	ld b, 0
+	add hl, bc
+	rst _PrintText
+	rst TextScriptEnd
+.getWhich
+	ld c, 0
+	CheckEvent EVENT_BEAT_LT_SURGE
+	ret nz
+	CheckEvent EVENT_2ND_LOCK_OPENED
+	ld c, 5
+	ret nz
+	ld c, 10
+	ret
+
 VermilionGymGentlemanAfterBattleText:
+	text_asm
+	ld hl, .text_entries
+	jr VermilionGymGetTrainerText
+.text_entries
+.afterBeat
+	text_far _VermilionGymGentlemanAfterBattleGymDefeatedText
+	text_end
+.afterLocks
+	text_far _VermilionGymGentlemanAfterLocksText
+	text_end
+.beforeBeat
 	text_far _VermilionGymGentlemanAfterBattleText
 	text_end
 
-VermilionGymSuperNerdText:
-	text_asm
-	ld hl, VermilionGymTrainerHeader1
-	call TalkToTrainer
-	rst TextScriptEnd
-
-VermilionGymSuperNerdBattleText:
-	text_far _VermilionGymSuperNerdBattleText
-	text_end
-
-VermilionGymSuperNerdEndBattleText:
-	text_far _VermilionGymSuperNerdEndBattleText
-	text_end
-
 VermilionGymSuperNerdAfterBattleText:
+	text_asm
+	ld hl, .text_entries
+	jr VermilionGymGetTrainerText
+.text_entries
+.afterBeat
+	text_far _VermilionGymSuperNerdAfterBattleGymDefeatedText
+	text_end
+.afterLocks
+	text_far _VermilionGymSuperNerdAfterLocksText
+	text_end
+.beforeBeat
 	text_far _VermilionGymSuperNerdAfterBattleText
 	text_end
 
-VermilionGymSailorText:
+VermilionGymSailorAfterBattleText:
 	text_asm
-	ld hl, VermilionGymTrainerHeader2
-	call TalkToTrainer
-	rst TextScriptEnd
+	ld hl, .text_entries
+	jr VermilionGymGetTrainerText
+.text_entries
+.afterBeat
+	text_far _VermilionGymSailorAfterBattleGymDefeatedText
+	text_end
+.afterLocks
+	text_far _VermilionGymSailorAfterLocksText
+	text_end
+.beforeBeat
+	text_far _VermilionGymSailorAfterBattleText
+	text_end
 
 VermilionGymSailorBattleText:
 	text_far _VermilionGymSailorBattleText
@@ -215,23 +253,26 @@ VermilionGymSailorEndBattleText:
 	text_far _VermilionGymSailorEndBattleText
 	text_end
 
-VermilionGymSailorAfterBattleText:
-	text_far _VermilionGymSailorAfterBattleText
+VermilionGymSuperNerdBattleText:
+	text_far _VermilionGymSuperNerdBattleText
+	text_end
+
+VermilionGymSuperNerdEndBattleText:
+	text_far _VermilionGymSuperNerdEndBattleText
 	text_end
 
 VermilionGymGymGuideText: ; PureRGBnote: ADDED: gym guide gives you apex chips after beating the leader
 	text_asm
-	ld a, [wBeatGymFlags]
+	ld a, [wObtainedBadges]
 	bit BIT_THUNDERBADGE, a
-	jr nz, .afterBeat
 	ld hl, VermilionGymGuideChampInMakingText
-	rst _PrintText
-	jr .done
+	jr z, .printDone
 .afterBeat
 	CheckEvent EVENT_GOT_PEWTER_APEX_CHIPS ; have to hear about apex chips to receive them after that
-	jr z, .postNoPrompt
-	ld hl, VermilionGymGuidePostBattleTextPrompt
+	ld hl, VermilionGymGuidePostBattleText
+	jr z, .printDone
 	rst _PrintText
+	call DisplayTextPromptButton
 	CheckEvent EVENT_GOT_VERMILION_APEX_CHIPS
 	jr nz, .alreadyApexChips
 .giveApexChips
@@ -239,7 +280,8 @@ VermilionGymGymGuideText: ; PureRGBnote: ADDED: gym guide gives you apex chips a
 	rst _PrintText
 	lb bc, APEX_CHIP, 2
 	call GiveItem
-	jr nc, .BagFull
+	ld hl, ApexNoRoomText3
+	jr nc, .printDone
 	ld hl, ReceivedApexChipsText3
 	rst _PrintText
 	ld hl, VermilionGymGuideApexChipElectricText
@@ -247,17 +289,9 @@ VermilionGymGymGuideText: ; PureRGBnote: ADDED: gym guide gives you apex chips a
 	SetEvent EVENT_GOT_VERMILION_APEX_CHIPS
 .alreadyApexChips
 	ld hl, AlreadyReceivedApexChipsText3
+.printDone
 	rst _PrintText
-	jr .done
-.BagFull
-	ld hl, ApexNoRoomText3
-	rst _PrintText
-.done
 	rst TextScriptEnd
-.postNoPrompt
-	ld hl, VermilionGymGuidePostBattleText
-	rst _PrintText
-	jr .done
 
 ReceivedApexChipsText3:
 	text_far _ReceivedApexChipsText
@@ -277,16 +311,12 @@ AlreadyReceivedApexChipsText3:
 	text_end
 
 VermilionGymGuideChampInMakingText:
+	text_far _GymGuideChampInMakingText
 	text_far _VermilionGymGymGuideChampInMakingText
 	text_end
 
 VermilionGymGuidePostBattleText:
 	text_far _VermilionGymGymGuideBeatLTSurgeText
-	text_end
-
-VermilionGymGuidePostBattleTextPrompt:
-	text_far _VermilionGymGymGuideBeatLTSurgeText
-	text_promptbutton
 	text_end
 
 VermilionGymGuideApexChipElectricText:
@@ -302,3 +332,174 @@ VermilionGymGarbageNearSurgeText:
 VermilionGymBookshelfText:
 	text_far _VermilionGymBookshelfText
 	text_end
+
+VermilionGymTrashText::
+	text_far _VermilionGymTrashText
+	text_end
+
+GymTrashScript::
+	call EnableAutoTextBoxDrawing
+	ld a, [wHiddenEventFunctionArgument]
+	ld [wGymTrashCanIndex], a
+
+; Don't do the trash can puzzle if it's already been done.
+	CheckEvent EVENT_2ND_LOCK_OPENED
+	jr nz, .onlyTrashHere
+.ok
+	CheckEventReuseA EVENT_1ST_LOCK_OPENED
+	jr nz, .trySecondLock
+
+	ld a, [wFirstLockTrashCanIndex]
+	ld b, a
+	ld a, [wGymTrashCanIndex]
+	cp b
+	jr z, .openFirstLock
+.onlyTrashHere
+	ld a, TEXT_VERMILIONGYM_ONLY_TRASH_HERE
+.displayText
+	ldh [hTextID], a
+	jp DisplayTextID
+.openFirstLock
+; Next can is trying for the second switch.
+	SetEvent EVENT_1ST_LOCK_OPENED
+
+	ld hl, GymTrashCans
+	ld a, [wGymTrashCanIndex]
+	; * 5
+	ld b, a
+	add a
+	add a
+	add b
+
+	ld d, 0
+	ld e, a
+	add hl, de
+	ld a, [hli]
+
+; Bug: This code should calculate a value in the range [0, 3],
+; but if the mask and random number don't have any 1 bits in common, then
+; the result of the AND will be 0. When 1 is subtracted from that, the value
+; will become $ff. This will result in 255 being added to hl, which will cause
+; hl to point to one of the zero bytes that pad the end of the ROM bank.
+; Trash can 0 was intended to be able to have the second lock only when the
+; first lock was in trash can 1 or 3. However, due to this bug, trash can 0 can
+; have the second lock regardless of which trash can had the first lock.
+
+	ldh [hGymTrashCanRandNumMask], a
+	push hl
+.tryagain
+	call Random
+	swap a
+	ld b, a
+	ldh a, [hGymTrashCanRandNumMask]
+	and b
+	jr z, .tryagain ; PureRGBnote: FIXED: never AND to 0
+	dec a
+	pop hl
+
+	ld d, 0
+	ld e, a
+	add hl, de
+	ld a, [hl]
+	and $f
+	ld [wSecondLockTrashCanIndex], a
+
+	ld a, TEXT_VERMILIONGYM_FOUND_FIRST_SWITCH
+	jr .displayText
+
+.trySecondLock
+	ld a, [wSecondLockTrashCanIndex]
+	ld b, a
+	ld a, [wGymTrashCanIndex]
+	cp b
+	jr z, .openSecondLock
+
+; Reset the cans. ; PureRGBnote: CHANGED: don't reset locks because it's just an annoying waste of time
+	;ResetEvent EVENT_1ST_LOCK_OPENED
+	;call Random
+
+	;and $e
+	;ld [wFirstLockTrashCanIndex], a
+
+	;tx_pre_id VermilionGymTrashFailText
+	jr .onlyTrashHere
+
+.openSecondLock
+; Completed the trash can puzzle.
+	SetEvent EVENT_2ND_LOCK_OPENED
+	ld hl, wCurrentMapScriptFlags
+	set BIT_CUR_MAP_LOADED_2, [hl]
+
+	ld a, TEXT_VERMILIONGYM_FOUND_SECOND_SWITCH
+	jr .displayText
+
+GymTrashCans:
+; byte 0: mask for random number
+; bytes 1-4: indices of the trash cans that can have the second lock
+;            (but see the comment above explaining a bug regarding this)
+; Note that the mask is simply the number of valid trash can indices that
+; follow. The remaining bytes are filled with 0 to pad the length of each entry
+; to 5 bytes.
+	db 2,  1,  3,  0,  0 ; 0
+	db 3,  0,  2,  4,  0 ; 1
+	db 2,  1,  5,  0,  0 ; 2
+	db 3,  0,  4,  6,  0 ; 3
+	db 4,  1,  3,  5,  7 ; 4
+	db 3,  2,  4,  8,  0 ; 5
+	db 3,  3,  7,  9,  0 ; 6
+	db 4,  4,  6,  8, 10 ; 7
+	db 3,  5,  7, 11,  0 ; 8
+	db 3,  6, 10, 12,  0 ; 9
+	db 4,  7,  9, 11, 13 ; 10
+	db 3,  8, 10, 14,  0 ; 11
+	db 2,  9, 13,  0,  0 ; 12
+	db 3, 10, 12, 14,  0 ; 13
+	db 2, 11, 13,  0,  0 ; 14
+
+VermilionGymTrashSuccessText1::
+	text_far _VermilionGymTrashSuccessText1
+	text_asm
+	ld a, SFX_SWITCH
+	call PlaySoundWaitForCurrent
+	call DisplayTextPromptButton
+	ld hl, .lockOpened
+	rst _PrintText
+	ld a, SFX_TELEPORT_ENTER_2
+	call PlaySoundWaitForCurrent
+	call WaitForSoundToFinish
+	rst TextScriptEnd
+.lockOpened
+	text_far _VermilionGym1stElectricLock
+	text_end
+
+VermilionGymTrashSuccessText3::
+	text_far _VermilionGymTrashSuccessText2
+	text_asm
+	ld a, SFX_SWITCH
+	call PlaySoundWaitForCurrent
+	call DisplayTextPromptButton
+	ld hl, .lockOpened
+	rst _PrintText
+	ld a, SFX_TELEPORT_ENTER_2
+	call PlaySoundWaitForCurrent
+	call DisplayTextPromptButton
+	ld hl, .motorizedDoorOpened
+	rst _PrintText
+	ld a, SFX_GO_INSIDE
+	call PlaySoundWaitForCurrent
+	call WaitForSoundToFinish
+	rst TextScriptEnd
+.lockOpened
+	text_far _VermilionGym2ndElectricLock
+	text_end
+.motorizedDoorOpened
+	text_far _VermilionGymTrashSuccessText3
+	text_end
+
+;VermilionGymTrashFailText::
+;	text_far _VermilionGymTrashFailText
+;	text_asm
+;	ld a, SFX_DENIED
+;	rst PlaySoundWaitForCurrent
+;	call WaitForSoundToFinish
+;	rst TextScriptEnd

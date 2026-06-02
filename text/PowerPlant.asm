@@ -89,14 +89,14 @@ _PowerPlantComputer4::
 	done
 
 _MagnetMagnetonText1::
-	text_ram wNameBuffer
+	text_ram_namebuffer
 	text " went"
 	line "close to the"
 	cont "magnet."
 	done
 
 _MagnetMagnetonText2::
-	text_ram wNameBuffer
+	text_ram_namebuffer
 	text "'s"
 	line "antigravity power"
 	cont "was supercharged!"
@@ -107,8 +107,14 @@ _MagnetMagnetonText3::
 	para "It can float"
 	line "higher now."
 	para "@"
-	text_ram wNameBuffer
+	text_ram_namebuffer
 	text " became"
 	line "immune to GROUND"
 	cont "type attacks!"
+	done
+
+_PowerPlantRoofSignText::
+	text "BEWARE OF VOLTAGE"
+	line "HAZARDS FROM ROOF"
+	cont "TRANSFORMERS"
 	done

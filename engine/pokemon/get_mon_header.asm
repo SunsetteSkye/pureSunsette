@@ -26,8 +26,7 @@ GetMonHeader2::
 .notNonPokemonSpecies
 	ld a, [wCurSpecies]
 	ld hl, NonDexPokemonSpecies
-	ld de, 1
-	call IsInArray
+	call IsInSingleByteArray
 	jr nc, .notNonDexPokemonSpecies
 	ld a, b
 	ld hl, NonDexMonsBaseStats
@@ -35,7 +34,7 @@ GetMonHeader2::
 	call AddNTimes
 	jr .copyBaseStats
 .notNonDexPokemonSpecies
-	predef IndexToPokedex   ; convert pokemon ID in [wPokedexNum] to pokedex number
+	call IndexToPokedex   ; convert pokemon ID in [wPokedexNum] to pokedex number
 	ld a, [wPokedexNum]
 	dec a
 	ld bc, BASE_DATA_SIZE

@@ -83,7 +83,7 @@ UpdatePlayerSprite:
 	and a
 	jr nz, .doneSpeed
 	ldh a, [hJoyHeld]
-	and B_BUTTON
+	and PAD_B
 	jr z, .doneSpeed
 	ld c, 2
 .doneSpeed
@@ -115,7 +115,7 @@ UpdatePlayerSprite:
 	call TestGrassTile2
 	ld a, 0
 	jr nz, .next2
-	ld a, OAM_BEHIND_BG
+	ld a, OAM_PRIO
 .next2
 	ld [wSpritePlayerStateData2GrassPriority], a
 	ret
@@ -126,11 +126,29 @@ TestGrassTile2:
 	cp c
 	ret z
 	ld a, [wCurMapTileset]
+	cp PLATEAU
+	jr z, .plateau
 	cp FOREST
 	ret nz
+.back
 	ld a, $34	; check for the extra grass tile in the forest tileset
 	cp c
 	ret
+.plateau
+	ld a, [wCurMap]
+	cp CELADON_BACK_ALLEY
+	ret nz
+	ld a, $43
+	cp c
+	ret z
+	dec a ; $42
+	cp c
+	ret z
+	ld a, $4C
+	cp c
+	ret z
+	jr .back
+
 
 UnusedReadSpriteDataFunction:
 	push bc
@@ -177,7 +195,7 @@ UpdateNPCSprite:
 	ld b, a
 	ld a, [wFontLoaded]
 	bit BIT_FONT_LOADED, a
-	jp nz, notYetMoving
+	jp nz, NotYetMoving
 	ld a, b
 	cp $2
 	jp z, UpdateSpriteMovementDelay  ; [x#SPRITESTATEDATA1_MOVEMENTSTATUS] == 2
@@ -466,14 +484,15 @@ UpdateSpriteMovementDelay:
 	ld [hl], a
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 	dec [hl]                ; x#SPRITESTATEDATA2_MOVEMENTDELAY
-	jr nz, notYetMoving
+	jr nz, NotYetMoving
 .moving
 	dec h
 	ldh a, [hCurrentSpriteOffset]
 	inc a
 	ld l, a
 	ld [hl], $1             ; [x#SPRITESTATEDATA1_MOVEMENTSTATUS] = 1 (mark as ready to move)
-notYetMoving:
+	; fallthrough
+NotYetMoving:
 	ld h, HIGH(wSpriteStateData1)
 	ldh a, [hCurrentSpriteOffset]
 	add SPRITESTATEDATA1_ANIMFRAMECOUNTER
@@ -488,7 +507,7 @@ MakeNPCFacePlayer:
 ; disabled. This is only done when rubbing the S.S. Anne captain's back.
 	ld a, [wStatusFlags3]
 	bit BIT_NO_NPC_FACE_PLAYER, a
-	jr nz, notYetMoving
+	jr nz, NotYetMoving
 	res BIT_FACE_PLAYER, [hl]
 	ld a, [wPlayerDirection]
 	bit PLAYER_DIR_BIT_UP, a
@@ -510,7 +529,7 @@ MakeNPCFacePlayer:
 	add $9
 	ld l, a
 	ld [hl], c              ; [x#SPRITESTATEDATA1_FACINGDIRECTION]: set facing direction
-	jr notYetMoving
+	jr NotYetMoving
 
 InitializeSpriteStatus:
 	ld [hl], $1   ; [x#SPRITESTATEDATA1_MOVEMENTSTATUS] = ready
@@ -551,8 +570,35 @@ InitializeSpriteScreenPosition:
 
 ; tests if sprite is off screen or otherwise unable to do anything
 CheckSpriteAvailability:
-	predef IsObjectHidden
-	ldh a, [hIsHiddenMissableObject]
+;;;; IsObjectHidden: ; tests if current object is toggled off/has been hidden ; was moved here because it was only used once anyway
+	ldh a, [hCurrentSpriteOffset]
+	swap a
+	ld b, a
+	ld hl, wToggleableObjectList
+.loop
+	ld a, [hli]
+	cp -1
+	jr z, .notHidden ; not toggleable -> not hidden
+	cp b
+	ld a, [hli]
+	jr nz, .loop
+	ld c, a
+	ld b, FLAG_TEST
+;;;;;;;;;; PureRGBnote: ADDED: when in certain maps we use a different set of flags for hiding/showing objects.
+	CheckEvent EVENT_IN_EXTRA_TOGGLEABLE_OBJECTS_MAP
+	ld hl, wToggleableObjectFlags
+	jr z, .doAction
+.extraMap
+	ld hl, wExtraToggleableObjectFlags
+.doAction
+;;;;;;;;;;
+	call FlagAction
+	and a
+	jr nz, .hidden
+.notHidden
+	xor a
+.hidden
+;;;;
 	and a
 	jp nz, .spriteInvisible
 	ld h, HIGH(wSpriteStateData2)
@@ -623,7 +669,7 @@ CheckSpriteAvailability:
 	call TestGrassTile2
 	ld a, 0
 	jr nz, .notInGrass
-	ld a, OAM_BEHIND_BG
+	ld a, OAM_PRIO
 .notInGrass
 	ld [hl], a       ; x#SPRITESTATEDATA2_GRASSPRIORITY
 	and a

@@ -4,11 +4,10 @@ HallOfFame_Script:
 	ld a, [wHallOfFameCurScript]
 	jp CallFunctionInTable
 
-HallofFameRoomClearScripts: ; unreferenced
-	xor a
-	ld [wJoyIgnore], a
-	ld [wHallOfFameCurScript], a
-	ret
+;HallofFameRoomClearScripts: ; unreferenced
+;	call EnableAllJoypad
+;	ld [wHallOfFameCurScript], a
+;	ret
 
 HallOfFame_ScriptPointers:
 	def_script_pointers
@@ -22,16 +21,15 @@ HallOfFameResetEventsAndSaveScript:
 	call Delay3
 	ld a, [wLetterPrintingDelayFlags]
 	push af
-	xor a
-	ld [wJoyIgnore], a
-	predef HallOfFamePC
+	call EnableAllJoypad
+	callfar HallOfFamePC
 	pop af
 	ld [wLetterPrintingDelayFlags], a
 	ld hl, wStatusFlags7
 	res BIT_NO_MAP_MUSIC, [hl]
-	assert wStatusFlags7 + 1 == wElite4Flags
+	ASSERT wStatusFlags7 + 1 == wElite4Flags
 	inc hl
-	set BIT_UNUSED_BEAT_ELITE_4, [hl] ; debug, unused?
+	set BIT_UNUSED_BEAT_ELITE_4, [hl] ; unused
 	xor a ; SCRIPT_*_DEFAULT
 	ld hl, wLoreleisRoomCurScript
 	ld [hli], a ; wLoreleisRoomCurScript
@@ -46,7 +44,7 @@ HallOfFameResetEventsAndSaveScript:
 	ld [wHallOfFameCurScript], a
 	ld a, PALLET_TOWN
 	ld [wLastBlackoutMap], a
-	farcall SaveSAVtoSRAM
+	farcall SaveGameData
 	ld b, 5
 .delayLoop
 	ld c, 600 / 5
@@ -57,20 +55,18 @@ HallOfFameResetEventsAndSaveScript:
 	jp Init
 
 HallOfFameDefaultScript:
-	ld a, A_BUTTON | B_BUTTON | SELECT | START | D_RIGHT | D_LEFT | D_UP | D_DOWN
-	ld [wJoyIgnore], a
 	ld hl, wSimulatedJoypadStatesEnd
 	ld de, HallOfFameEntryMovement
 	call DecodeRLEList
 	dec a
 	ld [wSimulatedJoypadStatesIndex], a
-	call StartSimulatingJoypadStates
+	call StartSimulatingJoypadStatesNoJoypad
 	ld a, SCRIPT_HALLOFFAME_OAK_CONGRATULATIONS
 	ld [wHallOfFameCurScript], a
 	ret
 
 HallOfFameEntryMovement:
-	db D_UP, 5
+	db PAD_UP, 5
 	db -1 ; end
 
 HallOfFameOakCongratulationsScript:
@@ -86,39 +82,30 @@ HallOfFameOakCongratulationsScript:
 	ldh [hSpriteFacingDirection], a
 	call SetSpriteFacingDirectionAndDelay
 	call Delay3
-	xor a
-	ld [wJoyIgnore], a
+	call EnableAllJoypad
 	inc a ; PLAYER_DIR_RIGHT
 	ld [wPlayerMovingDirection], a
 	ld a, TEXT_HALLOFFAME_OAK
 	ldh [hTextID], a
 	call DisplayTextID
-	ld a, A_BUTTON | B_BUTTON | SELECT | START | D_RIGHT | D_LEFT | D_UP | D_DOWN
-	ld [wJoyIgnore], a
+	call DisableAllJoypad
 ;;;;;;;;;; PureRGBnote: ADDED: hide the third pokeball in oak's lab because he's using it in battle now
 	ld a, [wPlayerStarter]
 	cp STARTER1
-	jr z, .hide3
+	ld c, TOGGLE_STARTER_BALL_3
+	jr z, .hideStarterBall
 	cp STARTER2
-	jr z, .hide1
-	ld a, HS_STARTER_BALL_2
-	jr .hideStarterBall
-.hide3
-	ld a, HS_STARTER_BALL_3
-	jr .hideStarterBall
-.hide1
-	ld a, HS_STARTER_BALL_1
+	ld c, TOGGLE_STARTER_BALL_1
+	jr z, .hideStarterBall
+	ld c, TOGGLE_STARTER_BALL_2
 .hideStarterBall
-	ld [wMissableObjectIndex], a
-	predef HideObject
+	call HideObject
 ;;;;;;;;;;
-	ld a, HS_CERULEAN_CAVE_GUY
-	ld [wMissableObjectIndex], a
-	predef HideObject
+	ld c, TOGGLE_CERULEAN_CAVE_GUY
+	call HideObject
 ;;;;;;;;;; PureRGBnote: ADDED: hide the guy in the first floor of the secret house in cerulean - makes it appear he went downstairs.
-	ld a, HS_CERULEAN_ROCKET_HOUSE_1F_GUY
-	ld [wMissableObjectIndex], a
-	predef HideObject
+	ld c, TOGGLE_CERULEAN_ROCKET_HOUSE_1F_GUY
+	call HideObject
 ;;;;;;;;;;
 	ld a, SCRIPT_HALLOFFAME_RESET_EVENTS_AND_SAVE
 	ld [wHallOfFameCurScript], a

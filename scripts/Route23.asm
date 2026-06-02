@@ -12,12 +12,10 @@ Route23SetVictoryRoadBoulders:
 	ret z
 	ResetEvents EVENT_VICTORY_ROAD_2_BOULDER_ON_SWITCH1, EVENT_VICTORY_ROAD_2_BOULDER_ON_SWITCH2
 	ResetEvents EVENT_VICTORY_ROAD_3_BOULDER_ON_SWITCH1, EVENT_VICTORY_ROAD_3_BOULDER_ON_SWITCH2
-	ld a, HS_VICTORY_ROAD_3F_BOULDER
-	ld [wMissableObjectIndex], a
-	predef ShowObject
-	ld a, HS_VICTORY_ROAD_2F_BOULDER
-	ld [wMissableObjectIndex], a
-	predef_jump HideObject
+	ld c, TOGGLE_VICTORY_ROAD_3F_BOULDER
+	call ShowObject
+	ld c, TOGGLE_VICTORY_ROAD_2F_BOULDER
+	jp HideObject
 
 Route23_ScriptPointers:
 	def_script_pointers
@@ -51,9 +49,7 @@ Route23DefaultScript:
 	ld [wWhichBadge], a
 	ld b, FLAG_TEST
 	EventFlagAddress hl, EVENT_PASSED_CASCADEBADGE_CHECK
-	predef FlagActionPredef
-	ld a, c
-	and a
+	call FlagAction
 	ret nz
 	call Route23CopyBadgeTextScript
 	call DisplayTextID
@@ -72,62 +68,18 @@ Route23GuardsYCoords:
 	db -1 ; end
 
 Route23CopyBadgeTextScript:
-	ld hl, BadgeTextPointers
 	ld a, [wWhichBadge]
-	ld c, a
-	ld b, 0
-	add hl, bc
-	add hl, bc
-	ld a, [hli]
-	ld h, [hl]
-	ld l, a
-	ld de, wNameBuffer
-.copyTextLoop
-	ld a, [hli]
-	ld [de], a
-	inc de
-	cp "@"
-	jr nz, .copyTextLoop
-	ret
-
-BadgeTextPointers:
-	dw CascadeBadgeText
-	dw ThunderBadgeText
-	dw RainbowBadgeText
-	dw SoulBadgeText
-	dw MarshBadgeText
-	dw VolcanoBadgeText
-	dw EarthBadgeText
-
-EarthBadgeText:
-	db "EARTHBADGE@"
-
-VolcanoBadgeText:
-	db "VOLCANOBADGE@"
-
-MarshBadgeText:
-	db "MARSHBADGE@"
-
-SoulBadgeText:
-	db "SOULBADGE@"
-
-RainbowBadgeText:
-	db "RAINBOWBADGE@"
-
-ThunderBadgeText:
-	db "THUNDERBADGE@"
-
-CascadeBadgeText:
-	db "CASCADEBADGE@"
+	inc a
+	jp GetBadgeName
 
 Route23MovePlayerDownScript:
 	ld a, $1
 	ld [wSimulatedJoypadStatesIndex], a
-	ld a, D_DOWN
+	ld a, PAD_DOWN
 	ld [wSimulatedJoypadStatesEnd], a
-	xor a
+	call EnableAllJoypad
+	; a = 0 due to EnableAllJoypad
 	ld [wSpritePlayerStateData1FacingDirection], a
-	ld [wJoyIgnore], a
 	jp StartSimulatingJoypadStates
 
 Route23PlayerMovingScript:
@@ -202,9 +154,7 @@ Route23CheckForBadgeScript:
 	ld c, a
 	ld b, FLAG_TEST
 	ld hl, wObtainedBadges
-	predef FlagActionPredef
-	ld a, c
-	and a
+	call FlagAction
 	jr nz, .have_badge
 	ld hl, Route23YouDontHaveTheBadgeYetText
 	rst _PrintText
@@ -219,7 +169,7 @@ Route23CheckForBadgeScript:
 	ld c, a
 	ld b, FLAG_SET
 	EventFlagAddress hl, EVENT_PASSED_CASCADEBADGE_CHECK
-	predef FlagActionPredef
+	call FlagAction
 	ld a, SCRIPT_ROUTE23_RESET_TO_DEFAULT
 	ld [wRoute23CurScript], a
 	ret

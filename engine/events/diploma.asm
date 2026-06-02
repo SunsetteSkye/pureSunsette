@@ -12,12 +12,10 @@ DisplayDiploma::
 	rst _DelayFrame	; shinpokerednote: FIXED: the overworld sprite wobble fix makes the player sprites hidden unless a delay is added
 	ld hl, CircleTile
 	ld de, vChars2 tile CIRCLE_TILE_ID
-	ld bc, $10
+	ld bc, TILE_SIZE
 	ld a, BANK(CircleTile)
 	call FarCopyData2
-	hlcoord 0, 0
-	lb bc, 16, 18
-	predef Diploma_TextBoxBorder
+	callfar Diploma_TextBoxBorder
 
 	ld hl, DiplomaTextPointersAndCoords
 	ld c, $5
@@ -40,7 +38,7 @@ DisplayDiploma::
 	hlcoord 10, 4
 	ld de, wPlayerName
 	call PlaceString
-	farcall DrawPlayerCharacter
+	farcall DrawPlayerCharacterForceOriginal
 
 ; Move the player 33 pixels right and set the priority bit so he appears
 ; behind the background layer.
@@ -59,7 +57,7 @@ DisplayDiploma::
 
 	call EnableLCD
 	farcall LoadTrainerInfoTextBoxTiles
-	ld b, SET_PAL_GENERIC
+	ld d, SET_PAL_GENERIC
 	call RunPaletteCommand
 	call Delay3
 	call GBPalNormal
@@ -69,19 +67,20 @@ DisplayDiploma::
 	call WaitForTextScrollButtonPress
 	ld hl, wStatusFlags5
 	res BIT_NO_TEXT_DELAY, [hl]
+ReloadEverything::
 	call GBPalWhiteOutWithDelay3
 	call RestoreScreenTilesAndReloadTilePatterns
 	call Delay3
 	jp GBPalNormal
 
 ;UnusedPlayerNameLengthFunc:
-; Unused function that does a calculation involving the length of the player's
-; name.
+; Unused function that performs bc = -(player name's length)
+; leftover from the JPN versions
 ;	ld hl, wPlayerName
 ;	lb bc, $ff, $00
 ;.loop
 ;	ld a, [hli]
-;	cp "@"
+;	cp '@'
 ;	ret z
 ;	dec c
 ;	jr .loop

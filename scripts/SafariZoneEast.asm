@@ -1,6 +1,7 @@
 ; PureRGBnote: ADDED: new trainers in this location
 
 SafariZoneEast_Script:
+	call CheckModifySafariWildRate
 	call EnableAutoTextBoxDrawing
 	ld hl, SafariZoneEastTrainerHeaders
 	ld de, SafariZoneEast_ScriptPointers
@@ -14,7 +15,8 @@ SafariZoneEast_ScriptPointers:
 	dw_const CheckFightingMapTrainers,              SCRIPT_SAFARIZONEEAST_DEFAULT
 	dw_const DisplayEnemyTrainerTextAndStartBattle, SCRIPT_SAFARIZONEEAST_START_BATTLE
 	dw_const EndTrainerBattle,                      SCRIPT_SAFARIZONEEAST_END_BATTLE
-	dw_const RangerPostBattleEast,                  SCRIPT_SAFARIZONEEAST_RANGER_POST_BATTLE
+	dw_const RangerPostBattle,		                SCRIPT_SAFARIZONEEAST_RANGER_POST_BATTLE
+	ASSERT BANK(RangerPostBattle) == BANK(SafariZoneEast_Script)
 
 SafariZoneEast_TextPointers:
 	def_text_pointers
@@ -30,10 +32,6 @@ SafariZoneEast_TextPointers:
 	dw_const SafariZoneEastRestHouseSignText, TEXT_SAFARIZONEEAST_REST_HOUSE_SIGN
 	dw_const SafariZoneEastTrainerTipsText,   TEXT_SAFARIZONEEAST_TRAINER_TIPS
 	dw_const SafariZoneEastSignText,          TEXT_SAFARIZONEEAST_SIGN
-
-RangerPostBattleEast:
-	SetEvent EVENT_BEAT_SAFARI_ZONE_EAST_RANGER_0
-	jpfar RangerPostBattle
 
 SafariZoneEastRestHouseSignText:
 	text_far _SafariZoneEastRestHouseSignText
@@ -85,26 +83,16 @@ SafariZoneEastRangerText0:
 	rst TextScriptEnd
 
 SafariZoneEastTrainerText0:
-	text_asm
-	ld hl, SafariZoneEastTrainerHeader0
-	jr SafariZoneEastTrainerTalk
+	script_trainer SafariZoneEastTrainerHeader0
 
 SafariZoneEastTrainerText1:
-	text_asm
-	ld hl, SafariZoneEastTrainerHeader1
-	jr SafariZoneEastTrainerTalk
+	script_trainer SafariZoneEastTrainerHeader1
 
 SafariZoneEastTrainerText2:
-	text_asm
-	ld hl, SafariZoneEastTrainerHeader2
-	jr SafariZoneEastTrainerTalk
+	script_trainer SafariZoneEastTrainerHeader2
 
 SafariZoneEastTrainerText3:
-	text_asm
-	ld hl, SafariZoneEastTrainerHeader3
-SafariZoneEastTrainerTalk:
-	call TalkToTrainer
-	rst TextScriptEnd
+	script_trainer SafariZoneEastTrainerHeader3
 
 SafariZoneEastRangerBattleText0:
 	text_far _SafariZoneEastRangerText

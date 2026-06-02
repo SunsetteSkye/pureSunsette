@@ -173,6 +173,8 @@
 	const STRUGGLE     ; a5
 DEF NUM_ATTACKS EQU const_value - 1
 
+DEF CANNOT_MOVE EQU $ff
+
 	; Moves do double duty as animation identifiers.
 
 	const SHOWPIC_ANIM
@@ -223,6 +225,7 @@ DEF NUM_ATTACKS EQU const_value - 1
 	const RADIATION_ANIM
 	const DIVINE_PROTECTION_ANIM
 	const POKE_DOLL_ANIM
+	const SEND_OUT_MON_BALL_POOF_ANIM
 ;;;;;
 
 	; 45 non-move anims + 166 move anims = 201 anims

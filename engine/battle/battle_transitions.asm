@@ -1,4 +1,4 @@
-BattleTransition:
+BattleTransition::
 	ld a, 1
 	ldh [hAutoBGTransferEnabled], a
 	call Delay3
@@ -8,13 +8,17 @@ BattleTransition:
 	ld [wUpdateSpritesEnabled], a
 	rst _DelayFrame
 
+	ld a, [wCurMap]
+	cp VERMILION_DOCK
+	jr z, .skipCleanOAM ; we want mew's bubble to stay on-screen during the transition
+
 ; Determine which OAM block is being used by the enemy trainer sprite (if there
 ; is one).
 	ld hl, wSpritePlayerStateData1ImageIndex
 	ldh a, [hSpriteIndex] ; enemy trainer sprite index (0 if wild battle)
 	ld c, a
 	ld b, 0
-	ld de, $10
+	ld de, SPRITESTATEDATA1_LENGTH
 .loop1
 	ld a, [hl]
 	cp $ff
@@ -35,16 +39,17 @@ BattleTransition:
 	jr z, .skip2 ; skip clearing the block if the enemy trainer is using it
 	push hl
 	push bc
-	ld bc, $10
+	ld bc, OBJ_SIZE * 4
 	xor a
 	call FillMemory
 	pop bc
 	pop hl
 .skip2
-	ld de, $10
+	ld de, OBJ_SIZE * 4
 	add hl, de
 	dec c
 	jr nz, .loop2
+.skipCleanOAM
 
 	call Delay3
 	call LoadBattleTransitionTile
@@ -77,7 +82,7 @@ DEF NUM_BATTLE_TRANSITION_BITS EQU const_value
 ; bit 1: set if enemy is at least 3 levels higher than player
 ; bit 2: set if dungeon map
 BattleTransitions:
-	table_width 2, BattleTransitions
+	table_width 2
 	dw BattleTransition_DoubleCircle      ; %000
 	dw BattleTransition_Spiral            ; %001
 	dw BattleTransition_Circle            ; %010
@@ -104,11 +109,11 @@ GetBattleTransitionID_CompareLevels:
 	ld a, [hli]
 	or [hl]
 	jr nz, .notFainted
-	ld de, wPartyMon2 - (wPartyMon1 + 1)
+	ld de, PARTYMON_STRUCT_LENGTH - 1
 	add hl, de
 	jr .faintedLoop
 .notFainted
-	ld de, wPartyMon1Level - (wPartyMon1HP + 1)
+	ld de, MON_LEVEL - (MON_HP + 1)
 	add hl, de
 	ld a, [hl]
 	add $3
@@ -329,6 +334,9 @@ BattleTransition_OutwardSpiral_:
 
 FlashScreen:
 BattleTransition_FlashScreen_:
+	CheckEvent FLAG_FLASHING_REDUCED
+	jr nz, .flashScreenLessFlashing
+.start
 	ld hl, BattleTransition_FlashScreenPalettes
 .loop
 	ld a, [hli]
@@ -341,8 +349,10 @@ BattleTransition_FlashScreen_:
 	jr .loop
 .done
 	dec b
-	jr nz, BattleTransition_FlashScreen_
+	jr nz, .start
 	ret
+.flashScreenLessFlashing
+	jpfar AnimationFlashScreenLongLessFlashing
 
 BattleTransition_FlashScreenPalettes:
 	dc 3, 3, 2, 1

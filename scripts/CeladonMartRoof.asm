@@ -5,26 +5,31 @@ CeladonMartRoof_Script:
 
 CeladonMartRoofScript_GetDrinksInBag:
 ; construct a list of all drinks in the player's bag
+	ld de, CeladonMartRoofDrinkList
+	; fall through
+GetListOfItemsInBag::
+	ld h, d
+	ld l, e
 	xor a
 	ld [wFilteredBagItemsCount], a
 	ld de, wFilteredBagItems
-	ld hl, CeladonMartRoofDrinkList
 .loop
 	ld a, [hli]
 	and a
 	jr z, .done
 	push hl
 	push de
-	ld [wTempByteValue], a
 	ld b, a
+	push bc
 	predef GetQuantityOfItemInBag
+	ld a, b
+	pop bc
 	pop de
 	pop hl
-	ld a, b
 	and a
 	jr z, .loop
-	; A drink is in the bag
-	ld a, [wTempByteValue]
+	; One of the items is in the bag
+	ld a, b
 	ld [de], a
 	inc de
 	push hl
@@ -43,6 +48,12 @@ CeladonMartRoofDrinkList:
 	db LEMONADE
 	db 0 ; end
 
+FossilsList::
+	db DOME_FOSSIL
+	db HELIX_FOSSIL
+	db OLD_AMBER
+	db 0 ; end
+
 CeladonMartRoofScript_GiveDrinkToGirl:
 	ld hl, wStatusFlags5
 	set BIT_NO_TEXT_DELAY, [hl]
@@ -50,7 +61,7 @@ CeladonMartRoofScript_GiveDrinkToGirl:
 	rst _PrintText
 	xor a
 	ld [wCurrentMenuItem], a
-	ld a, A_BUTTON | B_BUTTON
+	ld a, PAD_A | PAD_B
 	ld [wMenuWatchedKeys], a
 	ld a, [wFilteredBagItemsCount]
 	dec a
@@ -74,7 +85,7 @@ CeladonMartRoofScript_GiveDrinkToGirl:
 	ld hl, wStatusFlags5
 	res BIT_NO_TEXT_DELAY, [hl]
 	call HandleMenuInput
-	bit BIT_B_BUTTON, a
+	bit B_PAD_B, a
 	ret nz
 	ld hl, wFilteredBagItems
 	ld a, [wCurrentMenuItem]
@@ -231,8 +242,6 @@ CeladonMartRoofLittleGirlText:
 	ld hl, .GiveHerADrinkText
 	rst _PrintText
 	call YesNoChoice
-	ld a, [wCurrentMenuItem]
-	and a
 	call z, CeladonMartRoofScript_GiveDrinkToGirl
 .noDrinksInBag
 	rst TextScriptEnd
@@ -246,7 +255,9 @@ CeladonMartRoofLittleGirlText:
 	text_end
 
 CeladonMartRoofVendingMachineText:
-	script_vending_machine
+	text_asm
+	callfar VendingMachineMenu
+	rst TextScriptEnd
 
 CeladonMartRoofCurrentFloorSignText:
 	text_far _CeladonMartRoofCurrentFloorSignText

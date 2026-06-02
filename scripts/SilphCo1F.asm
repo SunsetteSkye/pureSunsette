@@ -14,20 +14,17 @@ SilphCo1F_Script:
 	ret
 
 SilphCo1FOnMapLoad:
-	ld hl, wCurrentMapScriptFlags
-	bit BIT_CUR_MAP_LOADED_1, [hl]
-	res BIT_CUR_MAP_LOADED_1, [hl]
+	call WasMapJustLoaded
 	ret z
 	ld a, [wXCoord]
 	cp 30
 	call nc, SilphCo1FCheckHideRockets
+SilphCo1FReplaceTilesCheck::
 	ld a, [wXCoord]
 	cp 42
 	ret nc
 	cp 36
 	ret c
-	; fall through
-SilphCo1FReplaceTiles::
 	ld hl, vTileset tile 1
 	ld de, Facility_GFX tile $32
 	lb bc, BANK(Facility_GFX), 1
@@ -107,10 +104,16 @@ SilphCo1FTrainerHeader3:
 	db -1 ;end
 
 SilphCo1FTrainer1Text:
-	text_asm
-	ld hl, SilphCo1FTrainerHeader0
-	call TalkToTrainer
-	rst TextScriptEnd
+	script_trainer SilphCo1FTrainerHeader0
+
+SilphCo1FTrainer2Text:
+	script_trainer SilphCo1FTrainerHeader1
+
+SilphCo1FTrainer3Text:
+	script_trainer SilphCo1FTrainerHeader2
+	
+SilphCo1FTrainer4Text:
+	script_trainer SilphCo1FTrainerHeader3
 
 SilphCo1FBattleText1:
 	text_far _SilphCo1FBattleText1
@@ -124,12 +127,6 @@ SilphCo1FAfterBattleText1:
 	text_far _SilphCo1FAfterBattleText1
 	text_end
 
-SilphCo1FTrainer2Text:
-	text_asm
-	ld hl, SilphCo1FTrainerHeader1
-	call TalkToTrainer
-	rst TextScriptEnd
-
 SilphCo1FBattleText2:
 	text_far _SilphCo1FBattleText2
 	text_end
@@ -142,12 +139,6 @@ SilphCo1FAfterBattleText2:
 	text_far _SilphCo1FAfterBattleText2
 	text_end
 
-SilphCo1FTrainer3Text:
-	text_asm
-	ld hl, SilphCo1FTrainerHeader2
-	call TalkToTrainer
-	rst TextScriptEnd
-
 SilphCo1FBattleText3:
 	text_far _SilphCo1FBattleText3
 	text_end
@@ -159,12 +150,6 @@ SilphCo1FEndBattleText3:
 SilphCo1FAfterBattleText3:
 	text_far _SilphCo1FAfterBattleText3
 	text_end
-
-SilphCo1FTrainer4Text:
-	text_asm
-	ld hl, SilphCo1FTrainerHeader3
-	call TalkToTrainer
-	rst TextScriptEnd
 
 SilphCo1FBattleText4:
 	text_far _SilphCo1FBattleText4
@@ -191,7 +176,7 @@ SaffronAbandonedBuildingRocket1Text:
 	ld hl, .password
 	rst _PrintText
 	ld hl, RocketPasswordMenu
-	ld b, A_BUTTON | B_BUTTON
+	ld b, PAD_A | PAD_B
 	call DisplayMultiChoiceTextBox
 	push af
 	call LoadScreenTilesFromBuffer2
@@ -210,7 +195,7 @@ SaffronAbandonedBuildingRocket1Text:
 .failedPrint
 	rst _PrintText
 .failed
-	ld a, D_RIGHT
+	ld a, PAD_RIGHT
 	ld hl, wSimulatedJoypadStatesEnd
 	ld [hli], a
 	ld [hli], a
@@ -271,7 +256,7 @@ SaffronAbandonedBuildingHeliumPipe::
 	CheckEvent EVENT_FLOATING_WEEZING_ANIMATION
 	ret z
 	; make player walk down one step
-	ld a, D_DOWN
+	ld a, PAD_DOWN
 	ld hl, wSimulatedJoypadStatesEnd
 	ld [hli], a
 	ld [hl], -1
@@ -340,8 +325,7 @@ CheckFloatingWeezingAnimation:
 	ret nz ; wait for player to finish walking
 	CheckAndResetEvent EVENT_FLOATING_WEEZING_ANIMATION
 	ret z
-	ld a, 1
-	ld [wMuteAudioAndPauseMusic], a
+	call PauseMusic
 	; make player face up
 	ld a, PLAYER_DIR_UP
 	ld [wPlayerMovingDirection], a
@@ -374,8 +358,7 @@ CheckFloatingWeezingAnimation:
 	ld a, TEXT_WEEZING_STARTED_FLOATING
 	ldh [hTextID], a
 	call DisplayTextID
-	xor a
-	ld [wMuteAudioAndPauseMusic], a
+	call ResumeMusic
 	ld c, 60
 	rst _DelayFrames
 	ld de, vNPCSprites tile $3C

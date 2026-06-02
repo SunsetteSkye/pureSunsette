@@ -10,7 +10,7 @@ _AIBattleUseItemText::
 	text_ram wTrainerName
 	text_start
 	line "used @"
-	text_ram wNameBuffer
+	text_ram_namebuffer
 	text_start
 	cont "on @"
 	text_ram wEnemyMonNick
@@ -18,7 +18,7 @@ _AIBattleUseItemText::
 	prompt
 
 _TradeWentToText::
-	text_ram wStringBuffer
+	text_ram_stringbuffer
 	text " went"
 	line "to @"
 	text_ram wLinkEnemyTrainerName
@@ -28,7 +28,7 @@ _TradeWentToText::
 _TradeForText::
 	text "For <PLAYER>'s"
 	line "@"
-	text_ram wStringBuffer
+	text_ram_stringbuffer
 	text ","
 	done
 
@@ -36,7 +36,7 @@ _TradeSendsText::
 	text_ram wLinkEnemyTrainerName
 	text " sends"
 	line "@"
-	text_ram wNameBuffer
+	text_ram_namebuffer
 	text "."
 	done
 
@@ -47,7 +47,7 @@ _TradeWavesFarewellText::
 	done
 
 _TradeTransferredText::
-	text_ram wNameBuffer
+	text_ram_namebuffer
 	text " is"
 	line "transferred."
 	done
@@ -55,7 +55,7 @@ _TradeTransferredText::
 _TradeTakeCareText::
 	text "Take good care of"
 	line "@"
-	text_ram wNameBuffer
+	text_ram_namebuffer
 	text "."
 	done
 
@@ -63,14 +63,14 @@ _TradeWillTradeText::
 	text_ram wLinkEnemyTrainerName
 	text " will"
 	line "trade @"
-	text_ram wNameBuffer
+	text_ram_namebuffer
 	text_start
 	done
 
 _TradeforText::
 	text "for <PLAYER>'s"
 	line "@"
-	text_ram wStringBuffer
+	text_ram_stringbuffer
 	text "."
 	done
 
@@ -106,7 +106,7 @@ _OneMoreGoSlotMachineText::
 _LinedUpText::
 	text " lined up!"
 	line "Scored @"
-	text_ram wStringBuffer
+	text_ram_stringbuffer
 	text " coins!"
 	done
 
@@ -130,28 +130,23 @@ _DexRatingText::
 	text "#DEX Rating<COLON>"
 	done
 
-_GymStatueText1:: ; TODO: parameterize
-	text_ram wStringBuffer
+_GymStatueText::
+	text_ram_stringbuffer
 	text_start
 	line "#MON GYM"
 	cont "LEADER: @"
-	text_ram wNameBuffer
+	text_ram_namebuffer
 	text_start
 
-	para "WINNING <TRAINER>S:"
-	line "<RIVAL>"
+	para "WINNING <TRAINER>S:@"
+	text_end
+
+_GymStatueRival::
+	text "<LINE><RIVAL>"
 	done
 
-_GymStatueText2::
-	text_ram wStringBuffer
-	text_start
-	line "#MON GYM"
-	cont "LEADER: @"
-	text_ram wNameBuffer
-	text_start
-
-	para "WINNING <TRAINER>S:"
-	line "<RIVAL>"
+_GymStatueRivalPlayer::
+	text "<LINE><RIVAL>"
 	cont "<PLAYER>"
 	done
 
@@ -202,21 +197,16 @@ _RockTunnelPokecenterGuyText::
 	cont "LAVENDER TOWN!"
 	done
 
-_UnusedBenchGuyText1::
-	text "I wish I could"
-	line "catch #MON."
-	done
-
-_UnusedBenchGuyText2::
+_SafariZoneTiredGuyText::
 	text "I'm tired from"
 	line "all the fun<...>"
 	done
 
-_UnusedBenchGuyText3::
-	text "SILPH's manager"
-	line "is hiding in the"
-	cont "SAFARI ZONE."
-	done
+;_UnusedBenchGuyText3::
+;	text "SILPH's manager"
+;	line "is hiding in the"
+;	cont "SAFARI ZONE."
+;	done
 
 _VermilionPokecenterGuyText::
 	text "It is true that a"
@@ -417,7 +407,7 @@ _BillsHousePokemonListText1::
 
 _BillsHousePokemonListText2::
 	text "Which #MON do"
-	line "you want to see?"
+	line "you want info on?"
 	done
 
 _EmailHereText::
@@ -498,14 +488,15 @@ _TurnPageText::
 	done
 
 _ViridianSchoolNotebookText5::
-	text "GIRL: Hey! Don't"
+	text "GIRL" ; fall through
+_ViridianSchoolHeyDontLookAtNotes::
+	db ": Hey! Don't"
 	line "look at my notes!@"
 	text_end
 
 _ViridianSchoolNotebookTextGus::
-	text "GUS: Hey! Don't"
-	line "look at my notes!@"
-	text_end
+	text "GUS@"
+	text_jump _ViridianSchoolHeyDontLookAtNotes
 
 _ViridianSchoolNotebookText1::
 	text "Looked at the"
@@ -582,11 +573,6 @@ _FightingDojoText::
 	text "FIGHTING DOJO"
 	done
 
-_IndigoPlateauHQText::
-	text "INDIGO PLATEAU"
-	line "#MON LEAGUE HQ"
-	done
-
 _RedBedroomSNESText::
 	text "<PLAYER> is"
 	line "playing the SNES!"
@@ -595,22 +581,15 @@ _RedBedroomSNESText::
 	done
 
 _Route15UpstairsBinocularsText::
-	text "Looked into the"
-	line "binoculars<...>"
-
-	para "A large, shining"
+	text "A large, shining"
 	line "bird is flying"
 	cont "toward the sea."
-	done
+	prompt
 
-_AerodactylFossilText::
-	text "AERODACTYL Fossil"
-	line "A primitive and"
-	cont "rare #MON."
-	done
-
-_KabutopsFossilText::
-	text "KABUTOPS Fossil"
+_AerodactylKabutopsFossilText::
+	text "@"
+	text_ram wNameBuffer
+	text " Fossil"
 	line "A primitive and"
 	cont "rare #MON."
 	done
@@ -738,46 +717,55 @@ _VermilionGymTrashText::
 _VermilionGymTrashSuccessText1::
 	text "Hey! There's a"
 	line "switch under the"
-	cont "trash!"
-	cont "Turn it on!"
+	cont "trash!@"
+	text_jump _VermilionGymTurnItOn
 
-	para "The 1st electric"
-	line "lock opened!@"
-	text_end
+_VermilionGymTurnItOn::
+	cont "Turn it on!"
+	done
+
+_VermilionGym1stElectricLock::
+	text "The 1st@"
+	text_jump _VermilionTheElectricLockOpened
+
+_VermilionGym2ndElectricLock::
+	text "The 2nd@"
+	text_jump _VermilionTheElectricLockOpened
+
+_VermilionTheElectricLockOpened::
+	db " electric"
+	line "lock opened!"
+	done
 
 _VermilionGymTrashSuccessText2::
 	text "Hey! There's"
 	line "another switch"
-	cont "under the trash!"
-	cont "Turn it on!"
-	prompt
+	cont "under the trash!@"
+	text_jump _VermilionGymTurnItOn
 
 _VermilionGymTrashSuccessText3::
-	text "The 2nd electric"
-	line "lock opened!"
+	text "The motorized door"
+	line "opened!"
+	done
 
-	para "The motorized door"
-	line "opened!@"
-	text_end
-
-_VermilionGymTrashFailText::
-	text "Nope! There's"
-	line "only trash here."
-	cont "Hey! The electric"
-	cont "locks were reset!@"
-	text_end
+;_VermilionGymTrashFailText::
+;	text "Nope! There's"
+;	line "only trash here."
+;	cont "Hey! The electric"
+;	cont "locks were reset!@"
+;	text_end
 
 _FoundHiddenItemText::
 	text "<PLAYER> found"
 	line "@"
-	text_ram wNameBuffer
+	text_ram_namebuffer
 	text "!@"
 	text_end
 
 _FoundHiddenItemMultiText::
 	text "<PLAYER> found"
 	line "@"
-	text_ram wNameBuffer
+	text_ram_namebuffer
 	text " ×@"
 	text_ram wTempStore1
 	text "!@"
@@ -1071,15 +1059,15 @@ _ConfusedNoMoreText::
 	line "confused no more!"
 	prompt
 
-_SavingEnergyText::
-	text "<USER>"
-	line "is saving energy!"
-	prompt
+;_SavingEnergyText::
+;	text "<USER>"
+;	line "is saving energy!"
+;	prompt
 
-_UnleashedEnergyText::
-	text "<USER>"
-	line "unleashed energy!"
-	prompt
+;_UnleashedEnergyText::
+;	text "<USER>"
+;	line "unleashed energy!"
+;	prompt
 
 _ThrashingAboutText::
 	text "<USER>'s"
@@ -1099,27 +1087,27 @@ _CantMoveText::
 _MoveIsDisabledText::
 	text "<USER>'s"
 	line "@"
-	text_ram wNameBuffer
+	text_ram_namebuffer
 	text " is"
 	cont "disabled!"
 	prompt
 
-_MonName1Text::
+_ActorNameText::
 	text "<USER>@"
 	text_end
 
-_UsedText::
+_UsedMoveText::
 	text_start
 	line "used @"
 	text_end
 
-_InsteadText::
+_UsedInsteadText::
 	text "instead,"
 	cont "@"
 	text_end
 
 _MoveNameText::
-	text_ram wStringBuffer
+	text_ram_stringbuffer
 	text "@"
 
 _ExclamationPointText::
@@ -1196,10 +1184,10 @@ _SubstituteBrokeText::
 	line "SUBSTITUTE broke!"
 	prompt
 
-_BuildingRageText::
-	text "<USER>'s"
-	line "RAGE is building!"
-	prompt
+;_BuildingRageText::
+;	text "<USER>'s"
+;	line "RAGE is building!"
+;	prompt
 
 _MirrorMoveFailedText::
 	text "The MIRROR MOVE"
@@ -1213,7 +1201,7 @@ _HitXTimesText::
 	prompt
 
 _GainedText::
-	text_ram wNameBuffer
+	text_ram_namebuffer
 	text " gained"
 	line "@"
 	text_end
@@ -1234,7 +1222,7 @@ _ExpPointsText::
 	prompt
 
 _GrewLevelText::
-	text_ram wNameBuffer
+	text_ram_namebuffer
 	text " grew"
 	line "to level @"
 	text_decimal wCurEnemyLevel, 1, 3
@@ -1400,7 +1388,7 @@ _PartyMenuEmptyText::
 	done
 
 _PotionText::
-	text_ram wNameBuffer
+	text_ram_namebuffer
 	text_start
 	line "recovered by @"
 	text_decimal wHPBarHPDifference, 2, 3
@@ -1408,49 +1396,49 @@ _PotionText::
 	done
 
 _AntidoteText::
-	text_ram wNameBuffer
+	text_ram_namebuffer
 	text " was"
 	line "cured of poison!"
 	done
 
 _ParlyzHealText::
-	text_ram wNameBuffer
+	text_ram_namebuffer
 	text "'s"
 	line "rid of paralysis!"
 	done
 
 _BurnHealText::
-	text_ram wNameBuffer
+	text_ram_namebuffer
 	text "'s"
 	line "burn was healed!"
 	done
 
 _IceHealText::
-	text_ram wNameBuffer
+	text_ram_namebuffer
 	text " was"
 	line "defrosted!"
 	done
 
 _AwakeningText::
-	text_ram wNameBuffer
+	text_ram_namebuffer
 	text_start
 	line "woke up!"
 	done
 
 _FullHealText::
-	text_ram wNameBuffer
+	text_ram_namebuffer
 	text "'s"
 	line "health returned!"
 	done
 
 _ReviveText::
-	text_ram wNameBuffer
+	text_ram_namebuffer
 	text_start
 	line "is revitalized!"
 	done
 
 _RareCandyText::
-	text_ram wNameBuffer
+	text_ram_namebuffer
 	text " grew"
 	line "to level @"
 	text_decimal wCurEnemyLevel, 1, 3
@@ -1465,18 +1453,16 @@ _TurnedOnPC1Text::
 _AccessedBillsPCText::
 	text "Accessed BILL's"
 	line "<PC>."
-
+	; fall through
+_AccessedMonStorageSystemText::
 	para "Accessed #MON"
 	line "Storage System."
 	prompt
 
 _AccessedSomeonesPCText::
 	text "Accessed someone's"
-	line "<PC>."
-
-	para "Accessed #MON"
-	line "Storage System."
-	prompt
+	line "<PC>.@"
+	text_jump _AccessedMonStorageSystemText
 
 _AccessedMyPCText::
 	text "Accessed my <PC>."
@@ -1514,7 +1500,7 @@ _DepositHowManyText::
 	done
 
 _ItemWasStoredText::
-	text_ram wNameBuffer
+	text_ram_namebuffer
 	text " was"
 	line "stored via <PC>."
 	prompt
@@ -1539,9 +1525,8 @@ _WithdrawHowManyText::
 	done
 
 _WithdrewItemText::
-	text "Withdrew"
-	line "@"
-	text_ram wNameBuffer
+	text "Withdrew @"
+	text_ram_line wNameBuffer
 	text "."
 	prompt
 
@@ -1592,7 +1577,7 @@ _DepositWhichMonText::
 	done
 
 _MonWasStoredText::
-	text_ram wStringBuffer
+	text_ram_stringbuffer
 	text " was"
 	line "stored in Box @"
 	text_ram wBoxNumString
@@ -1610,11 +1595,11 @@ _BoxFullText::
 	prompt
 
 _MonIsTakenOutText::
-	text_ram wStringBuffer
+	text_ram_stringbuffer
 	text " is"
 	line "taken out."
 	cont "Got @"
-	text_ram wStringBuffer
+	text_ram_stringbuffer
 	text "."
 	prompt
 
@@ -1639,17 +1624,17 @@ _ReleaseWhichMonText::
 _OnceReleasedText::
 	text "Once released,"
 	line "@"
-	text_ram wStringBuffer
+	text_ram_stringbuffer
 	text " is"
 	cont "gone forever. OK?"
 	prompt
 
 _MonWasReleasedText::
-	text_ram wStringBuffer
+	text_ram_stringbuffer
 	text " was"
 	line "released outside."
 	cont "Bye @"
-	text_ram wStringBuffer
+	text_ram_stringbuffer
 	text "!"
 	prompt
 
@@ -1674,13 +1659,17 @@ _WhichPrizeText::
 	done
 
 _HereYouGoText::
-	text "Here you go!@"
-	text_end
+	text "Here you go!"
+	done
+
+_GoodChoice::
+	text "Good choice!"
+	done
 
 _SoYouWantPrizeText::
 	text "So, you want"
 	line "@"
-	text_ram wNameBuffer
+	text_ram_namebuffer
 	text "?"
 	done
 
@@ -1792,7 +1781,7 @@ _DoYouWantToNicknameText::
 	text "Do you want to"
 	line "give a nickname"
 	cont "to @"
-	text_ram wNameBuffer
+	text_ram_namebuffer
 	text "?"
 	done
 
@@ -1811,15 +1800,15 @@ _WillBeTradedText::
 	text_ram wNameOfPlayerMonToBeTraded
 	text " and"
 	line "@"
-	text_ram wNameBuffer
+	text_ram_namebuffer
 	text " will"
 	cont "be traded."
 	done
 
-_TextIDErrorText::
-	text_decimal hTextID, 1, 2
-	text " ERROR."
-	done
+;_TextIDErrorText::
+;	text_decimal hTextID, 1, 2
+;	text " ERROR."
+;	done
 
 _ContCharText::
 	text "<_CONT>@"
@@ -1829,6 +1818,11 @@ _CantDepositSSTicketText::
 	text "You need that"
 	line "ticket while"
 	cont "on the S.S.ANNE!"
+	prompt
+
+_CantDepositBikeText::
+	text "You're riding it!"
+	line "Can't deposit now!"
 	prompt
 
 _SpiritAppearedNextLine::
@@ -1879,6 +1873,11 @@ _SaveFileUpdateText2::
 _SaveFileUpdateTextConfirm::
 	text "Press START to"
 	line "confirm."
+	done
+
+_SaveFileUpdating::
+	text "Updating<...>"
+	line "Please wait<...>"
 	done
 
 _SaveFileUpdateCompleteText::

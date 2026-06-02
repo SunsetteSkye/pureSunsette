@@ -24,7 +24,6 @@ ShakeElevator::
 	dec e
 	jr nz, .getTravelDistanceLoop
 	ld b, a ; how many frames will the shake loop happen for (depends on how far the elevator is travelling now)
-	ld a, [wWarpEntries + 3] ; map we will go to
 ;;;;;;;;;;
 	ldh a, [hSCY]
 	ld d, a
@@ -60,9 +59,9 @@ ShakeElevator::
 	jp PlayDefaultMusic
 
 ShakeElevatorRedrawRow:
-; This function is used to redraw certain portions of the screen, but it does
-; not appear to ever result in any visible effect, so this function seems to
-; be pointless.
+; Redraws slightly above the top and bottom edges of the screen in the bgmap
+; This prevents small white lines from showing during the shaking animation if the bgmap hasn't been loaded outside the boundaries of the screen yet
+; (For example, after loading a save in an elevator)
 	ld hl, wMapViewVRAMPointer + 1
 	ld a, [hld]
 	push af
@@ -82,7 +81,16 @@ ShakeElevatorRedrawRow:
 	pop hl
 	ld [hli], a
 	ld [hl], d
-	call ScheduleNorthRowRedraw
+;;;;; ScheduleNorthRowRedraw, used to be in overworld but wanted that to be optimized cycle wise so copied here
+	hlcoord 0, 0
+	call CopyToRedrawRowOrColumnSrcTiles
+	ld a, [wMapViewVRAMPointer]
+	ldh [hRedrawRowOrColumnDest], a
+	ld a, [wMapViewVRAMPointer + 1]
+	ldh [hRedrawRowOrColumnDest + 1], a
+	ld a, REDRAW_ROW
+	ldh [hRedrawRowOrColumnMode], a
+;;;;;
 	pop hl
 	pop af
 	ld [hli], a

@@ -3,31 +3,88 @@ VermilionCity_Script:
 	ld hl, wCurrentMapScriptFlags
 	bit BIT_CUR_MAP_LOADED_2, [hl]
 	res BIT_CUR_MAP_LOADED_2, [hl]
-	push hl
 	call nz, VermilionCityLeftSSAnneCallbackScript
-	pop hl
-	bit BIT_CUR_MAP_LOADED_1, [hl]
-	res BIT_CUR_MAP_LOADED_1, [hl]
-	call nz, .setFirstLockTrashCanIndexAndCheckRemoveTree
+	call WasMapJustLoaded
+	call nz, .setFirstLockTrashCanIndexAndCheckTileReplacements
+	bit BIT_CROSSED_MAP_CONNECTION, [hl]
+	res BIT_CROSSED_MAP_CONNECTION, [hl]
+	call nz, .checkTileReplacementsNoRedraw
+;;;;; PureRGBnote: CHANGED: force a scripted warp to vermilion dock when in the correct coords
+;;;;; unlike the original game this prevents the need for specific warp tiles to be used on the dock path
+;;;;; the downside is that we need to expand the map size by 1 block vertically south to account for being able to move down another coordinate
+	ld a, [wYCoord]
+	cp 34
+	jr nz, .no_dock_warp
+	ld a, [wXCoord]
+	cp 18
+	jr z, .warp
+	cp 19
+	jr nz, .no_dock_warp
+.warp
+	ld a, VERMILION_DOCK
+	ldh [hWarpDestinationMap], a
+	xor a
+	ld [wDestinationWarpID], a
+	ld hl, wStatusFlags3
+	set BIT_WARP_FROM_CUR_SCRIPT, [hl]
+	; setting BIT_STANDING_ON_WARP will make immediately going back up in vermilion dock after the above warp trigger warp again properly
+	ld hl, wMovementFlags
+	set BIT_STANDING_ON_WARP, [hl]
+.no_dock_warp
+;;;;;
 	ld hl, VermilionCity_ScriptPointers
 	ld a, [wVermilionCityCurScript]
 	jp CallFunctionInTable
 ; PureRGBnote: ADDED: code that keeps the cut tree cut down if we're in its alcove. Prevents getting softlocked if you delete cut.
-.setFirstLockTrashCanIndexAndCheckRemoveTree
-	ld de, VermilionCutAlcove
-	callfar FarArePlayerCoordsInRange
-	; if we're in the specific area where we can get trapped without CUT, remove the tree on map load.
-	call c, .removeTree
+.setFirstLockTrashCanIndexAndCheckTileReplacements
 	call Random
 	ldh a, [hRandomSub]
 	and $e
 	ld [wFirstLockTrashCanIndex], a
+	jr .checkTileReplacements
+.checkTileReplacementsNoRedraw
+	SetFlag FLAG_SKIP_MAP_REDRAW
+.checkTileReplacements
+	ld hl, wTileBlockReplaceCount
+	ld [hl], 0
+	ld de, VermilionCutAlcove
+	callfar FarArePlayerCoordsInRange
+	; if we're in the specific area where we can get trapped without CUT, remove the tree on map load.
+	ld de, wTileBlockReplaceData
+	jr nc, .skipTreeRemoval
+	ld hl, VermilionCutTreeBlockReplacement 
+	call .copyDataAndTerminate
+.skipTreeRemoval
+	CheckEvent FLAG_CATCHUP_CLUBS_TURNED_OFF
+	jr z, .skipDoorReplace
+	ld hl, VermilionFitnessClubDoorBlockReplacement
+	call .copyDataAndTerminate
+.skipDoorReplace
+	ld a, [wTileBlockReplaceCount]
+	and a
+	jr z, .done
+	ld de, wTileBlockReplaceData
+	callfar ReplaceMultipleTileBlocks
+.done
+	ResetFlag FLAG_SKIP_MAP_REDRAW
 	ret
-.removeTree
-	lb bc, 9, 7
-	ld a, $4C
-	ld [wNewTileBlockID], a
-	predef_jump ReplaceTileBlock
+.copyDataAndTerminate
+	push hl
+	ld hl, wTileBlockReplaceCount
+	inc [hl]
+	pop hl
+	ld bc, 3
+	rst _CopyData
+	ld a, -1
+	ld [de], a
+	ret
+
+
+VermilionCutTreeBlockReplacement:
+	db 10, 7, $4C
+
+VermilionFitnessClubDoorBlockReplacement:
+	db 2, 10, $37
 
 VermilionCityLeftSSAnneCallbackScript:
 	CheckEventHL EVENT_SS_ANNE_LEFT
@@ -74,7 +131,7 @@ VermilionCityDefaultScript:
 	and a
 	ret nz
 .ship_departed
-	ld a, D_UP
+	ld a, PAD_UP
 	ld [wSimulatedJoypadStatesEnd], a
 	ld a, $1
 	ld [wSimulatedJoypadStatesIndex], a
@@ -84,40 +141,26 @@ VermilionCityDefaultScript:
 	ret
 
 SSAnneTicketCheckCoords:
-	dbmapcoord 18, 30
+	dbmapcoord 18, 32
 	db -1 ; end
 
 VermilionCityPlayerAllowedToPassScript:
 	ld hl, SSAnneTicketCheckCoords
 	call ArePlayerCoordsInArray
 	ret c
-	ld a, SCRIPT_VERMILIONCITY_DEFAULT
-	ld [wVermilionCityCurScript], a
-	ret
-
-VermilionCityPlayerExitShipScript:
-	ld a, A_BUTTON | B_BUTTON | SELECT | START | D_RIGHT | D_LEFT | D_UP | D_DOWN
-	ld [wJoyIgnore], a
-	ld a, D_UP
-	ld [wSimulatedJoypadStatesEnd], a
-	ld [wSimulatedJoypadStatesEnd + 1], a
-	ld a, 2
-	ld [wSimulatedJoypadStatesIndex], a
-	call StartSimulatingJoypadStates
-	ld a, SCRIPT_VERMILIONCITY_PLAYER_MOVING_UP2
-	ld [wVermilionCityCurScript], a
+ResetVermilionMapScript:
+	xor a
+	ld [wVermilionCityCurScript], a ; SCRIPT_VERMILIONCITY_DEFAULT
 	ret
 
 VermilionCityPlayerMovingUp2Script:
 	ld a, [wSimulatedJoypadStatesIndex]
 	and a
 	ret nz
-	xor a
-	ld [wJoyIgnore], a
+	call EnableAllJoypad
+	; a = 0 from EnableAllJoypad
 	ldh [hJoyHeld], a
-	ld a, SCRIPT_VERMILIONCITY_DEFAULT
-	ld [wVermilionCityCurScript], a
-	ret
+	jr ResetVermilionMapScript
 
 VermilionCityPlayerMovingUp1Script:
 	ld a, [wSimulatedJoypadStatesIndex]
@@ -125,7 +168,16 @@ VermilionCityPlayerMovingUp1Script:
 	ret nz
 	ld c, 10
 	rst _DelayFrames
-	ld a, SCRIPT_VERMILIONCITY_DEFAULT
+	jr ResetVermilionMapScript
+
+VermilionCityPlayerExitShipScript:
+	ld a, PAD_UP
+	ld [wSimulatedJoypadStatesEnd], a
+	ld [wSimulatedJoypadStatesEnd + 1], a
+	ld a, 2
+	ld [wSimulatedJoypadStatesIndex], a
+	call StartSimulatingJoypadStatesNoJoypad
+	ld a, SCRIPT_VERMILIONCITY_PLAYER_MOVING_UP2
 	ld [wVermilionCityCurScript], a
 	ret
 
@@ -215,8 +267,8 @@ VermilionCitySailor1Text:
 	rst TextScriptEnd
 
 .inFrontOfOrBehindGuardCoords
-	dbmapcoord 19, 29 ; in front of guard
-	dbmapcoord 19, 31 ; behind guard
+	dbmapcoord 19, 31 ; in front of guard
+	dbmapcoord 19, 33 ; behind guard
 	db -1 ; end
 
 .WelcomeToSSAnneText:
@@ -250,6 +302,8 @@ VermilionCityGambler2Text:
 VermilionCityMachopText:
 	text_far _VermilionCityMachopText
 	text_asm
+	ld c, DEX_MACHOP - 1
+	callfar SetMonSeen
 	ld a, MACHOP
 	call PlayCry
 	ld hl, .StompingTheLandFlatText

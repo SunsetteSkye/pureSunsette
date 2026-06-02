@@ -201,8 +201,7 @@ ChampArenaMusicSelectMenu::
 
 	hlcoord 4, 5
 	lb bc, 5, 13  ; height, width
-	call TextBoxBorder
-	call UpdateSprites ; disable sprites behind the text box
+	call TextBoxBorderUpdateSprites ; disable sprites behind the text box
 	xor a
 	ld [wMenuWatchMovingOutOfBounds], a ; enable menu wrapping
 
@@ -434,7 +433,7 @@ GetChampArenaMusicNameIntoWRAM:
 .loop
 	ld a, [hli]
 	ld [de], a
-	cp "@"
+	cp '@'
 	jr z, .done
 	inc de
 	jr .loop
@@ -449,7 +448,7 @@ GetChampArenaMusicName:
 	ld b, a ; b = which name in the list it is
 .loop
 	ld a, [hli]
-	cp "@"
+	cp '@'
 	jr nz, .loop
 	dec b
 	ret z
@@ -492,3 +491,8 @@ SaveFileUpdaterMenu::
 	dw TwoOptionMenu
 	db "Before v2.6.0"
 	next "Original Game@"
+
+ScytherPinsirMenu::
+	dw TwoOptionMenu
+	db "SCYTHER"
+	next "PINSIR@"

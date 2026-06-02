@@ -10,16 +10,22 @@ LearnMove:
 
 DontAbandonLearning:
 	ld hl, wPartyMon1Moves
-	ld bc, wPartyMon2Moves - wPartyMon1Moves
+	ld bc, PARTYMON_STRUCT_LENGTH
 	ld a, [wWhichPokemon]
 	call AddNTimes
+	ld a, [wMoveNum]
+	ld c, a
 	ld d, h
 	ld e, l
 	ld b, NUM_MOVES
+	; PureRGBnote: CHANGED: also checks at the same time if the move is already learned, and will end the function if so
+	; allows LearnMove to be used for things like tutors without being able to learn the move multiple times
 .findEmptyMoveSlotLoop
 	ld a, [hl]
 	and a
 	jr z, .next
+	cp c
+	jp z, AbandonLearning.alreadyKnowsMove
 	inc hl
 	dec b
 	jr nz, .findEmptyMoveSlotLoop
@@ -38,7 +44,7 @@ DontAbandonLearning:
 .next
 	ld a, [wMoveNum]
 	ld [hl], a
-	ld bc, wPartyMon1PP - wPartyMon1Moves
+	ld bc, MON_PP - MON_MOVES
 	add hl, bc
 	push hl
 	push de
@@ -66,7 +72,7 @@ DontAbandonLearning:
 	ld de, wBattleMonMoves
 	ld bc, NUM_MOVES
 	rst _CopyData
-	ld bc, wPartyMon1PP - wPartyMon1OTID
+	ld bc, MON_PP - MON_OTID
 	add hl, bc
 	ld de, wBattleMonPP
 	ld bc, NUM_MOVES
@@ -89,9 +95,17 @@ AbandonLearning:
 .skipText
 	ld hl, DidNotLearnText
 	rst _PrintText
+.exit
 	ld b, 0
 	ResetEvent FLAG_LEARNING_TM_MOVE
 	ret
+.alreadyKnowsMove
+	ld hl, .alreadyKnowsText
+	rst _PrintText
+	jr .exit
+.alreadyKnowsText
+	text_far _AlreadyKnowsText
+	text_end
 
 ; PureRGBnote: CHANGED: amount of text is reduced in some scenarios
 PrintLearnedMove:
@@ -119,7 +133,7 @@ TryingToLearn:
 	rst _PrintText
 	SetEvent FLAG_SKIP_MULTI_CHOICE_LOADGBPAL
 	ld hl, YesNoHideTM
-	ld b, A_BUTTON | B_BUTTON
+	ld b, PAD_A | PAD_B
 	call DisplayMultiChoiceTextBox
 	jr nz, .no ; if B button was pressed assume "no"
 	ld a, [wCurrentMenuItem]
@@ -153,7 +167,11 @@ TryingToLearn:
 	rst _PrintText
 	hlcoord 4, 7
 	lb bc, 4, 14
-	call TextBoxBorder
+	call TextBoxBorderUpdateSprites
+	ld a, [wLetterPrintingDelayFlags]
+	push af
+	xor a
+	ld [wLetterPrintingDelayFlags], a
 	hlcoord 6, 8
 	ld de, wMovesString
 	ldh a, [hUILayoutFlags]
@@ -163,6 +181,8 @@ TryingToLearn:
 	ldh a, [hUILayoutFlags]
 	res BIT_SINGLE_SPACED_LINES, a
 	ldh [hUILayoutFlags], a
+	pop af
+	ld [wLetterPrintingDelayFlags], a
 	ld hl, wTopMenuItemY
 	ld a, 8
 	ld [hli], a ; wTopMenuItemY
@@ -173,14 +193,14 @@ TryingToLearn:
 	inc hl
 	ld a, [wNumMovesMinusOne]
 	ld [hli], a ; wMaxMenuItem
-	ld a, A_BUTTON | START | B_BUTTON ; PureRGBnote: ADDED: START button is tracked in this menu 
+	ld a, PAD_A | PAD_B | PAD_START  ; PureRGBnote: ADDED: START button is tracked in this menu 
 	ld [hli], a ; wMenuWatchedKeys
 	ld [hl], 0 ; wLastMenuItem
 	ld hl, hUILayoutFlags
 	set BIT_DOUBLE_SPACED_MENU, [hl]
 .menuLoop
 	call HandleMenuInput
-	bit BIT_A_BUTTON, a ; PureRGBnote: FIXED: Press START to learn a move instead of A to prevent accidental mashing A move-forget woes
+	bit B_PAD_A, a ; PureRGBnote: FIXED: Press START to learn a move instead of A to prevent accidental mashing A move-forget woes
 	jr nz, .pressStart
 	ld hl, hUILayoutFlags
 	res BIT_DOUBLE_SPACED_MENU, [hl]
@@ -188,7 +208,7 @@ TryingToLearn:
 	call LoadScreenTilesFromBuffer1
 	pop af
 	pop hl
-	bit BIT_B_BUTTON, a
+	bit B_PAD_B, a
 	jr nz, .cancel
 	push hl
 	ld a, [wCurrentMenuItem]

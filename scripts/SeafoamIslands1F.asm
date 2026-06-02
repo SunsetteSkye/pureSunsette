@@ -6,47 +6,136 @@ SeafoamIslands1F_Script:
 	jp nc, DragonairUnderWaterEventAreaScript
 	ld hl, wCurrentMapScriptFlags
 	res BIT_CUR_MAP_LOADED_1, [hl]
-	SetEvent EVENT_IN_SEAFOAM_ISLANDS
-	ld hl, wMiscFlags
-	bit BIT_PUSHED_BOULDER, [hl]
-	res BIT_PUSHED_BOULDER, [hl]
-	jr z, .noBoulderWasPushed
-	ld hl, Seafoam1HolesCoords
-	call CheckBoulderCoords
-	ret nc
-	EventFlagAddress hl, EVENT_SEAFOAM1_BOULDER1_DOWN_HOLE
-	ld a, [wCoordIndex]
-	cp $1
-	jr nz, .boulder2FellDownHole
-	SetEventReuseHL EVENT_SEAFOAM1_BOULDER1_DOWN_HOLE
-	ld a, HS_SEAFOAM_ISLANDS_1F_BOULDER_1
-	ld [wObjectToHide], a
-	ld a, HS_SEAFOAM_ISLANDS_B1F_BOULDER_1
-	ld [wObjectToShow], a
-	jr .hideAndShowBoulderObjects
-.boulder2FellDownHole
-	SetEventAfterBranchReuseHL EVENT_SEAFOAM1_BOULDER2_DOWN_HOLE, EVENT_SEAFOAM1_BOULDER1_DOWN_HOLE
-	ld a, HS_SEAFOAM_ISLANDS_1F_BOULDER_2
-	ld [wObjectToHide], a
-	ld a, HS_SEAFOAM_ISLANDS_B1F_BOULDER_2
-	ld [wObjectToShow], a
-.hideAndShowBoulderObjects
-	ld a, [wObjectToHide]
-	ld [wMissableObjectIndex], a
-	predef HideObject
-	ld a, [wObjectToShow]
-	ld [wMissableObjectIndex], a
-	predef ShowObject
-	jpfar BoulderHoleDropEffectDefault
-.noBoulderWasPushed
+	ld de, Seafoam1HolesCoords
+	ld hl, SeafoamBoulder1FEventFunc
+	ld bc, Seafoam1BoulderToggleData
+	call SeafoamBoulderPushRoutine
+	ret c
 	ld a, SEAFOAM_ISLANDS_B1F
 	ld [wDungeonWarpDestinationMap], a
 	ld hl, Seafoam1HolesCoords
 	jp IsPlayerOnDungeonWarp
 
+; input de = hole coords
+; input bc = toggle data pointer
+; input hl = event marking function
+SeafoamBoulderPushRoutine:
+	push hl
+	ld hl, wMiscFlags
+	bit BIT_PUSHED_BOULDER, [hl]
+	res BIT_PUSHED_BOULDER, [hl]
+	pop hl
+	jr z, .noBoulderPushed
+	push hl
+	push bc
+	ld c, BANK(SeafoamBoulderCoordSets)
+	callfar CheckBoulderCoords
+	pop bc
+	pop hl
+	ret nc
+	ld a, [wCoordIndex]
+	cp $1
+	jr z, .hideAndShowBoulderObjects
+	inc bc
+	inc bc
+.hideAndShowBoulderObjects
+	call hl_caller ; mark events according to z flag
+	ld h, b
+	ld l, c
+	push de
+	ld b, [hl]
+	inc hl
+	ld c, [hl]
+	push bc
+	call HideObject
+	pop bc
+	ld c, b
+	call ShowObject
+	pop de
+	callfar BoulderHoleDropEffect
+	scf
+	ret
+.noBoulderPushed
+	and a
+	ret
+
+SeafoamBoulder1FEventFunc:
+	ld d, 0 ; which boulder drop sound effect to use
+	EventFlagAddress hl, EVENT_SEAFOAM1_BOULDER1_DOWN_HOLE
+	jr nz, .boulder2FellDownHole
+	SetEventReuseHL EVENT_SEAFOAM1_BOULDER1_DOWN_HOLE
+	ret
+.boulder2FellDownHole
+	SetEventAfterBranchReuseHL EVENT_SEAFOAM1_BOULDER2_DOWN_HOLE, EVENT_SEAFOAM1_BOULDER1_DOWN_HOLE
+	ret
+
+SeafoamBoulderB1FEventFunc:
+	ld d, 0 ; which boulder drop sound effect to use
+	EventFlagAddress hl, EVENT_SEAFOAM2_BOULDER1_DOWN_HOLE
+	jr nz, .boulder2FellDownHole
+	SetEventReuseHL EVENT_SEAFOAM2_BOULDER1_DOWN_HOLE
+	ret
+.boulder2FellDownHole
+	SetEventAfterBranchReuseHL EVENT_SEAFOAM2_BOULDER2_DOWN_HOLE, EVENT_SEAFOAM2_BOULDER1_DOWN_HOLE
+	ret
+
+SeafoamBoulderB2FEventFunc:
+	ld d, 1 ; which boulder drop sound effect to use
+	EventFlagAddress hl, EVENT_SEAFOAM3_BOULDER1_DOWN_HOLE
+	jr nz, .boulder2FellDownHole
+	SetEventReuseHL EVENT_SEAFOAM3_BOULDER1_DOWN_HOLE
+	ret
+.boulder2FellDownHole
+	SetEventAfterBranchReuseHL EVENT_SEAFOAM3_BOULDER2_DOWN_HOLE, EVENT_SEAFOAM3_BOULDER1_DOWN_HOLE
+	ret
+
+SeafoamBoulderB3FEventFunc:
+	ld d, 1 ; which boulder drop sound effect to use
+	EventFlagAddress hl, EVENT_SEAFOAM4_BOULDER1_DOWN_HOLE
+	jr nz, .boulder2FellDownHole
+	SetEventReuseHL EVENT_SEAFOAM4_BOULDER1_DOWN_HOLE
+	ret
+.boulder2FellDownHole
+	SetEventAfterBranchReuseHL EVENT_SEAFOAM4_BOULDER2_DOWN_HOLE, EVENT_SEAFOAM4_BOULDER1_DOWN_HOLE
+	ret
+
+
+Seafoam1BoulderToggleData:
+	db TOGGLE_SEAFOAM_ISLANDS_B1F_BOULDER_1, TOGGLE_SEAFOAM_ISLANDS_1F_BOULDER_1
+	db TOGGLE_SEAFOAM_ISLANDS_B1F_BOULDER_2, TOGGLE_SEAFOAM_ISLANDS_1F_BOULDER_2
+
+SeafoamB1FBoulderToggleData:
+	db TOGGLE_SEAFOAM_ISLANDS_B2F_BOULDER_1, TOGGLE_SEAFOAM_ISLANDS_B1F_BOULDER_1
+	db TOGGLE_SEAFOAM_ISLANDS_B2F_BOULDER_2, TOGGLE_SEAFOAM_ISLANDS_B1F_BOULDER_2
+
+SeafoamB2FBoulderToggleData:
+	db TOGGLE_SEAFOAM_ISLANDS_B3F_BOULDER_3, TOGGLE_SEAFOAM_ISLANDS_B2F_BOULDER_1
+	db TOGGLE_SEAFOAM_ISLANDS_B3F_BOULDER_4, TOGGLE_SEAFOAM_ISLANDS_B2F_BOULDER_2
+
+SeafoamB3FBoulderToggleData:
+	db TOGGLE_SEAFOAM_ISLANDS_B4F_BOULDER_1, TOGGLE_SEAFOAM_ISLANDS_B3F_BOULDER_1
+	db TOGGLE_SEAFOAM_ISLANDS_B4F_BOULDER_2, TOGGLE_SEAFOAM_ISLANDS_B3F_BOULDER_2
+
+
+SeafoamBoulderCoordSets:
 Seafoam1HolesCoords:
 	dbmapcoord 17,  6
 	dbmapcoord 24,  6
+	db -1 ; end
+
+SeafoamB1FHolesCoords:
+	dbmapcoord 18,  6
+	dbmapcoord 23,  6
+	db -1 ; end
+
+SeafoamB2FHolesCoords:
+	dbmapcoord 19,  6
+	dbmapcoord 22,  6
+	db -1 ; end
+
+SeafoamB3FHolesCoords:
+	dbmapcoord  3, 16
+	dbmapcoord  6, 16
 	db -1 ; end
 
 SeafoamIslands1F_TextPointers:
@@ -60,9 +149,7 @@ SeafoamIslands1F_TextPointers:
 	dw_const DragonairEventDragonairText2, TEXT_SEAFOAMISLANDS1F_DRAGONAIR2
 
 DragonairUnderWaterEventAreaScript:
-	ld hl, wCurrentMapScriptFlags
-	bit BIT_CUR_MAP_LOADED_1, [hl]
-	res BIT_CUR_MAP_LOADED_1, [hl]
+	call WasMapJustLoaded
 	jr z, .defaultScript
 	bit 3, [hl]
 	res 3, [hl]
@@ -111,8 +198,8 @@ DragonairUnderWaterEventAreaScript:
 	ld a, [wYCoord]
 	cp 2
 	ret nz
-	xor a
-	ld [wJoyIgnore], a
+	call EnableAllJoypad
+	; a = 0 after EnableAllJoypad
 	ld [wWhichPokemon], a ; reload this, dragonair is guaranteed to be in first slot now
 	call GetPartyMonName2
 	ld a, TEXT_SEAFOAMISLANDS1F_ERIK
@@ -162,7 +249,7 @@ DragonairUnderWaterEventAreaScript:
 	cp 36
 	jr z, .upOne
 	ld hl, wSimulatedJoypadStatesEnd
-	ld a, D_UP
+	ld a, PAD_UP
 	ld [hli], a
 	ld [hli], a
 	ld a, [wBattleResult]
@@ -170,14 +257,14 @@ DragonairUnderWaterEventAreaScript:
 	ld b, 2
 	jr z, .caught
 	inc b
-	ld [hl], D_LEFT
+	ld [hl], PAD_LEFT
 	inc hl
 .caught
 	ld a, b
 	ld [wSimulatedJoypadStatesIndex], a
-	jp StartSimulatingJoypadStates
+	jp StartSimulatingJoypadStatesNoJoypad
 .upOne
-	ld d, D_UP
+	ld d, PAD_UP
 	jpfar ForceStepFromDoor
 .forceWalkDown
 	SetEvent EVENT_DRAGONAIR_EVENT_FOUGHT_CLOYSTER_ONCE
@@ -258,11 +345,7 @@ DragonairEventErikText:
 	ld hl, .leaveQuestion
 	rst _PrintText
 	call YesNoChoice
-	ld a, [wCurrentMenuItem]
-	and a
-	jr nz, .no
-	call DragonairUnderWaterEventAreaScript.warpOut
-.no
+	call z, DragonairUnderWaterEventAreaScript.warpOut
 	ld a, 1
 	ld [wDoNotWaitForButtonPressAfterDisplayingText], a
 	rst TextScriptEnd
@@ -350,8 +433,6 @@ DragonairEventCloysterText:
 	ld hl, .initial2
 	rst _PrintText
 	call YesNoChoice
-	ld a, [wCurrentMenuItem]
-	and a
 	jr nz, .no
 .yes
 	; make player re-choose dragonair since it's position in the party could've changed
@@ -362,6 +443,20 @@ DragonairEventCloysterText:
   	jr z, .printNo
   	cp $FD
   	jr nc, .promptNo
+  	push af
+	ld a, [wWhichPokemon]
+	ld hl, wPartyMon1HP
+	ld bc, wPartyMon2 - wPartyMon1
+	call AddNTimes
+	ld a, [hli]
+	or [hl]
+	jr nz, .good
+	pop af
+	ld hl, .noWill
+	rst _PrintText
+	jr .no
+.good
+	pop af
   	and a
   	jr z, .noSwapMon
   	ld a, 1
@@ -371,7 +466,7 @@ DragonairEventCloysterText:
 	call DragonairEventOpenUpCloysterSprite
 	ld hl, .letsDoThis
 	rst _PrintText
-	callfar PlayTrainerMusic
+	callfar PlayDefaultTrainerMusic
 	ld a, 1
 	ld [wIsAltPalettePkmnData], a
 	ld a, CLOYSTER
@@ -414,6 +509,9 @@ DragonairEventCloysterText:
 .beaten
 	text_far _DragonairEventCloysterBeatenText
 	text_end
+.noWill
+	text_far _NoWillText
+	text_end
 
 DragonairEventOpenUpCloysterSprite:
 	ld a, [wSpriteOptions2]
@@ -440,10 +538,28 @@ DragonairEventTransformText:
 	ld a, WINTER_DRAGONAIR
 	ld [wCurPartySpecies], a
 	callfar ChangePartyPokemonSpecies
+	ld a, PLAYER_DIR_DOWN
+	ld [wPlayerMovingDirection], a
+	call UpdateSprites
+	rst _DelayFrame
+	ld a, SFX_GET_ITEM_1
+	rst _PlaySound
+	ld hl, wChannelCommandPointers + CHAN5 * 2
+	ld de, DragonairPowerUpSFX
+	call RemapSoundChannel
+	inc hl
+	ld de, DragonairPowerUpSFX2
+	call RemapSoundChannel
+	inc hl
+	ld de, DragonairPowerUpSFX3
+	call RemapSoundChannel
+	call .powerupAnimation
 	ld a, SFX_INTRO_WHOOSH
 	rst _PlaySound
 	call GBFadeOutToWhite
 	call LoadGBPal
+	; re-enable sprite updates after animation
+	call EnableSpriteUpdates
 	ld hl, .transformed2
 	rst _PrintText
 	; make it learn ICE BEAM if it doesn't have it
@@ -461,10 +577,10 @@ DragonairEventTransformText:
 	ld [wNamedObjectIndex], a
 	call GetMoveName
 	call CopyToStringBuffer
+	call ClearTextBox
 	call SaveScreenTilesToBuffer2
-	; have to clear screen because the "choose move to forget" box renders below sprites
-	call ClearScreen
-	call Delay3
+	xor a
+	ld [wLetterPrintingDelayFlags], a
 	predef LearnMove ; teach ice beam
 	call LoadScreenTilesFromBuffer2
 	call Delay3
@@ -487,6 +603,111 @@ DragonairEventTransformText:
 .transformed3
 	text_far _DragonairEventTransformText3
 	text_end
+.powerupAnimation
+	; disable sprite update routine so we can manipulate some sparkle sprites without map sprite code running
+	call DisableSpriteUpdates
+	ldh a, [hGBC]
+	and a
+	jr z, .notGBC
+	; set the sparkle to be white
+.notInBlankingPeriod
+	ldh a, [rSTAT]
+	and %10 ; mask for non-V-blank/non-H-blank STAT mode
+	jr nz, .notInBlankingPeriod
+	ld a, $8A ; bit 7 set and 10th byte
+	ldh [rOBPI], a ; 2nd color of 2nd palette and auto increment bit set
+	ld a, $FF
+	ldh [rOBPD], a ; white
+	ldh [rOBPD], a ; white
+.notGBC
+	; sparkle tile from battle animations
+	ld de, MoveAnimationTiles0 tile 28
+	ld hl, vNPCSprites tile $C4
+	lb bc, BANK(MoveAnimationTiles0), 1
+	call CopyVideoData
+	ld hl, wShadowOAMSprite39TileID
+	ld de, SparkleSpriteStartingCoords
+	jr TilePowerUpLoop
+
+JolteonTilePowerUpLoop::
+	ld hl, wShadowOAMSprite08TileID
+	ld de, JolteonSparkleSpriteStartingCoords
+TilePowerUpLoop::
+	ld [hl], $C4
+	inc hl
+	ld [hl], 1
+	dec hl
+	dec hl
+	dec hl
+	push hl
+	ld c, 2
+.powerUpLoopStart
+	push de
+	push bc
+	ld b, 4
+.powerUpLoop
+	ld a, [de]
+	inc de
+	ld [hli], a
+	ld a, [de]
+	inc de
+	ld [hl], a
+	rst _DelayFrame
+	ld c, 7
+.powerUpInnerLoop
+	; hl = x coord of sprite
+	ld a, [de] ; de = whether to dec or inc
+	call .incOrDec ; inc or dec x coord
+	inc de
+	dec hl ; y coord of sprite
+	ld a, [de] ; de = whether to dec or inc
+	call .incOrDec ; inc or dec y coord
+	dec de
+	inc hl ; x coord of sprite
+	rst _DelayFrame
+	dec c
+	jr nz, .powerUpInnerLoop
+	dec hl ; y coord of sprite
+	inc de 
+	inc de ; start of next coords
+	dec b
+	jr nz, .powerUpLoop
+	call GBPalNormal
+	pop bc
+	pop de
+	dec c
+	jr nz, .powerUpLoopStart
+	; move sprite offscreen after
+	pop hl
+	ld [hl], 0
+	inc hl
+	ld [hl], 0
+	ret
+.incOrDec
+	and a
+	jr z, .dec
+	inc [hl]
+	ret
+.dec
+	dec [hl] 
+	ret
+
+SparkleSpriteStartingCoords:
+	; y pixel coord, x pixel coord, x iteration, y iteration
+	; 1 = increment pixel, 0 = decrement pixel
+	db $44, $40, 1, 1 ; top left
+	db $5C, $58, 0, 0 ; bottom right
+	db $44, $58, 0, 1 ; top right
+	db $5C, $40, 1, 0 ; bottom left
+
+JolteonSparkleSpriteStartingCoords:
+	; y pixel coord, x pixel coord, x iteration, y iteration
+	; 1 = increment pixel, 0 = decrement pixel
+	db $44, $70, 1, 1 ; top left
+	db $5C, $88, 0, 0 ; bottom right
+	db $44, $88, 0, 1 ; top right
+	db $5C, $70, 1, 0 ; bottom left
+
 
 
 SeaweedTiles:

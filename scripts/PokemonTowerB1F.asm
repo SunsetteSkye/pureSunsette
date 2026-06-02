@@ -21,9 +21,7 @@ PokemonTowerB1F_TextPointers:
 	dw_const PokemonTowerB1FTheMawGraveText, TEXT_POKEMONTOWERB1F_THE_MAW_GRAVE
 
 PokemonTowerB1FOnMapLoad:
-	ld hl, wCurrentMapScriptFlags
-	bit BIT_CUR_MAP_LOADED_1, [hl]
-	res BIT_CUR_MAP_LOADED_1, [hl]
+	call WasMapJustLoaded
 	ret z
 	ld a, [wYCoord]
 	cp 18
@@ -166,23 +164,23 @@ PokemonTowerB1FOnMapLoad:
 	ld a, DOWN
 	ld [wMapSpriteData + ((POKEMONTOWERB1F_GHOST_MAROWAK - 1) * 2)], a
 	SetEvent EVENT_CATACOMBS_SPRITE_WALKING
-	ld a, D_LEFT
+	ld a, PAD_LEFT
 	ld hl, wSimulatedJoypadStatesEnd
-	ld [hl], D_UP
+	ld [hl], PAD_UP
 	inc hl
 	ld [hli], a
 	ld [hli], a
-	ld [hl], D_DOWN
+	ld [hl], PAD_DOWN
 	inc hl
 	ld [hl], -1
 	ld a, 4
 	ld [wSimulatedJoypadStatesIndex], a
-	jp StartSimulatingJoypadStates
+	jp StartSimulatingJoypadStatesNoJoypad
 .replaceTileBlockEntryClosed
 	ld a, $38
 .replaceTileBlockEntry
 	ld [wNewTileBlockID], a
-	predef_jump ReplaceTileBlock
+	jp ReplaceTileBlock
 
 
 PokemonTowerB1FPlayMusic::
@@ -279,16 +277,13 @@ PokemonTowerB1FDarkChannelerText:
 .catacombsIntro
 	rst _PrintText
 	call YesNoChoice
-	ld a, [wCurrentMenuItem]
-	and a
 	ld hl, PokemonTowerB1FDarkChannelerLowerText.no
 	jr nz, .printDone1
 	ld a, 1 ; second warp
 	call PrepareScriptedCatacombsWarp
 	; hide the cubone in lavender town since it will be in the catacombs
-	ld a, HS_LAVENDER_TOWN_CUBONE
-	ld [wMissableObjectIndex], a
-	predef HideExtraObject
+	ld c, TOGGLE_LAVENDER_TOWN_CUBONE
+	call HideExtraObject
 	ld hl, PokemonTowerB1FDarkChannelerLowerText.yes
 .printDone1
 	rst _PrintText
@@ -377,8 +372,7 @@ GengarTransformation:
 	ld a, 6
 	ld [wMapPalOffset], a
 	call LoadGBPal
-	call UpdateSprites
-	call Delay3
+	call UpdateSpritesAndDelay3
 	ld a, $42
 	ld [wFrequencyModifier], a
 	ld a, $01
@@ -588,8 +582,6 @@ PokemonTowerB1FDarkChannelerLowerText:
 	ld hl, .goBackQuestion
 	rst _PrintText
 	call YesNoChoice
-	ld a, [wCurrentMenuItem]
-	and a
 	ld hl, .no
 	jr nz, .printDone
 	ld a, 2 ; third warp
@@ -749,13 +741,12 @@ PokemonTowerB1FIrradiatedGraveText:
 
 PrintPlayMusicScreamEnd:
 	rst _PrintText
-	callfar PlayTrainerMusic
+	callfar PlayDefaultTrainerMusic
 	call LoadGhostSpriteScream
 	rst TextScriptEnd
 
 SummonSpiritFlashScreen::
-	ld a, 1
-	ld [wMuteAudioAndPauseMusic], a
+	call PauseMusic
 	ld a, SFX_GET_ITEM_1
 	rst _PlaySound
 	ld hl, wChannelCommandPointers + CHAN5 * 2
@@ -795,9 +786,7 @@ SpiritToggleImageIndex3Times::
 	dec b
 	jr nz, .loop2
 	call WaitForSoundToFinish
-	xor a
-	ld [wMuteAudioAndPauseMusic], a
-	ret
+	jp ResumeMusic
 
 LoadGhostSpriteScream:
 	ld de, GhostSprite tile 16
@@ -942,12 +931,10 @@ PokemonTowerB1FDisappearGhost:
 	rst _PlaySound
 	ld a, POKEMONTOWERB1F_GHOST
 	call SetSpriteFacingUp
-	call UpdateSprites
-	call Delay3
+	call UpdateSpritesAndDelay3
 	ld a, POKEMONTOWERB1F_GHOST
 	call SetSpriteFacingLeft
-	call UpdateSprites
-	call Delay3
+	call UpdateSpritesAndDelay3
 PokemonTowerB1FHideGhost:
 	lb de, 15, 38
 	ld a, POKEMONTOWERB1F_GHOST
@@ -970,8 +957,6 @@ PokemonTowerB1FWaitForNPCWalk:
 	cp 5 + 4
 	jr nz, .secondWalk
 	ResetEvent EVENT_CATACOMBS_SPRITE_WALKING
-	xor a
-	ld [wJoyIgnore], a
 	ld a, POKEMONTOWERB1F_CUBONE
 	call SetSpriteFacingUp
 	ld a, UP
@@ -988,20 +973,18 @@ PokemonTowerB1FWaitForNPCWalk:
 	ld de, GenericMoveRight
 	jp MoveSprite
 .firstWalk
-	xor a
-	ld [wJoyIgnore], a
 	ld a, PLAYER_DIR_LEFT
 	ld [wPlayerMovingDirection], a
 	ld a, TEXT_POKEMONTOWERB1F_CUBONE
 	ldh [hTextID], a
 	call DisplayTextID
-	ld a, D_RIGHT
+	ld a, PAD_RIGHT
 	ld hl, wSimulatedJoypadStatesEnd
 	ld [hli], a
 	ld [hl], -1
 	ld a, 1
 	ld [wSimulatedJoypadStatesIndex], a
-	jp StartSimulatingJoypadStates
+	jp StartSimulatingJoypadStatesNoJoypad
 .checkStartPlayerWalk
 	; check if the player should start walking up to Cubone
 	CheckEvent EVENT_BEAT_THE_MAW
@@ -1013,7 +996,7 @@ PokemonTowerB1FWaitForNPCWalk:
 	cp 5
 	ret nz
 	SetEvent EVENT_CATACOMBS_SPRITE_WALKING
-	ld a, D_UP
+	ld a, PAD_UP
 	ld hl, wSimulatedJoypadStatesEnd
 	ld [hli], a
 	ld [hli], a
@@ -1022,10 +1005,8 @@ PokemonTowerB1FWaitForNPCWalk:
 	ld [hl], -1
 	ld a, 4
 	ld [wSimulatedJoypadStatesIndex], a
-	jp StartSimulatingJoypadStates
+	jp StartSimulatingJoypadStatesNoJoypad
 .lastWalk
-	xor a
-	ld [wJoyIgnore], a
 	ResetEvent EVENT_CATACOMBS_SPRITE_WALKING
 	ld a, TEXT_POKEMONTOWERB1F_GHOST_MAROWAK
 	ldh [hTextID], a
@@ -1035,6 +1016,7 @@ PokemonTowerB1FWaitForNPCWalk:
 PokemonTowerB1FCuboneText:
 	text_far _CatacombsCuboneText
 	text_asm
+	call EnableAllJoypad
 	ld a, CUBONE
 	call PlayCry
 	call DisplayTextPromptButton
@@ -1089,6 +1071,7 @@ DarkChannelerFliesAway:
 
 PokemonTowerB1FTheMawGraveText:
 	text_asm
+	call EnableAllJoypad
 	CheckEvent EVENT_BEAT_THE_MAW
 	ld hl, .after
 	jr nz, .printDone
@@ -1168,6 +1151,8 @@ PokemonTowerB1FMarowakBlockedHyperBeamText:
 	ld hl, .joinedParty
 	rst _PrintText
 	; copy marowak nickname to wTrainerName to be used in battle
+	call CheckIfGhostMarowakInParty ; sets wWhichMon according to ghost marowak's index in party
+	call GetPartyMonName2 ; wWhichMon decides what this will store
 	ld hl, wNameBuffer
 	ld de, wTrainerName
 	ld bc, NAME_LENGTH
@@ -1178,17 +1163,12 @@ PokemonTowerB1FMarowakBlockedHyperBeamText:
 	callfar ChangePartyPokemonSpecies
 	; rename marowak to default CUBONE name (we'll ask nickname later)
 	callfar CheckMonNickNameDefault
+	call ClearTextBox
+	call SaveScreenTilesToBuffer2
 	; try to learn sonic boom immediately
 	ld a, SONICBOOM
-	ld [wMoveNum], a
-	ld [wNamedObjectIndex], a
-	call GetMoveName
-	call CopyToStringBuffer
-	call SaveScreenTilesToBuffer2
-	; have to clear screen because the "choose move to forget" box renders below sprites
-	call ClearScreen
-	call Delay3
-	predef LearnMove ; teach sonicboom
+	call LearnArbitraryMove
+	call .markCuboneSeenCaught
 	call LoadScreenTilesFromBuffer2
 	call Delay3
 	ld a, POKEMONTOWERB1F_CUBONE
@@ -1196,6 +1176,7 @@ PokemonTowerB1FMarowakBlockedHyperBeamText:
 	ld hl, .attacked
 	jp PrintPlayMusicScreamEnd
 .afterMaw
+	call EnableAllJoypad
 	ld hl, .oneLastTime
 	rst _PrintText
 	ld a, MAROWAK
@@ -1298,6 +1279,15 @@ PokemonTowerB1FMarowakBlockedHyperBeamText:
 	ld a, 2 ; back to first floor
 	call PrepareScriptedCatacombsWarp
 	rst TextScriptEnd
+.markCuboneSeenCaught
+	; make sure cubone is marked off on the pokedex because they could have only caught marowak at this point
+	ld hl, wPokedexOwned
+	call .markOff
+	ld hl, wPokedexSeen
+.markOff
+	ld c, DEX_CUBONE - 1
+	ld b, FLAG_SET
+	jp FlagAction
 .joinedParty
 	text_far _PokemonTowerB1FMarowakBuffedCubone
 	text_end
@@ -1439,3 +1429,14 @@ TheMawAnimation:
 .normalMusic
 	lb bc, SPIRIT_THE_MAW, 75
 	jp StartCatacombsBattle
+
+FarLearnArbitraryMove::
+	ld a, d
+LearnArbitraryMove::
+	ld [wMoveNum], a
+	ld [wNamedObjectIndex], a
+	call GetMoveName
+	call CopyToStringBuffer
+	predef LearnMove
+	ld d, b
+	ret

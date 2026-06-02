@@ -11,29 +11,24 @@ FuchsiaCityDefaultScript:
 	bit BIT_CROSSED_MAP_CONNECTION, [hl] ; did we enter the map by traversal from another route
 	res BIT_CROSSED_MAP_CONNECTION, [hl]
 	jr nz, .removeAddCutTilesNoRedraw
-	bit BIT_CUR_MAP_LOADED_1, [hl] ; did we load the map from a save/warp/door/battle, etc?
-	res BIT_CUR_MAP_LOADED_1, [hl]
+	call WasMapJustLoaded
 	jr nz, .removeAddCutTiles
 ; PureRGBnote: ADDED: ERIK can walk away after you tell him where SARA is.
 	; check if ERIK is walking away
 	CheckEventHL EVENT_ERIK_LEAVING
 	ret z
-	ld a, $FF
-	ld [wJoyIgnore], a
+	call DisableAllJoypad
 	ld a, [wStatusFlags5]
 	bit BIT_SCRIPTED_NPC_MOVEMENT, a
 	ret nz
 	ResetEventReuseHL EVENT_ERIK_LEAVING
-	xor a
-	ld [wJoyIgnore], a
+	call EnableAllJoypad
 	; hide erik sprite
-	ld a, HS_FUCHSIA_ERIK
-	ld [wMissableObjectIndex], a
-	predef HideExtraObject
-	ld a, HS_SAFARI_ZONE_CENTER_REST_HOUSE_ERIK
-	ld [wMissableObjectIndex], a
+	ld c, TOGGLE_FUCHSIA_ERIK
+	call HideExtraObject
+	ld c, TOGGLE_SAFARI_ZONE_CENTER_REST_HOUSE_ERIK
 	; show erik in safari zone sprite
-	predef_jump ShowExtraObject
+	jp ShowExtraObject
 .removeAddCutTiles
 	CheckEvent EVENT_DELETED_FUCHSIA_TREES
 	jr z, .firstLoadCommon
@@ -102,14 +97,13 @@ FuchsiaCityYoungster1Text:
 	text_asm
 	ld a, [wOptions2]
 	bit BIT_ALT_PKMN_PALETTES, a ; do we have alt palettes enabled
-	jr nz, .altPalettes
 	ld hl, .didYouTrySafariText
-	jr .done
+	jr z, .printDone
 .altPalettes
 	ld hl, .didYouTrySafariPromptText
 	rst _PrintText
 	ld hl, .manyHaveUniqueColorsText
-.done
+.printDone
 	rst _PrintText
 	rst TextScriptEnd
 
@@ -263,14 +257,39 @@ FuchsiaCityGymSignText:
 	text_far _FuchsiaCityGymSignText
 	text_end
 
+FuchsiaCitySoMuchInfoText:
+	text_far _FuchsiaCitySoMuchInfo
+	text_end
+
+LearnsetFuchsiaZoo:
+	ld [wPokedexNum], a
+	call AreLearnsetsEnabled
+	jr z, .done
+	push de
+	xor a
+	ld [wDoNotWaitForButtonPressAfterDisplayingText], a
+	call GetMonName
+	ld hl, FuchsiaCitySoMuchInfoText
+	rst _PrintText
+	pop de
+	jpfar KeepReadingBookLearnset
+.done
+	rst TextScriptEnd
+
+
 FuchsiaCityChanseySignText:
 	text_asm
 	ld hl, .Text
 	rst _PrintText
 	ld a, CHANSEY
 	call DisplayPokedex
+	CheckEvent FLAG_CHANSEY_LEARNSET
+	jr nz, .done
+	ld a, CHANSEY
+	ld d, DEX_CHANSEY
+	jr LearnsetFuchsiaZoo
+.done
 	rst TextScriptEnd
-
 .Text:
 	text_far _FuchsiaCityChanseySignText
 	text_end
@@ -281,6 +300,12 @@ FuchsiaCityVoltorbSignText:
 	rst _PrintText
 	ld a, VOLTORB
 	call DisplayPokedex
+	CheckEvent FLAG_ELECTRODE_FAMILY_LEARNSET
+	jr nz, .done
+	ld a, VOLTORB
+	ld d, DEX_VOLTORB
+	jr LearnsetFuchsiaZoo
+.done
 	rst TextScriptEnd
 
 .Text:
@@ -293,6 +318,12 @@ FuchsiaCityKangaskhanSignText:
 	rst _PrintText
 	ld a, KANGASKHAN
 	call DisplayPokedex
+	CheckEvent FLAG_KANGASKHAN_LEARNSET
+	jr nz, .done
+	ld a, KANGASKHAN
+	ld d, DEX_KANGASKHAN
+	jr LearnsetFuchsiaZoo
+.done
 	rst TextScriptEnd
 
 .Text:
@@ -305,6 +336,12 @@ FuchsiaCitySlowpokeSignText:
 	rst _PrintText
 	ld a, SLOWPOKE
 	call DisplayPokedex
+	CheckEvent FLAG_SLOWBRO_FAMILY_LEARNSET
+	jr nz, .done
+	ld a, SLOWPOKE
+	ld d, DEX_SLOWPOKE
+	jp LearnsetFuchsiaZoo
+.done
 	rst TextScriptEnd
 
 .Text:
@@ -317,6 +354,12 @@ FuchsiaCityLaprasSignText:
 	rst _PrintText
 	ld a, LAPRAS
 	call DisplayPokedex
+	CheckEvent FLAG_LAPRAS_LEARNSET
+	jr nz, .done
+	ld a, LAPRAS
+	ld d, DEX_LAPRAS
+	jp LearnsetFuchsiaZoo
+.done
 	rst TextScriptEnd
 
 .Text:
@@ -331,18 +374,28 @@ FuchsiaCityFossilSignText:
 	jr nz, .got_helix_fossil
 	ld hl, .UndeterminedText
 	rst _PrintText
-	jr .done
+	rst TextScriptEnd
 .got_dome_fossil
 	ld hl, .OmanyteText
 	rst _PrintText
 	ld a, OMANYTE
-	jr .display
+	call DisplayPokedex
+	CheckEvent FLAG_OMASTAR_FAMILY_LEARNSET
+	jr nz, .done
+	ld a, OMANYTE
+	ld d, DEX_OMANYTE
+	jr .learnset
 .got_helix_fossil
 	ld hl, .KabutoText
 	rst _PrintText
 	ld a, KABUTO
-.display
 	call DisplayPokedex
+	CheckEvent FLAG_KABUTOPS_FAMILY_LEARNSET
+	jr nz, .done
+	ld a, KABUTO
+	ld d, DEX_KABUTO
+.learnset
+	jp LearnsetFuchsiaZoo
 .done
 	rst TextScriptEnd
 

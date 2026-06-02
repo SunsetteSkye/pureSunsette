@@ -2,6 +2,53 @@
 
 Want to leave a review? Go [here](https://github.com/Vortyne/pureRGB/issues/new?assignees=&labels=review&projects=&template=review.yml&title=%5BReview%5D%3A+Summarize+your+review+here).
 
+### Review by Toshiba-3 on 2.7.4 - Had a blast
+
+Really had such a blast playing RGB once again with this mod. Did a 40 hour playthrough and did all (I think) the post-elite4 content too, enjoyed it all. I find this mod very inspiring in how it breathes life into a game already played to death all the while staying true to its original design. Even all the additional content was tastefully managed.
+Impressive stuff, thanks for your hard work.
+
+### Review by samuellaw178 on 2.7.4
+
+I just wanted to leave a comment and review to say that you did a fantastic job! I thoroughly enjoyed the game, and I could see how much attention to detail went into it. This game gave me a sense of closure I didn’t know I needed!
+
+### Review by OmegaHadangeki on 2.7.0
+
+Hello I would like to begin off saying this real quick. I started playing pokemon when I was 3 years old. I am now 33. I also have played and beaten Radical Red once, Blue Kaizo and Crystal Kaizo twice. I also use to play competetive pokemon starting way back in gen 4. So I have much pokemon experience under my belt.
+
+As for Pokemon Pure RGB, I have to say it is indeed the best rom hack for Red, Blue and Green. I just finish the game yesterday 100%. Caught all 151 Pokemon, become champion twice, did all the new side quest stuff and completed the champions tournament. I beat my final rival who ironically used my brother's team back then. It felt awesome, like I got to have that final rematch with my brother before he quit. As for the game itself. Wow its a lot to say so where do I begin.
+
+Ill start here, obtaining a variety of pokemon is way easier. Training is easier with the new movepools. Movepools are straight up better and diverse. The new moves are really cool and very effective. The new areas and updates to the old areas, like the Power Plant were great touches. I got to the volcano and finally found out you have running shoes. All the extra battles. But my 2 favorite things about this mod is the difficulty curve and the champion's tournament. The difficulty curve is perfect. You will have to slightly train here and there as long as you fight every trainer. While the game was challenging, my first hard opponent was Koga. That Weezing literally had me weezing. It was the first closest battle I had to whiting out. The level curve has to be literally perfect in my opinion and trainers are very smart at using their new setups. The Champion's Tournament was amazing. To infintely rematch the leaders, updated elite four and the special quest I wont spoil. Just to find out the Champ has 3 rematch teams. That final battle was great. TM selection was done great. All in all I have to give this mod a solid 5/5. It is a true polish of the original RBY and I highly suggest playing it wheather, your new, experienced or looking for another good play through of Gen 1.
+
+### Review by ElKabieri on 2.7.1
+
+I caught them all
+
+And it was gloriously nostalgic.
+
+### Review by sidman1324 on 2.7.1
+
+I just have to say how much I am loving this version of the game! There are so many cool features I am still experiencing and its just so freaking awesome - for example, i just found out my kadabra could evolve when thats not possible in the original version! and the new moves from newer gen here is epic!
+
+thank you so freaking much for this :D I cant go back to playing the game the vanilla way anymore! :)
+
+### Review by xWildz on v2.6.4
+
+Very great ROM, highly recommend for 151 or just a casual playthrough. Be sure to get the recent versions from this git. 5/5
+
+### Review by IdiotBlueMage on v2.6.4 - You'll learn to love Pokemon all over again.
+
+Usually I don't buy into the hype of romhacking. I stay away from people claiming that they've made the perfect version, or brag that every single mon in all creation is crammed into one single region. That may or may not lend some gravity to my stating that PureRGB has somehow recaptured the fun and addictiveness of the original games for me all over again. The most brilliant stroke is PureRGB's mastery of the early game. Through the new moves and pokemon types that you'll encounter early (such as a low level ground-type move, or the newly ground/flying doduo), the game immediately hooks you in a way that most Pokemon games could not.
+
+I could talk about balance refinements or how the level curve goes higher, but the main accomplishment here is that is still manages to be just as fun and at the same time. These changes also thrive on the qwirks and simplicity of gen 1. There is a deep understanding here of how Game Freak intentionally made the game, and while sometimes changes can come from left field (you'll really want that movedex) they still feel like something an alternate universe Gen 1 might have had.
+
+### Review by snowyleapord on v2.6.3 - awsome
+
+I wanted to complete a gen 1 game as I was too young to apprisiate it and had played silver/ruby to death. This was great because after doing the second map on silver I wanted to do gen 1 but kept getting board doing the standard game. I actually completed it this time yay! That bloody volcano was hard af much like the sky tower for that funny green flying snake thing in ruby. It was the same enough for me to enjoy it and different enough to keep me entertained. Ghost marawack was awesome always wanted a better ending for that. Battle with oak awsome also. Starter Pokémon wild much better also. Space world stuff awsome also. Please re do silver and gold in a similar likeness. Overall 20/10 many thanks !!
+
+### Review by MrHaSaN-96 on v2.6.3
+
+It is one of the best 'vanilla+' ROM hacks available, offering essential quality-of-life improvements and bug fixes. Additionally, it introduces secret areas and expanded post-game content that encourage players to rediscover the game with fresh perspectives.
+
 ### Review by meldridge on v2.6.1 - Exactly what I was looking for. 
 
 Finished game?: No

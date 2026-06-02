@@ -6,11 +6,11 @@ TryEvolvingMon:
 	ld a, [wWhichPokemon]
 	ld c, a
 	ld b, FLAG_SET
-	call Evolution_FlagAction
+	call FlagAction
 
 ; this is only called after battle
 ; it is supposed to do level up evolutions, though there is a bug that allows item evolutions to occur
-EvolutionAfterBattle:
+EvolutionAfterBattle::
 	ldh a, [hTileAnimations]
 	push af
 	xor a
@@ -51,9 +51,7 @@ Evolution_PartyMonLoop: ; loop over party mons
 	ld c, a
 	ld hl, wCanEvolveFlags
 	ld b, FLAG_TEST
-	call Evolution_FlagAction
-	ld a, c
-	and a ; is the mon's bit set?
+	call FlagAction
 	jp z, Evolution_PartyMonLoop ; if not, go to the next mon
 	ld a, [wEvoOldSpecies]
 	dec a
@@ -153,8 +151,7 @@ Evolution_PartyMonLoop: ; loop over party mons
 	call ClearScreenArea
 	ld a, $1
 	ldh [hAutoBGTransferEnabled], a
-	ld a, $ff
-	ld [wUpdateSpritesEnabled], a
+	call DisableSpriteUpdates
 	call ClearSprites
 	callfar EvolveMon
 	jp c, CancelledEvolution
@@ -165,11 +162,8 @@ Evolution_PartyMonLoop: ; loop over party mons
 	ld [wCurSpecies], a
 	ld [wLoadedMonSpecies], a
 	ld [wEvoNewSpecies], a
-	ld a, MONSTER_NAME
-	ld [wNameListType], a
-	ld a, BANK(TrainerNames) ; bank is not used for monster names
-	ld [wPredefBank], a
-	call GetName
+	ld [wNamedObjectIndex], a
+	call GetMonName
 	push hl
 	ld hl, IntoText
 	call PrintText_NoCreatingTextBox
@@ -184,7 +178,7 @@ Evolution_PartyMonLoop: ; loop over party mons
 	push af
 	ld a, [wCurSpecies]
 	ld [wPokedexNum], a
-	predef IndexToPokedex
+	call IndexToPokedex
 ;;;;;;;;;; FIXME: ? code that requires BaseStats to be in the same bank as evos_moves
 	ld a, [wPokedexNum]
 	; missingno or mew can't evolve so this is never reached for them and their base stats aren't important here
@@ -205,13 +199,13 @@ Evolution_PartyMonLoop: ; loop over party mons
 	call CalcStats
 	ld a, [wWhichPokemon]
 	ld hl, wPartyMon1
-	ld bc, wPartyMon2 - wPartyMon1
+	ld bc, PARTYMON_STRUCT_LENGTH
 	call AddNTimes
 	ld e, l
 	ld d, h
 	push hl
 	push bc
-	ld bc, wPartyMon1MaxHP - wPartyMon1
+	ld bc, MON_MAXHP
 	add hl, bc
 	ld a, [hli]
 	ld b, a
@@ -266,11 +260,25 @@ Evolution_PartyMonLoop: ; loop over party mons
 .skipfix_end
 ;;;;;;;;;;
 	pop hl
-	predef SetPartyMonTypes
+;;;;; updates the types of a party mon (pointed to in hl) to the ones of the mon specified in [wPokedexNum]
+;;;; SetPartyMonTypes ; only ever used here, so just paste it in here
+	ld bc, MON_TYPE
+	add hl, bc
+	ld a, [wPokedexNum]
+	ld [wCurSpecies], a
+	push hl
+	call GetMonHeader
+	pop hl
+	ld a, [wMonHType1]
+	ld [hli], a
+	ld a, [wMonHType2]
+	ld [hl], a
+;;;;
+
 	ld a, [wIsInBattle]
 	and a
 	call z, Evolution_ReloadTilesetTilePatterns
-	predef IndexToPokedex
+	call IndexToPokedex
 	ld a, [wPokedexNum]
 	; missingno or mew can't evolve so this is never reached for them and their base stats aren't important here
 	dec a
@@ -278,10 +286,10 @@ Evolution_PartyMonLoop: ; loop over party mons
 	ld b, FLAG_SET
 	ld hl, wPokedexOwned
 	push bc
-	call Evolution_FlagAction
+	call FlagAction
 	pop bc
 	ld hl, wPokedexSeen
-	call Evolution_FlagAction
+	call FlagAction
 	pop de
 	pop hl
 	ld a, [wLoadedMonSpecies]
@@ -318,13 +326,15 @@ Evolution_PartyMonLoop: ; loop over party mons
 RenameEvolvedMon:
 ; Renames the mon to its new, evolved form's standard name unless it had a
 ; nickname, in which case the nickname is kept.
-	assert wCurSpecies == wNameListIndex ; save+restore wCurSpecies while using wNameListIndex
+	ASSERT wCurSpecies == wNameListIndex ; save+restore wCurSpecies while using wNameListIndex
 	ld a, [wCurSpecies]
 	push af
 	ld a, [wMonHIndex]
 	ld [wNameListIndex], a
-	call GetName
+	ld [wNamedObjectIndex], a
+	call GetMonName
 	pop af
+	ld [wNamedObjectIndex], a
 	ld [wCurSpecies], a
 	ld hl, wNameBuffer
 	ld de, wStringBuffer
@@ -334,16 +344,18 @@ RenameEvolvedMon:
 	cp [hl]
 	inc hl
 	ret nz
-	cp "@"
+	cp '@'
 	jr nz, .compareNamesLoop
 	ld a, [wWhichPokemon]
 	ld bc, NAME_LENGTH
 	ld hl, wPartyMonNicks
 	call AddNTimes
 	push hl
-	call GetName
+	push bc
+	call GetMonName
+	pop bc
 	ld hl, wNameBuffer
-	pop de
+	pop de ; pop hl into de
 	jp CopyData
 
 CancelledEvolution:
@@ -374,7 +386,8 @@ Evolution_ReloadTilesetTilePatterns:
 	ld a, [wLinkState]
 	cp LINK_STATE_TRADING
 	ret z
-	jp ReloadTilesetTilePatterns
+	call ReloadTilesetTilePatterns
+	jpfar LoadExtraTiles ; PureRGBnote: ADDED: in some maps we overwrite tiles for the given map
 
 ; shinpokerednote: FIXED: supports learning multiple moves at the same level
 LearnMoveFromLevelUp: 
@@ -398,7 +411,7 @@ LearnMoveFromLevelUp:
 .learnSetLoop ; loop over the learn set until we reach a move that is learnt at the current level or the end of the list
 	ld a, [hli]
 	and a ; have we reached the end of the learn set?
-	jr z, .done ; if we've reached the end of the learn set, jump
+	jr z, .checkLearnsetUnlock ; if we've reached the end of the learn set, jump
 	ld b, a ; level the move is learnt at
 	ld a, [wCurEnemyLevel]
 	cp b ; is the move learnt at the mon's current level?
@@ -418,7 +431,7 @@ LearnMoveFromLevelUp:
 ; If it is not 0, this function will not work properly.
 	ld hl, wPartyMon1Moves
 	ld a, [wWhichPokemon]
-	ld bc, wPartyMon2 - wPartyMon1
+	ld bc, PARTYMON_STRUCT_LENGTH
 	call AddNTimes
 .next
 	ld b, NUM_MOVES
@@ -437,12 +450,55 @@ LearnMoveFromLevelUp:
 .movesloop_done
 	pop hl
 	jr .learnSetLoop
-	
-	
+.checkLearnsetUnlock
+;;;;;; PureRGBnote: ADDED: we will check if the pokemon learned its last move, if so, unlock its learnset
+	call .done
+	dec hl
+	dec hl
+	dec hl ; return to level of final move learned in moveset NOTE: assumes last move is highest level move
+	ld b, [hl]
+	ld hl, NoLearnsetMons 
+	ld c, a ; current pokemon's species
+	; some pokemon don't learn anything and are pre-evolutions so "mastering" them right away would be dumb
+	; instead they must evolve before being mastered
+.loopNoLearnsetMons
+	ld a, [hli]
+	cp c
+	jr z, .done
+	cp -1
+	jr nz, .loopNoLearnsetMons
+.continue
+	ld a, [wCurEnemyLevel]
+	cp b
+	jr c, .done
+	call IndexToPokedex
+	callfar IsPokemonLearnsetUnlockedDirect
+	jr nz, .done ; already unlocked
+	call AreLearnsetsEnabled
+	jr z, .done ; don't print any text if movedex not unlocked, just mark learnset unlocked in case they get the movedex later	
+	callfar SetPokemonLearnsetUnlocked
+	call .done
+	call GetMonName
+	ld hl, YoureAnExpertText
+	rst _PrintText
+	ld hl, LearnsetUnlockedText
+	rst _PrintText
+	call DisplayTextPromptButton
+;;;;;;
 .done
 	ld a, [wCurPartySpecies]
 	ld [wPokedexNum], a
 	ret
+
+NoLearnsetMons:
+	db DITTO
+	db MAGIKARP
+	db CATERPIE
+	db METAPOD
+	db WEEDLE
+	db KAKUNA
+	db ABRA
+	db -1
 
 ; PureRGBnote: ADDED: used to force the eeveelutions to learn a specific move on evolution so this move cannot be missed
 EeveelutionForceLearnMove:
@@ -556,7 +612,7 @@ WriteMonMoves:
 
 ; shift PP as well if learning moves from day care
 	push de
-	ld bc, wPartyMon1PP - (wPartyMon1Moves + 3)
+	ld bc, MON_PP - (MON_MOVES + 3)
 	add hl, bc
 	ld d, h
 	ld e, l
@@ -575,7 +631,7 @@ WriteMonMoves:
 ; write move PP value if learning moves from day care
 	push hl
 	ld a, [hl]
-	ld hl, wPartyMon1PP - wPartyMon1Moves
+	ld hl, MON_PP - MON_MOVES
 	add hl, de
 	push hl
 	dec a
@@ -608,7 +664,12 @@ WriteMonMoves_ShiftMoveData:
 	jr nz, .loop
 	ret
 
-Evolution_FlagAction:
-	predef_jump FlagActionPredef
+YoureAnExpertText:
+	text_far _YoureAnExpertText
+	text_end
+
+LearnsetUnlockedText:
+	text_far _LearnsetUnlockedText
+	text_end
 
 INCLUDE "data/pokemon/evos_moves.asm"

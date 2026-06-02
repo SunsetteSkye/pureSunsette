@@ -324,7 +324,6 @@ hItemToRemoveIndex:: db
 NEXTU
 hItemCounter::
 hSavedCoordIndex::
-hMissableObjectIndex::
 hGymTrashCanRandNumMask::
 hInteractedWithBookshelf::
 	db
@@ -332,9 +331,7 @@ ENDU
 
 	ds 1 ; unused hram byte
 
-hBackupGymGateIndex::
-hUnlockedSilphCoDoors::
-	db
+hBackupGymGateIndex:: db
 
 ; the first tile ID in a sequence of tile IDs that increase by 1 each step
 hStartTileID:: db
@@ -349,7 +346,7 @@ hDivisor2::  db
 hQuotient2:: db
 
 NEXTU
-hIsHiddenMissableObject:: db
+hIsToggleableObjectOff:: db
 ENDU
 
 hMapROMBank:: db
@@ -369,7 +366,7 @@ hSpriteMapXCoord::    db
 NEXTU
 hItemAlreadyFound:: db
 	ds 2
-hDidntFindAnyHiddenObject:: db
+hDidntFindAnyHiddenEvent:: db
 
 NEXTU
 	ds 1

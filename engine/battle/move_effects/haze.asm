@@ -41,6 +41,8 @@ HazeEffect_:
 	call CureVolatileStatuses
 	ld hl, wEnemyBattleStatus2
 	call CureVolatileStatuses
+	ld hl, wBattleFunctionalFlags
+	res 2, [hl] ; PureRGBnote: CHANGED: Reset Screeches echoing flag
 
 ;;;;;;;;;; PureRGBnote: CHANGED: cure confusion, but only for the user
 	ldh a, [hWhoseTurn]
@@ -81,7 +83,7 @@ CureVolatileStatuses:
 	ret
 
 ResetStatMods:
-	ld b, $8
+	ld b, NUM_STAT_MODS
 .loop
 	ld [hli], a
 	dec b
@@ -89,7 +91,7 @@ ResetStatMods:
 	ret
 
 ResetStats:
-	ld b, $8
+	ld b, (NUM_STATS - 1) * 2 ; doesn't reset STAT_HEALTH
 .loop
 	ld a, [hli]
 	ld [de], a

@@ -1,5 +1,7 @@
 LoadTilesetHeader:
 	call GetPredefRegisters
+	ld a, b
+	push bc
 	push hl
 	ld d, 0
 	ld a, [wCurMapTileset]
@@ -31,15 +33,15 @@ LoadTilesetHeader:
 	push hl
 	push de
 	ld hl, DungeonTilesets
-	ld de, $1
-	call IsInArray
+	call IsInSingleByteArray
 	pop de
 	pop hl
+	pop bc
 	jr c, .dungeon
 	ld a, [wCurMapTileset]
-	ld b, a
+	ld d, a
 	ldh a, [hPreviousTileset]
-	cp b
+	cp d
 	ret z
 .dungeon
 	ld a, [wDestinationWarpID]
@@ -52,6 +54,17 @@ LoadTilesetHeader:
 	ld a, [wXCoord]
 	and $1
 	ld [wXBlockCoord], a
+	ret
+
+ReloadTileAnimsValue::
+	ld hl, Tilesets
+	ld a, [wCurMapTileset]
+	inc a
+	ld bc, 12 ; TILESET_HEADER_SIZE
+	call AddNTimes
+	dec hl ; last bit of current tileset's data
+	ld a, [hl]
+	ldh [hTileAnimations], a
 	ret
 
 INCLUDE "data/tilesets/dungeon_tilesets.asm"

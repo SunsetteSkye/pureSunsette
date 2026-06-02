@@ -1,7 +1,7 @@
-PromptUserToPlaySlots:
+PromptUserToPlaySlots::
 	call SaveScreenTilesToBuffer2
 	ld a, BANK(DisplayTextIDInit)
-	assert BANK(DisplayTextIDInit) == 1 << BIT_NO_AUTO_TEXT_BOX
+	ASSERT BANK(DisplayTextIDInit) == 1 << BIT_NO_AUTO_TEXT_BOX
 	ld [wAutoTextBoxDrawingControl], a ; 1 << BIT_NO_AUTO_TEXT_BOX
 	ld b, a ; BANK(DisplayTextIDInit)
 	ld hl, DisplayTextIDInit
@@ -9,8 +9,6 @@ PromptUserToPlaySlots:
 	ld hl, PlaySlotMachineText
 	rst _PrintText
 	call YesNoChoice
-	ld a, [wCurrentMenuItem]
-	and a
 	jr nz, .done ; if player chose No
 	dec a
 	ld [wUpdateSpritesEnabled], a
@@ -18,11 +16,11 @@ PromptUserToPlaySlots:
 	xor a
 	ld [hli], a
 	ld [hl], SMILE_BUBBLE
-	predef EmotionBubble
+	callfar EmotionBubble
 	call GBPalWhiteOutWithDelay3
 	call LoadSlotMachineTiles
 	call LoadFontTilePatterns
-	ld b, SET_PAL_SLOTS
+	ld d, SET_PAL_SLOTS
 	call RunPaletteCommand
 	call GBPalNormal
 	ld a, $e4
@@ -41,8 +39,7 @@ PromptUserToPlaySlots:
 	xor a
 	ld [wSlotMachineAllowMatchesCounter], a
 	call GBPalWhiteOutWithDelay3
-	ld a, $1
-	ld [wUpdateSpritesEnabled], a
+	call EnableSpriteUpdates
 	call RunDefaultPaletteCommand
 	call ReloadMapSpriteTilePatterns
 	call ReloadTilesetTilePatterns
@@ -69,7 +66,7 @@ MainSlotMachineLoop:
 	rst _PrintText
 	call SaveScreenTilesToBuffer1
 .loop
-	ld a, A_BUTTON | B_BUTTON
+	ld a, PAD_A | PAD_B
 	ld [wMenuWatchedKeys], a
 	ld a, 2
 	ld [wMaxMenuItem], a
@@ -88,7 +85,7 @@ MainSlotMachineLoop:
 	ld de, CoinMultiplierSlotMachineText
 	call PlaceString
 	call HandleMenuInput
-	and B_BUTTON
+	and PAD_B
 	jp nz, LoadScreenTilesFromBuffer1
 	ld a, [wCurrentMenuItem]
 	n_sub_a 3
@@ -296,8 +293,8 @@ SlotMachine_StopWheel1Early:
 	cp HIGH(SLOTSCHERRY)
 	jr nz, .stopWheel
 	ret
-; It looks like this was intended to make the wheel stop when a 7 symbol was
-; visible, but it has a bug and so the wheel stops randomly.
+; Bug: This looks intended to make the wheel stop when a
+; 7 symbol was visible, but instead the wheel stops randomly.
 .sevenAndBarMode
 	ld c, $3
 .loop
@@ -409,9 +406,7 @@ SlotMachine_CheckForMatches:
 	ld hl, NotThisTimeText
 	rst _PrintText
 .done
-	xor a
-	ld [wMuteAudioAndPauseMusic], a
-	ret
+	jp ResumeMusic
 .rollWheel3DownByOneSymbol
 	call SlotMachine_AnimWheel3
 	rst _DelayFrame
@@ -445,7 +440,7 @@ SlotMachine_CheckForMatches:
 	ld h, [hl]
 	ld l, a
 	ld de, wStringBuffer
-	ld bc, 4
+	ld bc, 4 ; every SlotReward*Text is at most 4 bytes
 	rst _CopyData
 	pop hl
 	call hl_caller
@@ -634,7 +629,7 @@ SlotMachine_PrintWinningSymbol:
 	inc a
 	ld [hl], a
 	hlcoord 18, 16
-	ld [hl], "▼"
+	ld [hl], '▼'
 	ret
 
 SlotMachine_SubtractBetFromPlayerCoins:
@@ -650,7 +645,7 @@ SlotMachine_SubtractBetFromPlayerCoins:
 SlotMachine_PrintCreditCoins:
 	hlcoord 5, 1
 	ld de, wPlayerCoins
-	ld c, $2
+	ld c, 2
 	jp PrintBCDNumber
 
 SlotMachine_PrintPayoutCoins:
@@ -660,8 +655,7 @@ SlotMachine_PrintPayoutCoins:
 	jp PrintNumber
 
 SlotMachine_PayCoinsToPlayer:
-	ld a, TRUE
-	ld [wMuteAudioAndPauseMusic], a
+	call PauseMusic
 	call WaitForSoundToFinish
 
 ; Put 1 in the temp coins variable. This value is added to the player's coins
@@ -847,7 +841,7 @@ SlotMachine_HandleInputWhileWheelsSpin:
 	rst _DelayFrame
 	call JoypadLowSensitivity
 	ldh a, [hJoy5]
-	and A_BUTTON
+	and PAD_A
 	ret z
 	ld hl, wStoppingWhichSlotMachineWheel
 	ld a, [hl]

@@ -5,8 +5,7 @@ AnimateBoulderDust::
 	ld [wWhichAnimationOffsets], a ; select the boulder dust offsets
 	ld a, [wUpdateSpritesEnabled]
 	push af
-	ld a, $ff
-	ld [wUpdateSpritesEnabled], a
+	call DisableSpriteUpdates
 	ld a, %11100100
 	ldh [rOBP1], a
 	call UpdateGBCPal_OBP1 ; shinpokerednote: gbcnote: gbc color code from yellow 
@@ -82,7 +81,7 @@ LoadSmokeTileFourTimesCommon::
 	push hl
 	call LoadSmokeTile
 	pop hl
-	ld bc, 1 tiles
+	ld bc, TILE_SIZE
 	add hl, bc
 	pop bc
 	dec c
@@ -91,7 +90,7 @@ LoadSmokeTileFourTimesCommon::
 
 LoadSmokeTile:
 	ld de, SSAnneSmokePuffTile
-	lb bc, BANK(SSAnneSmokePuffTile), (SSAnneSmokePuffTileEnd - SSAnneSmokePuffTile) / $10
+	lb bc, BANK(SSAnneSmokePuffTile), (SSAnneSmokePuffTileEnd - SSAnneSmokePuffTile) / TILE_SIZE
 	jp CopyVideoData
 
 SSAnneSmokePuffTile:

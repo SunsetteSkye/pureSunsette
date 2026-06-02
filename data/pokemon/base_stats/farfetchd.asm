@@ -1,6 +1,6 @@
 	db DEX_FARFETCHD ; pokedex id
 
-	db  90,  65,  55, 121, 108
+	db  90,  80,  55,  85,  80
 	;   hp  atk  def  spd  spc
 
 	db GRASS, FLYING ; type
@@ -24,7 +24,6 @@
 	DOUBLE_EDGE,\
 	BUBBLEBEAM,\
 	HYPER_BEAM,\
-	AMNESIA,\
 	HI_JUMP_KICK,\
 	ROLLING_KICK,\
 	BARRIER,\

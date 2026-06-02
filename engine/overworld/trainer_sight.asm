@@ -97,8 +97,8 @@ TrainerWalkUpToPlayer::
 	swap a
 	dec a
 	ld c, a             ; bc = steps yet to go to reach player
-	xor a
-	ld b, a           ; a = direction to go to
+	xor a ; NPC_MOVEMENT_DOWN
+	ld b, a
 	jr .writeWalkScript
 .facingUp
 	ld a, [wTrainerScreenY]
@@ -111,7 +111,7 @@ TrainerWalkUpToPlayer::
 	dec a
 	ld c, a             ; bc = steps yet to go to reach player
 	ld b, $0
-	ld a, $40           ; a = direction to go to
+	ld a, NPC_MOVEMENT_UP
 	jr .writeWalkScript
 .facingRight
 	ld a, [wTrainerScreenX]
@@ -124,7 +124,7 @@ TrainerWalkUpToPlayer::
 	dec a
 	ld c, a             ; bc = steps yet to go to reach player
 	ld b, $0
-	ld a, $c0           ; a = direction to go to
+	ld a, NPC_MOVEMENT_RIGHT
 	jr .writeWalkScript
 .facingLeft
 	ld a, [wTrainerScreenX]
@@ -137,7 +137,7 @@ TrainerWalkUpToPlayer::
 	dec a
 	ld c, a             ; bc = steps yet to go to reach player
 	ld b, $0
-	ld a, $80           ; a = direction to go to
+	ld a, NPC_MOVEMENT_LEFT
 .writeWalkScript
 	ld hl, wNPCMovementDirections2
 	ld de, wNPCMovementDirections2
@@ -161,7 +161,7 @@ GetSpriteDataPointer:
 	ret
 
 ; tests if this trainer is in the right position to engage the player and do so if she is.
-TrainerEngage:
+TrainerEngage::
 	push hl
 	push de
 	ld a, [wTrainerSpriteOffset]
@@ -345,8 +345,13 @@ CheckPlayerIsInFrontOfSprite:
 	ld [wTrainerSpriteOffset], a
 	ret
 
+PlayDefaultTrainerMusic::
+	xor a
+	ld [wEngagedTrainerClass], a ; used to just play the default trainer music
 ; PureRGBnote: MOVED: this code was in the home bank but didn't need to be, so it was moved for some space.
 PlayTrainerMusic::
+	callfar BackupAudioWram
+.skipBackup
 	ld a, [wEngagedTrainerClass]
 	cp OPP_RIVAL1
 	ret z
@@ -415,5 +420,4 @@ INCLUDE "data/trainers/encounter_types.asm"
 IsFemaleTrainer:
 	ld a, [wCurOpponent]
 	ld hl, FemaleTrainerList
-	ld de, 1
-	jp IsInArray
+	jp IsInSingleByteArray

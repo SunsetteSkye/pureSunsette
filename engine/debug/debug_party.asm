@@ -93,7 +93,7 @@ IF DEF(_DEBUG)
 
 	; Get some debug items.
 	ld hl, wNumBagItems
-	ld de, DebugItemsList
+	ld de, DebugNewGameItemsList
 .items_loop
 	ld a, [de]
 	cp -1
@@ -120,6 +120,18 @@ IF DEF(_DEBUG)
 	ld b, wMovedexSeenEnd - wMovedexSeen - 1
 	call DebugSetPokedexEntries
 	ld [hl], %00011111
+	;ld hl, wCustomBallPhotoSnappedFlags
+	;ld a, $FF
+	;ld [hli], a
+	;ld [hl], a
+	;ld hl, wCustomBallUnlockFlags
+	;ld a, $FF
+	;ld [hli], a
+	;ld [hl], a
+	;ld hl, wLearnsetFlags
+	;ld b, wLearnsetFlagsEnd - wLearnsetFlags - 1
+	;call DebugSetPokedexEntries
+	;ld [hl], %00000011
 	SetEvent EVENT_GOT_POKEDEX
 	SetEvent EVENT_GOT_MOVEDEX
 	SetEvent EVENT_LEARNED_TO_DIG_BETWEEN_TOWNS
@@ -128,21 +140,37 @@ IF DEF(_DEBUG)
 	SetEvent EVENT_DELETED_ROUTE9_TREE
 	SetEvent EVENT_DELETED_FUCHSIA_TREES 
 	SetEvent EVENT_CAUGHT_GHOST_MAROWAK
+	SetEvent EVENT_DONATED_TO_POKECENTER_CHARITY
+	SetEvent EVENT_HIDE_ALREADY_HAS_FOUR_MOVES_MSG
+	SetEvent EVENT_BEAT_ROCKET_HIDEOUT_GIOVANNI
+	;SetEvent EVENT_UNLOCKED_AT_LEAST_ONE_CUSTOM_BALL
 	;SetEvent EVENT_ARENA_ALL_CHALLENGERS_DEFEATED
+
+
+	SetEvent EVENT_BEAT_TORCHED
+	SetEvent EVENT_BEAT_CHUNKY
+	SetEvent EVENT_BEAT_PAINLESS
+	SetEvent EVENT_BEAT_IRRADIATED
 
 	;callfar SilphCo11FTeamRocketLeavesScript
 
 	
-	ld a, HS_LYING_OLD_MAN
-	ld [wMissableObjectIndex], a
-	predef HideObject
-	ld a, HS_OLD_MAN
-	ld [wMissableObjectIndex], a
-	predef ShowObject
+	ld c, TOGGLE_LYING_OLD_MAN
+	call HideObject
+	ld c, TOGGLE_OLD_MAN
+	call ShowObject
+	ld c, TOGGLE_ERIK_HOUSE
+	call ShowExtraObject
+	ld c, TOGGLE_SARA_HOUSE
+	call ShowExtraObject
+	ld hl, wPocketAbraNick
+	ld de, PocketAbraTestName
+	call CopyString
 
 	; Rival chose Squirtle,
 	; Player chose Charmander.
 	ld hl, wRivalStarter
+	ASSERT wRivalStarter + 2 == wPlayerStarter
 	ld a, STARTER2
 	ld [hli], a
 	inc hl ; hl = wPlayerStarter
@@ -157,7 +185,10 @@ DebugSetPokedexEntries:
 	jr nz, .loop
 	ret
 
-DebugItemsList:
+PocketAbraTestName:
+	db "Snoozer@"
+
+DebugNewGameItemsList:
 	db BICYCLE, 1
 	db FULL_RESTORE, 99
 	db FULL_HEAL, 99
@@ -179,7 +210,6 @@ DebugItemsList:
 	db HM_FLY, 1
 	db TM_SUBSTITUTE, 20
 	db TOPSECRETKEY, 1
-	db POKE_DOLL, 1
 	db -1 ; end
 
 ELSE

@@ -47,7 +47,6 @@ GetHPBarLength:
 
 ; predef $48
 UpdateHPBar:
-UpdateHPBar2:
 	push hl
 	ld hl, wHPBarOldHP
 	ld a, [hli]
@@ -230,7 +229,7 @@ UpdateHPBar_PrintHPNumber:
 .next
 	add hl, de
 	push hl
-	ld a, " "
+	ld a, ' '
 	ld [hli], a
 	ld [hli], a
 	ld [hl], a

@@ -19,15 +19,18 @@ DisplayTownMap:
 	hlcoord 1, 0
 	ld de, wNameBuffer
 	call PlaceString
-	ld hl, wShadowOAM
+	ld hl, wShadowOAMSprite00
 	ld de, wTownMapSavedOAM
-	ld bc, $10
+	ld bc, OBJ_SIZE * 4
 	rst _CopyData
 	ld hl, vSprites tile BIRD_BASE_TILE
 	ld de, TownMapCursor
-	lb bc, BANK(TownMapCursor), (TownMapCursorEnd - TownMapCursor) / $8
+	lb bc, BANK(TownMapCursor), (TownMapCursorEnd - TownMapCursor) / TILE_1BPP_SIZE
 	call CopyVideoDataDouble
-	xor a
+	ResetEvent FLAG_INTERACTED_WITH_TOWN_MAP
+	ld a, [wCurMap]
+	call GetWildDataTownMapID
+	call GetTownMapOrderFromMapID
 	ld [wWhichTownMapLocation], a
 	pop af
 	jr .enterLoop
@@ -36,12 +39,7 @@ DisplayTownMap:
 	hlcoord 0, 0
 	lb bc, 1, 20
 	call ClearScreenArea
-	ld hl, TownMapOrder
-	ld a, [wWhichTownMapLocation]
-	ld c, a
-	ld b, 0
-	add hl, bc
-	ld a, [hl]
+	call GetCurrentTownMap
 .enterLoop
 	ld de, wTownMapCoords
 	call LoadTownMapEntry
@@ -58,28 +56,32 @@ DisplayTownMap:
 	ld a, [hli]
 	ld [de], a
 	inc de
-	cp "@"
+	cp '@'
 	jr nz, .copyMapName
 	hlcoord 1, 0
 	ld de, wNameBuffer
 	call PlaceString
 	ld hl, wShadowOAMSprite04
 	ld de, wTownMapSavedOAM + 16
-	ld bc, $10
+	ld bc, OBJ_SIZE * 4
 	rst _CopyData
 .inputLoop
 	call TownMapSpriteBlinkingAnimation
 	call JoypadLowSensitivity
 	ldh a, [hJoy5]
 	ld b, a
-	and A_BUTTON | B_BUTTON | D_UP | D_DOWN
+	and PAD_A | PAD_B | PAD_UP | PAD_DOWN
 	jr z, .inputLoop
 	ld a, SFX_TINK
 	rst _PlaySound
-	bit BIT_D_UP, b
+	bit B_PAD_A, b
+	jr nz, .pressedA
+	SetEvent FLAG_INTERACTED_WITH_TOWN_MAP
+	bit B_PAD_UP, b
 	jr nz, .pressedUp
-	bit BIT_D_DOWN, b
+	bit B_PAD_DOWN, b
 	jr nz, .pressedDown
+.exit
 	xor a
 	ld [wTownMapSpriteBlinkingEnabled], a
 	ldh [hJoy7], a
@@ -89,6 +91,20 @@ DisplayTownMap:
 	pop af
 	ld [hl], a
 	ret
+.pressedA
+	CheckEvent EVENT_UPGRADED_TOWN_MAP
+	jr z, .exit
+	CheckEvent FLAG_INTERACTED_WITH_TOWN_MAP
+	jr nz, .currentTownMap
+	ld a, [wCurMap]
+	call GetWildDataTownMapID
+	jr .gotWildDataMap
+.currentTownMap
+	call GetCurrentTownMap
+.gotWildDataMap
+	ld d, a
+	callfar ShowMapWildEncounters
+	jp .townMapLoop
 .pressedUp
 	ld a, [wWhichTownMapLocation]
 	inc a
@@ -126,7 +142,7 @@ TownMapCursor:
 	INCBIN "gfx/town_map/town_map_cursor.1bpp"
 TownMapCursorEnd:
 
-LoadTownMap_Nest:
+LoadTownMap_Nest::
 	call LoadTownMap
 	ld hl, wUpdateSpritesEnabled
 	ld a, [hl]
@@ -138,6 +154,15 @@ LoadTownMap_Nest:
 	pop hl
 	pop af
 	ld [hl], a
+	ret
+
+GetCurrentTownMap:
+	ld hl, TownMapOrder
+	ld a, [wWhichTownMapLocation]
+	ld c, a
+	ld b, 0
+	add hl, bc
+	ld a, [hl]
 	ret
 
 ;;;;;;;;;; PureRGBnote: ADDED: using dig to go to another town displays a different sprite in this menu
@@ -185,7 +210,7 @@ LoadTownMap_Fly_Common:
 ;;;;;;;;;;
 	ld de, TownMapUpArrow
 	ld hl, vChars1 tile $6d
-	lb bc, BANK(TownMapUpArrow), (TownMapUpArrowEnd - TownMapUpArrow) / $8
+	lb bc, BANK(TownMapUpArrow), (TownMapUpArrowEnd - TownMapUpArrow) / TILE_1BPP_SIZE
 	call CopyVideoDataDouble
 	call BuildFlyLocationsList
 	ld hl, wUpdateSpritesEnabled
@@ -202,7 +227,7 @@ LoadTownMap_Fly_Common:
 	ld hl, wFlyLocationsList
 	decoord 18, 0
 .townMapFlyLoop
-	ld a, " "
+	ld a, ' '
 	ld [de], a
 	push hl
 	push hl
@@ -219,9 +244,9 @@ LoadTownMap_Fly_Common:
 	ld c, 5 ; PureRGBnote: CHANGED: cut the artificial delay between fly selections to 1/3 of what it was in the vanilla game
 	rst _DelayFrames
 	hlcoord 18, 0
-	ld [hl], "▲"
+	ld [hl], '▲'
 	hlcoord 19, 0
-	ld [hl], "▼"
+	ld [hl], '▼'
 	pop hl
 .inputLoop
 	push hl
@@ -230,25 +255,25 @@ LoadTownMap_Fly_Common:
 	ldh a, [hJoy5]
 	ld b, a
 	pop hl
-	and A_BUTTON | B_BUTTON | D_UP | D_DOWN
+	and PAD_A | PAD_B | PAD_UP | PAD_DOWN
 	jr z, .inputLoop
-	bit BIT_A_BUTTON, b
+	bit B_PAD_A, b
 	jr nz, .pressedA
 	ld a, SFX_TINK
 	rst _PlaySound
-	bit BIT_D_UP, b
+	bit B_PAD_UP, b
 	jr nz, .pressedUp
-	bit BIT_D_DOWN, b
+	bit B_PAD_DOWN, b
 	jr nz, .pressedDown
 	jr .pressedB
 .pressedA
 	ld a, SFX_HEAL_AILMENT
-	rst _PlaySound
+	call PlaySoundOverrideCurrent
 	ld a, [hl]
 	ld [wDestinationMap], a
 	ld hl, wStatusFlags6
 	set BIT_FLY_WARP, [hl]
-	assert wStatusFlags6 + 1 == wStatusFlags7
+	ASSERT wStatusFlags6 + 1 == wStatusFlags7
 	inc hl
 	set BIT_USED_FLY, [hl]
 .pressedB
@@ -358,7 +383,7 @@ LoadTownMap:
 	ld [hl], $6C
 .noVolcanoMarker
 	call EnableLCD
-	ld b, SET_PAL_TOWN_MAP
+	ld d, SET_PAL_TOWN_MAP
 	call RunPaletteCommand
 	call Delay3
 	call GBPalNormal
@@ -377,6 +402,7 @@ ExitTownMap:
 ; clear town map graphics data and load usual graphics data
 	xor a
 	ld [wTownMapSpriteBlinkingEnabled], a
+	ResetEvent FLAG_INTERACTED_WITH_TOWN_MAP
 	;ld hl, wViewingTownMap
 	;res VIEWING_TOWN_MAP, [hl]
 	call GBPalWhiteOut
@@ -410,11 +436,11 @@ DrawPlayerOrBirdSprite:
 	ld a, [hli]
 	ld [de], a
 	inc de
-	cp "@"
+	cp '@'
 	jr nz, .loop
 	ld hl, wShadowOAM
 	ld de, wTownMapSavedOAM
-	ld bc, $a0
+	ld bc, OAM_COUNT * 4
 	jp CopyData
 
 TownMapCoordsToOAMCoords:
@@ -507,7 +533,7 @@ WriteSymmetricMonPartySpriteOAM:
 	ld [hli], a ; tile
 	ld a, [wSymmetricSpriteOAMAttributes]
 	ld [hli], a ; attributes
-	xor (1 << OAM_X_FLIP)
+	xor OAM_XFLIP
 	ld [wSymmetricSpriteOAMAttributes], a
 	inc d
 	ld a, 8
@@ -533,12 +559,12 @@ FarLoadTownMapEntry:
 	call GetPredefRegisters
 	ld a, b
 
-LoadTownMapEntry:
+LoadTownMapEntry::
 ; in: a = map number
 ; out: lower nybble of [de] = x, upper nybble of [de] = y, hl = address of name
 	cp FIRST_INDOOR_MAP
 	jr c, .external
-	ld bc, 4
+	ld bc, 5
 	ld hl, InternalMapEntries
 .loop
 	cp [hl]
@@ -563,6 +589,44 @@ LoadTownMapEntry:
 	ld l, a
 	ret
 
+; c = which map
+; de = where to print it
+FarPrintTownMapEntry::
+	ld a, c
+	push de
+	call LoadTownMapEntry
+	ld d, h
+	ld e, l
+	pop hl ; pop de into hl
+	jp PlaceString
+
+GetWildDataTownMapID:
+	cp FIRST_INDOOR_MAP
+	ret c
+	ld bc, 5
+	ld hl, InternalMapEntries
+.loop
+	cp [hl]
+	jr c, .foundEntry
+	add hl, bc
+	jr .loop
+.foundEntry
+	inc hl
+	inc hl
+	inc hl
+	inc hl
+	ld a, [hl]
+	ret
+
+GetTownMapOrderFromMapID:
+	ld hl, TownMapOrder
+	call IsInSingleByteArray
+	ld a, b
+	ret c
+	xor a
+	ret
+
+
 INCLUDE "data/maps/town_map_entries.asm"
 
 INCLUDE "data/maps/names.asm"
@@ -581,16 +645,16 @@ TownMapSpriteBlinkingAnimation::
 ; show sprites when the counter reaches 50
 	ld hl, wTownMapSavedOAM
 	ld de, wShadowOAM
-	ld bc, $90
+	ld bc, (OAM_COUNT - 4) * 4
 	rst _CopyData
 	xor a
 	jr .done
 .hideSprites
-	ld hl, wShadowOAM
-	ld b, $24
-	ld de, $4
+	ld hl, wShadowOAMSprite00YCoord
+	ld b, OAM_COUNT - 4
+	ld de, OBJ_SIZE
 .hideSpritesLoop
-	ld [hl], $a0
+	ld [hl], SCREEN_HEIGHT_PX + OAM_Y_OFS
 	add hl, de
 	dec b
 	jr nz, .hideSpritesLoop

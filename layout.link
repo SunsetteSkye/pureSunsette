@@ -58,7 +58,7 @@ ROMX $6
 ROMX $7
 	"Maps 3"
 	"Maps 4"
-	"Hidden Objects 1"
+	"Hidden Events 1"
 ROMX $8
 	"Sound Effect Headers 2"
 	"Music Headers 2"
@@ -93,7 +93,7 @@ ROMX $11
 	"Maps 5"
 	"Pokédex Rating"
 	"Maps 6"
-	"Hidden Objects Core"
+	"Hidden Events Core"
 ROMX $12
 	"Maps 7"
 	"Screen Effects"
@@ -104,7 +104,7 @@ ROMX $14
 	"Maps 9"
 	"Maps 10"
 	"Battle Engine 8"
-	"Hidden Objects 2"
+	"Hidden Events 2"
 ROMX $15
 	"Maps 11"
 	"Battle Engine 9"
@@ -116,16 +116,17 @@ ROMX $16
 	"Battle Engine 10"
 	"Maps 14"
 	"Saffron Guards"
+	"Silph Card Key Scripts"
 ROMX $17
 	"Maps 15"
 	"Starter Dex"
 	"Maps 16"
-	"Hidden Objects 3"
+	"Hidden Events 3"
 ROMX $18
 	"Maps 17"
 	"Cinnabar Lab Fossils"
 	"Maps 18"
-	"Hidden Objects 4"
+	"Hidden Events 4"
 ROMX $19
 	"Tilesets 1"
 ROMX $1A
@@ -196,7 +197,6 @@ ROMX $32
 	"Type Icons"
 	"Menu Prompt Graphics"
 	"Tilesets 4"
-	"Trade Graphics"
 ROMX $33
 	"movedCode"
 	"Pokémon Names"
@@ -204,6 +204,7 @@ ROMX $33
 ROMX $34
 	"Party Sprites"
 	"GBC Mode Code"
+	"Extra Tiles"
 ROMX $35
     "newCode"
 ROMX $36
@@ -216,6 +217,16 @@ ROMX $38
 	"Pics 11"
 ROMX $39
 	"Text 13"
+	"Trade Graphics"
+ROMX $3A
+	"newCode2"
+ROMX $3B
+	"Text 14"
+ROMX $3C
+	"Camera Pics"
+	"NPC Sprites 5"
+ROMX $3D
+	"newCode3"
 WRAM0
 	"Audio RAM"
 	org $c100

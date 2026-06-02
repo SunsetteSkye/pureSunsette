@@ -1,6 +1,6 @@
 	db DEX_RAICHU ; pokedex id
 
-	db  70,  95,  65, 110, 100
+	db  70,  95,  65, 100, 100
 	;   hp  atk  def  spd  spc
 
 	db ELECTRIC, NORMAL ; type
@@ -10,19 +10,16 @@
 	INCBIN "gfx/pokemon/front/raichu.pic", 0, 1 ; sprite dimensions
 	dw RaichuPicFront, RaichuPicBackSW
 
-	db THUNDERSHOCK, GROWL, THUNDER_WAVE, NO_MOVE ; level 1 learnset
+	db THUNDERSHOCK, GROWL, NO_MOVE, NO_MOVE ; level 1 learnset
 	db GROWTH_MEDIUM_FAST ; growth rate
 
 	; tm/hm learnset
 	tmhm \
-	ICE_PUNCH,\
-	FIRE_PUNCH,\
 	TOXIC,\
 	BODY_SLAM,\
 	SLASH,\
 	DOUBLE_EDGE,\
 	HYPER_BEAM,\
-	AMNESIA,\
 	HI_JUMP_KICK,\
 	THUNDERPUNCH,\
 	ROLLING_KICK,\

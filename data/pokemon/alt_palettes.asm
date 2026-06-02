@@ -49,7 +49,7 @@ AltMonsterPalettes: ; pokemon have alternate palettes depending on where you enc
 	db PAL_0F					; GLOOM
 	db PAL_0F					; VILEPLUME
 	db PAL_PURPLEMON			; PARAS
-	db PAL_GREYMON				; PARASECT
+	db PAL_GRAYMON				; PARASECT
 	db PAL_0F					; VENONAT
 	db PAL_REDBAR				; VENOMOTH
 	db PAL_WHITEMON				; DIGLETT
@@ -122,7 +122,7 @@ AltMonsterPalettes: ; pokemon have alternate palettes depending on where you enc
 	db PAL_SLOTS3				; SEADRA
 	db PAL_PEWTER				; GOLDEEN
 	db PAL_PEWTER				; SEAKING
-	db PAL_GREYMON				; STARYU
+	db PAL_GRAYMON				; STARYU
 	db PAL_SAFFRON				; STARMIE
 	db PAL_WHITEMON				; MR_MIME
 	db PAL_PEWTER				; SCYTHER
@@ -147,7 +147,7 @@ AltMonsterPalettes: ; pokemon have alternate palettes depending on where you enc
 	db PAL_SAFARIBALL			; AERODACTYL
 	db PAL_GREENMON				; SNORLAX
 	db PAL_SAFFRON				; ARTICUNO
-	db PAL_GREYMON				; ZAPDOS
+	db PAL_GRAYMON				; ZAPDOS
 	db PAL_REDPURPLEMON			; MOLTRES 
 	db PAL_PINKMON				; DRATINI
 	db PAL_PINKMON				; DRAGONAIR

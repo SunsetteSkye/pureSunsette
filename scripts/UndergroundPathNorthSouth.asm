@@ -12,9 +12,7 @@ UndergroundPathNorthSouth_Script:
 	ret
 
 UndergroundPathNorthSouthOnMapLoad:
-	ld hl, wCurrentMapScriptFlags
-	bit BIT_CUR_MAP_LOADED_1, [hl]
-	res BIT_CUR_MAP_LOADED_1, [hl]
+	call WasMapJustLoaded
 	ret z
 	ld a, ROUTE_5
 	ld [wLastMap], a
@@ -23,7 +21,7 @@ UndergroundPathNorthSouthOnMapLoad:
 	lb bc, 11, 0
 	ld a, 13
 	ld [wNewTileBlockID], a
-	predef_jump ReplaceTileBlock
+	jp ReplaceTileBlock
 
 UndergroundPathNorthSouth_ScriptPointers:
 	def_script_pointers
@@ -48,10 +46,13 @@ UndergroundPathNorthSouthTrainerHeader2:
 	db -1 ;end
 
 UndergroundPathNorthSouthTrainer1Text:
-	text_asm
-	ld hl, UndergroundPathNorthSouthTrainerHeader0
-	call TalkToTrainer
-	rst TextScriptEnd
+	script_trainer UndergroundPathNorthSouthTrainerHeader0
+
+UndergroundPathNorthSouthTrainer2Text:
+	script_trainer UndergroundPathNorthSouthTrainerHeader1
+
+UndergroundPathNorthSouthTrainer3Text:
+	script_trainer UndergroundPathNorthSouthTrainerHeader2
 
 UndergroundPathNorthSouthBattleText1:
 	text_far _UndergroundPathNorthSouthBattleText1
@@ -65,12 +66,6 @@ UndergroundPathNorthSouthAfterBattleText1:
 	text_far _UndergroundPathNorthSouthAfterBattleText1
 	text_end
 
-UndergroundPathNorthSouthTrainer2Text:
-	text_asm
-	ld hl, UndergroundPathNorthSouthTrainerHeader1
-	call TalkToTrainer
-	rst TextScriptEnd
-
 UndergroundPathNorthSouthBattleText2:
 	text_far _UndergroundPathNorthSouthBattleText2
 	text_end
@@ -83,12 +78,6 @@ UndergroundPathNorthSouthAfterBattleText2:
 	text_far _UndergroundPathNorthSouthAfterBattleText2
 	text_end
 
-UndergroundPathNorthSouthTrainer3Text:
-	text_asm
-	ld hl, UndergroundPathNorthSouthTrainerHeader2
-	call TalkToTrainer
-	rst TextScriptEnd
-
 UndergroundPathNorthSouthBattleText3:
 	text_far _UndergroundPathNorthSouthBattleText3
 	text_end
@@ -99,4 +88,7 @@ UndergroundPathNorthSouthEndBattleText3:
 
 UndergroundPathNorthSouthAfterBattleText3:
 	text_far _UndergroundPathNorthSouthAfterBattleText3
-	text_end
+	text_asm
+	lb hl, DEX_KRABBY, COOL_KID
+	ld de, LearnsetKrabbyKid
+	predef_jump LearnsetTrainerScript

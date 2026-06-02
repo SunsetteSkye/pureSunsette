@@ -1,10 +1,18 @@
 ; PureRGBnote: ADDED: You can now eat in the SS Anne Kitchen.
 SSAnneKitchen_Script:
 	call EnableAutoTextBoxDrawing
+	call WasMapJustLoaded
+	jr z, .notLoaded
+.reroll
+	; get a random value which will decide what text the randomized text chef will say first.
+	call Random
+	and %00000011
+	jr z, .reroll
+	ld [wMapMultiTextTracker], a
+.notLoaded
 	CheckEvent EVENT_GENERIC_NPC_WALKING_FLAG
 	ret z
-	ld a, $FF
-	ld [wJoyIgnore], a
+	call DisableAllJoypad
 	ld a, [wStatusFlags5]
 	bit BIT_SCRIPTED_NPC_MOVEMENT, a
 	ret nz
@@ -33,8 +41,6 @@ SSAnneKitchen_Script:
 	jpfar MoveSprite
 .done
 	ResetEvent EVENT_GENERIC_NPC_WALKING_FLAG
-	xor a
-	ld [wJoyIgnore], a
 	; Waiter done walking
 	ld d, SSANNEKITCHEN_WAITER
 	callfar FarNPCSpriteQuickSpin
@@ -49,6 +55,7 @@ SSAnneKitchen_Script:
 	call PlaySoundWaitForCurrent
 	ld c, 60
 	rst _DelayFrames
+	call EnableAllJoypad
 	ld a, TEXT_SSANNEKITCHEN_WAITER_RETURNS
 	ldh [hTextID], a
 	jp DisplayTextID
@@ -64,6 +71,7 @@ SSAnneKitchen_TextPointers:
 	dw_const SSAnneKitchenCook6Text, TEXT_SSANNEKITCHEN_COOK6
 	dw_const SSAnneKitchenCook7Text, TEXT_SSANNEKITCHEN_COOK7
 	dw_const SSAnneKitchenWaiterText, TEXT_SSANNEKITCHEN_WAITER
+	dw_const SSAnneKitchenOnlyTrashHereText, TEXT_SSANNEKITCHEN_ONLY_TRASH_HERE
 	dw_const SSAnneKitchenWaiterReturnsText, TEXT_SSANNEKITCHEN_WAITER_RETURNS
 
 SSAnneKitchenCook1Text:
@@ -94,19 +102,17 @@ SSAnneKitchenCook7Text:
 	text_asm
 	ld hl, .MainCourseIsText
 	rst _PrintText
-	ldh a, [hRandomAdd]
-	bit 7, a
-	jr z, .not_dialog_1
+	ld a, [wMapMultiTextTracker]
+	dec a
+	push af
 	ld hl, .SalmonDuSaladText
-	jr .done
-.not_dialog_1
-	bit 4, a
-	jr z, .not_dialog_2
-	ld hl, .EelsAuBarbecueText
-	jr .done
-.not_dialog_2
-	ld hl, .PrimeBeefSteakText
-.done
+	ld bc, 5
+	call AddNTimes
+	pop af
+	jr nz, .not0
+	ld a, 3
+.not0
+	ld [wMapMultiTextTracker], a
 	rst _PrintText
 	rst TextScriptEnd
 
@@ -114,14 +120,13 @@ SSAnneKitchenCook7Text:
 	text_far _SSAnneKitchenCook7MainCourseIsText
 	text_end
 
+; keep these 3 text entries next to each other and in the same format
 .SalmonDuSaladText:
 	text_far SSAnneKitchenCook7SalmonDuSaladText
 	text_end
-
 .EelsAuBarbecueText:
 	text_far SSAnneKitchenCook7EelsAuBarbecueText
 	text_end
-
 .PrimeBeefSteakText:
 	text_far SSAnneKitchenCook7PrimeBeefSteakText
 	text_end
@@ -130,8 +135,6 @@ SSAnneKitchenWaiterText:
 	text_far _SSAnneKitchenWaiter
 	text_asm
 	call YesNoChoice
-	ld a, [wCurrentMenuItem]
-	and a
 	jr nz, .suitYourself
 	ld a, [wYCoord]
 	cp 13
@@ -144,7 +147,7 @@ SSAnneKitchenWaiterText:
 	rst _PrintText
 	call SaveScreenTilesToBuffer2
 	ld hl, SSAnneFoodMenu
-	ld b, A_BUTTON | B_BUTTON
+	ld b, PAD_A | PAD_B
 	call DisplayMultiChoiceTextBox
 	call LoadScreenTilesFromBuffer2
 	call Delay3
@@ -203,7 +206,7 @@ SSAnneKitchenWaiterReturnsText:
 KitchenReplaceFoodTileBlock:
 	lb bc, 7, 0
 	ld [wNewTileBlockID], a
-	predef_jump ReplaceTileBlock
+	jp ReplaceTileBlock
 
 MovementWaiterWalksRight:
 	db NPC_MOVEMENT_RIGHT, 5
@@ -229,3 +232,7 @@ GetMapSpriteLocation::
 	sub 4
 	ld e, a
 	ret
+
+SSAnneKitchenOnlyTrashHereText:
+	text_far _VermilionGymTrashText
+	text_end

@@ -32,14 +32,12 @@ HiddenItemsInit:
 	ld a, [wHiddenItemOrCoinsIndex]
 	ld c, a
 	ld b, FLAG_TEST
-	predef FlagActionPredef
-	ld a, c
-	and a
+	call FlagAction
 	ret nz
 	call EnableAutoTextBoxDrawing
 	ld a, 1
 	ld [wDoNotWaitForButtonPressAfterDisplayingText], a
-	ld a, [wHiddenObjectFunctionArgument] ; item ID
+	ld a, [wHiddenEventFunctionArgument] ; item ID
 	ld [wNamedObjectIndex], a
 	call GetItemName
 	xor a ; clear z flag and set a = 0
@@ -47,7 +45,7 @@ HiddenItemsInit:
 
 HiddenItemsFinish:
 	ld [wTempStore1], a
-	ld a, "@"
+	ld a, '@'
 	ld [wTempStore2], a
 	tx_pre_jump FoundHiddenItemText
 
@@ -73,7 +71,7 @@ FoundHiddenItemText::
 	rst _PrintText
 	pop bc
 .give
-	ld a, [wHiddenObjectFunctionArgument] ; item ID
+	ld a, [wHiddenEventFunctionArgument] ; item ID
 	ld b, a
 	call GiveItem
 	jr nc, .bagFull
@@ -81,7 +79,7 @@ FoundHiddenItemText::
 	ld a, [wHiddenItemOrCoinsIndex]
 	ld c, a
 	ld b, FLAG_SET
-	predef FlagActionPredef
+	call FlagAction
 	ld a, SFX_GET_ITEM_2
 	call PlaySoundWaitForCurrent
 	call WaitForSoundToFinish
@@ -123,15 +121,13 @@ HiddenCoins:
 	ld a, [wHiddenItemOrCoinsIndex]
 	ld c, a
 	ld b, FLAG_TEST
-	predef FlagActionPredef
-	ld a, c
-	and a
+	call FlagAction
 	ret nz
 	xor a
 	ldh [hUnusedCoinsByte], a
 	ldh [hCoins], a
 	ldh [hCoins + 1], a
-	ld a, [wHiddenObjectFunctionArgument]
+	ld a, [wHiddenEventFunctionArgument]
 	sub COIN
 	cp 10
 	jr z, .bcd10
@@ -164,38 +160,27 @@ HiddenCoins:
 	ld a, [wHiddenItemOrCoinsIndex]
 	ld c, a
 	ld b, FLAG_SET
-	predef FlagActionPredef
+	call FlagAction
 	call EnableAutoTextBoxDrawing
+	ld b, TEXT_GAMECORNER_FOUND_HIDDEN_COINS
 	ld a, [wPlayerCoins]
 	cp $99
 	jr nz, .roomInCoinCase
 	ld a, [wPlayerCoins + 1]
 	cp $99
 	jr nz, .roomInCoinCase
-	tx_pre_id DroppedHiddenCoinsText
-	jr .done
+	ld b, TEXT_GAMECORNER_DROPPED_HIDDEN_COINS
 .roomInCoinCase
-	tx_pre_id FoundHiddenCoinsText
-.done
-	jp PrintPredefTextID
+	ld a, b
+	ldh [hTextID], a
+	jp DisplayTextID
 
 INCLUDE "data/events/hidden_coins.asm"
 
-FoundHiddenCoinsText::
-	text_far _FoundHiddenCoinsText
-	sound_get_item_2
-	text_end
-
-DroppedHiddenCoinsText::
-	text_far _FoundHiddenCoins2Text
-	sound_get_item_2
-	text_far _DroppedHiddenCoinsText
-	text_end
-
 FindHiddenItemOrCoinsIndex:
-	ld a, [wHiddenObjectY]
+	ld a, [wHiddenEventY]
 	ld d, a
-	ld a, [wHiddenObjectX]
+	ld a, [wHiddenEventX]
 	ld e, a
 	ld a, [wCurMap]
 	ld b, a

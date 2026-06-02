@@ -86,6 +86,12 @@ SSAnneCaptainsRoomCaptainText:
 	ld a, S_S_TICKET
 	ldh [hItemToRemoveID], a
 	farcall RemoveItemByID
+	ld c, TOGGLE_VERMILIONFITNESSCLUB_CLERK
+	call ShowExtraObject
+	ld c, TOGGLE_VERMILIONFITNESSCLUB_MUSCLE1
+	call ShowExtraObject
+	ld c, TOGGLE_VERMILIONFITNESSCLUB_JANITOR
+	call HideExtraObject
 	ld hl, .SSAnneWontBeNeedingThatAnymore
 	jr .printDone
 .bag_full
@@ -96,6 +102,7 @@ SSAnneCaptainsRoomCaptainText:
 	rst _PrintText
 .done
 	rst TextScriptEnd
+
 .SSAnneCaptainsRoomCaptainFeelingABitBetter
 	text_far _SSAnneCaptainsRoomCaptainFeelingABitBetter
 	text_end
@@ -160,4 +167,18 @@ SSAnneCaptainsRoomCutBookText:
 	text_far _SSAnneCaptainsRoomCutBookText
 	text_far _FlippedToARandomPage
 	text_far _SSAnneCaptainsRoomCutBookText2
+	text_asm
+	CheckEvent FLAG_SCYTHER_LEARNSET
+	jr nz, .done
+	ld d, DEX_SCYTHER
+	jpfar KeepReadingBookLearnset
+.done
+	rst TextScriptEnd
+
+KeepReadingText1:
+	text_far _KeepReadingText
+	text_end
+
+ForgetItBookText2:
+	text_far _GenericForgetItText
 	text_end

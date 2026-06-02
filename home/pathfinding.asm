@@ -38,27 +38,4 @@ MoveSprite_::
 	xor a
 	ld [wOverrideSimulatedJoypadStatesMask], a
 	ld [wSimulatedJoypadStatesEnd], a
-	dec a
-	ld [wJoyIgnore], a
-	ret
-
-; divides [hDividend2] by [hDivisor2] and stores the quotient in [hQuotient2]
-DivideBytes::
-	push hl
-	ld hl, hQuotient2
-	xor a
-	ld [hld], a
-	ld a, [hld]
-	and a
-	jr z, .done
-	ld a, [hli]
-.loop
-	sub [hl]
-	jr c, .done
-	inc hl
-	inc [hl]
-	dec hl
-	jr .loop
-.done
-	pop hl
-	ret
+	jp DisableAllJoypad

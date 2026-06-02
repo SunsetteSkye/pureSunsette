@@ -34,7 +34,7 @@ PrepareOAMData::
 	jr nz, .visible
 
 	call GetSpriteScreenXY
-	jr .nextSprite
+	jp .nextSprite
 
 .visible
 	cp $a0 ; is the sprite unchanging like an item ball or boulder?
@@ -128,9 +128,13 @@ PrepareOAMData::
 	ld [de], a ; tile id
 	inc hl
 	inc e
+	ld a, [wCurMap]
+	cp CELADON_BACK_ALLEY
+	jr z, .dontSkipPriority
 	ld a, [hl]
 	bit BIT_SPRITE_UNDER_GRASS, a
 	jr z, .skipPriority
+.dontSkipPriority
 	ldh a, [hSpritePriority]
 	or [hl]
 .skipPriority
@@ -172,16 +176,16 @@ PrepareOAMData::
 	ldh a, [hOAMBufferOffset]
 	ld l, a
 	ld h, HIGH(wShadowOAM)
-	ld de, $4
-	ld b, $a0
+	ld de, OBJ_SIZE
+	ld b, SCREEN_HEIGHT_PX + OAM_Y_OFS
 	ld a, [wMovementFlags]
 	bit BIT_LEDGE_OR_FISHING, a
-	ld a, $a0
+	ld a, LOW(wShadowOAMEnd)
 	jr z, .clear
 
 ; Don't clear the last 4 entries because they are used for the shadow in the
 ; jumping down ledge animation and the rod in the fishing animation.
-	ld a, $90
+	ld a, LOW(wShadowOAMSprite36)
 
 .clear
 	cp l

@@ -10,27 +10,29 @@ Route16_Script:
 
 ; PureRGBnote: ADDED: code that keeps the cut tree cut down if we're in its alcove. Prevents getting softlocked if you delete cut.
 Route16CheckHideCutTree:
-	ld hl, wCurrentMapScriptFlags
-	bit BIT_CUR_MAP_LOADED_1, [hl] ; did we load the map from a save/warp/door/battle, etc?
-	res BIT_CUR_MAP_LOADED_1, [hl]
-	ret z ; map wasn't just loaded
+	call WasMapJustLoaded
+	jr nz, .mapLoadTree ; map wasn't just loaded
+	bit BIT_CROSSED_MAP_CONNECTION, [hl] ; did we load the map from a save/warp/door/battle, etc?
+	res BIT_CROSSED_MAP_CONNECTION, [hl]
+	jr nz, .checkMankey
+	ret
+.mapLoadTree
 	ld de, Route16CutAlcove
 	callfar FarArePlayerCoordsInRange
 	call c, .removeTreeBlocker
+.checkMankey
+	CheckEvent FLAG_BALL_DESIGNER_TURNED_OFF
+	ret nz
+	lb bc, SPRITESTATEDATA2_MAPY, ROUTE16_MANKEY
+	call GetFromSpriteStateData2
+	ld [hl], 2 + 4 ; move mankey into place
 	ret
 .removeTreeBlocker
 	; if we're in the cut alcove, remove the tree
 	lb bc, 4, 17
 	ld a, $6E
 	ld [wNewTileBlockID], a
-	predef_jump ReplaceTileBlock
-
-Route16ResetScripts:
-	xor a ; SCRIPT_ROUTE16_DEFAULT
-	ld [wJoyIgnore], a
-	ld [wRoute16CurScript], a
-	ld [wCurMapScript], a
-	ret
+	jp ReplaceTileBlock
 
 Route16_ScriptPointers:
 	def_script_pointers
@@ -63,7 +65,7 @@ Route16SnorlaxPostBattleScript:
 	ResetEvent EVENT_FIGHT_ROUTE16_SNORLAX
 	ld a, [wIsInBattle]
 	cp $ff
-	jp z, Route16ResetScripts
+	jr z, .done
 	ld hl, wCurrentMapScriptFlags
 	res BIT_MAP_LOADED_AFTER_BATTLE, [hl] ; indicates we loaded the map after battle, since we went to a script need to reset here to prevent a double fade
 	call UpdateSprites
@@ -99,13 +101,11 @@ Route16SnorlaxPostBattleScript:
 	jr .done
 .hide_snorlax
 	SetEvent EVENT_BEAT_ROUTE16_SNORLAX
-	ld a, HS_ROUTE_16_SNORLAX
-	ld [wMissableObjectIndex], a
-	predef_jump HideObject
+	ld c, TOGGLE_ROUTE_16_SNORLAX
+	jp HideObject
 .done
-	ld a, SCRIPT_ROUTE16_DEFAULT
-	ld [wRoute16CurScript], a
-	ld [wCurMapScript], a
+	call ResetMapScripts
+	ld [wRoute16CurScript], a ; SCRIPT_ROUTE16_DEFAULT
 	ret
 .goBackToSleep
 	ld a, TEXT_ROUTE16_SNORLAX_WENT_BACK_TO_SLEEP
@@ -121,6 +121,7 @@ Route16_TextPointers:
 	dw_const Route16Biker5Text,                     TEXT_ROUTE16_BIKER5
 	dw_const Route16Biker6Text,                     TEXT_ROUTE16_BIKER6
 	dw_const SnorlaxText,                           TEXT_ROUTE16_SNORLAX
+	dw_const Route16MankeyText,                     TEXT_ROUTE16_MANKEY
 	dw_const Route16CyclingRoadSignText,            TEXT_ROUTE16_CYCLING_ROAD_SIGN
 	dw_const Route16SignText,                       TEXT_ROUTE16_SIGN
 	dw_const Route12SnorlaxWokeUpText,              TEXT_ROUTE16_SNORLAX_WOKE_UP
@@ -144,10 +145,22 @@ Route16TrainerHeader5:
 	db -1 ; end
 
 Route16Biker1Text:
-	text_asm
-	ld hl, Route16TrainerHeader0
-	call TalkToTrainer
-	rst TextScriptEnd
+	script_trainer Route16TrainerHeader0
+
+Route16Biker2Text:
+	script_trainer Route16TrainerHeader1
+
+Route16Biker3Text:
+	script_trainer Route16TrainerHeader2
+
+Route16Biker4Text:
+	script_trainer Route16TrainerHeader3
+
+Route16Biker5Text:
+	script_trainer Route16TrainerHeader4
+
+Route16Biker6Text:
+	script_trainer Route16TrainerHeader5
 
 Route16Biker1BattleText:
 	text_far _Route16Biker1BattleText
@@ -161,12 +174,6 @@ Route16Biker1AfterBattleText:
 	text_far _Route16Biker1AfterBattleText
 	text_end
 
-Route16Biker2Text:
-	text_asm
-	ld hl, Route16TrainerHeader1
-	call TalkToTrainer
-	rst TextScriptEnd
-
 Route16Biker2BattleText:
 	text_far _Route16Biker2BattleText
 	text_end
@@ -178,12 +185,6 @@ Route16Biker2EndBattleText:
 Route16Biker2AfterBattleText:
 	text_far _Route16Biker2AfterBattleText
 	text_end
-
-Route16Biker3Text:
-	text_asm
-	ld hl, Route16TrainerHeader2
-	call TalkToTrainer
-	rst TextScriptEnd
 
 Route16Biker3BattleText:
 	text_far _Route16Biker3BattleText
@@ -197,12 +198,6 @@ Route16Biker3AfterBattleText:
 	text_far _Route16Biker3AfterBattleText
 	text_end
 
-Route16Biker4Text:
-	text_asm
-	ld hl, Route16TrainerHeader3
-	call TalkToTrainer
-	rst TextScriptEnd
-
 Route16biker4BattleText:
 	text_far _Route16biker4BattleText
 	text_end
@@ -215,12 +210,6 @@ Route16Biker4AfterBattleText:
 	text_far _Route16Biker4AfterBattleText
 	text_end
 
-Route16Biker5Text:
-	text_asm
-	ld hl, Route16TrainerHeader4
-	call TalkToTrainer
-	rst TextScriptEnd
-
 Route16Biker5BattleText:
 	text_far _Route16Biker5BattleText
 	text_end
@@ -232,12 +221,6 @@ Route16Biker5EndBattleText:
 Route16Biker5AfterBattleText:
 	text_far _Route16Biker5AfterBattleText
 	text_end
-
-Route16Biker6Text:
-	text_asm
-	ld hl, Route16TrainerHeader5
-	call TalkToTrainer
-	rst TextScriptEnd
 
 Route16Biker6BattleText:
 	text_far _Route16Biker6BattleText
@@ -258,3 +241,25 @@ Route16CyclingRoadSignText:
 Route16SignText:
 	text_far _Route16SignText
 	text_end
+
+Route16MankeyText:
+	text_far _Route16MankeyText
+	text_asm
+	ld a, MANKEY
+	call PlayCry
+	call DisplayTextPromptButton
+	ld hl, .glaring
+	rst _PrintText
+	rst TextScriptEnd
+.glaring
+	text_far _Route16MankeyText2
+	text_end
+
+MankeyHiddenObject::
+	CheckEvent FLAG_BALL_DESIGNER_TURNED_OFF
+	ret nz
+	ld a, TEXT_ROUTE16_MANKEY
+.displayTextID
+	ldh [hTextID], a
+	jp DisplayTextID
+

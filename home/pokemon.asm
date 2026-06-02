@@ -1,69 +1,5 @@
 DrawHPBar::
-; Draw an HP bar d tiles long, and fill it to e pixels.
-; If c is nonzero, show at least a sliver regardless.
-; The right end of the bar changes with [wHPBarType].
-
-	push hl
-	push de
-	push bc
-
-	; Left
-	ld a, $71 ; "HP:"
-	ld [hli], a
-	ld a, $62
-	ld [hli], a
-
-	push hl
-
-	; Middle
-	ld a, $63 ; empty
-.draw
-	ld [hli], a
-	dec d
-	jr nz, .draw
-
-	; Right
-	ld a, [wHPBarType]
-	dec a
-	ld a, $6d ; status screen and battle
-	jr z, .ok
-	dec a ; pokemon menu
-.ok
-	ld [hl], a
-
-	pop hl
-
-	ld a, e
-	and a
-	jr nz, .fill
-
-	; If c is nonzero, draw a pixel anyway.
-	ld a, c
-	and a
-	jr z, .done
-	ld e, 1
-
-.fill
-	ld a, e
-	sub 8
-	jr c, .partial
-	ld e, a
-	ld a, $6b ; full
-	ld [hli], a
-	ld a, e
-	and a
-	jr z, .done
-	jr .fill
-
-.partial
-	; Fill remaining pixels at the end if necessary.
-	ld a, $63 ; empty
-	add e
-	ld [hl], a
-.done
-	pop bc
-	pop de
-	pop hl
+	homecall _DrawHPBar
 	ret
 
 
@@ -103,7 +39,7 @@ LoadFrontSpriteByMonIndex::
 	push af
 	ld a, [wCurPartySpecies]
 	ld [wPokedexNum], a
-	predef IndexToPokedex
+	call IndexToPokedex
 	ld hl, wPokedexNum
 	ld a, [hl]
 	pop bc
@@ -113,7 +49,11 @@ LoadFrontSpriteByMonIndex::
 	cp NUM_POKEMON + 1
 	jr c, .validDexNumber   ; dex >#151 invalid
 .invalidDexNumber
-	ld a, RHYDON ; $1
+	; This is the so-called "Rhydon trap" or "Rhydon glitch"
+	; to fail-safe invalid dex numbers
+	; (see https://glitchcity.wiki/wiki/Rhydon_trap
+	; or https://bulbapedia.bulbagarden.net/wiki/Rhydon_glitch)
+	ld a, RHYDON
 	ld [wCurPartySpecies], a
 	ret
 .validDexNumber
@@ -203,14 +143,11 @@ PartyMenuInit::
 ; otherwise, it is 0
 .storeMaxMenuItemID
 	ld [hli], a ; max menu item ID
-	ld a, [wForcePlayerToChooseMon]
-	and a
-	ld a, A_BUTTON | B_BUTTON
-	jr z, .next
-	xor a
-	ld [wForcePlayerToChooseMon], a
-	inc a ; a = A_BUTTON
+	push hl
+	callfar GetPartyMenuWatchedKeys
+	pop hl
 .next
+	ld a, d
 	ld [hli], a ; menu watched keys
 	pop af
 	ld [hl], a ; old menu item ID
@@ -228,6 +165,21 @@ HandlePartyMenuInput::
 	ld [wPartyMenuAnimMonEnabled], a
 	ld a, [wCurrentMenuItem]
 	ld [wPartyAndBillsPCSavedMenuItem], a
+	bit B_PAD_SELECT, b
+	jr z, .notSelect
+	push af
+	ld a, SFX_PRESS_AB
+	rst _PlaySound
+	ld a, [wMenuItemToSwap]
+	and a
+	jr nz, .swap
+	pop af
+	inc a ; [wMenuItemToSwap] counts from 1
+	ld [wMenuItemToSwap], a
+	jr HandlePartyMenuInput
+.swap
+	pop af
+.notSelect
 	ld hl, wStatusFlags5
 	res BIT_NO_TEXT_DELAY, [hl]
 	ld a, [wMenuItemToSwap]
@@ -235,7 +187,7 @@ HandlePartyMenuInput::
 	jp nz, .swappingPokemon
 	pop af
 	ldh [hTileAnimations], a
-	bit BIT_B_BUTTON, b
+	bit B_PAD_B, b
 	jr nz, .noPokemonChosen
 	ld a, [wPartyCount]
 	and a
@@ -257,7 +209,7 @@ HandlePartyMenuInput::
 	scf
 	ret
 .swappingPokemon
-	bit BIT_B_BUTTON, b
+	bit B_PAD_B, b
 	jr z, .handleSwap ; if not, handle swapping the pokemon
 .cancelSwap ; if the B button was pressed
 	farcall ErasePartyMenuCursors
@@ -270,7 +222,7 @@ HandlePartyMenuInput::
 	ld a, [wCurrentMenuItem]
 	ld [wWhichPokemon], a
 	farcall SwitchPartyMon
-	jr HandlePartyMenuInput
+	jp HandlePartyMenuInput
 
 DrawPartyMenu::
 	ld hl, DrawPartyMenu_
@@ -301,11 +253,7 @@ PrintStatusCondition::
 	pop de
 	jr nz, PrintStatusConditionNotFainted
 ; if the pokemon's HP is 0, print "FNT"
-	ld a, "F"
-	ld [hli], a
-	ld a, "N"
-	ld [hli], a
-	ld [hl], "T"
+	ld_hli_a_string "FNT"
 	and a
 	ret
 
@@ -318,7 +266,8 @@ PrintStatusConditionNotFainted::
 ; hl = destination address
 ; [wLoadedMonLevel] = level
 PrintLevel::
-	ld a, "<LV>" ; ":L" tile ID
+	ld a, '<LV>' ; ":L" tile ID
+PrintLevelArbitraryTile::
 	ld [hli], a
 	ld c, 2 ; number of digits
 	ld a, [wLoadedMonLevel] ; level
@@ -334,7 +283,7 @@ PrintLevel::
 ; hl = destination address
 ; [wLoadedMonLevel] = level
 PrintLevelFull::
-	ld a, "<LV>" ; ":L" tile ID
+	ld a, '<LV>' ; ":L" tile ID
 	ld [hli], a
 	ld c, 3 ; number of digits
 	ld a, [wLoadedMonLevel] ; level
@@ -399,3 +348,17 @@ StarterToPartyID::
 	ld a, b
 	ret
 
+AreLearnsetsEnabled::
+	CheckEvent FLAG_LEARNSETS_DISABLED
+	jr nz, .no
+	CheckEvent EVENT_GOT_MOVEDEX
+	jr z, .no
+	; nz required to reach here
+	ret
+.no
+	xor a
+	ret
+	
+IndexToPokedex::
+	homecall _IndexToPokedex
+	ret

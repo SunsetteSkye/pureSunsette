@@ -12,9 +12,7 @@ Route12_Script:
 
 ; PureRGBnote: ADDED: code that keeps the cut tree cut down if we're in its alcove. Prevents getting softlocked if you delete cut.
 Route12CheckHideCutTree:
-	ld hl, wCurrentMapScriptFlags
-	bit BIT_CUR_MAP_LOADED_1, [hl] ; did we load the map from a save/warp/door/battle, etc?
-	res BIT_CUR_MAP_LOADED_1, [hl]
+	call WasMapJustLoaded
 	ret z ; map wasn't just loaded
 	ld de, Route12CutAlcove1
 	callfar FarArePlayerCoordsInRange
@@ -30,14 +28,7 @@ Route12CheckHideCutTree:
 .removeTreeBlocker
 	; if we're in the cut alcove, remove the tree
 	ld [wNewTileBlockID], a
-	predef_jump ReplaceTileBlock
-
-Route12ResetScripts:
-	xor a
-	ld [wJoyIgnore], a
-	ld [wRoute12CurScript], a
-	ld [wCurMapScript], a
-	ret
+	jp ReplaceTileBlock
 
 Route12_ScriptPointers:
 	def_script_pointers
@@ -69,8 +60,7 @@ Route12DefaultScript:
 ; PureRGBnote: ADDED: There's a new animation when snorlax wakes up.
 SnorlaxWakesUpAnimation::
 	; show an exclamation bubble when snorlax wakes up for effect
-	ld a, 1
-	ld [wMuteAudioAndPauseMusic], a
+	call PauseMusic
 	ld a, [wAudioROMBank]
 	push af
 	ld a, BANK(ExclamationBubbleSFX)
@@ -103,12 +93,12 @@ SnorlaxWakesUpAnimation::
 	dec b
 	jr nz, .loop
 	ret
-
+	
 Route12SnorlaxPostBattleScript:
 	ResetEvent EVENT_FIGHT_ROUTE12_SNORLAX
 	ld a, [wIsInBattle]
 	cp $ff
-	jp z, Route12ResetScripts
+	jr z, .done
 	ld hl, wCurrentMapScriptFlags
 	res BIT_MAP_LOADED_AFTER_BATTLE, [hl] ; indicates we loaded the map after battle, since we went to a script need to reset here to prevent a double fade
 	ld a, [wBattleFunctionalFlags]
@@ -150,13 +140,11 @@ Route12SnorlaxPostBattleScript:
 	jr .done
 .hide_snorlax
 	SetEvent EVENT_BEAT_ROUTE12_SNORLAX
-	ld a, HS_ROUTE_12_SNORLAX
-	ld [wMissableObjectIndex], a
-	predef_jump HideObject
+	ld c, TOGGLE_ROUTE_12_SNORLAX
+	jp HideObject
 .done
-	ld a, SCRIPT_ROUTE12_DEFAULT
+	call ResetMapScripts
 	ld [wRoute12CurScript], a
-	ld [wCurMapScript], a
 	ret
 .goBackToSleep
 	ld a, TEXT_ROUTE12_SNORLAX_WENT_BACK_TO_SLEEP
@@ -212,6 +200,7 @@ Route12_TextPointers:
 	dw_const Route12Fisher5Text,           TEXT_ROUTE12_FISHER5
 	dw_const Route12Text9,                 TEXT_ROUTE12_TAMER
 	dw_const Route12Text10,                TEXT_ROUTE12_SUPER_NERD
+	dw_const Route12GamblerText,           TEXT_ROUTE12_GAMBLER
 	dw_const PickUpItemText,               TEXT_ROUTE12_ITEM1
 	dw_const PickUpItemText,               TEXT_ROUTE12_ITEM2
 	dw_const PickUpItemText,               TEXT_ROUTE12_ITEM3 ; PureRGBnote: ADDED: new item in this location
@@ -241,6 +230,8 @@ Route12TrainerHeader7:
 	trainer EVENT_BEAT_ROUTE_12_TRAINER_7, 4, Route12BattleText8, Route12EndBattleText8, Route12AfterBattleText8
 Route12TrainerHeader8:
 	trainer EVENT_BEAT_ROUTE_12_TRAINER_8, 3, Route12BattleText9, Route12EndBattleText9, Route12AfterBattleText9
+Route12TrainerHeader9:
+	trainer EVENT_BEAT_ROUTE_12_TRAINER_9, 0, Route12GamblerBattleText, Route12GamblerEndBattleText, DoRet
 	db -1 ; end
 
 SnorlaxText:: ; PureRGBnote: CHANGED: now also used by route 16's snorlax
@@ -256,8 +247,7 @@ SnorlaxText:: ; PureRGBnote: CHANGED: now also used by route 16's snorlax
 ; PureRGBnote: ADDED: when you talk to sleeping snorlax, there's a little snoring animation.
 SnorlaxSnoring::
 	call .sound
-	ld a, 1
-	ld [wMuteAudioAndPauseMusic], a
+	call PauseMusic
 	ld c, 10
 	rst _DelayFrames
 .sound
@@ -278,13 +268,13 @@ Route12PrepareEmotionBubble:
   	ld a, ROUTE16_SNORLAX
 .load
 	ld [wEmotionBubbleSpriteIndex], a
-	predef_jump EmotionBubble
+	jpfar EmotionBubble
 
 Route12SnorlaxWokeUpText: ; PureRGBnote: CHANGED: now also used by route 16's snorlax
 	text_asm
 	ld hl, .wokeUp
 	rst _PrintText
-	callfar PlayTrainerMusic
+	callfar PlayDefaultTrainerMusic
 	rst TextScriptEnd
 .wokeUp
 	text_far _Route12SnorlaxWokeUpText
@@ -295,10 +285,31 @@ Route12SnorlaxCalmedDownText: ; PureRGBnote: CHANGED: now also used by route 16'
 	text_end
 
 Route12Fisher1Text:
-	text_asm
-	ld hl, Route12TrainerHeader0
-	call TalkToTrainer
-	rst TextScriptEnd
+	script_trainer Route12TrainerHeader0
+
+Route12Fisher2Text:
+	script_trainer Route12TrainerHeader1
+
+Route12CooltrainerMText:
+	script_trainer Route12TrainerHeader2
+
+Route12SuperNerdText:
+	script_trainer Route12TrainerHeader3
+
+Route12Fisher3Text:
+	script_trainer Route12TrainerHeader4
+
+Route12Fisher4Text:
+	script_trainer Route12TrainerHeader5
+
+Route12Fisher5Text:
+	script_trainer Route12TrainerHeader6
+
+Route12Text9:
+	script_trainer Route12TrainerHeader7
+
+Route12Text10:
+	script_trainer Route12TrainerHeader8
 
 Route12Fisher1BattleText:
 	text_far _Route12Fisher1BattleText
@@ -310,13 +321,10 @@ Route12Fisher1EndBattleText:
 
 Route12Fisher1AfterBattleText:
 	text_far _Route12Fisher1AfterBattleText
-	text_end
-
-Route12Fisher2Text:
 	text_asm
-	ld hl, Route12TrainerHeader1
-	call TalkToTrainer
-	rst TextScriptEnd
+	lb hl, DEX_GOLDEEN, FISHER
+	ld de, LearnsetGoldeen
+	predef_jump LearnsetTrainerScript
 
 Route12Fisher2BattleText:
 	text_far _Route12Fisher2BattleText
@@ -328,13 +336,10 @@ Route12Fisher2EndBattleText:
 
 Route12Fisher2AfterBattleText:
 	text_far _Route12Fisher2AfterBattleText
-	text_end
-
-Route12CooltrainerMText:
 	text_asm
-	ld hl, Route12TrainerHeader2
-	call TalkToTrainer
-	rst TextScriptEnd
+	lb hl, DEX_TENTACOOL, FISHER
+	ld de, TentacoolLearnset
+	predef_jump LearnsetTrainerScript
 
 Route12CooltrainerMBattleText:
 	text_far _Route12CooltrainerMBattleText
@@ -348,12 +353,6 @@ Route12CooltrainerMAfterBattleText:
 	text_far _Route12CooltrainerMAfterBattleText
 	text_end
 
-Route12SuperNerdText:
-	text_asm
-	ld hl, Route12TrainerHeader3
-	call TalkToTrainer
-	rst TextScriptEnd
-
 Route12SuperNerdBattleText:
 	text_far _Route12SuperNerdBattleText
 	text_end
@@ -366,12 +365,6 @@ Route12SuperNerdAfterBattleText:
 	text_far _Route12SuperNerdAfterBattleText
 	text_end
 
-Route12Fisher3Text:
-	text_asm
-	ld hl, Route12TrainerHeader4
-	call TalkToTrainer
-	rst TextScriptEnd
-
 Route12Fisher3BattleText:
 	text_far _Route12Fisher3BattleText
 	text_end
@@ -382,13 +375,10 @@ Route12Fisher3EndBattleText:
 
 Route12Fisher3AfterBattleText:
 	text_far _Route12Fisher3AfterBattleText
-	text_end
-
-Route12Fisher4Text:
 	text_asm
-	ld hl, Route12TrainerHeader5
-	call TalkToTrainer
-	rst TextScriptEnd
+	lb hl, DEX_SEADRA, FISHER
+	ld de, SeadraLearnset
+	predef_jump LearnsetTrainerScript
 
 Route12Fisher4BattleText:
 	text_far _Route12Fisher4BattleText
@@ -402,12 +392,6 @@ Route12Fisher4AfterBattleText:
 	text_far _Route12Fisher4AfterBattleText
 	text_end
 
-Route12Fisher5Text:
-	text_asm
-	ld hl, Route12TrainerHeader6
-	call TalkToTrainer
-	rst TextScriptEnd
-
 Route12Fisher5BattleText:
 	text_far _Route12Fisher5BattleText
 	text_end
@@ -420,12 +404,6 @@ Route12Fisher5AfterBattleText:
 	text_far _Route12Fisher5AfterBattleText
 	text_end
 
-Route12Text9:
-	text_asm
-	ld hl, Route12TrainerHeader7
-	call TalkToTrainer
-	rst TextScriptEnd
-
 Route12BattleText8:
 	text_far _Route12BattleText8
 	text_end
@@ -436,13 +414,10 @@ Route12EndBattleText8:
 
 Route12AfterBattleText8:
 	text_far _Route12AfterBattleText8
-	text_end
-
-Route12Text10:
 	text_asm
-	ld hl, Route12TrainerHeader8
-	call TalkToTrainer
-	rst TextScriptEnd
+	lb hl, DEX_SHELLDER, TAMER
+	ld de, ShellderLearnset
+	predef_jump LearnsetTrainerScript
 
 Route12BattleText9:
 	text_far _Route12BattleText9
@@ -467,3 +442,52 @@ Route12SportFishingSignText:
 Route12SnorlaxWentBackToSleepText:
 	text_far _SnorlaxWentBackToSleepText
 	text_end
+
+Route12GamblerText:
+	text_asm
+	CheckEvent EVENT_BEAT_ROUTE_12_TRAINER_9
+	jr nz, .metronomeTeach
+	ld hl, Route12TrainerHeader9
+	call TalkToTrainer
+	rst TextScriptEnd
+.metronomeTeach
+	ld hl, .teach
+	rst _PrintText
+	call YesNoChoice
+	ld hl, .ohWell
+	jr nz, .printDone
+	ld a, METRONOME
+	ld [wMoveNum], a
+	callfar SingleMoveTutorScript
+	ld a, d
+	and a
+	ld hl, .ohWell
+	jr z, .printDone
+	dec a
+	ld hl, .chaos
+	jr z, .printDone
+	ld hl, .ditto
+.printDone
+	rst _PrintText
+	rst TextScriptEnd
+.teach
+	text_far _Route12MetronomeGamblerMetronomeTeachText
+	text_end
+.chaos
+	text_far _Route12MetronomeGamblerMetronomeTeach2Text
+	text_end
+.ohWell
+	text_far _NoTrade1Text
+	text_end
+.ditto
+	text_far _Route12MetronomeGamblerNoDitto
+	text_end
+
+Route12GamblerBattleText:
+	text_far _Route12MetronomeGamblerText
+	text_end
+
+Route12GamblerEndBattleText:
+	text_far _Route12MetronomeGamblerEndBattleText
+	text_end
+	

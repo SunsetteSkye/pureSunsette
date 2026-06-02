@@ -62,9 +62,7 @@ PlayEnhancedSecretLabMusic:
 	jp PlayMusic
 
 ReplaceDoor:
-	ld hl, wCurrentMapScriptFlags
-	bit BIT_CUR_MAP_LOADED_1, [hl]
-	res BIT_CUR_MAP_LOADED_1, [hl]
+	call WasMapJustLoaded
 	ret z
 	ResetEvent EVENT_OPENED_MACHINE_DOOR
 	CheckEvent EVENT_OPENED_SECRET_LAB_BARRICADE
@@ -77,7 +75,7 @@ ReplaceDoor:
 .upDoorCheck
 	cp 16
 	ret nz
-	ld d, D_UP
+	ld d, PAD_UP
 	jpfar ForceStepFromDoor
 .clearPassword
 	xor a
@@ -89,7 +87,7 @@ OpenBarricadeDoor:
 	lb bc, 11, 2
 	ld a, $32
 	ld [wNewTileBlockID], a
-	predef_jump ReplaceTileBlock
+	jp ReplaceTileBlock
 
 CheckOpponentWalkIn:
 	CheckEvent EVENT_BEAT_SECRET_LAB_CHIEF
@@ -136,7 +134,7 @@ CheckOpponentWalkIn:
 	set BIT_SCRIPTED_MOVEMENT_STATE, [hl]
 	ld a, 3
 	ld [wSimulatedJoypadStatesIndex], a
-	ld a, D_UP
+	ld a, PAD_UP
 	ld b, 3
 	ld hl, wSimulatedJoypadStatesEnd
 .loop
@@ -146,10 +144,10 @@ CheckOpponentWalkIn:
 	ld a, [wXCoord]
 	cp 4
 	jr z, .done
-	ld c, D_RIGHT
+	ld c, PAD_RIGHT
 	ld d, a
 	jr c, .right
-	ld c, D_LEFT
+	ld c, PAD_LEFT
 	sub 4
 	jr .loop2
 .right
@@ -179,8 +177,7 @@ WaitForWalkFinish:
 	bit BIT_SCRIPTED_MOVEMENT_STATE, a
 	ret nz
 	ResetEvent EVENT_SECRET_LAB_NPC_WALK_IN_HAPPENING
-	xor a
-	ld [wJoyIgnore], a
+	call EnableAllJoypad
 	CheckEvent EVENT_SECRET_LAB_NPC_WALK_OUT_HAPPENING
 	jr nz, .hideNPC
 	ld a, TEXT_SECRETLAB_ENGAGE_TRAINER
@@ -190,19 +187,16 @@ WaitForWalkFinish:
 	ld a, SFX_GO_OUTSIDE
 	rst _PlaySound
 	CheckEvent EVENT_BEAT_SECRET_LAB_SOLDIER_0
-	ld a, HS_SECRET_LAB_SOLDIER_1
-	call nz, .hideNPCAction
+	ld c, TOGGLE_SECRET_LAB_SOLDIER_1
+	call nz, HideExtraObject
 	CheckEvent EVENT_BEAT_SECRET_LAB_SOLDIER_1
-	ld a, HS_SECRET_LAB_SOLDIER_2
-	call nz, .hideNPCAction
+	ld c, TOGGLE_SECRET_LAB_SOLDIER_2
+	call nz, HideExtraObject
 	CheckEvent EVENT_BEAT_SECRET_LAB_CHIEF
-	ld a, HS_SECRET_LAB_CHIEF
-	call nz, .hideNPCAction
+	ld c, TOGGLE_SECRET_LAB_CHIEF
+	call nz, HideExtraObject
 	ResetEvent EVENT_SECRET_LAB_NPC_WALK_OUT_HAPPENING
 	ret
-.hideNPCAction
-	ld [wMissableObjectIndex], a
-	predef_jump HideExtraObject
 
 SoldierLeaveMovementDefault:
 	db NPC_MOVEMENT_RIGHT
@@ -286,9 +280,7 @@ CheckRestartMusic:
 	ld a, [wYCoord]
 	cp 27
 	ret c
-	xor a
-	ld [wMuteAudioAndPauseMusic], a
-	ret
+	jp ResumeMusic
 
 CheckNoteButtons:
 	ld a, [wYCoord]
@@ -376,10 +368,7 @@ CheckNoteButtons:
 .playButtonPressTick	
 	push af
 	CheckEvent EVENT_OPENED_SECRET_LAB_BARRICADE
-	jr nz, .noStopMusic
-	ld a, 1
-	ld [wMuteAudioAndPauseMusic], a
-.noStopMusic
+	call z, PauseMusic
 	ld a, SFX_TELEPORT_ENTER_2
 	rst _PlaySound
 	ld c, 10
@@ -447,10 +436,10 @@ CheckPasswordCorrect:
 	ret
 
 PlayerMoveToDoor:: ; these happen in reverse order
-	db D_LEFT
-	db D_LEFT
-	db D_LEFT
-	db D_DOWN
+	db PAD_LEFT
+	db PAD_LEFT
+	db PAD_LEFT
+	db PAD_DOWN
 
 StoreNoteToPassword:
 	pop af
@@ -491,14 +480,13 @@ CheckWalkingToDoor:
 	ld a, PLAYER_DIR_UP
 	ld [wPlayerMovingDirection], a
 	call UpdateSprites
-	xor a
-	ld [wJoyIgnore], a
+	call EnableAllJoypad
 	SetEvent EVENT_OPENED_SECRET_LAB_BARRICADE
 	call SecretLabShakeScreen
 	lb bc, 11, 2
 	ld a, $31
 	ld [wNewTileBlockID], a
-	predef ReplaceTileBlock
+	call ReplaceTileBlock
 	call SecretLabShakeScreen
 	call OpenBarricadeDoor
 	ld c, 60
@@ -562,7 +550,7 @@ ToggleMachineDoorQuick:
 .open
 	ld [wNewTileBlockID], a
 	push af
-	predef ReplaceTileBlock
+	call ReplaceTileBlock
 	pop af
 	and a
 	ret z
@@ -579,8 +567,7 @@ CheckMewtwoTransform:
 	ld a, PLAYER_DIR_UP
 	ld [wPlayerMovingDirection], a
 	call UpdateSprites
-	xor a
-	ld [wJoyIgnore], a
+	call EnableAllJoypad
 	ld a, TEXT_SECRETLAB_MEWTWO_TRANSFORMATION
 	ldh [hTextID], a
 	jp DisplayTextID
@@ -704,7 +691,7 @@ SecretLabAfterBattleText3:
 
 SecretLabFailedClonesText:
 	text_asm
-	ld a, [wHiddenObjectFunctionArgument]
+	ld a, [wHiddenEventFunctionArgument]
 	ld hl, SecretLabFailedClonesTextPointers
 	call GetAddressFromPointerArray
 	rst _PrintText
@@ -749,7 +736,7 @@ SecretLabComputersText:
 	text_asm
 	ld a, SFX_ENTER_PC
 	rst _PlaySound
-	ld a, [wHiddenObjectFunctionArgument]
+	ld a, [wHiddenEventFunctionArgument]
 	ld hl, SecretLabComputersTextPointers
 	call GetAddressFromPointerArray
 	rst _PrintText
@@ -769,6 +756,25 @@ SecretLabComputer2Text:
 	text_end
 SecretLabComputer3Text:
 	text_far _SecretLabComputer3Text
+	text_asm
+	ld d, MEWTWO
+	callfar IsMonInParty
+	jr c, .haveMewtwo
+	ld d, ARMORED_MEWTWO
+	callfar IsMonInParty
+	jr nc, .done
+.haveMewtwo
+	CheckEvent FLAG_MEWTWO_LEARNSET
+	jr nz, .done
+	call DisplayTextPromptButton
+	ld hl, .moreInfo
+	rst _PrintText
+	ld d, DEX_MEWTWO
+	jpfar KeepReadingBookLearnset
+.done
+	rst TextScriptEnd
+.moreInfo
+	text_far _SecretLabComputer3BText
 	text_end
 SecretLabComputer4Text:
 	text_far _SecretLabComputer4Text
@@ -831,7 +837,7 @@ SecretLabMewtwoMachineText:
 	jr nz, .startTransform
 	ld a, 6
 	ld [wSimulatedJoypadStatesIndex], a
-	ld a, D_LEFT
+	ld a, PAD_LEFT
 	ld de, wSimulatedJoypadStatesEnd + 5
 	ld [de], a
 .startTransform
@@ -842,11 +848,11 @@ SecretLabMewtwoMachineText:
 	rst TextScriptEnd
 
 PlayerMewtwoTransformMoveScript:: ; these happen in reverse order
-	db D_LEFT
-	db D_DOWN
-	db D_DOWN
-	db D_UP
-	db D_LEFT
+	db PAD_LEFT
+	db PAD_DOWN
+	db PAD_DOWN
+	db PAD_UP
+	db PAD_LEFT
 
 SecretLabMewtwoMachineText1:
 	text_far _SecretLabMewtwoMachineText
@@ -952,8 +958,6 @@ SecretLabMewtwoTransformation:
 	rst _PrintText
 	jr .done
 .animationStart
-	ld a, MEWTWO
-	ld [wWholeScreenPaletteMonSpecies], a
 	ld a, SFX_INTRO_WHOOSH
 	rst _PlaySound
 	ld c, 60
@@ -972,7 +976,7 @@ SecretLabMewtwoTransformation:
 	call ClearScreen
 	call GBPalNormal
 	call Delay3
-	ld b, SET_PAL_GENERIC
+	lb de, SET_PAL_POKEMON_WHOLE_SCREEN_TRADE, MEWTWO
 	call RunPaletteCommand
 	hlcoord 7, 4
 	ld a, [wCurPartySpecies]

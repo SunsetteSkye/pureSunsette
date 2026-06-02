@@ -32,7 +32,7 @@ Route18Gate1FDefaultScript:
 	ld [wSimulatedJoypadStatesIndex], a
 	ld b, 0
 	ld c, a
-	ld a, D_UP
+	ld a, PAD_UP
 	ld hl, wSimulatedJoypadStatesEnd
 	call FillMemory
 	call StartSimulatingJoypadStates
@@ -55,8 +55,7 @@ Route18Gate1FPlayerMovingUpScript:
 	ld a, [wSimulatedJoypadStatesIndex]
 	and a
 	ret nz
-	ld a, D_RIGHT | D_LEFT | D_UP | D_DOWN
-	ld [wJoyIgnore], a
+	call DisableDpad
 
 Route18Gate1FGuardScript:
 	ld a, TEXT_ROUTE18GATE1F_GUARD
@@ -64,7 +63,7 @@ Route18Gate1FGuardScript:
 	call DisplayTextID
 	ld a, $1
 	ld [wSimulatedJoypadStatesIndex], a
-	ld a, D_RIGHT
+	ld a, PAD_RIGHT
 	ld [wSimulatedJoypadStatesEnd], a
 	call StartSimulatingJoypadStates
 	ld a, SCRIPT_ROUTE18GATE1F_PLAYER_MOVING_RIGHT
@@ -75,12 +74,10 @@ Route18Gate1FPlayerMovingRightScript:
 	ld a, [wSimulatedJoypadStatesIndex]
 	and a
 	ret nz
-	xor a
-	ld [wJoyIgnore], a
+	call EnableAllJoypad
+	ld [wRoute18Gate1FCurScript], a ; SCRIPT_ROUTE18GATE1F_DEFAULT
 	ld hl, wStatusFlags5
 	res BIT_SCRIPTED_MOVEMENT_STATE, [hl]
-	ld a, SCRIPT_ROUTE18GATE1F_DEFAULT
-	ld [wRoute18Gate1FCurScript], a
 	ret
 
 Route18Gate1F_TextPointers:
@@ -91,14 +88,11 @@ Route18Gate1F_TextPointers:
 Route18Gate1FGuardText:
 	text_asm
 	call Route16Gate1FIsBicycleInBagScript
-	jr z, .no_bike
-	ld hl, .CyclingRoadUphillText
-	rst _PrintText
-	jr .text_script_end
-.no_bike
 	ld hl, .YouNeedABicycleText
+	jr z, .printDone
+	ld hl, .CyclingRoadUphillText
+.printDone
 	rst _PrintText
-.text_script_end
 	rst TextScriptEnd
 
 .YouNeedABicycleText:

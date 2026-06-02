@@ -20,19 +20,19 @@ _GivePokemon::
 	callfar SendNewMonToBox
 	ld hl, wStringBuffer
 	ld a, [wCurrentBoxNum]
-	and $7f
+	and BOX_NUM_MASK
 	cp 9
 	jr c, .singleDigitBoxNum
 	sub 9
-	ld [hl], "1"
+	ld [hl], '1'
 	inc hl
-	add "0"
+	add '0'
 	jr .next
 .singleDigitBoxNum
-	add "1"
+	add '1'
 .next
 	ld [hli], a
-	ld [hl], "@"
+	ld [hl], '@'
 	ld hl, SentToBoxText
 	rst _PrintText
 	callfar PrintRemainingBoxSpace ; PureRGBnote: ADDED: 
@@ -67,7 +67,7 @@ SetPokedexOwnedFlag:
 	ld a, [wCurPartySpecies]
 	push af
 	ld [wPokedexNum], a
-	predef IndexToPokedex
+	call IndexToPokedex
 	ld a, [wPokedexNum]
 	and a
 	ret z ; PureRGBnote: ADDED: do nothing for missingno to avoid glitchy results (missingno isn't part of the dex	)
@@ -75,7 +75,7 @@ SetPokedexOwnedFlag:
 	ld c, a
 	ld hl, wPokedexOwned
 	ld b, FLAG_SET
-	predef FlagActionPredef
+	call FlagAction
 	pop af
 	ld [wNamedObjectIndex], a
 	call GetMonName

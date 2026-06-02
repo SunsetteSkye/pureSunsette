@@ -1,6 +1,8 @@
 ; PureRGBnote: ADDED: Entirely new menu for listing the moves a player has witnessed. This functionality is obtained in viridian city schoolhouse.
 
 ShowMovedexMenu:
+	ld hl, wPokedexDataFlags
+	res 3, [hl]
 	call GBPalWhiteOut
 	call ClearScreen
 	call UpdateSprites
@@ -15,7 +17,7 @@ ShowMovedexMenu:
 	ld c, TACKLE - 1
 	ld b, FLAG_SET
 	ld hl, wMovedexSeen
-	predef FlagActionPredef ; mark this move as seen in the movedex
+	call FlagAction ; mark this move as seen in the movedex
 .hasMoves
 	ld a, [wListScrollOffset]
 	push af
@@ -28,7 +30,7 @@ ShowMovedexMenu:
 	ld [wMovedexMoveID], a
 	ldh [hJoy7], a
 .setUpGraphics
-	ld b, SET_PAL_TOWN_MAP
+	ld d, SET_PAL_TOWN_MAP
 	call RunPaletteCommand
 	callfar LoadPokedexTilePatterns
 
@@ -49,7 +51,7 @@ ShowMovedexMenu:
 	inc hl
 	ld a, 6
 	ld [hli], a ; max menu item ID
-	ld [hl], D_LEFT | D_RIGHT | B_BUTTON | A_BUTTON | SELECT | START
+	ld [hl], PAD_LEFT | PAD_RIGHT | PAD_B | PAD_A | PAD_SELECT | PAD_START
 	call HandleMovedexListMenu
 	jr c, .goToMoveData ; if the player chose a move from the list
 	cp 1
@@ -181,10 +183,8 @@ HandleMovedexListMenu:
 	ld hl, wMovedexSeen
 	call IsMoveBitSet
 	jr nz, .getMoveName ; if the player has seen the move
-	ld de, .dashedLine ; print a dashed line in place of the name if the player hasn't seen the move
+	ld de, MoveDashedLine ; print a dashed line in place of the name if the player hasn't seen the move
 	jr .skipGettingName
-.dashedLine ; for unseen moves in the list
-	db "-----------@"
 .getMoveName
 	call GetMoveName
 .skipGettingName
@@ -200,19 +200,18 @@ HandleMovedexListMenu:
 	jr nz, .printMoveLoop
 	ld a, 01
 	ldh [hAutoBGTransferEnabled], a
-	call Delay3
 	call GBPalNormal
 	call HandleMenuInput
-	bit BIT_START, a
+	bit B_PAD_START, a
 	jp nz, .startPressed
-	bit BIT_SELECT, a
+	bit B_PAD_SELECT, a
 	jp nz, .selectPressed
-	bit BIT_B_BUTTON, a
+	bit B_PAD_B, a
 	jp nz, .buttonBPressed
-	bit BIT_A_BUTTON, a 
+	bit B_PAD_A, a 
 	jp nz, .buttonAPressed 
 .checkIfUpPressed
-	bit BIT_D_UP, a
+	bit B_PAD_UP, a
 	jr z, .checkIfDownPressed
 .upPressed ; scroll up one row
 	ld a, [wListScrollOffset]
@@ -222,7 +221,7 @@ HandleMovedexListMenu:
 	ld [wListScrollOffset], a
 	jp .loop
 .checkIfDownPressed
-	bit BIT_D_DOWN, a
+	bit B_PAD_DOWN, a
 	jr z, .checkIfRightPressed
 .downPressed ; scroll down one row
 	ld a, [wDexMaxSeenMove]
@@ -237,7 +236,7 @@ HandleMovedexListMenu:
 	ld [wListScrollOffset], a
 	jp .loop
 .checkIfRightPressed
-	bit BIT_D_RIGHT, a
+	bit B_PAD_RIGHT, a
 	jr z, .checkIfLeftPressed
 .rightPressed ; scroll down 7 rows
 	ld a, [wDexMaxSeenMove]
@@ -255,7 +254,7 @@ HandleMovedexListMenu:
 	ld [wListScrollOffset], a
 	jp .loop
 .checkIfLeftPressed ; scroll up 7 rows
-	bit BIT_D_LEFT, a
+	bit B_PAD_LEFT, a
 	jr z, .buttonAPressed
 .leftPressed
 	ld a, [wListScrollOffset]
@@ -313,10 +312,7 @@ IsMoveBitSet:
 	dec a
 	ld c, a
 	ld b, FLAG_TEST
-	predef FlagActionPredef
-	ld a, c
-	and a
-	ret
+	jp FlagAction
 
 ; displays data about the move, first we have to load up a bunch of data to display this screen
 ShowMoveData:
@@ -328,16 +324,12 @@ ShowMoveData:
 	ld [wMovedexMoveID], a
 	ld [wStoredMovedexListIndex], a
 	CheckFlag FLAG_MOVEDEX_SORTING_MODE
-	jr z, .dontConvertValue
-	call MoveConvertIndexToAlphabetical
-.dontConvertValue
+	call nz, MoveConvertIndexToAlphabetical
 	ld hl, wMovedexSeen
 	call IsMoveBitSet
 	ret z
-	ld hl, wStatusFlags2
-	set BIT_NO_AUDIO_FADE_OUT, [hl]
-	ld a, $33 ; 3/7 volume
-	ldh [rNR50], a
+ShowMoveDataExternal:
+	call HalfVolume
 	call ClearScreen
 	ldh a, [hTileAnimations]
 	push af
@@ -388,7 +380,7 @@ ShowNextMoveData:
 	call LoadTypeIcon
 	ld a, [wPlayerMoveType]
 	ld [wCurPartySpecies], a
-	ld b, SET_PAL_MOVEDEX
+	ld d, SET_PAL_MOVEDEX
 	call RunPaletteCommand
 	pop af
 	ld [wMovedexMoveID], a
@@ -433,9 +425,9 @@ ShowNextMoveData:
 	call PlaceString
 
 	hlcoord 14, 1
-	ld a, "№"
+	ld a, '№'
 	ld [hli], a
-	ld a, "<DOT>"
+	ld a, '<DOT>'
 	ld [hli], a
 	ld de, wMovedexMoveID
 	lb bc, LEADING_ZEROES | 1, 3
@@ -514,21 +506,24 @@ ShowNextMoveData:
 
 .printDescription
 	; start by storing the buttons we will track while displaying the description
-	ld a, B_BUTTON
+	ld a, PAD_B
 	ld b, a
+	ld a, [wPokedexDataFlags]
+	bit 3, a
+	jr nz, .noLeft ; no left or right function from external movedex data view
 	ld a, [wStoredMovedexListIndex]
 	ld c, a
 	ld a, [wDexMaxSeenMove]
 	cp c
 	jr z, .noRight
-	ld a, D_RIGHT
+	ld a, PAD_RIGHT
 	or b
 	ld b, a
 .noRight
 	ld a, [wDexMinSeenMove]
 	cp c
 	jr z, .noLeft
-	ld a, D_LEFT
+	ld a, PAD_LEFT
 	or b
 	ld b, a
 .noLeft
@@ -569,11 +564,11 @@ ShowNextMoveData:
 	and c
 	jr z, .waitForButtonPress
 .dontLoop
-	bit BIT_B_BUTTON, b
+	bit B_PAD_B, b
 	jr nz, .closeMenu
-	bit BIT_D_LEFT, b
+	bit B_PAD_LEFT, b
 	jr nz, .prevMove
-	bit BIT_D_RIGHT, b
+	bit B_PAD_RIGHT, b
 	jr nz, .nextMove
 	jr .waitForButtonPress
 .closeMenu
@@ -584,12 +579,8 @@ ShowNextMoveData:
 	call GBPalWhiteOut
 	call ClearScreen
 	call RunDefaultPaletteCommand
-	call LoadTextBoxTilePatterns
 	call GBPalNormal
-	ld hl, wStatusFlags2
-	res BIT_NO_AUDIO_FADE_OUT, [hl]
-	ld a, $77 ; max volume
-	ldh [rNR50], a
+	call MaxVolume
 	ld a, 1 ; 1 = indicate we have shown the data page and need to reload more stuff to go back
 	and a
 	ret
@@ -671,6 +662,9 @@ DrawBottomDataBorder: ; can change if there's no previous or next move
 	ld de, 1
 	lb bc, $6f, 12
 	call DrawTileLine ; draw bottom border
+	ld a, [wPokedexDataFlags]
+	bit 3, a
+	jr nz, .noPrev ; if bit 3 is set we won't have next or previous
 
 	ld a, [wStoredMovedexListIndex]
 	ld b, a
@@ -703,6 +697,9 @@ DrawBottomDataBorder: ; can change if there's no previous or next move
 	lb bc, 1, 3
 	call ClearScreenArea ; remove line above it
 .nextButton
+	ld a, [wPokedexDataFlags]
+	bit 3, a
+	jr nz, .noNext ; if bit 3 is set we won't have next or previous
 	pop bc
 	ld a, [wDexMaxSeenMove]
 	cp b
@@ -787,10 +784,8 @@ SeekToNext:
 .dontConvertValue
 	ld c, d
 	ld b, FLAG_TEST
-	predef FlagActionPredef
+	call FlagAction
 	pop de
-	ld a, c
-	and a
 	jr z, .loop ; if c = 0 keep searching
 	ld a, d
 	inc a ; now a = the desired move ID
@@ -841,10 +836,8 @@ SeekToPrevious:
 .dontConvertValue
 	ld c, d
 	ld b, FLAG_TEST
-	predef FlagActionPredef
+	call FlagAction
 	pop de
-	ld a, c
-	and a
 	jr z, .loop ; if c = 0 keep searching
 	ld a, d
 	inc a ; now a = desired move ID
@@ -921,8 +914,7 @@ GetLowestSeenMove:
 	ld c, a
 	ld b, FLAG_TEST
 	ld hl, wMovedexSeen
-	predef FlagActionPredef
-	ld a, c
+	call FlagAction
 	pop bc
 	pop hl
 	inc b
@@ -966,8 +958,7 @@ GetHighestSeenMove:
 	ld c, a
 	ld b, FLAG_TEST
 	ld hl, wMovedexSeen
-	predef FlagActionPredef
-	ld a, c
+	call FlagAction
 	pop bc
 	pop hl
 	dec b
@@ -1043,3 +1034,6 @@ MoveQuestionMarkPowerText:
 MovedexTitleDividerLine:
 	db $68, $6B, $6B, $6B, $6B, $6B, $6B, $6B, $6B, $6B, $6B, $6B, $6B, $6B, $6B, $6B, $6B, $6B, $6B, $6A
 	db "@"
+
+MoveDashedLine:
+	db "-----------@"

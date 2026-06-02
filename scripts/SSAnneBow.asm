@@ -42,10 +42,10 @@ SSAnneBowCooltrainerMText:
 	text_end
 
 SSAnneBowSailor2Text:
-	text_asm
-	ld hl, SSAnne5TrainerHeader0
-	call TalkToTrainer
-	rst TextScriptEnd
+	script_trainer SSAnne5TrainerHeader0
+
+SSAnneBowSailor3Text:
+	script_trainer SSAnne5TrainerHeader1
 
 SSAnneBowSailor2BattleText:
 	text_far _SSAnneBowSailor2BattleText
@@ -58,12 +58,6 @@ SSAnneBowSailor2EndBattleText:
 SSAnneBowSailor2AfterBattleText:
 	text_far _SSAnneBowSailor2AfterBattleText
 	text_end
-
-SSAnneBowSailor3Text:
-	text_asm
-	ld hl, SSAnne5TrainerHeader1
-	call TalkToTrainer
-	rst TextScriptEnd
 
 SSAnneBowSailor3BattleText:
 	text_far _SSAnneBowSailor3BattleText

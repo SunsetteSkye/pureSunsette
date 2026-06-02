@@ -4,13 +4,12 @@
 ; and redraws the map view if necessary
 ; b = Y
 ; c = X
-ReplaceTileBlock:
-	call GetPredefRegisters
+_ReplaceTileBlock::
 	call ReplaceTileBlockCommon
 	ret z
 	call IsBCInHLTileBlockMapView
 	ret c
-	jp RedrawMapView 
+	jp RedrawMapView
 
 ReplaceMultipleTileBlocks::
 	ld h, d
@@ -153,8 +152,9 @@ ReplaceTileBlockAndCheckForRedraw:
 
 INCLUDE "engine/overworld/tile_block_replacements.asm"
 
-ReplaceTileBlockNoRedraw:
-	call GetPredefRegisters
+ReplaceTileBlockNoRedraw::
+	ld b, d
+	ld c, e
 	; fall through
 
 ReplaceTileBlockCommon:
@@ -210,7 +210,7 @@ RedrawMapView::
 	ld a, [hli]
 	ld h, [hl]
 	ld l, a
-	ld de, -2 * BG_MAP_WIDTH
+	ld de, -2 * TILEMAP_WIDTH
 	add hl, de
 	ld a, h
 	and $3
@@ -235,7 +235,7 @@ RedrawMapView::
 	jr nz, .calcWRAMAddrLoop
 	call CopyToRedrawRowOrColumnSrcTiles
 	pop hl
-	ld de, BG_MAP_WIDTH
+	ld de, TILEMAP_WIDTH
 	ldh a, [hRedrawMapViewRowOffset]
 	ld c, a
 .calcVRAMAddrLoop

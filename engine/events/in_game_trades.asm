@@ -1,3 +1,12 @@
+; TradeTextPointers1-3 indexes
+	const_def
+	const TRADETEXT_WANNA_TRADE ; 0
+	const TRADETEXT_NO_TRADE    ; 1
+	const TRADETEXT_WRONG_MON   ; 2
+	const TRADETEXT_THANKS      ; 3
+	const TRADETEXT_AFTER_TRADE ; 4
+DEF NUM_TRADE_TEXTS EQU const_value
+
 DoInGameTradeDialogue:
 ; trigger the trade offer/action specified by wWhichTrade
 	call SaveScreenTilesToBuffer2
@@ -39,26 +48,24 @@ DoInGameTradeDialogue:
 	ld a, [wWhichTrade]
 	ld c, a
 	ld b, FLAG_TEST
-	predef FlagActionPredef
-	ld a, c
-	and a
-	ld a, $4
+	call FlagAction
+	ld a, TRADETEXT_AFTER_TRADE
 	ld [wInGameTradeTextPointerTableIndex], a
 	jr nz, .printText
 ; if the trade hasn't been done yet
+	ASSERT TRADETEXT_WANNA_TRADE == 0
 	xor a
 	ld [wInGameTradeTextPointerTableIndex], a
 	call .printText
-	ld a, $1
+	ld a, TRADETEXT_NO_TRADE
 	ld [wInGameTradeTextPointerTableIndex], a
 	call YesNoChoice
-	ld a, [wCurrentMenuItem]
-	and a
 	jr nz, .printText
 	call InGameTrade_DoTrade
 	jr c, .printText
 	ld hl, TradedForText
 	rst _PrintText
+	call PlayDefaultMusic
 .printText
 	ld hl, wInGameTradeTextPointerTableIndex
 	ld a, [hld] ; wInGameTradeTextPointerTableIndex
@@ -72,7 +79,8 @@ DoInGameTradeDialogue:
 	ld a, [hli]
 	ld h, [hl]
 	ld l, a
-	jp PrintText
+	rst _PrintText
+	ret
 
 ; copies name of species a to hl
 InGameTrade_GetMonName:
@@ -95,18 +103,18 @@ InGameTrade_DoTrade:
 	push af
 	call InGameTrade_RestoreScreen
 	pop af
-	ld a, $1
+	ld a, TRADETEXT_NO_TRADE
 	jp c, .tradeFailed ; jump if the player didn't select a pokemon
 	ld a, [wInGameTradeGiveMonSpecies]
 	ld b, a
 	ld a, [wCurPartySpecies]
 	cp b
-	ld a, $2
+	ld a, TRADETEXT_WRONG_MON
 	jp nz, .tradeFailed ; jump if the selected mon's species is not the required one
 	ld a, [wWhichPokemon]
 ;;;;;;;;;; PureRGBnote: ADDED: check if we need to store whether the player's pokemon uses alternate palette to make the trade animation correct
 	ld hl, wPartyMon1Flags
-	ld bc, wPartyMon2 - wPartyMon1
+	ld bc, PARTYMON_STRUCT_LENGTH
 	call AddNTimes
 	ld a, [hl]
 	and 1
@@ -120,9 +128,10 @@ InGameTrade_DoTrade:
 	ld a, [wWhichTrade]
 	ld c, a
 	ld b, FLAG_SET
-	predef FlagActionPredef
+	call FlagAction
 	ld hl, ConnectCableText
 	rst _PrintText
+	call PlayInGameTradeMusic
 	ld a, [wWhichPokemon]
 	push af
 	ld a, [wCurEnemyLevel]
@@ -130,7 +139,7 @@ InGameTrade_DoTrade:
 	call GetTradeMonPalette ; PureRGBnote: ADDED: stores whether mon you receive via trade has an alternate palette into wIsAltPalettePkmnData
 	call LoadHpBarAndStatusTilePatterns
 	call InGameTrade_PrepareTradeData
-	predef InternalClockTradeAnim
+	callfar InternalClockTradeAnim
 	pop af
 	ld [wCurEnemyLevel], a
 	pop af
@@ -145,12 +154,12 @@ InGameTrade_DoTrade:
 	ld [wMonDataLocation], a
 	call AddPartyMon
 	call InGameTrade_CopyDataToReceivedMon
-	callfar EvolveTradeMon
+	;callfar InGameTrade_CheckForTradeEvo ; PureRGBnote: REMOVED: not needed
 	call ClearScreen
 	call InGameTrade_RestoreScreen
 	farcall RedrawMapView
 	and a
-	ld a, $3
+	ld a, TRADETEXT_THANKS
 	jr .tradeSucceeded
 .tradeFailed
 	scf
@@ -160,25 +169,26 @@ InGameTrade_DoTrade:
 	ld [wIsAltPalettePkmnData], a ; PureRGBnote: ADDED: clear any alt palette flags so the next pokemon we deal with won't be alt palette
 	ret
 
+PlayInGameTradeMusic:
+	ld a, [wOptions2]
+	bit BIT_MUSIC, a ; is the MUSIC option set to OG+?
+	jr z, .evoMusic ; if not, don't play anything new
+	ld c, BANK(Music_Route3_Early)
+	ld hl, Music_Route3_Early
+	jp PlaySpecialFieldMusic
+.evoMusic
+	ld a, MUSIC_EVOLUTION
+	ld c, BANK(Music_Evolution)
+	jp PlayMusic
+
 GetTradeMonPalette:
 	ld a, [wWhichTrade]
-	ld hl, TradeMonPalettes
-	cp 8
-	jr c, .firstByte
-	inc hl
-	sub 8 ; PureRGBnote: if you have more than 16 in game trades this code will need to be updated.
-.firstByte
-	and a
-	ld b, a
+	ld hl, TradeMonFlags
+	ld d, 0
+	ld e, a
+	add hl, de
 	ld a, [hl]
-	jr z, .clearAndTestBit
-.loopShiftRight ; keep shifting until the bit we want to test is bit 0
-	srl a
-	dec b
-	jr nz, .loopShiftRight
-.clearAndTestBit
-	and 1 ; zero every other bit than bit 0
-	ld [wIsAltPalettePkmnData], a ; a now contains the flag value for whether the palette is alt or original.
+	ld [wIsAltPalettePkmnData], a ; a now contains alt palette flag and pokeball data for the in-game trade
 	ret
 
 InGameTrade_RestoreScreen::
@@ -205,13 +215,13 @@ InGameTrade_PrepareTradeData:
 	ld de, wTradedPlayerMonOT
 	ld bc, NAME_LENGTH
 	call InGameTrade_CopyData
-	ld hl, InGameTrade_TrainerString
 	ld de, wTradedEnemyMonOT
+	call GetInGameTradeTrainerName
 	call InGameTrade_CopyData
 	ld de, wLinkEnemyTrainerName
 	call InGameTrade_CopyData
 	ld hl, wPartyMon1OTID
-	ld bc, wPartyMon2 - wPartyMon1
+	ld bc, PARTYMON_STRUCT_LENGTH
 	ld a, [wWhichPokemon]
 	call AddNTimes
 	ld de, wTradedPlayerMonOTID
@@ -240,14 +250,13 @@ InGameTrade_CopyDataToReceivedMon:
 	ld hl, wPartyMonOT
 	ld bc, NAME_LENGTH
 	call InGameTrade_GetReceivedMonPointer
-	ld hl, InGameTrade_TrainerString
-	ld bc, NAME_LENGTH
+	call GetInGameTradeTrainerName
 	rst _CopyData
 	ld hl, wPartyMon1OTID
-	ld bc, wPartyMon2 - wPartyMon1
+	ld bc, PARTYMON_STRUCT_LENGTH
 	call InGameTrade_GetReceivedMonPointer
 	ld hl, wTradedEnemyMonOTID
-	ld bc, $2
+	ld bc, 2
 	jp CopyData
 
 ; the received mon's index is (partyCount - 1),
@@ -260,11 +269,37 @@ InGameTrade_GetReceivedMonPointer:
 	ld d, h
 	ret
 
-InGameTrade_TrainerString:
-	db "<TRAINER>@@@@@@@@@@"
+GetInGameTradeTrainerName:
+	ld hl, InGameTrade_TrainerStrings
+	ld a, [wWhichTrade]
+	and a
+	ret z
+	ld bc, NAME_LENGTH
+.loop
+	add hl, bc
+	dec a
+	jr nz, .loop
+	ret
+
+MACRO trade_npc_name
+	dname \1, NAME_LENGTH
+ENDM
+
+InGameTrade_TrainerStrings:
+	trade_npc_name "BOBO"
+	trade_npc_name "GABE"
+	trade_npc_name "CROCKET"
+	trade_npc_name "DRGREEN"
+	trade_npc_name "MIMI"
+	trade_npc_name "SHEEN"
+	trade_npc_name "EDMUND"
+	trade_npc_name "MIKE"
+	trade_npc_name "GRACIE"
+	trade_npc_name "LILIAN"
 
 InGameTradeTextPointers:
 ; entries correspond to TRADE_DIALOGSET_* constants
+	table_width 2
 	dw TradeTextPointers1
 	dw TradeTextPointers2
 	dw TradeTextPointers3
@@ -272,27 +307,34 @@ InGameTradeTextPointers:
 	dw TradeTextPointers5
 	dw TradeTextPointers6
 	dw TradeTextPointers7
+	assert_table_length NUM_TRADE_DIALOGSETS
 
 TradeTextPointers1:
+	table_width 2
 	dw WannaTrade1Text
 	dw NoTrade1Text
 	dw WrongMon1Text
 	dw Thanks1Text
 	dw AfterTrade1Text
+	assert_table_length NUM_TRADE_TEXTS
 
 TradeTextPointers2:
+	table_width 2
 	dw WannaTrade2Text
 	dw NoTrade2Text
 	dw WrongMon2Text
 	dw Thanks2Text
 	dw AfterTrade2Text
+	assert_table_length NUM_TRADE_TEXTS
 
 TradeTextPointers3:
+	table_width 2
 	dw WannaTrade3Text
 	dw NoTrade3Text
 	dw WrongMon3Text
 	dw Thanks3Text
 	dw AfterTrade3Text
+	assert_table_length NUM_TRADE_TEXTS
 
 ;;;;;;;;;; PureRGBnote: ADDED: some trade NPCs have alt palette pokemon to trade and will tell you about it.
 
@@ -333,7 +375,13 @@ ConnectCableText:
 
 TradedForText:
 	text_far _TradedForText
-	sound_get_key_item
+	text_asm
+	call WaitForSoundToFinish
+	ld a, SFX_GET_KEY_ITEM
+	rst _PlaySound
+	ld hl, .pause
+	ret
+.pause
 	text_pause
 	text_end
 

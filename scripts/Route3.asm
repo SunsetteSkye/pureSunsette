@@ -51,10 +51,28 @@ Route3SuperNerdText:
 	text_end
 
 Route3Youngster1Text:
-	text_asm
-	ld hl, Route3TrainerHeader0
-	call TalkToTrainer
-	rst TextScriptEnd
+	script_trainer Route3TrainerHeader0
+
+Route3Youngster2Text:
+	script_trainer Route3TrainerHeader1
+
+Route3CooltrainerF1Text:
+	script_trainer Route3TrainerHeader2
+
+Route3Youngster3Text:
+	script_trainer Route3TrainerHeader3
+
+Route3CooltrainerF2Text:
+	script_trainer Route3TrainerHeader4
+
+Route3Youngster4Text:
+	script_trainer Route3TrainerHeader5
+
+Route3Youngster5Text:
+	script_trainer Route3TrainerHeader6
+
+Route3CooltrainerF3Text:
+	script_trainer Route3TrainerHeader7
 
 Route3Youngster1BattleText:
 	text_far _Route3Youngster1BattleText
@@ -68,12 +86,6 @@ Route3Youngster1AfterBattleText:
 	text_far _Route3Youngster1AfterBattleText
 	text_end
 
-Route3Youngster2Text:
-	text_asm
-	ld hl, Route3TrainerHeader1
-	call TalkToTrainer
-	rst TextScriptEnd
-
 Route3Youngster2BattleText:
 	text_far _Route3Youngster2BattleText
 	text_end
@@ -84,13 +96,33 @@ Route3Youngster2EndBattleText:
 
 Route3Youngster2AfterBattleText:
 	text_far _Route3Youngster2AfterBattleText
+	text_asm
+	call DisplayTextPromptButton
+	ld hl, ShortsYoungsterAfterQuestion
+	rst _PrintText
+	call YesNoChoice
+	jr z, .continue
+	ld hl, ShortsYoungsterAfterQuestionNo
+	rst _PrintText
+	rst TextScriptEnd
+.continue
+	ld hl, ShortsYoungsterAfterQuestionYes
+	rst _PrintText
+	lb hl, DEX_RATTATA, YOUNGSTER
+	ld de, Route3RattataLearnsetText
+	predef_jump LearnsetTrainerScript
+
+ShortsYoungsterAfterQuestion::
+	text_far _Route3Youngster2AfterBattleText2
 	text_end
 
-Route3CooltrainerF1Text:
-	text_asm
-	ld hl, Route3TrainerHeader2
-	call TalkToTrainer
-	rst TextScriptEnd
+ShortsYoungsterAfterQuestionYes::
+	text_far _Route3Youngster2AfterBattleText3Yes
+	text_end
+
+ShortsYoungsterAfterQuestionNo::
+	text_far _Route3Youngster2AfterBattleText3No
+	text_end
 
 Route3CooltrainerF1BattleText:
 	text_far _Route3CooltrainerF1BattleText
@@ -104,12 +136,6 @@ Route3CooltrainerF1AfterBattleText:
 	text_far _Route3CooltrainerF1AfterBattleText
 	text_end
 
-Route3Youngster3Text:
-	text_asm
-	ld hl, Route3TrainerHeader3
-	call TalkToTrainer
-	rst TextScriptEnd
-
 Route3Youngster3BattleText:
 	text_far _Route3Youngster3BattleText
 	text_end
@@ -121,12 +147,6 @@ Route3Youngster3EndBattleText:
 Route3Youngster3AfterBattleText:
 	text_far _Route3Youngster3AfterBattleText
 	text_end
-
-Route3CooltrainerF2Text:
-	text_asm
-	ld hl, Route3TrainerHeader4
-	call TalkToTrainer
-	rst TextScriptEnd
 
 Route3CooltrainerF2BattleText:
 	text_far _Route3CooltrainerF2BattleText
@@ -140,12 +160,6 @@ Route3CooltrainerF2AfterBattleText:
 	text_far _Route3CooltrainerF2AfterBattleText
 	text_end
 
-Route3Youngster4Text:
-	text_asm
-	ld hl, Route3TrainerHeader5
-	call TalkToTrainer
-	rst TextScriptEnd
-
 Route3Youngster4BattleText:
 	text_far _Route3Youngster4BattleText
 	text_end
@@ -157,12 +171,6 @@ Route3Youngster4EndBattleText:
 Route3Youngster4AfterBattleText:
 	text_far _Route3Youngster4AfterBattleText
 	text_end
-
-Route3Youngster5Text:
-	text_asm
-	ld hl, Route3TrainerHeader6
-	call TalkToTrainer
-	rst TextScriptEnd
 
 Route3Youngster5BattleText:
 	text_far _Route3Youngster5BattleText
@@ -176,12 +184,6 @@ Route3Youngster5AfterBattleText:
 	text_far _Route3Youngster5AfterBattleText
 	text_end
 
-Route3CooltrainerF3Text:
-	text_asm
-	ld hl, Route3TrainerHeader7
-	call TalkToTrainer
-	rst TextScriptEnd
-
 Route3CooltrainerF3BattleText:
 	text_far _Route3CooltrainerF3BattleText
 	text_end
@@ -192,7 +194,10 @@ Route3CooltrainerF3EndBattleText:
 
 Route3CooltrainerF3AfterBattleText:
 	text_far _Route3CooltrainerF3AfterBattleText
-	text_end
+	text_asm
+	lb hl, DEX_JIGGLYPUFF, LASS
+	ld de, Route3CooltrainerF3AfterBattleText2
+	predef_jump LearnsetTrainerScript
 
 Route3SignText:
 	text_far _Route3SignText

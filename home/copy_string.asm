@@ -8,6 +8,10 @@ CopyString::
 	ld a, [de]
 	inc de
 	ld [hli], a
-	cp "@"
+	cp '@'
 	jr nz, CopyString
 	ret
+
+CopyTrainerName::
+	ld hl, wTrainerName
+	jr CopyString

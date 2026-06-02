@@ -78,9 +78,9 @@ DrainHPEffect_:
 	xor a
 .next2
 	ld [wHPBarType], a
-	predef UpdateHPBar2
-	predef DrawPlayerHUDAndHPBar
-	predef DrawEnemyHUDAndHPBar
+	predef UpdateHPBar
+	callfar DrawPlayerHUDAndHPBar
+	callfar DrawEnemyHUDAndHPBar
 	callfar ReadPlayerMonCurHPAndStatus
 	ld hl, SuckedHealthText
 	ldh a, [hWhoseTurn]

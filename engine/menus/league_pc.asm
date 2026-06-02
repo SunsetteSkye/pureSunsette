@@ -58,7 +58,7 @@ LeaguePCShowTeam:
 	call LeaguePCShowMon
 	call WaitForTextScrollButtonPress
 	ldh a, [hJoyHeld]
-	bit BIT_B_BUTTON, a
+	bit B_PAD_B, a
 	jr nz, .exit
 	ld hl, wHallOfFame + HOF_MON
 	ld de, wHallOfFame
@@ -88,13 +88,14 @@ LeaguePCShowMon:
 	ld [wCurPartySpecies], a
 	ld [wCurSpecies], a
 	ld [wBattleMonSpecies2], a
-	ld [wWholeScreenPaletteMonSpecies], a
 	ld a, [hli]
 	ld [wHoFMonLevel], a
 	ld de, wNameBuffer
 	ld bc, NAME_LENGTH
 	rst _CopyData
-	lb bc, SET_PAL_POKEMON_WHOLE_SCREEN_TRADE, 0
+	ld a, [wCurSpecies]
+	ld e, a
+	ld d, SET_PAL_POKEMON_WHOLE_SCREEN_TRADE
 	call RunPaletteCommand
 	hlcoord 12, 5
 	call GetMonHeader
@@ -120,9 +121,7 @@ CheckMonAltPaletteLeaguePC:
 	ld c, b
 	ld b, FLAG_TEST
 	ld hl, wHallOfFamePalettes
-	predef FlagActionPredef
-	ld a, c
-	and a
+	call FlagAction
 	ld a, 1
 	jr nz, .set
 	dec a

@@ -52,12 +52,11 @@ _GenericAlwaysGoesFirstText::
 _MegaPunchDexEntry::
 	text "A titanic punch"
 	next "that can stun"
-	next "the <opponent>."
-	; fall through
-_Generic30PercentFlinchText::
-	bage "Causes <opponent>"
-	next "to flinch 30% of"
-	next "the time"
+	next "the <opponent>.@"
+	text_call _Generic10PercentFlinchText
+	bage "Flinch chance goes"
+	next "up to 30% if used"
+	next "by FIGHTING-types"
 	dex
 
 _PayDayDexEntry::
@@ -215,9 +214,12 @@ _BindDexEntry::
 _SlamDexEntry::
 	text "Slams the foe"
 	next "with a dirty tail"
-	next "leg, arm, etc.@"
+	next "leg, arm, etc. "
 
-	text_jump _GenericNoAdditionalEffectText
+	bage "Power increases to"
+	next "130 if opponent is"
+	next "poisoned"
+	dex
 
 
 _VineWhipDexEntry::
@@ -229,9 +231,13 @@ _VineWhipDexEntry::
 
 _StompDexEntry::
 	text "Stomps on the foe"
-	next "with feet/hooves.@"
-
-	text_jump _Generic30PercentFlinchText
+	next "with feet/hooves."
+	; fall through
+_Generic30PercentFlinchText::
+	bage "Causes <opponent>"
+	next "to flinch 30% of"
+	next "the time"
+	dex
 
 _DoubleKickDexEntry::
 	text "Delivers two"
@@ -275,7 +281,18 @@ _RollingKickDexEntry::
 _SandAttackDexEntry::
 	text "Blinds the foe"
 	next "with a spray of"
-	next "sand."
+	next "sand.@"
+
+	text_call _GenericLowerAccuracyText
+
+	bage "GROUND-types live"
+	next "in earth, so they"
+	next "are unaffected."
+
+	bage "FLYING #MON's"
+	next "keen eyes are"
+	next "also unaffected"
+	dex
 	; fall through
 _GenericLowerAccuracyText::
 	bage "Lowers the foe's"
@@ -345,7 +362,14 @@ _TakeDownDexEntry::
 	next "raging flames."
 
 	bage "30% chance of"
-	next "burning the foe"
+	next "burning the foe."
+
+	bage "If used by a FIRE"
+	next "type #MON,"
+
+	bage "also has a 40%"
+	next "chance of raising"
+	next "SPECIAL 1 stage"
 	dex
 
 _ThrashDexEntry::
@@ -508,9 +532,9 @@ _AcidDexEntry::
 	next "is unleashed on"
 	next "the <opponent>."
 
-	bage "33% chance to"
-	next "lower DEFENSE."
-	next "(-1 DEFENSE)"
+	bage "Always lowers"
+	next "either foe's"
+	next "ATTACK or DEFENSE"
 	dex
 
 _EmberDexEntry::
@@ -640,8 +664,8 @@ _HyperBeamDexEntry::
 	next "of destruction"
 
 	bage "is fired mightily"
-	next "at the foe in"
-	next "exalted glory."
+	next "at the foe."
+	next "Uses SPECIAL."
 
 	bage "After usage,"
 	next "the <user> rests"
@@ -756,6 +780,14 @@ _LeechSeedDexEntry::
 	bage "The seeds stay"
 	next "until the foe"
 	next "faints/switches."
+
+	bage "Seed damage goes"
+	next "up if the foe is"
+	next "weak to GRASS."
+
+	bage "RESIST: 1/16 HP"
+	next "NORMAL:  1/8 HP"
+	next "WEAK:   3/16 HP"
 
 	bage "Doesn't work on"
 	next "GRASS-type"
@@ -948,7 +980,11 @@ _ToxicDexEntry::
 
 	bage "The damage poison"
 	next "does to the foe"
-	next "grows each turn"
+	next "grows each turn."
+
+	bage "Accuracy increases"
+	next "to 100% when used"
+	next "by POISON #MON"
 	dex
 
 _ConfusionDexEntry::
@@ -1072,6 +1108,20 @@ _ScreechDexEntry::
 	bage "Greatly lowers"
 	next "foe's DEFENSE."
 	next "(-2 DEFENSE)"
+
+	bage "This weird screech"
+	next "will echo for the"
+	next "rest of battle."
+
+	bage "These echoes wake"
+	next "all #MON from"
+	next "sleep."
+
+	bage "This move is auto-"
+	next "used if the <user>"
+	next "is put to sleep."
+
+	bage "Never misses"
 	dex
 
 _DoubleTeamDexEntry::
@@ -1118,7 +1168,12 @@ _SmokescreenDexEntry::
 	next "shot everywhere,"
 	next "blinding the foe.@"
 
-	text_jump _GenericLowerAccuracyText
+	text_call _GenericLowerAccuracyText
+
+	bage "FIRE types are"
+	next "unaffected by this"
+	next "smoke"
+	dex
 
 _ConfuseRayDexEntry::
 	text "Strange rays of"
@@ -1383,7 +1438,12 @@ _SkullBashDexEntry::
 
 	bage "rock-hard skull.@"
 
-	text_jump _GenericKeptGoingCrashedText
+	text_call _GenericKeptGoingCrashedText
+	
+	bage "Accuracy increases"
+	next "to 100% when used"
+	next "by ROCK #MON"
+	dex
 
 _SpikeCannonDexEntry::
 	text "Rock-hard spikes"

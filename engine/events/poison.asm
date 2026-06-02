@@ -1,8 +1,7 @@
-ApplyOutOfBattlePoisonDamage:
+ApplyOutOfBattlePoisonDamage::
 	ld a, [wStatusFlags5]
-	assert BIT_SCRIPTED_MOVEMENT_STATE == 7
-	add a ; overflows scripted movement state bit into carry flag
-	jp c, .noBlackOut ; no black out if joypad states are being simulated
+	bit BIT_SCRIPTED_MOVEMENT_STATE, a
+	jp nz, .noBlackOut ; no black out if joypad states are being simulated
 	ld a, [wPartyCount]
 	and a
 	jp z, .noBlackOut
@@ -15,7 +14,7 @@ ApplyOutOfBattlePoisonDamage:
 	ld de, wPartySpecies
 .applyDamageLoop
 	ld a, [hl]
-	and (1 << PSN)
+	and 1 << PSN
 	jr z, .nextMon2 ; not poisoned
 	dec hl
 	dec hl
@@ -49,8 +48,7 @@ ApplyOutOfBattlePoisonDamage:
 	ld a, [wWhichPokemon]
 	ld hl, wPartyMonNicks
 	call GetPartyMonName
-	xor a
-	ld [wJoyIgnore], a
+	call EnableAllJoypad
 	call EnableAutoTextBoxDrawing
 	ld a, TEXT_MON_FAINTED
 	ldh [hTextID], a
@@ -65,7 +63,7 @@ ApplyOutOfBattlePoisonDamage:
 	ld a, [de]
 	inc a
 	jr z, .applyDamageLoopDone
-	ld bc, wPartyMon2 - wPartyMon1
+	ld bc, PARTYMON_STRUCT_LENGTH
 	add hl, bc
 	push hl
 	ld hl, wWhichPokemon
@@ -79,10 +77,10 @@ ApplyOutOfBattlePoisonDamage:
 	ld e, 0
 .countPoisonedLoop
 	ld a, [hl]
-	and (1 << PSN)
+	and 1 << PSN
 	or e
 	ld e, a
-	ld bc, wPartyMon2 - wPartyMon1
+	ld bc, PARTYMON_STRUCT_LENGTH
 	add hl, bc
 	dec d
 	jr nz, .countPoisonedLoop
@@ -90,11 +88,11 @@ ApplyOutOfBattlePoisonDamage:
 	and a ; are any party members poisoned?
 	jr z, .skipPoisonEffectAndSound
 	ld b, $2
-	predef ChangeBGPalColor0_4Frames ; change BG white to dark grey for 4 frames
+	call ChangeBGPalColor0_4Frames ; change BG white to dark gray for 4 frames
 	ld a, SFX_POISONED
 	rst _PlaySound
 .skipPoisonEffectAndSound
-	predef AnyPartyAlive
+	callfar AnyPartyAlive
 	ld a, d
 	and a
 	jr nz, .noBlackOut
@@ -111,3 +109,16 @@ ApplyOutOfBattlePoisonDamage:
 .done
 	ld [wOutOfBattleBlackout], a
 	ret
+
+; b = new color for BG color 0 (usually white) for 4 frames
+ChangeBGPalColor0_4Frames:
+	ldh a, [rBGP]
+	or b
+	ldh [rBGP], a
+	call UpdateGBCPal_BGP ; shinpokerednote: gbcnote: gbc color code from pokemon yellow
+	ld c, 4
+	rst _DelayFrames
+	ldh a, [rBGP]
+	and %11111100
+	ldh [rBGP], a
+	jp UpdateGBCPal_BGP ; shinpokerednote: gbcnote: gbc color code from pokemon yellow

@@ -1,6 +1,6 @@
 	db DEX_ONIX ; pokedex id
 
-	db  55,  65, 180,  80,  75
+	db  55,  65, 180,  80,  30
 	;   hp  atk  def  spd  spc
 
 	db ROCK, GROUND ; type
@@ -19,7 +19,7 @@
 	BODY_SLAM,\
 	SLASH,\
 	DOUBLE_EDGE,\
-	AMNESIA,\
+	AGILITY,\
 	HYPER_BEAM,\
 	BARRIER,\
 	DRAGON_RAGE,\

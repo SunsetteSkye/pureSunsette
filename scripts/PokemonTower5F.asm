@@ -26,21 +26,18 @@ PokemonTower5FDefaultScript:
 	ret nz
 	xor a
 	ldh [hJoyHeld], a
-	ld a, D_RIGHT | D_LEFT | D_UP | D_DOWN
-	ld [wJoyIgnore], a
+	call DisableDpad
 	ld hl, wStatusFlags4
 	set BIT_NO_BATTLES, [hl]
 	predef HealParty
 	call GBFadeOutToWhite
-	call Delay3
-	call Delay3
+	ld c, 6
+	rst _DelayFrames
 	call GBFadeInFromWhite
 	ld a, TEXT_POKEMONTOWER5F_PURIFIEDZONE
 	ldh [hTextID], a
 	call DisplayTextID
-	xor a
-	ld [wJoyIgnore], a
-	ret
+	jp EnableAllJoypad
 
 PokemonTower5FPurifiedZoneCoords:
 	dbmapcoord 10,  8
@@ -76,10 +73,16 @@ PokemonTower5FChanneler1Text:
 	text_end
 
 PokemonTower5FChanneler2Text:
-	text_asm
-	ld hl, PokemonTower5TrainerHeader0
-	call TalkToTrainer
-	rst TextScriptEnd
+	script_trainer PokemonTower5TrainerHeader0
+
+PokemonTower5FChanneler3Text:
+	script_trainer PokemonTower5TrainerHeader1
+
+PokemonTower5FChanneler4Text:
+	script_trainer PokemonTower5TrainerHeader2
+
+PokemonTower5FChanneler5Text:
+	script_trainer PokemonTower5TrainerHeader3
 
 PokemonTower5FChanneler2BattleText:
 	text_far _PokemonTower5FChanneler2BattleText
@@ -93,12 +96,6 @@ PokemonTower5FChanneler2AfterBattleText:
 	text_far _PokemonTower5FChanneler2AfterBattleText
 	text_end
 
-PokemonTower5FChanneler3Text:
-	text_asm
-	ld hl, PokemonTower5TrainerHeader1
-	call TalkToTrainer
-	rst TextScriptEnd
-
 PokemonTower5FChanneler3BattleText:
 	text_far _PokemonTower5FChanneler3BattleText
 	text_end
@@ -111,12 +108,6 @@ PokemonTower5FChanneler3AfterBattleText:
 	text_far _PokemonTower5FChanneler3AfterBattleText
 	text_end
 
-PokemonTower5FChanneler4Text:
-	text_asm
-	ld hl, PokemonTower5TrainerHeader2
-	call TalkToTrainer
-	rst TextScriptEnd
-
 PokemonTower5FChanneler4BattleText:
 	text_far _PokemonTower5FChanneler4BattleText
 	text_end
@@ -128,12 +119,6 @@ PokemonTower5FChanneler4EndBattleText:
 PokemonTower5FChanneler4AfterBattleText:
 	text_far _PokemonTower5FChanneler4AfterBattleText
 	text_end
-
-PokemonTower5FChanneler5Text:
-	text_asm
-	ld hl, PokemonTower5TrainerHeader3
-	call TalkToTrainer
-	rst TextScriptEnd
 
 PokemonTower5FChanneler5BattleText:
 	text_far _PokemonTower5FChanneler5BattleText

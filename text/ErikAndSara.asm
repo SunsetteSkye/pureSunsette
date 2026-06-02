@@ -90,7 +90,7 @@ _ErikSarasHouseNoteHomeText::
 	cont "the northern"
 	cont "VERMILION SEAWAY."
 	para "Perhaps this is"
-	line "where foundlings"
+	line "where juveniles"
 	cont "go for safety?"
 	done
 
@@ -358,7 +358,7 @@ _ErikDragonairResearch::
 	cont "are now gathering"
 	cont "down there."
 	para "SARA: Many are at"
-	line "an unusually high"
+	line "unusually high"
 	cont "levels!"
 	para "At levels they"
 	line "usually would've"
@@ -415,7 +415,7 @@ _SeafoamIslandsB4FDragonairEventStartText::
 	line "the plan!"
 	para "We'll dive down"
 	line "with @"
-	text_ram wNameBuffer
+	text_ram_namebuffer
 	text_start
 	cont "into the water"
 	cont "and see what"
@@ -490,7 +490,7 @@ _DragonairEventCloysterBeatenText::
 
 _DragonairEventTransformText::
 	text "@"
-	text_ram wNameBuffer
+	text_ram_namebuffer
 	text " went"
 	line "near the ice"
 	cont "crystals."
@@ -498,7 +498,7 @@ _DragonairEventTransformText::
 
 _DragonairEventTransformText2::
 	text "@"
-	text_ram wNameBuffer
+	text_ram_namebuffer
 	text " was"
 	line "filled with the"
 	cont "freezing power of"

@@ -33,6 +33,7 @@ CheckPerTurnSpecialBattleEffect::
 	ld [wEnemyMonStatus], a
 	ld hl, .autoPoisonedEnemy
 	rst _PrintText
+	callfar DrawEnemyHUDAndHPBar
 .dontPoisonIrradiated
 	ld a, 1
 	ldh [hWhoseTurn], a
@@ -47,6 +48,8 @@ CheckPerTurnSpecialBattleEffect::
 	ld [hl], 0
 	ld hl, .autoPoisoned
 	rst _PrintText
+	callfar ReadPlayerMonCurHPAndStatus
+	callfar DrawPlayerHUDAndHPBar
 .noPoison
 	ld hl, .growsLarger
 	rst _PrintText
@@ -124,6 +127,7 @@ CheckPerTurnSpecialBattleEffect::
 	ldh [hWhoseTurn], a ; force enemy turn so player's stats are lowered
 	ld de, wBattleMonStatus
 	callfar AutoBurnEffect
+	callfar ReadPlayerMonCurHPAndStatus
 	pop af
 	ldh [hWhoseTurn], a
 	ret
@@ -284,6 +288,7 @@ IsBattleMonGhostCubone:
 ; PureRGBnote: ADDED: This function runs when sending out a pokemon, in case we want to trigger a special event or effect when you
 ; send out every mon or a specific mon. Example: Sending out CUBONE vs THE MAW powers up Cubone.
 CheckOnSendOutSpecialEffect::
+	callfar AutoWakeUpSleepScreechPlayer
 	ld a, [wCurMap]
 	cp POKEMON_TOWER_B1F
 	ret nz

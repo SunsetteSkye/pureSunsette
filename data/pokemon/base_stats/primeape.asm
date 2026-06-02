@@ -1,6 +1,6 @@
 	db DEX_PRIMEAPE ; pokedex id
 
-	db  70, 115,  60,  95, 100
+	db  70, 115,  60,  95,  80
 	;   hp  atk  def  spd  spc
 
 	db NORMAL, FIGHTING ; type

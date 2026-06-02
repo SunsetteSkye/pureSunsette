@@ -1,14 +1,3 @@
-; monochrome palette color ids
-	const_def
-	const SHADE_WHITE ; %00
-	const SHADE_LIGHT ; %01
-	const SHADE_DARK  ; %10
-	const SHADE_BLACK ; %11
-DEF NUM_PAL_COLORS EQU const_value
-
-DEF PAL_COLOR_SIZE EQU 2
-DEF PALETTE_SIZE EQU NUM_PAL_COLORS * PAL_COLOR_SIZE
-
 ; pal/blk packets
 ; SetPalFunctions indexes (see engine/gfx/palettes.asm)
 	const_def
@@ -63,7 +52,7 @@ DEF SET_PAL_DEFAULT EQU $ff
 	const PAL_GREENMON  ; $16
 	const PAL_PINKMON   ; $17
 	const PAL_YELLOWMON ; $18
-	const PAL_GREYMON   ; $19
+	const PAL_GRAYMON   ; $19
 	const PAL_SLOTS1    ; $1A
 	const PAL_SLOTS2    ; $1B
 	const PAL_SLOTS3    ; $1C
@@ -84,4 +73,5 @@ DEF SET_PAL_DEFAULT EQU $ff
 	const PAL_SECRETLAB     ; $2B
 	const PAL_VOLCANO       ; $2C
 	const PAL_REALLY_REDMON ; $2D
+	const PAL_PRISMATIC     ; $2F
 DEF NUM_SGB_PALS EQU const_value

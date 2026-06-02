@@ -14,11 +14,11 @@ Route2_Script:
 ; after using the "Tree Deleter" all but 1 of the cut trees will be removed
 Route2ReplaceCutTiles:
 	ld hl, wCurrentMapScriptFlags
+	call .checkMoveJigglyPuff
 	bit BIT_CROSSED_MAP_CONNECTION, [hl] ; did we enter the map by traversal from another route
 	res BIT_CROSSED_MAP_CONNECTION, [hl]
 	jr nz, .removeAddCutTilesNoRedraw
-	bit BIT_CUR_MAP_LOADED_1, [hl] ; did we load the map from a save/warp/door/battle, etc?
-	res BIT_CUR_MAP_LOADED_1, [hl]
+	call WasMapJustLoaded
 	jr nz, .removeAddCutTiles
 	ret
 .removeAddCutTiles
@@ -36,13 +36,29 @@ Route2ReplaceCutTiles:
 	lb bc, 11, 7
 	ld a, $6D
 	ld [wNewTileBlockID], a
-	predef_jump ReplaceTileBlock
+	jp ReplaceTileBlock
 .removeAddCutTilesNoRedraw
 	CheckEvent EVENT_DELETED_ROUTE2_TREES
 	ret z
 	ld de, Route2TileBlockReplacements
 	; this guarantees avoiding redrawing the map because when going between areas these tiles are offscreen.
 	jpfar ReplaceMultipleTileBlocksForceNoRedraw
+.checkMoveJigglyPuff
+	bit BIT_CROSSED_MAP_CONNECTION, [hl]
+	jr nz, .moveJigglyPuff
+	bit BIT_CUR_MAP_LOADED_1, [hl]
+	jr nz, .moveJigglyPuff
+	ret
+.moveJigglyPuff
+	CheckEvent FLAG_BALL_DESIGNER_TURNED_OFF
+	ret nz
+	push hl
+	lb bc, SPRITESTATEDATA2_MAPY, ROUTE2_JIGGLYPUFF
+	call GetFromSpriteStateData2
+	ld [hl], 0 + 4 ; move Jigglypuff into place
+	pop hl
+	ret 
+
 
 Route2_ScriptPointers:
 	def_script_pointers
@@ -55,6 +71,7 @@ Route2_TextPointers:
 	dw_const Route2BugCatcherText,       TEXT_ROUTE2_BUG_CATCHER
 	dw_const Route2JrTrainerMText,       TEXT_ROUTE2_JR_TRAINER_M
 	dw_const Route2JrTrainerFText,       TEXT_ROUTE2_JR_TRAINER_F
+	dw_const Route2JigglypuffText,       TEXT_ROUTE2_JIGGLYPUFF
 	dw_const PickUpItemText,             TEXT_ROUTE2_ITEM1
 	dw_const PickUpItemText,             TEXT_ROUTE2_ITEM2
 	dw_const PickUpItemText,             TEXT_ROUTE2_ITEM3 ; PureRGBnote: ADDED: new item on this route.
@@ -72,10 +89,13 @@ Route2TrainerHeader2:
 	db -1 ; end
 
 Route2BugCatcherText:
-	text_asm
-	ld hl, Route2TrainerHeader0
-	call TalkToTrainer
-	rst TextScriptEnd
+	script_trainer Route2TrainerHeader0
+
+Route2JrTrainerMText:
+	script_trainer Route2TrainerHeader1
+
+Route2JrTrainerFText:
+	script_trainer Route2TrainerHeader2
 
 Route2BattleText1:
 	text_far _Route2BattleText1
@@ -87,13 +107,52 @@ Route2EndBattleText1:
 
 Route2AfterBattleText1:
 	text_far _Route2AfterBattleText1
+	text_asm
+	CheckEvent EVENT_GOT_LEARNSET_FROM_STORM_KID
+	jr nz, .done
+	call AreLearnsetsEnabled
+	jr z, .done
+	CheckBothEventsSet FLAG_PINSIR_LEARNSET, FLAG_SCYTHER_LEARNSET
+	jr z, .done
+	call DisplayTextPromptButton
+	CheckEventHL FLAG_SCYTHER_LEARNSET
+	ld a, PINSIR
+	jr nz, .useMon
+	CheckEventReuseHL FLAG_PINSIR_LEARNSET
+	ld a, SCYTHER
+	jr nz, .useMon
+	; player hasn't gotten either mon's learnset, ask which they'd prefer
+	ld hl, Route2StormKidLearnset1
+	rst _PrintText
+	call SaveScreenTilesToBuffer2
+	ld hl, ScytherPinsirMenu
+	ld b, PAD_A
+	call DisplayMultiChoiceTextBox
+	call LoadScreenTilesFromBuffer2
+	ld a, [wCurrentMenuItem]
+	and a
+	ld a, SCYTHER
+	jr z, .useMon
+	ld a, PINSIR
+.useMon
+	ld [wNamedObjectIndex], a
+	call GetMonName
+	call IndexToPokedex
+	callfar SetPokemonLearnsetUnlocked
+	ld hl, Route2AfterBattle2Learnset
+	rst _PrintText
+	SetEvent EVENT_GOT_LEARNSET_FROM_STORM_KID
+	jpfar LearnsetFadeOutInPkmnCenter
+.done
+	rst TextScriptEnd
+
+Route2StormKidLearnset1::
+	text_far _Route2AfterBattle1Learnset
 	text_end
 
-Route2JrTrainerMText:
-	text_asm
-	ld hl, Route2TrainerHeader1
-	call TalkToTrainer
-	rst TextScriptEnd
+Route2AfterBattle2Learnset::
+	text_far _Route2AfterBattle2Learnset
+	text_end
 
 Route2BattleText2:
 	text_far _Route2BattleText2
@@ -105,13 +164,10 @@ Route2EndBattleText2:
 
 Route2AfterBattleText2:
 	text_far _Route2AfterBattleText2
-	text_end
-
-Route2JrTrainerFText:
 	text_asm
-	ld hl, Route2TrainerHeader2
-	call TalkToTrainer
-	rst TextScriptEnd
+	lb hl, DEX_DIGLETT, JR_TRAINER_M
+	ld de, LearnsetAppreciator
+	predef_jump LearnsetTrainerScript
 
 Route2BattleText3:
 	text_far _Route2BattleText3
@@ -123,7 +179,10 @@ Route2EndBattleText3:
 
 Route2AfterBattleText3:
 	text_far _Route2AfterBattleText3
-	text_end
+	text_asm
+	lb hl, DEX_BULBASAUR, JR_TRAINER_F
+	ld de, Route2AfterBattle3Learnset
+	predef_jump LearnsetTrainerScript
 
 Route2SignText:
 	text_far _Route2SignText
@@ -132,3 +191,16 @@ Route2SignText:
 Route2DiglettsCaveSignText:
 	text_far _Route2DiglettsCaveSignText
 	text_end
+
+Route2JigglypuffText:
+	text_far _Route2JigglypuffText
+	text_asm
+	callfar PlayAlternateJigglypuffSong
+	rst TextScriptEnd
+
+Route2JigglypuffHiddenObject::
+	CheckEvent FLAG_BALL_DESIGNER_TURNED_OFF
+	ret nz
+	ld a, TEXT_ROUTE2_JIGGLYPUFF
+	ldh [hTextID], a
+	jp DisplayTextID

@@ -44,44 +44,28 @@ SSAnne10TrainerHeader5:
 	db -1 ; end
 
 SSAnneB1FRoomsSailor1Text:
-	text_asm
-	ld hl, SSAnne10TrainerHeader0
-	call TalkToTrainer
-	rst TextScriptEnd
+	script_trainer SSAnne10TrainerHeader0
 
 SSAnneB1FRoomsSailor2Text:
-	text_asm
-	ld hl, SSAnne10TrainerHeader1
-	call TalkToTrainer
-	rst TextScriptEnd
+	script_trainer SSAnne10TrainerHeader1
 
 SSAnneB1FRoomsSailor3Text:
-	text_asm
-	ld hl, SSAnne10TrainerHeader2
-	call TalkToTrainer
-	rst TextScriptEnd
+	script_trainer SSAnne10TrainerHeader2
 
 SSAnneB1FRoomsSailor4Text:
-	text_asm
-	ld hl, SSAnne10TrainerHeader3
-	call TalkToTrainer
-	rst TextScriptEnd
+	script_trainer SSAnne10TrainerHeader3
 
 SSAnneB1FRoomsSailor5Text:
-	text_asm
-	ld hl, SSAnne10TrainerHeader4
-	call TalkToTrainer
-	rst TextScriptEnd
+	script_trainer SSAnne10TrainerHeader4
 
 SSAnneB1FRoomsFisherText:
-	text_asm
-	ld hl, SSAnne10TrainerHeader5
-	call TalkToTrainer
-	rst TextScriptEnd
+	script_trainer SSAnne10TrainerHeader5
 
 SSAnneB1FRoomsMachokeText:
 	text_far _SSAnneB1FRoomsMachokeText
 	text_asm
+	ld c, DEX_MACHOKE - 1
+	callfar SetMonSeen
 	ld a, MACHOKE
 	call PlayCry
 	rst TextScriptEnd
@@ -160,4 +144,12 @@ SSAnneB1FRoomsFisherAfterBattleText:
 
 SSAnneB1FRoomsSuperNerdText:
 	text_far _SSAnneB1FRoomsSuperNerdText
-	text_end
+	text_asm
+	ld a, SSANNEB1FROOMS_MACHOKE
+	call SetSpriteFacingDown
+	ld c, DEX_MACHOKE - 1
+	callfar SetMonSeen
+	lb hl, DEX_MACHOKE, SAILOR
+	ld de, LearnsetTough
+	ld bc, LearnsetShowedCoolMoves
+	predef_jump LearnsetTrainerScriptMain

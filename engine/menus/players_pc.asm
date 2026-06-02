@@ -3,8 +3,6 @@
 PlayerPC::
 	ld hl, wStatusFlags5
 	set BIT_NO_TEXT_DELAY, [hl]
-	ld a, ITEM_NAME
-	ld [wNameListType], a
 	call SaveScreenTilesToBuffer1
 	xor a
 	ld [wBagSavedMenuItem], a
@@ -28,11 +26,12 @@ PlayerPCMenu:
 	call LoadScreenTilesFromBuffer2
 	hlcoord 0, 0
 	lb bc, 10, 14 ; PureRGBnote: CHANGED: increased menu size for WORLD OPTIONS to be added
-	call TextBoxBorder
-	call UpdateSprites
+	call TextBoxBorderUpdateSprites
 	hlcoord 2, 2
 	ld de, PlayersPCMenuEntries
 	call PlaceString
+	; place the "sort" prompt
+	callfar DrawSortPromptInPC
 	ld hl, wTopMenuItemY
 	ld a, 2
 	ld [hli], a ; wTopMenuItemY
@@ -42,7 +41,12 @@ PlayerPCMenu:
 	inc hl
 	ld a, 4 ; PureRGBnote: CHANGED: increased menu length for WORLD OPTIONS to be added
 	ld [hli], a ; wMaxMenuItem
-	ld a, A_BUTTON | B_BUTTON
+	ld a, [wNumBoxItems]
+	cp 2
+	ld a, PAD_A | PAD_B
+	jr c, .noSelect ; can't sort items when less than 2 in pc
+	ld a, PAD_A | PAD_B | PAD_SELECT
+.noSelect
 	ld [hli], a ; wMenuWatchedKeys
 	xor a
 	ld [hl], a
@@ -55,15 +59,17 @@ PlayerPCMenu:
 	ld hl, WhatDoYouWantText
 	rst _PrintText
 	call HandleMenuInput
-	bit BIT_B_BUTTON, a
-	jp nz, ExitPlayerPC
+	bit B_PAD_B, a
+	jr nz, ExitPlayerPC
+	bit B_PAD_SELECT, a
+	jr nz, PressedSelectPlayerPC
 	call PlaceUnfilledArrowMenuCursor
 	ld a, [wCurrentMenuItem]
 	ld [wParentMenuItem], a
 	and a
 	jp z, PlayerPCWithdraw
 	dec a
-	jp z, PlayerPCDeposit
+	jr z, PlayerPCDeposit
 	dec a
 	jp z, PlayerPCToss
 	dec a
@@ -89,6 +95,16 @@ ExitPlayerPC:
 	xor a
 	ld [wDoNotWaitForButtonPressAfterDisplayingText], a
 	ret
+
+PressedSelectPlayerPC:
+	ld a, [wNumBoxItems]
+
+	ld a, SFX_PRESS_AB
+	rst _PlaySound
+	ld a, [wCurrentMenuItem]
+	ld [wParentMenuItem], a
+	callfar SortPCItems
+	jp PlayerPCMenu
 
 PlayerPCDeposit:
 	xor a
@@ -279,7 +295,7 @@ PlayerPCToss:
 
 ; PureRGBnote: ADDED: happens when pressing start in a list menu - used for facilitating depositing items from the start item menu
 CheckButtonStartPressed::
-	bit BIT_START, a
+	bit B_PAD_START, a
 	jr z, .continue
 	push af
 	ld a, [wListMenuID]
@@ -328,8 +344,17 @@ RestoreItemListIndex:
 DepositItemFromItemMenu::
 ;;;;; PureRGBnote: CHANGED: cannot deposit SS TICKET while you're on the SS ANNE.
 	ld a, [wCurItem]
+	cp BICYCLE
+	jr nz, .notBicycle
+	ld hl, wStatusFlags6
+	bit 5, [hl]
+	jr z, .noDepositBlock
+	ld hl, .cantGetOffHere
+	rst _PrintText
+	ret
+.notBicycle
 	cp S_S_TICKET
-	jr nz, .notSSTicket
+	jr nz, .noDepositBlock
 	; block depositing the SS ticket when past the vermilion guard
 	ld a, [wCurMap]
 	cp VERMILION_CITY
@@ -339,27 +364,25 @@ DepositItemFromItemMenu::
 	jr z, .checkYCoord
 	cp 19
 	jr z, .checkYCoord
-	jr .notSSTicket
+	jr .noDepositBlock
 .checkYCoord
 	ld a, [wYCoord]
-	cp 30
-	jr z, .blockSSTicket
-	cp 31
-	jr z, .blockSSTicket
-	jr .notSSTicket
+	cp 32
+	jr c, .noDepositBlock
+	jr .blockSSTicket
 .notVermilionCity
 	; also block it inside the ss anne areas
 	cp SS_ANNE_B1F_ROOMS + 1 ; last SS ANNE room
-	jr nc, .notSSTicket
+	jr nc, .noDepositBlock
 	cp VERMILION_DOCK ; first SS ANNE room
-	jr c, .notSSTicket
+	jr c, .noDepositBlock
 .blockSSTicket
+	ld hl, .cantDeposit
 	ld a, SFX_DENIED
 	rst _PlaySound
-	ld hl, .cantDeposit
 	rst _PrintText
 	ret
-.notSSTicket
+.noDepositBlock
 ;;;;;
 	call IsKeyItem
 	ld a, 1
@@ -375,7 +398,7 @@ DepositItemFromItemMenu::
 	call DisplayChooseQuantityMenu
 	cp $ff
 	jr z, .done
-	jp .next
+	jr .next
 .keyItem
 ; if it is a key item, ask whether to deposit first
 	xor a
@@ -385,8 +408,6 @@ DepositItemFromItemMenu::
 	call YesNoChoice
 	ld a, 1
 	ld [wListMenuHoverTextType], a ; enable displaying TM names again.
-	ld a, [wCurrentMenuItem]
-	and a
 	jr nz, .done
 .next
 ; do the depositing
@@ -405,6 +426,15 @@ DepositItemFromItemMenu::
 	call WaitForSoundToFinish
 	ld hl, ItemWasStoredText
 	rst _PrintText
+
+	ld a, [wCurItem]
+	cp BICYCLE
+	jr nz, .done
+	ld a, [wWalkBikeSurfState]
+	cp BIKING
+	jr nz, .done
+	ld a, WALKING
+	ld [wWalkBikeSurfState], a
 .done
 	call RestoreItemListIndex
 	; wCurrentMenuItem's new value still currently loaded in a
@@ -412,6 +442,12 @@ DepositItemFromItemMenu::
 	ret
 .cantDeposit
 	text_far _CantDepositSSTicketText
+	text_end
+.depositBikeWhileRidingIt
+	text_far _CantDepositBikeText
+	text_end
+.cantGetOffHere
+	text_far _CannotGetOffHereText
 	text_end
 
 WorldOptions:

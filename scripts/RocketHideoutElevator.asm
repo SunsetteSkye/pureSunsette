@@ -1,7 +1,5 @@
 RocketHideoutElevator_Script:
-	ld hl, wCurrentMapScriptFlags
-	bit BIT_CUR_MAP_LOADED_1, [hl]
-	res BIT_CUR_MAP_LOADED_1, [hl]
+	call WasMapJustLoaded
 	push hl
 	call nz, RocketHideoutElevatorStoreWarpEntriesScript
 	pop hl
@@ -32,7 +30,7 @@ RocketHideoutElevatorStoreWarpEntriesScript:
 	ret
 
 RocketHideoutElevatorScript:
-	ld hl, RocketHideoutElavatorFloors
+	ld hl, RocketHideoutElevatorFloors
 	call LoadItemList
 	ld hl, RocketHideoutElevatorWarpMaps
 	ld de, wElevatorWarpMaps
@@ -40,7 +38,7 @@ RocketHideoutElevatorScript:
 	rst _CopyData
 	ret
 
-RocketHideoutElavatorFloors:
+RocketHideoutElevatorFloors:
 	db 3 ; #
 	db FLOOR_B1F
 	db FLOOR_B2F
@@ -88,13 +86,11 @@ RocketHideoutElevatorText:
 .startLift
 ;;;;;;;;;;
 	call RocketHideoutElevatorScript
-	ld hl, RocketHideoutElevatorWarpMaps
-	predef DisplayElevatorFloorMenu
-	jr .text_script_end
+	callfar DisplayElevatorFloorMenu
+	rst TextScriptEnd
 .no_key
 	ld hl, .AppearsToNeedKeyText
 	rst _PrintText
-.text_script_end
 	rst TextScriptEnd
 
 .UnlockedElevatorText:

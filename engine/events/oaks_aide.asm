@@ -1,9 +1,7 @@
-OaksAideScript:
+OaksAideScript::
 	ld hl, OaksAideHiText
 	rst _PrintText
 	call YesNoChoice
-	ld a, [wCurrentMenuItem]
-	and a
 	jr nz, .choseNo
 	ld hl, wPokedexOwned
 	ld b, wPokedexOwnedEnd - wPokedexOwned

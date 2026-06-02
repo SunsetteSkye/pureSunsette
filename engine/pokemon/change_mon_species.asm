@@ -78,7 +78,6 @@ CheckMonNickNameDefault::
 	ld a, d
 	ld [wNamedObjectIndex], a
 	call GetMonName
-	ld de, wNameBuffer
 	call .getNick
 	push hl
 .loop
@@ -88,19 +87,18 @@ CheckMonNickNameDefault::
 	inc de
 	cp b
 	jr nz, .noMatch
-	cp "@"
+	cp '@'
 	jr nz, .loop
 	; they're the same, so rename
 .rename
 	ld a, [wCurPartySpecies]
 	ld [wNamedObjectIndex], a
 	call GetMonName
-	ld de, wNameBuffer
 	pop hl
 .loop2
 	ld a, [de]
 	ld [hli], a
-	cp "@"
+	cp '@'
 	ret z
 	inc de
 	jr .loop2

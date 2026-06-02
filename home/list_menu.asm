@@ -52,7 +52,7 @@ DisplayListMenuID::
 	ld [wTopMenuItemY], a
 	ld a, 5
 	ld [wTopMenuItemX], a
-	ld a, A_BUTTON | B_BUTTON | SELECT | START | D_LEFT ; PureRGBnote: ADDED: tracking START and Dpad Left for new functions
+	ld a, PAD_A | PAD_B | PAD_SELECT | PAD_START | PAD_LEFT ; PureRGBnote: ADDED: tracking START and Dpad Left for new functions
 	ld [wMenuWatchedKeys], a
 ;;;;;;;;;; PureRGBnote: ADDED: code that checks if we need to adjust the offset after changing the size of the list (depositing items/pokemon)
 	ld a, [wBattleType]
@@ -68,13 +68,14 @@ DisplayListMenuIDLoop::
 	call PrintListMenuEntries
 	ld a, 1
 	ldh [hAutoBGTransferEnabled], a ; enable transfer
-	call Delay3
+	rst _DelayFrame	; PureRGBnote: Reduced delay for faster menu scrolling, we delay in handleMenuInput for 3 frames anyway
 	ld a, [wBattleType]
 	and a ; is it the Old Man battle?
 	jr z, .notOldManBattle
 .oldManBattle
 	; we will be in BANK(DisplayBattleMenu) if old man battle so call a new function in that bank to save space in home
 	call OldManListMenuInit
+	ASSERT BANK(OldManListMenuInit) == BANK("Battle Core")
 	jr .buttonAPressed
 .notOldManBattle
 	call LoadGBPal
@@ -84,7 +85,7 @@ DisplayListMenuIDLoop::
 	pop af
 	call CheckButtonStartPressed ; PureRGBnote: ADDED: start button can trigger depositing items when in the item menu
 	jr nc, DisplayListMenuIDLoop
-	bit BIT_A_BUTTON, a
+	bit B_PAD_A, a
 	jp z, .checkOtherKeys
 .buttonAPressed
 	ld a, [wCurrentMenuItem]
@@ -133,13 +134,11 @@ DisplayListMenuIDLoop::
 	ld [wMaxItemQuantity], a
 .skipGettingQuantity
 	ld a, [wCurItem]
-	ld [wNameListIndex], a
-	ld a, BANK(ItemNames)
-	ld [wPredefBank], a
-	call GetName
+	ld [wNamedObjectIndex], a
+	call GetItemName
 	jr .storeChosenEntry
 .pokemonList
-	assert wCurListMenuItem == wCurPartySpecies
+	ASSERT wCurListMenuItem == wCurPartySpecies
 	ld hl, wPartyCount
 	ld a, [wListPointer]
 	cp l ; is it a list of party pokemon or box pokemon?
@@ -159,22 +158,22 @@ DisplayListMenuIDLoop::
 	ld [wChosenMenuItem], a
 	xor a
 	ldh [hJoy7], a ; joypad state update flag
-	ld [wListMenuHoverTextShown], a ; PureRGBnote: ADDED: once we pick a list entry, we consider TM text not shown so we will re-render it after finishing
+	ld [wListMenuNewFlags], a ; PureRGBnote: ADDED: once we pick a list entry, we consider TM text not shown so we will re-render it after finishing
 	ld hl, wStatusFlags5
 	res BIT_NO_TEXT_DELAY, [hl] ; turn on letter printing delay
 	jp BankswitchBack
 .checkOtherKeys ; check B, SELECT, Up, and Down keys
-	bit BIT_B_BUTTON, a
+	bit B_PAD_B, a
 	jp nz, ExitListMenu ; if so, exit the menu
-	bit BIT_SELECT, a
+	bit B_PAD_SELECT, a
 	jp nz, HandleItemListSwapping ; if so, allow the player to swap menu entries
 	ld b, a
-	bit BIT_D_LEFT, b
+	bit B_PAD_LEFT, b
 	jr nz, .handleListSkip ; PureRGBnote: ADDED: when pressing left we will check to skip to the top or bottom of the list
-	bit BIT_D_DOWN, b
+	bit B_PAD_DOWN, b
 	ld hl, wListScrollOffset
 	jr z, .upPressed
-.downPressed
+; Down pressed
 	ld a, [hl]
 	add 3
 	ld b, a
@@ -198,6 +197,13 @@ DisplayListMenuIDLoop::
 
 
 DisplayChooseQuantityMenu::
+	ld a, 1
+	ld [wMinItemQuantity], a
+	ld [wInitialItemQuantity], a
+DisplayChooseQuantityMenuMinQuantity::
+	ld a, [wStatusFlags5]
+	push af
+	call DisableTextDelay
 ; text box dimensions/coordinates for just quantity
 	hlcoord 15, 9
 	lb bc, 1, 3 ; height, width
@@ -217,24 +223,27 @@ DisplayChooseQuantityMenu::
 .printInitialQuantity
 	ld de, InitialQuantityText
 	call PlaceString
-	xor a
-	ld [wItemQuantity], a ; initialize current quantity to 0
+	ld a, [wInitialItemQuantity]
+	dec a
+	ld [wItemQuantity], a
 	jp .incrementQuantity
 .waitForKeyPressLoop
 	call JoypadLowSensitivity
 	ldh a, [hJoyPressed] ; newly pressed buttons
-	bit BIT_A_BUTTON, a
-	jp nz, .buttonAPressed
-	bit BIT_B_BUTTON, a
-	jp nz, .buttonBPressed
-	bit BIT_D_UP, a
+	bit B_PAD_A, a
+	ld b, 0
+	jp nz, .exit
+	bit B_PAD_B, a
+	ld b, $FF
+	jp nz, .exit
+	bit B_PAD_UP, a
 	jr nz, .incrementQuantity
-	bit BIT_D_DOWN, a
+	bit B_PAD_DOWN, a
 	jr nz, .decrementQuantity
 ;;;;;;;;;; PureRGBnote: ADDED: functionality to decrement or increment amounts by 10 when pressing right or left
-	bit BIT_D_RIGHT, a
+	bit B_PAD_RIGHT, a
 	jr nz, .incrementQuantity10
-	bit BIT_D_LEFT, a
+	bit B_PAD_LEFT, a
 	jr nz, .decrementQuantity10
 ;;;;;;;;;;
 	jr .waitForKeyPressLoop
@@ -247,12 +256,16 @@ DisplayChooseQuantityMenu::
 	ld a, [hl]
 	cp b
 	jr nz, .handleNewQuantity
-; wrap to 1 if the player goes above the max quantity
-	ld [hl], 1
+	ld a, [wMinItemQuantity]
+; wrap to min quantity if the player goes above the max quantity
+	ld [hl], a
 	jr .handleNewQuantity
 .decrementQuantity
 	ld hl, wItemQuantity ; current quantity
+	ld a, [wMinItemQuantity]
+	ld b, [hl]
 	dec [hl]
+	cp b
 	jr nz, .handleNewQuantity
 ;;;;;;;;;; PureRGBnote: ADDED: functionality to decrement or increment amounts by 10 when pressing right or left
 ; wrap to the max quantity if the player goes below 1
@@ -270,12 +283,16 @@ DisplayChooseQuantityMenu::
 	cp b
 	jr c, .handleNewQuantity
 ; wrap to 1 if the player goes above the max quantity
-	ld [hl], 1
+	ld a, [wMinItemQuantity]
+	ld [hl], a
 	jr .handleNewQuantity
 .decrementQuantity10
 	ld hl, wItemQuantity ; current quantity
+	ld a, [wMinItemQuantity]
+	add 10
+	ld d, a
 	ld a, [hl]
-	cp 11
+	cp d
 	jr c, .wrapMax
 	sub 10
 	ld [hl], a
@@ -316,7 +333,7 @@ DisplayChooseQuantityMenu::
 	ldh [hDivideBCDDivisor + 1], a
 	ld a, $02
 	ldh [hDivideBCDDivisor + 2], a
-	predef DivideBCDPredef3 ; halves the price
+	callfar DivideBCD
 ; store the halved price
 	ldh a, [hDivideBCDQuotient]
 	ldh [hMoney], a
@@ -329,22 +346,22 @@ DisplayChooseQuantityMenu::
 	ld de, SpacesBetweenQuantityAndPriceText
 	call PlaceString
 	ld de, hMoney ; total price
-	ld c, $a3
+	ld c, 3 | LEADING_ZEROES | MONEY_SIGN
 	call PrintBCDNumber
 	hlcoord 9, 10
 .printQuantity
 	ld de, wItemQuantity ; current quantity
 	lb bc, LEADING_ZEROES | 1, 2 ; 1 byte, 2 digits
 	call PrintNumber
+	call UpdateSprites
+	rst _DelayFrame
 	jp .waitForKeyPressLoop
-.buttonAPressed ; the player chose to make the transaction
+.exit ; made or cancelled the transaction, b = 0 (continued), b = $FF (cancelled)
+	pop af
+	ld [wStatusFlags5], a
 	xor a
 	ld [wMenuItemToSwap], a ; 0 means no item is currently being swapped
-	ret
-.buttonBPressed ; the player chose to cancel the transaction
-	xor a
-	ld [wMenuItemToSwap], a ; 0 means no item is currently being swapped
-	ld a, $ff
+	ld a, b
 	ret
 	
 InitialQuantityText::
@@ -363,7 +380,7 @@ ExitListMenu::
 	res BIT_NO_TEXT_DELAY, [hl]
 	call BankswitchBack
 	xor a
-	ld [wListMenuHoverTextShown], a ; PureRGBnote: ADDED: when we leave a list menu we are no longer displaying any TM text
+	ld [wListMenuNewFlags], a ; PureRGBnote: ADDED: when we leave a list menu we are no longer displaying any TM text
 	ldh [hJoy7], a
 	ld [wMenuItemToSwap], a ; 0 means no item is currently being swapped
 	scf
@@ -463,7 +480,7 @@ PrintListMenuEntries::
 	pop hl
 	ld bc, SCREEN_WIDTH + 5 ; 1 row down and 5 columns right
 	add hl, bc
-	ld c, $a3 ; no leading zeroes, right-aligned, print currency symbol, 3 bytes
+	ld c, 3 | LEADING_ZEROES | MONEY_SIGN
 	call PrintBCDNumber
 ;;;;
 .skipPrintingItemPrice
@@ -494,14 +511,15 @@ PrintListMenuEntries::
 	ld a, [wMonDataLocation]
 	and a ; is it a list of party pokemon or box pokemon?
 	jr z, .skipCopyingLevel
-.copyLevel
+; copy level
 	ld a, [wLoadedMonBoxLevel]
 	ld [wLoadedMonLevel], a
 .skipCopyingLevel
 	pop hl
-	ld bc, $1c
+	ld bc, SCREEN_WIDTH + 8 ; 1 row down and 8 columns right
 	add hl, bc
-	call PrintLevel
+	ld a, $CE ; level tile (when in pc menus)
+	call PrintLevelArbitraryTile
 	pop af
 	ld [wNamedObjectIndex], a
 ;;;;
@@ -523,7 +541,7 @@ PrintListMenuEntries::
 	push hl
 	ld bc, SCREEN_WIDTH + 8 ; 1 row down and 8 columns right
 	add hl, bc
-	ld a, "×"
+	ld a, '×'
 	ld [hli], a
 	ld a, [wNamedObjectIndex]
 	push af
@@ -552,7 +570,7 @@ PrintListMenuEntries::
 	cp c ; is it this item?
 	jr nz, .nextListEntry
 	dec hl
-	ld a, "▷"
+	ld a, '▷'
 	ld [hli], a
 .nextListEntry
 	ld bc, 2 * SCREEN_WIDTH ; 2 rows
@@ -563,7 +581,7 @@ PrintListMenuEntries::
 	jp nz, .loop
 	ld bc, -8
 	add hl, bc
-	ld [hl], "▼"
+	ld [hl], '▼'
 	ret
 .printCancelMenuItem
 	ld de, ListMenuCancelText

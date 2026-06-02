@@ -5,7 +5,7 @@
 
 DEF ANIMATION_END EQU 80
 
-PlayIntro:
+PlayIntro::
 	xor a
 	ldh [hJoyHeld], a
 	inc a
@@ -21,7 +21,7 @@ PlayIntro:
 	ret
 
 PlayIntroScene:
-	ld b, SET_PAL_NIDORINO_INTRO
+	ld d, SET_PAL_NIDORINO_INTRO
 	call RunPaletteCommand
 	ldpal a, SHADE_BLACK, SHADE_DARK, SHADE_LIGHT, SHADE_WHITE
 	ldh [rBGP], a
@@ -97,7 +97,7 @@ PlayIntroScene:
 ; hip
 	ld a, SFX_INTRO_HIP
 	rst _PlaySound
-	ld a, (FightIntroFrontMon2 - FightIntroFrontMon) / LEN_2BPP_TILE
+	ld a, (FightIntroFrontMon2 - FightIntroFrontMon) / TILE_SIZE
 	ld [wIntroNidorinoBaseTile], a
 	ld de, IntroNidorinoAnimation3
 	call AnimateIntroNidorino
@@ -129,7 +129,7 @@ PlayIntroScene:
 	call CheckForUserInterruption
 	ret c
 
-	ld a, (FightIntroFrontMon2 - FightIntroFrontMon) / LEN_2BPP_TILE
+	ld a, (FightIntroFrontMon2 - FightIntroFrontMon) / TILE_SIZE
 	ld [wIntroNidorinoBaseTile], a
 	ld de, IntroNidorinoAnimation6
 	call AnimateIntroNidorino
@@ -140,7 +140,7 @@ PlayIntroScene:
 ; lunge
 	ld a, SFX_INTRO_LUNGE
 	rst _PlaySound
-	ld a, (FightIntroFrontMon3 - FightIntroFrontMon) / LEN_2BPP_TILE
+	ld a, (FightIntroFrontMon3 - FightIntroFrontMon) / TILE_SIZE
 	ld [wIntroNidorinoBaseTile], a
 	ld de, IntroNidorinoAnimation7
 	; fall through
@@ -197,7 +197,7 @@ InitIntroNidorinoOAM:
 	ld [hli], a ; X
 	ld a, d
 	ld [hli], a ; tile
-	ld a, OAM_BEHIND_BG
+	ld a, OAM_PRIO
 	ld [hli], a ; attributes
 	inc d
 	dec c
@@ -212,7 +212,7 @@ InitIntroNidorinoOAM:
 
 IntroClearScreen:
 	ld hl, vBGMap1
-	ld bc, BG_MAP_WIDTH * SCREEN_HEIGHT
+	ld bc, TILEMAP_WIDTH * SCREEN_HEIGHT
 	jr IntroClearCommon
 
 IntroClearMiddleOfScreen:
@@ -280,11 +280,10 @@ CopyTileIDsFromList_ZeroBaseTileID:
 	ld c, 0
 	predef_jump CopyTileIDsFromList
 
-PlayMoveSoundB:
-; unused
-	predef GetMoveSoundB
-	ld a, b
-	jp PlaySound
+;PlayIntroMoveSound: ; unreferenced
+;	predef GetIntroMoveSound
+;	ld a, b
+;	jp PlaySound
 
 LoadIntroGraphics:
 	ld hl, FightIntroBackMon
@@ -309,7 +308,7 @@ LoadIntroGraphics:
 	jp FarCopyData2
 
 PlayShootingStar:
-	ld b, SET_PAL_GAME_FREAK_INTRO
+	ld d, SET_PAL_GAME_FREAK_INTRO
 	call RunPaletteCommand
 	farcall LoadCopyrightAndTextBoxTiles
 	ldpal a, SHADE_BLACK, SHADE_DARK, SHADE_LIGHT, SHADE_WHITE
@@ -325,12 +324,13 @@ PlayShootingStar:
 	call LoadIntroGraphics
 	call EnableLCD
 	ld hl, rLCDC
-	res rLCDC_WINDOW_ENABLE, [hl]
-	set rLCDC_BG_TILEMAP, [hl]
+	res B_LCDC_WINDOW, [hl]
+	set B_LCDC_BG_MAP, [hl]
 	ld c, 64
 	rst _DelayFrames
 	farcall AnimateShootingStar
 	push af
+	; A `call LoadPresentsGraphic` here was removed in localization
 	pop af
 	jr c, .next ; skip the delay if the user interrupted the animation
 	ld c, 40
@@ -356,12 +356,12 @@ IntroDrawBlackBars:
 	ld c, SCREEN_WIDTH * 4
 	call IntroPlaceBlackTiles
 	ld hl, vBGMap1
-	ld c,  BG_MAP_WIDTH * 4
+	ld c,  TILEMAP_WIDTH * 4
 	call IntroPlaceBlackTiles
 	hlbgcoord 0, 14, vBGMap1
-	ld c,  BG_MAP_WIDTH * 4
+	ld c,  TILEMAP_WIDTH * 4
 	jp IntroPlaceBlackTiles
-
+	
 IntroNidorinoAnimation0:
 	db 0, 0
 	db ANIMATION_END
@@ -438,12 +438,12 @@ IntroNidorinoAnimation7:
 GameFreakIntro:
 	INCBIN "gfx/splash/gamefreak_presents.2bpp"
 	INCBIN "gfx/splash/gamefreak_logo.2bpp"
-	ds 16, $00 ; blank tile
+	ds TILE_SIZE, $00 ; blank tile
 GameFreakIntroEnd:
 
 FightIntroBackMon:
 	INCBIN "gfx/intro/gengar.2bpp"
-	ds 16, $00 ; blank tile
+	ds TILE_SIZE, $00 ; blank tile
 FightIntroBackMonEnd:
 
 IF (DEF(_RED) || DEF(_GREEN)) ; PureRGBnote: GREENBUILD: pokemon green displays the nidorino intro

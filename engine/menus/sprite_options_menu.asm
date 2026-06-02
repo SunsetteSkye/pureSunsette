@@ -16,7 +16,7 @@ SpriteOptionsHeader:
 	dw SpriteOptionsSetCursorPositionActions
 	dw SetSpriteOptionsFromCursorPositions
 	dw SpriteOptionsLeftRightFuncs
-	dw DisplayOptionMenu
+	dw DisplayOptions3
 	dw DisplayBattleOptions
 	dw SpriteOptionsAorSelectButton
 	dw SpriteInfoTextJumpTable
@@ -65,7 +65,7 @@ DrawSpriteOptionsMenu:
 
 SpriteOptionsAorSelectButton:
 	ld a, [hJoy5]
-	bit BIT_A_BUTTON, a
+	bit B_PAD_A, a
 	jp z, OptionsPageAorSelectButtonDefault
 	; fall through
 SpriteOptionsAButton:
@@ -84,8 +84,14 @@ SpriteOptionsAButton:
 	ld a, SFX_PRESS_AB
 	rst _PlaySound
 	call DisplayFrontSpriteOptions
+	ld a, [wNewInGameFlags]
+	bit IN_GAME, a
+	jr z, .noTilesetReload ; if we're not in game yet, no need to reload
+	CheckAndResetEvent FLAG_RELOAD_TILESET_IN_OPTION_MENU
+	call nz, ReloadMapData
+.noTilesetReload
 	hlcoord 14, PAGE_CONTROLS_Y_COORD
-	ld a, " "
+	ld a, ' '
 	ld [hli], a
 	ld [hl], a
 	pop af

@@ -14,7 +14,7 @@ PCMainMenu:
 	ld hl, wMiscFlags
 	set BIT_NO_MENU_BUTTON_SOUND, [hl]
 	call HandleMenuInput
-	bit BIT_B_BUTTON, a
+	bit B_PAD_B, a
 	jp nz, LogOff
 	ld a, [wMaxMenuItem] ; minimum of 2 for 3 options
 	dec a
@@ -84,6 +84,8 @@ LogOff:
 	ld hl, wMiscFlags
 	res BIT_USING_GENERIC_PC, [hl]
 	res BIT_NO_MENU_BUTTON_SOUND, [hl]
+	ld a, 1
+	ld [wDoNotWaitForButtonPressAfterDisplayingText], a
 	ret
 
 TurnedOnPC1Text:

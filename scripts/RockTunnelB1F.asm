@@ -50,52 +50,28 @@ RockTunnel2TrainerHeader7:
 	db -1 ; end
 
 RockTunnelB1FCooltrainerF1Text:
-	text_asm
-	ld hl, RockTunnel2TrainerHeader0
-	call TalkToTrainer
-	rst TextScriptEnd
+	script_trainer RockTunnel2TrainerHeader0
 
 RockTunnelB1FHiker1Text:
-	text_asm
-	ld hl, RockTunnel2TrainerHeader1
-	call TalkToTrainer
-	rst TextScriptEnd
+	script_trainer RockTunnel2TrainerHeader1
 
 RockTunnelB1FSuperNerd1Text:
-	text_asm
-	ld hl, RockTunnel2TrainerHeader2
-	call TalkToTrainer
-	rst TextScriptEnd
+	script_trainer RockTunnel2TrainerHeader2
 
 RockTunnelB1FSuperNerd2Text:
-	text_asm
-	ld hl, RockTunnel2TrainerHeader3
-	call TalkToTrainer
-	rst TextScriptEnd
+	script_trainer RockTunnel2TrainerHeader3
 
 RockTunnelB1FHiker2Text:
-	text_asm
-	ld hl, RockTunnel2TrainerHeader4
-	call TalkToTrainer
-	rst TextScriptEnd
+	script_trainer RockTunnel2TrainerHeader4
 
 RockTunnelB1FCooltrainerF2Text:
-	text_asm
-	ld hl, RockTunnel2TrainerHeader5
-	call TalkToTrainer
-	rst TextScriptEnd
+	script_trainer RockTunnel2TrainerHeader5
 
 RockTunnelB1FHiker3Text:
-	text_asm
-	ld hl, RockTunnel2TrainerHeader6
-	call TalkToTrainer
-	rst TextScriptEnd
+	script_trainer RockTunnel2TrainerHeader6
 
 RockTunnelB1FSuperNerd3Text:
-	text_asm
-	ld hl, RockTunnel2TrainerHeader7
-	call TalkToTrainer
-	rst TextScriptEnd
+	script_trainer RockTunnel2TrainerHeader7
 
 RockTunnelB1FCooltrainerF1BattleText:
 	text_far _RockTunnelB1FCooltrainerF1BattleText

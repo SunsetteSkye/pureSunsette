@@ -14,8 +14,8 @@ SafariZoneWest_ScriptPointers:
 	dw_const CheckFightingMapTrainers,              SCRIPT_SAFARIZONEWEST_DEFAULT
 	dw_const DisplayEnemyTrainerTextAndStartBattle, SCRIPT_SAFARIZONEWEST_START_BATTLE
 	dw_const EndTrainerBattle,                      SCRIPT_SAFARIZONEWEST_END_BATTLE
-	dw_const RangerPostBattleWest0,                 SCRIPT_SAFARIZONEWEST_RANGER0_POST_BATTLE
-	dw_const RangerPostBattleWest1,                 SCRIPT_SAFARIZONEWEST_RANGER1_POST_BATTLE
+	dw_const RangerPostBattle,  	                SCRIPT_SAFARIZONEWEST_RANGER_POST_BATTLE
+	ASSERT BANK(RangerPostBattle) == BANK(SafariZoneWest_Script)
 
 SafariZoneWest_TextPointers:
 	def_text_pointers
@@ -34,14 +34,6 @@ SafariZoneWest_TextPointers:
 	dw_const SafariZoneWestFindWardensTeethSignText, TEXT_SAFARIZONEWEST_FIND_WARDENS_TEETH_SIGN
 	dw_const SafariZoneWestTrainerTipsText,          TEXT_SAFARIZONEWEST_TRAINER_TIPS
 	dw_const SafariZoneWestSignText,                 TEXT_SAFARIZONEWEST_SIGN
-
-RangerPostBattleWest0:
-	SetEvent EVENT_BEAT_SAFARI_ZONE_WEST_RANGER_0
-	jpfar RangerPostBattle
-
-RangerPostBattleWest1:
-	SetEvent EVENT_BEAT_SAFARI_ZONE_WEST_RANGER_1
-	jpfar RangerPostBattle
 
 SafariZoneWestRestHouseSignText:
 	text_far _SafariZoneWestRestHouseSignText
@@ -80,45 +72,31 @@ SafariZoneWestTrainerHeader4:
 SafariZoneWestRangerText0:
 	text_asm
 	ld hl, SafariZoneWestRangerHeader0
-	call TalkToTrainer
-	ld a, SCRIPT_SAFARIZONEWEST_RANGER0_POST_BATTLE
-	ld [wCurMapScript], a 
-	rst TextScriptEnd
+	jr SafariZoneWestRangerText1.rangerBattle
 
 SafariZoneWestRangerText1:
 	text_asm
 	ld hl, SafariZoneWestRangerHeader1
+.rangerBattle
 	call TalkToTrainer
-	ld a, SCRIPT_SAFARIZONEWEST_RANGER1_POST_BATTLE
+	ld a, SCRIPT_SAFARIZONEWEST_RANGER_POST_BATTLE
 	ld [wCurMapScript], a 
 	rst TextScriptEnd
 
 SafariZoneWestTrainerText0:
-	text_asm
-	ld hl, SafariZoneWestTrainerHeader0
-	jr SafariZoneWestTrainerTalk
+	script_trainer SafariZoneWestTrainerHeader0
 
 SafariZoneWestTrainerText1:
-	text_asm
-	ld hl, SafariZoneWestTrainerHeader1
-	jr SafariZoneWestTrainerTalk
+	script_trainer SafariZoneWestTrainerHeader1
 
 SafariZoneWestTrainerText2:
-	text_asm
-	ld hl, SafariZoneWestTrainerHeader2
-	jr SafariZoneWestTrainerTalk
+	script_trainer SafariZoneWestTrainerHeader2
 
 SafariZoneWestTrainerText3:
-	text_asm
-	ld hl, SafariZoneWestTrainerHeader3
-	jr SafariZoneWestTrainerTalk
+	script_trainer SafariZoneWestTrainerHeader3
 
 SafariZoneWestTrainerText4:
-	text_asm
-	ld hl, SafariZoneWestTrainerHeader4
-SafariZoneWestTrainerTalk:
-	call TalkToTrainer
-	rst TextScriptEnd
+	script_trainer SafariZoneWestTrainerHeader4
 
 SafariZoneWestRangerBattleText0:
 	text_far _SafariZoneWestRanger0Text

@@ -1,6 +1,14 @@
 ; PureRGBnote: ADDED: a stairway downstairs was added, but it is blocked by a new ROCKET who tells you to go away until you save mr fuji.
 
 PokemonTower1F_Script:
+	call WasMapJustLoaded
+	jr z, .skipHideRocket
+	CheckEvent EVENT_RESCUED_MR_FUJI
+	jr z, .skipHideRocket
+	; to fix save transfers (forgot to conditionally update in save file updater), hide this rocket on map load after rescuing mr fuji
+	ld c, TOGGLE_POKEMON_TOWER_1F_ROCKET
+	call HideExtraObject
+.skipHideRocket
 	jp EnableAutoTextBoxDrawing
 
 PokemonTower1F_TextPointers:
@@ -26,7 +34,18 @@ PokemonTower1FBaldingGuyText:
 
 PokemonTower1FGirlText:
 	text_far _PokemonTower1FGirlText
-	text_end
+	text_asm
+	ld c, DEX_GROWLITHE - 1
+	callfar SetMonSeen
+	ld de, .pensivegirl
+	call CopyTrainerName
+	lb hl, DEX_GROWLITHE, $FF
+	ld de, PokemonTower1FGirl2Text
+	ld bc, LearnsetRecountedFondMemories
+	predef_jump LearnsetTrainerScriptMain
+
+.pensivegirl
+	db "SAD LADY@"
 
 PokemonTower1FChannelerText:
 	text_far _PokemonTower1FChannelerText

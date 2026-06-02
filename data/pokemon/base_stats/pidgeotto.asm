@@ -1,6 +1,6 @@
 	db DEX_PIDGEOTTO ; pokedex id
 
-	db  63,  75,  55, 91,  90
+	db  63,  75,  55, 86,  75
 	;   hp  atk  def  spd  spc
 
 	db NORMAL, FLYING ; type
@@ -18,16 +18,13 @@
 	RAZOR_WIND,\ ; ROOST
 	PIN_MISSILE,\
 	TOXIC,\
-	BODY_SLAM,\
 	SLASH,\
 	DOUBLE_EDGE,\
-	HYPER_BEAM,\
+	DRAGON_RAGE,\
 	BARRIER,\
 	RAZOR_LEAF,\
-	DRAGON_RAGE,\
 	THUNDERBOLT,\
 	THUNDER,\
-	KINESIS,\ ; FIREWALL
 	SWORDS_DANCE,\
 	REFLECT,\
 	BIDE,\

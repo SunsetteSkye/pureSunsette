@@ -38,7 +38,7 @@ AskName:
 	pop af
 	ld [wUpdateSpritesEnabled], a
 	ld a, [wStringBuffer]
-	cp "@"
+	cp '@'
 	ret nz
 .declinedNickname
 	ld d, h
@@ -63,7 +63,7 @@ DisplayNameRaterScreen::
 	call RestoreScreenTilesAndReloadTilePatterns
 	call LoadGBPal
 	ld a, [wStringBuffer]
-	cp "@"
+	cp '@'
 	jr z, .playerCancelled
 	ld hl, wPartyMonNicks
 	ld bc, NAME_LENGTH
@@ -85,19 +85,10 @@ DisplayNamingScreen:
 	ld a, [wNamingScreenType]
 	cp NAME_MON_SCREEN
 	jr nz, .dontLowerVolume
-  	ld a, [wStatusFlags2]
-  	set BIT_NO_AUDIO_FADE_OUT, a
-  	ld [wStatusFlags2], a
-	ld a, $33 ; 3/7 volume
-	ldh [rNR50], a
+	call HalfVolume
 .dontLowerVolume
 	call DisplayNamingScreenWrap
-	ld a, $77 ; max volume
-	ldh [rNR50], a
-  	ld a, [wStatusFlags2]
-  	res BIT_NO_AUDIO_FADE_OUT, a
-  	ld [wStatusFlags2], a
-	ret
+	jp MaxVolume
 
 DisplayNamingScreenWrap:
 	push hl
@@ -106,7 +97,7 @@ DisplayNamingScreenWrap:
 	call GBPalWhiteOutWithDelay3
 	call ClearScreen
 	call UpdateSprites
-	ld b, SET_PAL_GENERIC
+	ld d, SET_PAL_GENERIC
 	call RunPaletteCommand
 	call LoadHpBarAndStatusTilePatterns
 	call LoadEDTile
@@ -125,7 +116,7 @@ DisplayNamingScreenWrap:
 	ld [wMenuWatchedKeys], a
 	ld a, 7
 	ld [wMaxMenuItem], a
-	ld a, "@"
+	ld a, '@'
 	ld [wStringBuffer], a
 	xor a
 	ld hl, wNamingScreenSubmitName
@@ -145,7 +136,16 @@ DisplayNamingScreenWrap:
 .inputLoop
 	ld a, [wCurrentMenuItem]
 	push af
+	ld a, [wNamingScreenType]
+	cp NAME_BALL_SCREEN
+	jr z, .getBallColor
+	cp NAME_BOX_SCREEN
+	jr z, .skipBallColor
 	farcall AnimatePartyMon_ForceSpeed1
+	jr .skipBallColor
+.getBallColor
+	callfar GetCustomBallColor
+.skipBallColor
 	pop af
 	ld [wCurrentMenuItem], a
 	call JoypadLowSensitivity
@@ -234,11 +234,11 @@ DisplayNamingScreenWrap:
 .didNotPressED
 	ld a, [wCurrentMenuItem]
 	cp $6 ; case switch row
-	jr nz, .didNotPressCaseSwtich
+	jr nz, .didNotPressCaseSwitch
 	ld a, [wTopMenuItemX]
 	cp $1 ; case switch column
 	jr z, .pressedA_changedCase
-.didNotPressCaseSwtich
+.didNotPressCaseSwitch
 	ld hl, wMenuCursorLocation
 	ld a, [hli]
 	ld h, [hl]
@@ -247,36 +247,35 @@ DisplayNamingScreenWrap:
 	ld a, [hl]
 	ld [wNamingScreenLetter], a
 	call CalcStringLength
-	ld a, [wNamingScreenLetter]
-	cp "ﾞ"
-	ld de, Dakutens
-	jr z, .dakutensAndHandakutens
-	cp "ﾟ"
-	ld de, Handakutens
-	jr z, .dakutensAndHandakutens
 	ld a, [wNamingScreenType]
+	cp NAME_BOX_SCREEN
+	jr z, .checkBoxNameLength
 	cp NAME_MON_SCREEN
 	jr nc, .checkMonNameLength
 	ld a, [wNamingScreenNameLength]
-	cp $7 ; max length of player/rival names
+	cp PLAYER_NAME_LENGTH - 1
+	jr .checkNameLength
+.checkBoxNameLength
+	ld a, [wNamingScreenNameLength]
+	cp BOX_NAME_LENGTH - 1
 	jr .checkNameLength
 .checkMonNameLength
 	ld a, [wNamingScreenNameLength]
-	cp $a ; max length of pokemon nicknames
+	cp NAME_LENGTH - 1
 .checkNameLength
 	jr c, .addLetter
 	ret
 
-.dakutensAndHandakutens
-	push hl
-	call DakutensAndHandakutens
-	pop hl
-	ret nc
-	dec hl
+;.dakutensAndHandakutens
+;	push hl
+;	;call DakutensAndHandakutens
+;	pop hl
+;	ret nc
+;	dec hl
 .addLetter
 	ld a, [wNamingScreenLetter]
 	ld [hli], a
-	ld [hl], "@"
+	ld [hl], '@'
 	ld a, SFX_PRESS_AB
 	rst _PlaySound
 	ret
@@ -286,7 +285,7 @@ DisplayNamingScreenWrap:
 	ret z
 	call CalcStringLength
 	dec hl
-	ld [hl], "@"
+	ld [hl], '@'
 	ret
 .pressedRight
 	ld a, [wCurrentMenuItem]
@@ -343,7 +342,7 @@ DisplayNamingScreenWrap:
 LoadEDTile:
 	ld de, ED_Tile
 	ld hl, vFont tile $70
-	lb bc, BANK(ED_Tile), (ED_TileEnd - ED_Tile) / $8
+	lb bc, BANK(ED_Tile), (ED_TileEnd - ED_Tile) / TILE_1BPP_SIZE
 	jp CopyVideoDataDouble
 
 ED_Tile:
@@ -394,10 +393,13 @@ PrintNicknameAndUnderscores:
 	call PlaceString
 	hlcoord 10, 3
 	ld a, [wNamingScreenType]
+	cp NAME_BOX_SCREEN
+	ld b, BOX_NAME_LENGTH - 1
+	jr z, .playerOrRival1
 	cp NAME_MON_SCREEN
-	ld b, 10 ; pokemon max name length
+	ld b, NAME_LENGTH - 1 ; pokemon max name length
 	jr nc, .playerOrRival1
-	ld b, 7 ; player or rival max name length
+	ld b, PLAYER_NAME_LENGTH - 1 ; player or rival max name length
 .playerOrRival1
 	ld a, $76 ; underscore tile id
 .placeUnderscoreLoop
@@ -405,50 +407,61 @@ PrintNicknameAndUnderscores:
 	dec b
 	jr nz, .placeUnderscoreLoop
 	ld a, [wNamingScreenType]
+	cp NAME_BOX_SCREEN
+	jr z, .nameBox
 	cp NAME_MON_SCREEN
 	ld a, [wNamingScreenNameLength]
 	jr nc, .pokemon2
-	cp 7 ; player or rival max name length
-	jr .playerOrRival2
+; player or rival
+	cp PLAYER_NAME_LENGTH - 1
+	jr .checkEmptySpaces
+.nameBox
+	ld a, [wNamingScreenNameLength]
+	cp BOX_NAME_LENGTH - 1
+	jr .checkEmptySpaces
 .pokemon2
-	cp 10 ; pokemon max name length
-.playerOrRival2
-	jr nz, .emptySpacesRemaining
-	; when all spaces are filled, force the cursor onto the ED tile
+	cp NAME_LENGTH - 1
+.checkEmptySpaces
+	jr nz, .placeRaisedUnderscore ; jump if empty spaces remain
+	; when all spaces are filled, force the cursor onto the ED tile,
+	; and keep the last underscore raised
 	call EraseMenuCursor
 	ld a, $11 ; "ED" x coord
 	ld [wTopMenuItemX], a
 	ld a, $5 ; "ED" y coord
 	ld [wCurrentMenuItem], a
 	ld a, [wNamingScreenType]
+	cp NAME_BOX_SCREEN
+	ld c, BOX_NAME_LENGTH - 2
+	jr z, .placeRaisedUnderscore2
 	cp NAME_MON_SCREEN
-	ld a, 9 ; keep the last underscore raised
-	jr nc, .pokemon3
-	ld a, 6 ; keep the last underscore raised
-.pokemon3
-.emptySpacesRemaining
+	ld c, NAME_LENGTH - 2
+	jr nc, .placeRaisedUnderscore2
+	ld c, PLAYER_NAME_LENGTH - 2
+.placeRaisedUnderscore
 	ld c, a
+.placeRaisedUnderscore2
 	ld b, $0
 	hlcoord 10, 3
 	add hl, bc
 	ld [hl], $77 ; raised underscore tile id
 	ret
 
-DakutensAndHandakutens:
-	push de
-	call CalcStringLength
-	dec hl
-	ld a, [hl]
-	pop hl
-	ld de, $2
-	call IsInArray
-	ret nc
-	inc hl
-	ld a, [hl]
-	ld [wNamingScreenLetter], a
-	ret
+;DakutensAndHandakutens:
+;	push de
+;	call CalcStringLength
+;	dec hl
+;	ld a, [hl]
+;	pop hl
+;	ld de, $2
+;	call IsInArray
+;	ret nc
+;	inc hl
+;	ld a, [hl]
+;	ld [wNamingScreenLetter], a
+;	ret
 
-INCLUDE "data/text/dakutens.asm" ; TODO: remove?
+;INCLUDE "data/text/dakutens.asm"
 
 ; calculates the length of the string at wStringBuffer and stores it in c
 CalcStringLength:
@@ -456,7 +469,7 @@ CalcStringLength:
 	ld c, $0
 .loop
 	ld a, [hl]
-	cp "@"
+	cp '@'
 	ret z
 	inc hl
 	inc c
@@ -465,13 +478,19 @@ CalcStringLength:
 PrintNamingText:
 	hlcoord 0, 1
 	ld a, [wNamingScreenType]
+	cp NAME_BOX_SCREEN
+	jr z, .nameBox
 	ld de, YourTextString
 	and a
 	jr z, .notNickname
 	ld de, RivalsTextString
 	dec a
 	jr z, .notNickname
+	dec a
 	ld a, [wCurPartySpecies]
+	jr z, .pokemon
+	jr .pokeballName
+.pokemon
 	ld [wMonPartySpriteSpecies], a
 	push af
 	farcall LoadNicknameMonSprite ; mechanicalpennote: CHANGED: new code for choosing which sprite displays on the nicknaming menus
@@ -483,7 +502,7 @@ PrintNamingText:
 	; PureRGBnote: OPTIMIZED: don't need this blank character anymore in english
 	;ld hl, $1
 	;add hl, bc
-	;ld [hl], "の" ; leftover from Japanese version; blank tile $c9 in English 
+	;ld [hl], 'の' ; leftover from Japanese version; blank tile $c9 in English 3
 	hlcoord 1, 3
 	ld de, NicknameTextString
 	jr .placeString
@@ -491,9 +510,21 @@ PrintNamingText:
 	call PlaceString
 	ld l, c
 	ld h, b
+.addNameText
 	ld de, NameTextString
 .placeString
 	jp PlaceString
+.pokeballName
+	hlcoord 3, 3
+	call .addNameText
+	jpfar CustomPokeballRename
+.nameBox
+	hlcoord 3, 3
+	call .addNameText
+	hlcoord 3, 1
+	ld de, PCBoxString
+	jp PlaceString
+
 
 YourTextString:
 	db "YOUR @"
@@ -501,8 +532,10 @@ YourTextString:
 RivalsTextString:
 	db "RIVAL's @"
 
+NicknameTextString:
+	db "NICK"
 NameTextString:
 	db "NAME?@"
 
-NicknameTextString:
-	db "NICKNAME?@"
+PCBoxString:
+	db "<PC> BOX@"

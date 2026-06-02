@@ -10,7 +10,7 @@ SafariZoneCenterRestHouse_TextPointers:
 
 SafariZoneCenterRestHouseSaraText:
 	text_asm
-	CheckExtraHideShowState HS_SAFARI_ZONE_CENTER_REST_HOUSE_ERIK
+	CheckExtraHideShowState TOGGLE_SAFARI_ZONE_CENTER_REST_HOUSE_ERIK
 	jr z, .reunited
 	SetEvent EVENT_MET_SARA
 	ld hl, .whereErik
@@ -55,9 +55,8 @@ SafariZoneCenterRestHouseErikText:
 	rst TextScriptEnd
 
 ShowHouseSaraErik:
-	ld a, HS_ERIK_HOUSE
+	ld c, TOGGLE_ERIK_HOUSE
 	call .show
-	ld a, HS_SARA_HOUSE
+	ld c, TOGGLE_SARA_HOUSE
 .show
-	ld [wMissableObjectIndex], a
-	predef_jump ShowExtraObject
+	jp ShowExtraObject

@@ -20,7 +20,7 @@ VermilionDock_Script:
 	ld hl, wStatusFlags5
 	set BIT_SCRIPTED_MOVEMENT_STATE, [hl]
 	ld hl, wSimulatedJoypadStatesEnd
-	ld a, D_UP
+	ld a, PAD_UP
 	ld [hli], a
 	ld [hli], a
 	ld [hl], a
@@ -29,9 +29,7 @@ VermilionDock_Script:
 	xor a
 	ld [wSpritePlayerStateData2MovementByte1], a
 	ld [wOverrideSimulatedJoypadStatesMask], a
-	dec a
-	ld [wJoyIgnore], a
-	ret
+	jp DisableAllJoypad
 .walking_out_of_dock
 	CheckEventAfterBranchReuseHL EVENT_WALKED_OUT_OF_DOCK, EVENT_STARTED_WALKING_OUT_OF_DOCK
 	ret nz
@@ -60,8 +58,9 @@ VermilionDockSSAnneLeavesScript:
 ;;;;;;;;;; we need to reset the palette here or the screen will be black
 	call GBPalNormal
 ;;;;;;;;;; 
-	ld a, SFX_STOP_ALL_MUSIC
-	ld [wJoyIgnore], a
+	call DisableAllJoypad
+	ASSERT SFX_STOP_ALL_MUSIC == $FF 
+	; a = SFX_STOP_ALL_MUSIC = $FF due to DisableAllJoypad
 	ld [wNewSoundID], a
 	rst _PlaySound
 	ld c, BANK(Music_Surfing)
@@ -72,7 +71,7 @@ VermilionDockSSAnneLeavesScript:
 	ld [wSpritePlayerStateData1ImageIndex], a
 	ld c, 120
 	rst _DelayFrames
-	ld b, $9c
+	ld b, HIGH(vBGMap1)
 	call CopyScreenTileBufferToVRAM
 	hlcoord 0, 10
 	ld bc, SCREEN_WIDTH * 6
@@ -96,8 +95,7 @@ VermilionDockSSAnneLeavesScript:
 	push hl
 	ld a, SFX_SS_ANNE_HORN
 	call PlaySoundWaitForCurrent
-	ld a, $ff
-	ld [wUpdateSpritesEnabled], a
+	call DisableSpriteUpdates
 	lb de, 0, 8
 .shift_columns_up
 	ld hl, $2
@@ -108,7 +106,24 @@ VermilionDockSSAnneLeavesScript:
 	ld [wMapViewVRAMPointer + 1], a
 	push hl
 	push de
-	call ScheduleEastColumnRedraw
+; ScheduleEastColumnRedraw was un-functioned in overworld so it was copied here
+	
+	hlcoord 18, 0
+	call ScheduleColumnRedrawHelper
+	ld a, [wMapViewVRAMPointer]
+	ld c, a
+	and $e0
+	ld b, a
+	ld a, c
+	add 18
+	and $1f
+	or b
+	ldh [hRedrawRowOrColumnDest], a
+	ld a, [wMapViewVRAMPointer + 1]
+	ldh [hRedrawRowOrColumnDest + 1], a
+	ld a, REDRAW_COL
+	ldh [hRedrawRowOrColumnMode], a
+
 	call VermilionDock_EmitSmokePuff
 	pop de
 	ld b, $10
@@ -131,8 +146,7 @@ VermilionDockSSAnneLeavesScript:
 	call VermilionDock_EraseSSAnne
 	ld a, $90
 	ldh [hWY], a
-	ld a, $1
-	ld [wUpdateSpritesEnabled], a
+	call EnableSpriteUpdates
 	pop hl
 	pop bc
 	ld a, b
@@ -151,7 +165,7 @@ VermilionDock_AnimSmokePuffDriftRight:
 	ld a, [wSSAnneSmokeDriftAmount]
 	swap a
 	ld c, a
-	ld de, 4
+	ld de, OBJ_SIZE
 .drift_loop
 	inc [hl]
 	inc [hl]
@@ -178,10 +192,10 @@ VermilionDock_EmitSmokePuff:
 
 VermilionDockOAMBlock:
 ; tile ID, attributes
-	db $fc, $10
-	db $fd, $10
-	db $fe, $10
-	db $ff, $10
+	db $fc, OAM_PAL1
+	db $fd, OAM_PAL1
+	db $fe, OAM_PAL1
+	db $ff, OAM_PAL1
 
 VermilionDock_SyncScrollWithLY:
 	ld h, d
@@ -239,15 +253,160 @@ VermilionDockMewText:
 	text_asm
 	ld hl, MewTrainerHeader
 	call TalkToTrainer
-	rst TextScriptEnd
+	ld c, 60
+	rst _DelayFrames
+	jp TextScriptEndNoButtonPress
 
 MewBattleText:
 	text_far _MewtwoBattleText ; Mew!
 	text_asm
 	ld a, MEW
 	call PlayCry
-	call WaitForSoundToFinish
+	;;;;; Mew floats up in a bubble animation
+	; Make mew face downwards
+	ld a, VERMILIONDOCK_MEW
+	call SetSpriteFacingDown
+	call UpdateSprites
+	ld hl, vNPCSprites tile $C0
+	ld de, MewBubbleTiles
+	lb bc, BANK(MewBubbleTiles), 4
+	call CopyVideoData
+	ld c, 20
+	rst _DelayFrames
+	ld b, BANK(SFX_Battle_24)
+	call MuteAudioAndChangeAudioBank
+	ld a, SFX_BATTLE_24
+	call PlaySoundResetSFXModifiers
+	; load bubble tiles
+	ld hl, BubbleOAMTable
+	ld de, wShadowOAMSprite08
+	ld bc, 4 * 13
+	rst _CopyData
+	call DisableSpriteUpdates
+	ld hl, wShadowOAMSprite08
+	ld d, 13
+	ld a, [wXCoord]
+	cp 21
+	lb bc, -16, 16
+	jr z, .adjustOAMCoords
+	cp 20
+	lb bc, 0, 32
+	jr z, .adjustOAMCoords
+.continue
+	ld c, 5
+	rst _DelayFrames
+	; move down slightly
+	call .mewDifferent
+	ld a, [wXCoord]
+	cp 20
+	lb bc, 1, -1
+	jr nz, .notLeft1
+	lb bc, 1, 1
+.notLeft1
+	ld e, 6
+	call .loopMoveMewAndBubble
+	ld c, 20
+	rst _DelayFrames
+	; move up into the air
+	ld a, SFX_BATTLE_1C
+	call PlaySoundResetSFXModifiers
+	call .mewNormal
+	ld a, [wXCoord]
+	cp 21
+	ld e, 54
+	jr nz, .notMiddle1
+	ld e, 44
+.notMiddle1
+	lb bc, -1, 0
+	call .loopMoveMewAndBubble
+	ld c, 10
+	rst _DelayFrames
+	; change player OAM to be the up facing sprite if it isn't already
+	ld a, [wYCoord]
+	cp 20
+	jr nz, .noFlip
+	ld de, wShadowOAMSprite00
+	call UnflipSpriteOAM
+.noFlip
+	ld e, 4
+	ld d, 4
+	ld bc, 4
+	ld hl, wShadowOAMSprite00TileID
+.loopChangePlayerFacing
+	ld [hl], d
+	add hl, bc
+	inc d
+	dec e
+	jr nz, .loopChangePlayerFacing
+	call .mewDifferent
+	ld e, 8
+	lb bc, 1, 0
+	call .loopMoveMewAndBubble
+	ld c, 10
+	rst _DelayFrames
+	call .mewNormal
+	ld e, 4
+	lb bc, -1, 0
+	call .loopMoveMewAndBubble
+	ld c, 40
+	rst _DelayFrames
+	call UnmuteAudioAndRestoreAudioBank
 	rst TextScriptEnd
+.adjustOAMCoords
+	call .loopAdjustOAMCoords
+	jr .continue
+.adjustMewAndBubbleCoords
+	ld d, 17
+	ld hl, wShadowOAMSprite04
+.loopAdjustOAMCoords
+	ld a, [hl]
+	add b
+	ld [hli], a
+	ld a, [hl]
+	add c
+	ld [hli], a
+	inc hl
+	inc hl
+	dec d
+	jr nz, .loopAdjustOAMCoords
+	ret
+.loopMoveMewAndBubble
+	call .adjustMewAndBubbleCoords
+	rst _DelayFrame
+	dec e
+	jr nz, .loopMoveMewAndBubble
+	ret
+.mewNormal
+	ld hl, vNPCSprites tile $0C
+	ld de, FairySprite
+	lb bc, BANK(FairySprite), 4
+	jr .copy2
+.mewDifferent
+	ld hl, vNPCSprites tile $0C
+	ld de, PartyMonSprites1 tile 24
+	call .copy
+	ld hl, vNPCSprites tile $0E
+	ld de, PartyMonSprites1 tile 28
+.copy
+	lb bc, BANK(PartyMonSprites1), 2
+.copy2
+	jp CopyVideoData
+
+
+BubbleOAMTable:
+	db $44, $30, $C0, $00
+	db $44, $38, $C1, $00
+	db $4C, $30, $C2, $00
+	db $44, $48, $C0, OAM_XFLIP
+	db $44, $40, $C1, OAM_XFLIP
+	db $4C, $48, $C2, OAM_XFLIP
+	db $5C, $30, $C0, OAM_YFLIP
+	db $5C, $38, $C1, OAM_YFLIP
+	db $54, $30, $C2, OAM_YFLIP
+	db $5C, $48, $C0, OAM_XFLIP | OAM_YFLIP
+	db $5C, $40, $C1, OAM_XFLIP | OAM_YFLIP
+	db $54, $48, $C2, OAM_XFLIP | OAM_YFLIP
+	db $4A, $40, $C3, $00
 
 TruckOAMTable:
 	db $50, $28, $C0, $10
@@ -275,15 +434,12 @@ TruckCheck:
 	jp nz, ChangeTruckTile
 	ld hl, wCurrentMapScriptFlags
 	res BIT_CUR_MAP_LOADED_1, [hl]
-	lb bc, FLAG_TEST, HS_MEW_VERMILION_DOCK
-	ld hl, wMissableObjectFlags
-	predef FlagActionPredef
-	ld a, c
-	and a
+	lb bc, FLAG_TEST, TOGGLE_MEW_VERMILION_DOCK
+	ld hl, wToggleableObjectFlags
+	call FlagAction
 	jr nz, .skiphidingmew
-	ld a, HS_MEW_VERMILION_DOCK
-	ld [wMissableObjectIndex], a
-	predef HideObject
+	ld c, TOGGLE_MEW_VERMILION_DOCK
+	call HideObject
 .skiphidingmew
 	ld a, [wStatusFlags1]
 	bit BIT_STRENGTH_ACTIVE, a ; using Strength?
@@ -305,12 +461,11 @@ TruckCheck:
 	set BIT_CUR_MAP_USED_ELEVATOR, [hl] ; wait until the next time the player presses left
 	ret z
 	ldh a, [hJoyHeld]
-	bit BIT_D_LEFT, a ; is player pressing left
+	bit B_PAD_LEFT, a ; is player pressing left
 	ret z
 	res BIT_CUR_MAP_USED_ELEVATOR, [hl]
-	ld a, $ff
-	ld [wJoyIgnore], a
-	ld [wUpdateSpritesEnabled], a
+	call DisableSpriteUpdates
+	ld [wJoyIgnore], a ; a = $FF due to DisableSpriteUpdates
 	; make it look like the player bumped into the truck
 	call VermilionDockRedLeftAnimate
 	xor a
@@ -325,7 +480,7 @@ TruckCheck:
 	ld a, $c
 	ld [wNewTileBlockID], a ; used to be wd09f
 	ld bc, $a
-	predef ReplaceTileBlock
+	call ReplaceTileBlock
 	; moving the truck
 	ld a, SFX_PUSH_BOULDER
 	rst _PlaySound
@@ -346,27 +501,22 @@ TruckCheck:
 	ld a, $3
 	ld [wNewTileBlockID], a ; used to be wd09f
 	ld bc, $9
-	predef ReplaceTileBlock
+	call ReplaceTileBlock
 	callfar AnimateBoulderDust
 	call ShowMew
 	ld c, 20
 	rst _DelayFrames
-	xor a
-	ld [wJoyIgnore], a
+	call EnableAllJoypad
 	SetEvent EVENT_FOUND_MEW
 	ret
 
-ShowMew:	
-	ld a, 1
-	ld [wUpdateSpritesEnabled], a
-	ld a, HS_MEW_VERMILION_DOCK
-	ld [wMissableObjectIndex], a
-	predef_jump ShowObject
+ShowMew:
+	call EnableSpriteUpdates
+	ld c, TOGGLE_MEW_VERMILION_DOCK
+	jp ShowObject
 
 ChangeTruckTile:
-	ld hl, wCurrentMapScriptFlags
-	bit BIT_CUR_MAP_LOADED_1, [hl]
-	res BIT_CUR_MAP_LOADED_1, [hl]
+	call WasMapJustLoaded
 	res BIT_CUR_MAP_USED_ELEVATOR, [hl]
 	ret z
 	ld bc, $9

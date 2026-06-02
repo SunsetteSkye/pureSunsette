@@ -4,12 +4,6 @@ SSAnne2F_Script:
 	ld a, [wSSAnne2FCurScript]
 	jp CallFunctionInTable
 
-SSAnne2FResetScripts:
-	xor a
-	ld [wJoyIgnore], a
-	ld [wSSAnne2FCurScript], a
-	ret
-
 SSAnne2F_ScriptPointers:
 	def_script_pointers
 	dw_const SSAnne2FDefaultScript,          SCRIPT_SSANNE2F_DEFAULT
@@ -34,24 +28,20 @@ ENDC
 	call PlayMusic
 	ld a, [wCoordIndex]
 	ldh [hSavedCoordIndex], a
-	ld a, HS_SS_ANNE_2F_RIVAL
-	ld [wMissableObjectIndex], a
-	predef ShowObject
+	ld c, TOGGLE_SS_ANNE_2F_RIVAL
+	call ShowObject
 	call Delay3
 	ld a, SSANNE2F_RIVAL
 	ldh [hSpriteIndex], a
 	call SetSpriteMovementBytesToFF
 	xor a
 	ldh [hJoyHeld], a
-	ld a, D_RIGHT | D_LEFT | D_UP | D_DOWN
-	ld [wJoyIgnore], a
+	call DisableDpad
 	ldh a, [hSavedCoordIndex]
 	cp $2
-	jr nz, .player_standing_right
-	ld de, .RivalDownFourMovement
-	jr .move_sprite
-.player_standing_right
 	ld de, .RivalDownThreeMovement
+	jr nz, .move_sprite
+	dec de ; .RivalDownFourMovement
 .move_sprite
 	call MoveSprite
 	ld a, SCRIPT_SSANNE2F_RIVAL_START_BATTLE
@@ -74,13 +64,11 @@ ENDC
 SSAnne2FSetFacingDirectionScript:
 	ld a, [wXCoord]
 	cp 37
-	jr nz, .player_standing_left
+	ld a, SPRITE_FACING_DOWN
+	jr nz, .set_facing_direction
 	ld a, PLAYER_DIR_LEFT
 	ld [wPlayerMovingDirection], a
 	ld a, SPRITE_FACING_RIGHT
-	jr .set_facing_direction
-.player_standing_left
-	xor a ; SPRITE_FACING_DOWN
 .set_facing_direction
 	ldh [hSpriteFacingDirection], a
 	ld a, SSANNE2F_RIVAL
@@ -92,8 +80,7 @@ SSAnne2FRivalStartBattleScript:
 	bit BIT_SCRIPTED_NPC_MOVEMENT, a
 	ret nz
 	call SSAnne2FSetFacingDirectionScript
-	xor a
-	ld [wJoyIgnore], a
+	call EnableAllJoypad
 	ld a, TEXT_SSANNE2F_RIVAL
 	ldh [hTextID], a
 	call DisplayTextID
@@ -111,13 +98,20 @@ SSAnne2FRivalStartBattleScript:
 	ld [wSSAnne2FCurScript], a
 	ret
 
+SSAnne2FResetScripts:
+	call EnableAllJoypad
+	; a = 0 from EnableAllJoypad
+	ld [wSSAnne2FCurScript], a ; SCRIPT_SSANNE2F_DEFAULT
+	ret
+
 SSAnne2FRivalAfterBattleScript:
 	ld a, [wIsInBattle]
 	cp $ff
-	jp z, SSAnne2FResetScripts
+	jr z, SSAnne2FResetScripts
 	call SSAnne2FSetFacingDirectionScript
-	ld a, D_RIGHT | D_LEFT | D_UP | D_DOWN
-	ld [wJoyIgnore], a
+	call DisableDpad
+	ld d, SSANNE2F_RIVAL
+	callfar MakeSpriteFacePlayer
 	ld a, TEXT_SSANNE2F_RIVAL_CUT_MASTER
 	ldh [hTextID], a
 	call DisplayTextID
@@ -157,11 +151,9 @@ SSAnne2FRivalExitScript:
 	ld a, [wStatusFlags5]
 	bit BIT_SCRIPTED_NPC_MOVEMENT, a
 	ret nz
-	xor a
-	ld [wJoyIgnore], a
-	ld a, HS_SS_ANNE_2F_RIVAL
-	ld [wMissableObjectIndex], a
-	predef HideObject
+	call EnableAllJoypad
+	ld c, TOGGLE_SS_ANNE_2F_RIVAL
+	call HideObject
 	call PlayDefaultMusic
 	ld a, SCRIPT_SSANNE2F_NOOP
 	ld [wSSAnne2FCurScript], a

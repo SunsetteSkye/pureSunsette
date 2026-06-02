@@ -24,9 +24,21 @@ TreeDeleterSnorlaxText:
 	call DisplayTextPromptButton
 	ld hl, .couchPotato
 	rst _PrintText
+	call CheckAllTreesDeleted
+	jr nz, .done
+	call DisplayTextPromptButton
+	ld de, TreeDeleterName
+	call CopyTrainerName
+	ld hl, .thatsMy
+	rst _PrintText
+	jp TreeDeleterText.snorlaxText
+.done
 	rst TextScriptEnd
 .couchPotato
 	text_far _FuchsiaTreeDeleterSnorlax2
+	text_end
+.thatsMy
+	text_far _FuchsiaTreeDeleterSnorlax3
 	text_end
 
 CheckAllTreesDeleted:
@@ -39,22 +51,26 @@ TreeDeleterText:
 	text_asm
 	call CheckAllTreesDeleted
 	jr z, .finalText
+	ld de, TreeDeleterName
+	call CopyTrainerName
 	ld hl, FuchsiaTreeDeleterHouseText1
 	rst _PrintText
 	xor a
 	ld [wCurrentMenuItem], a
 .listLoop
 	call CheckAllTreesDeleted
-	jr z, .noMoreTreesToDelete
+	ld hl, FuchsiaTreeDeleterFinalText
+	jr z, .doneList
 	ld hl, FuchsiaTreeDeleterHouseText2
 	rst _PrintText
 	ld a, MONEY_BOX
 	ld [wTextBoxID], a
 	call DisplayTextBoxID
 	ld hl, TreeDeleterOptions
-	ld b, A_BUTTON | B_BUTTON
+	ld b, PAD_A | PAD_B
 	call DisplayMultiChoiceTextBoxNoMenuReset
-	jr nz, .goodbye
+	ld hl, FuchsiaTreeDeleterDoneText
+	jr nz, .doneList
 	ld hl, TextPointers_TreeDelete
 	ld a, [wCurrentMenuItem]
 	push af
@@ -63,25 +79,27 @@ TreeDeleterText:
 	pop af
 	ld [wCurrentMenuItem], a
 	jr .listLoop
-.goodbye
+.doneList
 	xor a
 	ld [wListScrollOffset], a
-	ld hl, FuchsiaTreeDeleterDoneText
-	rst _PrintText
-	rst TextScriptEnd
-.noMoreTreesToDelete
-	xor a
-	ld [wListScrollOffset], a
-	ld hl, FuchsiaTreeDeleterFinalText
 	rst _PrintText
 	rst TextScriptEnd
 .finalText
-	ld hl, FuchsiaTreeDeleterFinalTextPrompt
+	ld hl, FuchsiaTreeDeleterFinalText
 	rst _PrintText
+	call DisplayTextPromptButton
+.snorlaxText
 	ld hl, FuchsiaTreeDeleterFinalText2
 	rst _PrintText
-	rst TextScriptEnd
+	ld de, TreeDeleterName
+	call CopyTrainerName
+	lb hl, DEX_SNORLAX, $FF
+	ld de, TextNothing
+	ld bc, LearnsetRecountedFondMemories
+	predef_jump LearnsetTrainerScriptMain
 
+TreeDeleterName:
+	db "TREE DELETER@"
 
 FuchsiaTreeDeleterDoneText:
 	text_far _FuchsiaTreeDeleterDoneText
@@ -95,11 +113,6 @@ FuchsiaTreeDeleterFinalText2:
 	text_far _FuchsiaTreeDeleterFinalText2
 	text_end
 
-FuchsiaTreeDeleterFinalTextPrompt:
-	text_far _FuchsiaTreeDeleterFinalText
-	text_promptbutton
-	text_end
-
 TextPointers_TreeDelete:
 	dw FuchsiaTreeDeleterRoute2
 	dw FuchsiaTreeDeleterCeruleanCity
@@ -107,7 +120,10 @@ TextPointers_TreeDelete:
 	dw FuchsiaTreeDeleterFuchsiaCity
 
 PurchasedTreeDeletion:  
-	call IsThereEnoughMoneyTreeDeleter
+	ld de, wPlayerMoney
+	ld hl, hMoney
+	ld c, 3 ; length of money in bytes
+	call StringCmp
 	jr c, .notEnoughMoneyTreeDeleter
 	call SubtractAmountPaidFromMoney
 	ld a, SFX_PURCHASE
@@ -120,13 +136,8 @@ PurchasedTreeDeletion:
 .notEnoughMoneyTreeDeleter
 	ld hl, NotEnoughMoneyTreeDeleterText
 	rst _PrintText
+	and a
 	ret
-
-IsThereEnoughMoneyTreeDeleter:
-	ld de, wPlayerMoney
-	ld hl, hMoney
-	ld c, 3 ; length of money in bytes
-	jp StringCmp
 
 NotEnoughMoneyTreeDeleterText:
 	text_far _PokemartNotEnoughMoneyText
@@ -142,29 +153,35 @@ FuchsiaTreeDeleterTreeDelete:
 
 FuchsiaTreeDeleterRoute2:
 	text_asm
-	CheckEvent EVENT_DELETED_ROUTE2_TREES
-	jr nz, .alreadyDeleted
+	lb bc, 0, $80
 	ld hl, FuchsiaTreeDeleterRoute2Text
+	CheckEvent EVENT_DELETED_ROUTE2_TREES
+	call TreeDeleterTextScript
+	jr nc, .done
+	SetEvent EVENT_DELETED_ROUTE2_TREES
+.done
+	rst TextScriptEnd
+
+TreeDeleterTextScript:
+	jr nz, .alreadyDeleted
+	push bc
 	rst _PrintText
 	call YesNoChoice
-	ld a, [wCurrentMenuItem]
-	and a
+	pop bc
 	jr nz, .done
-	xor a
+	ld a, b
 	ldh [hMoney], a 
+	xor a
 	ldh [hMoney + 2], a
-	ld a, $80
-	ldh [hMoney + 1], a ; loads 5000 into the cost
-	call PurchasedTreeDeletion
-	jr nc, .done
-.setEvent	
-	SetEvent EVENT_DELETED_ROUTE2_TREES
-	jr .done
+	ld a, c
+	ldh [hMoney + 1], a
+	jp PurchasedTreeDeletion
 .alreadyDeleted
 	ld hl, FuchsiaTreeDeleterAlreadyDeletedText
 	rst _PrintText
 .done
-	rst TextScriptEnd
+	and a
+	ret
 
 FuchsiaTreeDeleterRoute2Text:
 	text_far _FuchsiaTreeDeleterRoute2
@@ -172,27 +189,12 @@ FuchsiaTreeDeleterRoute2Text:
 
 FuchsiaTreeDeleterCeruleanCity:
 	text_asm
-	CheckEvent EVENT_DELETED_CERULEAN_TREE
-	jr nz, .alreadyDeleted
+	lb bc, 0, $40
 	ld hl, FuchsiaTreeDeleterCeruleanCityText
-	rst _PrintText
-	call YesNoChoice
-	ld a, [wCurrentMenuItem]
-	and a
-	jr nz, .done
-	xor a
-	ldh [hMoney], a 
-	ldh [hMoney + 2], a
-	ld a, $40
-	ldh [hMoney + 1], a ; loads 5000 into the cost
-	call PurchasedTreeDeletion
+	CheckEvent EVENT_DELETED_CERULEAN_TREE
+	call TreeDeleterTextScript
 	jr nc, .done
-.setEvent	
 	SetEvent EVENT_DELETED_CERULEAN_TREE
-	jr .done
-.alreadyDeleted
-	ld hl, FuchsiaTreeDeleterAlreadyDeletedText
-	rst _PrintText
 .done
 	rst TextScriptEnd
 
@@ -202,27 +204,12 @@ FuchsiaTreeDeleterCeruleanCityText:
 
 FuchsiaTreeDeleterRoute9:
 	text_asm
-	CheckEvent EVENT_DELETED_ROUTE9_TREE
-	jr nz, .alreadyDeleted
+	lb bc, 0, $40
 	ld hl, FuchsiaTreeDeleterRoute9Text
-	rst _PrintText
-	call YesNoChoice
-	ld a, [wCurrentMenuItem]
-	and a
-	jr nz, .done
-	xor a
-	ldh [hMoney], a 
-	ldh [hMoney + 2], a
-	ld a, $40
-	ldh [hMoney + 1], a ; loads 5000 into the cost
-	call PurchasedTreeDeletion
+	CheckEvent EVENT_DELETED_ROUTE9_TREE
+	call TreeDeleterTextScript
 	jr nc, .done
-.setEvent	
 	SetEvent EVENT_DELETED_ROUTE9_TREE
-	jr .done
-.alreadyDeleted
-	ld hl, FuchsiaTreeDeleterAlreadyDeletedText
-	rst _PrintText
 .done
 	rst TextScriptEnd
 
@@ -232,27 +219,12 @@ FuchsiaTreeDeleterRoute9Text:
 
 FuchsiaTreeDeleterFuchsiaCity:
 	text_asm
-	CheckEvent EVENT_DELETED_FUCHSIA_TREES
-	jr nz, .alreadyDeleted
+	lb bc, 1, 0
 	ld hl, FuchsiaTreeDeleterFuchsiaCityText
-	rst _PrintText
-	call YesNoChoice
-	ld a, [wCurrentMenuItem]
-	and a
-	jr nz, .done
-	xor a
-	ldh [hMoney + 2], a
-	ldh [hMoney + 1], a
-	ld a, 1
-	ldh [hMoney], a ; loads 10000 into the cost
-	call PurchasedTreeDeletion
+	CheckEvent EVENT_DELETED_FUCHSIA_TREES
+	call TreeDeleterTextScript
 	jr nc, .done
-.setEvent	
 	SetEvent EVENT_DELETED_FUCHSIA_TREES
-	jr .done
-.alreadyDeleted
-	ld hl, FuchsiaTreeDeleterAlreadyDeletedText
-	rst _PrintText
 .done
 	rst TextScriptEnd
 

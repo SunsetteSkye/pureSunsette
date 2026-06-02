@@ -9,41 +9,21 @@ MtMoonB2F_Script:
 	ld [wMtMoonB2FCurScript], a
 	CheckEvent EVENT_BEAT_MT_MOON_EXIT_SUPER_NERD
 	ret z
-	ld hl, MtMoonB2FFossilAreaCoords
-	call ArePlayerCoordsInArray
-	jr nc, .enable_battles
+	lb bc, 11, 14
+	lb de, 5, 8
+	predef ArePlayerCoordsInRangePredef
+	dec d
 	ld hl, wStatusFlags4
+	jr nz, .enable_battles
+;;;;; PureRGBnote: FIXED: using pocket abra/teleport/dig near the super nerd can get battles stuck disabled, so enable battles in that specific case
+	ld a, [wStatusFlags6]
+	bit BIT_ESCAPE_WARP, a
+	jr nz, .enable_battles
+;;;;;
 	set BIT_NO_BATTLES, [hl]
 	ret
 .enable_battles
-	ld hl, wStatusFlags4
 	res BIT_NO_BATTLES, [hl]
-	ret
-
-MtMoonB2FFossilAreaCoords:
-	dbmapcoord 11,  5
-	dbmapcoord 12,  5
-	dbmapcoord 13,  5
-	dbmapcoord 14,  5
-	dbmapcoord 11,  6
-	dbmapcoord 12,  6
-	dbmapcoord 13,  6
-	dbmapcoord 14,  6
-	dbmapcoord 11,  7
-	dbmapcoord 12,  7
-	dbmapcoord 13,  7
-	dbmapcoord 14,  7
-	dbmapcoord 11,  8
-	dbmapcoord 12,  8
-	dbmapcoord 13,  8
-	dbmapcoord 14,  8
-	db -1 ; end
-
-MtMoonB2FResetScripts:
-	xor a ; SCRIPT_MTMOONB2F_DEFAULT
-	ld [wJoyIgnore], a
-	ld [wMtMoonB2FCurScript], a
-	ld [wCurMapScript], a
 	ret
 
 MtMoonB2F_ScriptPointers:
@@ -70,19 +50,18 @@ MtMoonB2FDefaultScript:
 	ldh [hTextID], a
 	jp DisplayTextID
 
+MtMoonB2FResetScripts:
+	call ResetMapScripts
+	ld [wMtMoonB2FCurScript], a ; SCRIPT_MTMOONB2F_DEFAULT
+	ret
+
 MtMoonB2FDefeatedSuperNerdScript:
 	ld a, [wIsInBattle]
 	cp $ff
-	jp z, MtMoonB2FResetScripts
-	call UpdateSprites
-	call Delay3
+	jr z, MtMoonB2FResetScripts
+	call UpdateSpritesAndDelay3
 	SetEvent EVENT_BEAT_MT_MOON_EXIT_SUPER_NERD
-	xor a
-	ld [wJoyIgnore], a
-	ld a, SCRIPT_MTMOONB2F_DEFAULT
-	ld [wMtMoonB2FCurScript], a
-	ld [wCurMapScript], a
-	ret
+	jr MtMoonB2FResetScripts
 
 MtMoonB2FMoveSuperNerdScript:
 	ld a, MTMOONB2F_SUPER_NERD
@@ -129,20 +108,18 @@ MtMoonB2FSuperNerdTakesOtherFossilScript:
 	ld a, [wStatusFlags5]
 	bit BIT_SCRIPTED_NPC_MOVEMENT, a
 	ret nz
-	ld a, D_RIGHT | D_LEFT | D_UP | D_DOWN
-	ld [wJoyIgnore], a
+	call DisableDpad
 	ld a, $1
 	ld [wDoNotWaitForButtonPressAfterDisplayingText], a
 	ld a, TEXT_MTMOONB2F_SUPER_NERD_THEN_THIS_IS_MINE
 	ldh [hTextID], a
 	call DisplayTextID
 	CheckEvent EVENT_GOT_DOME_FOSSIL
-	ld a, HS_MT_MOON_B2F_FOSSIL_1
+	ld c, TOGGLE_MT_MOON_B2F_FOSSIL_1
 	jr z, .continue
-	ld a, HS_MT_MOON_B2F_FOSSIL_2
+	ld c, TOGGLE_MT_MOON_B2F_FOSSIL_2
 .continue
-	ld [wMissableObjectIndex], a
-	predef HideObject
+	call HideObject
 	; ask the player if they want to give the nerd their fossil right away, and can collect their fossil pokemon in saffron later
 	ld a, 1
 	ldh [hSpriteIndex], a
@@ -163,23 +140,21 @@ MtMoonB2FSuperNerdTakesOtherFossilScript:
 .doFacing
   	ldh [hSpriteFacingDirection], a
   	call SetSpriteFacingDirection
-	xor a
+  	call EnableAllJoypad
 	ld [wDoNotWaitForButtonPressAfterDisplayingText], a
-	ld [wJoyIgnore], a
 	ld a, 11
 	ldh [hTextID], a
 	call DisplayTextID
 
 ;;;;;;;;;; PureRGBnote: ADDED: hide or show the fossil in seafoam islands depending on what you chose
 	CheckEvent EVENT_GOT_DOME_FOSSIL
-	ld a, HS_SEAFOAM_ISLANDS_B3F_DOME_FOSSIL
+	ld c, TOGGLE_SEAFOAM_ISLANDS_B3F_DOME_FOSSIL
 	jr nz, .hideObjectSeafoam
 	CheckEvent EVENT_GOT_HELIX_FOSSIL
-	ld a, HS_SEAFOAM_ISLANDS_B3F_HELIX_FOSSIL
+	ld c, TOGGLE_SEAFOAM_ISLANDS_B3F_HELIX_FOSSIL
 	jr z, .done
 .hideObjectSeafoam
-	ld [wMissableObjectIndex], a
-	predef HideObject
+	call HideObject
 ;;;;;;;;;;
 .done
 	; done
@@ -218,12 +193,15 @@ MtMoonB2FSuperNerdText:
 	text_asm
 	CheckEvent EVENT_BEAT_MT_MOON_EXIT_SUPER_NERD
 	jr z, .beat_super_nerd
-	; CheckEitherEventSetReuseA EVENT_GOT_DOME_FOSSIL, EVENT_GOT_HELIX_FOSSIL
-	and (1 << (EVENT_GOT_DOME_FOSSIL % 8)) | (1 << (EVENT_GOT_HELIX_FOSSIL % 8))
-	jr nz, .got_a_fossil
+	CheckEitherEventSet EVENT_GOT_DOME_FOSSIL, EVENT_GOT_HELIX_FOSSIL, 1
+	jr z, .continue
+.got_a_fossil
+	call MtMoonSuperNerdTakeFossilQuestion
+	rst TextScriptEnd
+.continue
 	ld hl, MtMoonB2fSuperNerdEachTakeOneText
 	rst _PrintText
-	jr .done
+	rst TextScriptEnd
 .beat_super_nerd
 	ld hl, MtMoonB2FSuperNerdTheyreBothMineText
 	rst _PrintText
@@ -240,35 +218,19 @@ MtMoonB2FSuperNerdText:
 	ld a, SCRIPT_MTMOONB2F_DEFEATED_SUPER_NERD
 	ld [wMtMoonB2FCurScript], a
 	ld [wCurMapScript], a
-	jr .done
-.got_a_fossil
-	call MtMoonSuperNerdTakeFossilQuestion
-.done
 	rst TextScriptEnd
 
 MtMoonB2FRocket1Text:
-	text_asm
-	ld hl, MtMoon3TrainerHeader0
-	call TalkToTrainer
-	rst TextScriptEnd
+	script_trainer MtMoon3TrainerHeader0
 
 MtMoonB2FRocket2Text:
-	text_asm
-	ld hl, MtMoon3TrainerHeader1
-	call TalkToTrainer
-	rst TextScriptEnd
+	script_trainer MtMoon3TrainerHeader1
 
 MtMoonB2FRocket3Text:
-	text_asm
-	ld hl, MtMoon3TrainerHeader2
-	call TalkToTrainer
-	rst TextScriptEnd
+	script_trainer MtMoon3TrainerHeader2
 
 MtMoonB2FRocket4Text:
-	text_asm
-	ld hl, MtMoon3TrainerHeader3
-	call TalkToTrainer
-	rst TextScriptEnd
+	script_trainer MtMoon3TrainerHeader3
 
 MtMoonB2FDomeFossilText:
 	text_asm
@@ -277,16 +239,13 @@ MtMoonB2FDomeFossilText:
 	ld hl, .YouWantText
 	rst _PrintText
 	call YesNoChoice
-	ld a, [wCurrentMenuItem]
-	and a
 	jr nz, .done
 	lb bc, DOME_FOSSIL, 1
 	call GiveItem
 	jp nc, MtMoonB2FYouHaveNoRoomText
 	call MtMoonB2FReceivedFossilText
-	ld a, HS_MT_MOON_B2F_FOSSIL_1
-	ld [wMissableObjectIndex], a
-	predef HideObject
+	ld c, TOGGLE_MT_MOON_B2F_FOSSIL_1
+	call HideObject
 	SetEvent EVENT_GOT_DOME_FOSSIL
 	ld a, SCRIPT_MTMOONB2F_MOVE_SUPER_NERD
 	ld [wMtMoonB2FCurScript], a
@@ -305,16 +264,13 @@ MtMoonB2FHelixFossilText:
 	ld hl, .YouWantText
 	rst _PrintText
 	call YesNoChoice
-	ld a, [wCurrentMenuItem]
-	and a
 	jr nz, .done
 	lb bc, HELIX_FOSSIL, 1
 	call GiveItem
 	jp nc, MtMoonB2FYouHaveNoRoomText
 	call MtMoonB2FReceivedFossilText
-	ld a, HS_MT_MOON_B2F_FOSSIL_2
-	ld [wMissableObjectIndex], a
-	predef HideObject
+	ld c, TOGGLE_MT_MOON_B2F_FOSSIL_2
+	call HideObject
 	SetEvent EVENT_GOT_HELIX_FOSSIL
 	ld a, SCRIPT_MTMOONB2F_MOVE_SUPER_NERD
 	ld [wMtMoonB2FCurScript], a
@@ -374,7 +330,8 @@ MtMoonSuperNerdTakeFossilQuestionText:
 
 MtMoonSuperNerdTakeFossilQuestion:
 	CheckEvent EVENT_RECEIVED_FOSSIL_PKMN_FROM_SUPER_NERD
-	jr nz, .lookingForMoreFossils
+	ld hl, MtMoon3TextSuperNerdLookingForMoreFossils
+	jr nz, .printRet
 	CheckEvent EVENT_GAVE_FOSSIL_TO_SUPER_NERD
 	jr nz, .end
 	ld hl, MtMoonB2FSuperNerdTheresAPokemonLabText
@@ -382,9 +339,8 @@ MtMoonSuperNerdTakeFossilQuestion:
 	ld hl, MtMoon3TextSuperNerdGiveFossil
 	rst _PrintText
 	call YesNoChoice
-	ld a, [wCurrentMenuItem]
-	and a
-	jr nz, .no
+	ld hl, MtMoon3TextSuperNerdKeptFossil
+	jr nz, .printRet
 .yes
 	CheckEvent EVENT_GOT_DOME_FOSSIL
 	ld b, DOME_FOSSIL
@@ -392,11 +348,8 @@ MtMoonSuperNerdTakeFossilQuestion:
 	ld b, HELIX_FOSSIL
 .isInBag
 	call IsItemInBag
-	jr nz, .haveFossil
-.noFossil
 	ld hl, MtMoon3TextSuperNerdNoFossil
-	rst _PrintText
-	ret
+	jr z, .printRet
 .haveFossil
 	SetEvent EVENT_GAVE_FOSSIL_TO_SUPER_NERD
 	CheckEvent EVENT_GOT_DOME_FOSSIL
@@ -416,14 +369,7 @@ MtMoonSuperNerdTakeFossilQuestion:
 	rst _PrintText
 .end
 	ld hl, MtMoon3TextSuperNerdGaveFossilEnd
-	rst _PrintText
-	ret
-.lookingForMoreFossils
-	ld hl, MtMoon3TextSuperNerdLookingForMoreFossils
-	rst _PrintText
-	ret
-.no
-	ld hl, MtMoon3TextSuperNerdKeptFossil
+.printRet
 	rst _PrintText
 	ret
 	
@@ -507,4 +453,8 @@ MtMoonB2FRocket4EndBattleText:
 
 MtMoonB2FRocket4AfterBattleText:
 	text_far _MtMoonB2FRocket4AfterBattleText
-	text_end
+	text_asm
+	lb hl, DEX_RATICATE, ROCKET
+	ld de, MtMoonB2fRocket4AfterBattleLearnsetText
+	ld bc, LearnsetFadeOutInDetails
+	predef_jump LearnsetTrainerScriptMain

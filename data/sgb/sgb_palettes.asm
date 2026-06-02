@@ -37,7 +37,7 @@ ENDC
 	RGB 31,31,31, 20,26,16, 03,13,05, 00,00,00 ; PAL_GREENMON ; Darkened color 3
 	RGB 31,31,31, 30,22,24, 28,15,21, 00,00,00 ; PAL_PINKMON
 	RGB 31,31,31, 31,26,10, 17,08,04, 00,00,00 ; PAL_YELLOWMON ; darkened color 2, color 3 is brown. use yellowbar for pokemon that are lighter only
-	RGB 31,31,31, 27,27,28, 19,11,22, 00,00,00 ; PAL_GREYMON	; Aerodactyl / Shellder Color Set, made more purple
+	RGB 31,31,31, 27,27,28, 19,11,22, 00,00,00 ; PAL_GRAYMON	; Aerodactyl / Shellder Color Set, made more purple
 IF DEF(_GREEN)
 	RGB 31,31,31, 26,21,22, 25,07,05, 00,00,00 ; PAL_SLOTS1	; used Green Slots1 as a basis and made them version-identical. voltorb palette.
 ELSE
@@ -75,5 +75,6 @@ ENDC
 	RGB 31,31,31, 14,17,31, 10,11,11, 00,00,00 ; PAL_SECRETLAB
 	RGB 31,31,31, 29,04,00, 10,11,11, 00,00,00 ; PAL_VOLCANO
 	RGB 31,31,31, 25,11,07, 15,05,04, 00,00,00 ; PAL_REALLY_REDMON ; improved contrast on color 3, desaturated and lightened color 2
+	RGB 31,31,31, 21,24,27, 20,19,26, 00,00,00 ; PAL_PRISMATIC
 ;;;;;;;;;;
 	assert_table_length NUM_SGB_PALS

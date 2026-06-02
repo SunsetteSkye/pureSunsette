@@ -1,4 +1,6 @@
 ; PureRGBnote: ADDED: new trainers were added to this location
+ASSERT BANK(ReplaceMansionTileBlockList) == BANK(PokemonMansion3F_Script)
+ASSERT BANK(PokemonMansionSwitchScript) == BANK(PokemonMansion3F_Script)
 
 PokemonMansion3F_Script:
 	call Mansion3CheckReplaceSwitchDoorBlocks
@@ -11,25 +13,24 @@ PokemonMansion3F_Script:
 	ret
 
 Mansion3CheckReplaceSwitchDoorBlocks:
-	ld hl, wCurrentMapScriptFlags
-	bit BIT_CUR_MAP_LOADED_1, [hl]
-	res BIT_CUR_MAP_LOADED_1, [hl]
+	call WasMapJustLoaded
 	ret z
+	ld hl, Mansion3TileBlockReplacementCoords
+	ld de, Mansion3TileBlockReplacementIDsOnOff
 	CheckEvent EVENT_MANSION_SWITCH_ON
 	jr nz, .switchTurnedOn
-	ld a, $e
-	lb bc, 2, 7
-	call Mansion2ReplaceBlock
-	ld a, $5f
-	lb bc, 5, 7
-	jp Mansion2ReplaceBlock
+	inc de
 .switchTurnedOn
-	ld a, $5f
-	lb bc, 2, 7
-	call Mansion2ReplaceBlock
-	ld a, $e
-	lb bc, 5, 7
-	jp Mansion2ReplaceBlock
+	jp ReplaceMansionTileBlockList
+
+Mansion3TileBlockReplacementCoords:
+	db  2,  7
+	db  5,  7
+	db -1
+
+Mansion3TileBlockReplacementIDsOnOff:
+	db  $5f, $0e
+	db  $0e, $5f
 
 PokemonMansion3F_ScriptPointers:
 	def_script_pointers
@@ -74,14 +75,8 @@ PokemonMansion3FDefaultScript:
 	ret
 
 Mansion3Script_Switches::
-	ld a, [wSpritePlayerStateData1FacingDirection]
-	cp SPRITE_FACING_UP
-	ret nz
-	xor a
-	ldh [hJoyHeld], a
-	ld a, TEXT_POKEMONMANSION3F_SWITCH
-	ldh [hTextID], a
-	jp DisplayTextID
+	ld b, TEXT_POKEMONMANSION3F_SWITCH
+	jp PokemonMansionSwitchScript
 
 PokemonMansion3F_TextPointers:
 	def_text_pointers
@@ -91,7 +86,7 @@ PokemonMansion3F_TextPointers:
 	dw_const PickUpItemText,                TEXT_POKEMONMANSION3F_ITEM1
 	dw_const PickUpItemText,                TEXT_POKEMONMANSION3F_ITEM2
 	dw_const PokemonMansion3FDiaryText,     TEXT_POKEMONMANSION3F_DIARY
-	dw_const PokemonMansion2FSwitchText,    TEXT_POKEMONMANSION3F_SWITCH ; This switch uses the text script from the 2F.
+	dw_const PokemonMansionSwitchText,      TEXT_POKEMONMANSION3F_SWITCH
 
 Mansion3TrainerHeaders:
 	def_trainers
@@ -104,16 +99,13 @@ Mansion3TrainerHeader2:
 	db -1 ; end
 
 PokemonMansion3FSuperNerdText:
-	text_asm
-	ld hl, Mansion3TrainerHeader0
-	call TalkToTrainer
-	rst TextScriptEnd
+	script_trainer Mansion3TrainerHeader0
 
 PokemonMansion3FScientistText:
-	text_asm
-	ld hl, Mansion3TrainerHeader1
-	call TalkToTrainer
-	rst TextScriptEnd
+	script_trainer Mansion3TrainerHeader1
+
+Mansion3Text3:
+	script_trainer Mansion3TrainerHeader2
 
 PokemonMansion3FSuperNerdBattleText:
 	text_far _PokemonMansion3FSuperNerdBattleText
@@ -138,12 +130,6 @@ PokemonMansion3FScientistEndBattleText:
 PokemonMansion3FScientistAfterBattleText:
 	text_far _PokemonMansion3FScientistAfterBattleText
 	text_end
-
-Mansion3Text3:
-	text_asm
-	ld hl, Mansion3TrainerHeader2
-	call TalkToTrainer
-	rst TextScriptEnd
 
 Mansion3BattleText3:
 	text_far _Mansion3BattleText3

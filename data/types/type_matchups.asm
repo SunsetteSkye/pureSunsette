@@ -20,6 +20,7 @@ TypeEffects:
 	db NORMAL,       ROCK,         NOT_VERY_EFFECTIVE
 	db NORMAL,       GHOST,        NO_EFFECT
 	db GHOST,        GHOST,        SUPER_EFFECTIVE
+	db FIRE,         GHOST,        SUPER_EFFECTIVE ; cleansing flame: Fire purifies the dead (Fire's "Steel-breaker" niche stand-in)
 	db FIRE,         BUG,          SUPER_EFFECTIVE
 	db FIRE,         ROCK,         NOT_VERY_EFFECTIVE
 	db WATER,        GROUND,       SUPER_EFFECTIVE
@@ -48,7 +49,7 @@ TypeEffects:
 	db POISON,       GROUND,       NOT_VERY_EFFECTIVE
 	db POISON,       BUG,          SUPER_EFFECTIVE
 	db POISON,       ROCK,         NOT_VERY_EFFECTIVE
-	db POISON,       GHOST,        NOT_VERY_EFFECTIVE
+	db POISON,       GHOST,        NO_EFFECT
 	db GROUND,       FIRE,         SUPER_EFFECTIVE
 	db GROUND,       ELECTRIC,     SUPER_EFFECTIVE
 	db GROUND,       GRASS,        NOT_VERY_EFFECTIVE

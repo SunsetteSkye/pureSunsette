@@ -49,46 +49,25 @@ MtMoon1TrainerHeader6:
 	db -1 ; end
 
 MtMoon1FHikerText:
-	text_asm
-	ld hl, MtMoon1TrainerHeader0
-	call TalkToTrainer
-	rst TextScriptEnd
+	script_trainer MtMoon1TrainerHeader0
 
 MtMoon1FYoungster1Text:
-	text_asm
-	ld hl, MtMoon1TrainerHeader1
-	call TalkToTrainer
-	rst TextScriptEnd
+	script_trainer MtMoon1TrainerHeader1
 
 MtMoon1FCooltrainerF1Text:
-	text_asm
-	ld hl, MtMoon1TrainerHeader2
-	call TalkToTrainer
-	rst TextScriptEnd
+	script_trainer MtMoon1TrainerHeader2
 
 MtMoon1FSuperNerdText:
-	text_asm
-	ld hl, MtMoon1TrainerHeader3
-	call TalkToTrainer
-	rst TextScriptEnd
+	script_trainer MtMoon1TrainerHeader3
 
 MtMoon1FCooltrainerF2Text:
-	text_asm
-	ld hl, MtMoon1TrainerHeader4
-	call TalkToTrainer
-	rst TextScriptEnd
+	script_trainer MtMoon1TrainerHeader4
 
 MtMoon1FYoungster2Text:
-	text_asm
-	ld hl, MtMoon1TrainerHeader5
-	call TalkToTrainer
-	rst TextScriptEnd
+	script_trainer MtMoon1TrainerHeader5
 
 MtMoon1FYoungster3Text:
-	text_asm
-	ld hl, MtMoon1TrainerHeader6
-	call TalkToTrainer
-	rst TextScriptEnd
+	script_trainer MtMoon1TrainerHeader6
 
 MtMoon1FHikerBattleText:
 	text_far _MtMoon1FHikerBattleText
@@ -176,4 +155,10 @@ MtMoon1FYoungster3AfterBattleText:
 
 MtMoon1FBewareZubatSign:
 	text_far _MtMoon1FBewareZubatSign
-	text_end
+	text_asm
+	CheckEvent FLAG_GOLBAT_FAMILY_LEARNSET
+	jr nz, .done
+	ld d, DEX_ZUBAT
+	jpfar KeepReadingBookLearnset
+.done
+	rst TextScriptEnd

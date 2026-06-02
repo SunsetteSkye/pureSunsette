@@ -35,11 +35,12 @@ IndigoPlateauLobbyGymGuideText: ; PureRGBnote: ADDED: gym guide sells you apex c
 	jr nz, .afterChamp
 	CheckEvent EVENT_GOT_PEWTER_APEX_CHIPS ; have to hear about apex chips to receive them after that
 	jr z, .donePrompt
-	ld hl, IndigoPlateauLobbyGymGuideText2Prompt
+	ld hl, IndigoPlateauLobbyGymGuideText2
 	rst _PrintText
+	call DisplayTextPromptButton
 	ld hl, IndigoPlateauApexChipsAfterChamp
 	rst _PrintText
-	jr .done
+	rst TextScriptEnd
 .afterChamp
 	CheckEvent EVENT_TALKED_GYM_GUIDE_AFTER_CHAMP
 	jr nz, .quickGreet
@@ -59,20 +60,19 @@ IndigoPlateauLobbyGymGuideText: ; PureRGBnote: ADDED: gym guide sells you apex c
 .sellChips
 	ld hl, IndigoGymGuideShop
 	call DisplayPokemartNoGreeting
-.done
 	rst TextScriptEnd
 .donePrompt
 	ld hl, IndigoPlateauLobbyGymGuideText2
 	rst _PrintText
-	jr .done
+	rst TextScriptEnd
 .donePrompt2
 	ld hl, IndigoPlateauGymGuideChampGreeting
 	rst _PrintText
-	jr .done
+	rst TextScriptEnd
 .donePrompt3
 	ld hl, IndigoPlateauGymGuideChampAfterGreet
 	rst _PrintText
-	jr .done
+	rst TextScriptEnd
 
 IndigoGymGuideSonText:  ; PureRGBnote: ADDED: new NPC who will sell TMs - sells all 50 TMs after becoming champ.
 	text_asm
@@ -86,9 +86,7 @@ IndigoGymGuideSonText:  ; PureRGBnote: ADDED: new NPC who will sell TMs - sells 
 	jr .shop1
 .checkIntroduce
 	CheckEvent EVENT_MET_GYM_GUIDE_SON
-	call z, .introduce
-	ret
-.introduce
+	ret nz
 	ld hl, IndigoPlateauGymGuideSonIntro
 	rst _PrintText
 	ret
@@ -117,17 +115,17 @@ IndigoGymGuideSonText:  ; PureRGBnote: ADDED: new NPC who will sell TMs - sells 
 .shop1
 	ld hl, IndigoGymGuideSonShop1
 .done
+	push hl
+	call DisableTextDelay
+	pop hl
 	call DisplayPokemartNoGreeting
+	call EnableTextDelay
 	SetEvent EVENT_MET_GYM_GUIDE_SON
 	rst TextScriptEnd
 
 IndigoPlateauLobbyGymGuideText2:
+	text_far _GymGuideChampInMakingText
 	text_far _IndigoPlateauLobbyGymGuideText
-	text_end
-
-IndigoPlateauLobbyGymGuideText2Prompt:
-	text_far _IndigoPlateauLobbyGymGuideText
-	text_promptbutton
 	text_end
 
 IndigoPlateauApexChipsAfterChamp:
@@ -170,6 +168,7 @@ ELSE
 ENDC
 
 IndigoPlateauGymGuideSonText:
+	text_far _GymGuideChampInMakingText
 	text_far _IndigoPlateauGymGuideSonText
 	text_end
 
@@ -195,20 +194,17 @@ INCLUDE "data/items/marts/indigo_plateau.asm"
 IndigoPlateauArenaAssistantText:
 	text_asm
 	CheckEvent EVENT_BECAME_CHAMP
-	jr nz, .becameChamp
 	ld hl, .onlyEliteFourAllowed
-	rst _PrintText
-	rst TextScriptEnd
+	jr z, .printDone
 .becameChamp
 	SetEvent EVENT_ARENA_ASSISTANT_WALKING
 	; walks into door and leaves
 	ld de, AssistantWalksUp
 	ld a, INDIGOPLATEAULOBBY_ARENA_ASSISTANT
 	ldh [hSpriteIndex], a
-	call MoveSprite
-	xor a
-	ld [wJoyIgnore], a
+	call MoveSpriteButAllowAOrBPress
 	ld hl, .champAttained
+.printDone
 	rst _PrintText
 	rst TextScriptEnd
 .onlyEliteFourAllowed
@@ -225,17 +221,14 @@ AssistantWalksUp:
 CheckArenaAssistantWalking:
 	CheckEvent EVENT_ARENA_ASSISTANT_WALKING
 	ret z
-	ld a, -1
-	ld [wJoyIgnore], a ; ignore all input until she is done walking
+	call DisableAllJoypad
 	ld a, [wStatusFlags5]
 	bit BIT_SCRIPTED_NPC_MOVEMENT, a
 	ret nz
 	ResetEvent EVENT_ARENA_ASSISTANT_WALKING
-	xor a
-	ld [wJoyIgnore], a
+	call EnableAllJoypad
 	ld a, SFX_GO_OUTSIDE
 	rst _PlaySound
-	ld a, HS_INDIGO_PLATEAU_LOBBY_CHAMP_ARENA_ASSISTANT
-	ld [wMissableObjectIndex], a
-	predef_jump HideExtraObject
+	ld c, TOGGLE_INDIGO_PLATEAU_LOBBY_CHAMP_ARENA_ASSISTANT
+	jp HideExtraObject
 

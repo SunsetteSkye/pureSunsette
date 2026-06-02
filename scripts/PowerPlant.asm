@@ -19,13 +19,11 @@ PowerPlant_Script:
 	ret
 
 PowerPlantOnMapLoad:
-	ld hl, wCurrentMapScriptFlags
-	bit BIT_CUR_MAP_LOADED_1, [hl]
-	res BIT_CUR_MAP_LOADED_1, [hl]
+	call WasMapJustLoaded
 	ret z
 	CheckEvent EVENT_BEAT_ZAPDOS
 	jr nz, .noPowerOutage
-	CheckHideShowState HS_ZAPDOS
+	CheckHideShowState TOGGLE_ZAPDOS
 	jr z, .noPowerOutage
 	ld a, 3
 	ld [wMapPalOffset], a ; make the area look dark
@@ -71,7 +69,7 @@ PowerPlantReplaceBottomGateBlock:
 PowerPlantReplaceTileBlockEntry:
 	push de
 	ld [wNewTileBlockID], a
-	predef ReplaceTileBlock
+	call ReplaceTileBlock
 	pop de
 	ret
 
@@ -113,6 +111,11 @@ PowerPlantCheckStandingOnButton:
 	CheckAndSetEvent EVENT_PRESSED_POWER_PLANT_SWITCH3
 	ret nz
 .displayButtonText
+	ld hl, wCurrentMapScriptFlags
+	bit BIT_MAP_LOADED_AFTER_BATTLE, [hl]
+	res BIT_MAP_LOADED_AFTER_BATTLE, [hl]
+	call nz, GBFadeInFromWhite ; need to fade in if the player encountered a pokemon on this tile
+	call WaitForAudioFadeToFinish ; wait for fading out audio if the player just encountered a pokemon so the below sounds will play correctly
 	ld a, SFX_TELEPORT_ENTER_2
 	rst _PlaySound
 	ld c, 30
@@ -131,7 +134,7 @@ PowerPlantCheckStandingOnButton:
 ; when standing close to the electricity a sound effect plays
 PowerPlantOverworldSFX::
 	ld hl, wAudioFlags
-	bit 0, [hl]
+	bit BIT_WAITING_FOR_SOUND_TO_FINISH, [hl]
 	ret nz ; don't play the sound if we're waiting for sounds to finish currently or it'll wait forever
 	CheckBothEventsSet EVENT_PRESSED_POWER_PLANT_SWITCH1, EVENT_PRESSED_POWER_PLANT_SWITCH2
 	jr nz, .notAllDone
@@ -210,7 +213,7 @@ CopyMenuSpritesVideoData:
 	call CopyVideoData
 	pop bc
 	pop hl
-	ld a, LEN_2BPP_TILE * 4
+	ld a, TILE_SIZE * 4
 	ld d, 0
 	ld e, a
 	add hl, de
@@ -218,7 +221,7 @@ CopyMenuSpritesVideoData:
 	ld e, l
 	pop hl
 	push de
-	ld a, LEN_2BPP_TILE * 2
+	ld a, TILE_SIZE * 2
 	ld d, 0
 	ld e, a
 	add hl, de
@@ -348,8 +351,7 @@ PowerPlantVoltorb6Text:
 PowerPlantZapdosText:
 	text_far _PowerPlantZapdosBattleText
 	text_asm
-	ld a, 1
-	ld [wMuteAudioAndPauseMusic], a
+	call PauseMusic
 	ld a, ZAPDOS
 	call PlayCry
 	; zapdos absorbs electricity
@@ -399,6 +401,7 @@ ZapdosAbsorbAnimation:
 	ld a, POWERPLANT_ZAPDOS
 	call SetSpriteFacingDown
 	call UpdateSprites
+	rst _DelayFrame
 	ld de, vNPCSprites tile $0C
 	callfar FarOpenBirdSpriteWings
 	ld a, SFX_BATTLE_25
@@ -414,12 +417,10 @@ ZapdosAbsorbAnimation:
 	lb bc, BANK(MoveAnimationTiles0), 1
 	call CopyVideoData
 	; show two voltorb sprites that have to be hidden at this point and move them into view visually
-	ld a, HS_ELECTRODE_1
-	ld [wMissableObjectIndex], a
-	predef ShowObject
-	ld a, HS_VOLTORB_4
-	ld [wMissableObjectIndex], a
-	predef ShowObject
+	ld c, TOGGLE_ELECTRODE_1
+	call ShowObject
+	ld c, TOGGLE_VOLTORB_4
+	call ShowObject
 	ld hl, wSprite04StateData2MapY
 	ld a, [wYCoord]
 	add 4 
@@ -467,10 +468,10 @@ ZapdosAbsorbAnimation:
 	ld a, BANK(Music_Dungeon1)
 	ld [wAudioROMBank], a
 
-	ld a, HS_ELECTRODE_1
-	call PowerPlantHideSpriteEntry
-	ld a, HS_VOLTORB_4
-	call PowerPlantHideSpriteEntry
+	ld c, TOGGLE_ELECTRODE_1
+	call HideObject
+	ld c, TOGGLE_VOLTORB_4
+	call HideObject
 	call GBPalWhiteOut
 	rst _DelayFrame
 	ld a, 3
@@ -512,16 +513,15 @@ ZapdosAbsorbAnimation:
 	rst _DelayFrame
 	dec b
 	jr nz, .loopFliesAway
-	ld a, HS_ZAPDOS
-	call PowerPlantHideSpriteEntry
+	ld c, TOGGLE_ZAPDOS
+	call HideObject
 	; bring back original pokeball sprite
 	ld hl, vNPCSprites tile $78
 	ld de, PokeBallSprite
 	lb bc, BANK(PokeBallSprite), 4
 	call CopyVideoData
 	; reset to original script
-	xor a
-	ld [wMuteAudioAndPauseMusic], a
+	call ResumeMusic
 	ld a, TEXT_ZAPDOS_FLEW_AWAY
 	ldh [hTextID], a
 	call DisplayTextID
@@ -529,10 +529,6 @@ ZapdosAbsorbAnimation:
 	ld [wPowerPlantCurScript], a
 	ld [wCurMapScript], a
 	ret
-
-PowerPlantHideSpriteEntry:
-	ld [wMissableObjectIndex], a
-	predef_jump HideObject
 
 PowerPlantZapdosFlewAwayText:
 	text_far _ZapdosFlewAway
@@ -586,7 +582,7 @@ PowerPlantMagnet::
 	cp SCRIPT_MAGNETON_SUPERCHARGE
 	ret nz
 	; make player walk down one step
-	ld a, D_DOWN
+	ld a, PAD_DOWN
 	ld hl, wSimulatedJoypadStatesEnd
 	ld [hli], a
 	ld [hl], -1
@@ -659,16 +655,14 @@ MagnetonSuperchargeAnimation:
 	ld a, [wStatusFlags5]
 	bit BIT_SCRIPTED_MOVEMENT_STATE, a
 	ret nz ; wait for player to finish walking
-	ld a, 1
-	ld [wMuteAudioAndPauseMusic], a
+	call PauseMusic
 	; make player face up
 	ld a, PLAYER_DIR_UP
 	ld [wPlayerMovingDirection], a
 	call UpdateSprites
 	; show magneton sprite by reusing a hidden electrode NPC, then make it float up a bit
-	ld a, HS_ELECTRODE_1
-	ld [wMissableObjectIndex], a
-	predef ShowObject
+	ld c, TOGGLE_ELECTRODE_1
+	call ShowObject
 	ld hl, wSprite04StateData2MapY
 	ld a, [wYCoord]
 	add 3 
@@ -694,13 +688,12 @@ MagnetonSuperchargeAnimation:
 	ld a, TEXT_MAGNETON_WAS_SUPERCHARGED
 	ldh [hTextID], a
 	call DisplayTextID
-	xor a
-	ld [wMuteAudioAndPauseMusic], a
+	call ResumeMusic
 	ld c, 60
 	rst _DelayFrames
 	call .doBallPoof
-	ld a, HS_ELECTRODE_1
-	call PowerPlantHideSpriteEntry
+	ld c, TOGGLE_ELECTRODE_1
+	call HideObject
 	; bring back original pokeball sprite
 	call .loadPokeballSprite
 	; reset script

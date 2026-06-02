@@ -37,9 +37,9 @@ TryPushingBoulder::
 	set BIT_TRIED_PUSH_BOULDER, [hl]
 	ret z ; the player must try pushing twice before the boulder will move
 	ldh a, [hJoyHeld]
-	and D_RIGHT | D_LEFT | D_UP | D_DOWN
+	and PAD_CTRL_PAD
 	ret z
-	predef CheckForCollisionWhenPushingBoulder
+	callfar CheckForCollisionWhenPushingBoulder
 	ld a, [wTileInFrontOfBoulderAndBoulderCollisionResult]
 	and a ; was there a collision?
 	jp nz, ResetBoulderPushFlags
@@ -52,23 +52,23 @@ TryPushingBoulder::
 	jr z, .pushBoulderLeft
 	cp SPRITE_FACING_RIGHT
 	jr z, .pushBoulderRight
-.pushBoulderDown
-	bit BIT_D_DOWN, b
+; push boulder down
+	bit B_PAD_DOWN, b
 	ret z
 	ld de, PushBoulderDownMovementData
 	jr .done
 .pushBoulderUp
-	bit BIT_D_UP, b
+	bit B_PAD_UP, b
 	ret z
 	ld de, PushBoulderUpMovementData
 	jr .done
 .pushBoulderLeft
-	bit BIT_D_LEFT, b
+	bit B_PAD_LEFT, b
 	ret z
 	ld de, PushBoulderLeftMovementData
 	jr .done
 .pushBoulderRight
-	bit BIT_D_RIGHT, b
+	bit B_PAD_RIGHT, b
 	ret z
 	ld de, PushBoulderRightMovementData
 .done
@@ -99,13 +99,19 @@ PushBoulderRightMovementData:
 	db NPC_MOVEMENT_RIGHT
 	db -1 ; end
 
+BoulderMapScript::
+	call TryPushingBoulder
+	ld a, [wMiscFlags]
+	bit BIT_BOULDER_DUST, a
+	ret z
+	; fall through
 DoBoulderDustAnimation::
 	ld a, [wStatusFlags5]
 	bit BIT_SCRIPTED_NPC_MOVEMENT, a
 	ret nz
 	callfar AnimateBoulderDust
 	call DiscardButtonPresses
-	ld [wJoyIgnore], a
+	call EnableAllJoypad
 	call ResetBoulderPushFlags
 	set BIT_PUSHED_BOULDER, [hl]
 	ld a, [wBoulderSpriteIndex]

@@ -21,10 +21,11 @@ AnimateHealingMachine:
 	ld c, 30
 	ld a, [wUnusedC000]
 	and a
-	jr nz, .noFadeout ; NEW: if you're holding b when you start talking to the nurse, it'll do healing faster
 	ld a, 4
+	jr z, .normalFade ; NEW: if you're holding b when you start talking to the nurse, it'll do healing faster
+	xor a
+.normalFade
 	ld [wAudioFadeOutControl], a
-.noFadeout
 	call StopAllMusic
 .waitLoop
 	ld a, [wAudioFadeOutControl]
@@ -78,6 +79,7 @@ PokeCenterFlashingMonitorAndHealBall:
 	INCBIN "gfx/overworld/heal_machine.2bpp"
 
 PokeCenterOAMData:
+; TODO: update to use OAM palettes like OAM_PAL1 like in pokered
 ; shinpokerednote: gbcnote: updated for GBC
 	db $24,$34,$7C,$14 ; heal machine monitor
 	db $2B,$30,$7D,$14 ; pokeballs 1-6

@@ -132,7 +132,7 @@ DisplayMoneyBox:
 	call ClearScreenArea
 	hlcoord 12, 1
 	ld de, wPlayerMoney
-	ld c, $a3
+	ld c, 3 | LEADING_ZEROES | MONEY_SIGN
 	call PrintBCDNumber
 	ld hl, wStatusFlags5
 	res BIT_NO_TEXT_DELAY, [hl]
@@ -174,7 +174,7 @@ DoBuySellQuitMenu:
 	ld a, BUY_SELL_QUIT_MENU_TEMPLATE
 	ld [wTextBoxID], a
 	call DisplayTextBoxID
-	ld a, A_BUTTON | B_BUTTON
+	ld a, PAD_A | PAD_B
 	ld [wMenuWatchedKeys], a
 	ld a, $2
 	ld [wMaxMenuItem], a
@@ -191,9 +191,9 @@ DoBuySellQuitMenu:
 	ld [wStatusFlags5], a
 	call HandleMenuInput
 	call PlaceUnfilledArrowMenuCursor
-	bit BIT_A_BUTTON, a
+	bit B_PAD_A, a
 	jr nz, .pressedA
-	bit BIT_B_BUTTON, a ; always true since only A/B are watched
+	bit B_PAD_B, a ; always true since only A/B are watched
 	jr z, .pressedA
 	ld a, CANCELLED_MENU
 	ld [wMenuExitMethod], a
@@ -230,7 +230,7 @@ DisplayTwoOptionMenu:
 	ld [wChosenMenuItem], a
 	ld [wMenuExitMethod], a
 
-	ld a, A_BUTTON | B_BUTTON
+	ld a, PAD_A | PAD_B
 	ld [wMenuWatchedKeys], a
 	ld a, $1
 	ld [wMaxMenuItem], a
@@ -301,8 +301,6 @@ DisplayTwoOptionMenu:
 ; No/Yes menu
 ; this menu type ignores the B button
 ; it only seems to be used when confirming the deletion of a save file
-	xor a
-	ld [wTwoOptionMenuID], a
 	ld a, [wMiscFlags]
 	push af
 	push hl
@@ -312,7 +310,7 @@ DisplayTwoOptionMenu:
 	pop hl
 .noYesMenuInputLoop
 	call HandleMenuInput
-	bit BIT_B_BUTTON, a
+	bit B_PAD_B, a
 	jr nz, .noYesMenuInputLoop ; try again if B was not pressed
 	pop af
 	pop hl
@@ -321,11 +319,9 @@ DisplayTwoOptionMenu:
 	rst _PlaySound
 	jr .pressedAButton
 .notNoYesMenu
-	xor a
-	ld [wTwoOptionMenuID], a
 	call HandleMenuInput
 	pop hl
-	bit BIT_B_BUTTON, a
+	bit B_PAD_B, a
 	jr nz, .choseSecondMenuItem ; automatically choose the second option if B is pressed
 .pressedAButton
 	ld a, [wCurrentMenuItem]
@@ -335,8 +331,6 @@ DisplayTwoOptionMenu:
 ; chose first menu item
 	ld a, CHOSE_FIRST_ITEM
 	ld [wMenuExitMethod], a
-	ld c, 15
-	rst _DelayFrames
 	call TwoOptionMenu_RestoreScreenTiles
 	and a
 	ret
@@ -346,8 +340,26 @@ DisplayTwoOptionMenu:
 	ld [wChosenMenuItem], a
 	ld a, CHOSE_SECOND_ITEM
 	ld [wMenuExitMethod], a
-	ld c, 15
-	rst _DelayFrames
+	push hl
+	; if the player used B to select the second option, indicate it with an arrow change
+	ld hl, wTileMap
+	ld a, [wTopMenuItemY]
+	lb de, 0, SCREEN_WIDTH
+.loopAddY
+	add hl, de
+	dec a
+	jr nz, .loopAddY
+	ld a, [wTopMenuItemX]
+	ld b, 0
+	ld c, a
+	add hl, bc
+	; hl = coords of top menu item
+	ld [hl], ' '
+	add hl, de ; go down two more lines
+	add hl, de
+	ld [hl], '▶'
+	pop hl
+.skipRedrawArrow
 	call TwoOptionMenu_RestoreScreenTiles
 	scf
 	ret
@@ -375,6 +387,8 @@ TwoOptionMenu_SaveScreenTiles:
 	ret
 
 TwoOptionMenu_RestoreScreenTiles:
+	ld c, 15
+	rst _DelayFrames
 	ld de, wBuffer
 	lb bc, 5, 6
 .loop
@@ -390,6 +404,8 @@ TwoOptionMenu_RestoreScreenTiles:
 	ld c, 6
 	dec b
 	jr nz, .loop
+	xor a
+	ld [wTwoOptionMenuID], a
 	jp UpdateSprites
 
 INCLUDE "data/yes_no_menu_strings.asm"
@@ -411,8 +427,7 @@ DisplayFieldMoveMonMenu:
 ; no field moves
 	hlcoord 11, 11
 	lb bc, 5, 7
-	call TextBoxBorder
-	call UpdateSprites
+	call TextBoxBorderUpdateSprites
 	ld a, 12
 	ldh [hFieldMoveMonMenuTopMenuItemX], a
 	hlcoord 13, 12
@@ -451,8 +466,7 @@ DisplayFieldMoveMonMenu:
 	add hl, de
 	inc b
 
-	call TextBoxBorder
-	call UpdateSprites
+	call TextBoxBorderUpdateSprites
 
 ; Calculate the position of the first field move name to print.
 	hlcoord 0, 12
@@ -484,7 +498,7 @@ DisplayFieldMoveMonMenu:
 	jr z, .reachedName
 .skipNameLoop ; skip past current name
 	ld a, [hli]
-	cp "@"
+	cp '@'
 	jr nz, .skipNameLoop
 	jr .skipNamesLoop
 .reachedName
@@ -523,7 +537,7 @@ PokemonMenuEntries:
 GetMonFieldMoves:
 	ld a, [wWhichPokemon]
 	ld hl, wPartyMon1Moves
-	ld bc, wPartyMon2 - wPartyMon1
+	ld bc, PARTYMON_STRUCT_LENGTH
 	call AddNTimes
 	ld d, h
 	ld e, l

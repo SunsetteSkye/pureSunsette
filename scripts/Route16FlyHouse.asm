@@ -10,18 +10,16 @@ Route16FlyHouseBrunetteGirlText:
 	text_asm
 	CheckEvent EVENT_GOT_HM02
 	ld hl, .HM02ExplanationText
-	jr nz, .got_item
+	jr nz, .printDone
 	ld hl, .Text
 	rst _PrintText
 	lb bc, HM_FLY, 1
 	call GiveItem
-	jr nc, .bag_full
+	ld hl, .HM02NoRoomText
+	jr nc, .printDone
 	SetEvent EVENT_GOT_HM02
 	ld hl, .ReceivedHM02Text
-	jr .got_item
-.bag_full
-	ld hl, .HM02NoRoomText
-.got_item
+.printDone
 	rst _PrintText
 	rst TextScriptEnd
 
@@ -43,14 +41,26 @@ Route16FlyHouseBrunetteGirlText:
 	text_end
 
 Route16FlyHouseFearowText:
+	text_far _Route16FlyHouseFearowText
 	text_asm
-	ld hl, .Text
-	rst _PrintText
 	ld a, FEAROW
 	call PlayCry
 	call WaitForSoundToFinish
-	rst TextScriptEnd
-
-.Text:
-	text_far _Route16FlyHouseFearowText
+	call DisplayTextPromptButton
+	ld a, ROUTE16FLYHOUSE_BRUNETTE_GIRL
+	call SetSpriteFacingDown
+	ld de, .famousGirlName
+	call CopyTrainerName
+	ld hl, .polly
+	rst _PrintText
+	ld c, DEX_FEAROW - 1
+	callfar SetMonSeen
+	lb hl, DEX_FEAROW, $FF
+	ld de, TextNothing
+	ld bc, LearnsetFadeOutInStory
+	predef_jump LearnsetTrainerScriptMain
+.polly:
+	text_far _Route16FlyHouseFearow2Text
 	text_end
+.famousGirlName
+	db "FAMOUS GIRL@"

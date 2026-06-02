@@ -41,8 +41,7 @@ GetAreaDisplayTypes:
 	ld a, [wPokedexNum]
 	push hl
 	ld hl, DisableVolcanoSurfingMons
-	ld de, 1
-	call IsInArray
+	call IsInSingleByteArray
 	pop hl
 	call c, .forceNoWaterLocations
 .doneChecks
@@ -254,13 +253,13 @@ DisplayWildLocations:
 	call FillMemory
 	pop af
 	ldh a, [hJoy5]
-	bit BIT_A_BUTTON, a
+	bit B_PAD_A, a
 	jr nz, .exit
-	bit BIT_B_BUTTON, a
+	bit B_PAD_B, a
 	jr nz, .exit
-	bit BIT_D_LEFT, a
+	bit B_PAD_LEFT, a
 	jr nz, .getPrevState
-	bit BIT_D_RIGHT, a
+	bit B_PAD_RIGHT, a
 	jr nz, .getNextState
 .exit
 	xor a
@@ -281,7 +280,7 @@ DisplayWildLocations:
 	jp .goToNextState
 
 GetMonAreaInputButtons:
-	ld a, B_BUTTON
+	ld a, PAD_B
 	ld [wMenuWatchedKeys], a
 	call FindNextMonAreaState
 	call nz, .hasRight
@@ -290,12 +289,12 @@ GetMonAreaInputButtons:
 	ret
 .hasRight
 	ld a, [wMenuWatchedKeys]
-	or D_RIGHT
+	or PAD_RIGHT
 	ld [wMenuWatchedKeys], a
 	ret
 .hasLeft
 	ld a, [wMenuWatchedKeys]
-	or D_LEFT
+	or PAD_LEFT
 	ld [wMenuWatchedKeys], a
 	ret
 

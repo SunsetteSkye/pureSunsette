@@ -1,6 +1,6 @@
 	db DEX_GOLDUCK ; pokedex id
 
-	db  80,  82,  78,  85,  95
+	db  80,  92,  78,  85,  95
 	;   hp  atk  def  spd  spc
 
 	db WATER, PSYCHIC_TYPE ; type

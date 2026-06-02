@@ -24,6 +24,7 @@ CeladonHotel_TextPointers:
 	dw_const CeladonHotelBeautyText,    TEXT_CELADONHOTEL_BEAUTY
 	dw_const CeladonHotelSuperNerdText, TEXT_CELADONHOTEL_SUPER_NERD
 	dw_const CeladonLaprasGuyText,      TEXT_CELADONHOTEL_LAPRAS_GUY
+	dw_const CeladonHotelBenchGuyText,  TEXT_CELADONHOTEL_BENCH_GUY
 
 CeladonHotelTrainerHeaders:
 	def_trainers 2
@@ -35,28 +36,22 @@ CeladonHotelTrainerHeader0:
 CeladonChannelerText: 
 	text_asm
 	CheckEvent EVENT_BEAT_CELADON_HOTEL_TRAINER_0
-	jr nz, .beat
+	ld hl, CeladonHotelAfterBattleText1
+	jr nz, .printDone
 	ld hl, CeladonChannelerIntroText
 	rst _PrintText
 	call YesNoChoice
-	ld a, [wCurrentMenuItem]
-	and a
-	jr z, .q2
-.no1
 	ld hl, CeladonChannelerNo1
-	rst _PrintText
-	jr .done
-.q2
+	jr nz, .printDone
 	ld hl, CeladonChannelerQ2
 	rst _PrintText
 	call YesNoChoice
+	; doesn't matter what you choose
 	ld hl, CeladonHotelTrainerHeader0
 	call TalkToTrainer
-	jr .done
-.beat
-	ld hl, CeladonHotelAfterBattleText1
+	rst TextScriptEnd
+.printDone
 	rst _PrintText
-.done
 	rst TextScriptEnd
 
 CeladonChannelerIntroText:
@@ -101,16 +96,16 @@ CeladonHotelSuperNerdText:
 CeladonLaprasGuyText:
 	text_asm
 	CheckEventHL EVENT_BEAT_ROCKET_HIDEOUT_GIOVANNI
-	jr nz, .celadonRocketsGone
 	ld hl, CeladonLaprasGuyIntro
-	rst _PrintText
-	jr .done
+	jr z, .printDone
 .celadonRocketsGone
 	ld hl, CeladonLaprasGuyReady
 	rst _PrintText
 	lb bc, LAPRAS, 30
-	call GivePokemon
-	jr nc, .noBoxRoom
+	ld a, BALL_DATA_GREAT << 3
+	call GivePokemonCommon
+	ld hl, CeladonLaprasGuyNoBoxRoom
+	jr nc, .printDone
 	ld a, [wSimulatedJoypadStatesEnd]
 	and a
 	call z, WaitForTextScrollButtonPress
@@ -120,15 +115,11 @@ CeladonLaprasGuyText:
 	ld a, [wSimulatedJoypadStatesEnd]
 	and a
 	call z, WaitForTextScrollButtonPress
-	ld hl, CeladonLaprasGuyAfter
-	rst _PrintText
-	ld a, 3
+	ld a, SCRIPT_CELADONHOTEL_LAPRAS_GUY_LEAVES
 	ld [wCeladonHotelCurScript], a
-	jr .done
-.noBoxRoom
-	ld hl, CeladonLaprasGuyNoBoxRoom
+	ld hl, CeladonLaprasGuyAfter
+.printDone
 	rst _PrintText
-.done
 	rst TextScriptEnd
 
 CeladonLaprasGuyLeaves:
@@ -145,7 +136,7 @@ CeladonLaprasGuyLeaves:
 	ld a, 4
 	ldh [hSpriteIndex], a
 	call MoveSprite
-	ld a, 5
+	ld a, SCRIPT_CELADONHOTEL_LAPRAS_GUY_WAITING_FOR_LOSER_TO_MOVE
 	ld [wCeladonHotelCurScript], a
 	ld [wCurMapScript], a
 	ret
@@ -165,7 +156,7 @@ CeladonLaprasGuyLeaves:
 	ld a, 5
 	ldh [hSpriteIndex], a
 	call MoveSprite
-	ld a, 4
+	ld a, SCRIPT_CELADONHOTEL_LAPRAS_GUY_LEAVES_THROUGH_DOOR
 	ld [wCeladonHotelCurScript], a
 	ld [wCurMapScript], a
 	ret
@@ -199,26 +190,23 @@ CeladonLaprasGuyGoesThroughDoor:
 	ret nz
 	ld a, SFX_GO_OUTSIDE
 	rst _PlaySound
-	ld a, HS_LAPRAS_GUY_CELADON
-	ld [wMissableObjectIndex], a
-	predef HideObject
+	ld c, TOGGLE_LAPRAS_GUY_CELADON
+	call HideObject
 	ld a, 4
 	ldh [hSpriteIndex], a
 	call GetSpriteMovementByte1Pointer
 	ld [hl], WALK
 	call GetSpriteMovementByte2Pointer
 	ld [hl], LEFT_RIGHT
-	xor a
-	ld [wJoyIgnore], a
-	ld [wCeladonHotelCurScript], a
-	ld [wCurMapScript], a
+	call ResetMapScripts
+	ld [wCeladonHotelCurScript], a ; SCRIPT_CELADONHOTEL_DEFAULT
 	ret	
 
 CeladonLaprasGuyWaitingForLoserToMove:
 	ld a, [wStatusFlags5]
 	bit BIT_SCRIPTED_NPC_MOVEMENT, a
 	ret nz
-	ld a, 3
+	ld a, SCRIPT_CELADONHOTEL_LAPRAS_GUY_LEAVES
 	ld [wCeladonHotelCurScript], a
 	ld [wCurMapScript], a
 	ret
@@ -241,4 +229,8 @@ CeladonLaprasGuyNoBoxRoom:
 
 CeladonLaprasGuyAfter:
 	text_far _CeladonLaprasGuyAfter
+	text_end
+
+CeladonHotelBenchGuyText:
+	text_far _CeladonCityHotelText
 	text_end

@@ -11,127 +11,14 @@ SilphCo7F_Script:
 	ret
 
 SilphCo7FGateCallbackScript::
-	ld hl, wCurrentMapScriptFlags
-	bit BIT_CUR_MAP_LOADED_1, [hl]
-	res BIT_CUR_MAP_LOADED_1, [hl]
+	call WasMapJustLoaded
 	ret z
-	ld hl, .GateCoordinates
-	call SilphCo7F_SetCardKeyDoorYScript
-	call SilphCo7F_UnlockedDoorEventScript
-	CheckEvent EVENT_SILPH_CO_7_UNLOCKED_DOOR1
-	jr nz, .unlock_door1
-	push af
-	ld a, $54
-	ld [wNewTileBlockID], a
-	lb bc, 3, 5
-	predef ReplaceTileBlock
-	pop af
-.unlock_door1
-	CheckEventAfterBranchReuseA EVENT_SILPH_CO_7_UNLOCKED_DOOR2, EVENT_SILPH_CO_7_UNLOCKED_DOOR1
-	jr nz, .unlock_door2
-	push af
-	ld a, $54
-	ld [wNewTileBlockID], a
-	lb bc, 2, 10
-	predef ReplaceTileBlock
-	pop af
-.unlock_door2
-	CheckEventAfterBranchReuseA EVENT_SILPH_CO_7_UNLOCKED_DOOR3, EVENT_SILPH_CO_7_UNLOCKED_DOOR2
-	jr nz, .maybeFadeIn
-	ld a, $54
-	ld [wNewTileBlockID], a
-	lb bc, 6, 10
-	predef ReplaceTileBlock
-.maybeFadeIn
+	callfar SilphCo7FCardKeyMapLoad
 	ld hl, wCurrentMapScriptFlags
 	bit BIT_MAP_LOADED_AFTER_BATTLE, [hl]
 	res BIT_MAP_LOADED_AFTER_BATTLE, [hl]
 	ret z
 	jp GBFadeInFromWhite ; PureRGBnote: ADDED: since trainer instantly talks to us after battle we need to fade back in here
-
-.GateCoordinates:
-	dbmapcoord  5,  3
-	dbmapcoord 10,  2
-	dbmapcoord 10,  6
-	db -1 ; end
-
-SilphCo7F_SetCardKeyDoorYScript:
-	push hl
-	ld hl, wCardKeyDoorY
-	ld a, [hli]
-	ld b, a
-	ld a, [hl]
-	ld c, a
-	xor a
-	ldh [hUnlockedSilphCoDoors], a
-	pop hl
-.loop_check_doors
-	ld a, [hli]
-	cp $ff
-	jr z, .exit_loop
-	push hl
-	ld hl, hUnlockedSilphCoDoors
-	inc [hl]
-	pop hl
-	cp b
-	jr z, .check_y_coord
-	inc hl
-	jr .loop_check_doors
-.check_y_coord
-	ld a, [hli]
-	cp c
-	jr nz, .loop_check_doors
-	ld hl, wCardKeyDoorY
-	xor a
-	ld [hli], a
-	ld [hl], a
-	ret
-.exit_loop
-	xor a
-	ldh [hUnlockedSilphCoDoors], a
-	ret
-
-SilphCo7F_UnlockedDoorEventScript:
-	EventFlagAddress hl, EVENT_SILPH_CO_7_UNLOCKED_DOOR1
-	ldh a, [hUnlockedSilphCoDoors]
-	and a
-	ret z
-	cp $1
-	jr nz, .unlock_door1
-	SetEventReuseHL EVENT_SILPH_CO_7_UNLOCKED_DOOR1
-	callfar CheckAllCardKeyEvents
-	jp Load7FCheckCardKeyText
-.unlock_door1
-	cp $2
-	jr nz, .unlock_door2
-	SetEventAfterBranchReuseHL EVENT_SILPH_CO_7_UNLOCKED_DOOR2, EVENT_SILPH_CO_7_UNLOCKED_DOOR1
-	callfar CheckAllCardKeyEvents
-	jp Load7FCheckCardKeyText
-.unlock_door2
-	SetEventAfterBranchReuseHL EVENT_SILPH_CO_7_UNLOCKED_DOOR3, EVENT_SILPH_CO_7_UNLOCKED_DOOR1
-	callfar CheckAllCardKeyEvents
-	; fall through
-
-Load7FCheckCardKeyText:
-	CheckEvent EVENT_ALL_CARD_KEY_DOORS_OPENED
-	ret z
-	ld a, TEXT_SILPHCO7F_CARD_KEY_DONE
-	ldh [hTextID], a
-	jp DisplayTextID
-
-SilphCo7Text16:
-	text_asm
-	callfar PrintCardKeyDoneText
-	rst TextScriptEnd
-
-SilphCo7FSetDefaultScript:
-	xor a
-	ld [wJoyIgnore], a
-
-SilphCo7FSetCurScript:
-	ld [wSilphCo7FCurScript], a
-	ld [wCurMapScript], a
-	ret
 
 SilphCo7F_ScriptPointers:
 	def_script_pointers
@@ -148,10 +35,13 @@ SilphCo7FDefaultScript:
 	ld hl, .RivalEncounterCoordinates
 	call ArePlayerCoordsInArray
 	jp nc, CheckFightingMapTrainers
+IF DEF(_DEBUG)
+	call DebugPressedOrHeldB
+	ret nz
+ENDC
 	xor a
 	ldh [hJoyHeld], a
-	ld a, D_RIGHT | D_LEFT | D_UP | D_DOWN
-	ld [wJoyIgnore], a
+	call DisableDpad
 	ld a, PLAYER_DIR_DOWN
 	ld [wPlayerMovingDirection], a
 	ld a, SFX_STOP_ALL_MUSIC
@@ -177,7 +67,7 @@ SilphCo7FDefaultScript:
 	ldh [hSpriteIndex], a
 	call MoveSprite
 	ld a, SCRIPT_SILPHCO7F_RIVAL_START_BATTLE
-	jp SilphCo7FSetCurScript
+	jr SilphCo7FSetCurScript
 
 .RivalEncounterCoordinates:
 	dbmapcoord  3,  2
@@ -198,8 +88,7 @@ SilphCo7FRivalStartBattleScript:
 	; reset rival's sprite behaviour bytes otherwise he can look around weirdly after battle for a moment
 	ld hl, wMapSpriteData + ((SILPHCO7F_RIVAL - 1) * 2)
 	ld [hl], UP
-	xor a
-	ld [wJoyIgnore], a
+	call EnableAllJoypad
 	ld a, TEXT_SILPHCO7F_RIVAL_WAITED_HERE
 	ldh [hTextID], a
 	call DisplayTextID
@@ -217,22 +106,26 @@ SilphCo7FRivalStartBattleScript:
 	add 6 ; third set of rival parties for RIVAL2
 	ld [wTrainerNo], a
 	ld a, SCRIPT_SILPHCO7F_RIVAL_AFTER_BATTLE
-	jp SilphCo7FSetCurScript
+	jr SilphCo7FSetCurScript
+
+SilphCo7FSetDefaultScript:
+	call EnableAllJoypad
+
+SilphCo7FSetCurScript:
+	ld [wSilphCo7FCurScript], a
+	ld [wCurMapScript], a
+	ret
 
 SilphCo7FRivalAfterBattleScript:
 	ld a, [wIsInBattle]
 	cp $ff
-	jp z, SilphCo7FSetDefaultScript
-	ld a, D_RIGHT | D_LEFT | D_UP | D_DOWN
-	ld [wJoyIgnore], a
+	jr z, SilphCo7FSetDefaultScript
+	call DisableDpad
 	SetEvent EVENT_BEAT_SILPH_CO_RIVAL
 	ld a, PLAYER_DIR_DOWN
 	ld [wPlayerMovingDirection], a
-	ld a, SILPHCO7F_RIVAL
-	ldh [hSpriteIndex], a
-	ld a, SPRITE_FACING_UP
-	ldh [hSpriteFacingDirection], a
-	call SetSpriteFacingDirectionAndDelay
+	ld d, SILPHCO7F_RIVAL
+	callfar MakeSpriteFacePlayer
 	ld a, TEXT_SILPHCO7F_RIVAL_GOOD_LUCK_TO_YOU
 	ldh [hTextID], a
 	call DisplayTextID
@@ -250,7 +143,7 @@ SilphCo7FRivalAfterBattleScript:
 	ldh [hSpriteIndex], a
 	call MoveSprite
 	ld a, SCRIPT_SILPHCO7F_RIVAL_EXIT
-	jp SilphCo7FSetCurScript
+	jr SilphCo7FSetCurScript
 
 .RivalExitRightMovement:
 	db NPC_MOVEMENT_RIGHT
@@ -271,13 +164,45 @@ SilphCo7FRivalExitScript:
 	ld a, [wStatusFlags5]
 	bit BIT_SCRIPTED_NPC_MOVEMENT, a
 	ret nz
-	ld a, HS_SILPH_CO_7F_RIVAL
-	ld [wMissableObjectIndex], a
-	predef HideObject
+	; PureRGBnote: ADDED: make rival teleport away
+	ld a, SILPHCO7F_RIVAL
+	call SetSpriteFacingDown
+	call UpdateSpritesAndDelay3
+	ld a, SFX_TELEPORT_EXIT_1
+	rst _PlaySound
+	call DisableSpriteUpdates
+.loopTeleportAway
+	ld hl, wShadowOAMSprite08YCoord
+	ld b, 0
+	ld d, [hl]
+	inc hl
+	; we will move up 3 pixels per frame, but the sprite hits pixel 0 (off top of screen), we will end the animation
+	dec d
+	jr z, .lastLoop
+	dec d
+	jr z, .lastLoop
+	dec d
+	jr z, .lastLoop
+.next
+	ld e, [hl]
+	ld c, 8
+	push bc
+	callfar LoadSpecificOAMSpriteCoords
+	pop bc
+	dec b
+	inc b
+	jr nz, .done
+	rst _DelayFrame
+	jr .loopTeleportAway
+.lastLoop
+	inc b
+	jr .next
+.done
+	call EnableSpriteUpdates
+	ld c, TOGGLE_SILPH_CO_7F_RIVAL
+	call HideObject
 	call PlayDefaultMusic
-	xor a
-	ld [wJoyIgnore], a
-	jp SilphCo7FSetCurScript
+	jp SilphCo7FSetDefaultScript
 
 SilphCo7F_TextPointers:
 	def_text_pointers
@@ -295,7 +220,6 @@ SilphCo7F_TextPointers:
 	dw_const SilphCo7FRivalWaitedHereText,    TEXT_SILPHCO7F_RIVAL_WAITED_HERE
 	dw_const SilphCo7FRivalDefeatedText,      TEXT_SILPHCO7F_RIVAL_DEFEATED
 	dw_const SilphCo7FRivalGoodLuckToYouText, TEXT_SILPHCO7F_RIVAL_GOOD_LUCK_TO_YOU
-	dw_const SilphCo7Text16,                  TEXT_SILPHCO7F_CARD_KEY_DONE
 
 SilphCo7TrainerHeaders:
 	def_trainers 5
@@ -313,9 +237,8 @@ SilphCo7TrainerHeader3:
 SilphCo7FSilphWorkerM1Text:
 ; lapras guy
 	text_asm
-	ld a, HS_LAPRAS_GUY_CELADON
-	ld [wMissableObjectIndex], a
-	predef HideObject
+	ld c, TOGGLE_LAPRAS_GUY_CELADON
+	call HideObject
 	CheckEventHL EVENT_GOT_LAPRAS_EARLY
 	jr nz, .gotLaprasAlready
 	ld a, [wStatusFlags4]
@@ -331,9 +254,10 @@ SilphCo7FSilphWorkerM1Text:
 	ld hl, .HaveThisPokemonText
 	rst _PrintText
 	lb bc, LAPRAS, 40 ; PureRGBnote: CHANGED: lapras level increased to keep up with party level
-	call GivePokemon
+	ld a, BALL_DATA_GREAT << 3
+	call GivePokemonCommon
 	jr nc, .done
-	ld a, [wSimulatedJoypadStatesEnd]
+	ld a, [wAddedToParty]
 	and a
 	call z, WaitForTextScrollButtonPress
 	call EnableAutoTextBoxDrawing
@@ -468,11 +392,17 @@ SilphCo7FSilphWorkerM4Text:
 	text_end
 
 SilphCo7FRocket1Text:
-	text_asm
-	ld hl, SilphCo7TrainerHeader0
-	call TalkToTrainer
-	rst TextScriptEnd
+	script_trainer SilphCo7TrainerHeader0
 
+SilphCo7FScientistText:
+	script_trainer SilphCo7TrainerHeader1
+
+SilphCo7FRocket2Text:
+	script_trainer SilphCo7TrainerHeader2
+
+SilphCo7FRocket3Text:
+	script_trainer SilphCo7TrainerHeader3
+	
 SilphCo7FRocket1BattleText:
 	text_far _SilphCo7FRocket1BattleText
 	text_end
@@ -484,12 +414,6 @@ SilphCo7FRocket1EndBattleText:
 SilphCo7FRocket1AfterBattleText:
 	text_far _SilphCo7FRocket1AfterBattleText
 	text_end
-
-SilphCo7FScientistText:
-	text_asm
-	ld hl, SilphCo7TrainerHeader1
-	call TalkToTrainer
-	rst TextScriptEnd
 
 SilphCo7FScientistBattleText:
 	text_far _SilphCo7FScientistBattleText
@@ -503,12 +427,6 @@ SilphCo7FScientistAfterBattleText:
 	text_far _SilphCo7FScientistAfterBattleText
 	text_end
 
-SilphCo7FRocket2Text:
-	text_asm
-	ld hl, SilphCo7TrainerHeader2
-	call TalkToTrainer
-	rst TextScriptEnd
-
 SilphCo7FRocket2BattleText:
 	text_far _SilphCo7FRocket2BattleText
 	text_end
@@ -520,12 +438,6 @@ SilphCo7FRocket2EndBattleText:
 SilphCo7FRocket2AfterBattleText:
 	text_far _SilphCo7FRocket2AfterBattleText
 	text_end
-
-SilphCo7FRocket3Text:
-	text_asm
-	ld hl, SilphCo7TrainerHeader3
-	call TalkToTrainer
-	rst TextScriptEnd
 
 SilphCo7FRocket3BattleText:
 	text_far _SilphCo7FRocket3BattleText

@@ -3,14 +3,14 @@
 	db  90, 102,  65,  68,  95
 	;   hp  atk  def  spd  spc
 
-	db WATER, WATER ; type
+	db WATER, NORMAL ; type
 	db 90 ; catch rate
 	db 170 ; base exp
 
 	INCBIN "gfx/pokemon/front/seaking.pic", 0, 1 ; sprite dimensions
 	dw SeakingPicFront, SeakingPicBackSW
 
-	db PECK, WATER_GUN, NO_MOVE, NO_MOVE ; level 1 learnset
+	db PECK, WATER_GUN, SUPERSONIC, NO_MOVE ; level 1 learnset
 	db GROWTH_MEDIUM_FAST ; growth rate
 
 	; tm/hm learnset

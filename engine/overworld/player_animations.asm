@@ -196,14 +196,13 @@ _LeaveMapAnim::
 	jp RestoreFacingDirectionAndYScreenPos
 
 LeaveMapThroughHoleAnim:
-	ld a, $ff
-	ld [wUpdateSpritesEnabled], a ; disable UpdateSprites
+	call DisableSpriteUpdates
 	; shift upper half of player's sprite down 8 pixels and hide lower half
 	ld a, [wShadowOAMSprite00TileID]
 	ld [wShadowOAMSprite02TileID], a
 	ld a, [wShadowOAMSprite01TileID]
 	ld [wShadowOAMSprite03TileID], a
-	ld a, $a0
+	ld a, SCREEN_HEIGHT_PX + OAM_Y_OFS
 	ld [wShadowOAMSprite00YCoord], a
 	ld [wShadowOAMSprite01YCoord], a
 	ld c, 2
@@ -214,12 +213,11 @@ LeaveMapThroughHoleAnim:
 	call PlayNewSoundChannel5
 ;;;;;;;;;;
 	; hide upper half of player's sprite
-	ld a, $a0
+	ld a, SCREEN_HEIGHT_PX + OAM_Y_OFS
 	ld [wShadowOAMSprite02YCoord], a
 	ld [wShadowOAMSprite03YCoord], a
 	call GBFadeOutToWhite
-	ld a, $1
-	ld [wUpdateSpritesEnabled], a ; enable UpdateSprites
+	call EnableSpriteUpdates
 	jp RestoreFacingDirectionAndYScreenPos
 
 LoadBirdSpriteGraphics:
@@ -239,7 +237,7 @@ InitFacingDirectionList:
 	ld [wSavedPlayerScreenY], a
 	ld hl, PlayerSpinningFacingOrder
 	ld de, wFacingDirectionList
-	ld bc, 4
+	ld bc, OBJ_SIZE
 	rst _CopyData
 	ld a, [wSpritePlayerStateData1ImageIndex] ; (image index is locked to standing images)
 	ld hl, wFacingDirectionList
@@ -263,7 +261,7 @@ SpinPlayerSprite:
 	push hl
 	ld hl, wFacingDirectionList
 	ld de, wFacingDirectionList - 1
-	ld bc, 4
+	ld bc, OBJ_SIZE
 	rst _CopyData
 	ld a, [wFacingDirectionList - 1]
 	ld [wFacingDirectionList + 3], a
@@ -368,7 +366,7 @@ FishingAnim:
 	ld hl, FishingRodOAM
 	add hl, bc
 	ld de, wShadowOAMSprite39
-	ld bc, $4
+	ld bc, OBJ_SIZE
 	rst _CopyData
 ;;;;;;;;;; PureRGBnote: CHANGED: fishing animation wait time is randomized instead of hardcoded 100 frames.
 	call Random
@@ -403,7 +401,7 @@ FishingAnim:
 	ld a, [wSpritePlayerStateData1ImageIndex] ; (image index is locked to standing images)
 	cp SPRITE_FACING_UP
 	jr nz, .skipHidingFishingRod
-	ld a, $a0
+	ld a, SCREEN_HEIGHT_PX + OAM_Y_OFS
 	ld [wShadowOAMSprite39YCoord], a
 
 .skipHidingFishingRod
@@ -452,7 +450,7 @@ FishingRodOAM:
 	dbsprite  9, 11,  4,  3, $c0, 0         ; down
 	dbsprite  9,  8,  4,  4, $c0, 0         ; up
 	dbsprite  8, 10,  0,  0, $c1, 0         ; left
-	dbsprite 11, 10,  0,  0, $c1, OAM_HFLIP ; right
+	dbsprite 11, 10,  0,  0, $c1, OAM_XFLIP ; right
 
 MACRO fishing_gfx
 	dw \1
@@ -465,7 +463,7 @@ RedFishingTiles:
 	fishing_gfx RedFishingTilesFront, 2, $02
 	fishing_gfx RedFishingTilesBack,  2, $06
 	fishing_gfx RedFishingTilesSide,  2, $0a
-	fishing_gfx RedFishingRodTiles,   3, $c0
+	fishing_gfx RedFishingRodTiles,   2, $c0
 
 HandleMidJump::
 	ld a, [wPlayerJumpingYScreenCoordsIndex]
@@ -488,8 +486,7 @@ HandleMidJump::
 	ld a, [wWalkCounter]
 	and a
 	ret nz
-	call UpdateSprites
-	call Delay3
+	call UpdateSpritesAndDelay3
 	xor a
 	ldh [hJoyHeld], a
 	ldh [hJoyPressed], a
@@ -499,9 +496,7 @@ HandleMidJump::
 	res BIT_LEDGE_OR_FISHING, [hl]
 	ld hl, wStatusFlags5
 	res BIT_SCRIPTED_MOVEMENT_STATE, [hl]
-	xor a
-	ld [wJoyIgnore], a
-	ret
+	jp EnableAllJoypad
 
 Ledge60fps:
 	push hl

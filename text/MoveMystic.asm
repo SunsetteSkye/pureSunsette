@@ -32,11 +32,10 @@ _MoveMysticAhYes::
 	text "Ah yes<...>"
 	line "I see it."
 	para "@"
-	text_ram wStringBuffer
+	text_ram_stringbuffer
 	text ", the@"
 	text_end
 
-; TODO: use pokemon's names correctly with stringbuffer
 _BeedrillMoveMysticText::
 	text_start
 	line "hypodermic"
@@ -128,16 +127,41 @@ _WigglytuffMoveMysticText::
 	line "globular glory."
 	prompt
 
+_GolduckMoveMysticText::
+	text_start
+	line "dangerous duck."
+	prompt
+
+_DewgongMoveMysticText::
+	text_start
+	line "splendid seal."
+	prompt
+
+_ArcanineMoveMysticText::
+	text_start
+	line "heroic hound."
+	prompt
+
+_PidgeotMoveMysticText::
+	text_start
+	line "tempest talon."
+	prompt
+
+_BlastoiseMoveMysticText::
+	text_start
+	line "cannon colossus."
+	prompt
+
 _MoveMysticMasterOfMoveText::
 	text "It's a master"
 	line "of @"
-	text_ram wNameBuffer
+	text_ram_namebuffer
 	text "!"
 	prompt
 
 _MoveMysticTalentOfMoveText::
 	text "@"
-	text_ram wNameBuffer
+	text_ram_namebuffer
 	text ""
 	line "is its talent!"
 	prompt
@@ -145,14 +169,14 @@ _MoveMysticTalentOfMoveText::
 _MoveMysticSoulCallsForMoveText::
 	text "Its soul calls"
 	line "for @"
-	text_ram wNameBuffer
+	text_ram_namebuffer
 	text "!"
 	prompt
 
 _MoveMysticLovesMoveText::
 	text "It loves to use"
 	line "@"
-	text_ram wNameBuffer
+	text_ram_namebuffer
 	text "!"
 	prompt
 
@@ -168,9 +192,32 @@ _MoveMysticBeedrillText::
 	cont "increases to 65!"
 	done
 
+_MoveMysticPidgeotText::
+	text "It rules the"
+	line "skies with"
+	cont "peerless aim!"
+	para "Its signature"
+	line "WHIRLWIND never"
+	cont "misses its mark!"
+	done
+
+_MoveMysticBlastoiseText::
+	text "Its cannons fire"
+	line "with deadly aim!"
+	para "SKULL BASH and"
+	line "HYDRO PUMP both"
+	cont "gain 100%"
+	cont "ACCURACY!"
+	done
+
 _MoveMysticAccuracy85::
 	text "Its ACCURACY"
 	line "increases to 85%!"
+	done
+
+_MoveMysticAccuracy100::
+	text "Its ACCURACY"
+	line "increases to 100%!"
 	done
 
 _MoveMysticJigglyWigglyOnlyLevel20Text::
@@ -179,10 +226,26 @@ _MoveMysticJigglyWigglyOnlyLevel20Text::
 	line "above level 20!"
 	done
 
-; TODO: use another smaller buffer
 _GenericMovePowerIncreasesText::
 	text "Its POWER"
 	line "increases to @"
 	text_decimal w2CharStringBuffer, 1, 3
 	text "!"
 	done
+
+_MoveMysticInfoText::
+	text "If ON, a new house"
+	line "will be available"
+	cont "in SAFFRON CITY."
+	para "The MOVE MYSTIC"
+	line "here will tell"
+	cont "you about #MON"
+	cont "SIGNATURE MOVEs."
+	para "Some #MON will"
+	line "have bonus power"
+	cont "or accuracy when"
+	cont "using some moves."
+	para "If turned OFF,"
+	line "these bonuses are"
+	cont "turned off too."
+	prompt

@@ -1,6 +1,7 @@
 ; PureRGBnote: ADDED: new trainers in this location
 
 SafariZoneNorth_Script:
+	call CheckModifySafariWildRate
 	call EnableAutoTextBoxDrawing
 	ld hl, SafariZoneNorthTrainerHeaders
 	ld de, SafariZoneNorth_ScriptPointers
@@ -14,7 +15,8 @@ SafariZoneNorth_ScriptPointers:
 	dw_const CheckFightingMapTrainers,              SCRIPT_SAFARIZONENORTH_DEFAULT
 	dw_const DisplayEnemyTrainerTextAndStartBattle, SCRIPT_SAFARIZONENORTH_START_BATTLE
 	dw_const EndTrainerBattle,                      SCRIPT_SAFARIZONENORTH_END_BATTLE
-	dw_const RangerPostBattleNorth,                 SCRIPT_SAFARIZONENORTH_RANGER_POST_BATTLE
+	dw_const RangerPostBattle,                 		SCRIPT_SAFARIZONENORTH_RANGER_POST_BATTLE
+	ASSERT BANK(RangerPostBattle) == BANK(SafariZoneNorth_Script)
 
 SafariZoneNorth_TextPointers:
 	def_text_pointers
@@ -32,9 +34,6 @@ SafariZoneNorth_TextPointers:
 	dw_const SafariZoneNorthTrainerTips2Text,  TEXT_SAFARIZONENORTH_TRAINER_TIPS_2
 	dw_const SafariZoneNorthTrainerTips3Text,  TEXT_SAFARIZONENORTH_TRAINER_TIPS_3
 
-RangerPostBattleNorth:
-	SetEvent EVENT_BEAT_SAFARI_ZONE_NORTH_RANGER_0
-	jpfar RangerPostBattle
 
 SafariZoneNorthRestHouseSignText:
 	text_far _SafariZoneNorthRestHouseSignText
@@ -81,31 +80,19 @@ SafariZoneNorthRangerText0:
 	rst TextScriptEnd
 
 SafariZoneNorthTrainerText0:
-	text_asm
-	ld hl, SafariZoneNorthTrainerHeader0
-	jr SafariZoneNorthTrainerTalk
+	script_trainer SafariZoneNorthTrainerHeader0
 
 SafariZoneNorthTrainerText1:
-	text_asm
-	ld hl, SafariZoneNorthTrainerHeader1
-	jr SafariZoneNorthTrainerTalk
+	script_trainer SafariZoneNorthTrainerHeader1
 
 SafariZoneNorthTrainerText2:
-	text_asm
-	ld hl, SafariZoneNorthTrainerHeader2
-	jr SafariZoneNorthTrainerTalk
+	script_trainer SafariZoneNorthTrainerHeader2
 
 SafariZoneNorthTrainerText3:
-	text_asm
-	ld hl, SafariZoneNorthTrainerHeader3
-	jr SafariZoneNorthTrainerTalk
+	script_trainer SafariZoneNorthTrainerHeader3
 
 SafariZoneNorthTrainerText4:
-	text_asm
-	ld hl, SafariZoneNorthTrainerHeader4
-SafariZoneNorthTrainerTalk:
-	call TalkToTrainer
-	rst TextScriptEnd
+	script_trainer SafariZoneNorthTrainerHeader4
 
 SafariZoneNorthRangerBattleText0:
 	text_far _SafariZoneNorthRangerText

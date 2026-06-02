@@ -193,8 +193,7 @@ AIMoveChoiceModification1:
 .notInArray
 	ld a, [wEnemyMoveEffect]
 	ld hl, StatusAilmentMoveEffects
-	ld de, 1
-	call IsInArray
+	call IsInSingleByteArray
 	pop bc
 	pop de
 	pop hl
@@ -272,8 +271,7 @@ AIMoveChoiceModification1:
 .discourageStatBoostingMoveWhenMaxedOut
 	ld a, [wEnemyMoveEffect]
 	ld hl, StatBoostingEffectList
-	ld de, 1
-	call IsInArray
+	call IsInSingleByteArray
 	jp nc, .notStatBoostingMove
 	ld a, [wEnemyMoveEffect]
 	cp ATTACK_SPECIAL_SPEED_UP1
@@ -345,7 +343,9 @@ PotentiallyPointlessMoveEffectsJumpTable:
 	dbw GROWTH_EFFECT, CheckFullHealth
 	dbw DEFENSE_CURL_EFFECT, CheckDefenseCurlUp
 	dbw ACID_ARMOR_EFFECT, CheckBothReflectLightScreenUp
+	dbw ACCURACY_DOWN1_EFFECT, CheckAccuracyDownWorks
 	db -1
+	; TODO: use siphon snag if afflicted with status?
 
 StatusAilmentMoveEffects:
 	db SLEEP_EFFECT
@@ -460,12 +460,7 @@ CheckSeeded:
 	jr nz, CheckTypeMatchesB.discourage ; if the enemy has used leech seed don't use again
 	ld b, GRASS
 CheckTypeMatchesB:
-	ld a, [wAIMoveSpamAvoider]
-	cp 2 ; set to 2 if we switched out this turn
-	ld hl, wBattleMonType1
-	jr nz, .noSwitchOut
-	ld hl, wAITargetMonType1 ; stores what the AI thinks the player's type is when a switchout happens
-.noSwitchOut	
+	call GetTargetTypeFromMod1
 	ld a, [hli]
 	cp b
 	jr z, .discourage ; leech seed does not affect grass types
@@ -491,6 +486,10 @@ CheckStatusImmunity:
 	jr z, .getMonTypes
 	cp PARALYZE_EFFECT
 	jr z, .checkParalyze
+	; SLEEP_EFFECT
+	ld a, [wBattleFunctionalFlags]
+	bit 2, a ; are screeches echoing?
+	jr nz, .discourage
 	jr .done
 .checkParalyze
 	ld a, [wEnemyMoveType]
@@ -522,6 +521,24 @@ WillOHKOMoveAlwaysFail:
 	scf
 	ret
 ;;;;;;;;;;
+
+CheckAccuracyDownWorks:
+	call GetTargetTypeFromMod1
+	ld d, h
+	ld e, l
+	ld a, [wEnemyMoveNum]
+	ld c, a
+	callfar FarAccuracyDownEffectivenessCheck
+	ccf ; c = doesn't work instead of c = works
+	ret
+
+GetTargetTypeFromMod1:
+	ld a, [wAIMoveSpamAvoider]
+	cp 2 ; set to 2 if we switched out this turn
+	ld hl, wBattleMonType1
+	ret nz
+	ld hl, wAITargetMonType1 ; stores what the AI thinks the player's type is when a switchout happens
+	ret
 
 ; PureRGBnote: CHANGED: AKA the "Boost stats on the first turn" subroutine
 ; slightly encourage moves with specific effects on the first turn. (PureRGBnote: FIXED: used to be the second turn, made it first turn)
@@ -559,8 +576,7 @@ AIMoveChoiceModification2:
 	push de
 	push bc
 	ld hl, Modifier2PreferredMoves
-	ld de, 1
-	call IsInArray
+	call IsInSingleByteArray
 	pop bc
 	pop de
 	pop hl
@@ -972,8 +988,7 @@ AIMoveChoiceModification4:
 	push de
 	push bc
 	ld hl, Modifier4PreferredMoves
-	ld de, 1
-	call IsInArray
+	call IsInSingleByteArray
 	pop bc
 	pop de
 	pop hl
@@ -1043,8 +1058,6 @@ ReadMove:
 	ret
 
 INCLUDE "data/trainers/move_choices.asm"
-
-INCLUDE "data/trainers/names.asm"
 
 INCLUDE "engine/battle/misc.asm"
 
@@ -1291,6 +1304,7 @@ ChampArenaAI:
 	jr FullRestore50Percent ; otherwise has 50% chance to use full restore when HP is below 1/5th of max
 .useFullHeal
 	pop af
+	; TODO: check if low health, full restore if low and status instead of full heal
 	jp AIUseFullHeal
 
 
@@ -1399,8 +1413,8 @@ AIPrintItemUseAndUpdateHPBar:
 	hlcoord 2, 2
 	xor a
 	ld [wHPBarType], a
-	predef UpdateHPBar2
-	jp DecrementAICount
+	predef UpdateHPBar
+	jp DrawHudDecrementAICount
 
 AISwitchIfEnoughMons:
 ; enemy trainer switches if there are 2 or more unfainted mons in party
@@ -1420,7 +1434,7 @@ AISwitchIfEnoughMons:
 	inc d
 .Fainted
 	push bc
-	ld bc, wEnemyMon2 - wEnemyMon1
+	ld bc, PARTYMON_STRUCT_LENGTH
 	add hl, bc
 	pop bc
 	dec c
@@ -1459,16 +1473,16 @@ SwitchEnemyMonCommon:
 .preparewithdraw
 ;;;;;
 
-; prepare to withdraw the active monster: copy hp, number, and status to roster
+; prepare to withdraw the active monster: copy HP, party pos, and status to roster
 
 	ld a, [wEnemyMonPartyPos]
 	ld hl, wEnemyMon1HP
-	ld bc, wEnemyMon2 - wEnemyMon1
+	ld bc, PARTYMON_STRUCT_LENGTH
 	call AddNTimes
 	ld d, h
 	ld e, l
 	ld hl, wEnemyMonHP
-	ld bc, 4
+	ld bc, MON_STATUS + 1 - MON_HP ; also copies party pos in-between HP and status
 	rst _CopyData
 
 	;shinpokerednote: ADDED: don't copy PP information if transformed
@@ -1526,7 +1540,7 @@ AICureStatus:	;shinpokerednote: CHANGED: modified to be more robust and also und
 ; cures the status of enemy's active pokemon
 	ld a, [wEnemyMonPartyPos]
 	ld hl, wEnemyMon1Status
-	ld bc, wEnemyMon2 - wEnemyMon1
+	ld bc, PARTYMON_STRUCT_LENGTH
 	call AddNTimes
 	xor a
 	ld [hl], a ; clear status in enemy team roster
@@ -1623,22 +1637,22 @@ CheckIfHPBelowFractionCommon:
 	ret
 
 AIUseXAttack:
-	ld b, $A
+	ld b, ATTACK_UP1_EFFECT
 	ld a, X_ATTACK
 	jr AIIncreaseStat
 
 AIUseXDefend:
-	ld b, $B
+	ld b, DEFENSE_UP1_EFFECT
 	ld a, X_DEFEND
 	jr AIIncreaseStat
 
 AIUseXSpeed:
-	ld b, $C
+	ld b, SPEED_UP1_EFFECT
 	ld a, X_SPEED
 	jr AIIncreaseStat
 
 AIUseXSpecial:
-	ld b, $D
+	ld b, SPECIAL_UP1_EFFECT
 	ld a, X_SPECIAL
 	; fallthrough
 
@@ -1672,6 +1686,8 @@ AIIncreaseStat:
 AIPrintItemUse:
 	ld [wAIItem], a
 	call AIPrintItemUse_
+DrawHudDecrementAICount:
+	callfar DrawEnemyHUDAndHPBar
 	jp DecrementAICount
 
 AIPrintItemUse_:

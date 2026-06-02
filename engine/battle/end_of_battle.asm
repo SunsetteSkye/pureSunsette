@@ -5,7 +5,7 @@ EndOfBattle:
 ; link battle
 	ld a, [wEnemyMonPartyPos]
 	ld hl, wEnemyMon1Status
-	ld bc, wEnemyMon2 - wEnemyMon1
+	ld bc, PARTYMON_STRUCT_LENGTH
 	call AddNTimes
 	ld a, [wEnemyMonStatus]
 	ld [hl], a
@@ -42,8 +42,9 @@ EndOfBattle:
 .evolution
 	xor a
 	ld [wForceEvolution], a
-	predef EvolutionAfterBattle
+	callfar EvolutionAfterBattle
 .resetVariables
+	ResetEvent EVENT_ALREADY_BACKED_UP_MUSIC_BEFORE_BATTLE
 	xor a
 	ld [wLowHealthAlarm], a ;disable low health alarm
 	ld [wChannelSoundIDs + CHAN5], a
@@ -59,8 +60,8 @@ EndOfBattle:
 	ld [hli], a
 	ld [hl], a
 	ld [wListScrollOffset], a
-	ld hl, wPlayerStatsToDouble
-	ld b, $18
+	ld hl, wBattleStatusData
+	ld b, wBattleStatusDataEnd - wBattleStatusData
 .loop
 	ld [hli], a
 	dec b

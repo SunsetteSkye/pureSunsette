@@ -9,11 +9,9 @@ RocketHideoutB1F_Script:
 	ret
 
 RocketHideoutB1FDoorCallbackScript:
-	ld hl, wCurrentMapScriptFlags
-	bit BIT_CUR_MAP_LOADED_1, [hl]
-	res BIT_CUR_MAP_LOADED_1, [hl]
+	call WasMapJustLoaded
 	ret z
-	CheckEvent EVENT_ROCKET_HIDEOUT_B1F_DOOR_UNLOCKED
+	CheckEvent EVENT_ENTERED_ROCKET_HIDEOUT
 	jr nz, .door_open
 	CheckEventReuseA EVENT_BEAT_ROCKET_HIDEOUT_1_TRAINER_4
 	jr nz, .play_sound_door_open
@@ -22,13 +20,13 @@ RocketHideoutB1FDoorCallbackScript:
 .play_sound_door_open
 	ld a, SFX_GO_INSIDE
 	rst _PlaySound
-	SetEvent EVENT_ROCKET_HIDEOUT_B1F_DOOR_UNLOCKED
+	SetEvent EVENT_ENTERED_ROCKET_HIDEOUT
 .door_open
 	ld a, $e ; Floor Block
 .set_door_block
 	ld [wNewTileBlockID], a
 	lb bc, 8, 12
-	predef_jump ReplaceTileBlock
+	jp ReplaceTileBlock
 
 RocketHideoutB1F_ScriptPointers:
 	def_script_pointers
@@ -61,45 +59,26 @@ RocketHideout1TrainerHeader4:
 	db -1 ; end
 
 RocketHideoutB1FRocket1Text:
-	text_asm
-	ld hl, RocketHideout1TrainerHeader0
-	call TalkToTrainer
-	rst TextScriptEnd
+	script_trainer RocketHideout1TrainerHeader0
 
 RocketHideoutB1FRocket2Text:
-	text_asm
-	ld hl, RocketHideout1TrainerHeader1
-	call TalkToTrainer
-	rst TextScriptEnd
+	script_trainer RocketHideout1TrainerHeader1
 
 RocketHideoutB1FRocket3Text:
-	text_asm
-	ld hl, RocketHideout1TrainerHeader2
-	call TalkToTrainer
-	rst TextScriptEnd
+	script_trainer RocketHideout1TrainerHeader2
 
 RocketHideoutB1FRocket4Text:
-	text_asm
-	ld hl, RocketHideout1TrainerHeader3
-	call TalkToTrainer
-	rst TextScriptEnd
+	script_trainer RocketHideout1TrainerHeader3
 
 RocketHideoutB1FRocket5Text:
-	text_asm
-	ld hl, RocketHideout1TrainerHeader4
-	call TalkToTrainer
-	rst TextScriptEnd
+	script_trainer RocketHideout1TrainerHeader4
 
 RocketHideoutB1FRocket5EndBattleText:
 	text_far _RocketHideoutB1FRocket5EndBattleText
 	text_asm
 	SetEvent EVENT_BEAT_ROCKET_HIDEOUT_1_TRAINER_4
-	ld hl, .prompt_end
-	ret
-
-.prompt_end:
-	text_promptbutton
-	text_end
+	call DisplayTextPromptButton
+	rst TextScriptEnd
 
 RocketHideoutB1FRocket1BattleText:
 	text_far _RocketHideoutB1FRocket1BattleText

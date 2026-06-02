@@ -683,11 +683,11 @@ TangelaEvosMoves:
 	db 18, MEGA_DRAIN
 	db 23, WITHDRAW
 	db 26, NIGHT_SHADE
-	db 30, AMNESIA
+	db 30, CONFUSE_RAY
 	db 34, CONSTRICT ;STRANGLEVINE
 	db 44, SPORE
 	db 49, DREAM_EATER
-	db 54, HYDRO_PUMP
+	db 54, AMNESIA
 	db 0
 
 NothingEvosMoves:
@@ -725,7 +725,7 @@ OnixEvosMoves:
 	db 27, ROCK_SLIDE
 	db 29, CONSTRICT
 	db 31, DIG
-	db 33, AMNESIA
+	db 33, AGILITY
 	db 37, TAKE_DOWN ; HEAT RUSH
 	db 39, EARTHQUAKE
 	db 42, SPIKE_CANNON
@@ -2637,7 +2637,7 @@ HardenedOnixEvosMoves:
 	db 27, ROCK_SLIDE
 	db 29, CONSTRICT
 	db 31, DIG
-	db 33, AMNESIA
+	db 33, AGILITY
 	db 37, TAKE_DOWN ; HEAT RUSH
 	db 39, EARTHQUAKE
 	db 42, SPIKE_CANNON

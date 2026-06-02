@@ -36,7 +36,7 @@ Route22GateScriptCoords:
 Route22GateMovePlayerDownScript:
 	ld a, $1
 	ld [wSimulatedJoypadStatesIndex], a
-	ld a, D_DOWN
+	ld a, PAD_DOWN
 	ld [wSimulatedJoypadStatesEnd], a
 	ld [wSpritePlayerStateData1FacingDirection], a
 	ld [wJoyIgnore], a
@@ -46,11 +46,10 @@ Route22GatePlayerMovingScript:
 	ld a, [wSimulatedJoypadStatesIndex]
 	and a
 	ret nz
-	xor a
-	ld [wJoyIgnore], a
+	call EnableAllJoypad
 	call Delay3
-	ld a, SCRIPT_ROUTE22GATE_DEFAULT
-	ld [wRoute22GateCurScript], a
+	xor a
+	ld [wRoute22GateCurScript], a ; SCRIPT_ROUTE22GATE_DEFAULT
 	ret
 
 Route22Gate_TextPointers:
@@ -59,6 +58,8 @@ Route22Gate_TextPointers:
 
 Route22GateGuardText:
 	text_asm
+	ld a, BOULDERBADGE
+	call GetBadgeName
 	ld a, [wObtainedBadges]
 	bit BIT_BOULDERBADGE, a
 	jr nz, .has_boulderbadge

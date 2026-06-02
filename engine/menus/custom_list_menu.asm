@@ -3,6 +3,8 @@ CustomListMenuTextMethods:
 	dw GetMonNameListMenu
 	dw GetTrainerNameListMenu
 	dw GetChampArenaMusicNameListMenu
+	dw GetBadgeNameListMenu
+	dw GetFloorNameListMenu
 
 CustomListMenuGetEntryText::
 	push hl
@@ -19,12 +21,18 @@ GetMonNameListMenu:
 GetTrainerNameListMenu:
 	ld a, [wNamedObjectIndex]
 	ld [wTrainerClass], a
-	callfar GetTrainerName_
+	callfar GetTrainerName
 	ld de, wTrainerName
 	ret
 
 GetChampArenaMusicNameListMenu:
 	jpfar GetChampArenaMusicNameIntoWRAM
+
+GetBadgeNameListMenu:
+	jpfar _GetBadgeName
+
+GetFloorNameListMenu:
+	jpfar GetFloorName
 
 CheckLoadHoverText::
 	push af
@@ -45,6 +53,12 @@ CheckLoadHoverText::
 CustomListMenuHoverTextMethods:
 	dw CheckLoadTmName
 	dw CheckLoadTypes
+	dw _ChangeCustomBallTile
+	dw _ChangeCustomBallColor
+	dw _ShowDeptStoreFloorInfo
+	dw _ShowDeptStoreFloorInfoClerk
+	dw GetStartMenuPrompt
+	dw GetBillsPCMenuPrompt
 
 GetListEntryID:
 	ld a, [wListCount]
@@ -85,8 +99,8 @@ CheckLoadTypes:
 	jr c, .noText
 	; a = which pokemon ID in the list is selected
 	ld [wCurSpecies], a ; needed to make PrintMonType work
-	ld a, 1
-	ld [wListMenuHoverTextShown], a
+	ld hl, wListMenuNewFlags
+	set BIT_SHOWING_TM_HOVER_TEXT, [hl]
 	hlcoord 4, 13
 	lb bc, 3, 14  ; height, width
 	call TextBoxBorder
@@ -102,25 +116,25 @@ CheckLoadTypes:
 	hlcoord 5, 14
 	ld de, MenuType1Text
 	call PlaceString
-	hlcoord 11, 14
-	predef PrintMonType
+	decoord 11, 14
+	callfar PrintMonType
 	hlcoord 11, 16
 	ld a, [hl]
-	cp " "
+	cp ' '
 	ret z ; if no type printed for the second type at this point, don't print "Type2:" on that line
 	hlcoord 5, 16
 	ld de, MenuType2Text
 	jp PlaceString
 .noText
-	ld a, [wListMenuHoverTextShown]
-	and a
+	ld hl, wListMenuNewFlags
+	bit BIT_SHOWING_TM_HOVER_TEXT, [hl]
 	ret z
 	hlcoord 4, 13
 	lb bc, 16, 5
 	predef LoadScreenTileAreaFromBuffer3
 	call UpdateSprites
-	xor a
-	ld [wListMenuHoverTextShown], a
+	ld hl, wListMenuNewFlags
+	res BIT_SHOWING_TM_HOVER_TEXT, [hl]
 	ret
 
 MenuType1Text:
@@ -132,6 +146,7 @@ MenuType2Text:
 CustomListMenuHoverTextSaveScreenTileMethods:
 	dw CheckSaveTMTextScreenTiles
 	dw CheckSaveTypeTextScreenTiles
+	dw DoRet
 
 CheckSaveHoverTextScreenTiles::
 	; wListMenuHoverTextType still loaded
@@ -168,6 +183,121 @@ CheckBadOffset::
 	cp 1
 	ret nz
 	ld hl, wListScrollOffset
-	dec [hl]
+	dec [hl] ; decs once because it is assumed only 1 item can be removed from the list at a time
 	ret
 
+HandleInputForStartMenu::
+	ld a, 7
+	ld [wListMenuHoverTextType], a
+	ld a, 1
+	ld [wMenuWrappingEnabled], a
+	call HandleMenuInput
+	ld d, a ; hJoy5 into d, which will be unchanged by callfar return
+	xor a
+	ld [wListMenuHoverTextType], a
+	ld [wMenuWrappingEnabled], a
+	ld a, [wCurrentMenuItem]
+	ld [wBattleAndStartSavedMenuItem], a ; save current menu selection
+	ret
+
+	; fall through
+HandleMenuInputFromBank1::
+	; to get hover text when doing HandleMenuInput it expects bank 1 to be loaded
+	jp HandleMenuInput
+
+_ChangeCustomBallTile:
+	jpfar ChangeCustomBallTile
+
+_ChangeCustomBallColor:
+	jpfar ChangeCustomBallColor
+
+_ShowDeptStoreFloorInfo:
+	jpfar ShowDeptStoreFloorInfo
+
+_ShowDeptStoreFloorInfoClerk:
+	jpfar ShowDeptStoreFloorInfoClerk
+
+GetStartMenuPrompt::
+	ld a, [wLinkState]
+	and a
+	ret nz ; can't change boxes or use items when linked
+	ld a, [wCurrentMenuItem]
+.gotMenuIndex
+	CheckEventHL EVENT_GOT_POKEDEX
+	decoord 12, 15
+	jr nz, .next1
+	decoord 12, 13
+	inc a
+.next1
+	cp 2
+	jr z, .item
+	cp 4
+	jr z, .save
+.hidePrompt
+	ld h, d
+	ld l, e
+	lb bc, $7A, 6
+	ld de, 1
+	jp DrawTileLine
+.item
+	ld a, [wBagItems] ; if less than 2 items, no prompt to sort
+	cp 2
+	jr c, .hidePrompt
+	ld hl, StartItemSortPrompt
+	jr .copy
+.save
+	CheckEvent EVENT_GOT_POKEDEX
+	ret z ; no change box prompt when no pokedex, cant catch pokemon yet anyway
+	ld hl, StartSaveBoxPrompt
+.copy
+	ld bc, 6
+	rst _CopyData
+	ret
+
+ClearStartMenuPrompt::
+	xor a
+	jr GetStartMenuPrompt.gotMenuIndex
+
+DrawSortPromptInPC::
+	ld a, [wNumBoxItems]
+	cp 2
+	ret c ; no prompt if less than 2 items in pc
+	ld hl, StartItemSortPrompt
+	decoord 9, 11
+	ld bc, 6
+	rst _CopyData
+	ret
+
+StartSaveBoxPrompt:
+	db $60, $69, $6A, $70, $71, $72
+
+StartItemSortPrompt:
+	db $60, $69, $6A, $6B, $6E, $6F
+
+GetBillsPCMenuPrompt:
+	ld a, [wCurrentMenuItem]
+	hlcoord 7, 11
+	and a
+	jr z, .view
+	cp 3 ; change box option
+	ld de, BillsPCBoxNamePrompt
+	jr z, .gotPrompt
+.clearPrompt
+	lb bc, $7A, 6
+	ld de, 1
+	jp DrawTileLine
+.view
+	; no prompt when box empty
+	ld a, [wBoxCount]
+	and a
+	jr z, .clearPrompt
+	ld de, BillsPCBoxViewPrompt	
+.gotPrompt
+	jp PlaceString
+
+
+BillsPCBoxNamePrompt:
+	db $60, $69, $6A, $CF, $D0, $D1, '@'
+
+BillsPCBoxViewPrompt:
+	db $60, $69, $6A, $D2, $D3, $D4, '@'

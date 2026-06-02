@@ -18,32 +18,23 @@ GameCornerSelectLuckySlotMachine:
 	ld a, 8
 .not_max
 	srl_a_3x
-	ld [wLuckySlotHiddenObjectIndex], a
+	ld [wLuckySlotHiddenEventIndex], a
 	ret
 
 GameCornerSetRocketHideoutDoorTile:
-	ld hl, wCurrentMapScriptFlags
-	bit BIT_CUR_MAP_LOADED_1, [hl]
-	res BIT_CUR_MAP_LOADED_1, [hl]
+	call WasMapJustLoaded
 	ret z
 	CheckEvent EVENT_FOUND_ROCKET_HIDEOUT
 	ret nz
 	ld a, $2a
 	ld [wNewTileBlockID], a
 	lb bc, 2, 8
-	predef ReplaceTileBlock
+	call ReplaceTileBlock
 	ld hl, wCurrentMapScriptFlags
 	bit BIT_MAP_LOADED_AFTER_BATTLE, [hl]
 	res BIT_MAP_LOADED_AFTER_BATTLE, [hl]
 	ret z
 	jp GBFadeInFromWhite ; PureRGBnote: ADDED: since trainer instantly talks to us after battle we need to fade back in here
-
-GameCornerReenterMapAfterPlayerLoss:
-	xor a ; SCRIPT_GAMECORNER_DEFAULT
-	ld [wJoyIgnore], a
-	ld [wGameCornerCurScript], a
-	ld [wCurMapScript], a
-	ret
 
 GameCorner_ScriptPointers:
 	def_script_pointers
@@ -51,12 +42,19 @@ GameCorner_ScriptPointers:
 	dw_const GameCornerRocketBattleScript, SCRIPT_GAMECORNER_ROCKET_BATTLE
 	dw_const GameCornerRocketExitScript,   SCRIPT_GAMECORNER_ROCKET_EXIT
 
+GameCornerReenterMapAfterPlayerLoss:
+	call ResetMapScripts
+	; a = 0 from ResetMapScripts
+	ld [wGameCornerCurScript], a ; SCRIPT_GAMECORNER_DEFAULT
+	ret
+
 GameCornerRocketBattleScript:
 	ld a, [wIsInBattle]
 	cp $ff
-	jp z, GameCornerReenterMapAfterPlayerLoss
-	ld a, D_RIGHT | D_LEFT | D_UP | D_DOWN
-	ld [wJoyIgnore], a
+	jr z, GameCornerReenterMapAfterPlayerLoss
+	call DisableDpad
+	ld d, GAMECORNER_ROCKET
+	callfar MakeSpriteFacePlayer
 	ld a, TEXT_GAMECORNER_ROCKET_AFTER_BATTLE
 	ldh [hTextID], a
 	call DisplayTextID
@@ -105,15 +103,13 @@ GameCornerRocketExitScript:
 	ld a, [wStatusFlags5]
 	bit BIT_SCRIPTED_NPC_MOVEMENT, a
 	ret nz
-	xor a
-	ld [wJoyIgnore], a
-	ld a, HS_GAME_CORNER_ROCKET
-	ld [wMissableObjectIndex], a
-	predef HideObject
+	call EnableAllJoypad
+	ld c, TOGGLE_GAME_CORNER_ROCKET
+	call HideObject
 	ld hl, wCurrentMapScriptFlags
 	set BIT_CUR_MAP_LOADED_1, [hl]
 	set BIT_CUR_MAP_LOADED_2, [hl]
-	ld a, SCRIPT_GAMECORNER_DEFAULT
+	xor a ; SCRIPT_GAMECORNER_DEFAULT
 	ld [wGameCornerCurScript], a
 	ret
 
@@ -132,6 +128,15 @@ GameCorner_TextPointers:
 	dw_const GameCornerRocketText,            TEXT_GAMECORNER_ROCKET
 	dw_const GameCornerPosterText,            TEXT_GAMECORNER_POSTER
 	dw_const GameCornerRocketAfterBattleText, TEXT_GAMECORNER_ROCKET_AFTER_BATTLE
+	dw_const GameCornerOutOfOrderText,        TEXT_GAMECORNER_OUT_OF_ORDER
+	dw_const GameCornerOutToLunchText,        TEXT_GAMECORNER_OUT_TO_LUNCH
+	dw_const GameCornerSomeonesKeysText,      TEXT_GAMECORNER_SOMEONES_KEYS
+	dw_const GameCornerCoinCaseText,          TEXT_GAMECORNER_NEED_COIN_CASE
+	dw_const GameCornerNoCoinsText,           TEXT_GAMECORNER_NO_COINS
+	dw_const FoundHiddenCoinsText,            TEXT_GAMECORNER_FOUND_HIDDEN_COINS
+	EXPORT TEXT_GAMECORNER_FOUND_HIDDEN_COINS
+	dw_const DroppedHiddenCoinsText,          TEXT_GAMECORNER_DROPPED_HIDDEN_COINS
+	EXPORT TEXT_GAMECORNER_DROPPED_HIDDEN_COINS
 
 GameCornerBeauty1Text:
 	text_far _GameCornerBeauty1Text
@@ -144,8 +149,6 @@ GameCornerClerk1Text:
 	ld hl, .DoYouNeedSomeGameCoins
 	rst _PrintText
 	call YesNoChoice
-	ld a, [wCurrentMenuItem]
-	and a
 	jr nz, .declined
 .wantsToBuyMoreCoins
 	CheckEvent EVENT_GOT_COIN_CASE ; PureRGBnote: CHANGED: coin case is an event instead of an item
@@ -192,8 +195,6 @@ GameCornerClerk1Text:
 	ld hl, .CeladonGameCornerText_another500
 	rst _PrintText
 	call YesNoChoice
-	ld a, [wCurrentMenuItem]
-	and a
 	jr z, .wantsToBuyMoreCoins
 	ld hl, .CeladonGameCornerThanks
 ;;;;;;;;;;
@@ -357,6 +358,7 @@ GymGuideMoreApexChipText4:
 	text_end
 
 CeladonGameCornerText_gymguide:
+	text_far _GymGuideChampInMakingText
 	text_far _CeladonGameCornerText_gymguide
 	text_end
 
@@ -526,7 +528,7 @@ GameCornerPosterText:
 	ld a, $43
 	ld [wNewTileBlockID], a
 	lb bc, 2, 8
-	predef ReplaceTileBlock
+	call ReplaceTileBlock
 	rst TextScriptEnd
 
 .SwitchBehindPosterText:
@@ -546,8 +548,7 @@ GameCornerDrawCoinBox:
 	set BIT_NO_TEXT_DELAY, [hl]
 	hlcoord 11, 0
 	lb bc, 5, 7
-	call TextBoxBorder
-	call UpdateSprites
+	call TextBoxBorderUpdateSprites
 	hlcoord 12, 1
 	lb bc, 4, 7
 	call ClearScreenArea
@@ -555,8 +556,7 @@ GameCornerDrawCoinBox:
 	ld de, GameCornerMoneyText
 	call PlaceString
 	hlcoord 12, 3
-	ld de, GameCornerBlankText
-	call PlaceString
+	call .clearLine
 	hlcoord 12, 3
 	ld de, wPlayerMoney
 	ld c, 3 | MONEY_SIGN | LEADING_ZEROES
@@ -565,15 +565,17 @@ GameCornerDrawCoinBox:
 	ld de, GameCornerCoinText
 	call PlaceString
 	hlcoord 12, 5
-	ld de, GameCornerBlankText
-	call PlaceString
+	call .clearLine
 	hlcoord 15, 5
 	ld de, wPlayerCoins
-	ld c, $82
+	ld c, 2 | LEADING_ZEROES
 	call PrintBCDNumber
 	ld hl, wStatusFlags5
 	res BIT_NO_TEXT_DELAY, [hl]
 	ret
+.clearLine
+	lb bc, 1, 7
+	jp ClearScreenArea
 
 GameCornerMoneyText:
 	db "MONEY@"
@@ -581,13 +583,81 @@ GameCornerMoneyText:
 GameCornerCoinText:
 	db "COIN@"
 
-; TODO: just clear the screen area instead of making this pointless blank text data
-GameCornerBlankText:
-	db "       @"
-
 Has9990Coins:
 	ld a, $99
 	ldh [hCoins], a
 	ld a, $90
 	ldh [hCoins + 1], a
 	jp HasEnoughCoins
+
+StartSlotMachine::
+	ld a, [wSpritePlayerStateData1ImageIndex]
+	and PLAYER_DIR_UP
+	ret z
+	ld a, [wHiddenEventFunctionArgument]
+	cp SLOTS_OUTOFORDER
+	ld b, TEXT_GAMECORNER_OUT_OF_ORDER
+	jr z, .printText
+	cp SLOTS_OUTTOLUNCH
+	ld b, TEXT_GAMECORNER_OUT_TO_LUNCH
+	jr z, .printText
+	cp SLOTS_SOMEONESKEYS
+	ld b, TEXT_GAMECORNER_SOMEONES_KEYS
+	jr z, .printText
+	CheckEvent EVENT_GOT_COIN_CASE ; PureRGBnote: CHANGED: coin case is an event instead of an item now.
+	ld b, TEXT_GAMECORNER_NEED_COIN_CASE
+	jr z, .printText
+	ld hl, wPlayerCoins
+	ld a, [hli]
+	or [hl]
+	ld b, TEXT_GAMECORNER_NO_COINS
+	jr z, .printText
+	ld a, [wLuckySlotHiddenEventIndex]
+	ld b, a
+	ld a, [wHiddenEventIndex]
+	inc a
+	cp b
+	ld a, 253
+	jr nz, .next
+	ld a, 250
+.next
+	ld [wSlotMachineSevenAndBarModeChance], a
+	ldh a, [hLoadedROMBank]
+	ld [wSlotMachineSavedROMBank], a
+	jpfar PromptUserToPlaySlots
+.printText
+	ld a, b
+	ldh [hTextID], a
+	jp DisplayTextID
+
+
+GameCornerOutOfOrderText::
+	text_far _GameCornerOutOfOrderText
+	text_end
+
+GameCornerOutToLunchText::
+	text_far _GameCornerOutToLunchText
+	text_end
+
+GameCornerSomeonesKeysText::
+	text_far _GameCornerSomeonesKeysText
+	text_end
+
+GameCornerCoinCaseText::
+	text_far _GameCornerCoinCaseText
+	text_end
+
+GameCornerNoCoinsText::
+	text_far _GameCornerNoCoinsText
+	text_end
+
+FoundHiddenCoinsText::
+	text_far _FoundHiddenCoinsText
+	sound_get_item_2
+	text_end
+
+DroppedHiddenCoinsText::
+	text_far _FoundHiddenCoins2Text
+	sound_get_item_2
+	text_far _DroppedHiddenCoinsText
+	text_end

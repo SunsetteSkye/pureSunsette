@@ -1,6 +1,6 @@
 	db DEX_ELECTRODE ; pokedex id
 
-	db  65,  50,  70, 135, 105
+	db  65,  50,  70, 135,  90
 	;   hp  atk  def  spd  spc
 
 	db ELECTRIC, FIRE ; type

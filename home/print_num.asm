@@ -11,52 +11,37 @@ PrintNumber::
 	ldh [hNumToPrint + 1], a
 	ld a, b
 	and $f
-	cp 1
+	dec a
 	jr z, .byte
-	cp 2
+	dec a
 	jr z, .word
 .long
 	ld a, [de]
 	ldh [hNumToPrint], a
 	inc de
-	ld a, [de]
-	ldh [hNumToPrint + 1], a
-	inc de
-	ld a, [de]
-	ldh [hNumToPrint + 2], a
-	jr .start
-
 .word
 	ld a, [de]
 	ldh [hNumToPrint + 1], a
 	inc de
-	ld a, [de]
-	ldh [hNumToPrint + 2], a
-	jr .start
-
 .byte
 	ld a, [de]
 	ldh [hNumToPrint + 2], a
-
-.start
 	push de
 
 	ld d, b
-	ld a, c
-	ld b, a
-	xor a
-	ld c, a
+	ld b, c
+	ld c, 0
 	ld a, b
-
-	cp 2
+	dec a
+	dec a
 	jr z, .tens
-	cp 3
+	dec a
 	jr z, .hundreds
-	cp 4
+	dec a
 	jr z, .thousands
-	cp 5
+	dec a
 	jr z, .ten_thousands
-	cp 6
+	dec a
 	jr z, .hundred_thousands
 
 MACRO print_digit
@@ -82,11 +67,16 @@ MACRO print_digit
 	call .NextDigit
 ENDM
 
-.millions          print_digit 1000000
-.hundred_thousands print_digit 100000
-.ten_thousands     print_digit 10000
-.thousands         print_digit 1000
-.hundreds          print_digit 100
+; millions
+	print_digit 1000000
+.hundred_thousands
+	print_digit 100000
+.ten_thousands
+	print_digit 10000
+.thousands
+	print_digit 1000
+.hundreds
+	print_digit 100
 
 .tens
 	ld c, 0
@@ -107,14 +97,14 @@ ENDM
 	call .PrintLeadingZero
 	jr .next
 .past
-	ld a, "0"
+	ld a, '0'
 	add c
 	ld [hl], a
 .next
 
 	call .NextDigit
-.ones
-	ld a, "0"
+; ones
+	ld a, '0'
 	add b
 	ld [hli], a
 	pop de
@@ -191,7 +181,7 @@ ENDM
 	or c
 	jr z, .PrintLeadingZero
 
-	ld a, "0"
+	ld a, '0'
 	add c
 	ld [hl], a
 	ldh [hPastLeadingZeros], a
@@ -200,7 +190,7 @@ ENDM
 .PrintLeadingZero:
 	bit BIT_LEADING_ZEROES, d
 	ret z
-	ld [hl], "0"
+	ld [hl], '0'
 	ret
 
 .NextDigit:

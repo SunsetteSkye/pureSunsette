@@ -1,6 +1,5 @@
-_RunPaletteCommand:
-	call GetPredefRegisters
-	ld a, b
+_RunPaletteCommand::
+	ld a, d
 	cp SET_PAL_DEFAULT
 	jr nz, .not_default
 	ld a, [wDefaultPaletteCommand]
@@ -10,14 +9,15 @@ _RunPaletteCommand:
 	ld l, a
 	ld h, 0
 	add hl, hl
+	push de
 	ld de, SetPalFunctions
 	add hl, de
 	ld a, [hli]
 	ld h, [hl]
 	ld l, a
-	ld de, SendSGBPackets
-	push de
-	jp hl
+	pop de ; e = optional argument to function
+	call hl_caller
+	jp SendSGBPackets
 
 SetPal_BattleBlack:
 	ld hl, PalPacket_Black
@@ -31,6 +31,14 @@ SetPal_Battle:
 	ld de, wPalPacket
 	ld bc, $10
 	rst _CopyData
+	ld a, [wGenericPaletteOverride]
+	and a
+	jr z, .continue
+	ld b, a
+	xor a
+	ld [wGenericPaletteOverride], a
+	jr .override
+.continue
 	ld a, [wBattleMonFlags]
 	and 1 ; only the 1st bit of the flags determines alt palette
 	ld [wIsAltPalettePkmn], a
@@ -38,6 +46,7 @@ SetPal_Battle:
 	ld hl, wBattleMonSpecies
 	call DeterminePaletteID
 	ld b, a
+.override
 	ld a, [wEnemyMonFlags]
 	and 1 ; only the 1st bit of the flags determines alt palette
 	ld [wIsAltPalettePkmn], a
@@ -98,6 +107,18 @@ SetPal_StatusScreen:
 	ld [hli], a
 	inc hl
 	pop af
+	ld [hli], a
+	inc hl
+	push hl
+	ld a, [wLoadedMonFlags]
+	rra
+	rra
+	rra
+	and %11111 ; ball Data ID, decides color
+	ld e, a
+	callfar FarGetBallDataPalette
+	ld a, e
+	pop hl
 	ld [hl], a
 	ld hl, wPalPacket
 	ld de, BlkPacket_StatusScreen
@@ -195,14 +216,37 @@ SetPal_Slots:
 	ret
 
 SetPal_TitleScreen:
-	ld hl, PalPacket_Titlescreen
+	ldh a, [hGBC]
+	and a
+	ld de, BlkPacket_PureTitlescreen ; gbc works with always using these packets
+	jr nz, .normalPalPacket
+	ld a, [wSpriteOptions2]
+	bit BIT_NEW_TITLE_SCREEN, a
+	ld hl, PalPacket_PureTitlescreen_SGB
+	jr nz, .next
+	; on SGB we need to use the original block packet on the original title screen
+	; on GB, doesn't matter which since there is no color
 	ld de, BlkPacket_Titlescreen
+.normalPalPacket
+	ld hl, PalPacket_Titlescreen
+.next
 	ret
 
 ; used mostly for menus and the Oak intro
 SetPal_Generic:
 	ld hl, PalPacket_Generic
+	ld de, wPalPacket
+	ld bc, $10
+	rst _CopyData
+	ld hl, wPalPacket
 	ld de, BlkPacket_WholeScreen
+	ld a, [wGenericPaletteOverride]
+	and a
+	jr z, .noSpecialPal
+	ld [wPalPacket + 1], a
+.noSpecialPal
+	xor a
+	ld [wGenericPaletteOverride], a
 	ret
 
 SetPal_NidorinoIntro:
@@ -233,8 +277,7 @@ SetPal_Overworld:
 	jr nz, .notCeladon
 	ld a, [wCurMap]
 	ld hl, NoRainbowCeladonMaps
-	ld de, 1
-	call IsInArray
+	call IsInSingleByteArray
 	jr nc, .rainbow
 .notCeladon
 	ld hl, PalPacket_Empty
@@ -336,13 +379,26 @@ DiamondMinePalettes:
 	ld a, PAL_BLUEMON
 	ret
 
+BallDesignerPalettes:
+	xor a
+	ld [wMapPalOffset], a
+	ld a, [wXCoord]
+	cp 14
+	ld a, PAL_CERULEAN
+	ret c
+	ld a, 3
+	ld [wMapPalOffset], a
+	ld a, PAL_REALLY_REDMON
+	ret
+
 MapPalettesSpecialFunctionTable:
 	dbw DIAMOND_MINE, DiamondMinePalettes
 	dbw LORELEIS_ROOM, LoreleiPalettes
+	dbw CERULEAN_BALL_DESIGNER, BallDesignerPalettes
 	db -1
 
 MapTilesetPalettesTable:
-	db CEMETERY, PAL_GREYMON
+	db CEMETERY, PAL_GRAYMON
 	db SECRET_LAB_TS, PAL_SECRETLAB
 	db VOLCANO, PAL_VOLCANO
 	db UNDERGROUND, PAL_ROUTE
@@ -371,17 +427,17 @@ SetPal_PokemonWholeScreen:
 	and 1 ; only the 1st bit of the flags determines alt palette, zero the other ones
 	ld [wIsAltPalettePkmn], a
 SetPal_PokemonWholeScreenTrade:
-	push bc
+	push de
 	ld hl, PalPacket_Empty
 	ld de, wPalPacket
 	ld bc, $10
 	rst _CopyData
-	pop bc
-	ld a, c
-	and a
+	pop de
+	ld a, e
+	cp $FF
 	ld a, PAL_BLACK
-	jr nz, .next
-	ld a, [wWholeScreenPaletteMonSpecies]
+	jr z, .next
+	ld a, e
 	call DeterminePaletteIDOutOfBattle
 .next
 	ld [wPalPacket + 1], a
@@ -402,7 +458,7 @@ SetPal_TrainerCard:
 	srl a
 	push af
 	jr c, .haveBadge
-; The player doens't have the badge, so zero the badge's blk data.
+; The player doesn't have the badge, so zero the badge's blk data.
 	push bc
 	ld a, [de]
 	ld c, a
@@ -479,7 +535,7 @@ SpecialMonCustomPalettes:
 
 DeterminePaletteID:
 	bit TRANSFORMED, a ; a is battle status 3
-	ld a, DEX_DITTO	;ld a, PAL_GREYMON  ; shinpokerednote: FIXED: if the mon has used Transform, use Ditto's palette
+	ld a, DEX_DITTO	;ld a, PAL_GRAYMON  ; shinpokerednote: FIXED: if the mon has used Transform, use Ditto's palette
 	jr nz, DeterminePaletteIDOutOfBattle.ditto ;ret nz
 	ld a, [hl]
 DeterminePaletteIDOutOfBattle:
@@ -497,7 +553,7 @@ DeterminePaletteIDOutOfBattle:
 	ld de, 3
 	call IsInArray
 	jr c, .specialMonPalette
-	predef IndexToPokedex
+	call IndexToPokedex
 	ld a, [wPokedexNum]
 	; 0 = missingno is a valid value here
 .skipDexNumConversion
@@ -595,30 +651,30 @@ _SendSGBPacket:
 ; save B for later use
 	push bc
 ; send RESET signal (P14=LOW, P15=LOW)
-	xor a
+	xor a ; JOYP_SGB_START
 	ldh [rJOYP], a
 ; set P14=HIGH, P15=HIGH
-	ld a, $30
+	ld a, JOYP_SGB_FINISH
 	ldh [rJOYP], a
 ;load length of packets (16 bytes)
-	ld b, $10
+	ld b, 16
 .nextByte
 ;set bit counter (8 bits per byte)
-	ld e, $08
+	ld e, 8
 ; get next byte in the packet
 	ld a, [hli]
 	ld d, a
 .nextBit0
 	bit 0, d
 ; if 0th bit is not zero set P14=HIGH, P15=LOW (send bit 1)
-	ld a, $10
+	ld a, JOYP_SGB_ONE
 	jr nz, .next0
 ; else (if 0th bit is zero) set P14=LOW, P15=HIGH (send bit 0)
-	ld a, $20
+	ld a, JOYP_SGB_ZERO
 .next0
 	ldh [rJOYP], a
 ; must set P14=HIGH,P15=HIGH between each "pulse"
-	ld a, $30
+	ld a, JOYP_SGB_FINISH
 	ldh [rJOYP], a
 ; rotation will put next bit in 0th position (so  we can always use command
 ; "bit 0, d" to fetch the bit that has to be sent)
@@ -628,11 +684,11 @@ _SendSGBPacket:
 	jr nz, .nextBit0
 	dec b
 	jr nz, .nextByte
-; send bit 1 as a "stop bit" (end of parameter data)
-	ld a, $20
+; send bit 0 as a "stop bit" (end of parameter data)
+	ld a, JOYP_SGB_ZERO
 	ldh [rJOYP], a
 ; set P14=HIGH,P15=HIGH
-	ld a, $30
+	ld a, JOYP_SGB_FINISH
 	ldh [rJOYP], a
 ; wait for about 70000 cycles
 	call Wait7000
@@ -645,21 +701,23 @@ _SendSGBPacket:
 	jr .loop2
 
 ; shinpokerednote: gbcnote: run GBC color code if on GBC when running this function now
-LoadSGB:
+LoadSGB::
+	ldh a, [hGBC]
+	and a
+	ld a, 1
+	ld [wOnSGB], a
+	ret nz ; no need to do anything else if on GBC, we just treat it as SGB
 	xor a
 	ld [wOnSGB], a
 	call CheckSGB
-	jr c, .onSGB
-	ldh a, [hGBC]
+	ld a, 1
+	jr c, .next
+	dec a
+.next
+	ld [wOnSGB], a
 	and a
-	ret z ; on DMG
-	;if on gbc, set SGB flag but skip all the SGB vram stuff
-	ld a, 1
-	ld [wOnSGB], a
-	ret	
+	ret z ; do nothing else if on DMG
 .onSGB
-	ld a, 1
-	ld [wOnSGB], a
 	di
 	call PrepareSuperNintendoVRAMTransfer
 	ei
@@ -725,20 +783,20 @@ CheckSGB:
 	ei
 	call Wait7000
 	ldh a, [rJOYP]
-	and $3
-	cp $3
+	and JOYP_SGB_MLT_REQ
+	cp JOYP_SGB_MLT_REQ
 	jr nz, .isSGB
-	ld a, $20
+	ld a, JOYP_SGB_ZERO
 	ldh [rJOYP], a
 	ldh a, [rJOYP]
 	ldh a, [rJOYP]
 	call Wait7000
 	call Wait7000
-	ld a, $30
+	ld a, JOYP_SGB_FINISH
 	ldh [rJOYP], a
 	call Wait7000
 	call Wait7000
-	ld a, $10
+	ld a, JOYP_SGB_ONE
 	ldh [rJOYP], a
 	ldh a, [rJOYP]
 	ldh a, [rJOYP]
@@ -749,7 +807,7 @@ CheckSGB:
 	call Wait7000
 	vc_hook Unknown_network_reset
 	call Wait7000
-	ld a, $30
+	ld a, JOYP_SGB_FINISH
 	ldh [rJOYP], a
 	ldh a, [rJOYP]
 	ldh a, [rJOYP]
@@ -757,8 +815,8 @@ CheckSGB:
 	call Wait7000
 	call Wait7000
 	ldh a, [rJOYP]
-	and $3
-	cp $3
+	and JOYP_SGB_MLT_REQ
+	cp JOYP_SGB_MLT_REQ
 	jr nz, .isSGB
 	call SendMltReq1Packet
 	and a
@@ -787,15 +845,15 @@ CopyGfxToSuperNintendoVRAM:
 	call CopySGBBorderTiles
 	jr .next
 .notCopyingTileData
-	ld bc, $1000
+	ld bc, 256 tiles
 	rst _CopyData
 .next
 	ld hl, vBGMap0
-	ld de, $c
+	ld de, TILEMAP_WIDTH - SCREEN_WIDTH
 	ld a, $80
-	ld c, $d
+	ld c, (256 + SCREEN_WIDTH - 1) / SCREEN_WIDTH ; enough rows to fit 256 tiles
 .loop
-	ld b, $14
+	ld b, SCREEN_WIDTH
 .innerLoop
 	ld [hli], a
 	inc a
@@ -804,7 +862,7 @@ CopyGfxToSuperNintendoVRAM:
 	add hl, de
 	dec c
 	jr nz, .loop
-	ld a, $e3
+	ld a, LCDC_DEFAULT
 	ldh [rLCDC], a
 	pop hl
 	call SendSGBPacket
@@ -837,15 +895,16 @@ SendSGBPackets:
 	;shinpokerednote: gbcnote: initialize the second pal packet in de (now in hl) then enable the lcd
 	call InitGBCPalettesNew
 	ldh a, [rLCDC]
-	and 1 << rLCDC_ENABLE
+	and LCDC_ON
 	ret z
+	CheckAndResetEvent FLAG_SKIP_DELAY_IN_GBC_PALETTE_FUNC
+	ret nz
 	jp Delay3
 .notGBC
 	push de
 	call SendSGBPacket
 	pop hl
 	jp SendSGBPacket
-
 
 ; PureRGBnote: ADDED: figure out if we have SGB or GBC palettes selected in the options.
 GetPalettes:
@@ -1027,7 +1086,7 @@ TransferCurBGPData:: ;shinpokerednote: gbcnote: code from pokemon yellow
 	ld de, rBGPD
 	ld hl, wGBCPal
 	ldh a, [rLCDC]
-	and 1 << rLCDC_ENABLE
+	and LCDC_ON
 	jr nz, .lcdEnabled
 	rept NUM_COLORS
 	call TransferPalColorLCDDisabled
@@ -1068,7 +1127,7 @@ BufferBGPPal:: ;shinpokerednote: gbcnote: code from pokemon yellow
 TransferBGPPals:: ;shinpokerednote: gbcnote: code from pokemon yellow
 ; Transfer the buffered BG palettes.
 	ldh a, [rLCDC]
-	and 1 << rLCDC_ENABLE
+	and LCDC_ON
 	jr z, .lcdDisabled
 	; have to wait until LCDC is disabled
 	; LCD should only ever be disabled during the V-blank period to prevent hardware damage
@@ -1094,7 +1153,7 @@ TransferBGPPals:: ;shinpokerednote: gbcnote: code from pokemon yellow
 	jr nz, .loop
 	ret
 
-TransferCurOBPData: ;shinpokerednote: gbcnote: code from pokemon yellow
+TransferCurOBPData:: ;shinpokerednote: gbcnote: code from pokemon yellow
 ; a = indexed offset of wGBCBasePalPointers
 	push de
 	;multiply index by 8 since each index represents 8 bytes worth of data
@@ -1106,7 +1165,7 @@ TransferCurOBPData: ;shinpokerednote: gbcnote: code from pokemon yellow
 	ld de, rOBPD
 	ld hl, wGBCPal
 	ldh a, [rLCDC]
-	and 1 << rLCDC_ENABLE
+	and LCDC_ON
 	jr nz, .lcdEnabled
 	rept NUM_COLORS
 	call TransferPalColorLCDDisabled
@@ -1147,22 +1206,58 @@ _UpdateGBCPal_BGP:: ;shinpokerednote: gbcnote: code from pokemon yellow
 	;otherwise a partial update (like during a screen whiteout) can be distracting
 	ld hl, hFlagsFFFA
 	set 1, [hl]
-DEF index = 0
-	REPT NUM_ACTIVE_PALS
-		ld a, [wGBCBasePalPointers + index * 2]
-		ld e, a
-		ld a, [wGBCBasePalPointers + index * 2 + 1]
-		ld d, a
-		xor a ; CONVERT_BGP
-		call DMGPalToGBCPal
-		ld a, index
-		call BufferBGPPal	; Copy wGBCPal to palette indexed in wBGPPalsBuffer.
-DEF index = index + 1
-	ENDR
+	ld hl, wGBCBasePalPointers
+	ld b, NUM_ACTIVE_PALS
+	ld c, 0
+.loopBuffer
+	push hl
+	push bc
+	ld d, 0
+	ld e, c
+	add hl, de
+	add hl, de
+	ld a, [hli]
+	ld e, a
+	ld d, [hl]
+	xor a ; CONVERT_BGP
+	call DMGPalToGBCPal
+	pop bc
+	push bc
+	ld a, c
+	call BufferBGPPal	; Copy wGBCPal to palette indexed in wBGPPalsBuffer.
+	pop bc
+	pop hl
+	inc c
+	dec b
+	jr nz, .loopBuffer
 	call TransferBGPPals	;Transfer wBGPPalsBuffer contents to rBGPD
 	ld hl, hFlagsFFFA	;re-allow BGmap updates
 	res 1, [hl]
 	ret
+
+; d = which one
+;_UpdateSpecificGBCPal_BGP::
+;	ld hl, hFlagsFFFA
+;	set 1, [hl]
+;	ld c, d
+;	ld hl, wGBCBasePalPointers
+;	ld d, 0
+;	ld e, c
+;	add hl, de
+;	add hl, de
+;	ld a, [hli]
+;	ld e, a
+;	ld d, [hl]
+;	xor a ; CONVERT_BGP
+;	push bc
+;	call DMGPalToGBCPal
+;	pop bc
+;	ld a, c
+;	call BufferBGPPal	; Copy wGBCPal to palette indexed in wBGPPalsBuffer.
+;	call TransferBGPPals	;Transfer wBGPPalsBuffer contents to rBGPD
+;	ld hl, hFlagsFFFA	;re-allow BGmap updates
+;	res 1, [hl]
+;	ret
 
 _UpdateGBCPal_OBP:: ;shinpokerednote: gbcnote: code from pokemon yellow
 ; d then c = CONVERT_OBP0 or CONVERT_OBP1
@@ -1239,7 +1334,7 @@ palPacketPointers:
 	dw BlkPacket_StatusScreen
 	dw BlkPacket_Pokedex
 	dw BlkPacket_Slots
-	dw BlkPacket_Titlescreen
+	dw BlkPacket_PureTitlescreen
 	dw BlkPacket_NidorinoIntro
 	dw wPartyMenuBlkPacket
 	dw wTrainerCardBlkPacket
@@ -1257,7 +1352,7 @@ CopySGBBorderTiles:
 	ld b, 128
 .tileLoop
 ; Copy bit planes 1 and 2 of the tile data.
-	ld c, 16
+	ld c, TILE_SIZE
 .copyLoop
 	ld a, [hli]
 	ld [de], a
@@ -1368,13 +1463,13 @@ BufferAllPokeyellowColorsGBC::
 	call .ReadMasterPals	;get the color into DE
 	pop hl
 	ld a, 2
-	ldh [rSVBK], a ; switch to gbc wram bank 2 (wGBCFulPalBuffer is stored in gbc wram bank 2 instead of the default one)
+	ldh [rWBK], a ; switch to gbc wram bank 2 (wGBCFulPalBuffer is stored in gbc wram bank 2 instead of the default one)
 	ld a, d
 	ld [hli], a		;buffer high byte
 	ld a, e
 	ld [hli], a		;buffer low byte	
 	xor a
-	ldh [rSVBK], a ; switch back to default wram bank
+	ldh [rWBK], a ; switch back to default wram bank
 	pop de
 	ld a, [wGBCColorControl]
 	inc a

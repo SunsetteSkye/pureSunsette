@@ -7,12 +7,12 @@ AnimateHallOfFame:
 	call LoadTextBoxTilePatterns
 	call DisableLCD
 	ld hl, vBGMap0
-	ld bc, $800
-	ld a, " "
+	ld bc, 2 * TILEMAP_AREA
+	ld a, ' '
 	call FillMemory
 	call EnableLCD
 	ld hl, rLCDC
-	set rLCDC_BG_TILEMAP, [hl]
+	set B_LCDC_BG_MAP, [hl]
 	xor a
 	ld hl, wHallOfFame
 	ld bc, HOF_TEAM
@@ -51,7 +51,7 @@ AnimateHallOfFame:
 	ld [wHoFPartyMonIndex], a
 	call StoreHoFAltPaletteFlag ; PureRGBnote: ADDED: we will set a flag to indicate whether the pokemon uses alt palette or not
 	ld hl, wPartyMon1Level
-	ld bc, wPartyMon2 - wPartyMon1
+	ld bc, PARTYMON_STRUCT_LENGTH
 	call AddNTimes
 	ld a, [hl]
 	ld [wHoFMonLevel], a
@@ -90,7 +90,7 @@ AnimateHallOfFame:
 	xor a
 	ldh [hWY], a
 	ld hl, rLCDC
-	res rLCDC_BG_TILEMAP, [hl]
+	res B_LCDC_BG_MAP, [hl]
 	ret
 
 ; PureRGBnote: ADDED: sets a flag in wHallofFamePalettes if the pokemon uses an alt palette.
@@ -107,7 +107,7 @@ StoreHoFAltPaletteFlag:
 	ld a, [wHoFPartyMonIndex]
 	ld c, a
 	ld hl, wHallOfFamePalettes
-	predef FlagActionPredef
+	call FlagAction
 	pop af
 	ret
 
@@ -126,7 +126,6 @@ HoFShowMonOrPlayer:
 	ld [wCurPartySpecies], a
 	ld [wCurSpecies], a
 	ld [wBattleMonSpecies2], a
-	ld [wWholeScreenPaletteMonSpecies], a
 	ld a, [wHoFMonOrPlayer]
 	and a
 	jr z, .showMon
@@ -138,9 +137,11 @@ HoFShowMonOrPlayer:
 	hlcoord 12, 5
 	call GetMonHeader
 	call LoadFrontSpriteByMonIndex
-	predef LoadMonBackPic
+	callfar LoadMonBackPic
 .next1
-	lb bc, SET_PAL_POKEMON_WHOLE_SCREEN_TRADE, 0
+	ld a, [wCurSpecies]
+	ld e, a
+	ld d, SET_PAL_POKEMON_WHOLE_SCREEN_TRADE
 	call RunPaletteCommand
 	ld a, %11100100
 	ldh [rBGP], a
@@ -192,8 +193,8 @@ HoFDisplayMonInfo:
 	call PrintLevelCommon
 	ld a, [wHoFMonSpecies]
 	ld [wCurSpecies], a
-	hlcoord 3, 9
-	predef PrintMonType
+	decoord 3, 9
+	callfar PrintMonType
 	ld a, [wHoFMonSpecies]
 	jp PlayCry
 
@@ -209,7 +210,7 @@ HoFLoadPlayerPics:
 	call UncompressSpriteFromDE
 	ld hl, sSpriteBuffer1
 	ld de, sSpriteBuffer0
-	ld bc, $310
+	ld bc, 2 * SPRITEBUFFERSIZE
 	rst _CopyData
 	ld de, vFrontPic
 	call InterlaceMergeSpriteBuffers
@@ -220,7 +221,7 @@ HoFLoadPlayerPics:
 	ld de, RedPicBack
 	ld a, BANK(RedPicBack)
 	call UncompressSpriteFromDE
-	predef ScaleSpriteByTwo
+	callfar ScaleSpriteByTwo
 	ld de, vBackPic
 	call InterlaceMergeSpriteBuffers
 	ld c, $1
@@ -239,7 +240,7 @@ HoFLoadMonPlayerPicTileIDs:
 
 HoFDisplayPlayerStats:
 	SetEvent EVENT_HALL_OF_FAME_DEX_RATING
-	predef DisplayDexRating
+	callfar DisplayDexRating
 	hlcoord 0, 4
 	lb bc, 6, 10
 	call TextBoxBorder
@@ -252,11 +253,11 @@ HoFDisplayPlayerStats:
 	hlcoord 1, 6
 	ld de, HoFPlayTimeText
 	call PlaceString
-	hlcoord 5, 7
+	hlcoord 3, 7
 	ld de, wPlayTimeHours
-	lb bc, 1, 3
+	lb bc, 2, 5
 	call PrintNumber
-	ld a, $6d
+	ld a, '<COLON>'
 	ld [hli], a
 	ld de, wPlayTimeMinutes
 	lb bc, LEADING_ZEROES | 1, 2
@@ -266,7 +267,7 @@ HoFDisplayPlayerStats:
 	call PlaceString
 	hlcoord 4, 10
 	ld de, wPlayerMoney
-	ld c, $a3
+	ld c, 3 | LEADING_ZEROES | MONEY_SIGN
 	call PrintBCDNumber
 	ld hl, DexSeenOwnedText
 	call HoFPrintTextAndDelay

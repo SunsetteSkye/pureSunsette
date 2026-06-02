@@ -53,34 +53,19 @@ ViridianForestYoungster1Text:
 	text_end
 
 ViridianForestYoungster2Text:
-	text_asm
-	ld hl, ViridianForestTrainerHeader0
-	call TalkToTrainer
-	rst TextScriptEnd
+	script_trainer ViridianForestTrainerHeader0
 
 ViridianForestYoungster3Text:
-	text_asm
-	ld hl, ViridianForestTrainerHeader1
-	call TalkToTrainer
-	rst TextScriptEnd
+	script_trainer ViridianForestTrainerHeader1
 
 ViridianForestYoungster4Text:
-	text_asm
-	ld hl, ViridianForestTrainerHeader2
-	call TalkToTrainer
-	rst TextScriptEnd
+	script_trainer ViridianForestTrainerHeader2
 
 ViridianForestText5:
-	text_asm
-	ld hl, ViridianForestTrainerHeader3
-	call TalkToTrainer
-	rst TextScriptEnd
+	script_trainer ViridianForestTrainerHeader3
 
 ViridianForestText6:
-	text_asm
-	ld hl, ViridianForestTrainerHeader4
-	call TalkToTrainer
-	rst TextScriptEnd
+	script_trainer ViridianForestTrainerHeader4
 
 ViridianForestYoungster2BattleText:
 	text_far _ViridianForestYoungster2BattleText

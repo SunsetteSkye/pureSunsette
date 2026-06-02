@@ -1,8 +1,9 @@
 ; tests if mon [wCurPartySpecies] can learn move [wMoveNum]
-CanLearnTM:
+CanLearnTM::
 	ld a, [wCurPartySpecies]
 	ld [wCurSpecies], a
 	call GetMonHeader
+CanLearnTMBody:
 	ld hl, wMonHLearnset
 	push hl
 	ld a, [wMoveNum]
@@ -18,7 +19,7 @@ CanLearnTM:
 .TMfoundLoop
 	pop hl
 	ld b, FLAG_TEST
-	predef_jump FlagActionPredef
+	jp FlagAction
 
 ; converts TM/HM number in [wTempTMHM] into move number
 ; HMs start at 51

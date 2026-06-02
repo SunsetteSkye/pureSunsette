@@ -5,14 +5,24 @@ MainMenu:
 	ld [wOptionsInitialized], a
 	inc a
 	ld [wSaveFileStatus], a
+	call ClearScreen
+	call DisableLCD
+	call LoadFontTilePatterns
+	call LoadTextBoxTilePatterns
+	call EnableLCD
 	call CheckForPlayerNameInSRAM
 	jr nc, .mainMenuLoop
 
-	predef LoadSAV
+	callfar TryLoadSaveFile
+
+.mainMenuLoopResetCurrentMenuItem
+
+	xor a
+	ld [wCurrentMenuItem], a
 
 .mainMenuLoop
-	ld c, 20
-	rst _DelayFrames
+	; ld c, 20
+	; rst _DelayFrames
 	xor a ; LINK_STATE_NONE
 	ld [wLinkState], a
 	ld hl, wPartyAndBillsPCSavedMenuItem
@@ -23,12 +33,11 @@ MainMenu:
 	ld [wDefaultMap], a
 	ld hl, wStatusFlags4
 	res BIT_LINK_CONNECTED, [hl]
-	call ClearScreen
 	call RunDefaultPaletteCommand
-	call LoadTextBoxTilePatterns
-	call LoadFontTilePatterns
-	ld hl, wStatusFlags5
-	set BIT_NO_TEXT_DELAY, [hl]
+	xor a
+	ldh [hAutoBGTransferEnabled], a
+	call ClearScreen
+	call DisableTextDelay
 	ld a, [wSaveFileStatus]
 	cp 1
 	jr z, .noSaveFile
@@ -53,25 +62,25 @@ MainMenu:
 	ld de, VersionText
 	call PlaceString
 
-	ld hl, wStatusFlags5
-	res BIT_NO_TEXT_DELAY, [hl]
+	call EnableTextDelay
 	call UpdateSprites
+	ld a, 1
+	ldh [hAutoBGTransferEnabled], a
 	xor a
-	ld [wCurrentMenuItem], a
 	ld [wLastMenuItem], a
 	ld [wMenuJoypadPollCount], a
 	inc a
 	ld [wTopMenuItemX], a
 	inc a
 	ld [wTopMenuItemY], a
-	ld a, A_BUTTON | B_BUTTON | START
+	ld a, PAD_A | PAD_B | PAD_START
 	ld [wMenuWatchedKeys], a
 	ld a, [wSaveFileStatus]
 	ld [wMaxMenuItem], a
 	call HandleMenuInput
-	bit BIT_B_BUTTON, a
+	bit B_PAD_B, a
 	jp nz, DisplayTitleScreen ; if so, go back to the title screen
-	ld c, 20
+	ld c, 5
 	rst _DelayFrames
 	ld a, [wCurrentMenuItem]
 	ld b, a
@@ -85,15 +94,19 @@ MainMenu:
 	ld a, b
 	and a
 	jr z, .choseContinue
-	cp 1
+	dec a
 	jp z, StartNewGame
 	call ClearScreen ; PureRGBnote: ADDED: remove romhack version text before displaying options
+	ld a, [wCurrentMenuItem]
+	push af
 	xor a
 	ld [wOptionsCancelCursorX], a
 	ld [wTopMenuItemY], a
 	callfar DisplayOptionMenu
 	ld a, TRUE
 	ld [wOptionsInitialized], a
+	pop af
+	ld [wCurrentMenuItem], a
 	jp .mainMenuLoop
 .choseContinue
 	call DisplayContinueGameInfo
@@ -105,15 +118,15 @@ MainMenu:
 	ldh [hJoyReleased], a
 	ldh [hJoyHeld], a
 	call Joypad
-	ldh a, [hJoyHeld]
-	bit BIT_A_BUTTON, a
+	ldh a, [hJoyPressed]
+	bit B_PAD_A, a
 	jr nz, .pressedA
-	bit BIT_B_BUTTON, a
+	bit B_PAD_B, a
 	jp nz, .mainMenuLoop
 	jr .inputLoop
 .pressedA
 	callfar SaveFileUpdateCheck
-	jp c, .mainMenuLoop
+	jp c, .mainMenuLoopResetCurrentMenuItem
 	jr nz, .saveUpdateWarp
 	call .getReadyToLoad
 	ld a, [wNumHoFTeams]
@@ -134,9 +147,23 @@ MainMenu:
 	call ClearScreen
 	ld a, PLAYER_DIR_DOWN
 	ld [wPlayerDirection], a
-	ld c, 10
+	ld c, 5
 	rst _DelayFrames
 	ret
+	; fixes an issue with the shaking visually in cinnabar volcano after loading into the map
+	ld a, [wCurMap]
+	cp CINNABAR_VOLCANO
+	jr z, .volcanoOrRoute21
+	cp ROUTE_21
+	jr z, .volcanoOrRoute21
+	ret
+.volcanoOrRoute21
+	call DisableLCD
+	ld a, $10
+	ld hl, vBGMap0
+	ld bc, TILEMAP_AREA
+	call FillMemory
+	jp EnableLCD
 .saveUpdateWarp
 	call .getReadyToLoad
 	jr .palletTownWarp
@@ -160,8 +187,7 @@ LinkMenu:
 	rst _PrintText
 	hlcoord 5, 5
 	lb bc, 6, 13
-	call TextBoxBorder
-	call UpdateSprites
+	call TextBoxBorderUpdateSprites
 	hlcoord 7, 7
 	ld de, CableClubOptionsText
 	call PlaceString
@@ -171,26 +197,26 @@ LinkMenu:
 	ld hl, wTopMenuItemY
 	ld a, 7
 	ld [hli], a
-	assert wTopMenuItemY + 1 == wTopMenuItemX
+	ASSERT wTopMenuItemY + 1 == wTopMenuItemX
 	ld a, 6
 	ld [hli], a
-	assert wTopMenuItemX + 1 == wCurrentMenuItem
+	ASSERT wTopMenuItemX + 1 == wCurrentMenuItem
 	xor a
 	ld [hli], a
 	inc hl
-	assert wCurrentMenuItem + 2 == wMaxMenuItem
+	ASSERT wCurrentMenuItem + 2 == wMaxMenuItem
 	ld a, 2
 	ld [hli], a
-	assert wMaxMenuItem + 1 == wMenuWatchedKeys
-	assert 2 + 1 == A_BUTTON | B_BUTTON
+	ASSERT wMaxMenuItem + 1 == wMenuWatchedKeys
+	ASSERT 2 + 1 == PAD_A | PAD_B
 	inc a
 	ld [hli], a
-	assert wMenuWatchedKeys + 1 == wLastMenuItem
+	ASSERT wMenuWatchedKeys + 1 == wLastMenuItem
 	xor a
 	ld [hl], a
 .waitForInputLoop
 	call HandleMenuInput
-	and A_BUTTON | B_BUTTON
+	and PAD_A | PAD_B
 	add a
 	add a
 	ld b, a
@@ -240,13 +266,13 @@ LinkMenu:
 	jr nz, .skipStartingTransfer
 	rst _DelayFrame
 	rst _DelayFrame
-	ld a, START_TRANSFER_INTERNAL_CLOCK
+	ld a, SC_START | SC_INTERNAL
 	ldh [rSC], a
 .skipStartingTransfer
-	lb bc, " ", " "
-	ld d, "▷"
+	lb bc, ' ', ' '
+	ld d, '▷'
 	ld a, [wLinkMenuSelectionSendBuffer]
-	and (B_BUTTON << 2) ; was B button pressed?
+	and PAD_B << 2 ; was B button pressed?
 	jr nz, .updateCursorPosition
 ; A button was pressed
 	ld a, [wCurrentMenuItem]
@@ -269,7 +295,7 @@ LinkMenu:
 	rst _DelayFrames
 	call LoadScreenTilesFromBuffer1
 	ld a, [wLinkMenuSelectionSendBuffer]
-	and (B_BUTTON << 2) ; was B button pressed?
+	and PAD_B << 2 ; was B button pressed?
 	jr nz, .choseCancel ; cancel if B pressed
 	ld a, [wCurrentMenuItem]
 	cp $2
@@ -345,14 +371,14 @@ IF DEF(_DEBUG)
 	jr SpecialEnterMap
 .normal
 ENDC
-	ld c, 20
+	ld c, 5
 	rst _DelayFrames
 
 ; enter map after using a special warp or loading the game from the main menu
 SpecialEnterMap::
 ;;;;;;;;;; PureRGBnote: ADDED: new flag for determining if not yet playing the game
 	ld hl, wNewInGameFlags 
-	set 0, [hl] 
+	set IN_GAME, [hl] 
 ;;;;;;;;;;
 	xor a
 	ldh [hJoyPressed], a
@@ -414,21 +440,16 @@ DisplayContinueGameInfo:
 	call PrintNumBadges
 	hlcoord 16, 13
 	call PrintNumOwnedMons
-	hlcoord 13, 15
-	call PrintPlayTime
-	ld a, 1
-	ldh [hAutoBGTransferEnabled], a
-	ld c, 30
-	jp DelayFrames
+	hlcoord 11, 15
+	jr PrintSaveScreenText.done
 
 PrintSaveScreenText:
 	xor a
 	ldh [hAutoBGTransferEnabled], a
 	hlcoord 4, 0
 	lb bc, 8, 14
-	call TextBoxBorder
+	call TextBoxBorderUpdateSprites
 	call LoadTextBoxTilePatterns
-	call UpdateSprites
 	hlcoord 5, 2
 	ld de, SaveScreenInfoText
 	call PlaceString
@@ -439,12 +460,14 @@ PrintSaveScreenText:
 	call PrintNumBadges
 	hlcoord 16, 6
 	call PrintNumOwnedMons
-	hlcoord 13, 8
+	hlcoord 11, 8
+.done
 	call PrintPlayTime
 	ld a, $1
 	ldh [hAutoBGTransferEnabled], a
 	ld c, 5 ; PureRGBnote: CHANGED: reduce the artificial delay when displaying this screen.
-	jp DelayFrames
+	rst _DelayFrames
+	ret
 
 PrintNumBadges:
 	push hl
@@ -468,9 +491,14 @@ PrintNumOwnedMons:
 
 PrintPlayTime:
 	ld de, wPlayTimeHours
-	lb bc, 1, 3
+	ld a, [wGameInternalVersion]
+	cp INTERNAL_VERSION_2_7_0
+	lb bc, 1, 5
+	jr c, .noPlayTimeHourUpdateYet
+	lb bc, 2, 5
+.noPlayTimeHourUpdateYet
 	call PrintNumber
-	ld a, $6d
+	ld a, '<COLON>'
 	ld [hli], a
 	ld de, wPlayTimeMinutes
 	lb bc, LEADING_ZEROES | 1, 2
@@ -486,15 +514,16 @@ CheckForPlayerNameInSRAM:
 ; Check if the player name data in SRAM has a string terminator character
 ; (indicating that a name may have been saved there) and return whether it does
 ; in carry.
-	ld a, SRAM_ENABLE
-	ld [MBC1SRamEnable], a
-	ld a, 1
-	ld [MBC1SRamBankingMode], a
-	ld [MBC1SRamBank], a
+	ld a, RAMG_SRAM_ENABLE
+	ld [rRAMG], a
+	ld a, BMODE_ADVANCED
+	ld [rBMODE], a
+	ASSERT BANK(sPlayerName) == BMODE_ADVANCED
+	ld [rRAMB], a
 	call CheckSaveFileExists ; PureRGBnote: MOVED: this code was moved to home since it is used on booting the game to load options early.
 	ld a, 0
-	ld [MBC1SRamEnable], a
-	ld [MBC1SRamBankingMode], a
+	ld [rRAMG], a
+	ld [rBMODE], a
 	jr c, .found
 ; not found
 	and a
@@ -509,7 +538,7 @@ CheckSaveFileExists::
 	ld hl, sPlayerName
 .loop
 	ld a, [hli]
-	cp "@"
+	cp '@'
 	jr z, .found
 	dec b
 	jr nz, .loop

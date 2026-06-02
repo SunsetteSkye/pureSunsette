@@ -6,69 +6,47 @@ SafariZoneWestRestHouse_TextPointers:
 	dw_const SafariZoneWestRestHouseScientistText,    TEXT_SAFARIZONEWESTRESTHOUSE_SCIENTIST
 	dw_const SafariZoneWestRestHouseCooltrainerMText, TEXT_SAFARIZONEWESTRESTHOUSE_COOLTRAINER_M
 	dw_const SafariZoneWestRestHouseSilphWorkerFText, TEXT_SAFARIZONEWESTRESTHOUSE_SILPH_WORKER_F
+	dw_const SafariZoneTiredGuyText,                  TEXT_SAFARIZONEWESTRESTHOUSE_TIRED_GUY
 
 SafariZoneWestRestHouseScientistText:
 ; PureRGBnote: ADDED: this NPC will display different text depending on what type of safari game you're playing
 	text_asm
+	ld hl, .default
+.jumpText
 	ld a, [wSafariType]
-	cp SAFARI_TYPE_RANGER_HUNT
-	jr z, .rangerHuntText
-	cp SAFARI_TYPE_FREE_ROAM
-	jr z, .freeRoamText
-	ld hl, SafariZoneRestHouse2TextDefault
-	jr .done
-.rangerHuntText
-	ld hl, SafariZoneRestHouse2TextRangerHunt
-	jr .done
-.freeRoamText
-	ld hl, SafariZoneRestHouse2TextKangaskhan
-.done
+	ld bc, 5
+	call AddNTimes
 	rst _PrintText
 	rst TextScriptEnd
-
-SafariZoneRestHouse2TextDefault:
+.default:
 	text_far _SafariZoneWestRestHouseScientistText
 	text_end
-
-SafariZoneRestHouse2TextRangerHunt:
+.rangerHunt:
 	text_far _SafariZoneRestHouse2TextRangerHunt
 	text_end
-
-SafariZoneRestHouse2TextKangaskhan:
+.freeRoam:
 	text_far _SafariZoneRestHouse2TextFreeRoam
 	text_end
 
 SafariZoneWestRestHouseCooltrainerMText:
 ; PureRGBnote: ADDED: this NPC will display different text depending on what type of safari game you're playing
 	text_asm
-	ld a, [wSafariType]
-	cp SAFARI_TYPE_RANGER_HUNT
-	jr z, .rangerHuntText
-	cp SAFARI_TYPE_FREE_ROAM
-	jr z, .freeRoamText
-	ld hl, SafariZoneRestHouse2TextDefault2
-	jr .done
-.rangerHuntText
-	ld hl, SafariZoneRestHouse2TextRangerHunt2
-	jr .done
-.freeRoamText
-	ld hl, SafariZoneRestHouse2TextFreeRoam2
-.done
-	rst _PrintText
-	rst TextScriptEnd
-
-SafariZoneRestHouse2TextDefault2:
+	ld hl, .default
+	jr SafariZoneWestRestHouseScientistText.jumpText
+.default:
 	text_far _SafariZoneWestRestHouseCooltrainerMText
 	text_end
-
-SafariZoneRestHouse2TextRangerHunt2:
+.rangerHunt:
 	text_far _SafariZoneRestHouse2TextRangerHunt2
 	text_end
-
-SafariZoneRestHouse2TextFreeRoam2:
+.freeRoam:
 	text_far _SafariZoneRestHouse2TextFreeRoam2
 	text_end
 
 SafariZoneWestRestHouseSilphWorkerFText:
 	text_far _SafariZoneWestRestHouseSilphWorkerFText
+	text_end
+
+SafariZoneTiredGuyText:
+	text_far _SafariZoneTiredGuyText
 	text_end

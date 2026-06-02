@@ -33,7 +33,7 @@ IF DEF(_DEBUG)
 	ld a, TEXT_DELAY_MEDIUM
 	ld [wOptions], a
 
-	ld a, A_BUTTON | B_BUTTON | START
+	ld a, PAD_A | PAD_B | PAD_START
 	ld [wMenuWatchedKeys], a
 	xor a
 	ld [wMenuJoypadPollCount], a
@@ -49,7 +49,7 @@ IF DEF(_DEBUG)
 	ld [wMenuWatchMovingOutOfBounds], a
 
 	;call HandleMenuInput
-	;bit BIT_B_BUTTON, a
+	;bit B_PAD_B, a
 	;jp nz, DisplayTitleScreen
 
 	;ld a, [wCurrentMenuItem]
@@ -112,11 +112,10 @@ TestBattle: ; unreferenced except in _DEBUG
 	ld a, RHYDON
 	ld [wCurOpponent], a
 
-	predef InitOpponent
+	callfar InitOpponent
 
 	; When the battle ends, do it all again.
 	; There are some graphical quirks in SGB mode.
-	ld a, 1
-	ld [wUpdateSpritesEnabled], a
+	call EnableSpriteUpdates
 	ldh [hAutoBGTransferEnabled], a
 	jr .loop

@@ -11,18 +11,16 @@ MrFujisHouse_TextPointers:
 	dw_const MrFujisHouseNidorinoText,      TEXT_MRFUJISHOUSE_NIDORINO
 	dw_const MrFujisHouseMrFujiText,        TEXT_MRFUJISHOUSE_MR_FUJI
 	dw_const MrFujisHouseMrFujiPokedexText, TEXT_MRFUJISHOUSE_POKEDEX
+	dw_const MagazinesText,                 TEXT_MRFUJISHOUSE_MAGAZINES
 
 ;;;;;;;;;; PureRGBnote: MOVED: moved this hiding routine here because it looks weird that mr fuji gets hidden before we warp to his house
 CheckHideMrFujiInPokemonTower:
-	ld hl, wCurrentMapScriptFlags
-	bit BIT_CUR_MAP_LOADED_1, [hl]
-	res BIT_CUR_MAP_LOADED_1, [hl]
+	call WasMapJustLoaded
 	ret z
 	CheckEvent EVENT_RESCUED_MR_FUJI
 	ret z
-	ld a, HS_POKEMON_TOWER_7F_MR_FUJI
-	ld [wMissableObjectIndex], a
-	predef_jump HideObject
+	ld c, TOGGLE_POKEMON_TOWER_7F_MR_FUJI
+	jp HideObject
 ;;;;;;;;;;
 
 MrFujisHouseSuperNerdText:
@@ -65,16 +63,50 @@ MrFujisHousePsyduckText:
 	text_far _MrFujisHousePsyduckText
 	text_asm
 	ld a, PSYDUCK
-	jr MrFujisHousePlayCryDone
+	call PlayCry
+	ld c, DEX_PSYDUCK - 1
+	callfar SetMonSeen
+	call DisplayTextPromptButton
+	ld hl, .thatsDucket
+	rst _PrintText
+	ld de, RescuerName
+	call CopyTrainerName
+	lb hl, DEX_PSYDUCK, $FF
+	ld de, TextNothing
+	ld bc, LearnsetPlayedAroundWith
+	predef_jump LearnsetTrainerScriptMain
+.thatsDucket
+	text_far _MrFujisHousePsyduck2Text
+	text_end
 
 MrFujisHouseNidorinoText:
 	text_far _MrFujisHouseNidorinoText
 	text_asm
 	ld a, NIDORINO
-	; fall through
-MrFujisHousePlayCryDone:
 	call PlayCry
-	rst TextScriptEnd
+	ld c, DEX_NIDORINO - 1
+	callfar SetMonSeen
+	call DisplayTextPromptButton
+	ld a, MRFUJISHOUSE_LITTLE_GIRL
+	call SetSpriteFacingLeft
+	ld a, MRFUJISHOUSE_SUPER_NERD
+	call SetSpriteFacingLeft
+	ld a, PLAYER_DIR_RIGHT
+	ld [wPlayerMovingDirection], a
+	ld hl, .thatsSpike
+	rst _PrintText
+	ld de, RescuerName
+	call CopyTrainerName
+	lb hl, DEX_NIDORINO, $FF
+	ld de, TextNothing
+	ld bc, LearnsetShowedCoolMoves
+	predef_jump LearnsetTrainerScriptMain
+.thatsSpike
+	text_far _MrFujisHouseNidorino2Text
+	text_end
+
+RescuerName::
+	db "RESCUERs@"
 
 MrFujisHouseMrFujiText:
 	text_asm
@@ -87,10 +119,8 @@ MrFujisHouseMrFujiText:
 	call GiveItem
 	ld hl, .PokeFluteNoRoomText
 	jr nc, .printDone
-	ld hl, .ReceivedPokeFluteText
-	rst _PrintText
 	SetEvent EVENT_GOT_POKE_FLUTE
-	rst TextScriptEnd
+	ld hl, .ReceivedPokeFluteText
 .printDone
 	rst _PrintText
 	rst TextScriptEnd
@@ -115,4 +145,8 @@ MrFujisHouseMrFujiText:
 
 MrFujisHouseMrFujiPokedexText:
 	text_far _MrFujisHouseMrFujiPokedexText
+	text_end
+
+MagazinesText::
+	text_far _MagazinesText
 	text_end

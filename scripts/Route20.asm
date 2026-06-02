@@ -1,6 +1,10 @@
 Route20_Script:
-	CheckAndResetEvent EVENT_IN_SEAFOAM_ISLANDS
-	call nz, Route20BoulderScript
+	CheckEvent EVENT_BEAT_ARTICUNO
+	jr z, .noDragonair
+	CheckEvent EVENT_SNAPPED_CAMERA_PIC_SUBZERO_BALL
+	jr nz, .noDragonair
+	SetEvent EVENT_SEAFOAM_DRAGONAIR_PRESENT
+.noDragonair
 	call EnableAutoTextBoxDrawing
 	ld hl, Route20TrainerHeaders
 	ld de, Route20_ScriptPointers
@@ -8,51 +12,6 @@ Route20_Script:
 	call ExecuteCurMapScriptInTable
 	ld [wRoute20CurScript], a
 	ret
-
-Route20BoulderScript:
-	CheckBothEventsSet EVENT_SEAFOAM3_BOULDER1_DOWN_HOLE, EVENT_SEAFOAM3_BOULDER2_DOWN_HOLE
-	jr z, .next_boulder_check
-	ld a, HS_SEAFOAM_ISLANDS_1F_BOULDER_1
-	call Route20ShowObjectScript
-	ld a, HS_SEAFOAM_ISLANDS_1F_BOULDER_2
-	call Route20ShowObjectScript
-	ld hl, .MissableObjectIDs
-.hide_missable_objects
-	ld a, [hli]
-	cp $ff
-	jr z, .next_boulder_check
-	push hl
-	call Route20HideObjectScript
-	pop hl
-	jr .hide_missable_objects
-
-.MissableObjectIDs:
-	db HS_SEAFOAM_ISLANDS_B1F_BOULDER_1
-	db HS_SEAFOAM_ISLANDS_B1F_BOULDER_2
-	db HS_SEAFOAM_ISLANDS_B2F_BOULDER_1
-	db HS_SEAFOAM_ISLANDS_B2F_BOULDER_2
-	db HS_SEAFOAM_ISLANDS_B3F_BOULDER_3
-	db HS_SEAFOAM_ISLANDS_B3F_BOULDER_4
-	db -1 ; end
-
-.next_boulder_check
-	CheckBothEventsSet EVENT_SEAFOAM4_BOULDER1_DOWN_HOLE, EVENT_SEAFOAM4_BOULDER2_DOWN_HOLE
-	ret z
-	ld a, HS_SEAFOAM_ISLANDS_B3F_BOULDER_1
-	call Route20ShowObjectScript
-	ld a, HS_SEAFOAM_ISLANDS_B3F_BOULDER_2
-	call Route20ShowObjectScript
-	ld a, HS_SEAFOAM_ISLANDS_B4F_BOULDER_1
-	call Route20HideObjectScript
-	ld a, HS_SEAFOAM_ISLANDS_B4F_BOULDER_2
-	; fall through
-Route20HideObjectScript:
-	ld [wMissableObjectIndex], a
-	predef_jump HideObject
-
-Route20ShowObjectScript:
-	ld [wMissableObjectIndex], a
-	predef_jump ShowObject
 
 Route20_ScriptPointers:
 	def_script_pointers
@@ -100,64 +59,34 @@ Route20TrainerHeader9:
 	db -1 ; end
 
 Route20Swimmer1Text:
-	text_asm
-	ld hl, Route20TrainerHeader0
-	call TalkToTrainer
-	rst TextScriptEnd
+	script_trainer Route20TrainerHeader0
 
 Route20Swimmer2Text:
-	text_asm
-	ld hl, Route20TrainerHeader1
-	call TalkToTrainer
-	rst TextScriptEnd
+	script_trainer Route20TrainerHeader1
 
 Route20Swimmer3Text:
-	text_asm
-	ld hl, Route20TrainerHeader2
-	call TalkToTrainer
-	rst TextScriptEnd
+	script_trainer Route20TrainerHeader2
 
 Route20Swimmer4Text:
-	text_asm
-	ld hl, Route20TrainerHeader3
-	call TalkToTrainer
-	rst TextScriptEnd
+	script_trainer Route20TrainerHeader3
 
 Route20Swimmer5Text:
-	text_asm
-	ld hl, Route20TrainerHeader4
-	call TalkToTrainer
-	rst TextScriptEnd
+	script_trainer Route20TrainerHeader4
 
 Route20Swimmer6Text:
-	text_asm
-	ld hl, Route20TrainerHeader5
-	call TalkToTrainer
-	rst TextScriptEnd
+	script_trainer Route20TrainerHeader5
 
 Route20CooltrainerMText:
-	text_asm
-	ld hl, Route20TrainerHeader6
-	call TalkToTrainer
-	rst TextScriptEnd
+	script_trainer Route20TrainerHeader6
 
 Route20Swimmer7Text:
-	text_asm
-	ld hl, Route20TrainerHeader7
-	call TalkToTrainer
-	rst TextScriptEnd
+	script_trainer Route20TrainerHeader7
 
 Route20Swimmer8Text:
-	text_asm
-	ld hl, Route20TrainerHeader8
-	call TalkToTrainer
-	rst TextScriptEnd
+	script_trainer Route20TrainerHeader8
 
 Route20Swimmer9Text:
-	text_asm
-	ld hl, Route20TrainerHeader9
-	call TalkToTrainer
-	rst TextScriptEnd
+	script_trainer Route20TrainerHeader9
 
 Route20Swimmer1BattleText:
 	text_far _Route20Swimmer1BattleText

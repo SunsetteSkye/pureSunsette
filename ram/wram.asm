@@ -3,6 +3,7 @@ SECTION "Audio RAM", WRAM0
 wUnusedC000::
 wUnusedMusicByte:: db ; PureRGBnote: CHANGED: used for various temporary flags
 
+wAudioWRAMStart::
 wSoundID:: db
 
 ; bit 7: whether sound has been muted
@@ -91,9 +92,9 @@ wChannel3Transposition::db
 wAudioFlags::db
 wChannel5Transposition::db
 wChannel6Transposition::db
-
 	; unused audio wram 4 bytes
 ENDU
+wAudioWRAMEnd::
 
 
 SECTION "Sprite State Data", WRAM0
@@ -165,7 +166,7 @@ SECTION "OAM Buffer", WRAM0
 ; buffer for OAM data. Copied to OAM by DMA
 wShadowOAM::
 ; wShadowOAMSprite00 - wShadowOAMSprite39
-FOR n, NUM_SPRITE_OAM_STRUCTS
+FOR n, OAM_COUNT
 wShadowOAMSprite{02d:n}:: sprite_oam_struct wShadowOAMSprite{02d:n}
 ENDR
 wShadowOAMEnd::
@@ -174,12 +175,26 @@ wShadowOAMEnd::
 SECTION "Tilemap", WRAM0
 
 ; buffer for tiles that are visible on screen (20 columns by 18 rows)
-wTileMap:: ds SCREEN_WIDTH * SCREEN_HEIGHT
+wTileMap:: ds SCREEN_AREA
 
+; This union spans 480 bytes.
 UNION
 ; buffer for temporarily saving and restoring current screen's tiles
 ; (e.g. if menus are drawn on top)
-wTileMapBackup:: ds SCREEN_WIDTH * SCREEN_HEIGHT ; 360
+wTileMapBackup:: ds SCREEN_AREA
+
+NEXTU
+; buffer for the blocks surrounding the player (6 columns by 5 rows of 4x4-tile blocks)
+wSurroundingTiles:: ds SURROUNDING_WIDTH * SURROUNDING_HEIGHT
+
+NEXTU
+; buffer for temporarily saving and restoring shadow OAM
+wShadowOAMBackup::
+; wShadowOAMBackupSprite00 - wShadowOAMBackupSprite39
+FOR n, OAM_COUNT
+wShadowOAMBackupSprite{02d:n}:: sprite_oam_struct wShadowOAMBackupSprite{02d:n}
+ENDR
+wShadowOAMBackupEnd::
 
 NEXTU
 ; list of indexes to patch with SERIAL_NO_DATA_BYTE after transfer
@@ -187,12 +202,6 @@ wSerialPartyMonsPatchList:: ds 200
 
 ; list of indexes to patch with SERIAL_NO_DATA_BYTE after transfer
 wSerialEnemyMonsPatchList:: ds 200
-ENDU
-
-UNION
-	ds 80
-NEXTU
-	; unused tilemap wram 80 bytes
 ENDU
 
 
@@ -203,7 +212,7 @@ wOverworldMap:: ds 1300
 wOverworldMapEnd::
 
 NEXTU
-wTempPic:: ds 7 * 7 tiles
+wTempPic:: ds PIC_SIZE tiles
 ENDU
 
 
@@ -341,9 +350,10 @@ wMenuWrappingEnabled:: db
 ; Releasing either button will reset this counter.
 wDirectionChangeModeCounter:: db
 
-	ds 1 ; Unused lone byte
+; PureRGBnote: when running the generic palette setting function, we can force it to use a different palette by loading one here
+wGenericPaletteOverride:: db
 
-wMissableObjectIndex:: db
+	ds 1 ; used to be wToggleableObjectIndex but that wasn't needed after moving the hide/show object routines into home bank
 
 wPredefID:: db
 wPredefHL:: dw
@@ -367,8 +377,12 @@ wOverworldAnimationCooldown:: db ; used to make sure occasional animations don't
 
 ; This union spans 180 bytes.
 UNION
-wVermilionDockTileMapBuffer:: ds 5 * BG_MAP_WIDTH + SCREEN_WIDTH
+wVermilionDockTileMapBuffer:: ds 5 * TILEMAP_WIDTH + SCREEN_WIDTH
 wVermilionDockTileMapBufferEnd::
+
+NEXTU
+
+wCustomBallNames:: ds NUM_CUSTOM_BALLS * NAME_LENGTH
 
 NEXTU
 
@@ -398,7 +412,7 @@ wFilteredBagItems:: ds 4
 NEXTU
 ; Saved copy of OAM for the first frame of the animation to make it easy to
 ; flip back from the second frame.
-wMonPartySpritesSavedOAM:: ds $60
+wMonPartySpritesSavedOAM:: ds OBJ_SIZE * 4 * PARTY_LENGTH
 
 NEXTU
 wTrainerCardBlkPacket:: ds $40
@@ -436,7 +450,7 @@ wSlotMachineSevenAndBarModeChance:: db
 ; ROM back to return to when the player is done with the slot machine
 wSlotMachineSavedROMBank:: db
 	ds 166
-wLuckySlotHiddenObjectIndex:: db
+wLuckySlotHiddenEventIndex:: db
 
 NEXTU
 ; values between 0-6. Shake screen horizontally, shake screen vertically, blink Pokemon...
@@ -447,7 +461,7 @@ wAnimPalette:: db
 NEXTU
 	ds 60
 ; temporary buffer when swapping party mon data
-wSwitchPartyMonTempBuffer:: ds 44 ; party_struct size
+wSwitchPartyMonTempBuffer:: ds PARTYMON_STRUCT_LENGTH
 
 NEXTU
 	ds 120
@@ -733,14 +747,26 @@ wFlyLocationsList:: ds NUM_CITY_MAPS + 2
 
 NEXTU
 wWhichTownMapLocation:: db
+wCurTownMapMaxWildDataFloorIndex::
 wFlyAnimCounter:: db
+wCurTownMapWildDataFloorIndex::
 wFlyAnimBirdSpriteImageIndex:: db
+wCurTownMapWildDataMap:: db
+; 0 = grass / ground
+; 1 = water
+; 2 = super rod
+wCurTownMapWildDataType:: db
+wCurTownMapInternalWildDataMap:: db
 
 NEXTU
 	ds 1
 ; difference in X between the next ball and the current one
 wHUDPokeballGfxOffsetX:: db
-wHUDGraphicsTiles:: ds 3
+wHUDGraphicsTiles::
+wHUDUnusedTopTile:: db
+wHUDCornerTile:: db
+wHUDTriangleTile:: db
+wHUDGraphicsTilesEnd::
 
 NEXTU
 ; the level of the mon at the time it entered day care
@@ -783,8 +809,7 @@ wSlotMachineRerollCounter:: db
 wSlotMachineBet:: db
 
 NEXTU
-wCanPlaySlots:: db
-	ds 8
+	ds 9
 ; PureRGBnote: CHANGED: temporary variable used to add payout amount to the player's coins, also used in vending machine code
 wTempFlag0::
 wTempCoins1:: dw
@@ -793,12 +818,12 @@ wTempCoins1:: dw
 wTempCoins2:: dw
 
 NEXTU
-wHiddenObjectFunctionArgument:: db
-wHiddenObjectFunctionRomBank:: db
-wHiddenObjectIndex:: db
-wHiddenObjectY:: db
+wHiddenEventFunctionArgument:: db
+wHiddenEventFunctionRomBank:: db
+wHiddenEventIndex:: db
+wHiddenEventY:: db
 wHiddenItemOrCoinsIndex::
-wHiddenObjectX:: db
+wHiddenEventX:: db
 
 NEXTU
 wPlayerSpinInPlaceAnimFrameDelay:: db
@@ -888,10 +913,9 @@ wChangeBoxSavedMapTextPointer:: dw
 NEXTU
 wSavedY::
 wTempSCX::
-; which entry from TradeMons to select
-wWhichTrade::
 wDexMaxSeenMove::
 wDexMaxSeenMon::
+wDexLearnsetListCount::
 wPPRestoreItem::
 wWereAnyMonsAsleep::
 wNumShakes::
@@ -949,15 +973,17 @@ wNewInGameFlags:: db
 
 wListMenuCustomType:: db ; for list menus with custom list entry text rendering methods, which entry text renderer should be used
 wListMenuHoverTextType:: db ; whether the current list menu should display a text box on navigating between entries and which type it is
-wListMenuHoverTextShown:: db ; whether text for a TM is visible
+; bit 0 = TM text for item list is shown
+; bit 1 = "item list count" has been loaded once already
+wListMenuNewFlags:: db
 wSum:: ; a temp store for 16 bit values created by addition, used with PrintNumber to display the sum on screen
 wDamageIntention:: dw ; in battle, the amount of damage a move will do before doing it (used for high jump kick / jump kick crash effect)
 wIsAltPalettePkmn:: db ;a flag for features related to alternate pokemon color palettes, set in these scenarios:
-;1 - set prior to loading the palette of a pokemon that should have an alternate palette, reset upon showing the pokemon sprite
-;2 - set as a storage value for "which wild pokemon slot has been encountered" when figuring out if that slot is an alternate palette pokemon
+;scenario 1 - set prior to loading the palette of a pokemon that should have an alternate palette, reset upon showing the pokemon sprite
+;scenario 2 - set as a storage value for "which wild pokemon slot has been encountered" when figuring out if that slot is an alternate palette pokemon
 ;if this flag is 0 the default palette will be used.
 wIsAltPalettePkmnData:: db ;a flag for features related to alternate pokemon color palettes, set in these scenarios:
-;1 - set prior to loading the data of a pokemon into wram in order to insert the flag for alternate palette into its data permanently
+;scenario 1 - set prior to loading the data of a pokemon into wram in order to insert the flag for alternate palette into its data - permanently
 ;stays set until the next pokemon is loaded.
 
 wLowHealthTonePairs:: db ;in battle, used as a counter for low hp alarm tone pairs. Bit 7 is a flag that indicates tones are currently being played.
@@ -984,6 +1010,7 @@ wDownscaledMonSize::
 ; FormatMovesString stores the number of moves minus one here
 wNumMovesMinusOne:: db
 
+; This union spans 20 bytes.
 UNION
 ; storage buffer for various name strings
 wNameBuffer:: ds NAME_BUFFER_LENGTH
@@ -999,7 +1026,8 @@ wPayDayMoney:: ds 3
 
 NEXTU
 ; evolution data for one mon
-wEvoDataBuffer:: ds 4 * 3 + 1 ; enough for Eevee's three 4-byte evolutions and 0 terminator
+wEvoDataBuffer:: ds NUM_EVOS_IN_BUFFER * 4 + 1 ; enough for Eevee's three 4-byte evolutions and 0 terminator
+wEvoDataBufferEnd::
 
 NEXTU
 wBattleMenuCurrentPP:: db
@@ -1010,12 +1038,17 @@ wStatusScreenCurrentPP:: db
 wNormalMaxPPList:: ds NUM_MOVES
 ENDU
 
+; This union spans 360 bytes
 UNION
 ; buffer for transferring the random number list generated by the other gameboy
 wSerialOtherGameboyRandomNumberListBlock:: ds $11
 NEXTU
+; buffer for storing tile block replacements for ReplaceMultipleTileBlocks
+wTileBlockReplaceCount::db
+wTileBlockReplaceData:: ds 31 ; replace up to 10 tile blocks loaded into this space
+NEXTU
 ; second buffer for temporarily saving and restoring current screen's tiles (e.g. if menus are drawn on top)
-wTileMapBackup2:: ds SCREEN_WIDTH * SCREEN_HEIGHT
+wTileMapBackup2:: ds SCREEN_AREA
 ENDU
 
 ; This union spans 30 bytes.
@@ -1067,6 +1100,7 @@ wAIItem:: db
 wUsedItemOnWhichPokemon:: db
 ENDU
 
+wMinItemQuantity::
 ; sound ID during battle animations
 wAnimSoundID:: db
 
@@ -1107,18 +1141,21 @@ wNPCMovementScriptFunctionNum:: db
 ;        to the current map's bank
 wTextPredefFlag:: db
 
-wPredefParentBank:: db
+ds 1 ; used to be wPredefParentBank but this wasn't needed
 
 wSpriteIndex:: db
 
 ; movement byte 2 of current sprite
 wCurSpriteMovement2:: db
 
-	ds 2 ; unused 2 bytes
+; PureRGBnote: ADDED: used to check whether music should be resumed when the REDO MUSIC option is turned off
+wPausedAudioSoundID:: db
+wPausedAudioBank:: db
 
 ; sprite offset of sprite being controlled by NPC movement script
 wNPCMovementScriptSpriteOffset:: db
 
+wInitialItemQuantity::
 wScriptedNPCWalkCounter:: db
 
 	ds 1 ; unused lone byte
@@ -1135,13 +1172,7 @@ wOnSGB:: db
 
 wDefaultPaletteCommand:: db
 
-UNION
 wPlayerHPBarColor:: db
-
-NEXTU
-; species of the mon whose palette is used for the whole screen
-wWholeScreenPaletteMonSpecies:: db
-ENDU
 
 wEnemyHPBarColor:: db
 
@@ -1152,6 +1183,7 @@ wPartyMenuHPBarColors:: ds PARTY_LENGTH
 
 wStatusScreenHPBarColor:: db
 
+; TODO: can reuse this space outside of the lab
 wSecretLabPasswordTracker::	ds 7 ; PureRGBnote: ADDED: in the secret lab this will keep track of the password you enter
 
 wCopyingSGBTileData::
@@ -1169,9 +1201,12 @@ wPartyHPBarAttributes::
 	ds 20
 
 NEXTU
-	ds 29
+	ds 20
+
+wSuperRodCount::db
+wSuperRodMons:: ds 8
 ; storage buffer for various strings
-wStringBuffer:: ds 20
+wStringBuffer:: ds NAME_BUFFER_LENGTH
 
 NEXTU
 	ds 29
@@ -1212,11 +1247,12 @@ wItemFinderItemDirection:: db
 wAIMoveSpamAvoider:: db
 wEnemyLastSelectedMoveDisable:: db ; store for disable functionality
 wPlayerLastSelectedMoveDisable:: db ; store for disable functionality
+wFitnessClubChallenger::
 wChampArenaChallenger:: db ; which challenger we're currently fighting in the champ arena
 wAITargetMonType1:: db ; the type of the pokemon the AI should think it's attacking (stays as the previous pokemon when you switch pokemon)
 wAITargetMonType2:: db ; the type of the pokemon the AI should think it's attacking (stays as the previous pokemon when you switch pokemon)
 wAITargetMonStatus:: db ; the current status of the pokemon the AI should think it's attacking (set when healing a pokemon's status or switching it out)
-wMapMultiTextTracker:: db ; in a few maps there is "randomized" multi-text for certain things you speak to. This ensures the text will cycle through each available text before repeating. ; TODO: use in ss anne kitchen
+wMapMultiTextTracker:: db ; in a few maps there is "randomized" multi-text for certain things you speak to. This ensures the text will cycle through each available text before repeating.
 ; 7 unused bytes left
 ;;;;;;;;;;
 ENDU
@@ -1274,7 +1310,7 @@ wLoadedMon:: party_struct wLoadedMon
 ;bit 4: 4th pkmn (position 3)
 ;bit 5: 5th pkmn (position 4)
 ;bit 6: 6th pkmn (position 5)
-;bit 7: viewing town map currently
+;bit 7: NOT ACTUALLY USED SINCE I COMMENTED THIS viewing town map currently
 ;wViewingTownMap::
 wAIWhichPokemonSentOutAlready::
 wFontLoaded:: db
@@ -1360,6 +1396,9 @@ wBattleMonNick:: ds NAME_LENGTH
 wBattleMon:: battle_struct wBattleMon
 
 
+; which entry from TradeMons to select for in game trades
+wWhichTrade::
+; which trainer class is being fought against
 wTrainerClass:: db
 
 	ds 1 ; unused lone byte
@@ -1369,7 +1408,11 @@ wTrainerPicPointer:: dw
 	ds 1 ; unused lone byte
 
 UNION
-wTempMoveNameBuffer:: ds 14
+
+wSwitchOrHoleCoordList:: ds 5
+
+NEXTU
+wTempMoveNameBuffer:: ds MOVE_NAME_LENGTH
 
 NEXTU
 ; The name of the mon that is learning a move.
@@ -1382,7 +1425,7 @@ wEnemyLastSelectedMove::db ; Last used move by the opponent, regardless of switc
 ; money received after battle = base money × level of last enemy mon
 wTrainerBaseMoney:: dw ; BCD
 
-wMissableObjectCounter:: db
+wToggleableObjectCounter:: db
 
 	ds 1 ; unused byte
 
@@ -1432,6 +1475,7 @@ wCriticalHitOrOHKO:: db
 
 wMoveMissed:: db
 
+wBattleStatusData::
 ; always 0
 wPlayerStatsToDouble:: db
 ; always 0
@@ -1512,17 +1556,12 @@ wPlayerNumHits:: db
 ENDU
 
 	ds 2 ; unused 2 bytes
+wBattleStatusDataEnd::
 
 ; non-zero when an item or move that allows escape from battle was used
 wEscapedFromBattle:: db
 
-UNION
 wAmountMoneyWon:: ds 3 ; BCD
-
-NEXTU
-wObjectToHide:: db
-wObjectToShow:: db
-ENDU
 
 ; the map you will start at when the debug bit is set
 wDefaultMap::
@@ -1664,15 +1703,27 @@ wSlideMonUpBottomRowLeftTile::
 
 wDisableVBlankWYUpdate:: db ; if non-zero, don't update WY during V-blank
 
+wOGPoofAnimSpeed::
+wSpinningHorizontalTilesRotationSpeed::
+wCircleAnimRotationSpeed::
 wSpriteCurPosX:: db
+wSpinningHorizontalTilesOffset::
+wCircleAnimSpacing::
 wSpriteCurPosY:: db
+wSpinningHorizontalTilesYChange::
+wCircleAnimRadiusChange::
 wSpriteWidth:: db
+wSpinningHorizontalTilesCounter::
+wCircleAnimTileCount::
 wSpriteHeight:: db
+wBallAnimPalette::
 ; current input byte
 wSpriteInputCurByte:: db
 ; bit offset of last read input bit
+wBallAnimFrameCounter::
 wSpriteInputBitCounter:: db
 
+wBallAnimSGBColorLoadFlag::
 ; determines where in the output byte the two bits are placed. Each byte contains four columns (2bpp data)
 ; 3 -> XX000000   1st column
 ; 2 -> 00XX0000   2nd column
@@ -1701,7 +1752,7 @@ wSpriteDecodeTable1Ptr:: dw
 wCurSpecies::
 ; input for GetName
 wNameListIndex:: db
-wNameListType:: db
+	ds 1 ; unused lone byte
 
 wPredefBank:: db
 
@@ -1754,15 +1805,13 @@ wMoveNum:: db
 
 ; PureRGBnote: MOVED: itemlist is a temp list for indicating what items appear in a mart, the size was expanded to allow for bigger mart stocks.
 ; we reuse wMovesString for this expanded list since wMovesString is only used in battle.
+wTutorMoveList::
 wItemList:: 
-wMovesString:: ds 56
+wLearnsetList::
+; concatenated move name list where intermediate '@' are replaced with '<NEXT>'
+wMovesString:: ds NUM_MOVES * MOVE_NAME_LENGTH ; 56
 
-wUnusedCurMapTilesetCopy:: db
-
-; wWalkBikeSurfState is sometimes copied here, but it doesn't seem to be used for anything
-wWalkBikeSurfStateCopy:: db
-
-ds 1 ; unused byte (used to be wInitListType but that was a pointless waste of a variable)
+ds 3 ; unused 3 bytes (used to be wUnusedCurMapTilesetCopy and wWalkBikeSurfStateCopy and wInitListType but that was a pointless waste)
 
 ; 0 if no mon was captured
 wCapturedMonSpecies:: db
@@ -1790,7 +1839,7 @@ wPokeBallCaptureCalcTemp::
 ; lower nybble: number of shakes
 ; upper nybble: number of animations to play
 wPokeBallAnimData::
-	db
+	db ; wd11e
 
 ; When this value is non-zero, the player isn't allowed to exit the party menu
 ; by pressing B and not choosing a mon.
@@ -1843,11 +1892,6 @@ wOutOfBattleBlackout:: db
 ; $02 = the user pressed B or pressed A with the second menu item selected
 wMenuExitMethod:: db
 
-; the size is always 6, so they didn't need a variable in RAM for this
-wDungeonWarpDataEntrySize::
-; 0 = museum guy
-; 1 = gym guy
-wWhichPewterGuy::
 ; there are 3 windows, from 0 to 2
 wWhichPrizeWindow::
 ; a horizontal or vertical gate block
@@ -1867,7 +1911,8 @@ wDexMinSeenMove::
 wWhatStat:: db ; contains the stat currently being modified by a stat changing move
 ; bit 0 = set to 1 when we should mark a move as seen in the movedex flags on showing its animation, 0 otherwise
 ; bit 1 = set if we ran from battle
-; bit 2-7 = unused
+; bit 2 = set if screeches are echoing
+; bit 3-7 = unused
 wBattleFunctionalFlags:: db
 ;;;
 
@@ -1875,6 +1920,8 @@ wBattleFunctionalFlags:: db
 ;;;;; bit 0 -> How we're displaying pokedex data. 0 = internal (from the pokedex), 1 = external (from dialog)
 ;;;;; bit 1 -> Which sprite is currently displayed on a pokedex data page. 0 = front sprite, 1 = back sprite 
 ;;;;; bit 2 -> used to indicate whether we're in the pokedex data page or not
+;;;;; bit 3 -> How we're displaying movedex data. 0 = internal (from the movedex), 1 = external (from learnset page)
+;;;;; bit 4 -> does the currently chosen pokedex pokemon have its learnset unlocked
 wPokedexDataFlags:: 
 ;;;;; PureRGBnote: CHANGED: this property is also used in the "AREA" option in the pokedex for indicating which states are available for a pokemon
 ;;;;; bit 0 -> pokemon has old rod locations
@@ -1896,7 +1943,10 @@ wStepCounter:: db
 ; after a battle, you have at least 3 steps before a random battle can occur
 wNumberOfNoRandomBattleStepsLeft:: db
 
+wWhichCustomBallSelected::
+wLearnsetIndex::
 wPrize1:: db
+wLearnsetPage::
 wPrize2:: db
 wPrize3:: db
 
@@ -1988,8 +2038,8 @@ wOriginalGameBagItemsData::db ; this data originally started here
 NEXTU
 
 ; PureRGBnote: ADDED: we use this empty space currently for a store of extra flags to hide/show objects in the safari zone.
-wExtraMissableObjectFlags:: flag_array NUM_EXTRA_HS_OBJECTS ; max size 20 bytes or 152 flags
-wExtraMissableObjectFlagsEnd::
+wExtraToggleableObjectFlags:: flag_array NUM_EXTRA_TOGGLEABLE_OBJECTS ; max size 20 bytes or 152 flags
+wExtraToggleableObjectFlagsEnd::
 
 ENDU
 
@@ -2073,22 +2123,22 @@ wWestConnectionHeader::  map_connection_struct wWest
 wEastConnectionHeader::  map_connection_struct wEast
 
 ; sprite set for the current map (11 sprite picture ID's)
-wSpriteSet:: ds 11
+wSpriteSet:: ds SPRITE_SET_LENGTH
 ; sprite set ID for the current map
 wSpriteSetID:: db
 
-wObjectDataPointerTemp:: dw
+	ds 2 ; wObjectDataPointerTemp:: dw ; unused save file 2 bytes (needs save file update to use)
 
 	ds 2 ; unused save file 2 bytes
 
 ; the tile shown outside the boundaries of the map
 wMapBackgroundTile:: db
 
-; number of warps in current map (up to 32)
+; number of warps in current map (up to MAX_WARP_EVENTS)
 wNumberOfWarps:: db
 
 ; current map warp entries
-wWarpEntries:: ds 32 * 4 ; Y, X, warp ID, map ID
+wWarpEntries:: ds MAX_WARP_EVENTS * 4 ; Y, X, warp ID, map ID
 
 ; if $ff, the player's coordinates are not updated when entering the map
 wDestinationWarpID:: db
@@ -2124,13 +2174,13 @@ wBoxItems:: ds PC_ITEM_CAPACITY * 2 + 1 ; now holds 60 items
 ENDU
 ;;;;;;;;;;
 
-; number of signs in the current map (up to 16)
+; number of signs in the current map (up to MAX_BG_EVENTS)
 wNumSigns:: db
 
-wSignCoords:: ds 16 * 2 ; Y, X
-wSignTextIDs:: ds 16
+wSignCoords:: ds MAX_BG_EVENTS * 2 ; Y, X
+wSignTextIDs:: ds MAX_BG_EVENTS
 
-; number of sprites on the current map (up to 16)
+; number of sprites on the current map (up to MAX_OBJECT_EVENTS)
 wNumSprites:: db
 
 ; these two variables track the X and Y offset in blocks from the last special warp used
@@ -2138,8 +2188,8 @@ wNumSprites:: db
 wYOffsetSinceLastSpecialWarp:: db
 wXOffsetSinceLastSpecialWarp:: db
 
-wMapSpriteData:: ds 16 * 2 ; movement byte 2, text ID
-wMapSpriteExtraData:: ds 16 * 2 ; trainer class/item ID, trainer set ID
+wMapSpriteData:: ds MAX_OBJECT_EVENTS * 2 ; movement byte 2, text ID
+wMapSpriteExtraData:: ds MAX_OBJECT_EVENTS * 2 ; trainer class/item ID, trainer set ID
 
 ; map height in 2x2 meta-tiles
 wCurrentMapHeight2:: db
@@ -2216,9 +2266,9 @@ wUnusedMapVariable:: db ; unused save file byte?
 
 wPlayerCoins:: dw ; BCD
 
-; bit array of missable objects. set = removed
-wMissableObjectFlags:: flag_array $100
-wMissableObjectFlagsEnd::
+; bit array of toggleable objects; bit set = toggled off
+wToggleableObjectFlags:: flag_array $100
+wToggleableObjectFlagsEnd::
 
 	ds 7 ; unused save file 7 bytes
 
@@ -2227,9 +2277,9 @@ wSavedSpriteImageIndex:: db
 
 ; each entry consists of 2 bytes
 ; * the sprite ID (depending on the current map)
-; * the missable object index (global, used for wMissableObjectFlags)
+; * the toggleable object index (global, used for wToggleableObjectFlags)
 ; terminated with $FF
-wMissableObjectList:: ds 16 * 2 + 1
+wToggleableObjectList:: ds 16 * 2 + 1
 
 	ds 1 ; unused save file byte
 ; PureRGBnote: ADDED: additional new script variables replaced previously empty space for maps that now need script tracking
@@ -2354,8 +2404,27 @@ wSeafoamIslandsB3FCurScript:: db
 wRoute23CurScript:: db
 wSeafoamIslandsB4FCurScript:: db
 wRoute18Gate1FCurScript:: db
-	ds 78 ; unused save file 78 bytes
+	ds 30 ; unused save file 30 bytes
 wGameProgressFlagsEnd::
+
+; 3 bytes per custom pokeball, 16 custom pokeballs unlockable overall
+; format:
+; AAAABBBB - byte 0
+; CCCCDDDD - byte 1
+; EEEEFGHH - byte 2
+; A = which sprite is used in the poof animation
+; B = ball / animation color
+; C = which ball drop animation to use
+; D = which poof sound effect
+; E = which ball poof animation to use
+; F = unused - maybe add more ball poof animations later by expanding to 5 bits
+; G = invert ball colors flag set = invert
+; H = which "screen palette" to use during the poof animation
+;   00 = Normal
+;   01 = Dark screen
+;   10 = Light screen
+;   11 = unused
+wCustomPokeballSettings:: ds NUM_CUSTOM_BALLS * CUSTOM_BALL_DATA_SIZE
 
 ;;;;;; shinpokerednote: gbcnote: GBC stuff from pokemon yellow
 
@@ -2369,7 +2438,12 @@ wdef5:: db
 
 ;;;;;;
 
-	ds 4 ; unused save file 4 bytes
+
+wLevelLimit:: db
+wFitnessOpponentLevel:: db
+wFitnessOpponentMonCount:: db
+
+	ds 1 ; unused save file byte
 
 wObtainedHiddenItemsFlags:: flag_array MAX_HIDDEN_ITEMS
 wObtainedHiddenCoinsFlags:: flag_array MAX_HIDDEN_COINS
@@ -2440,9 +2514,7 @@ wUnusedCardKeyGateID:: db ; unused save file byte?
 ; bit 7: set by ItemUseCardKey, which is leftover code from a previous implementation of the Card Key
 wStatusFlags1:: db
 	ds 1 ; unused save file byte
-; used to determine whether to show name on statue and in two NPC text scripts
-; TODO: remove pointless dupe?
-wBeatGymFlags:: db ; redundant because it matches wObtainedBadges
+	ds 1 ; used to be wBeatGymFlags, save file update if used
 	ds 1 ; unused save file byte
 
 ; bit 0: if not set, the 3 minimum steps between random battles have passed
@@ -2520,29 +2592,47 @@ wCompletedInGameTradeFlags:: dw
 wWarpedFromWhichWarp:: db
 wWarpedFromWhichMap:: db
 
-	ds 2 ; unused save file 2 bytes
-
-wCardKeyDoorY:: db
-wCardKeyDoorX:: db
-
-	ds 2 ; unused save file 2 bytes
+	ds 6 ; unused save file 6 bytes
 
 wFirstLockTrashCanIndex:: db
 wSecondLockTrashCanIndex:: db
 
 	ds 2 ; unused save file 2 bytes
 
+UNION
 wEventFlags:: flag_array NUM_EVENTS
+NEXTU
+	
+	ds LEARNSET_FLAGS_START / 8
 
+wLearnsetFlags:: ds 11 ; learnset flags are in unused space in the middle of the event constants, 82 flags, one for each pokemon evolution family
+wLearnsetFlagsEnd::
+NEXTU
+	ds EVENT_OPTIONS_START1 / 8
+
+wWorldOptions::db
+wOptions4::db
+NEXTU
+
+	ds SPRITE_OPTIONS_FLAGS_FIFTH_BATCH_START / 8
+wSpriteOptions5::db
+
+NEXTU
+	ds CUSTOM_BALL_UNLOCK_FLAGS_START / 8
+wCustomBallUnlockFlags:: ds 2
+NEXTU
+	ds CUSTOM_BALL_SNAPPED_FLAGS_START / 8
+wCustomBallPhotoSnappedFlags:: ds 2
+ENDU
 
 UNION
 wGrassRate:: db
-wGrassMons:: ds 10 * 2
+wGrassMons:: ds WILDDATA_LENGTH - 1
 
 	ds 8
 
 wWaterRate:: db
-wWaterMons:: ds 10 * 2
+wWaterMons:: ds WILDDATA_LENGTH - 1
 
 NEXTU
 ; linked game's trainer name
@@ -2642,8 +2732,12 @@ wSpriteOptions4:: db
 wOptions3:: db
 ;;;;;;;;;;
 
-wPlayTimeHours:: db
-wPlayTimeMaxed:: db
+UNION
+wPrior2_7_0_PlayTimeHours::db
+wPrior2_7_0_PlayTimeMaxed::db
+NEXTU
+wPlayTimeHours:: dw
+ENDU
 wPlayTimeMinutes:: db
 wPlayTimeSeconds:: db
 wPlayTimeFrames:: db

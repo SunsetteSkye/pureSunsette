@@ -4,12 +4,6 @@ ChampionsRoom_Script:
 	ld a, [wChampionsRoomCurScript]
 	jp CallFunctionInTable
 
-ResetRivalScript:
-	xor a ; SCENE_CHAMPIONSROOM_DEFAULT
-	ld [wJoyIgnore], a
-	ld [wChampionsRoomCurScript], a
-	ret
-
 ChampionsRoom_ScriptPointers:
 	def_script_pointers
 	dw_const DoRet,                                       SCRIPT_CHAMPIONSROOM_DEFAULT
@@ -25,22 +19,20 @@ ChampionsRoom_ScriptPointers:
 	dw_const ChampionsRoomCleanupScript,                  SCRIPT_CHAMPIONSROOM_CLEANUP_SCRIPT
 
 ChampionsRoomPlayerEntersScript:
-	ld a, A_BUTTON | B_BUTTON | SELECT | START | D_RIGHT | D_LEFT | D_UP | D_DOWN
-	ld [wJoyIgnore], a
 	ld hl, wSimulatedJoypadStatesEnd
 	ld de, RivalEntrance_RLEMovement
 	call DecodeRLEList
 	dec a
 	ld [wSimulatedJoypadStatesIndex], a
-	call StartSimulatingJoypadStates
+	call StartSimulatingJoypadStatesNoJoypad
 	ld a, SCRIPT_CHAMPIONSROOM_RIVAL_READY_TO_BATTLE
 	ld [wChampionsRoomCurScript], a
 	ret
 
 RivalEntrance_RLEMovement:
-	db D_UP, 1
-	db D_RIGHT, 1
-	db D_UP, 3
+	db PAD_UP, 1
+	db PAD_RIGHT, 1
+	db PAD_UP, 3
 	db -1 ; end
 
 ChampionsRoomRivalReadyToBattleScript:
@@ -48,8 +40,7 @@ ChampionsRoomRivalReadyToBattleScript:
 	and a
 	ret nz
 	call Delay3
-	xor a
-	ld [wJoyIgnore], a
+	call EnableAllJoypad
 	ld hl, wOptions
 	res BIT_BATTLE_ANIMATION, [hl]
 	ld a, TEXT_CHAMPIONSROOM_RIVAL
@@ -76,14 +67,21 @@ ChampionsRoomRivalReadyToBattleScript:
 	ld [wChampionsRoomCurScript], a
 	ret
 
+ResetRivalScript:
+	call EnableAllJoypad
+	; a = 0 from EnableAllJoypad
+	ld [wChampionsRoomCurScript], a ; SCRIPT_CHAMPIONSROOM_DEFAULT
+	ret
+
 ChampionsRoomRivalDefeatedScript:
 	ld a, [wIsInBattle]
 	cp $ff
-	jp z, ResetRivalScript
+	jr z, ResetRivalScript
 	call UpdateSprites
 	SetEvent EVENT_BEAT_CHAMPION_RIVAL
-	ld a, D_RIGHT | D_LEFT | D_UP | D_DOWN
-	ld [wJoyIgnore], a
+	call DisableDpad
+	ld d, CHAMPIONSROOM_RIVAL
+	callfar MakeSpriteFacePlayer
 	ld a, TEXT_CHAMPIONSROOM_RIVAL
 	ldh [hTextID], a
 	call ChampionsRoom_DisplayTextID_AllowABSelectStart
@@ -106,9 +104,8 @@ ChampionsRoomOakArrivesScript:
 	ld a, CHAMPIONSROOM_OAK
 	ldh [hSpriteIndex], a
 	call MoveSprite
-	ld a, HS_CHAMPIONS_ROOM_OAK
-	ld [wMissableObjectIndex], a
-	predef ShowObject
+	ld c, TOGGLE_CHAMPIONS_ROOM_OAK
+	call ShowObject
 	ld a, SCRIPT_CHAMPIONSROOM_OAK_CONGRATULATES_PLAYER
 	ld [wChampionsRoomCurScript], a
 	ret
@@ -183,47 +180,40 @@ ChampionsRoomOakExitsScript:
 	ld a, [wStatusFlags5]
 	bit BIT_SCRIPTED_NPC_MOVEMENT, a
 	ret nz
-	ld a, HS_CHAMPIONS_ROOM_OAK
-	ld [wMissableObjectIndex], a
-	predef HideObject
+	ld c, TOGGLE_CHAMPIONS_ROOM_OAK
+	call HideObject
 	ld a, SCRIPT_CHAMPIONSROOM_PLAYER_FOLLOWS_OAK
 	ld [wChampionsRoomCurScript], a
 	ret
 
 ChampionsRoomPlayerFollowsOakScript:
-	ld a, A_BUTTON | B_BUTTON | SELECT | START | D_RIGHT | D_LEFT | D_UP | D_DOWN
-	ld [wJoyIgnore], a
 	ld hl, wSimulatedJoypadStatesEnd
 	ld de, WalkToHallOfFame_RLEMovement
 	call DecodeRLEList
 	dec a
 	ld [wSimulatedJoypadStatesIndex], a
-	call StartSimulatingJoypadStates
+	call StartSimulatingJoypadStatesNoJoypad
 	ld a, SCRIPT_CHAMPIONSROOM_CLEANUP_SCRIPT
 	ld [wChampionsRoomCurScript], a
 	ret
 
 WalkToHallOfFame_RLEMovement:
-	db D_UP, 4
-	db D_LEFT, 1
+	db PAD_UP, 4
+	db PAD_LEFT, 1
 	db -1 ; end
 
 ChampionsRoomCleanupScript:
 	ld a, [wSimulatedJoypadStatesIndex]
 	and a
 	ret nz
-	xor a ; same as SCRIPT_CHAMPIONSROOM_DEFAULT
-	ld [wJoyIgnore], a
-	ld [wChampionsRoomCurScript], a
+	call EnableAllJoypad
+	ld [wChampionsRoomCurScript], a ; SCRIPT_CHAMPIONSROOM_DEFAULT
 	ret
 
 ChampionsRoom_DisplayTextID_AllowABSelectStart:
-	ld a, D_RIGHT | D_LEFT | D_UP | D_DOWN
-	ld [wJoyIgnore], a
+	call DisableDpad
 	call DisplayTextID
-	ld a, A_BUTTON | B_BUTTON | SELECT | START | D_RIGHT | D_LEFT | D_UP | D_DOWN
-	ld [wJoyIgnore], a
-	ret
+	jp DisableAllJoypad
 
 ChampionsRoom_TextPointers:
 	def_text_pointers

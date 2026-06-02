@@ -20,4 +20,17 @@ RedsHouse2FDefaultScript:
 
 RedsHouse2F_TextPointers:
 	def_text_pointers
-	
+	dw_const  RedBedroomPCText, TEXT_REDSHOUSE2F_PLAYERS_PC
+	dw_const  RedBedroomSNESText, TEXT_REDSHOUSE2F_SNES
+
+RedBedroomSNESText::
+	text_far _RedBedroomSNESText
+	text_end
+
+RedBedroomPCText::
+	text_asm
+	call SaveScreenTilesToBuffer2
+	callfar PlayerPC
+	ld a, 1
+	ld [wDoNotWaitForButtonPressAfterDisplayingText], a
+	rst TextScriptEnd

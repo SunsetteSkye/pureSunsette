@@ -65,7 +65,6 @@ CheckForceBikeOrSurf::
 	set BIT_ALWAYS_ON_BIKE, [hl]
 	ld a, BIKING
 	ld [wWalkBikeSurfState], a
-	ld [wWalkBikeSurfStateCopy], a
 	jp ForceBikeOrSurf
 .incorrectMap
 	inc hl
@@ -75,7 +74,6 @@ CheckForceBikeOrSurf::
 .forceSurfing
 	ld a, SURFING
 	ld [wWalkBikeSurfState], a
-	ld [wWalkBikeSurfStateCopy], a
 	jp ForceBikeOrSurf
 
 INCLUDE "data/maps/force_bike_surf.asm"
@@ -160,8 +158,7 @@ IsWarpTileInFrontOfPlayer::
 	ld h, [hl]
 	ld l, a
 	ld a, [wTileInFrontOfPlayer]
-	ld de, $1
-	call IsInArray
+	call IsInSingleByteArray
 .done
 	pop bc
 	pop de
@@ -195,9 +192,8 @@ IsPlayerStandingOnDoorTileOrWarpTile::
 	ld a, [hli]
 	ld h, [hl]
 	ld l, a
-	ld de, $1
 	lda_coord 8, 9
-	call IsInArray
+	call IsInSingleByteArray
 	jr nc, .done
 	ld hl, wMovementFlags
 	res BIT_STANDING_ON_WARP, [hl]
@@ -252,7 +248,7 @@ PrintSafariZoneSteps::
 	cp 10
 	jr nc, .tenOrMore
 	hlcoord 5, 3
-	ld [hl], " "
+	ld [hl], ' '
 .tenOrMore
 	hlcoord 6, 3
 	ld de, wNumSafariBalls
@@ -285,10 +281,7 @@ RangersLeftText:
 RangersLeftText2:
 	db "Left: @"
 
-GetTileAndCoordsInFrontOfPlayer:
-	call GetPredefRegisters
-
-_GetTileAndCoordsInFrontOfPlayer:
+_GetTileAndCoordsInFrontOfPlayer::
 	ld a, [wYCoord]
 	ld d, a
 	ld a, [wXCoord]
@@ -380,7 +373,7 @@ GetTileTwoStepsInFrontOfPlayer:
 	ld [wTileInFrontOfPlayer], a
 	ret
 
-CheckForCollisionWhenPushingBoulder:
+CheckForCollisionWhenPushingBoulder::
 	call GetTileTwoStepsInFrontOfPlayer
 ;;;;;;;;;; PureRGBnote: CHANGED: unified code for checking if a tile is passable
 	push bc
@@ -432,7 +425,7 @@ CheckForBoulderCollisionWithSprites:
 	ld a, [hli]
 	ld b, a
 	ldh a, [hPlayerFacing]
-	assert BIT_FACING_DOWN == 0
+	ASSERT BIT_FACING_DOWN == 0
 	rrca
 	jr c, .pushingDown
 ; pushing up

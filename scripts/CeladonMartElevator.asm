@@ -1,8 +1,6 @@
 CeladonMartElevator_Script:
-	ld hl, wCurrentMapScriptFlags
-	bit BIT_CUR_MAP_LOADED_1, [hl]
-	res BIT_CUR_MAP_LOADED_1, [hl]
-	push hl
+	call WasMapJustLoaded
+	push hl ; wCurrentMapScriptFlags
 	call nz, CeladonMartElevatorStoreWarpEntriesScript
 	pop hl
 	bit BIT_CUR_MAP_USED_ELEVATOR, [hl]
@@ -37,7 +35,8 @@ CeladonMartElevatorCopyWarpMapsScript:
 	ld hl, CeladonMartElevatorWarpMaps
 	ld de, wElevatorWarpMaps
 	ld bc, CeladonMartElevatorWarpMaps.End - CeladonMartElevatorWarpMaps
-	jp CopyData
+	rst _CopyData
+	ret
 
 CeladonMartElevatorFloors:
 	db 5 ; #
@@ -68,6 +67,5 @@ CeladonMartElevator_TextPointers:
 CeladonMartElevatorText:
 	text_asm
 	call CeladonMartElevatorCopyWarpMapsScript
-	ld hl, CeladonMartElevatorWarpMaps
-	predef DisplayElevatorFloorMenu
+	callfar DisplayElevatorFloorMenu
 	rst TextScriptEnd

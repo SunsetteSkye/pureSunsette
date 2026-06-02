@@ -7,12 +7,12 @@ MACRO move
 	db \4 ; type
 	db \5 percent ; accuracy
 	db \6 ; pp
-	assert \6 <= 40, "PP must be 40 or less"
+	ASSERT \6 <= 40, "PP must be 40 or less"
 ENDM
 
 Moves:
 ; Characteristics of each move.
-	table_width MOVE_LENGTH, Moves
+	table_width MOVE_LENGTH
 	move POUND,        NO_ADDITIONAL_EFFECT,        40, NORMAL,       100, 35
 	move KARATE_CHOP,  NO_ADDITIONAL_EFFECT,        40, FIGHTING,     100, 25 ; high crit ratio
 	move DOUBLESLAP,   TWO_TO_FIVE_ATTACKS_EFFECT,  15, NORMAL,        85, 10
@@ -20,7 +20,7 @@ Moves:
 	move MEGA_PUNCH,   FLINCH_SIDE_EFFECT2,        100, FIGHTING,     100, 20
 	move PAY_DAY,      PAY_DAY_EFFECT,              50, NORMAL,       100, 20
 	move FIRE_PUNCH,   BURN_SIDE_EFFECT1,           75, FIRE,         100, 15
-	move ICE_PUNCH,    FREEZE_SIDE_EFFECT,          75, ICE,          100, 15
+	move ICE_PUNCH,    FREEZE_SIDE_EFFECT1,         75, ICE,          100, 15
 	move THUNDERPUNCH, PARALYZE_SIDE_EFFECT1,       75, ELECTRIC,     100, 15
 	move SCRATCH,      NO_ADDITIONAL_EFFECT,        45, NORMAL,       100, 35
 	move VICEGRIP,     PARALYZE_SIDE_EFFECT2,       75, BUG,          100, 30
@@ -68,14 +68,14 @@ Moves:
 	move FLAMETHROWER, BURN_SIDE_EFFECT1,           95, FIRE,         100, 15
 	move MIST,         MIST_EFFECT,                  0, ICE,          100, 30
 	move WATER_GUN,    NO_ADDITIONAL_EFFECT,        55, WATER,        100, 25
-	move HYDRO_PUMP,   NO_ADDITIONAL_EFFECT,       120, WATER,         95,  5
-	move SURF,         SWIFT_EFFECT,  		        95, WATER,        100, 15
-	move ICE_BEAM,     FREEZE_SIDE_EFFECT,          95, ICE,          100, 10
-	move BLIZZARD,     FREEZE_SIDE_EFFECT,         120, ICE,           85,  5
+	move HYDRO_PUMP,   NO_ADDITIONAL_EFFECT,       120, WATER,         85,  5
+	move SURF,         SWIFT_EFFECT,  		        90, WATER,        100, 15
+	move ICE_BEAM,     FREEZE_SIDE_EFFECT1,          95, ICE,          100, 10
+	move BLIZZARD,     FREEZE_SIDE_EFFECT1,         120, ICE,           85,  5
 	move PSYBEAM,      CONFUSION_SIDE_EFFECT,       65, PSYCHIC_TYPE, 100, 20
 	move BUBBLEBEAM,   CONFUSION_BIG_SIDE_EFFECT,   65, WATER,        100, 20
 	move AURORA_BEAM,  ATTACK_DOWN_SIDE_EFFECT,     65, ICE,          100, 20
-	move HYPER_BEAM,   HYPER_BEAM_EFFECT,          150, NORMAL,        80,  5
+	move HYPER_BEAM,   HYPER_BEAM_EFFECT,          150, NORMAL,        90,  5
 	move PECK,         NO_ADDITIONAL_EFFECT,        40, FLYING,       100, 35
 	move DRILL_PECK,   FLINCH_SIDE_EFFECT2,         80, FLYING,       100, 20
 	move SUBMISSION,   ATTACK_UP_SIDE_EFFECT,       60, FIGHTING,     100, 10 
@@ -94,7 +94,7 @@ Moves:
 	move SLEEP_POWDER, SLEEP_EFFECT,                 0, GRASS,         75, 15
 	move PETAL_DANCE,  CONFUSION_BIG_SIDE_EFFECT,  110, GRASS,         85, 10
 	move STRING_SHOT,  SPEED_DOWN1_EFFECT,           0, BUG,           95, 40
-	move DRAGON_RAGE,  SPECIAL_DOWN_SIDE_EFFECT,    95, DRAGON,       100, 10
+	move DRAGON_RAGE,  SPECIAL_DOWN_SIDE_EFFECT,    80, DRAGON,       100, 10
 	move FIRE_SPIN,    TRAPPING_EFFECT,             25, FIRE,          85, 15
 	move THUNDERSHOCK, PARALYZE_SIDE_EFFECT1,       50, ELECTRIC,     100, 30
 	move THUNDERBOLT,  PARALYZE_SIDE_EFFECT1,       95, ELECTRIC,     100, 15
@@ -115,7 +115,7 @@ Moves:
 	move TELEPORT,     TELEPORT_EFFECT,              0, PSYCHIC_TYPE, 100, 20
 	move NIGHT_SHADE,  PARALYZE_SIDE_EFFECT2,       85, GHOST,        100, 15  
 	move MIMIC,        MIMIC_EFFECT,                 0, NORMAL,       100, 10 ; now uses the mimic'd attack the same turn it's learned
-	move SCREECH,      DEFENSE_DOWN2_EFFECT,         0, NORMAL,        85, 40
+	move SCREECH,      SCREECH_EFFECT,               0, GHOST,        100, 40 ; now has a SLEEP-prevention effect added
 	move DOUBLE_TEAM,  EVASION_UP1_EFFECT,           0, NORMAL,       100, 15
 	move RECOVER,      HEAL_EFFECT,                  0, PSYCHIC_TYPE, 100, 20
 	move HARDEN,       DEFENSE_UP1_EFFECT,           0, ROCK,         100, 30
@@ -138,7 +138,7 @@ Moves:
 	move SMOG,         POISON_SIDE_EFFECT2,         40, POISON,       100, 20
 	move SLUDGE,       POISON_SIDE_EFFECT2,         90, POISON,       100, 20
 	move BONE_CLUB,    FLINCH_SIDE_EFFECT1,         65, GROUND,       100, 20
-	move FIRE_BLAST,   BURN_SIDE_EFFECT2,          140, FIRE,          90,  5
+	move FIRE_BLAST,   BURN_SIDE_EFFECT2,          120, FIRE,          90,  5
 	move WATERFALL,    FLINCH_SIDE_EFFECT2,         80, WATER,        100, 15
 	move CLAMP,        TRAPPING_EFFECT,             25, WATER,         75, 25
 	move SWIFT,        SWIFT_EFFECT,                60, ICE,          100, 20 ; priority move

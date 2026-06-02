@@ -6,11 +6,9 @@ DiamondMine_Script:
 	call DiamondMineCheckPlayBoomboxMusic
 	call DiamondMineCheckDigAnimation
 	call DiamondMineCheckFinalStep
-	call DiamondMineJiggleBoomBox
 	jp EnableAutoTextBoxDrawing
 
 DiamondMineJiggleBoomBox::
-	; TODO: make it an overworld animation
 	CheckEvent EVENT_DIAMOND_MINE_STARTED_BOOMBOX
 	ret z
 .jiggleBoombox
@@ -55,7 +53,7 @@ DiamondMineReplaceHole:
 .replaceTile
 	lb bc, 1, 1
 	ld [wNewTileBlockID], a
-	predef ReplaceTileBlock
+	call ReplaceTileBlock
 .checkLeaveHole
 	ld hl, DiamondMineLeaveHoleCoords
 	call ArePlayerCoordsInArray
@@ -72,10 +70,9 @@ DiamondMineLeaveHoleCoords:
 	db -1
 
 DiamondMineCheckHandleHole:
-	ld hl, wCurrentMapScriptFlags
-	bit BIT_CUR_MAP_LOADED_1, [hl]
-	res BIT_CUR_MAP_LOADED_1, [hl]
+	call WasMapJustLoaded
 	ret nz
+	SetFlag FLAG_MAP_HAS_OVERWORLD_ANIMATION
 	ld a, DIAMOND_MINE
 	ld [wDungeonWarpDestinationMap], a
 	ld hl, DiamondMineHoleCoords
@@ -267,7 +264,7 @@ DiamondMineCheckDigAnimation:
 	lb bc, 1, 1
 	ld a, $A2
 	ld [wNewTileBlockID], a
-	predef ReplaceTileBlock
+	call ReplaceTileBlock
 	ld de, SFX_Break_Stone
 	call PlayNewSoundChannel8
 	call DiamondMineShakeScreen
@@ -313,8 +310,6 @@ DiamondMineProspectorText:
 	ld hl, .intro
 	rst _PrintText
 	call YesNoChoice
-	ld a, [wCurrentMenuItem]
-	and a
 	ld hl, .okayThen
 	jr nz, .done1
 	SetEvent EVENT_DIAMOND_MINE_AGREED_TO_HELP
@@ -335,9 +330,7 @@ DiamondMineProspectorText:
 	ld hl, .giveRepels3
 	rst _PrintText
 	call YesNoChoice
-	ld a, [wCurrentMenuItem]
 	ld hl, .okayThen
-	and a
 	jr nz, .done1
 	SetEvent EVENT_DIAMOND_MINE_GAVE_REPELS
 	ld a, REPEL
@@ -375,8 +368,6 @@ DiamondMineProspectorText:
 	ld hl, .help4
 	rst _PrintText
 	call YesNoChoice
-	ld a, [wCurrentMenuItem]
-	and a
 	ld hl, .okayThen
 	jr nz, .done1point5
 	call DiamondMineShowPartyMenuSelection
@@ -409,17 +400,21 @@ DiamondMineProspectorText:
 	rst _PrintText
 	call ClearScreen
 	call GBPalWhiteOut
-	ld a, 1
-	ld [wUpdateSpritesEnabled], a
+	call EnableSpriteUpdates
 	call LoadScreenTilesFromBuffer2
 	SetEvent EVENT_DIAMOND_MINE_COMPLETED
-	ld a, HS_PROSPECTORS_HOUSE_PROSPECTOR
-	ld [wMissableObjectIndex], a
-	predef ShowExtraObject
+	ld c, TOGGLE_PROSPECTORS_HOUSE_PROSPECTOR
+	call ShowExtraObject
 	call DiamondMineReplaceHole
-	call UpdateSprites
-	call Delay3
+	call UpdateSpritesAndDelay3
 	call GBFadeInFromWhite
+	call AreLearnsetsEnabled
+	jr z, .alreadyUnlocked
+	CheckAndSetEvent FLAG_ONIX_LEARNSET
+	jr nz, .alreadyUnlocked
+	callfar LearnsetUnlockedScript
+	call DisplayTextPromptButton
+.alreadyUnlocked
 	SetEvent EVENT_DIAMOND_MINE_FINAL_STEP
 	call DiamondMineCheckPlayBoomboxMusic ; reset music
 	; load sprite movement to get down there and talk to the guy again
@@ -437,8 +432,6 @@ DiamondMineProspectorText:
 	ld hl, .moreOnix1
 	rst _PrintText
 	call YesNoChoice
-	ld a, [wCurrentMenuItem]
-	and a
 	ld hl, .okayThen
 	jr nz, .done2
 	ld hl, .moreOnix2
@@ -543,11 +536,11 @@ DiamondMineLoadPlayerDirections:
 	jr .loop
 
 PlayerWalkDownHoleDirectionsBelow:
-	db D_UP
+	db PAD_UP
 PlayerWalkDownHoleDirectionsRight:
-	db D_UP
-	db D_UP
-	db D_LEFT
+	db PAD_UP
+	db PAD_UP
+	db PAD_LEFT
 	db -1
 
 DiamondMineBoombox:
@@ -563,8 +556,6 @@ DiamondMineBoombox:
 	ld hl, .zapquestion
 	rst _PrintText
 	call YesNoChoice
-	ld a, [wCurrentMenuItem]
-	and a
 	jr nz, .printForgetIt
 	call DiamondMineShowPartyMenuSelection
 	jr c, .printForgetIt

@@ -1,4 +1,4 @@
-UsedCut:
+UsedCut::
 	xor a
 	ld [wActionResultOrTookBattleTurn], a ; initialise to failure value
 	ld a, [wCurMapTileset]
@@ -55,15 +55,13 @@ UsedCut:
 	call LoadScreenTilesFromBuffer2
 	ld hl, wStatusFlags5
 	res BIT_NO_TEXT_DELAY, [hl]
-	ld a, $ff
-	ld [wUpdateSpritesEnabled], a
+	call DisableSpriteUpdates
 	call InitCutAnimOAM
 	ld de, CutTreeBlockSwaps
 	call ReplaceTreeTileBlock
 	call RedrawMapView
 	farcall AnimCut
-	ld a, $1
-	ld [wUpdateSpritesEnabled], a
+	call EnableSpriteUpdates
 	ld a, SFX_CUT
 	rst _PlaySound
 	ld a, $90
@@ -105,13 +103,13 @@ InitCutAnimOAM:
 	call LoadCutGrassAnimationTilePattern
 	call WriteCutOrBoulderDustAnimationOAMBlock
 	ld hl, wShadowOAMSprite36Attributes
-	ld de, 4
-	ld a, $30
+	ld de, OBJ_SIZE
+	ld a, OAM_XFLIP | OAM_PAL1
 	ld c, e
 .loop
 	ld [hl], a
 	add hl, de
-	xor $60
+	xor OAM_YFLIP | OAM_XFLIP
 	dec c
 	jr nz, .loop
 	ret
@@ -129,7 +127,7 @@ WriteCutOrBoulderDustAnimationOAMBlock:
 
 .OAMBlock:
 ; tile ID, attributes
-; TODO: update second byte with constants like OAM_OBP1
+; TODO: update second byte with constants like OAM_PAL1
 ; shinpokerednote: gbcnote: updated attributes for GBC
 	db $FC,%00010100
 	db $FD,%00010100

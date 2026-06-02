@@ -1,11 +1,11 @@
 MoveEffectPointerTable:
 ; entries correspond to *_EFFECT constants
-	table_width 2, MoveEffectPointerTable
+	table_width 2
 	dw BigRecoilEffect           ; BIG_RECOIL_EFFECT
 	dw PoisonEffect              ; POISON_SIDE_EFFECT1
 	dw DrainHPEffect             ; DRAIN_HP_EFFECT
 	dw FreezeBurnParalyzeEffect  ; BURN_SIDE_EFFECT1
-	dw FreezeBurnParalyzeEffect  ; FREEZE_SIDE_EFFECT
+	dw FreezeBurnParalyzeEffect  ; FREEZE_SIDE_EFFECT1
 	dw FreezeBurnParalyzeEffect  ; PARALYZE_SIDE_EFFECT1
 	dw DoRet                     ; EXPLODE_EFFECT
 	dw DrainHPEffect             ; DREAM_EATER_EFFECT
@@ -22,7 +22,7 @@ MoveEffectPointerTable:
 	dw StatModifierDownEffect    ; DEFENSE_DOWN1_EFFECT
 	dw StatModifierDownEffect    ; SPEED_DOWN1_EFFECT
 	dw StatModifierDownEffect    ; SPECIAL_DOWN1_EFFECT
-	dw StatModifierDownEffect    ; ACCURACY_DOWN1_EFFECT
+	dw AccuracyDownEffect        ; ACCURACY_DOWN1_EFFECT
 	dw StatModifierDownEffect    ; EVASION_DOWN1_EFFECT
 	dw TriAttackEffect           ; TRI_ATTACK_EFFECT
 	dw HazeEffect                ; HAZE_EFFECT
@@ -93,4 +93,9 @@ MoveEffectPointerTable:
 	dw ReflectLightScreenEffect  ; ACID_ARMOR_EFFECT
 	dw ExplodeRecoilEffect       ; EXPLODE_RECOIL_EFFECT
 	dw ConversionEffect          ; CONVERSION_EFFECT
+	dw AcidEffect                ; ACID_EFFECT
+	dw SiphonSnagEffect          ; SIPHON_SNAG_EFFECT
+	dw HeatRushEffect            ; HEAT_RUSH_EFFECT
+	dw MegaPunchEffect           ; MEGA_PUNCH_EFFECT
+	dw ScreechEffect             ; SCREECH_EFFECT
 	assert_table_length NUM_MOVE_EFFECTS

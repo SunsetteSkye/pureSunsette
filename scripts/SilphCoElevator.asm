@@ -1,7 +1,5 @@
 SilphCoElevator_Script:
-	ld hl, wCurrentMapScriptFlags
-	bit BIT_CUR_MAP_LOADED_1, [hl]
-	res BIT_CUR_MAP_LOADED_1, [hl]
+	call WasMapJustLoaded
 	push hl
 	call nz, SilphCoElevatorStoreWarpEntriesScript
 	pop hl
@@ -82,6 +80,5 @@ SilphCoElevator_TextPointers:
 SilphCoElevatorElevatorText:
 	text_asm
 	call SilphCoElevatorCopyWarpMapsScript
-	ld hl, SilphCoElevatorWarpMaps
-	predef DisplayElevatorFloorMenu
+	callfar DisplayElevatorFloorMenu
 	rst TextScriptEnd

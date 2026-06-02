@@ -47,8 +47,7 @@ InitNewArenaCutscene:
 	ld a, CHAMP_ARENA_ASSISTANT
 	ldh [hSpriteIndex], a
   	call SetSpriteFacingDirection
-	call UpdateSprites
-	jp Delay3
+  	jp UpdateSpritesAndDelay3
 
 ChampArenaWaitForPlayerWalkToFinish:
 	CheckEvent EVENT_ARENA_PLAYER_WALKING
@@ -69,44 +68,42 @@ ArenaHideAllhl:
 	ld a, [hli]
 	cp -1
 	jr z, .gymGuideCheck
-	ld [wMissableObjectIndex], a
+	ld c, a
 	push hl
-	predef HideExtraObject
+	call HideExtraObject
 	pop hl
 	jr .loop
 .gymGuideCheck
-	ld a, HS_CHAMP_ARENA_TM_KID
-	ld [wMissableObjectIndex], a
-	predef_jump HideExtraObject
+	ld c, TOGGLE_CHAMP_ARENA_TM_KID
+	jp HideExtraObject
 
 ArenaShowAllhl:
 .loop
 	ld a, [hli]
 	cp -1
 	jr z, .gymGuideCheck
-	ld [wMissableObjectIndex], a
+	ld c, a
 	push hl
-	predef ShowExtraObject
+	call ShowExtraObject
 	pop hl
 	jr .loop
 .gymGuideCheck
 	ld a, [wChampArenaChallenger]
 	cp 11 ; gym guide
 	ret nz
-	ld a, HS_CHAMP_ARENA_CROWD_4 ; in the case of the gym guide since there are 2 challengers we can't have a full crowd on screen at once
-	ld [wMissableObjectIndex], a
-	predef_jump HideExtraObject
+	ld c, TOGGLE_CHAMP_ARENA_CROWD_4 ; in the case of the gym guide since there are 2 challengers we can't have a full crowd on screen at once
+	jp HideExtraObject
 
 HideShowArenaSprites:
-	db HS_CHAMP_ARENA_CHALLENGER 
-	db HS_CHAMP_ARENA_PROXY_PLAYER 
-	db HS_CHAMP_ARENA_CROWD_1 
-	db HS_CHAMP_ARENA_CROWD_2 
-	db HS_CHAMP_ARENA_VARIABLE_CROWD_1
-	db HS_CHAMP_ARENA_VARIABLE_CROWD_2
-	db HS_CHAMP_ARENA_CROWD_3
-	db HS_CHAMP_ARENA_VARIABLE_CROWD_3
-	db HS_CHAMP_ARENA_CROWD_4
+	db TOGGLE_CHAMP_ARENA_CHALLENGER 
+	db TOGGLE_CHAMP_ARENA_PROXY_PLAYER 
+	db TOGGLE_CHAMP_ARENA_CROWD_1 
+	db TOGGLE_CHAMP_ARENA_CROWD_2 
+	db TOGGLE_CHAMP_ARENA_VARIABLE_CROWD_1
+	db TOGGLE_CHAMP_ARENA_VARIABLE_CROWD_2
+	db TOGGLE_CHAMP_ARENA_CROWD_3
+	db TOGGLE_CHAMP_ARENA_VARIABLE_CROWD_3
+	db TOGGLE_CHAMP_ARENA_CROWD_4
 	db -1
 
 ChampArenaStartIntroScript:
@@ -150,16 +147,14 @@ ChampArenaWaitForOpponentWalkToFinish:
 	ret nz
 
 	ResetEvent EVENT_ARENA_OPPONENT_WALKING
-	xor a
-	ld [wJoyIgnore], a
+	call EnableAllJoypad
 
 	; check if they were leaving or entering
 	ld a, [wSprite02StateData2MapY]
 	cp 12 ; y = 8 (+4 MapY offset)
 	jr z, .entering
-	ld a, HS_CHAMP_ARENA_CHALLENGER
-	ld [wMissableObjectIndex], a
-	predef HideExtraObject ; hide the challenger to make it look like they left
+	ld c, TOGGLE_CHAMP_ARENA_CHALLENGER
+	call HideExtraObject ; hide the challenger to make it look like they left
 	call CloseDoor
 	; they were leaving, ask the player if they want to continue battling
 	ld a, TEXT_CHAMP_ARENA_CONTINUE
@@ -202,9 +197,8 @@ ChampArenaWaitForOpponentWalkToFinish:
 	ld a, [wChampArenaChallenger]
 	cp 11 ; gym guide
 	jr nz, .noTMKid
-	ld a, HS_CHAMP_ARENA_TM_KID
-	ld [wMissableObjectIndex], a
-	predef ShowExtraObject
+	ld c, TOGGLE_CHAMP_ARENA_TM_KID
+	call ShowExtraObject
 	; make TM kid appear to walk down a step
 	xor a ; down
 	call TMKidWalks
@@ -256,9 +250,8 @@ ChampArenaCheckBattleComplete:
 	jr nz, .noTMKid
 	ld a, 1
 	call TMKidWalks
-	ld a, HS_CHAMP_ARENA_TM_KID
-	ld [wMissableObjectIndex], a
-	predef HideExtraObject
+	ld c, TOGGLE_CHAMP_ARENA_TM_KID
+	call HideExtraObject
 .noTMKid
 	; make the opponent leave
 	SetEvent EVENT_ARENA_OPPONENT_WALKING
@@ -321,7 +314,7 @@ OpenDoor:
 	ld a, SFX_GO_INSIDE
 	rst _PlaySound
 	lb bc, 6, 3
-	predef_jump ReplaceTileBlock
+	jp ReplaceTileBlock
 
 ; puts the remaining number of opponents into w2CharStringBuffer
 ChampArenaGetRemainingOpponentCount:
@@ -331,12 +324,12 @@ ChampArenaGetRemainingOpponentCount:
 	cp 10
 	jr c, .lowerThan10
 	sub 10
-	ld [hl], "１"
+	ld [hl], '１'
 	inc hl
 .lowerThan10
 	add NUMBER_CHAR_OFFSET
 	ld [hli], a
-	ld [hl], "@"
+	ld [hl], '@'
 	ret
 
 ChampArenaAssistantText:
@@ -375,8 +368,6 @@ ChampArenaAssistantText:
 	xor a
 	ld [wCurrentMenuItem], a
 	call YesNoChoice
-	ld a, [wCurrentMenuItem]
-	and a
 	jr nz, .noChoiceOfChallenger
 	CheckEvent EVENT_ARENA_ALL_CHALLENGERS_DEFEATED
 	jr z, .noChoiceOfChallenger
@@ -441,13 +432,13 @@ ChampArenaAssistantText:
 	text_end
 
 PlayerCenterFieldDirectionsLeft:
-	db D_DOWN
+	db PAD_DOWN
 PlayerCenterFieldDirectionsRight:
-	db D_DOWN
-	db D_DOWN
-	db D_LEFT
-	db D_LEFT
-	db D_DOWN
+	db PAD_DOWN
+	db PAD_DOWN
+	db PAD_LEFT
+	db PAD_LEFT
+	db PAD_DOWN
 	db -1
 
 ChampArenaIntroText:
@@ -498,8 +489,6 @@ ChampArenaContinueText:
 	xor a
 	ld [wCurrentMenuItem], a
 	call YesNoChoice
-	ld a, [wCurrentMenuItem]
-	and a
 	jr nz, .notAllDefeated
 	CheckEvent EVENT_ARENA_ALL_CHALLENGERS_DEFEATED
 	jr z, .notAllDefeated
@@ -577,7 +566,7 @@ ReloadChallengerSprite:
 	call CopyVideoData
 	pop bc
 	pop de
-	ld hl, LEN_2BPP_TILE * 12 ; 12 tiles
+	ld hl, TILE_SIZE * 12 ; 12 tiles
 	add hl, de ; make hl now pointing to the walking tile data of the sprite that will replace's data
 	ld d, h
 	ld e, l
@@ -707,7 +696,7 @@ ChampArenaStartBattleText:
 	call SaveScreenTilesToBuffer2
 	pop hl
 	; hl will have which music option menu to use
-	ld b, A_BUTTON
+	ld b, PAD_A
 	call DisplayMultiChoiceTextBox
 	ld a, [wCurrentMenuItem]
 	and a
@@ -2097,9 +2086,7 @@ PlayChampCrowdSFX:
 	ret
 
 CheckResetDoorEvent:
-	ld hl, wCurrentMapScriptFlags
-	bit BIT_CUR_MAP_LOADED_1, [hl]
-	res BIT_CUR_MAP_LOADED_1, [hl]
+	call WasMapJustLoaded
 	ret z
 	ResetEvent EVENT_OPENED_ARENA_DOOR ; when loading the arena ensure the door resets to being closed.
 	; if we loaded the map while on top of the door, open it.

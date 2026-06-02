@@ -9,7 +9,7 @@ _LabColorChangerGreeting::
 	line "of ein #MON!"
 	para "Wunderbar!"
 	para "Sprechen sie"
-	line "Deutsche?@"
+	line "Deutsch?@"
 	text_end
 
 _LabColorChangerGreetingYes::
@@ -84,4 +84,45 @@ _LabColorChangerResearchingColors::
 	text "I am researching"
 	line "how to change"
 	cont "#MON colors!"
+	done
+
+
+_CinnabarLabMetronomeRoomScientist3Text::
+	text "I'm an"
+	line "ornithologist!"
+	para "An expert on"
+	line "birds."
+	para "I have a <TEAM>"
+	line "trying to locate"
+	cont "the 3 legendary"
+	cont "bird #MON."
+	para "When will they"
+	line "tell me their"
+	cont "results?"
+	para "I'm getting"
+	line "impatient<...>"
+	done
+
+_CinnabarLabMetronomeRoomScientist3Text2::
+	text "Thanks for showing"
+	line "me your legendary"
+	cont "bird #MON!!"
+	para "That act of"
+	line "generosity aided"
+	cont "my research a lot!"
+	done
+
+_CinnabarLabTradeRoomSuperNerdText::
+	text "Hey!"
+	line "It's you!"
+	para "We met in MT.MOON!"
+	para "I'm visiting"
+	line "CINNABAR LAB."
+	para "We're reviving"
+	line "rare, prehistoric"
+	cont "#MON from"
+	cont "fossils!"
+	para "Bring them to the"
+	line "guys at the end"
+	cont "of the hall!"
 	done

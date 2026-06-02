@@ -1,4 +1,4 @@
-DisplayDexRating:
+DisplayDexRating::
 	ld hl, wPokedexSeen
 	ld b, wPokedexSeenEnd - wPokedexSeen
 	call CountSetBits
@@ -40,7 +40,7 @@ DisplayDexRating:
 	inc de
 .copyRatingTextLoop
 	ld a, [hli]
-	cp "@"
+	cp '@'
 	jr z, .doneCopying
 	ld [de], a
 	inc de

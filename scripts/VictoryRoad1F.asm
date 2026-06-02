@@ -9,16 +9,14 @@ VictoryRoad1F_Script:
 	ret
 
 VictoryRoad1FMapLoadScript::
-	ld hl, wCurrentMapScriptFlags
-	bit BIT_CUR_MAP_LOADED_1, [hl]
-	res BIT_CUR_MAP_LOADED_1, [hl]
+	call WasMapJustLoaded
 	ret z
 	CheckEvent EVENT_VICTORY_ROAD_1_BOULDER_ON_SWITCH
 	ret z
 	ld a, $1d
 	ld [wNewTileBlockID], a
 	lb bc, 6, 4
-	predef_jump ReplaceTileBlock
+	jp ReplaceTileBlock
 
 VictoryRoad1F_ScriptPointers:
 	def_script_pointers
@@ -29,11 +27,12 @@ VictoryRoad1F_ScriptPointers:
 VictoryRoad1FDefaultScript:
 	ld a, [wMiscFlags]
 	bit BIT_BOULDER_DUST, a
-	ret nz ; PureRGBnote: ADDED: if a boulder animation is playing forget doing this, helps reduce lag
+	ret nz ; PureRGBnote: ADDED: if a boulder animation is playing forget doing the rest, helps reduce lag
 	CheckEvent EVENT_VICTORY_ROAD_1_BOULDER_ON_SWITCH
 	jp nz, CheckFightingMapTrainers
-	ld hl, Boulder1FSwitchCoords
-	call CheckBoulderCoords
+	ld de, Boulder1FSwitchCoords
+	ld c, BANK(Boulder1FSwitchCoords)
+	callfar CheckBoulderCoords
 	jp nc, CheckFightingMapTrainers
 	ld hl, wCurrentMapScriptFlags
 	set BIT_CUR_MAP_LOADED_1, [hl]
@@ -81,16 +80,10 @@ VictoryRoad1TrainerHeader1:
 	db -1 ; end
 
 VictoryRoad1FCooltrainerFText:
-	text_asm
-	ld hl, VictoryRoad1TrainerHeader0
-	call TalkToTrainer
-	rst TextScriptEnd
+	script_trainer VictoryRoad1TrainerHeader0
 
 VictoryRoad1FCooltrainerMText:
-	text_asm
-	ld hl, VictoryRoad1TrainerHeader1
-	call TalkToTrainer
-	rst TextScriptEnd
+	script_trainer VictoryRoad1TrainerHeader1
 
 VictoryRoad1FCooltrainerFBattleText:
 	text_far _VictoryRoad1FCooltrainerFBattleText

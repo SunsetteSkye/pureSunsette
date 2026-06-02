@@ -20,6 +20,7 @@ Route5_TextPointers:
 	dw_const Route5Rookie2Text,              TEXT_ROUTE5_ROOKIE2
 	dw_const Route5Rookie3Text,              TEXT_ROUTE5_ROOKIE3
 	dw_const Route5TamerText,                TEXT_ROUTE5_TAMER
+	dw_const Route5BugCatcherText,           TEXT_ROUTE5_BUG_CATCHER
 	dw_const PickUpItemText,                 TEXT_ROUTE5_ITEM1 ; PureRGBnote: ADDED: new item on this route.
 	dw_const Route5UndergroundPathSignText,  TEXT_ROUTE5_UNDERGROUND_PATH_SIGN
 
@@ -36,10 +37,16 @@ Route5TrainerHeader3:
 	db -1 ; end
 
 Route5Rookie1Text:
-	text_asm
-	ld hl, Route5TrainerHeader0
-	call TalkToTrainer
-	rst TextScriptEnd
+	script_trainer Route5TrainerHeader0
+
+Route5Rookie2Text:
+	script_trainer Route5TrainerHeader1
+
+Route5Rookie3Text:
+	script_trainer Route5TrainerHeader2
+
+Route5TamerText:
+	script_trainer Route5TrainerHeader3
 
 Route5BattleText1:
 	text_far _Route5BattleText1
@@ -53,12 +60,6 @@ Route5AfterBattleText1:
 	text_far _Route5AfterBattleText1
 	text_end
 
-Route5Rookie2Text:
-	text_asm
-	ld hl, Route5TrainerHeader1
-	call TalkToTrainer
-	rst TextScriptEnd
-
 Route5BattleText2:
 	text_far _Route5BattleText2
 	text_end
@@ -69,13 +70,10 @@ Route5EndBattleText2:
 
 Route5AfterBattleText2:
 	text_far _Route5AfterBattleText2
-	text_end
-
-Route5Rookie3Text:
 	text_asm
-	ld hl, Route5TrainerHeader2
-	call TalkToTrainer
-	rst TextScriptEnd
+	lb hl, DEX_CHARMELEON, ROOKIE
+	ld de, Route5CharmeleonLearnset
+	predef_jump LearnsetTrainerScript
 
 Route5BattleText3:
 	text_far _Route5BattleText3
@@ -87,13 +85,10 @@ Route5EndBattleText3:
 
 Route5AfterBattleText3:
 	text_far _Route5AfterBattleText3
-	text_end
-
-Route5TamerText:
 	text_asm
-	ld hl, Route5TrainerHeader3
-	call TalkToTrainer
-	rst TextScriptEnd
+	lb hl, DEX_SQUIRTLE, ROOKIE
+	ld de, Route5SquirtleLearnset
+	predef_jump LearnsetTrainerScript
 
 Route5BattleText4:
 	text_far _Route5BattleText4
@@ -109,4 +104,8 @@ Route5AfterBattleText4:
 
 Route5UndergroundPathSignText:
 	text_far _Route5UndergroundPathSignText
+	text_end
+
+Route5BugCatcherText:
+	text_far _Route5BugCatcherText
 	text_end

@@ -39,6 +39,11 @@ FadeOutAudio::
 	xor a
 	ld [wAudioFadeOutControl], a
 	call StopAllMusic ; shinpokerednote: MOVED: a common function to do what the 3 lines that used to be here did was created
+	push bc
+	ld d, b
+	callfar RestoreAudioWram
+	pop bc
+	ret nz
 	ld a, [wCurMapConnections]
 	bit BIT_EXTRA_MUSIC_MAP, a ; PureRGbnote: ADDED: does the map have extra music
 	jr z, .noExtraMusic
@@ -52,7 +57,7 @@ FadeOutAudio::
 	jp PlaySound
 
 ;;;;;;;;;; PureRGBnote: ADDED: function for playing new music after it fades out without relying on the current music tracking setup.
-TryPlayExtraMusic:
+TryPlayExtraMusic::
 	ld a, [wCurMapConnections]
 	bit BIT_EXTRA_MUSIC_MAP, a ; does the map have extra music
 	ret z
@@ -70,6 +75,10 @@ PlayExtraMusic:
 	jr z, .volcano
 	cp POKEMON_TOWER_B1F
 	jr z, .towerB1F
+	cp SAFARI_ZONE_EAST
+	ret c
+	cp SAFARI_ZONE_NORTH_REST_HOUSE
+	jr c, .safariZone
 	ret
 .secretlab
 	jpfar SecretLabPlayMusic
@@ -85,6 +94,8 @@ PlayExtraMusic:
 	jpfar PokemonTowerB1FPlayMusic
 .prospectorsHouseCheck
 	jpfar CheckBoomboxPlaying
+.safariZone
+	jpfar SafariZonePlayMusic
 .fadingOut
 	xor a
 	ld [wReplacedMapMusic], a

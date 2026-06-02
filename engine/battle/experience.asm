@@ -7,6 +7,18 @@ GainExperience:
 	xor a
 	ld [wWhichPokemon], a
 .partyMonLoop ; loop over each mon and add gained exp
+	CheckEvent EVENT_IN_FITNESS_BATTLE
+	jr z, .notFitnessBattle1
+	push hl
+	ld bc, wPartyMon1Level - wPartyMon1
+	add hl, bc
+	ld c, [hl]
+	ld a, [wLevelLimit]
+	dec a
+	cp c
+	pop hl
+	jp c, .nextMon ; no EXP gain for pokemon over fitness level limit
+.notFitnessBattle1
 	inc hl
 	ld a, [hli]
 	or [hl] ; is mon's HP 0?
@@ -16,12 +28,10 @@ GainExperience:
 	ld a, [wWhichPokemon]
 	ld c, a
 	ld b, FLAG_TEST
-	predef FlagActionPredef
-	ld a, c
-	and a ; is mon's gain exp flag set?
+	call FlagAction
 	pop hl
 	jp z, .nextMon ; if mon's gain exp flag not set, go to next mon
-	ld de, (wPartyMon1HPExp + 1) - (wPartyMon1HP + 1)
+	ld de, (MON_HP_EXP + 1) - (MON_HP + 1)
 	add hl, de
 	ld d, h
 	ld e, l
@@ -66,10 +76,13 @@ GainExperience:
 	ldh [hDivisor], a
 	ld b, 4
 	call Divide
-	ld hl, wPartyMon1OTID - (wPartyMon1DVs - 1)
+	ld hl, MON_OTID - (MON_DVS - 1)
 	add hl, de
 	ld a, [hli]
 	ld b, a ; party mon OTID
+	CheckEvent EVENT_IN_FITNESS_BATTLE
+	ld a, 1
+	jr nz, .next ; won't get even more of an EXP boost from the booster chip in fitness battles, the boost is already crazy
 ;;;;;;;;;; PureRGBnote: ADDED: new item that causes all pokemon to gain EXP as if they were received from a trade.
 	CheckEvent EVENT_BOOSTER_CHIP_ACTIVE ; always get traded pokemon boost if BOOSTER CHIP was used.
 	jr nz, .tradedMon
@@ -96,6 +109,8 @@ GainExperience:
 	ld a, [wIsInBattle]
 	dec a ; is it a trainer battle?
 	call nz, BoostExp ; if so, boost exp
+	CheckEvent EVENT_IN_FITNESS_BATTLE
+	call nz, TripleExp
 	inc hl
 	inc hl
 	inc hl
@@ -126,23 +141,24 @@ GainExperience:
 	ld a, [hl]
 	ld [wCurSpecies], a
 	call GetMonHeader
-	ld d, MAX_LEVEL
-	callfar CalcExperience ; get max exp
-; compare max exp with current exp
-	ldh a, [hExperience]
-	ld b, a
-	ldh a, [hExperience + 1]
-	ld c, a
-	ldh a, [hExperience + 2]
-	ld d, a
 	pop hl
-	ld a, [hld]
-	sub d
-	ld a, [hld]
-	sbc c
-	ld a, [hl]
-	sbc b
-	jr c, .next2
+	push hl
+	ld d, MAX_LEVEL
+	call GetArbitraryLevelExp
+	jr nc, .capExp
+	pop hl
+	CheckEvent EVENT_IN_FITNESS_BATTLE
+	dec hl
+	jr z, .next2
+	inc hl
+	ld a, [wLevelLimit]
+	ld d, a
+	call GetArbitraryLevelExp ; cap at the level limit's EXP
+	jr c, .next2b
+	jr .capExp2
+.capExp
+	pop af ; "pop hl" into af throwing it away since it's not needed
+.capExp2
 ; the mon's exp is greater than the max exp, so overwrite it with the max exp
 	ld a, b
 	ld [hli], a
@@ -150,8 +166,9 @@ GainExperience:
 	ld [hli], a
 	ld a, d
 	ld [hld], a
-	dec hl
 .next2
+	dec hl
+.next2b
 	push hl
 	ld a, [wWhichPokemon]
 	ld hl, wPartyMonNicks
@@ -168,7 +185,7 @@ GainExperience:
 ;;;;;;;;;;
 	call LoadMonData
 	pop hl
-	ld bc, wPartyMon1Level - wPartyMon1Exp
+	ld bc, MON_LEVEL - MON_EXP
 	add hl, bc
 	push hl
 	farcall CalcLevelFromExperience
@@ -191,13 +208,13 @@ GainExperience:
 	ld a, d
 	ld [wCurEnemyLevel], a
 	ld [hl], a
-	ld bc, wPartyMon1Species - wPartyMon1Level
+	ld bc, MON_SPECIES - MON_LEVEL
 	add hl, bc
 	ld a, [hl]
 	ld [wCurSpecies], a
 	ld [wPokedexNum], a
 	call GetMonHeader
-	ld bc, (wPartyMon1MaxHP + 1) - wPartyMon1Species
+	ld bc, (MON_MAXHP + 1) - MON_SPECIES
 	add hl, bc
 	push hl
 	ld a, [hld]
@@ -206,7 +223,7 @@ GainExperience:
 	push bc ; push max HP (from before levelling up)
 	ld d, h
 	ld e, l
-	ld bc, (wPartyMon1HPExp - 1) - wPartyMon1MaxHP
+	ld bc, (MON_HP_EXP - 1) - MON_MAXHP
 	add hl, bc
 	ld b, $1 ; consider stat exp when calculating stats
 	call CalcStats
@@ -218,15 +235,15 @@ GainExperience:
 	ld a, [hl]
 	sbc b
 	ld b, a ; bc = difference between old max HP and new max HP after levelling
-	ld de, (wPartyMon1HP + 1) - wPartyMon1MaxHP
+	ld de, (MON_HP + 1) - MON_MAXHP
 	add hl, de
 ; add to the current HP the amount of max HP gained when levelling
-	ld a, [hl] ; wPartyMon1HP + 1
+	ld a, [hl] ; wPartyMon*HP + 1
 	add c
 	ld [hld], a
-	ld a, [hl] ; wPartyMon1HP + 1
+	ld a, [hl] ; wPartyMon*HP + 1
 	adc b
-	ld [hl], a ; wPartyMon1HP
+	ld [hl], a ; wPartyMon*HP
 	ld a, [wPlayerMonNumber]
 	ld b, a
 	ld a, [wWhichPokemon]
@@ -241,7 +258,7 @@ GainExperience:
 	ld a, [hl]
 	ld [de], a
 ; copy other stats from party mon to battle mon
-	ld bc, wPartyMon1Level - (wPartyMon1HP + 1)
+	ld bc, MON_LEVEL - (MON_HP + 1)
 	add hl, bc
 	push hl
 	ld de, wBattleMonLevel
@@ -276,7 +293,7 @@ GainExperience:
 .noExpBar3
 ;;;;;;;;;;
 	call LoadMonData
-	ld d, $1
+	ld d, LEVEL_UP_STATS_BOX
 	callfar PrintStatsBox
 	call WaitForTextScrollButtonPress
 	call LoadScreenTilesFromBuffer1
@@ -301,11 +318,32 @@ GainExperience:
 	cp c	;compare it with the final level
 	jr nz, .inc_level	;loop back again if final level has not been reached
 ;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;
+; pureRGBnote: ADDED: we want to avoid ghost cubone or dragonair evolving during a event fights
+	ld a, [wIsInBattle]
+	dec a
+	jr nz, .skipEventEvos
+	; no cubone evolutions while facing the maw (ghost cubone intended to stay cubone until after this event)
+	ld a, [wEnemyMonSpecies]
+	cp SPIRIT_THE_MAW
+	jr nz, .skipMaw
+	ld a, [wCurSpecies]
+	cp CUBONE
+	jr z, .noEvos
+.skipMaw
+	CheckEvent EVENT_DRAGONAIR_EVENT_BATTLING_CLOYSTER
+	jr z, .skipEventEvos
+	ld a, [wCurSpecies]
+	cp DRAGONAIR
+	jr z, .noEvos
+.skipEventEvos
+;;;;;;;;;;;;;;;;;;;;
 	ld hl, wCanEvolveFlags
 	ld a, [wWhichPokemon]
 	ld c, a
 	ld b, FLAG_SET
-	predef FlagActionPredef
+	call FlagAction
+.noEvos
 	pop hl
 	pop af
 	ld [wCurEnemyLevel], a
@@ -318,7 +356,7 @@ GainExperience:
 	cp b
 	jr z, .done
 	ld [wWhichPokemon], a
-	ld bc, wPartyMon2 - wPartyMon1
+	ld bc, PARTYMON_STRUCT_LENGTH
 	ld hl, wPartyMon1
 	call AddNTimes
 	jp .partyMonLoop
@@ -330,12 +368,12 @@ GainExperience:
 	ld c, a
 	ld b, FLAG_SET
 	push bc
-	predef FlagActionPredef ; set the gain exp flag for the mon that is currently out
+	call FlagAction ; set the gain exp flag for the mon that is currently out
 	ld hl, wPartyFoughtCurrentEnemyFlags
 	xor a
 	ld [hl], a
 	pop bc
-	predef_jump FlagActionPredef ; set the fought current enemy flag for the mon that is currently out
+	jp FlagAction ; set the fought current enemy flag for the mon that is currently out
 
 ; divide enemy base stats, catch rate, and base exp by the number of mons gaining exp
 DivideExpDataByNumMonsGainingExp:
@@ -386,6 +424,26 @@ BoostExp:
 	ldh [hQuotient + 2], a
 	ret
 
+TripleExp:
+	push bc
+	push hl
+	ldh a, [hQuotient + 2]
+	ld b, a
+	ldh a, [hQuotient + 3]
+	ld c, a
+	ld h, b
+	ld l, c
+	add hl, bc
+	add hl, bc
+	ld a, h
+	ldh [hQuotient + 2], a
+	ld a, l
+	ldh [hQuotient + 3], a
+	pop hl
+	pop bc
+	ret
+
+
 GainedText:
 	text_far _GainedText
 	text_asm
@@ -421,4 +479,23 @@ GrewLevelText:
 HasExpBar:
 	ld a, [wOptions3]
 	bit BIT_EXP_BAR, a
+	ret
+
+GetArbitraryLevelExp:
+	push hl
+	callfar CalcExperience ; get max exp
+; compare max exp with current exp
+	ldh a, [hExperience]
+	ld b, a
+	ldh a, [hExperience + 1]
+	ld c, a
+	ldh a, [hExperience + 2]
+	ld d, a
+	pop hl
+	ld a, [hld]
+	sub d
+	ld a, [hld]
+	sbc c
+	ld a, [hl]
+	sbc b
 	ret

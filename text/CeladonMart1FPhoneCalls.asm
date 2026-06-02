@@ -49,8 +49,8 @@ _CeladonMartCallOakText::
 	line "you to call over"
 	cont "the phone!"
 	para "How is @"
-	text_ram wNameBuffer
-	text " "
+	text_ram_namebuffer
+	text_start
 	line "doing?"
 	prompt
 
@@ -174,4 +174,38 @@ _CeladonMartCallRivalText4::
 	line "up your puny"
 	cont "#MON!"
 	para "Smell ya later!"
+	prompt
+
+_CeladonMartCallDadText::
+	text "DAD: Who is it?"
+	para "<PLAYER>?"
+	para "You left without"
+	line "even saying bye"
+	cont "to your old man!"
+	para "Haha, I know you"
+	line "were eager to go"
+	cont "catch #MON."
+	para "I heard you chose"
+	line "@"
+	text_ram_namebuffer
+	text "!"
+	prompt
+
+_CeladonMartCallDadText2::
+	text "So you have @"
+	text_ram w2CharStringBuffer
+	text " "
+	line "badges<...>"
+	para "I'm impressed!"
+	para "You're doing"
+	line "very well!"
+	para "Keep at it!"
+	para "I'm at home right"
+	line "now, why don't"
+	cont "you come say hi?"
+	para "We can play some"
+	line "KIRBY SUPER STAR"
+	cont "on the SNES."
+	para "I'll be waiting!"
+	line "Bye now!"
 	prompt

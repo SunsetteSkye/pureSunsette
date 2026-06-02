@@ -1,7 +1,7 @@
 DEF OPTION_PAGE_1_COUNT EQU 3 ; number of options on this page
 DEF MAX_OPTIONS_PER_PAGE EQU 7
 DEF OPTION_PAGE_NUMBER EQU 1 ; must be 1 digit
-DEF HOW_MANY_MAIN_OPTIONS_PAGES EQU 4 ; must be 1 digit
+DEF HOW_MANY_MAIN_OPTIONS_PAGES EQU 5 ; must be 1 digit
 DEF NEXT_BUTTON_X_COORD EQU 1
 DEF BACK_BUTTON_X_COORD EQU 7
 DEF PAGE_CONTROLS_Y_COORD EQU 17
@@ -23,7 +23,7 @@ OptionsDoNothing:
 OptionsPageAorSelectButtonDefault:
 	; by default the A button does nothing but the select button displays info on each option
 	ldh a, [hJoy5]
-	bit BIT_SELECT, a
+	bit B_PAD_SELECT, a
 	ret z ; if select wasn't pressed do nothing
 	ld a, [wTopMenuItemY]
 	cp PAGE_CONTROLS_Y_COORD ; is cursor on NEXT/PREV row?
@@ -82,20 +82,20 @@ DrawOptionsPageInfo:
 	add NUMBER_CHAR_OFFSET
 	ld [hl], a
 	hlcoord 17, PAGE_CONTROLS_Y_COORD
-	ld [hl], "/"
+	ld [hl], '/'
 	hlcoord 18, PAGE_CONTROLS_Y_COORD
 	pop bc
 	inc bc
 	ld a, [bc] ; number of pages in total
 	add NUMBER_CHAR_OFFSET
 	ld [hli], a
-	ld [hl], " "
+	ld [hl], ' '
 	hlcoord 14, PAGE_CONTROLS_Y_COORD
 	ld a, [hl]
 	cp $7a ; check if info text has just displayed and trashed the coords beside page number with a menu border
 	jr nz, .skip
 	;if so, clear the menu border tiles out
-	ld a, " "
+	ld a, ' '
 	ld [hli], a
 	ld [hl], a
 .skip
@@ -104,7 +104,7 @@ DrawOptionsPageInfo:
 	call PlaceString
 ; add cursor in front of NEXT
 	hlcoord 1, PAGE_CONTROLS_Y_COORD
-	ld [hl], "▷"
+	ld [hl], '▷'
 ; add SELECT:INFO prompt to top of menu
 	push bc
 	hlcoord 14, 0
@@ -156,7 +156,7 @@ OptionMenu1Header:
 	dw SetOptionsFromCursorPositions
 	dw OptionLeftRightFuncs
 	dw DisplayOptions2
-	dw DisplaySpriteOptions
+	dw DisplayOptions3
 	dw OptionsPageAorSelectButtonDefault
 	dw OptionsMenu1InfoTextJumpTable
 	; fall through (options display address should be after A button pointer)
@@ -181,6 +181,8 @@ DisplayOptionMenuCommon:
 	call CallOptionsMenuHeaderFunction
 	pop bc
 	call DrawOptionsPageInfo
+	ld a, 1
+	ldh [hAutoBGTransferEnabled], a
 	inc hl
 	inc hl ; second function in header
 	xor a
@@ -229,7 +231,7 @@ DisplayOptionMenuCommon:
 	jr nz, .doneLoad
 	push hl
 	hlcoord NEXT_BUTTON_X_COORD, PAGE_CONTROLS_Y_COORD
-	ld [hl], " "
+	ld [hl], ' '
 	pop hl
 .doneLoad
 	ld a, 1
@@ -249,15 +251,15 @@ OptionsMenuLoop:
 	call JoypadLowSensitivity
 	ldh a, [hJoy5]
 	ld b, a
-	and A_BUTTON | B_BUTTON | START | SELECT | D_RIGHT | D_LEFT | D_UP | D_DOWN 
+	and PAD_BUTTONS | PAD_CTRL_PAD
 	jr z, .getJoypadStateLoop
-	bit BIT_B_BUTTON, b
+	bit B_PAD_B, b
 	jr nz, .exitMenu
-	bit BIT_START, b
+	bit B_PAD_START, b
 	jr nz, .exitMenu
-	bit BIT_SELECT, b
+	bit B_PAD_SELECT, b
 	jr nz, .selectPressed
-	bit BIT_A_BUTTON, b
+	bit B_PAD_A, b
 	jr z, .checkDirectionKeys
 .AbuttonPressed
 	ld b, PAGE_CONTROLS_Y_COORD
@@ -284,6 +286,8 @@ OptionsMenuLoop:
 .pageRow
 	ld a, SFX_PRESS_AB
 	rst _PlaySound
+	xor a
+	ldh [hAutoBGTransferEnabled], a
 	call ClearScreen
 	pop hl ; points to third function in header
 	lb de, 0, 4
@@ -301,9 +305,9 @@ OptionsMenuLoop:
 	ret
 .checkDirectionKeys
 	ld hl, wCurrentOptionIndex
-	bit BIT_D_DOWN, b
+	bit B_PAD_DOWN, b
 	jr nz, .downPressed
-	bit BIT_D_UP, b
+	bit B_PAD_UP, b
 	jr nz, .upPressed
 	ld e, [hl]
 	pop hl
@@ -348,7 +352,7 @@ OptionsMenuLoop:
 	jp OptionsMenuLoop
 
 CursorInTextSpeed:
-	bit BIT_D_LEFT, b
+	bit B_PAD_LEFT, b
 	jp z, .pressedRightInTextSpeed
 ;;;;;;;;;; PureRGBnote: CHANGED: Instant text speed replaced medium speed, so we need to adjust the X positions of the cursors a bit.
 	ld a, [wOptions1CursorX] ; text speed cursor X coordinate
@@ -462,7 +466,7 @@ SetSingleBitOption:
 	jr z, .set
 	ld b, FLAG_RESET
 .set
-	predef_jump FlagActionPredef
+	jp FlagAction
 
 LoadXValueAndGetHLCoord:
 	hlcoord 0, 0
@@ -485,7 +489,7 @@ LoadXValueAndGetHLCoord:
 Get2ValueOptionCursorPosition:
 	ld b, FLAG_TEST
 	push af
-	predef FlagActionPredef
+	call FlagAction
 	pop af
 	ld b, a
 	ld a, c
@@ -528,7 +532,7 @@ PlaceUnfilledRightArrow:
 	ld e, a
 	ld d, 0
 	add hl, de
-	ld [hl], "▷"
+	ld [hl], '▷'
 	ret
 
 SetTextSpeedCursorPosition:
@@ -573,30 +577,6 @@ TextSpeedOptionData:
 	db  9, TEXT_DELAY_MEDIUM
 	db  1, TEXT_DELAY_FAST
 	db  9, -1 ; end (default X coordinate)
-
-; PureRGBnote: MOVED: CHANGED: Used to be in main_menu.asm but moved for space. 
-; this menu was changed a bit to have a NEXT and BACK button to navigate pages more easily.
-
-CopyOptionsFromSRAM::
-	ld a, SRAM_ENABLE
-	ld [MBC1SRamEnable], a
-	ld a, 1
-	ld [MBC1SRamBankingMode], a
-	ld [MBC1SRamBank], a
-	; by checking if a name has been saved we can know if a save file was created
-	callfar CheckSaveFileExists
-	jr nc, .doneLoad
-	ld a, [sOptions2]
-	ld [wOptions2], a
-	ld a, [sSpriteOptions]
-	ld [wSpriteOptions], a
-	ld a, [sSpriteOptions3]
-	ld [wSpriteOptions3], a
-.doneLoad
-	xor a
-	ld [MBC1SRamBankingMode], a
-	ld [MBC1SRamEnable], a
-	ret
 
 OptionsMenu1InfoTextJumpTable:
 	dw TextSpeedInfoText

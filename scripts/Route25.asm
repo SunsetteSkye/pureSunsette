@@ -1,5 +1,5 @@
 Route25_Script:
-	call Route25ShowHideBillScript
+	call Route25ToggleBillsScript
 	call Route25CheckHideCutTree
 	call EnableAutoTextBoxDrawing
 	ld hl, Route25TrainerHeaders
@@ -11,9 +11,7 @@ Route25_Script:
 
 ; PureRGBnote: ADDED: code that keeps the cut tree cut down if we're in its alcove. Prevents getting softlocked if you delete cut.
 Route25CheckHideCutTree:
-	ld hl, wCurrentMapScriptFlags
-	bit BIT_CUR_MAP_LOADED_1, [hl] ; did we load the map from a save/warp/door/battle, etc?
-	res BIT_CUR_MAP_LOADED_1, [hl]
+	call WasMapJustLoaded
 	ret z ; map wasn't just loaded
 	ld a, [wSprite03StateData2MapY] ; guy who can move to not block us leaving the cut alcove
 	cp 12 ; guy is blocking us if his Y value is lower than this
@@ -27,9 +25,9 @@ Route25CheckHideCutTree:
 	lb bc, 2, 13
 	ld a, $6E
 	ld [wNewTileBlockID], a
-	predef_jump ReplaceTileBlock
+	jp ReplaceTileBlock
 
-Route25ShowHideBillScript:
+Route25ToggleBillsScript:
 	ld hl, wCurrentMapScriptFlags
 	bit BIT_CUR_MAP_LOADED_2, [hl]
 	res BIT_CUR_MAP_LOADED_2, [hl]
@@ -40,20 +38,17 @@ Route25ShowHideBillScript:
 	jr nz, .met_bill
 	; if we left bills house before helping him with the cell separator, reset pokemon version of him to being shown
 	ResetEventReuseHL EVENT_BILL_SAID_USE_CELL_SEPARATOR
-	ld a, HS_BILL_POKEMON
-	ld [wMissableObjectIndex], a
-	predef_jump ShowObject
+	ld c, TOGGLE_BILL_POKEMON
+	jp ShowObject
 .met_bill
 	CheckEventAfterBranchReuseHL EVENT_GOT_SS_TICKET, EVENT_MET_BILL_2
 	ret z
 	; if we got the SS ticket and finished his event, show the other version of bill that says slightly different things
 	SetEventReuseHL EVENT_LEFT_BILLS_HOUSE_AFTER_HELPING
-	ld a, HS_BILL_1
-	ld [wMissableObjectIndex], a
-	predef HideObject
-	ld a, HS_BILL_2
-	ld [wMissableObjectIndex], a
-	predef_jump ShowObject
+	ld c, TOGGLE_BILL_1
+	call HideObject
+	ld c, TOGGLE_BILL_2
+	jp ShowObject
 
 Route25_ScriptPointers:
 	def_script_pointers
@@ -99,58 +94,31 @@ Route25TrainerHeader8:
 	db -1 ; end
 
 Route25Youngster1Text:
-	text_asm
-	ld hl, Route25TrainerHeader0
-	call TalkToTrainer
-	rst TextScriptEnd
+	script_trainer Route25TrainerHeader0
 
 Route25Youngster2Text:
-	text_asm
-	ld hl, Route25TrainerHeader1
-	call TalkToTrainer
-	rst TextScriptEnd
+	script_trainer Route25TrainerHeader1
 
 Route25CooltrainerMText:
-	text_asm
-	ld hl, Route25TrainerHeader2
-	call TalkToTrainer
-	rst TextScriptEnd
+	script_trainer Route25TrainerHeader2
 
 Route25CooltrainerF1Text:
-	text_asm
-	ld hl, Route25TrainerHeader3
-	call TalkToTrainer
-	rst TextScriptEnd
+	script_trainer Route25TrainerHeader3
 
 Route25Youngster3Text:
-	text_asm
-	ld hl, Route25TrainerHeader4
-	call TalkToTrainer
-	rst TextScriptEnd
+	script_trainer Route25TrainerHeader4
 
 Route25CooltrainerF2Text:
-	text_asm
-	ld hl, Route25TrainerHeader5
-	call TalkToTrainer
-	rst TextScriptEnd
+	script_trainer Route25TrainerHeader5
 
 Route25Hiker1Text:
-	text_asm
-	ld hl, Route25TrainerHeader6
-	call TalkToTrainer
-	rst TextScriptEnd
+	script_trainer Route25TrainerHeader6
 
 Route25Hiker2Text:
-	text_asm
-	ld hl, Route25TrainerHeader7
-	call TalkToTrainer
-	rst TextScriptEnd
+	script_trainer Route25TrainerHeader7
 
 Route25Hiker3Text:
-	text_asm
-	ld hl, Route25TrainerHeader8
-	call TalkToTrainer
-	rst TextScriptEnd
+	script_trainer Route25TrainerHeader8
 
 Route25Youngster1BattleText:
 	text_far _Route25Youngster1BattleText
@@ -258,7 +226,10 @@ Route25Hiker3EndBattleText:
 
 Route25Hiker3AfterBattleText:
 	text_far _Route25Hiker3AfterBattleText
-	text_end
+	text_asm
+	lb hl, DEX_MANKEY, HIKER
+	ld de, MankeyLearnsetText
+	predef_jump LearnsetTrainerScript
 
 Route25BillSignText:
 	text_far _Route25BillSignText
