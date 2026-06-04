@@ -4,7 +4,7 @@
 SuperPalettes:
 ; entries correspond to PAL_* constants
 	table_width 2 * 4, SuperPalettes
-	RGB 31,31,31, 21,28,11, 20,26,31, 00,00,00 ; PAL_ROUTE
+	RGB 31,31,31, 22,31,22, 12,27,27, 00,00,00 ; PAL_ROUTE
 	RGB 31,31,31, 25,28,27, 20,26,31, 00,00,00 ; PAL_PALLET
 	RGB 31,31,31, 21,28,14, 09,15,11, 00,00,00 ; PAL_VIRIDIAN	; greener palette, but still works for the pond
 	RGB 31,31,31, 23,23,23, 11,15,23, 00,00,00 ; PAL_PEWTER ; Sunsette: Updated the palette again
@@ -76,5 +76,11 @@ ENDC
 	RGB 31,31,31, 29,04,00, 10,11,11, 00,00,00 ; PAL_VOLCANO
 	RGB 31,31,31, 25,11,07, 15,05,04, 00,00,00 ; PAL_REALLY_REDMON ; improved contrast on color 3, desaturated and lightened color 2
 	RGB 31,31,31, 21,24,27, 20,19,26, 00,00,00 ; PAL_PRISMATIC
+;;;;;;;;;; Sunsette: ADDED: new environment palettes
+	RGB 31,31,31, 27,31,22, 14,28,12, 00,00,00 ; PAL_FOREST   ; deffb7 / 71e066
+	RGB 31,31,31, 22,26,16, 27,23,18, 00,00,00 ; PAL_HIGHLAND ; b2d782 / dbb994
+	RGB 31,31,31, 30,30,30, 20,26,31, 00,00,00 ; PAL_AQUA     ; white, white, standard water blue, black
+	RGB 31,31,31, 26,21,22, 15,15,18, 00,00,00 ; PAL_DUSK     ; d6adb5 / 7b7b94
+	RGB 31,26,30, 24,22,28, 11,08,11, 00,00,00 ; PAL_MYSTIC   ; ffd4f7 / c1b1e7 / 5f435b
 ;;;;;;;;;;
 	assert_table_length NUM_SGB_PALS

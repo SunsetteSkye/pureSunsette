@@ -12,6 +12,10 @@ _Route22RivalBeforeBattleText1::
 	para "The guard won't"
 	line "let you through!"
 
+	para "Don't you know?"
+	line "BADGEs toughen up"
+	cont "your #MON, too!"
+
 	para "By the way, did"
 	line "your #MON"
 	cont "get any stronger?"

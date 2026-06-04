@@ -48,14 +48,25 @@ _CeladonGymErikaPostBattleAdviceText::
 	done
 
 _CeladonGymRainbowBadgeInfoText::
+	text_asm
+	callfar ComputeExpGrowthThresholdLeader
+	ld hl, .body
+	ret
+.body:
 	text "The RAINBOWBADGE"
-	line "will make #MON"
-	cont "up to L50 obey."
-
-	para "It also allows"
-	line "#MON to use"
+	line "lets #MON use"
 	cont "STRENGTH in and"
 	cont "out of battle."
+
+	para "It also boosts how"
+	line "much vitamins"
+	cont "strengthen #MON!"
+
+	para "And your #MON"
+	line "up to L"
+	text_decimal wExpGrowthThreshold, 1, 2
+	text " grow"
+	cont "more efficiently!"
 
 	para "Please also take"
 	line "this with you."

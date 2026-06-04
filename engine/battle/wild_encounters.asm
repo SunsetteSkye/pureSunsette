@@ -38,7 +38,15 @@ TryDoWildEncounter:
 ; ...as long as it's not Viridian Forest or Safari Zone or Volcano.
 	ld a, [wCurMap]
 	cp FIRST_INDOOR_MAP ; is this an indoor map?
-	jr c, .CantEncounter2
+	jr nc, .indoorAmbient
+; Sunsette: outdoor maps only get off-grass "ambient" encounters if explicitly flagged
+; (the city-pest maps). Coast tiles are water-classified, so they never reach here.
+	ld hl, AmbientEncounterMaps
+	call IsInSingleByteArray ; a = wCurMap; carry set if flagged
+	jr nc, .CantEncounter2
+	ld a, [wGrassRate]
+	jr .CanEncounter
+.indoorAmbient
 	ld a, [wCurMapTileset]
 	cp VOLCANO
 	jr z, .CantEncounter2
@@ -211,5 +219,15 @@ TestWaterTile2:
 	call TestWaterTile
 	pop bc
 	ret
+
+; Sunsette: outdoor maps that get low-rate "ambient" off-grass encounters (city pests).
+; Their own grass-table rate controls how rare it is; coast tiles route to water instead.
+AmbientEncounterMaps:
+	db PEWTER_CITY
+	db CERULEAN_CITY
+	db VERMILION_CITY
+	db CELADON_CITY
+	db SAFFRON_CITY
+	db -1
 
 INCLUDE "data/wild/probabilities.asm"

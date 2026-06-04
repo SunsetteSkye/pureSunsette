@@ -4,12 +4,12 @@ Route15WildMons:
 	db 30, SANDSLASH
 	db 27, SANDSHREW
 	db 26, SANDSHREW
-	db 26, MEOWTH
-	db 28, PERSIAN
-	db 30, PERSIAN
-	db 32, JIGGLYPUFF
-	db 31, WIGGLYTUFF
-	db 37, WIGGLYTUFF
+	db 26, SQUIRTLE
+	db 28, SQUIRTLE
+	db 30, SQUIRTLE
+	db 32, EXEGGCUTE
+	db 31, EXEGGCUTE
+	db 37, EXEGGCUTE
 	end_grass_wildmons
 
 	def_water_wildmons 0 ; encounter rate

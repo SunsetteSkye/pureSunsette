@@ -46,7 +46,7 @@ SaffronGymSabrinaReceiveTM46Script:
 	call DisplayTextID
 .gymVictory
 	ld hl, wObtainedBadges
-	set BIT_MARSHBADGE, [hl]
+	set BIT_PSYCHICBADGE, [hl]
 
 	; deactivate gym trainers
 	SetEventRange EVENT_BEAT_SAFFRON_GYM_TRAINER_0, EVENT_BEAT_SAFFRON_GYM_TRAINER_6

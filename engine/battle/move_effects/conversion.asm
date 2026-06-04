@@ -406,7 +406,7 @@ ConversionAttackTable:
 	db SURF                  ; KABUTO             
 	db SURF                  ; KABUTOPS           
 	db CONVERT_WATER         ; HORSEA             
-	db EGG_BOMB              ; SEADRA             
+	db DRAGON_RAGE           ; SEADRA
 	db SPIKE_CANNON          ; WINTER_DRAGONAIR
 	db 0               ; $5F
 	db SOLARBEAM             ; SANDSHREW          

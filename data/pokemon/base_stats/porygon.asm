@@ -1,6 +1,6 @@
 	db DEX_PORYGON ; pokedex id
 
-	db  65,  80,  70,  80, 120
+	db  65,  80,  70,  40, 120
 	;   hp  atk  def  spd  spc
 
 	db NORMAL, NORMAL ; type
@@ -30,7 +30,7 @@
 	THUNDER,\
 	PSYCHIC_M,\
 	MEGA_DRAIN,\
-	KINESIS,\ ; FIREWALL
+	KINESIS,\ ; MIRAGE
 	REFLECT,\
 	BIDE,\
 	BARRAGE,\

@@ -10,8 +10,13 @@ _FuchsiaGymKogaPostBattleAdviceText::
 	done
 
 _FuchsiaGymKogaSoulBadgeInfoText::
+	text_asm
+	callfar ComputeExpGrowthThresholdLeader
+	ld hl, .body
+	ret
+.body:
 	text "Now that you have"
-	line "the SOULBADGE,"
+	line "the MARSHBADGE,"
 	cont "the DEFENSE of"
 	cont "your #MON"
 	cont "increases!"
@@ -19,6 +24,12 @@ _FuchsiaGymKogaSoulBadgeInfoText::
 	para "It also lets you"
 	line "SURF outside of"
 	cont "battle!"
+
+	para "And your #MON"
+	line "up to L"
+	text_decimal wExpGrowthThreshold, 1, 2
+	text " grow"
+	cont "more efficiently!"
 
 	para "Ah! Take this"
 	line "too!"

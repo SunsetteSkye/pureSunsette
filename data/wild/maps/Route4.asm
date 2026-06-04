@@ -6,8 +6,8 @@ Route4WildMons:
 	db  6, SANDSHREW
 	db  8, SANDSHREW
 	db 10, SANDSHREW
-	db 12, SQUIRTLE
-	db 12, SQUIRTLE
+	db 12, EKANS
+	db 12, EKANS
 	db  8, PIDGEOTTO
 	db 12, PIDGEOTTO
 	end_grass_wildmons

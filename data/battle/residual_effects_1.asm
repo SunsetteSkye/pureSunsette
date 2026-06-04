@@ -15,4 +15,5 @@ ResidualEffects1:
 	db SUBSTITUTE_EFFECT
 	db LEECH_SEED_EFFECT
 	db SPLASH_EFFECT
+	db MIRAGE_EFFECT ; PureRGBnote: no-damage status move; runs its own accuracy test + animation
 	db -1 ; end

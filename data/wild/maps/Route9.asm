@@ -1,15 +1,15 @@
 Route9WildMons:
 	def_grass_wildmons 50 ; encounter rate
-	db 17, ONIX
-	db 17, MAGMAR
-	db 18, ONIX
-	db 19, ONIX
-	db 18, MAGMAR
-	db 19, MAGMAR
-	db 14, CHARMANDER
-	db 15, CHARMANDER
-	db 20, MAGMAR
-	db 21, MAGMAR
+	db 14, MANKEY
+	db 15, SANDSHREW
+	db 16, DODUO
+	db 17, MANKEY
+	db 17, SANDSHREW
+	db 18, DODUO
+	db 18, MANKEY
+	db 19, SANDSHREW
+	db 19, DODUO
+	db 20, MANKEY
 	end_grass_wildmons
 
 	def_water_wildmons 0 ; encounter rate

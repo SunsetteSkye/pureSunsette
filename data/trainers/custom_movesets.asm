@@ -122,7 +122,7 @@ ChampArenaBlaineMoveset:
 	db DIG
 	db FLASH
 	; rapidash
-	db KINESIS ; FIREWALL
+	db KINESIS ; MIRAGE
 	db HYPER_BEAM
 	db SKULL_BASH
 	db MEGA_KICK

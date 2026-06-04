@@ -6,8 +6,8 @@ Route13WildMons:
 	db 30, BUTTERFREE
 	db 30, BEEDRILL
 	db 35, BEEDRILL
-	db 30, SCYTHER
-	db 32, PINSIR
+	db 30, PIDGEOTTO
+	db 32, PIDGEOTTO
 	db 36, TANGELA
 	db 38, TANGELA
 	end_grass_wildmons

@@ -26,20 +26,28 @@ _CeruleanGymMistyTM11ExplanationText::
 	done
 
 _CeruleanGymMistyCascadeBadgeInfoText::
+	text_asm
+	callfar ComputeExpGrowthThresholdLeader
+	ld hl, .body
+	ret
+.body:
 	text "The CASCADEBADGE"
-	line "makes all #MON"
-	cont "up to L30 obey!"
-
-	para "That includes"
-	line "even outsiders!"
-
-	para "There's more, you"
-	line "can now use CUT"
+	line "lets you use CUT"
 	cont "any time!"
 
 	para "You can CUT down"
 	line "small bushes to"
 	cont "open new paths!"
+
+	para "It also doubles"
+	line "the power of your"
+	cont "POTIONs!"
+
+	para "And your #MON"
+	line "up to L"
+	text_decimal wExpGrowthThreshold, 1, 2
+	text " grow"
+	cont "more efficiently!"
 
 	para "You can also have"
 	line "my favorite <TM>!"

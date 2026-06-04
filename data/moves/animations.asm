@@ -420,6 +420,7 @@ FuryAttackAnim:
 	db -1 ; end
 
 HornDrillAnim:
+	battle_anim NO_MOVE, SE_DARKEN_MON_PALETTE
 	battle_anim NO_MOVE, SE_SPIRAL_BALLS_INWARD_FAST
 	battle_anim NO_MOVE, SUBANIM_1_STAR_BIG, 1, 2
 	battle_anim HORN_DRILL, SUBANIM_1_STAR_BIG, 1, 2
@@ -428,6 +429,8 @@ HornDrillAnim:
 	battle_anim NO_MOVE, SUBANIM_1_STAR_BIG, 1, 2
 	battle_anim NO_MOVE, SE_DARK_SCREEN_FLASH
 	battle_anim NO_MOVE, SUBANIM_1_STAR_BIG, 1, 2
+	battle_anim SLUDGE, SUBANIM_1_BLOB_DRIP_ENEMY, 1, 6
+	battle_anim NO_MOVE, SE_RESET_SCREEN_PALETTE
 	db -1 ; end
 
 TackleAnim:
@@ -456,6 +459,8 @@ TakeDownAnim:
 	db -1 ; end
 
 ThrashAnim:
+	battle_anim TAKE_DOWN, SE_DARK_SCREEN_FLASH
+	battle_anim FLAMETHROWER, SE_FIRE_EVERYWHERE
 	battle_anim THRASH, SUBANIM_1_STAR_BIG_MOVING, 1, 6
 	db -1 ; end
 
@@ -1181,10 +1186,7 @@ AmnesiaAnim:
 	db -1 ; end
 
 KinesisAnim:
-	battle_anim HAZE, SUBANIM_1_FLAME_COLUMN_3, 1, 2
-	battle_anim NO_MOVE, SUBANIM_1_FLAME_COLUMN_3, 1, 2
-	battle_anim NO_MOVE, SUBANIM_1_FLAME_COLUMN_3, 1, 2
-	battle_anim NO_MOVE, SUBANIM_1_FLAME_COLUMN_3, 1, 4
+	battle_anim HAZE, SE_FIRE_EVERYWHERE
 	db -1 ; end
 
 SoftboiledAnim:

@@ -1221,6 +1221,16 @@ _ExpPointsText::
 	text " EXP. Points!"
 	prompt
 
+_TeamGainedText::
+	text "Your team received"
+	line "@"
+	text_end
+
+_TeamExpText::
+	text_decimal wExpAmountGained, 2, 4
+	text " EXP.!"
+	prompt
+
 _GrewLevelText::
 	text_ram_namebuffer
 	text " grew"

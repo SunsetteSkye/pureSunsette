@@ -3,6 +3,6 @@ HighCriticalMoves:
 	db RAZOR_LEAF
 	db CRABHAMMER
 	db SLASH
-	db POISON_GAS ; PureRGBnote: ADDED:
+	db HORN_DRILL ; Sunsette: Wicked Drill (poison, high-crit)
 	db CUT ; Sunsette: ADDED
 	db -1 ; end

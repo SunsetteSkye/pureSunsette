@@ -16,9 +16,9 @@ _PewterNidoranHouseMiddleAgedManText::
 	cont "get in a trade."
 
 	para "It grows fast, but"
-	line "it may ignore an"
-	cont "unskilled trainer"
-	cont "in battle!"
+	line "we have trouble"
+	cont "teaching it new"
+	cont "things!"
 
 	para "If only we had"
 	line "some BADGEs<...>"

@@ -5,9 +5,9 @@ RockTunnel1FWildMons:
 	db 19, GEODUDE
 	db 20, MACHOP
 	db 21, GEODUDE
-	db 20, ONIX
+	db 20, CHARMANDER
 	db 19, MACHOP
-	db 21, ONIX
+	db 21, CHARMANDER
 	db 24, GRAVELER
 	db 25, GRAVELER
 	end_grass_wildmons

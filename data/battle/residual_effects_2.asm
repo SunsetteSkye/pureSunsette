@@ -30,7 +30,7 @@ ResidualEffects2:
 ;;;;;;;;;; PureRGBnote: ADDED:
 	db ATTACK_ACCURACY_UP1_EFFECT
 	db ATTACK_DEFENSE_UP1_EFFECT
-	db ATTACK_SPECIAL_SPEED_UP1
+	db MEDITATE_EFFECT
 	db SCREECH_EFFECT
 ;;;;;;;;;;
 	db -1 ; end

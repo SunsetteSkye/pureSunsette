@@ -264,7 +264,7 @@ ItemSortedList:
 	db TM_DIG          ; $E4
 	db TM_PSYCHIC_M    ; $E5
 	db TM_MEGA_DRAIN   ; $E6
-	db TM_KINESIS      ; $E7 FIREWALL
+	db TM_KINESIS      ; $E7 MIRAGE
 	db TM_SWORDS_DANCE ; $E8
 	db TM_REFLECT      ; $E9
 	db TM_BIDE         ; $EA 

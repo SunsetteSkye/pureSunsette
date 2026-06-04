@@ -118,7 +118,7 @@ VermilionCityDefaultScript:
 	ldh [hTextID], a
 	call DisplayTextID
 	ld a, [wObtainedBadges] ; PureRGBnote: CHANGED: ship returns after obtaining the soul badge so let the player in if they have the ticket
-	bit BIT_SOULBADGE, a
+	bit BIT_POISONBADGE, a
 	jr nz, .default
 	CheckEvent EVENT_SS_ANNE_LEFT
 	jr nz, .ship_departed
@@ -226,7 +226,7 @@ VermilionCityGambler1Text:
 VermilionCitySailor1Text:
 	text_asm
 	ld a, [wObtainedBadges]
-	bit BIT_SOULBADGE, a ; PureRGBnote: CHANGED: after obtaining soul badge the ship returns so this NPC will talk about it
+	bit BIT_POISONBADGE, a ; PureRGBnote: CHANGED: after obtaining soul badge the ship returns so this NPC will talk about it
 	jr nz, .default
 	CheckEvent EVENT_SS_ANNE_LEFT
 	jr nz, .ship_departed
@@ -316,7 +316,7 @@ VermilionCityMachopText:
 VermilionCitySailor2Text:
 	text_asm
 	ld a, [wObtainedBadges]
-	bit BIT_SOULBADGE, a ; after obtaining the soul badge the ship returns
+	bit BIT_POISONBADGE, a ; after obtaining the soul badge the ship returns
 	jr z, .default
 	ld hl, .ShipBackText
 	ret

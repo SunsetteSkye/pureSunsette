@@ -580,6 +580,9 @@ HandlePoisonBurnLeechSeed:
 	rst _PrintText
 	pop hl
 .notLeechSeeded
+	push hl
+	callfar HandleGrowthRegen
+	pop hl
 	ld a, [hli]
 	or [hl]
 	ret nz          ; test if fainted
@@ -764,6 +767,9 @@ HandlePoisonBurnLeechSeed_IncreaseEnemyHP:
 	ldh [hWhoseTurn], a
 	pop hl
 	ret
+
+; HandleGrowthRegen (Growth's leftovers-like regen) lives in its own bank;
+; see engine/battle/growth_regen.asm. Called via callfar from the residual-damage loop.
 
 UpdateCurMonHPBar::
 	hlcoord 10, 9    ; tile pointer to player HP bar
@@ -4119,13 +4125,12 @@ OHKOText:
 ; checks if a traded mon will disobey due to lack of badges
 ; stores whether the mon will use a move in Z flag
 CheckForDisobedience:
+; Sunsette: disobedience removed - every mon always obeys regardless of badges, level, or trade status.
+; (the original badge/level check below is left in place but is no longer reachable.)
 	xor a
 	ld [wMonIsDisobedient], a
-	ld a, [wLinkState]
-	cp LINK_STATE_BATTLING
-	jr nz, .checkIfMonIsTraded
 	ld a, $1
-	and a
+	and a ; clear Z flag -> the mon may use its move
 	ret
 ; compare the mon's original trainer ID with the player's ID to see if it was traded
 .checkIfMonIsTraded
@@ -4147,11 +4152,11 @@ CheckForDisobedience:
 	bit BIT_EARTHBADGE, [hl]
 	ld a, 101
 	jr nz, .next
-	bit BIT_MARSHBADGE, [hl]
+	bit BIT_PSYCHICBADGE, [hl]
 	ld a, 70
 	jr nz, .next
 ;;;;;;;;;; PureRGBnote: CHANGED: traded pokemon disobedience thresholds increase with each badge instead of every second badge.
-	bit BIT_SOULBADGE, [hl]
+	bit BIT_POISONBADGE, [hl]
 	ld a, 60
 	jr nz, .next
 	bit BIT_RAINBOWBADGE, [hl]
@@ -4353,6 +4358,9 @@ GetDamageVarsForPlayerAttack:
 	ld a, [wPlayerMoveEffect]
 	cp HYPER_BEAM_EFFECT
 	jr z, .specialAttack
+	ld a, [wPlayerMoveNum] ; Sunsette: Egg Bomb is Normal-typed but attacks special
+	cp EGG_BOMB
+	jr z, .specialAttack
 	ld a, [hl] ; a = [wPlayerMoveType]
 	cp GHOST
 	jr z, DynamicTypeCheckPlayer
@@ -4388,6 +4396,10 @@ GetDamageVarsForPlayerAttack:
 	ld bc, PARTYMON_STRUCT_LENGTH
 	call AddNTimes
 	pop bc
+	; PureRGBnote: ADDED: critical hits no longer bypass Reflect/Light Screen
+	ld a, [wEnemyBattleStatus3]
+	bit HAS_REFLECT_UP, a
+	call nz, DoubleDefenseForScreen
 	jr .scaleStats
 .specialAttack
 	ld hl, wEnemyMonSpecial
@@ -4421,6 +4433,10 @@ GetDamageVarsForPlayerAttack:
 	ld bc, PARTYMON_STRUCT_LENGTH
 	call AddNTimes
 	pop bc
+	; PureRGBnote: ADDED: critical hits no longer bypass Reflect/Light Screen
+	ld a, [wEnemyBattleStatus3]
+	bit HAS_LIGHT_SCREEN_UP, a
+	call nz, DoubleDefenseForScreen
 ; if either the offensive or defensive stat is too large to store in a byte, scale both stats by dividing them by 4
 ; this allows values with up to 10 bits (values up to 1023) to be handled
 ; anything larger will wrap around
@@ -4484,6 +4500,9 @@ GetDamageVarsForEnemyAttack:
 	ld a, [wEnemyMoveEffect]
 	cp HYPER_BEAM_EFFECT
 	jr z, .specialAttack
+	ld a, [wEnemyMoveNum] ; Sunsette: Egg Bomb is Normal-typed but attacks special
+	cp EGG_BOMB
+	jr z, .specialAttack
 	ld a, [hl] ; a = [wEnemyMoveType]
 	cp GHOST
 	jr z, DynamicTypeCheckEnemy
@@ -4519,6 +4538,10 @@ GetDamageVarsForEnemyAttack:
 	call GetEnemyMonStat
 	ld hl, hProduct + 2
 	pop bc
+	; PureRGBnote: ADDED: critical hits no longer bypass Reflect/Light Screen
+	ld a, [wPlayerBattleStatus3]
+	bit HAS_REFLECT_UP, a
+	call nz, DoubleDefenseForScreen
 	jr .scaleStats
 .specialAttack
 	ld hl, wBattleMonSpecial
@@ -4552,6 +4575,10 @@ GetDamageVarsForEnemyAttack:
 	call GetEnemyMonStat
 	ld hl, hProduct + 2
 	pop bc
+	; PureRGBnote: ADDED: critical hits no longer bypass Reflect/Light Screen
+	ld a, [wPlayerBattleStatus3]
+	bit HAS_LIGHT_SCREEN_UP, a
+	call nz, DoubleDefenseForScreen
 ; if either the offensive or defensive stat is too large to store in a byte, scale both stats by dividing them by 4
 ; this allows values with up to 10 bits (values up to 1023) to be handled
 ; anything larger will wrap around
@@ -4833,9 +4860,6 @@ CriticalHitTest:
 .handleEnemy
 	ld [wCurSpecies], a
 	call GetMonHeader
-	ld a, [wMonHBaseSpeed]
-	ld b, a
-	srl b                        ; (effective (base speed/2))
 	ldh a, [hWhoseTurn]
 	and a
 	ld hl, wPlayerMovePower
@@ -4849,32 +4873,51 @@ CriticalHitTest:
 	ret z                        ; do nothing if zero
 	dec hl
 	ld c, [hl]                   ; read move id
+; PureRGBnote: CHANGED: crit chance is now a quadratic curve of base Speed.
+; threshold = baseSpeed^2 / 256, then x1.5 (normal) / x8 (high-crit) / x4 (focus energy), capped at 255.
+	xor a
+	ldh [hMultiplicand], a
+	ldh [hMultiplicand + 1], a
+	ld a, [wMonHBaseSpeed]
+	ldh [hMultiplicand + 2], a
+	ldh [hMultiplier], a
+	push de
+	call Multiply
+	pop de
+	ldh a, [hProduct + 2]        ; baseSpeed^2 / 256
+	ld b, a
+; Sunsette: halve Speed's contribution to crit rate unless the attacker is "important"
+	call CheckFullCritSpeed
+	jr nz, .fullCritSpeed
+	srl b
+.fullCritSpeed
 	ld a, [de]
 	bit GETTING_PUMPED, a        ; test for focus energy
-	jr z, .noFocusEnergyUsed     ; bug: using focus energy causes a shift to the right instead of left,
-	                             ; resulting in 1/4 the usual crit chance
-;;;;;;;;;; PureRGBnote: FIXED: fix focus energy 
-	sla b                        
+	jr z, .noFocusEnergyUsed
+	sla b                        ; focus energy: x4 crit rate
 	jr c, .capCritical
-	sla b 						 ; normal attacks have 4x crit rate under focus energy
+	sla b
 	jr c, .capCritical
-;;;;;;;;;;
 .noFocusEnergyUsed
 	ld hl, HighCriticalMoves     ; table of high critical hit moves
 .Loop
 	ld a, [hli]                  ; read move from move table
 	cp c                         ; does it match the move about to be used?
-	jr z, .HighCritical          ; if so, the move about to be used is a high critical hit ratio move
-	inc a                        ; move on to the next move, FF terminates loop
-	jr nz, .Loop                 ; check the next move in HighCriticalMoves
-	srl b                        ; /2 for regular move (effective (base speed / 2))
-	jr .finishcalc               ; continue as a normal move
+	jr z, .HighCritical          ; high critical hit ratio move
+	inc a                        ; FF terminates loop
+	jr nz, .Loop
+	ld a, b                      ; normal move: x1.5 crit rate
+	srl a
+	add b
+	jr c, .capCritical
+	ld b, a
+	jr .finishcalc
 .HighCritical
-	sla b                        ; *2 for high critical hit moves (effective (base speed/2)*2))
+	sla b                        ; x2
 	jr c, .capCritical
-	sla b                        ; *4 for high critical hit moves (effective (base speed/2)*4))
+	sla b                        ; x4
 	jr c, .capCritical
-	sla b 						 ; *8 for high critical move (effective (base speed/2)*8))
+	sla b                        ; x8 -> baseSpeed^2 / 32 (auto-crit near Speed 90)
 	jr nc, .finishcalc
 .capCritical
 	ld b, $ff
@@ -4887,6 +4930,59 @@ CriticalHitTest:
 	ret nc                       ; no critical hit if no borrow
 	ld a, $1
 	ld [wCriticalHitOrOHKO], a   ; set critical hit flag
+	ret
+
+; Sunsette: returns nz if the attacker keeps its full Speed->crit contribution, z if it should be halved.
+; Full for: the player while holding the EARTHBADGE; enemy gym leaders / Giovanni / the rival / the
+; Elite Four; and wild Articuno / Zapdos / Moltres / Mewtwo. Uses only register a.
+CheckFullCritSpeed:
+	ldh a, [hWhoseTurn]
+	and a
+	jr nz, .enemyTurn
+; the player's mon is attacking
+	ld a, [wObtainedBadges]
+	bit BIT_EARTHBADGE, a
+	ret ; nz (full) with the Earth Badge, z (halve) without
+.enemyTurn
+	ld a, [wIsInBattle]
+	cp 2
+	jr z, .enemyTrainer
+; wild battle -> full only for the legendary birds and Mewtwo
+	ld a, [wEnemyMonSpecies]
+	cp ARTICUNO
+	jr z, .full
+	cp ZAPDOS
+	jr z, .full
+	cp MOLTRES
+	jr z, .full
+	cp MEWTWO
+	jr z, .full
+	jr .halve
+.enemyTrainer
+	ld a, [wTrainerClass]
+	cp RIVAL1
+	jr z, .full
+	cp GIOVANNI
+	jr z, .full
+	cp RIVAL2
+	jr z, .full
+	cp RIVAL3
+	jr z, .full
+	cp LORELEI
+	jr z, .full
+	cp AGATHA
+	jr z, .full
+	cp LANCE
+	jr z, .full
+	cp BRUNO
+	jr c, .halve ; below BRUNO -> ordinary trainer
+	cp SABRINA + 1
+	jr c, .full ; BRUNO..SABRINA (all gym leaders) -> full
+.halve
+	xor a ; z -> halve
+	ret
+.full
+	or 1 ; nz -> full
 	ret
 
 INCLUDE "data/battle/critical_hit_moves.asm"
@@ -6902,7 +6998,7 @@ ApplyBadgeBoostsForSpecificStat: ;badge boosts a specific stat based on wWhatSta
 	jr .done
 .Defense
 	ld hl, wBattleMonDefense
-	bit BIT_SOULBADGE, d
+	bit BIT_POISONBADGE, d
 	jr .done
 .Speed
 	ld hl, wBattleMonSpeed
@@ -6937,7 +7033,7 @@ ApplyBadgeStatBoosts:
 	bit BIT_THUNDERBADGE, b
 	call nz, ApplyBoostToStat
 	ld hl, wBattleMonDefense
-	bit BIT_SOULBADGE, b
+	bit BIT_POISONBADGE, b
 	call nz, ApplyBoostToStat
 	ld hl, wBattleMonSpecial
 	bit BIT_VOLCANOBADGE, b
@@ -7430,6 +7526,11 @@ GetBackSpriteTarget:
 
 
 ;;;;;;;;;; shinpokerednote: FIXED: code for capping reflect/light screen stat boost at 999
+; PureRGBnote: ADDED: doubles the defensive stat (bc) and caps it, for screens kept on a crit
+DoubleDefenseForScreen:
+	sla c
+	rl b
+	jp do999StatCap
 do999StatCap:
 	;b register contains high byte & c register contains low byte
 	ld a, c ;let's work on low byte first. Note that decimal 999 is $03E7 in hex.

@@ -49,7 +49,7 @@ VermilionDock_ScriptPointers:
 VermilionDockSSAnneLeavesScript:
 ;;;;;;;;;; PureRGBnote: ADDED: the ship will return so don't ever run the "ship leaves" script if we're in that state
 	ld a, [wObtainedBadges]
-	bit BIT_SOULBADGE, a ; after obtaining 5 badges the ship returns
+	bit BIT_POISONBADGE, a ; after obtaining 5 badges the ship returns
 	ret nz
 ;;;;;;;;;;
 	SetEventForceReuseHL EVENT_SS_ANNE_LEFT

@@ -1,6 +1,6 @@
 	db DEX_RATICATE ; pokedex id
 
-	db  65, 101,  60,  107,  60
+	db  65,  91,  60,  97,  75
 	;   hp  atk  def  spd  spc
 
 	db NORMAL, NORMAL ; type
@@ -19,7 +19,6 @@
 	FIRE_PUNCH,\
 	TOXIC,\
 	BODY_SLAM,\
-	SLASH,\
 	DOUBLE_EDGE,\
 	BUBBLEBEAM,\
 	AURORA_BEAM,\
@@ -34,7 +33,7 @@
 	THUNDERBOLT,\
 	THUNDER,\
 	DIG,\
-	KINESIS,\ ; FIREWALL
+	KINESIS,\ ; MIRAGE
 	SWORDS_DANCE,\
 	BIDE,\
 	AGILITY,\

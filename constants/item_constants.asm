@@ -169,7 +169,7 @@ DEF TM01 EQU const_value
 	add_tm DIG          ; $E4
 	add_tm PSYCHIC_M    ; $E5
 	add_tm MEGA_DRAIN   ; $E6
-	add_tm KINESIS      ; $E7 FIREWALL
+	add_tm KINESIS      ; $E7 MIRAGE
 	add_tm SWORDS_DANCE ; $E8
 	add_tm REFLECT      ; $E9
 	add_tm BIDE         ; $EA 

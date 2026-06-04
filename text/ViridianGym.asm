@@ -44,12 +44,14 @@ _ViridianGymGiovanniPostBattleAdviceText::
 	text_end
 
 _ViridianGymGiovanniEarthBadgeInfoText::
-	text "The EARTHBADGE"
-	line "makes #MON of"
-	cont "any level obey!"
-
-	para "It is evidence of"
-	line "your mastery as a"
+	text_asm
+	callfar ComputeExpGrowthThresholdLeader
+	ld hl, .body
+	ret
+.body:
+	text "The EARTHBADGE is"
+	line "evidence of your"
+	cont "mastery as a"
 	cont "#MON trainer!"
 
 	para "With it, you can"
@@ -59,6 +61,17 @@ _ViridianGymGiovanniEarthBadgeInfoText::
 	para "It is my gift for"
 	line "your #MON"
 	cont "LEAGUE challenge!"
+
+	para "And your #MON"
+	line "up to L"
+	text_decimal wExpGrowthThreshold, 1, 2
+	text " grow"
+	cont "more efficiently!"
+
+	para "Now your #MON"
+	line "use their full"
+	cont "SPEED to score"
+	cont "critical hits!"
 
 	para "Take this <TM>"
 	line "as well!"

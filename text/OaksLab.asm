@@ -332,6 +332,11 @@ _OaksLabOakThatWasMyDreamText::
 	line "to fulfill my"
 	cont "dream for me!"
 
+	para "Keep it close- you"
+	line "may find it helps"
+	cont "your whole team"
+	cont "grow!"
+
 	para "Get moving, you"
 	line "two!"
 

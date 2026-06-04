@@ -2,6 +2,11 @@ _ItemUseText001::
 	text "<PLAYER> used@"
 	text_end
 
+_RefreshingText:: ; Sunsette: drink cleanse announcement
+	text "Refreshing!"
+	line "Stats reset!"
+	prompt
+
 _ItemUseText002::
 	text_ram_stringbuffer
 	text "!"

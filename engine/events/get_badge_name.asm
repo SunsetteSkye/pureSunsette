@@ -10,8 +10,8 @@ BadgeNames:
 	db "CASCADEBADGE@"
 	db "THUNDERBADGE@"
 	db "RAINBOWBADGE@"
+	db "MARSHBADGE@@@" ; Sunsette: Soul/Marsh names swapped (Fuchsia=Marsh, Saffron=Soul)
 	db "SOULBADGE@@@@"
-	db "MARSHBADGE@@@"
 	db "VOLCANOBADGE@"
 	db "EARTHBADGE@@@"
 	assert_table_length NUM_BADGES

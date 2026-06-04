@@ -36,5 +36,5 @@ AnimationIdSpecialEffects:
 	anim_special_effect HYPERTOSS_ANIM,        DoBallTossSpecialEffects
 	anim_special_effect SAFARITOSS_ANIM,        DoBallTossSpecialEffects
 ;;;;;;;;;;
-	anim_special_effect KINESIS,               FirewallSpecialEffect
+	anim_special_effect KINESIS,               MirageSpecialEffect
 	db -1 ; end

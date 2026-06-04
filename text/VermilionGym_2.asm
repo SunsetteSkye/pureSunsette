@@ -11,6 +11,11 @@ _VermilionGymLTSurgePostBattleAdviceText::
 	done
 
 _VermilionGymLTSurgeThunderBadgeInfoText::
+	text_asm
+	callfar ComputeExpGrowthThresholdLeader
+	ld hl, .body
+	ret
+.body:
 	text "The THUNDERBADGE"
 	line "cranks up your"
 	cont "#MON's SPEED!"
@@ -18,6 +23,12 @@ _VermilionGymLTSurgeThunderBadgeInfoText::
 	para "It also lets your"
 	line "#MON FLY any"
 	cont "time, kid!"
+
+	para "And your #MON"
+	line "up to L"
+	text_decimal wExpGrowthThreshold, 1, 2
+	text " grow"
+	cont "more efficiently!"
 
 	para "You're special,"
 	line "kid! Take this!"

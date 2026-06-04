@@ -34,7 +34,7 @@
 	const THRASH_PETAL_DANCE_EFFECT  ; $1B
 	const TELEPORT_EFFECT            ; $1C
 	const TWO_TO_FIVE_ATTACKS_EFFECT ; $1D
-	const FIREWALL_EFFECT            ; $1E ; PureRGBnote: ADDED: new effect, burns the opponent, used in FIREWALL (kinesis)
+	const MIRAGE_EFFECT              ; $1E ; Mirage (kinesis): confuses a non-fire target; burns if user is fire-type or target already confused
 	const FLINCH_SIDE_EFFECT1        ; $1F
 	const SLEEP_EFFECT               ; $20
 	const POISON_SIDE_EFFECT2        ; $21
@@ -84,7 +84,7 @@
 ;;;;;;;;;;
 	const CONFUSION_SIDE_EFFECT      ; $4C
 	const TWINEEDLE_EFFECT           ; $4D
-	const ATTACK_SPECIAL_SPEED_UP1   ; $4E ; PureRGBnote: ADDED: new effect, used in meditate
+	const MEDITATE_EFFECT            ; $4E ; Meditate: Light Screen on user (special-halving, crit-proof) + Attack +1
 	const SUBSTITUTE_EFFECT          ; $4F
 	const HYPER_BEAM_EFFECT          ; $50
 	const BONEMERANG_EFFECT          ; $51

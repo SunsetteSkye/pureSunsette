@@ -1,6 +1,6 @@
 	db DEX_TAUROS ; pokedex id
 
-	db  105, 100,  95, 110,  40
+	db  105, 120,  95,  90,  40
 	;    hp  atk  def  spd  spc
 
 	db NORMAL, NORMAL ; type
@@ -19,7 +19,6 @@
 	TOXIC,\
 	HORN_DRILL,\
 	BODY_SLAM,\
-	SLASH,\
 	DOUBLE_EDGE,\
 	AURORA_BEAM,\
 	ICE_BEAM,\

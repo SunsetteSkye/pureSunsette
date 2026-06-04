@@ -1,6 +1,6 @@
 	db DEX_DUGTRIO ; pokedex id
 
-	db  50,  95,  50, 120,  70
+	db  50,  90,  55, 120,  70
 	;   hp  atk  def  spd  spc
 
 	db GROUND, GROUND ; type

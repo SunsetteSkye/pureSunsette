@@ -30,7 +30,7 @@ MoveEffectPointerTable:
 	dw ThrashPetalDanceEffect    ; THRASH_PETAL_DANCE_EFFECT
 	dw TeleportEffect            ; TELEPORT_EFFECT
 	dw TwoToFiveAttacksEffect    ; TWO_TO_FIVE_ATTACKS_EFFECT
-	dw FirewallEffect            ; FIREWALL_EFFECT
+	dw MirageEffect              ; MIRAGE_EFFECT
 	dw FlinchSideEffect          ; FLINCH_SIDE_EFFECT1
 	dw SleepEffect               ; SLEEP_EFFECT
 	dw PoisonEffect              ; POISON_SIDE_EFFECT2
@@ -78,7 +78,7 @@ MoveEffectPointerTable:
 	dw ConfusionBigSideEffect    ; CONFUSION_BIG_SIDE_EFFECT
 	dw ConfusionSideEffect       ; CONFUSION_SIDE_EFFECT
 	dw TwoToFiveAttacksEffect    ; TWINEEDLE_EFFECT
-	dw AttackSpecialSpeedUpEffect; ATTACK_SPECIAL_SPEED_UP1
+	dw MeditateEffect            ; MEDITATE_EFFECT
 	dw SubstituteEffect          ; SUBSTITUTE_EFFECT
 	dw HyperBeamEffect           ; HYPER_BEAM_EFFECT
 	dw TwoToFiveAttacksEffect    ; BONEMERANG_EFFECT

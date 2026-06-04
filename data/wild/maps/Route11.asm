@@ -6,10 +6,10 @@ Route11WildMons:
 	db 10, DROWZEE
 	db 13, DROWZEE
 	db 14, DROWZEE
-	db 15, SCYTHER
-	db 16, SCYTHER
-	db 11, TAUROS
-	db 15, TAUROS
+	db 15, PINSIR
+	db 16, PINSIR
+	db 11, SQUIRTLE
+	db 15, SQUIRTLE
 	end_grass_wildmons
 
 	def_water_wildmons 7 ; encounter rate

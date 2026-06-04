@@ -1,6 +1,6 @@
 	db DEX_MAROWAK ; pokedex id
 
-	db  80, 125, 110,  45,  60
+	db  80,  95, 110,  45,  90
 	;   hp  atk  def  spd  spc
 
 	db GROUND, GHOST ; type
@@ -33,7 +33,7 @@
 	EARTHQUAKE,\
 	CRABHAMMER,\
 	DIG,\
-	KINESIS,\ ; FIREWALL
+	KINESIS,\ ; MIRAGE
 	SWORDS_DANCE,\
 	BIDE,\
 	BARRAGE,\

@@ -173,6 +173,8 @@ InitOptions:
 	ld [wLetterPrintingDelayFlags], a
 	ld a, TEXT_DELAY_MEDIUM
 	ld [wOptions], a
+	ld a, PALETTES_SGB ; Sunsette: palette set is locked to SGB1 (the option was removed)
+	ld [wOptions2], a
 	ret
 
 LinkMenu:

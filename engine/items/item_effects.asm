@@ -983,6 +983,30 @@ ItemUseApexChip: ; PureRGBnote: ADDED: code for item that maximizes DVs of a pok
 	jp nz, ItemUseNotTime
 	jp ItemUseMedicine
 
+; Sunsette: resets the active player mon's stat stages to neutral (recalc, keeping burn/paralysis
+; penalties) and clears Confusion. Used by the drink cleanse. Preserves hl/de/bc.
+ResetActiveMonVolatile:
+	push hl
+	push de
+	push bc
+	ld hl, wPlayerMonStatMods
+	ld c, 6 ; Attack/Defense/Speed/Special/Accuracy/Evasion stages
+	ld a, 7 ; neutral
+.loop
+	ld [hli], a
+	dec c
+	jr nz, .loop
+	xor a ; player's stats
+	ld [wCalculateWhoseStats], a
+	callfar CalculateModifiedStats
+	callfar ApplyBurnAndParalysisPenaltiesToPlayer
+	ld hl, wPlayerBattleStatus1
+	res CONFUSED, [hl]
+	pop bc
+	pop de
+	pop hl
+	ret
+
 ItemUseVitamin:
 	ld a, [wIsInBattle]
 	and a
@@ -1145,7 +1169,37 @@ ItemUseMedicine:
 ; if the pokemon's current HP equals its max HP
 	ld a, [wCurItem]
 	cp FULL_RESTORE
-	jp nz, .healingItemNoEffect
+	jr z, .fullRestoreAtFullHP
+; Sunsette: drinks still work at full HP in battle so they can cleanse - route them through the heal path
+	ld a, [wIsInBattle]
+	and a
+	jp z, .healingItemNoEffect
+	ld a, [wCurItem]
+	cp FRESH_WATER
+	jp z, .drinkCleanseOnly
+	cp SODA_POP
+	jp z, .drinkCleanseOnly
+	cp LEMONADE
+	jp z, .drinkCleanseOnly
+	jp .healingItemNoEffect
+.drinkCleanseOnly
+; Sunsette: full-HP drink in battle -> cleanse only, no heal message/sound/bar (active mon only)
+	ld a, [wPlayerMonNumber]
+	ld b, a
+	ld a, [wUsedItemOnWhichPokemon]
+	cp b
+	jp nz, .healingItemNoEffect ; drink on a full-HP benched mon -> nothing to do
+	call ResetActiveMonVolatile
+	ld a, 1
+	ld [wActionResultOrTookBattleTurn], a ; the drink was used (takes the battle turn)
+	push hl
+	call RemoveUsedItem
+	pop hl
+	ld hl, RefreshingText
+	rst _PrintText
+	call WaitForTextScrollButtonPress
+	jp .done
+.fullRestoreAtFullHP
 	inc hl
 	inc hl
 	ld a, [hld] ; status ailment
@@ -1244,20 +1298,37 @@ ItemUseMedicine:
 .notUsingSoftboiled2
 	ld a, [wCurItem]
 	cp SODA_POP
-	ld b, 60 ; Soda Pop heal amount
+	ld b, 45 ; Soda Pop heal amount
 	jr z, .addHealAmount
-	ld b, 80 ; Lemonade heal amount
+	ld b, 60 ; Lemonade heal amount
 	jr nc, .addHealAmount
 	cp FRESH_WATER
-	ld b, 50 ; Fresh Water heal amount
+	ld b, 30 ; Fresh Water heal amount
 	jr z, .addHealAmount
 	cp SUPER_POTION
-	ld b, 200 ; Hyper Potion heal amount
+	ld b, 100 ; Hyper Potion heal amount
 	jr c, .addHealAmount
-	ld b, 100 ; Super Potion heal amount ; PureRGBnote: CHANGED: super potion heals 100 now instead of 50
+	ld b, 50 ; Super Potion heal amount ;
 	jr z, .addHealAmount
-	ld b, 50 ; Potion heal amount ; PureRGBnote: CHANGED: super potion heals 50 now instead of 20
+	ld b, 25 ; Potion heal amount ;
 .addHealAmount
+; Sunsette: Cascade Badge doubles Potion/Super/Hyper Potion healing (not the drinks, not Softboiled)
+	ld a, [wPseudoItemID]
+	and a
+	jr nz, .noCascadeDouble ; Softboiled borrows the POTION id but shouldn't be doubled
+	ld a, [wObtainedBadges]
+	bit BIT_CASCADEBADGE, a
+	jr z, .noCascadeDouble
+	ld a, [wCurItem]
+	cp POTION
+	jr z, .cascadeDouble
+	cp SUPER_POTION
+	jr z, .cascadeDouble
+	cp HYPER_POTION
+	jr nz, .noCascadeDouble
+.cascadeDouble
+	sla b ; double the heal amount (max 200, fits in 8 bits)
+.noCascadeDouble
 	pop de
 	pop hl
 	ld a, [hl]
@@ -1346,6 +1417,20 @@ ItemUseMedicine:
 	ld [wBattleMonHP], a
 	ld a, [hld]
 	ld [wBattleMonHP + 1], a
+; Sunsette: a drink (Fresh Water/Soda Pop/Lemonade) also clears the active mon's confusion + stat changes
+	ld a, [wIsInBattle]
+	and a
+	jr z, .afterDrinkVolatile
+	ld a, [wCurItem]
+	cp FRESH_WATER
+	jr z, .clearDrinkVolatile
+	cp SODA_POP
+	jr z, .clearDrinkVolatile
+	cp LEMONADE
+	jr nz, .afterDrinkVolatile
+.clearDrinkVolatile
+	call ResetActiveMonVolatile
+.afterDrinkVolatile
 	ld a, [wCurItem]
 	cp FULL_RESTORE
 	jr nz, .calculateHPBarCoords
@@ -1412,6 +1497,26 @@ ItemUseMedicine:
 	ld c, 50
 	rst _DelayFrames
 	call WaitForTextScrollButtonPress
+; Sunsette: announce the drink cleanse (only when a drink was used on the active battle mon)
+	ld a, [wIsInBattle]
+	and a
+	jr z, .done
+	ld a, [wPlayerMonNumber]
+	ld b, a
+	ld a, [wUsedItemOnWhichPokemon]
+	cp b
+	jr nz, .done
+	ld a, [wCurItem]
+	cp FRESH_WATER
+	jr z, .showRefreshMessage
+	cp SODA_POP
+	jr z, .showRefreshMessage
+	cp LEMONADE
+	jr nz, .done
+.showRefreshMessage
+	ld hl, RefreshingText
+	rst _PrintText
+	call WaitForTextScrollButtonPress
 	jr .done
 .canceledItemUse
 	xor a
@@ -1459,8 +1564,13 @@ ItemUseMedicine:
 	jr nc, .noCarry2
 	inc h
 .noCarry2
-	ld a, 34 ; 10 ; PureRGBnote: CHANGED: vitamins are ~3.4 times as effective
-	ld b, a
+	ld b, 17 ; Sunsette: base vitamin stat-up (~1.7x vanilla)
+; Sunsette: Rainbow Badge boosts vitamins to ~3.4x their normal effect
+	ld a, [wObtainedBadges]
+	bit BIT_RAINBOWBADGE, a
+	jr z, .noRainbowVitamin
+	ld b, 34
+.noRainbowVitamin
 	ld a, [hl] ; a = MSB of stat experience of the appropriate stat
 	cp 100 ; is there already at least 25600 (256 * 100) stat experience?
 	jr nc, .vitaminNoEffect ; if so, vitamins can't add any more
@@ -1802,15 +1912,19 @@ ItemUsePocketAbra:
 	callfar LavaRoomCheck
 	jp z, ItemUseNotTime 
 ;;;;;
+; Sunsette: the Pocket Abra warps to the last Pokémon Center, but with Sabrina's badge (BIT_PSYCHICBADGE)
+; it upgrades to work like FLY (pick any destination on the town map).
+	ld a, [wObtainedBadges]
+	bit BIT_PSYCHICBADGE, a
+	jr nz, .townMapFly
 	ld hl, .wantToTeleportText
 	rst _PrintText
 	call YesNoChoice
-	jr z, .yes
-.no
+	jr z, .lastCenter
 	ld hl, .pocketAbraNo
 	rst _PrintText
 	ret
-.yes
+.lastCenter
 	ld hl, wStatusFlags6
 	set BIT_FLY_WARP, [hl]
 	set BIT_ESCAPE_WARP, [hl]
@@ -1819,6 +1933,18 @@ ItemUsePocketAbra:
 	res BIT_NO_BATTLES, [hl]
 	callfar ClearSafariFlags
 	call ItemUseReloadOverworldData
+	jr .pocketAbraWarpFlavor
+.townMapFly
+	call ChooseFlyDestination
+	ld a, [wStatusFlags6]
+	bit BIT_FLY_WARP, a ; did the player pick a destination?
+	ret z ; cancelled the town map
+	ld hl, wStatusFlags4
+	set BIT_UNKNOWN_4_1, [hl]
+	res BIT_NO_BATTLES, [hl]
+	callfar ClearSafariFlags
+	call ItemUseReloadOverworldData
+.pocketAbraWarpFlavor
 	call Random
 	cp 200
 	jr nc, .flavor1
@@ -2807,6 +2933,10 @@ ItemUseNoEffectText:
 	text_far _ItemUseNoEffectText
 	text_end
 
+RefreshingText: ; Sunsette: shown when a drink clears the active mon's confusion + stat changes
+	text_far _RefreshingText
+	text_end
+
 ThrowBallAtTrainerMonText1:
 	text_far _ThrowBallAtTrainerMonText1
 	text_end
@@ -3539,10 +3669,9 @@ ClearParaBurnBattleFlagsOnHeal:
 	; store active mon's status before being healed for AI purposes
 	ld a, [wBattleMonStatus]
 	ld [wAITargetMonStatus], a
-	; reset toxic and "extra firewall damage" flags in active mon status flags
+	; reset toxic flag in active mon status flags
 	ld hl, wPlayerBattleStatus3
 	res BADLY_POISONED, [hl]
-	res BOOSTED_FIREWALL, [hl]
 	ldh a, [hWhoseTurn]
 	push af
 	xor a	;forcibly set it to the player's turn

@@ -16,7 +16,6 @@
 	; tm/hm learnset
 	tmhm \
 	TOXIC,\
-	HORN_DRILL,\
 	BODY_SLAM,\
 	DOUBLE_EDGE,\
 	BUBBLEBEAM,\

@@ -326,41 +326,32 @@ FireDefrostedText:
 	text_end
 
 ; PureRGBnote: ADDED: increases attack, special, and speed as a move effect. Used with Meditate.
-AttackSpecialSpeedUpEffect:
+MeditateEffect:
+; PureRGBnote: CHANGED: Meditate now sets Light Screen (special-halving, crit-proof) on the
+; user and raises Attack +1. No cleanse, unlike the Reflect/Light Screen moves themselves.
+	ld hl, wPlayerBattleStatus3
+	ldh a, [hWhoseTurn]
+	and a
+	jr z, .lightScreenSet
+	ld hl, wEnemyBattleStatus3
+.lightScreenSet
+	set HAS_LIGHT_SCREEN_UP, [hl]
 	SetFlag FLAG_SKIPPED_STAT_MODIFIER
-	;values for the enemy's turn
 	ld de, wPlayerMoveEffect
 	ldh a, [hWhoseTurn]
 	and a
 	jr z, .next
-	; values for the player's turn
 	ld de, wEnemyMoveEffect
 .next
-	push de
-	call GetSpecialPointers
-	call IsStatMaxed
-	pop de
-	jr c, .nextStat
-	ld a, SPECIAL_UP1_EFFECT
-	call ReplacedStatModifierUpEffect
-.nextStat
 	push de
 	call GetAttackPointers
 	call IsStatMaxed
 	pop de
-	jr c, .nextStat2
-	ld a, ATTACK_UP_SIDE_EFFECT
-	call ReplacedStatModifierUpEffect
-.nextStat2
-	push de
-	call GetSpeedPointers
-	call IsStatMaxed
-	pop de
 	jr c, .done
-	ld a, SPEED_UP_SIDE_EFFECT
+	ld a, ATTACK_UP1_EFFECT
 	call ReplacedStatModifierUpEffect
 .done
-	ld a, ATTACK_SPECIAL_SPEED_UP1
+	ld a, MEDITATE_EFFECT
 	jr ResetStatModEffectAndAnimationFlag
 
 ; PureRGBnote: ADDED: increases both attack and defense as a move effect, used with bide
@@ -1368,8 +1359,8 @@ ConfusionEffectFailed:
 	rst _DelayFrames
 	jp ConditionalPrintButItFailed
 
-FirewallEffect:
-	jpfar FirewallEffect_
+MirageEffect:
+	jpfar MirageEffect_
 
 ParalyzeEffect:
 	jpfar ParalyzeEffect_
@@ -1646,9 +1637,23 @@ HazeEffect:
 
 ; PureRGBnote: ADDED: growth raises special by 1 and heals around 1/3rd health. Does nothing at all if you're at full health.
 GrowthEffect:
-	lb bc, SPECIAL_UP1_EFFECT, GROWTH_EFFECT
-	call GetSpecialPointers
-	jr WithdrawGrowthEffect
+; PureRGBnote: CHANGED: Growth still heals ~1/3 of max HP, now also grants a leftovers-like
+; 1/16-per-turn regen (the GROWING flag), and no longer raises Special.
+	ld hl, wPlayerBattleStatus3
+	ldh a, [hWhoseTurn]
+	and a
+	jr z, .gotStatus
+	ld hl, wEnemyBattleStatus3
+.gotStatus
+	set GROWING, [hl]
+	ld a, [wHPBarType]
+	push af
+	ld a, 3
+	ld [wHPBarType], a
+	callfar HealEffect_
+	pop af
+	ld [wHPBarType], a
+	ret
 
 ; PureRGBnote: ADDED: withdraw raises defense by 1 and heals around 1/3rd health. Does nothing at all if you're at full health.
 WithdrawEffect:
@@ -1931,49 +1936,17 @@ SiphonSnagEffect::
 	jpfar _SiphonSnagEffect
 
 HeatRushEffect::
+; PureRGBnote: CHANGED: Heat Rush now works like Flame Charge -- it deals damage and always
+; raises the user's Speed by one stage (no more burn / fire-only special boost).
 	ldh a, [hWhoseTurn]
 	and a
 	ld hl, wPlayerMoveEffect
-	ld de, wBattleMonType1
 	jr z, .next
 	ld hl, wEnemyMoveEffect
-	ld de, wEnemyMonType1
 .next
-	ld [hl], SPECIAL_UP1_EFFECT
 	push hl
-	call BattleRandom
-	cp 40 percent + 1
-	jr nc, .skip
-	ld a, [de]
-	cp FIRE
-	jr z, .found
-	inc de
-	ld a, [de]
-	cp FIRE
-	jr nz, .skip
-.found
-	call GetSpecialPointers
-	call IsStatMaxed
-	jr c, .skip
-	SetEvent FLAG_SKIP_STAT_ANIMATION
-	call StatModifierUpEffect
-	ResetEvent FLAG_SKIP_STAT_ANIMATION
-.skip
-	ldh a, [hWhoseTurn]
-	and a
-	ld hl, wEnemyMonHP
-	jr z, .playersTurn
-	ld hl, wBattleMonHP
-.playersTurn
-	ld a, [hli]
-	ld b, [hl]
-	or b
-	jr z, .done ; if foe is fainted, don't try to burn anyone
-	pop hl
-	push hl
-	ld [hl], BURN_SIDE_EFFECT2
-	call FreezeBurnParalyzeEffect
-.done
+	ld [hl], SPEED_UP1_EFFECT
+	call StatUpSideEffect
 	pop hl
 	ld [hl], HEAT_RUSH_EFFECT
 	ret

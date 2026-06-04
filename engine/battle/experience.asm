@@ -2,7 +2,19 @@ GainExperience:
 	ld a, [wLinkState]
 	cp LINK_STATE_BATTLING
 	ret z ; return if link battle
+; Sunsette: always-on EXP ALL once the Pokedex is obtained
+	xor a
+	ld [wExpAllActive], a
+	ld [wTeamExpGained], a
+	ld [wTeamExpGained + 1], a
+	CheckEvent EVENT_GOT_POKEDEX
+	jr z, .noExpAll
+	ld a, 1
+	ld [wExpAllActive], a
+	jr .afterDivide ; exp-all gives each mon a fixed fraction of the full (undivided) yield
+.noExpAll
 	call DivideExpDataByNumMonsGainingExp
+.afterDivide
 	ld hl, wPartyMon1
 	xor a
 	ld [wWhichPokemon], a
@@ -19,10 +31,18 @@ GainExperience:
 	pop hl
 	jp c, .nextMon ; no EXP gain for pokemon over fitness level limit
 .notFitnessBattle1
+	ld a, 4
+	ld [wTempByteValue], a ; Sunsette: share multiplier (xN then /5) - 4 = unfainted participant (80% of yield)
 	inc hl
 	ld a, [hli]
 	or [hl] ; is mon's HP 0?
-	jp z, .nextMon ; if so, go to next mon
+	jr nz, .notFainted
+	ld a, [wExpAllActive]
+	and a
+	jp z, .nextMon ; original: a fainted mon gains nothing
+	ld a, 1
+	ld [wTempByteValue], a ; exp-all: fainted mon is an "other" -> 20% of yield (x1 then /5)
+.notFainted
 	push hl
 	ld hl, wPartyGainExpFlags
 	ld a, [wWhichPokemon]
@@ -30,9 +50,39 @@ GainExperience:
 	ld b, FLAG_TEST
 	call FlagAction
 	pop hl
-	jp z, .nextMon ; if mon's gain exp flag not set, go to next mon
+	jr nz, .gainsExp ; flag set -> direct participant
+	ld a, [wExpAllActive]
+	and a
+	jp z, .nextMon ; original: a non-participant gains nothing
+	ld a, 1
+	ld [wTempByteValue], a ; exp-all: non-participant -> 20% of yield (x1 then /5)
+.gainsExp
 	ld de, (MON_HP_EXP + 1) - (MON_HP + 1)
-	add hl, de
+	add hl, de ; hl = this mon's stat-exp base pointer
+; Sunsette: decide how many times to add the enemy's base stats as stat exp.
+; "other" mons (share multiplier != 4) get none; participants get 1x in the wild, 3x vs trainers.
+	ld a, [wTempByteValue]
+	cp 4
+	jr z, .statExpParticipant
+	ld b, 0 ; other mon -> no stat exp
+	jr .statExpRepsReady
+.statExpParticipant
+	ld b, 1 ; participant baseline (wild)
+	ld a, [wExpAllActive]
+	and a
+	jr z, .statExpRepsReady ; pre-Pokedex -> normal 1x stat exp
+	ld a, [wIsInBattle]
+	dec a ; wild == 1 -> 0, trainer == 2 -> nonzero
+	jr z, .statExpRepsReady ; wild -> 1x
+	ld b, 3 ; trainer battle -> triple stat exp
+.statExpRepsReady
+	; b = rep count (0/1/3); hl = stat-exp base pointer
+.statExpRepLoop
+	ld a, b
+	and a
+	jr z, .statExpRepsDone
+	push hl ; preserve the base pointer for the next rep
+	push bc ; preserve the rep counter
 	ld d, h
 	ld e, l
 	ld hl, wEnemyMonBaseStats
@@ -59,10 +109,26 @@ GainExperience:
 	ld [de], a
 .nextBaseStat
 	dec c
-	jr z, .statExpDone
+	jr z, .statExpPassDone
 	inc de
 	inc de
 	jr .gainStatExpLoop
+.statExpPassDone
+	pop bc
+	pop hl
+	dec b
+	jr .statExpRepLoop
+.statExpRepsDone
+; Sunsette: leave de where a single original pass would (base + 2*(NUM_STATS-1)); the OTID
+; lookup below relies on this regardless of how many reps actually ran.
+	ld d, h
+	ld e, l
+	ld a, NUM_STATS - 1
+.advanceStatExpDe
+	inc de
+	inc de
+	dec a
+	jr nz, .advanceStatExpDe
 .statExpDone
 	xor a
 	ldh [hMultiplicand], a
@@ -111,6 +177,23 @@ GainExperience:
 	call nz, BoostExp ; if so, boost exp
 	CheckEvent EVENT_IN_FITNESS_BATTLE
 	call nz, TripleExp
+; Sunsette: badge/level EXP scaling (Pokedex only) - applied to every mon before the participant fraction
+	ld a, [wExpAllActive]
+	and a
+	call nz, ApplyExpLevelScale
+; Sunsette: exp-all -> scale to this mon's share (participant 80% = x4 then /5 ; other 20% = x1 then /5)
+	ld a, [wExpAllActive]
+	and a
+	jr z, .noExpAllFraction
+	ld a, [wTempByteValue]
+	cp 4
+	jr nz, .shareDivide ; multiplier 1 (other) -> no pre-multiply
+	call DoubleExp
+	call DoubleExp ; participant -> x4
+.shareDivide
+	ld a, 5
+	call DivideExpInPlace
+.noExpAllFraction
 	inc hl
 	inc hl
 	inc hl
@@ -130,6 +213,21 @@ GainExperience:
 	inc [hl]
 	inc hl
 .noCarry
+; Sunsette: accumulate this mon's gain into the team total for the single message
+	ld a, [wExpAllActive]
+	and a
+	jr z, .noTeamAccum
+	ld a, [wExpAmountGained + 1]
+	ld b, a
+	ld a, [wTeamExpGained + 1]
+	add b
+	ld [wTeamExpGained + 1], a
+	ld a, [wExpAmountGained]
+	ld b, a
+	ld a, [wTeamExpGained]
+	adc b
+	ld [wTeamExpGained], a
+.noTeamAccum
 ; calculate exp for the mon at max level, and cap the exp at that value
 	inc hl
 	push hl
@@ -170,13 +268,16 @@ GainExperience:
 	dec hl
 .next2b
 	push hl
+	xor a ; PLAYER_PARTY_DATA
+	ld [wMonDataLocation], a
+	ld a, [wExpAllActive]
+	and a
+	jr nz, .noExpBar ; Sunsette: exp-all uses one team message, so skip the per-mon "gained" text + bar
 	ld a, [wWhichPokemon]
 	ld hl, wPartyMonNicks
 	call GetPartyMonName
 	ld hl, GainedText
 	rst _PrintText
-	xor a ; PLAYER_PARTY_DATA
-	ld [wMonDataLocation], a
 ;;;;;;;;;; PureRGBnote: ADDED: EXP bar is optional and will only render if the option is enabled.
 	call HasExpBar
 	jr z, .noExpBar
@@ -361,6 +462,17 @@ GainExperience:
 	call AddNTimes
 	jp .partyMonLoop
 .done
+; Sunsette: one team-wide EXP message (exp-all only)
+	ld a, [wExpAllActive]
+	and a
+	jr z, .doneClearFlags
+	ld a, [wTeamExpGained]
+	ld [wExpAmountGained], a
+	ld a, [wTeamExpGained + 1]
+	ld [wExpAmountGained + 1], a
+	ld hl, TeamGainedText
+	rst _PrintText
+.doneClearFlags
 	ld hl, wPartyGainExpFlags
 	xor a
 	ld [hl], a ; clear gain exp flags
@@ -443,6 +555,176 @@ TripleExp:
 	pop bc
 	ret
 
+; Sunsette: scales a mon's EXP yield by its level vs badge-based thresholds (Pokedex/exp-all only).
+;   level <  T1 -> doubled ; level >  T3 -> tenth ; level >  T2 -> halved ; otherwise unchanged.
+; Thresholds (ExpLevelScaleThresholds) are indexed by badge count (0-8), or by the Champion row (9).
+; Operates on the 4-byte hQuotient in place; preserves hl/de/bc.
+ApplyExpLevelScale:
+	push hl
+	push de
+	push bc
+; this party mon's level -> d
+	ld hl, wPartyMon1Level
+	ld bc, PARTYMON_STRUCT_LENGTH
+	ld a, [wWhichPokemon]
+	call AddNTimes
+	ld d, [hl] ; d = level
+; pick the threshold row: Champion (row 9), otherwise the number of badges obtained (0-8)
+	CheckEvent EVENT_BEAT_CHAMPION_RIVAL
+	jr z, .notChampion
+	ld a, 9
+	jr .gotRow
+.notChampion
+	ld a, [wObtainedBadges]
+	ld c, 0
+.countBadges
+	and a
+	jr z, .countDone
+	srl a
+	jr nc, .countBadges
+	inc c
+	jr .countBadges
+.countDone
+	ld a, c
+.gotRow
+; hl = ExpLevelScaleThresholds + row * 3
+	ld hl, ExpLevelScaleThresholds
+	ld c, a
+	add a
+	add c
+	ld c, a
+	ld b, 0
+	add hl, bc
+; [hl] = T1 (boost-below), [hl+1] = T2 (half-above), [hl+2] = T3 (quarter-above) ; d = level
+	ld a, [hli] ; T1
+	cp d
+	jr c, .checkUpper ; T1 < level -> not below T1
+	jr z, .checkUpper ; T1 == level -> not below T1
+	jr .boost         ; level < T1
+.checkUpper
+	ld a, [hli] ; T2 (hl now -> T3)
+	ld e, a     ; save T2
+	ld a, [hl]  ; T3
+	cp d
+	jr c, .quarter ; T3 < level -> level > T3
+	ld a, e      ; T2
+	cp d
+	jr c, .half  ; T2 < level -> level > T2
+	jr .scaleDone ; within T1..T2 -> unchanged
+.boost
+	call BoostExp ; level < T1 -> x1.5
+	jr .scaleDone
+.half
+	ld a, 2
+	call DivideExpInPlace ; T2 < level -> x0.5
+	jr .scaleDone
+.quarter
+	ld a, 4
+	call DivideExpInPlace ; T3 < level -> x0.25
+.scaleDone
+	pop bc
+	pop de
+	pop hl
+	ret
+
+; divides the 4-byte hQuotient in place by the divisor in register a (result back in hQuotient)
+DivideExpInPlace:
+	push af
+	ldh a, [hQuotient]
+	ldh [hDividend], a
+	ldh a, [hQuotient + 1]
+	ldh [hDividend + 1], a
+	ldh a, [hQuotient + 2]
+	ldh [hDividend + 2], a
+	ldh a, [hQuotient + 3]
+	ldh [hDividend + 3], a
+	pop af
+	ldh [hDivisor], a
+	ld b, 4
+	jp Divide ; preserves hl/de/bc
+
+; doubles the 4-byte hQuotient in place (shift left, LSB first); preserves bc/de/hl
+DoubleExp:
+	ldh a, [hQuotient + 3]
+	add a
+	ldh [hQuotient + 3], a
+	ldh a, [hQuotient + 2]
+	adc a
+	ldh [hQuotient + 2], a
+	ldh a, [hQuotient + 1]
+	adc a
+	ldh [hQuotient + 1], a
+	ldh a, [hQuotient]
+	adc a
+	ldh [hQuotient], a
+	ret
+
+ExpLevelScaleThresholds:
+; boost-below (T1, x1.5), half-above (T2, x0.5), quarter-above (T3, x0.25)
+	db  8,  12,  14 ; 0 badges
+	db 12,  18,  21 ; 1 badge
+	db 16,  24,  28 ; 2 badges
+	db 20,  30,  35 ; 3 badges
+	db 24,  36,  42 ; 4 badges
+	db 27,  40,  46 ; 5 badges
+	db 30,  44,  51 ; 6 badges
+	db 33,  48,  55 ; 7 badges
+	db 42,  60,  69 ; 8 badges
+	db 50, 100, 100 ; Champion
+
+; Sunsette: count obtained badges -> a (0-8); preserves bc
+CountObtainedBadges:
+	push bc
+	ld a, [wObtainedBadges]
+	ld b, 0
+.loop
+	and a
+	jr z, .done
+	srl a
+	jr nc, .loop
+	inc b
+	jr .loop
+.done
+	ld a, b
+	pop bc
+	ret
+
+; Sunsette: store the half-XP threshold (T2) for badge-row a (0-9) into wExpGrowthThreshold
+StoreExpGrowthThreshold:
+	cp 9
+	jr c, .rowOk
+	ld a, 9 ; clamp to the Champion row
+.rowOk
+	push hl
+	push bc
+	ld c, a
+	add a
+	add c ; a = row * 3
+	inc a ; +1 -> the T2 (half-above) column
+	ld c, a
+	ld b, 0
+	ld hl, ExpLevelScaleThresholds
+	add hl, bc
+	ld a, [hl] ; T2
+	cp 100
+	jr c, .store
+	ld a, 99 ; keep it within the 2-digit text field
+.store
+	ld [wExpGrowthThreshold], a
+	pop bc
+	pop hl
+	ret
+
+; entry point for the Cerulean badge house (all earned badges already set): true count
+ComputeExpGrowthThreshold::
+	call CountObtainedBadges
+	jr StoreExpGrowthThreshold
+
+; entry point for a gym leader's badge-info text (the just-won badge isn't set yet): count + 1
+ComputeExpGrowthThresholdLeader::
+	call CountObtainedBadges
+	inc a
+	jr StoreExpGrowthThreshold
 
 GainedText:
 	text_far _GainedText
@@ -469,6 +751,16 @@ BoostedText:
 
 ExpPointsText:
 	text_far _ExpPointsText
+	text_end
+
+TeamGainedText:
+	text_far _TeamGainedText
+	text_asm
+	ld hl, TeamExpText
+	ret
+
+TeamExpText:
+	text_far _TeamExpText
 	text_end
 
 GrewLevelText:

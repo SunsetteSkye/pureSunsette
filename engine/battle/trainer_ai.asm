@@ -167,7 +167,7 @@ AIMoveChoiceModification1:
 	jp z, .checkAsleep
 	cp OHKO_EFFECT
 	jr z, .ohko
-	cp FIREWALL_EFFECT
+	cp MIRAGE_EFFECT
 	jp z, .firewall
 	ld a, [wEnemyMovePower]
 	and a
@@ -274,7 +274,7 @@ AIMoveChoiceModification1:
 	call IsInSingleByteArray
 	jp nc, .notStatBoostingMove
 	ld a, [wEnemyMoveEffect]
-	cp ATTACK_SPECIAL_SPEED_UP1
+	cp MEDITATE_EFFECT
 	jr z, .meditateCheck
 	cp ATTACK_ACCURACY_UP1_EFFECT
 	jr z, .sharpenCheck
@@ -641,7 +641,7 @@ StatBoostingEffectList:
 	db EVASION_UP2_EFFECT
 	db ATTACK_ACCURACY_UP1_EFFECT
 	db ATTACK_DEFENSE_UP1_EFFECT
-	db ATTACK_SPECIAL_SPEED_UP1
+	db MEDITATE_EFFECT
 	db -1
 
 ; PureRGBnote: ADDED: function that does a couple of comparisons before deciding whether the player is "dangerous" or not
@@ -881,7 +881,7 @@ CompareSpeed:
 
 CheckHarderAIActive:
 	ld a, [wObtainedBadges]
-	bit BIT_SOULBADGE, a
+	bit BIT_POISONBADGE, a
 	ret
 
 ; PureRGBnote: ADDED: encourages priority moves if the enemy's pokemon is slower than the player's and the move is neutral or super effective.
@@ -1038,7 +1038,7 @@ Modifier4PreferredMoves:
 	db SLEEP_EFFECT
 	db POISON_EFFECT
 	db PARALYZE_EFFECT
-	db FIREWALL_EFFECT
+	db MIRAGE_EFFECT
 	db CONFUSION_EFFECT
 	db -1 ; end
 

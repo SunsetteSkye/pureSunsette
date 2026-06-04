@@ -9,6 +9,9 @@ PriorityMoves:
 	db MIRROR_MOVE
 	db SONICBOOM
 	db PIN_MISSILE
+	db FLY
+	db MEDITATE
+	db POISON_GAS
 	db -1 ; end
 
 FarCheckPriority:

@@ -81,7 +81,6 @@ RemappableMoves::
 	db DOUBLESLAP, -1, -2, 0
 	db EXPLOSION, -1, -2, 2
 	db SELFDESTRUCT, -1, -2, 2
-	db KINESIS, -1, -2, 3 ; FIREWALL
 	db TOXIC, -1, -2, 4
 	db SKULL_BASH, -1, -2, 5
 	db SLAM, -1, -2, 6 ; FILTHY SLAM
@@ -97,7 +96,7 @@ RemappableMoves::
 	db FIRE_PUNCH, MAGMAR, 105, 0
 	db ICE_PUNCH, JYNX, 105, 0
 	db HYPNOSIS, HYPNO, -1, 85 percent
-	db DRAGON_RAGE, DRAGONITE, 100, 0
+	db DRAGON_RAGE, DRAGONITE, 110, 0
 	db WATERFALL, SEAKING, 120, 0
 	db DIZZY_PUNCH, KANGASKHAN, 110, 0
 	db LICK, LICKITUNG, 70, 0
@@ -215,41 +214,9 @@ ExplosionSelfdestructModifier:
 	ld [de], a
 	jpfar DrawHUDsAndHPBars
 
+; PureRGBnote: Mirage (formerly Firewall) no longer remaps its power, so this is now a no-op.
+; The label/slot is kept so the ModifierFuncs indices that follow it stay correct.
 FirewallModifier:
-	ldh a, [hWhoseTurn]
-	and a
-	ld hl, wEnemyBattleStatus3
-	ld de, wEnemyMonStatus
-	jr z, .gotTurn
-	ld hl, wPlayerBattleStatus3
-	ld de, wBattleMonStatus
-.gotTurn
-	ld a, [de]
-	bit BRN, a
-	ret z ; no power boosts if opponent not already burned
-	push hl
-	call GetMoveRemapData
-	ld a, e
-	cp 50 ; is pokemon at least level 50
-	jr nc, .stronger ; if so the move will boost higher in power on burned mons
-.weaker
-	pop hl
-	bit BOOSTED_FIREWALL, [hl]
-	ld a, 50
-	jr z, .loadPower
-	ld a, 80
-	jr .loadPower
-.stronger
-	pop hl
-	bit BOOSTED_FIREWALL, [hl]
-	ld a, 80
-	jr z, .loadPower
-	ld a, 140
-.loadPower
-	push af
-	call GetMoveRemapData2
-	pop af
-	ld [bc], a
 	ret
 
 ; input d = which pokemon

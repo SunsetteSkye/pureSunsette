@@ -64,7 +64,7 @@ IndigoGymGuideSonShop2: ; all TMs
 	TM_DIG, \
 	TM_PSYCHIC_M, \
 	TM_MEGA_DRAIN, \
-	TM_KINESIS, \    	; FIREWALL
+	TM_KINESIS, \    	; MIRAGE
 	TM_SWORDS_DANCE, \
 	TM_REFLECT, \
 	TM_BIDE, \

@@ -3,14 +3,14 @@
 	db  65, 125, 100,  85,  55
 	;   hp  atk  def  spd  spc
 
-	db BUG, FIGHTING ; type
+	db BUG, GROUND ; type
 	db 65 ; catch rate
 	db 200 ; base exp
 
 	INCBIN "gfx/pokemon/front/pinsir.pic", 0, 1 ; sprite dimensions
 	dw PinsirPicFront, PinsirPicBackSW
 
-	db SCRATCH, BIND, NO_MOVE, NO_MOVE ; level 1 learnset
+	db SEISMIC_TOSS, FURY_SWIPES, NO_MOVE, NO_MOVE ; level 1 learnset
 	db GROWTH_MEDIUM_SLOW ; growth rate
 
 	; tm/hm learnset

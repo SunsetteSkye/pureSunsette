@@ -18,12 +18,14 @@ ReflectLightScreenEffect_:
 	bit HAS_LIGHT_SCREEN_UP, [hl] ; is mon already protected by light screen?
 	jr nz, .moveFailed
 	set HAS_LIGHT_SCREEN_UP, [hl] ; mon is now protected by light screen
+	call .cleanseUser
 	ld hl, LightScreenProtectedText
 	jr .playAnim
 .reflect
 	bit HAS_REFLECT_UP, [hl] ; is mon already protected by reflect?
 	jr nz, .moveFailed
 	set HAS_REFLECT_UP, [hl] ; mon is now protected by reflect
+	call .cleanseUser
 	ld hl, ReflectGainedArmorText
 .playAnim
 	push hl
@@ -53,6 +55,37 @@ ReflectLightScreenEffect_:
 	jr z, .print
 	ld hl, AcidArmorShieldText
 	jr .playAnim
+
+; PureRGBnote: ADDED: Reflect/Light Screen clear the user's confusion, leech seed, and
+; disable, and reset the toxic counter to 1 (de-escalates Toxic; does not cure poison).
+; Acid Armor deliberately does NOT call this.
+.cleanseUser
+	ldh a, [hWhoseTurn]
+	and a
+	jr nz, .cleanseEnemy
+	ld hl, wPlayerBattleStatus1
+	res CONFUSED, [hl]
+	ld hl, wPlayerBattleStatus2
+	res SEEDED, [hl]
+	xor a
+	ld [wPlayerConfusedCounter], a
+	ld [wPlayerDisabledMove], a
+	ld [wPlayerDisabledMoveNumber], a
+	inc a
+	ld [wPlayerToxicCounter], a
+	ret
+.cleanseEnemy
+	ld hl, wEnemyBattleStatus1
+	res CONFUSED, [hl]
+	ld hl, wEnemyBattleStatus2
+	res SEEDED, [hl]
+	xor a
+	ld [wEnemyConfusedCounter], a
+	ld [wEnemyDisabledMove], a
+	ld [wEnemyDisabledMoveNumber], a
+	inc a
+	ld [wEnemyToxicCounter], a
+	ret
 
 LightScreenProtectedText:
 	text_far _LightScreenProtectedText

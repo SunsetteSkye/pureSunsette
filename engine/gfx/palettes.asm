@@ -411,12 +411,86 @@ MapPalettesJumpTable:
 	db SEAFOAM_ISLANDS_B2F, PAL_0F
 	db SEAFOAM_ISLANDS_B3F, PAL_0F
 	db SEAFOAM_ISLANDS_B4F, PAL_0F
-	db POWER_PLANT, PAL_MEWMON
-	db POWER_PLANT_ROOF, PAL_MEWMON
-	db BRUNOS_ROOM, PAL_CAVE
 	db FUCHSIA_GOOD_ROD_HOUSE, PAL_FUCHSIA
 	db CERULEAN_ROCKET_HOUSE_B1F, PAL_REDMON
-	db POKEMON_TOWER_B1F, PAL_BLACKMON
+;;;;;;;;;; Sunsette: environment palette overhaul
+	; Forest palette
+	db ROUTE_2, PAL_FOREST
+	db VIRIDIAN_FOREST, PAL_FOREST
+	db CELADON_GYM, PAL_FOREST
+	; Highland palette
+	db ROUTE_3, PAL_HIGHLAND
+	db ROUTE_9, PAL_HIGHLAND
+	db ROUTE_10, PAL_HIGHLAND
+	db ROUTE_22, PAL_HIGHLAND
+	db ROUTE_23, PAL_HIGHLAND
+	; Safari Ball palette
+	db ROCKET_HIDEOUT_B1F, PAL_SAFARIBALL
+	db ROCKET_HIDEOUT_B2F, PAL_SAFARIBALL
+	db ROCKET_HIDEOUT_B3F, PAL_SAFARIBALL
+	db ROCKET_HIDEOUT_B4F, PAL_SAFARIBALL
+	db ROCKET_HIDEOUT_ELEVATOR, PAL_SAFARIBALL
+	db VIRIDIAN_GYM, PAL_SAFARIBALL
+	; Pewter City palette
+	db BRUNOS_ROOM, PAL_PEWTER
+	db UNDERGROUND_PATH_NORTH_SOUTH, PAL_PEWTER
+	db UNDERGROUND_PATH_WEST_EAST, PAL_PEWTER
+	db SILPH_CO_1F, PAL_PEWTER
+	db SILPH_CO_2F, PAL_PEWTER
+	db SILPH_CO_3F, PAL_PEWTER
+	db SILPH_CO_4F, PAL_PEWTER
+	db SILPH_CO_5F, PAL_PEWTER
+	db SILPH_CO_6F, PAL_PEWTER
+	db SILPH_CO_7F, PAL_PEWTER
+	db SILPH_CO_8F, PAL_PEWTER
+	db SILPH_CO_9F, PAL_PEWTER
+	db SILPH_CO_10F, PAL_PEWTER
+	db SILPH_CO_11F, PAL_PEWTER
+	db SILPH_CO_ELEVATOR, PAL_PEWTER
+	; Brownmon palette
+	db PEWTER_GYM, PAL_BROWNMON
+	; Vermilion palette
+	db ROUTE_11, PAL_VERMILION
+	db ROUTE_12, PAL_VERMILION
+	db ROUTE_13, PAL_VERMILION
+	db ROUTE_14, PAL_VERMILION
+	db ROUTE_15, PAL_VERMILION
+	; Aqua palette (white + standard water blue)
+	db LORELEIS_ROOM, PAL_AQUA
+	db CERULEAN_GYM, PAL_AQUA
+	; Greenbar palette
+	db VERMILION_GYM, PAL_GREENBAR
+	; Dusk palette
+	db AGATHAS_ROOM, PAL_DUSK
+	db POKEMON_TOWER_1F, PAL_DUSK
+	db POKEMON_TOWER_2F, PAL_DUSK
+	db POKEMON_TOWER_3F, PAL_DUSK
+	db POKEMON_TOWER_4F, PAL_DUSK
+	db POKEMON_TOWER_5F, PAL_DUSK
+	db POKEMON_TOWER_6F, PAL_DUSK
+	db POKEMON_TOWER_7F, PAL_DUSK
+	db POKEMON_TOWER_B1F, PAL_DUSK
+	db POWER_PLANT, PAL_DUSK
+	db POWER_PLANT_ROOF, PAL_DUSK
+	db POKEMON_MANSION_1F, PAL_DUSK
+	db POKEMON_MANSION_2F, PAL_DUSK
+	db POKEMON_MANSION_3F, PAL_DUSK
+	db POKEMON_MANSION_B1F, PAL_DUSK
+	; Saffron Gym uses 0F
+	db SAFFRON_GYM, PAL_0F
+	; Fuchsia Gym uses Mewmon
+	db FUCHSIA_GYM, PAL_MEWMON
+	; Cinnabar Gym uses Redbar
+	db CINNABAR_GYM, PAL_REDBAR
+	; Saffron palette (League finale rooms)
+	db LANCES_ROOM, PAL_SAFFRON
+	db CHAMPIONS_ROOM, PAL_SAFFRON
+	db HALL_OF_FAME, PAL_SAFFRON
+	; Mystic palette (Cerulean Cave / Unknown Dungeon)
+	db CERULEAN_CAVE_1F, PAL_MYSTIC
+	db CERULEAN_CAVE_2F, PAL_MYSTIC
+	db CERULEAN_CAVE_B1F, PAL_MYSTIC
+;;;;;;;;;;
 	db -1
 
 ; PureRGBnote: ADDED: updated function to allow alternate palette pokemon based on loaded data.
@@ -908,26 +982,10 @@ SendSGBPackets:
 
 ; PureRGBnote: ADDED: figure out if we have SGB or GBC palettes selected in the options.
 GetPalettes:
-	ld a, [wOptions2]
-	and %11
-	cp PALETTES_YELLOW
-	jr z, .gbcPalettes
-	ld a, [wOptions2]
-	bit BIT_SECONDARY_PALETTES, a
+; Sunsette: the palette-set option was removed - always use the SGB1 (SuperPalettes) set on every
+; hardware. GBC reads the same 15-bit RGB values via its register path. de = table base, carry clear.
 	ld de, SuperPalettes
-	jr z, .gotSuperPalettes
-	ld de, SuperPalettes2
-.gotSuperPalettes
 	and a
-	ret
-.gbcPalettes
-	ld a, [wOptions2]
-	bit BIT_SECONDARY_PALETTES, a
-	ld de, GBCBasePalettes
-	jr z, .gotGBCPalettes
-	ld de, GBCBasePalettes2
-.gotGBCPalettes
-	scf
 	ret
 
 
@@ -1414,9 +1472,9 @@ INCLUDE "data/pokemon/palettes.asm"
 INCLUDE "data/pokemon/alt_palettes.asm"
 
 INCLUDE "data/sgb/sgb_palettes.asm"
+; Sunsette: SGB2 and both GBC base-palette tables removed - everything uses SuperPalettes (SGB1) now.
+; gbc_palettes.asm is kept only for its GBC_OGPalettes duochromatic defaults.
 INCLUDE "data/gbc/gbc_palettes.asm"
-INCLUDE "data/sgb/sgb_palettes2.asm"
-INCLUDE "data/gbc/gbc_palettes2.asm"
 
 INCLUDE "data/sgb/sgb_border.asm"
 

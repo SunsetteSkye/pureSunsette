@@ -63,17 +63,24 @@ _PewterCitySuperNerd2ImSprayingRepelText::
 	done
 
 _PewterCityYoungsterYoureATrainerFollowMeText::
-	text "You're a trainer"
-	line "right? BROCK's"
-	cont "looking for new"
-	cont "challengers!"
+	text "Whoa! You can't go"
+	line "to ROUTE 3 yet!"
+
+	para "MT.MOON's crawling"
+	line "with tough"
+	cont "trainers- they"
+	cont "creamed me!"
+
+	para "Get a BADGE from"
+	line "BROCK first!"
 	cont "Follow me!"
 	done
 
 _PewterCityYoungsterGoTakeOnBrockText::
-	text "If you have the"
-	line "right stuff, go"
-	cont "take on BROCK!"
+	text "Beat BROCK for the"
+	line "BOULDERBADGE, and"
+	cont "you'll handle"
+	cont "those HIKER punks!"
 	done
 
 _PewterCityTrainerTipsText::

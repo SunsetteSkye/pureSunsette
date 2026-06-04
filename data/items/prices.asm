@@ -1,9 +1,9 @@
 ItemPrices::
 	table_width 3
 	bcd3 0     ; MASTER_BALL
-	bcd3 1200  ; ULTRA_BALL
-	bcd3 600   ; GREAT_BALL
-	bcd3 200   ; POKE_BALL
+	bcd3 600  ; ULTRA_BALL
+	bcd3 300   ; GREAT_BALL
+	bcd3 100   ; POKE_BALL
 	bcd3 0     ; HYPER_BALL
 	bcd3 0     ; BICYCLE
 	bcd3 0     ; SURFBOARD

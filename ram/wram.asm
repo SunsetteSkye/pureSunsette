@@ -1234,7 +1234,11 @@ NEXTU
 wMapSpriteOriginalPictureIDs:: ds 15
 ENDU
 
-ds 13 ; unused 13 bytes (used to be wGymLeaderName and 2 bytes of wGymCityName)
+; Sunsette: always-on EXP ALL state (set per GainExperience call) - carved from the unused gap below
+wExpAllActive:: db  ; nonzero once the Pokedex is obtained -> new distribution
+wTeamExpGained:: dw ; running total EXP for the single team message
+wExpGrowthThreshold:: db ; T2 (half-XP level) for the current badge count, computed for badge dialogue
+ds 9 ; unused 9 bytes (used to be wGymLeaderName and 2 bytes of wGymCityName; 4 repurposed above)
 
 UNION
 ds 16 ; PureRGBnote: CHANGED: used to be wItemList:: but now the item list for marts is expanded in size and reuses a bigger space elsewhere

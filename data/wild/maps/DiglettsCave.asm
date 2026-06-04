@@ -5,8 +5,8 @@ DiglettsCaveWildMons:
 	db 17, DIGLETT
 	db 20, DIGLETT
 	db 16, DIGLETT
-	db 15, DIGLETT
-	db 21, DIGLETT
+	db 15, ONIX
+	db 21, ONIX
 	db 22, DIGLETT
 	db 29, DUGTRIO
 	db 31, DUGTRIO

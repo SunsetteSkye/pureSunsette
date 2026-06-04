@@ -201,26 +201,7 @@ SetOptions2FromCursorPositions:
 	jp CompareOptions2
 
 SetTwoBitPropFromXPosition:
-	ld a, [wOptions1CursorX] ; colors x coordinate
-	cp OPTION_COLORS_RIGHT_XPOS 
-	jr z, .option1setRight
-	cp OPTION_COLORS_MIDDLE_XPOS 
-	jr z, .option1setMiddle
-.option1setLeft
-	ld b, PALETTES_DEFAULT
-	jr .done
-.option1setRight
-	ld a, [wOptions2]
-	and %01000011
-	cp PALETTES_YELLOW2
-	ret z ; don't set middle if we set it to the second SGB type
-	ld b, PALETTES_YELLOW
-	jr .done
-.option1setMiddle
-	ld a, [wOptions2]
-	and %01000011
-	cp PALETTES_SGB2
-	ret z ; don't set middle if we set it to the second SGB type
+; Sunsette: the COLOR palette option is locked to SGB1 - always select PALETTES_SGB, ignoring the cursor.
 	ld b, PALETTES_SGB
 .done
 	ld a, [wOptions2]

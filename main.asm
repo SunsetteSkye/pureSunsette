@@ -203,6 +203,8 @@ SECTION "Battle Core", ROMX
 INCLUDE "engine/battle/core.asm"
 INCLUDE "engine/battle/effects.asm"
 
+INCLUDE "engine/battle/growth_regen.asm"
+
 
 SECTION "bank10", ROMX
 

@@ -17,7 +17,6 @@
 	tmhm \
 	TOXIC,\
 	BODY_SLAM,\
-	SLASH,\
 	DOUBLE_EDGE,\
 	HYPER_BEAM,\
 	HI_JUMP_KICK,\

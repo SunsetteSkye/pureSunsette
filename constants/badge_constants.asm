@@ -4,8 +4,8 @@
 	const CASCADEBADGE  ; $01
 	const THUNDERBADGE  ; $02
 	const RAINBOWBADGE  ; $03
-	const SOULBADGE     ; $04
-	const MARSHBADGE    ; $05
+	const POISONBADGE     ; $04
+	const PSYCHICBADGE    ; $05
 	const VOLCANOBADGE  ; $06
 	const EARTHBADGE    ; $07
 DEF NUM_BADGES EQU const_value

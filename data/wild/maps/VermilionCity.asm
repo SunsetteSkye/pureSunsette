@@ -1,5 +1,15 @@
 VermilionCityWildMons:
-	def_grass_wildmons 0 ; encounter rate
+	def_grass_wildmons 3 ; Sunsette: very low ambient "city pest" rate
+	db 11, RATTATA
+	db 12, PIDGEY
+	db 11, MEOWTH
+	db 14, RATTATA
+	db 12, PIDGEY
+	db 11, VENONAT
+	db 14, MEOWTH
+	db 13, RATTATA
+	db 15, PIDGEY
+	db 12, VENONAT
 	end_grass_wildmons
 
 	def_water_wildmons 5 ; encounter rate

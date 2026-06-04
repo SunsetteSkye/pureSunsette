@@ -26,7 +26,7 @@ _FightingDojoMasterJustATest2::
 _FightingDojoMasterGotBadge::
 	text "That pink sheen!"
 	para "You've got the"
-	line "SOULBADGE!"
+	line "MARSHBADGE!"
 	para "So you beat"
 	line "KOGA."
 	para "Have a look at"

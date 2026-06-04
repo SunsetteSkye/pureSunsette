@@ -16,11 +16,11 @@ SeaRoutesWildMons:
 	db 32, TENTACOOL
 	db 30, TENTACOOL
 	db 28, HORSEA
-	db 30, STARYU
+	db 30, EXEGGCUTE
 	db 31, HORSEA
-	db 30, STARYU
-	db 35, MAGIKARP
-	db 25, GYARADOS
+	db 30, EXEGGCUTE
+	db 35, EXEGGCUTE
+	db 38, PIDGEOT
 	db 32, TENTACRUEL
 	db 36, TENTACRUEL
 	end_water_wildmons

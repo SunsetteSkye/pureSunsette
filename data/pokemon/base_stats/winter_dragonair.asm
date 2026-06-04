@@ -16,7 +16,6 @@
 	; tm/hm learnset
 	tmhm \
 	TOXIC,\
-	HORN_DRILL,\
 	BODY_SLAM,\
 	DOUBLE_EDGE,\
 	BUBBLEBEAM,\
@@ -30,7 +29,7 @@
 	THUNDERBOLT,\
 	THUNDER,\
 	PSYCHIC_M,\
-	KINESIS,\ ; FIREWALL
+	KINESIS,\ ; MIRAGE
 	REFLECT,\
 	BIDE,\
 	AGILITY,\

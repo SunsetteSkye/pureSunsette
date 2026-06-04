@@ -1,5 +1,15 @@
 CeruleanCityWildMons:
-	def_grass_wildmons 0 ; encounter rate
+	def_grass_wildmons 3 ; Sunsette: very low ambient "city pest" rate
+	db  9, RATTATA
+	db 10, PIDGEY
+	db  9, MEOWTH
+	db 12, RATTATA
+	db 10, PIDGEY
+	db  9, VENONAT
+	db 12, MEOWTH
+	db 11, RATTATA
+	db 13, PIDGEY
+	db 10, VENONAT
 	end_grass_wildmons
 
 	def_water_wildmons 4 ; encounter rate

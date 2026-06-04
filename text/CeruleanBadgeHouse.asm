@@ -35,25 +35,35 @@ _CeruleanBadgeHouseBoulderBadgeText::
 	text_jump _CeruleanBadgeHouseIncreasesALittleBit
 
 _CeruleanBadgeHouseCascadeBadgeText::
-	text_call _CeruleanBadgeHouseUpToLevel
-	text "@"
-	text_jump _CeruleanBadgeHouseAlsoLetsYouUseHM
+	text "Doubles the power"
+	line "of POTIONs!"
+
+	para "Lets you use CUT"
+	line "out of battle."
+	prompt
 
 _CeruleanBadgeHouseThunderBadgeText::
 	text "The SPEED@"
 	text_jump _CeruleanBadgeHouseIncreasesALittleBit
 
 _CeruleanBadgeHouseRainbowBadgeText::
-	text_call _CeruleanBadgeHouseUpToLevel
-	text "@"
-	text_jump _CeruleanBadgeHouseAlsoLetsYouUseHM
+	text "Greatly boosts"
+	line "vitamin effects!"
+
+	para "Lets you use"
+	line "STRENGTH out of"
+	cont "battle."
+	prompt
 
 _CeruleanBadgeHouseSoulBadgeText::
 	text "The DEFENSE@"
 	text_jump _CeruleanBadgeHouseIncreasesALittleBit
 
 _CeruleanBadgeHouseMarshBadgeText::
-	text_call _CeruleanBadgeHouseUpToLevel
+	text "Lets #MON use"
+	line "TELEPORT like FLY-"
+	cont "even indoors or"
+	cont "on the water!"
 	prompt
 
 _CeruleanBadgeHouseVolcanoBadgeText::
@@ -63,17 +73,19 @@ _CeruleanBadgeHouseVolcanoBadgeText::
 	prompt
 
 _CeruleanBadgeHouseEarthBadgeText::
-	text "All #MON will"
-	line "obey you!"
+	text "Lets #MON use"
+	line "their full SPEED"
+	cont "to land critical"
+	cont "hits!"
 	prompt
 
 _CeruleanBadgeHouseUpToLevel::
 	db "#MON up to L@"
 	text_decimal w2CharStringBuffer, 1, 2
-	text "<LINE>will obey you."
+	text "<LINE>train up nicely!"
 
-	para "Any higher, they"
-	line "become unruly!"
+	para "It's a proud sign"
+	line "of your progress!"
 	done
 
 _CeruleanBadgeHouseIncreasesALittleBit::
@@ -86,6 +98,23 @@ _CeruleanBadgeHouseAlsoLetsYouUseHM::
 	text_ram wNameBuffer
 	text " outside"
 	cont "of battle."
+	prompt
+
+_CeruleanBadgeHouseLetsYouUseHM::
+	text "Lets you use"
+	line "@"
+	text_ram wNameBuffer
+	text " outside"
+	cont "of battle."
+	prompt
+
+_CeruleanBadgeHouseGrowthLine::
+	text "Combined with your"
+	line "other BADGEs,"
+	cont "#MON up to L"
+	text_decimal wExpGrowthThreshold, 1, 2
+	text "<LINE>grow more"
+	cont "efficiently!"
 	prompt
 
 _GarbageCrumpledUpPaper::

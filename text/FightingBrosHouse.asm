@@ -56,7 +56,7 @@ _FightingBrosSabrinaText::
 
 _FightingBrosGotMarshBadge::
 	text "The golden glare"
-	line "of the MARSHBADGE"
+	line "of the SOULBADGE"
 	cont "is unmissable!"
 	para "So you beat"
 	line "SABRINA, brother!"

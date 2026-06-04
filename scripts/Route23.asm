@@ -156,7 +156,16 @@ Route23CheckForBadgeScript:
 	ld hl, wObtainedBadges
 	call FlagAction
 	jr nz, .have_badge
-	ld hl, Route23YouDontHaveTheBadgeYetText
+; Sunsette: teach the player about BADGEs / efficient growth before turning them away
+	ld hl, Route23KnowWhatBadgeText
+	rst _PrintText
+	call YesNoChoice
+	jr nz, .explainBadges ; No -> give the full spiel
+	ld hl, Route23ThenYouKnowText
+	jr .turnAway
+.explainBadges
+	ld hl, Route23BadgeSpielText
+.turnAway
 	rst _PrintText
 	call Route23MovePlayerDownScript
 	ld a, SCRIPT_ROUTE23_PLAYER_MOVING
@@ -180,6 +189,26 @@ Route23PrintOhThatsTheBadgeTextScript: ; unreferenced
 
 Route23YouDontHaveTheBadgeYetText:
 	text_far _Route23YouDontHaveTheBadgeYetText
+	text_asm
+	ld a, SFX_DENIED
+	call PlaySoundWaitForCurrent
+	call WaitForSoundToFinish
+	rst TextScriptEnd
+
+Route23KnowWhatBadgeText:
+	text_far _Route23KnowWhatBadgeText
+	text_end
+
+Route23ThenYouKnowText:
+	text_far _Route23ThenYouKnowText
+	text_asm
+	ld a, SFX_DENIED
+	call PlaySoundWaitForCurrent
+	call WaitForSoundToFinish
+	rst TextScriptEnd
+
+Route23BadgeSpielText:
+	text_far _Route23BadgeSpielText
 	text_asm
 	ld a, SFX_DENIED
 	call PlaySoundWaitForCurrent

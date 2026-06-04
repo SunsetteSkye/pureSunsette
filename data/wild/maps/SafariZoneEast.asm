@@ -5,7 +5,7 @@ SafariZoneEastWildMons:
 	db 26, PARAS ; alt palette
 	db 29, ODDISH ; alt palette
 	db 33, NIDORINA ; alt palette
-	db 28, GLOOM ; alt palette
+	db 28, LICKITUNG ; alt palette
 	db 28, NIDORINO ; alt palette
 	db 30, PARASECT ; alt palette
 	db 30, PINSIR ; alt palette

@@ -1,7 +1,7 @@
 Route16WildMons:
 	def_grass_wildmons 40 ; encounter rate
-	db 20, IVYSAUR
-	db 22, IVYSAUR
+	db 20, BULBASAUR
+	db 22, BULBASAUR
 	db 22, RATTATA
 	db 21, RATTATA
 	db 24, RATICATE

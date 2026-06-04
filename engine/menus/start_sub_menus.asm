@@ -161,7 +161,7 @@ StartMenu_Pokemon::
 	jp z, .loop
 	jp CloseTextDisplay
 .surf
-	bit BIT_SOULBADGE, a
+	bit BIT_POISONBADGE, a
 	jp z, .newBadgeRequired
 	farcall IsSurfingAllowed
 	ld hl, wStatusFlags1
@@ -218,6 +218,21 @@ StartMenu_Pokemon::
 	;rst _PrintText
 	;jp .loop
 .canTeleport
+; Sunsette: TELEPORT warps to the last Pokémon Center, but with Sabrina's badge (BIT_PSYCHICBADGE) it
+; upgrades to work like FLY (pick any destination on the town map) from anywhere - compare DigFromPartyMenu.
+	bit BIT_PSYCHICBADGE, a
+	jr z, .teleportLastCenter
+	callfar LavaRoomCheck ; can't teleport while standing on lava in the volcano flood
+	jp z, .loop
+	call ChooseFlyDestination
+	ld a, [wStatusFlags6]
+	bit BIT_FLY_WARP, a ; did the player pick a destination?
+	jp nz, .doFly
+	call LoadFontTilePatterns
+	ld hl, wStatusFlags4
+	set BIT_UNKNOWN_4_1, [hl]
+	jp StartMenu_Pokemon
+.teleportLastCenter
 	ld hl, .warpToLastPokemonCenterText
 	rst _PrintText
 	ld hl, wStatusFlags6
@@ -229,7 +244,7 @@ StartMenu_Pokemon::
 	ld c, 60
 	rst _DelayFrames
 	call GBPalWhiteOutWithDelay3
-	callfar ClearSafariFlags ; PureRGBnote: CHANGED: when teleporting, safari stuff is cleared.
+	callfar ClearSafariFlags
 	jp .goBackToMap
 .warpToLastPokemonCenterText
 	text_far _WarpToLastPokemonCenterText

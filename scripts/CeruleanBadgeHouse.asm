@@ -92,6 +92,9 @@ CeruleanBadgeHouseMiddleAgedManText:
 	add hl, de
 	add hl, de
 	rst _PrintText
+	callfar ComputeExpGrowthThreshold
+	ld hl, .GrowthLineText
+	rst _PrintText
 	jr .loop
 .done
 	ld hl, .VisitAnyTimeText
@@ -107,8 +110,8 @@ CeruleanBadgeHouseMiddleAgedManText:
 	db CASCADEBADGE
 	db THUNDERBADGE
 	db RAINBOWBADGE
-	db SOULBADGE
-	db MARSHBADGE
+	db POISONBADGE
+	db PSYCHICBADGE
 	db VOLCANOBADGE
 	db EARTHBADGE
 	assert_table_length NUM_BADGES
@@ -116,6 +119,10 @@ CeruleanBadgeHouseMiddleAgedManText:
 
 .Text:
 	text_far _CeruleanBadgeHouseMiddleAgedManText
+	text_end
+
+.GrowthLineText:
+	text_far _CeruleanBadgeHouseGrowthLine
 	text_end
 
 .WhichBadgeText:

@@ -6,8 +6,6 @@ A graphical edit of PureRGB for my own purposes that grew a balance pass when I 
 
 The visuals are still the bulk of it — a full-color roster, reworked palettes, and a front-sprite set cherry-picked from the best of Red/Green/Blue/Spaceworld with some personal edits. A decent amount of effort went into making FWG the actual core of the game — the spine the original trio never got to be until Steel and Fairy turned up to keep Psychic and Dragon honest. So the type chart got reworked: Grass stops being a punching bag (no longer weak to Ice, neutral into Flying), and Psychic gets knocked down a peg. 
 
-![type chart](screenshots/typechart.png)
-
 # Pokémon PureRGB (PureRed, PureGreen, PureBlue)
 
 ![covers](/box_art/PureRGB_Covers.png?raw=true)

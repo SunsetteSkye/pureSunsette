@@ -263,7 +263,7 @@ _SchoolB1FBottomLeftNotebook::
 	cont "first!"
 	para "QUICK ATTACK,"
 	line "COMET PUNCH, and"
-	cont "WING ATTACK are"
+	cont "SWIFT are"
 	cont "some examples."
 	done
 
@@ -279,8 +279,8 @@ _SchoolB1FBottomRightNotebook::
 	text "WOW!"
 	para "GHOST-type #MON"
 	line "are immune to"
-	para "both FIGHTING"
-	line "and NORMAL-type"
+	para "NORMAL, FIGHTING,"
+	line "and POISON-type"
 	cont "moves!"
 	done
 

@@ -8,8 +8,8 @@ Route17WildMons:
 	db 29, DODRIO
 	db 30, DODRIO
 	db 31, DODRIO
-	db 32, WEEZING
-	db 35, WEEZING
+	db 32, TAUROS
+	db 35, TAUROS
 	end_grass_wildmons
 
 	def_water_wildmons 0 ; encounter rate

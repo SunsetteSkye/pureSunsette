@@ -577,9 +577,9 @@ _CinnabarVolcanoWestMagmarTransformText4::
 	para "@"
 	text_ram_namebuffer
 	text " became"
-	line "immune to WATER"
-	cont "and FIRE-type"
-	cont "moves!"
+	line "immune to WATER,"
+	cont "FIRE, and"
+	cont "ELECTRIC moves!"
 	para "The tectonic power"
 	line "of the volcano"
 	cont "flows through it!"

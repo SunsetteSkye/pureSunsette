@@ -232,7 +232,7 @@ HORNATTACKName:
 FURYATTACKName:
 	db "FURY ATTACK@"
 HORNDRILLName:
-	db "HORN DRILL@"
+	db "WICKED DRILL@" ; changed from HORN DRILL
 TACKLEName:
 	db "TACKLE@"
 BODYSLAMName:
@@ -266,7 +266,7 @@ SINGName:
 SUPERSONICName:
 	db "SUPERSONIC@"
 SONICBOOMName:
-	db "SONICBOOM@"
+	db "ILL WIND@" ; changed from SONICBOOM
 DISABLEName:
 	db "DISABLE@"
 ACIDName:
@@ -426,7 +426,7 @@ WATERFALLName:
 CLAMPName:
 	db "CLAMP@"
 SWIFTName:
-	db "SWIFT@"
+	db "COLD SNAP@" ; changed from SWIFT
 SKULLBASHName:
 	db "SKULL BASH@"
 SPIKECANNONName:
@@ -436,7 +436,7 @@ CONSTRICTName:
 AMNESIAName:
 	db "AMNESIA@"
 KINESISName:
-	db "FIREWALL@" ; changed from KINESIS
+	db "MIRAGE@" ; changed from KINESIS
 SOFTBOILEDName:
 	db "SOFTBOILED@"
 HIJUMPKICKName:
@@ -448,7 +448,7 @@ DREAMEATERName:
 POISONGASName:
 	db "POISON GAS@"
 BARRAGEName:
-	db "BARRAGE@"
+	db "SPIRIT BOMB@" ; changed from BARRAGE
 LEECHLIFEName:
 	db "LEECH LIFE@"
 LOVELYKISSName:

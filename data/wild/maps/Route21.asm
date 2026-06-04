@@ -3,13 +3,13 @@ Route21WildMons:
 	db 21, TANGELA
 	db 23, TANGELA
 	db 30, TANGELA
-	db 23, BELLSPROUT
-	db 21, BELLSPROUT
+	db 23, EXEGGCUTE
+	db 21, EXEGGCUTE
 	db 35, WEEPINBELL
-	db 35, VICTREEBEL
+	db 35, EEVEE
 	db 28, WEEPINBELL
-	db 30, VICTREEBEL
-	db 32, VICTREEBEL
+	db 30, EEVEE
+	db 32, EEVEE
 	end_grass_wildmons
 
 	def_water_wildmons 7 ; encounter rate

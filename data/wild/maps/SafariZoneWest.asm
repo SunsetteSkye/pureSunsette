@@ -5,7 +5,7 @@ SafariZoneWestWildMons:
 	db 23, VENONAT ; alt palette
 	db 24, ODDISH ; alt palette
 	db 33, TAUROS ; alt palette
-	db 26, GLOOM ; alt palette
+	db 26, PONYTA ; alt palette
 	db 25, TAUROS ; alt palette
 	db 31, VENOMOTH ; alt palette
 	db 26, KANGASKHAN 

@@ -1,7 +1,10 @@
 _SaffronGateGuardGeeImThirstyText::
 	text "I'm on guard duty."
-	line "Gee, I'm thirsty,"
-	cont "though!"
+	line "Gee, I'm so"
+	cont "thirsty<...>"
+
+	para "My stats can't be"
+	line "any lower!"
 
 	para "Oh wait there,"
 	line "the road's closed."
@@ -23,7 +26,12 @@ _SaffronGateGuardYouCanGoOnThroughText::
 	line "Glug glug<...>"
 	cont "<...>"
 	cont "Gulp<...>"
-	cont "If you want to go"
+
+	para "A drink clears"
+	line "your head in a"
+	cont "pinch!"
+
+	para "If you want to go"
 	cont "to SAFFRON CITY<...>"
 	cont "<...>"
 	cont "You can go on"

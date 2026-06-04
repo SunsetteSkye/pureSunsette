@@ -74,4 +74,11 @@ DEF SET_PAL_DEFAULT EQU $ff
 	const PAL_VOLCANO       ; $2C
 	const PAL_REALLY_REDMON ; $2D
 	const PAL_PRISMATIC     ; $2F
+;;;;;;;;;; Sunsette: ADDED: new environment palettes
+	const PAL_FOREST
+	const PAL_HIGHLAND
+	const PAL_AQUA
+	const PAL_DUSK
+	const PAL_MYSTIC
+;;;;;;;;;;
 DEF NUM_SGB_PALS EQU const_value

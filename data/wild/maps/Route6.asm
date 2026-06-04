@@ -1,15 +1,15 @@
 Route6WildMons:
 	def_grass_wildmons 25 ; encounter rate
-	db 13, SLOWPOKE
+	db 13, ODDISH
 	db 13, PSYDUCK
 	db 15, PSYDUCK
 	db 10, PIKACHU
 	db 12, KAKUNA
-	db 15, SLOWPOKE
-	db 16, SLOWPOKE
+	db 15, ODDISH
+	db 16, ODDISH
 	db 16, PSYDUCK
-	db 14, KANGASKHAN
-	db 16, KANGASKHAN
+	db 14, BULBASAUR
+	db 16, BULBASAUR
 	end_grass_wildmons
 
 	def_water_wildmons 7 ; encounter rate

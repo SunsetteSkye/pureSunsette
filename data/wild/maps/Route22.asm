@@ -2,12 +2,12 @@ Route22WildMons:
 	def_grass_wildmons 40 ; encounter rate
 	db  3, NIDORAN_M
 	db  3, NIDORAN_F
-	db  4, MEOWTH
+	db  4, SPEAROW
 	db  4, NIDORAN_M
-	db  2, MEOWTH
+	db  2, NIDORAN_M
 	db  2, SPEAROW
-	db  3, DODUO
-	db  5, DODUO
+	db  3, NIDORAN_F
+	db  5, SPEAROW
 	db  3, NIDORAN_F
 	db  4, NIDORAN_F
 	end_grass_wildmons

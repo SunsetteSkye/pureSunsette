@@ -64,13 +64,12 @@ _CeladonMartRoofLittleGirlImNotThirstyText::
 	text_end
 
 _CeladonMartRoofSuperNerdText::
-	text "My sister is a"
-	line "trainer, believe"
-	cont "it or not."
+	text "My sister chugs a"
+	line "drink mid-battle"
+	cont "to clear confusion"
+	cont "and reset stats!"
 
-	para "But, she's so"
-	line "immature, she"
-	cont "drives me nuts!"
+	para "Show-off<...>"
 	done
 
 _CeladonMartRoofLittleGirlImThirstyText::

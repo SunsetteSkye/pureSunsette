@@ -209,7 +209,7 @@ FightingDojoKarateMasterText:
 	CheckEvent FLAG_CATCHUP_CLUBS_TURNED_OFF
 	jr nz, .stay
 	ld a, [wObtainedBadges]
-	bit BIT_SOULBADGE, a
+	bit BIT_POISONBADGE, a
 	ld hl, KarateMasterGoFightKogaText
 	jr z, .printDone
 	CheckAndSetEvent EVENT_OPENED_DOJO_INTERIOR

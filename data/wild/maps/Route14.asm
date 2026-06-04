@@ -1,13 +1,13 @@
 Route14WildMons:
 	def_grass_wildmons 40 ; encounter rate
-	db 25, MEOWTH
-	db 26, PERSIAN
-	db 28, JIGGLYPUFF
-	db 29, WIGGLYTUFF
-	db 29, JIGGLYPUFF
-	db 30, WIGGLYTUFF
-	db 28, PERSIAN
-	db 30, PERSIAN
+	db 25, SQUIRTLE
+	db 26, SQUIRTLE
+	db 28, EXEGGCUTE
+	db 29, EXEGGCUTE
+	db 29, EXEGGCUTE
+	db 30, EXEGGCUTE
+	db 28, SQUIRTLE
+	db 30, SQUIRTLE
 	db 28, TAUROS
 	db 32, TAUROS
 	end_grass_wildmons

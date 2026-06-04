@@ -172,7 +172,7 @@ _GustDexEntry::
 	text "Kicks up a gust"
 	next "of wind towards"
 	next "the <opponent>.@"
-	text_call _Generic30PercentFlinchText
+	text_jump _Generic30PercentFlinchText
 
 _WingAttackDexEntry::
 	text "Strikes and slaps"
@@ -191,13 +191,13 @@ _Generic30PercentConfusionText::
 	dex
 
 _FlyDexEntry::
-	text "The #MON flies"
-	next "up high and then"
-	next "dive-bombs foe."
+	text "The #MON raises"
+	next "its EVASION."
+	next "(+2 EVASION.)"
 
-	bage "Avoids most"
-	next "attacks while"
-	next "flying high."
+	bage "This move"
+	next "always goes"
+	next "first."
 
 	bage "Usable outside"
 	next "battle to fly to"
@@ -325,11 +325,16 @@ _FuryAttackDexEntry::
 	dex
 
 _HornDrillDexEntry::
-	text "Violently drills"
-	next "into foe with a"
-	next "razor-sharp horn.@"
+	text "A vicious spinning"
+	next "drill wreathed in"
+	next "toxic energy."
 
-	text_jump _GenericOHKOText
+	bage "Often lands"
+	next "critical hits and"
+	next "has a 40% chance"
+
+	bage "to poison the foe."
+	dex
 
 _TackleDexEntry::
 	text "Charges the foe"
@@ -358,18 +363,12 @@ _GenericTrappingMoveText::
 
 _TakeDownDexEntry::
 	text "Tackles the foe"
-	next "while alight with"
-	next "raging flames."
+	next "in a blazing"
+	next "rush of speed."
 
-	bage "30% chance of"
-	next "burning the foe."
-
-	bage "If used by a FIRE"
-	next "type #MON,"
-
-	bage "also has a 40%"
-	next "chance of raising"
-	next "SPECIAL 1 stage"
+	bage "Always raises the"
+	next "<user>'s SPEED by"
+	next "one stage."
 	dex
 
 _ThrashDexEntry::
@@ -500,17 +499,15 @@ _SupersonicDexEntry::
 	dex
 
 _SonicboomDexEntry::
-	text "A loud sonic bang"
-	next "generates a "
-	next "shockwave."
+	text "A foul ghostly"
+	next "gust rushes the"
+	next "foe in a flash."
 
-	bage "Always goes first."
-	next "If it's the <user>'s"
-	next "1st turn out in"
+	bage "Always goes first"
+	next "and has a 10%"
+	next "chance to make the"
 
-	bage "battle, this move"
-	next "will make the foe"
-	next "flinch"
+	bage "foe flinch."
 	dex
 
 _DisableDexEntry::
@@ -586,7 +583,7 @@ _WaterGunDexEntry::
 	next "pressurized jet"
 	next "of water at foe.@"
 
-	text_jump _GenericNoAdditionalEffectText
+	text_jump _Generic33PercentLowerSpeedText
 
 _HydroPumpDexEntry::
 	text "A huge column of"
@@ -802,12 +799,12 @@ _GrowthDexEntry::
 	bage "usually with"
 	next "photosynthesis."
 
-	bage "Heals 33% of max"
-	next "HP and raises"
-	next "SPECIAL. (+1)"
+	bage "Heals 1/3 of max"
+	next "HP at once, then"
+	next "1/16 each turn"
 
-	bage "Does nothing if"
-	next "at full HP"
+	bage "until the <user>"
+	next "leaves battle."
 	dex
 
 _RazorLeafDexEntry::
@@ -1017,13 +1014,16 @@ _MeditateDexEntry::
 	next "meant for deep"
 	next "contemplation,"
 
-	bage "the <user> relaxes,"
-	next "raising many of"
-	next "its abilities."
+	bage "the <user> steels"
+	next "mind and body."
 
-	bage "Raises ATTACK,"
-	next "SPECIAL, and"
-	next "SPEED. (+1 Each)"
+	bage "Raises a LIGHT"
+	next "SCREEN and ATTACK."
+	next "(+1 ATTACK)"
+
+	bage "This move"
+	next "always goes"
+	next "first."
 	dex
 
 _AgilityDexEntry::
@@ -1222,10 +1222,16 @@ _LightScreenDexEntry::
 	next "by the <user>."
 
 	bage "Cuts SPECIAL"
-	next "attack damage"
-	next "in half."
+	next "attack damage in"
+	next "half, even crits."
 	; fall through
 _GenericThisEffectOnlyAppliesToOriginalUser::
+	bage "Frees the <user>"
+	next "from CONFUSION,"
+	next "LEECH SEED, and"
+	cont "DISABLE; eases"
+	cont "TOXIC."
+
 	bage "This effect only"
 	next "applies to the"
 	next "original <user>"
@@ -1262,8 +1268,8 @@ _ReflectDexEntry::
 	next "by the <user>."
 
 	bage "Cuts physical"
-	next "attack damage"
-	next "in half.@"
+	next "attack damage in"
+	next "half, even crits.@"
 	text_jump _GenericThisEffectOnlyAppliesToOriginalUser
 
 _FocusEnergyDexEntry::
@@ -1351,7 +1357,7 @@ _EggBombDexEntry::
 	next "<opponent>, causing"
 	next "an explosion.@"
 
-	text_jump _GenericNoAdditionalEffectText
+	text_jump _Generic30PercentConfusionText
 
 _LickDexEntry::
 	text "The <user> licks"
@@ -1418,17 +1424,13 @@ _ClampDexEntry::
 
 
 _SwiftDexEntry::
-	text "Star shaped rays"
-	next "of light are shot"
-	next "at the foe."
-
-	bage "Nicknamed"
-	next "“Speed Star”"
-	next "by trainers."
+	text "A biting cold"
+	next "snap of frost"
+	next "strikes the foe."
 
 	bage "Always goes"
 	next "first and"
-	next "never misses"
+	next "never misses."
 	dex
 
 _SkullBashDexEntry::
@@ -1477,28 +1479,21 @@ _AmnesiaDexEntry::
 	dex
 
 _KinesisDexEntry::
-	text "A wall of fire"
-	next "scorches the foe."
+	text "A shimmering heat"
+	next "haze bewilders the"
+	next "foe, leaving it"
 
-	bage "Causes burn if"
-	next "it hits. Can't"
-	next "burn FIRE-types."
+	bage "confused. Has no"
+	next "effect at all on"
+	next "FIRE-types."
 
-	bage "Each time the move"
-	next "hits a burned foe,"
-	next "the fire wall gets"
+	bage "Burns the foe"
+	next "instead if it is"
+	next "already confused,"
 
-	bage "larger; move power"
-	next "increases by 30"
-	next "points each hit,"
-
-	bage "to max 80 power."
-	next "If the <user> is at"
-	next "least level 50,"
-
-	bage "power raises by 60"
-	next "points each hit to"
-	next "maximum 140 power"
+	bage "or if the user is"
+	next "a FIRE-type. Deals"
+	next "no damage."
 	dex
 
 _SoftboiledDexEntry::
@@ -1548,19 +1543,23 @@ _PoisonGasDexEntry::
 	next "of corrosive"
 	next "choking gas."
 
-	bage "Often lands"
-	next "critical hits.@"
+	bage "Always goes first"
+	next "and has a 30%"
+	next "chance to make the"
 
-	text_jump _Generic20PercentPoisonText
+	bage "foe flinch."
+	dex
 
 _BarrageDexEntry::
-	text "Hurls orbs of"
-	next "strange energy"
-	next "at the foe."
+	text "Gathers spirit"
+	next "energy and hurls"
+	next "it at the foe."
 
-	bage "Where these"
-	next "ghostly orbs come"
-	next "from is unknown.@"
+	bage "Where this"
+	next "ghostly power"
+	next "comes from is"
+
+	bage "unknown.@"
 
 	text_jump _GenericHitsTwiceText
 
@@ -1612,8 +1611,8 @@ _BubbleDexEntry::
 	text "Blows a bubble"
 	next "that bursts in"
 	next "the foe's face.@"
-	
-	text_jump _Generic33PercentLowerSpeedText
+
+	text_jump _Generic10PercentConfusionText
 
 _DizzyPunchDexEntry::
 	text "A rhythmic punch"
@@ -1676,8 +1675,8 @@ _AcidArmorDexEntry::
 	next "protection."
 
 	bage "Cuts all damage"
-	next "(Physical/Special)"
-	next "in half"
+	next "in half, even"
+	next "from crits."
 	dex
 	
 _CrabhammerDexEntry::

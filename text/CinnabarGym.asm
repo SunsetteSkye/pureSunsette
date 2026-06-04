@@ -44,12 +44,23 @@ _CinnabarGymBlaineMoltres::
 	done
 
 _CinnabarGymBlaineVolcanoBadgeInfoText::
+	text_asm
+	callfar ComputeExpGrowthThresholdLeader
+	ld hl, .body
+	ret
+.body:
 	text "Hah!"
 
 	para "The VOLCANOBADGE"
 	line "heightens the"
 	cont "SPECIAL abilities"
 	cont "of your #MON!"
+
+	para "And your #MON"
+	line "up to L"
+	text_decimal wExpGrowthThreshold, 1, 2
+	text " grow"
+	cont "more efficiently!"
 
 	para "Here, you can"
 	line "have this too!"

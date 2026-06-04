@@ -180,7 +180,6 @@ INCLUDE "text/CeruleanPokecenter.asm"
 INCLUDE "text/CeruleanGym.asm"
 INCLUDE "text/BikeShop.asm"
 INCLUDE "text/CeruleanMart.asm"
-INCLUDE "text/CeruleanBadgeHouse.asm"
 INCLUDE "text/CeruleanOldRodHouse.asm"
 INCLUDE "text/LavenderPokecenter.asm"
 INCLUDE "text/PokemonTower1F.asm"
@@ -292,11 +291,13 @@ INCLUDE "text/SecretLab.asm"
 INCLUDE "text/SilphCo5F.asm"
 
 SECTION "Text 12", ROMX
+INCLUDE "text/SaffronGymBadgeInfo.asm"
 INCLUDE "text/TypeGuysHouse.asm"
 INCLUDE "text/ChampArena.asm"
 INCLUDE "text/DiamondMine.asm"
 
 SECTION "Text 13", ROMX
+INCLUDE "text/Route23BadgeLecture.asm"
 INCLUDE "text/PokemonTowerCatacombs.asm"
 INCLUDE "text/ErikAndSara.asm"
 INCLUDE "text/Learnsets.asm"
@@ -309,6 +310,9 @@ INCLUDE "text/CeruleanBallDesigner.asm"
 INCLUDE "text/CameraEvents.asm"
 INCLUDE "text/OptionsInfoText.asm"
 INCLUDE "text/FightingBrosHouse.asm"
+
+SECTION "Text 15", ROMX
+INCLUDE "text/CeruleanBadgeHouse.asm"
 
 SECTION "Pokédex Text", ROMX
 

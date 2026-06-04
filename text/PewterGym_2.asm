@@ -62,6 +62,11 @@ _PewterGymBrockReceivedBoulderBadgeText::
 	text_end
 
 _PewterGymBrockBoulderBadgeInfoText::
+	text_asm
+	callfar ComputeExpGrowthThresholdLeader
+	ld hl, .body
+	ret
+.body:
 	text_start
 
 	para "That's an official"
@@ -71,6 +76,16 @@ _PewterGymBrockBoulderBadgeInfoText::
 	para "Its bearer's"
 	line "#MON become"
 	cont "more powerful!"
+
+	para "And your #MON"
+	line "up to L"
+	text_decimal wExpGrowthThreshold, 1, 2
+	text " grow"
+	cont "more efficiently!"
+
+	para "That limit rises"
+	line "with each BADGE"
+	cont "you earn!"
 
 	para "The technique"
 	line "FLASH can now be"

@@ -7,9 +7,9 @@ VictoryRoad1FWildMons:
 	db 45, GRAVELER
 	db 50, NIDOKING
 	db 49, PRIMEAPE
-	db 41, ONIX
-	db 42, ONIX
-	db 43, ONIX
+	db 41, MAGMAR
+	db 42, MAGMAR
+	db 43, MAGMAR
 	end_grass_wildmons
 
 	def_water_wildmons 0 ; encounter rate
