@@ -1190,6 +1190,7 @@ ItemUseMedicine:
 	cp b
 	jp nz, .healingItemNoEffect ; drink on a full-HP benched mon -> nothing to do
 	call ResetActiveMonVolatile
+	farcall GainDrinkHappiness ; Sunsette: +3 happiness for the in-battle cleanse drink
 	ld a, 1
 	ld [wActionResultOrTookBattleTurn], a ; the drink was used (takes the battle turn)
 	push hl
@@ -1449,6 +1450,7 @@ ItemUseMedicine:
 	call ItemUseNoEffect
 	jp .done
 .doneHealing
+	farcall GainDrinkHappiness ; Sunsette: +3 happiness if the healing item was a drink (self-gates)
 	ld a, [wPseudoItemID]
 	and a ; using Softboiled?
 	jr nz, .skipRemovingItem ; no item to remove if using Softboiled
@@ -1603,6 +1605,7 @@ ItemUseMedicine:
 	rst _PlaySound
 	ld hl, VitaminStatRoseText
 	rst _PrintText
+	farcall GainVitaminHappiness ; Sunsette: +5 happiness on vitamin use
 	jp RemoveUsedItem
 ;;;;;;;;;; PureRGBnote: CHANGED: text for rare candy and vitamin "had no effect" differ now, with the vitamin one indicating it can't be raised further via items specifically.
 .rareCandyNoEffect

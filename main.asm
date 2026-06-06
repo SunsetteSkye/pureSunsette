@@ -59,6 +59,7 @@ INCLUDE "engine/overworld/cut.asm"
 INCLUDE "engine/overworld/toggleable_objects.asm"
 INCLUDE "engine/overworld/push_boulder.asm"
 INCLUDE "engine/pokemon/add_mon.asm"
+INCLUDE "engine/pokemon/happiness.asm" ; Sunsette: happiness/affection system
 INCLUDE "engine/events/heal_party.asm"
 INCLUDE "engine/math/bcd.asm"
 INCLUDE "engine/movie/oak_speech/init_player_data.asm"
@@ -411,13 +412,9 @@ SECTION "newCode", ROMX
 INCLUDE "engine/gfx/front_sprite_toggler.asm"
 INCLUDE "engine/menus/options_menu.asm" ; PureRGBnote: MOVED: used to be part of main_menu.asm but moved out of there for space.
 INCLUDE "engine/menus/options_menu2.asm"
-INCLUDE "engine/menus/battle_options.asm"
-INCLUDE "engine/menus/sprite_options_menu.asm"
-INCLUDE "engine/menus/front_sprite_options.asm"
-INCLUDE "engine/menus/front_sprite_options2.asm"
-INCLUDE "engine/menus/front_sprite_options3.asm"
-INCLUDE "engine/menus/front_sprite_options4.asm"
-INCLUDE "engine/menus/front_sprite_options5.asm"
+; Sunsette: removed options pages 3 (battle) & 4 (sprite) and the front-sprite sub-pages;
+; kept the shared generic option helpers that used to live in battle_options.asm
+INCLUDE "engine/menus/generic_options.asm"
 INCLUDE "engine/menus/options_menu3.asm"
 INCLUDE "engine/gfx/mon_icons2.asm"
 INCLUDE "engine/overworld/select_button_functionality.asm"

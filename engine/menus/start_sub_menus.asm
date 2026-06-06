@@ -741,6 +741,7 @@ SwitchPartyMon::
 	pop bc
 	; then swap
 	call SwitchPartyMon_InitVarOrSwapData ; swap data
+	farcall SwapPartyMonHappiness ; Sunsette: swap the two slots' happiness too
 	ld a, [wSwappedMenuItem]
 	call SwitchPartyMon_ClearGfx
 	ld a, [wCurrentMenuItem]

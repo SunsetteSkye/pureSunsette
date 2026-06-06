@@ -104,6 +104,13 @@ Init::
 	dec a
 	ld [wUpdateSpritesEnabled], a
 
+	; Sunsette: lock the palette mode to SGB1 from boot so the GameFreak intro
+	; and title screen use the edited SuperPalettes. InitOptions only runs later
+	; (at the main menu), so without this wOptions2 is 0 (PALETTES_DEFAULT) here
+	; and DMGPalToGBCPal would fall back to the default duochrome GBC palettes.
+	ld a, PALETTES_SGB
+	ld [wOptions2], a
+
 IF DEF(_DEBUG) & SKIP_INTRO
 	jpfar DebugMenu ; PureRGBnote: ADDED: uncomment this to instantly enter debug mode on starting the game in the debug rom
 ENDC

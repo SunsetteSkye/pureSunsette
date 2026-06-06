@@ -101,6 +101,7 @@ SubanimationPointers:
 	dw Subanim_2BoneRecover
 	dw Subanim_2AngerSymbol
 	dw Subanim_2AngerSymbol_Enemy
+	dw Subanim_HappinessHeart ; Sunsette
 	assert_table_length NUM_SUBANIMS
 
 ; format:
@@ -247,6 +248,12 @@ Subanim_0Heart_1Music:
 	db FRAMEBLOCK_17, BASECOORD_3E, FRAMEBLOCKMODE_00
 	db FRAMEBLOCK_17, BASECOORD_3F, FRAMEBLOCKMODE_00
 	db FRAMEBLOCK_17, BASECOORD_1F, FRAMEBLOCKMODE_00
+
+; Sunsette: a clean single heart held briefly over the mon (no music notes)
+Subanim_HappinessHeart:
+	subanim SUBANIMTYPE_COORDFLIP, 2
+	db FRAMEBLOCK_17, BASECOORD_30, FRAMEBLOCKMODE_00
+	db FRAMEBLOCK_17, BASECOORD_30, FRAMEBLOCKMODE_00
 
 Subanim_0Star:
 	subanim SUBANIMTYPE_HFLIP, 1

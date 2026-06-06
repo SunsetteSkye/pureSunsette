@@ -296,6 +296,11 @@ GainExperience:
 	ld [wTempLevelStore], a
 	cp d
 	jp z, .nextMon ; if level didn't change, go to next mon
+	push de ; Sunsette: preserve the new level in d across the farcall
+	push hl
+	farcall GainLevelUpHappiness ; Sunsette: +3 happiness on level up
+	pop hl
+	pop de
 	call HasExpBar
 	jr z, .noExpBar2
 	push hl
@@ -769,8 +774,8 @@ GrewLevelText:
 	text_end
 
 HasExpBar:
-	ld a, [wOptions3]
-	bit BIT_EXP_BAR, a
+	ld a, 1 ; Sunsette: EXP bar is always on
+	and a
 	ret
 
 GetArbitraryLevelExp:

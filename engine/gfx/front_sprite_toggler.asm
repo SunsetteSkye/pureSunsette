@@ -2,36 +2,9 @@
 ;                     this code will check which to display when about to render a front sprite.
 
 CheckSpriteOptions::
-	ld a, [wMonHAltPicBank]
-	and a
-	jr z, .defaultSprite ; the alt pic will never be in bank 0 (home bank) so this will indicate no alt sprite for the mon
-	ld a, [wCurPartySpecies]
-	ld de, 3
-	ld hl, SpriteOptionMapping
-	call IsInArray
-	jr nc, .defaultSprite
-	inc hl ; now points to the bit to check
-	ld a, [hli] ; which bit to check
-	ld c, a
-	ld a, [hl]
-	dec a
-	add a ; a = index within SpriteOptionsPointers
-	ld d, 0
-	ld e, a
-	ld hl, SpriteOptionsPointers
-	add hl, de
-	ld a, [hli]
-	ld h, [hl]
-	ld l, a ; hl = options wram variable
-	ld b, FLAG_TEST
-	call FlagAction
-	ld hl, wMonHAltFrontSprite - wMonHeader
-	ld a, [wMonHAltPicBank]
-	jr nz, .done
-.defaultSprite
+; Sunsette: front sprite options removed - always use the default front sprite
 	ld hl, wMonHFrontSprite - wMonHeader
 	ld a, [wMonHPicBank]
-.done
 	ld d, a
 	ret
 

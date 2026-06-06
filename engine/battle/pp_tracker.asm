@@ -33,12 +33,7 @@ ChooseMovePPTrack:
 	and a
 	jr z, .PPexhausted
 .PPremaining
-	;else decrement PP
-	push hl
-	ld hl, wOptions3
-	bit BIT_NPC_PP, [hl]
-	pop hl
-	jr z, .noEnemyPP
+	;else decrement PP ; Sunsette: NPC PP is always on
 	dec a
 	ld [hl], a
 .noEnemyPP

@@ -164,10 +164,8 @@ ShouldMoveGetStabBoost::
 ; (for use when scrolling the player sprite and enemy's silhouettes on screen)
 LoadPlayerBackPic::
 ;;;;;;;;;; PureRGBnote: ADDED: choose between the original back sprite for the player or the high res one
-	ld a, [wSpriteOptions2]
-	bit BIT_BACK_SPRITES, a
-	ld hl, OriginalBackPicTable
-	jr z, .gotSpriteTable
+; Sunsette: the trainer (Red) back uses the high-res SW97 pic. (The constant flicker
+; that earlier looked like this sprite's fault was actually the GBC palette tear, since fixed.)
 	ld hl, SpaceworldBackPicTable
 .gotSpriteTable
 	ld a, [wCurMapTileset]
@@ -192,13 +190,7 @@ LoadPlayerBackPic::
 	inc hl	
 	ld a, [hl]
 	call UncompressSpriteFromDE
-	ld a, [wSpriteOptions2]
-	bit BIT_BACK_SPRITES, a
-	jr nz, .uncompressed
-.doubleSpriteSize
-	callfar ScaleSpriteByTwo
-	jr .next
-.uncompressed
+; Sunsette: SW97 high-res back needs no scaling
 	callfar LoadBackSpriteUnzoomed
 .next
 	ld hl, wShadowOAM
@@ -235,14 +227,7 @@ LoadPlayerBackPic::
 	ld e, a
 	dec b
 	jr nz, .loop
-;;;;;;;;;; PureRGBnote: ADDED: in the case of high res sprites we dont need to run the interlace code
-	ld a, [wSpriteOptions2]
-	bit BIT_BACK_SPRITES, a
-	jr nz, .nextFinish
-.ogSpriteRoutine
-;;;;;;;;;;
-	ld de, vBackPic
-	call InterlaceMergeSpriteBuffers
+;;;;;;;;;; Sunsette: SW97 high-res back skips the OG interlace merge (already 2bpp)
 .nextFinish
 	ld a, $a
 	ld [rRAMG], a

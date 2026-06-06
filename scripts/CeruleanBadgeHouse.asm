@@ -91,11 +91,30 @@ CeruleanBadgeHouseMiddleAgedManText:
 	add hl, de
 	add hl, de
 	add hl, de
+	push bc ; Sunsette: save the badge index across the description print
 	rst _PrintText
+	pop bc
+; Sunsette: is this badge already owned? build mask (1 << b) and test wObtainedBadges
+	inc b
+	ld a, %00000001
+	rrca
+.ownMaskLoop
+	rlca
+	dec b
+	jr nz, .ownMaskLoop
+	ld hl, wObtainedBadges
+	and [hl]
+	jr nz, .ownedBadge
+; not owned: show the XP-growth tier this badge would unlock (current count + 1)
+	callfar ComputeExpGrowthThresholdLeader
+	ld hl, .CouldRaiseText
+	rst _PrintText
+	jp .loop
+.ownedBadge
 	callfar ComputeExpGrowthThreshold
 	ld hl, .GrowthLineText
 	rst _PrintText
-	jr .loop
+	jp .loop
 .done
 	ld hl, .VisitAnyTimeText
 	rst _PrintText
@@ -123,6 +142,10 @@ CeruleanBadgeHouseMiddleAgedManText:
 
 .GrowthLineText:
 	text_far _CeruleanBadgeHouseGrowthLine
+	text_end
+
+.CouldRaiseText:
+	text_far _CeruleanBadgeHouseCouldRaiseText
 	text_end
 
 .WhichBadgeText:

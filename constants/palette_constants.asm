@@ -81,4 +81,22 @@ DEF SET_PAL_DEFAULT EQU $ff
 	const PAL_DUSK
 	const PAL_MYSTIC
 ;;;;;;;;;;
+;;;;;;;;;; Sunsette: ADDED: per-sprite / per-trainer palettes
+	const PAL_BROCK     ; Brock (front sprite + overworld)
+	const PAL_KOGA      ; Koga (front sprite + overworld)
+	const PAL_RIVAL     ; Rival (front sprite + overworld)
+	const PAL_PLAYER    ; player back sprite + menu/trainer-card front
+	const PAL_PLAYEROW  ; player overworld walking sprite
+	const PAL_JOY       ; Nurse Joy (rival light color + pinkmon dark color)
+	const PAL_TITLELOGO ; brighter title-logo palette (yellow + blue)
+	const PAL_HUMANSPRITE ; generic NPC overworld palette (overworld-ordered, Mewmon-based)
+	const PAL_BROCK_OW    ; Brock overworld    (light->face, dark->hair)
+	const PAL_REDBAR_OW   ; Misty/Erika/Sabrina/Lorelei overworld
+	const PAL_GREENBAR_OW ; Lt.Surge overworld
+	const PAL_KOGA_OW     ; Koga overworld
+	const PAL_SAFFRON_OW  ; Blaine overworld
+	const PAL_GRAYMON_OW  ; Agatha overworld
+	const PAL_RIVAL_OW    ; Rival overworld
+	const PAL_JOY_OW      ; Nurse Joy overworld
+;;;;;;;;;;
 DEF NUM_SGB_PALS EQU const_value

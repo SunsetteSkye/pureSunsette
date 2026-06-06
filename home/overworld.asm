@@ -2,6 +2,7 @@ EnterMap::
 ; Load a new map.
 	call DisableAllJoypad
 	call LoadMapData
+	farcall MaybeSeedHappiness ; Sunsette: one-time happiness seed for pre-feature saves
 	farcall ClearVariablesOnEnterMap
 	ld hl, wStatusFlags4
 	bit BIT_BATTLE_OVER_OR_BLACKOUT, [hl] ; did a battle happen immediately before this?
@@ -322,6 +323,7 @@ OverworldLoopLessDelay::
 	bit BIT_SCRIPTED_MOVEMENT_STATE, a
 	jr nz, .doneStepCounting ; if button presses are being simulated, don't count steps
 ; step counting
+	farcall HandleHappinessStep ; Sunsette: +1 party happiness every 128 steps
 	ld hl, wStepCounter
 	dec [hl]
 	ld a, [wStatusFlags2]

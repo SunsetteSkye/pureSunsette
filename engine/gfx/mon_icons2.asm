@@ -99,11 +99,8 @@ GetPartyMonSpriteID:
 	ld a, [wPokedexNum]
 	; missingno is allowed here, 0 is a valid value
 	ld b, a
-	ld a, [wSpriteOptions2]
-	bit BIT_MENU_ICON_SPRITES, a
+; Sunsette: icons are always OG+ (enhanced)
 	ld hl, MonPartyDataNew
-	jr nz, .next
-	ld hl, MonPartyData
 .next
 	ld a, b
 	ld e, a

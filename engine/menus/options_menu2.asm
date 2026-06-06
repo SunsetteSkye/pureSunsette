@@ -1,6 +1,6 @@
 ; PureRGBnote: ADDED: one of the new pages in the options menu. This one's for main gameplay features.
 
-DEF OPTIONS_PAGE_2_COUNT EQU 6 ; number of options on this page
+DEF OPTIONS_PAGE_2_COUNT EQU 5 ; Sunsette: COLOR (palette) option removed
 DEF OPTIONS_PAGE_2_NUMBER EQU 2 ; must be 1 digit
 
 DEF OPTION_COLORS_LEFT_XPOS EQU 8
@@ -28,9 +28,9 @@ OptionsMenu2Header:
 	dw Options2SetCursorPositionActions
 	dw SetOptions2FromCursorPositions
 	dw Options2LeftRightFuncs
-	dw DisplayBattleOptions
+	dw DisplayOptions3 ; Sunsette: next page skips removed pages 3/4, goes to the world-options page
 	dw DisplayOptionMenu
-	dw OptionsPage2AorSelectButton
+	dw OptionsPageAorSelectButtonDefault ; Sunsette: COLOR removed, no special A-button action
 	dw OptionsMenu2InfoTextJumpTable
 	; fall through
 DisplayOptions2:
@@ -41,12 +41,12 @@ DisplayOptions2:
 ; first byte = y coord
 ; second byte = which option on the page it is (cancel always = max option value)
 Options2YCoordVariableOffsetList:
-	db 3, 0
-	db 7, 1
-	db 9, 2
-	db 11, 3
-	db 13, 4
-	db 15, 5
+; Sunsette: COLOR removed; remaining options keep their cursor X-vars (1-5), Y shifted up by 2
+	db 5, 1
+	db 7, 2
+	db 9, 3
+	db 11, 4
+	db 13, 5
 	db PAGE_CONTROLS_Y_COORD, MAX_OPTIONS_PER_PAGE
 
 OptionsMenu2Data:
@@ -56,7 +56,6 @@ OptionsMenu2Data:
 	dw Options2YCoordVariableOffsetList
 
 Options2SetCursorPositionActions:
-	dw SetColorsCursorPosition
 	dw SetAltPalettesCursorPosition
 	dw SetMusicCursorPosition
 	dw SetAudioPanCursorPosition
@@ -64,7 +63,6 @@ Options2SetCursorPositionActions:
 	dw SetGBCFadeCursorPosition
 
 Options2LeftRightFuncs:
-	dw CursorInColors
 	dw CursorInAltPalettes
 	dw CursorInMusic
 	dw CursorInAudioPan
@@ -78,14 +76,10 @@ DrawOptions2Menu:
 	call TextBoxBorder
 	hlcoord 1, 1
 	ld de, Options2Text
-	call PlaceString
-	ld a, [wOptions2]
-	and %01000011
-	jp PrintSGBYellowOptionNumbers
+	jp PlaceString ; Sunsette: COLOR removed - no SGB/Yellow indicators to draw
 
 Options2Text:
 	db   "OPTIONS 2"
-	next " COLOR: OG SGB  Y "
 	next " ALT PKMN COLORS:"
 	next "    OFF    ON"
 	next " MUSIC:     OG OG+"
@@ -93,33 +87,35 @@ Options2Text:
 	next " BIKE SONG: ON OFF"
 	next " GBC FADE:  OFF ON@"
 
-OptionsPage2AorSelectButton:
-	ld a, [hJoy5]
-	bit B_PAD_A, a
-	jp z, OptionsPageAorSelectButtonDefault
-	; fall through
-OptionsPage2AButton:
-	ld a, [Options2YCoordVariableOffsetList]
-	ld b, a
-	ld a, [wTopMenuItemY]
-	cp b ;is the cursor on the COLORS row?
-	jr nz, .done
-	ld a, [wTopMenuItemX]
-	cp OPTION_COLORS_LEFT_XPOS ; is the cursor on anything other than OG?
-	call nz, ToggleAltSGBYellowColors
-.done
-	and a ; clear carry
-	ret
+; Sunsette: dead COLOR code (palette option removed), commented out to reclaim ROM space
+;OptionsPage2AorSelectButton:
+;	ld a, [hJoy5]
+;	bit B_PAD_A, a
+;	jp z, OptionsPageAorSelectButtonDefault
+;	; fall through
+;OptionsPage2AButton:
+;	ld a, [Options2YCoordVariableOffsetList]
+;	ld b, a
+;	ld a, [wTopMenuItemY]
+;	cp b ;is the cursor on the COLORS row?
+;	jr nz, .done
+;	ld a, [wTopMenuItemX]
+;	cp OPTION_COLORS_LEFT_XPOS ; is the cursor on anything other than OG?
+;	call nz, ToggleAltSGBYellowColors
+;.done
+;	and a ; clear carry
+;	ret
 
-CursorInColors:
-	push bc
-	xor a
-	call PrintSGBYellowOptionNumbers ; if we move left or right on the COLORS menu we will switch back to SGB1 and Y1 visually
-	pop bc
-	call GetTwoBitXPosition
-	ld a, b
-	ld [wOptions1CursorX], a
-	jp EraseOldMenuCursor
+; Sunsette: dead COLOR code, commented out to reclaim ROM space
+;CursorInColors:
+;	push bc
+;	xor a
+;	call PrintSGBYellowOptionNumbers ; if we move left or right on the COLORS menu we will switch back to SGB1 and Y1 visually
+;	pop bc
+;	call GetTwoBitXPosition
+;	ld a, b
+;	ld [wOptions1CursorX], a
+;	jp EraseOldMenuCursor
 
 CursorInAltPalettes:
 	ld a, [wOptions2CursorX] ; battle animation cursor X coordinate
@@ -151,28 +147,29 @@ CursorInGBCFade:
 	ld [wOptions6CursorX], a
 	jp EraseOldMenuCursor
 
-GetTwoBitXPosition:
-	ld a, b
-	bit B_PAD_LEFT, b ; did the player press the left button
-	ld a, [wOptions1CursorX] ; battle animation cursor X coordinate
-	jr nz, .left
-	ld b, OPTION_COLORS_LEFT_XPOS
-	cp OPTION_COLORS_RIGHT_XPOS
-	ret z
-	ld b, OPTION_COLORS_MIDDLE_XPOS
-	cp OPTION_COLORS_LEFT_XPOS
-	ret z
-	ld b, OPTION_COLORS_RIGHT_XPOS
-	ret
-.left
-	ld b, OPTION_COLORS_MIDDLE_XPOS
-	cp OPTION_COLORS_RIGHT_XPOS
-	ret z
-	ld b, OPTION_COLORS_LEFT_XPOS
-	cp OPTION_COLORS_MIDDLE_XPOS
-	ret z
-	ld b, OPTION_COLORS_RIGHT_XPOS
-	ret
+; Sunsette: dead COLOR code, commented out to reclaim ROM space
+;GetTwoBitXPosition:
+;	ld a, b
+;	bit B_PAD_LEFT, b ; did the player press the left button
+;	ld a, [wOptions1CursorX] ; battle animation cursor X coordinate
+;	jr nz, .left
+;	ld b, OPTION_COLORS_LEFT_XPOS
+;	cp OPTION_COLORS_RIGHT_XPOS
+;	ret z
+;	ld b, OPTION_COLORS_MIDDLE_XPOS
+;	cp OPTION_COLORS_LEFT_XPOS
+;	ret z
+;	ld b, OPTION_COLORS_RIGHT_XPOS
+;	ret
+;.left
+;	ld b, OPTION_COLORS_MIDDLE_XPOS
+;	cp OPTION_COLORS_RIGHT_XPOS
+;	ret z
+;	ld b, OPTION_COLORS_LEFT_XPOS
+;	cp OPTION_COLORS_MIDDLE_XPOS
+;	ret z
+;	ld b, OPTION_COLORS_RIGHT_XPOS
+;	ret
 
 ; sets the options variable according to the current placement of the menu cursors in the options menu
 SetOptions2FromCursorPositions:
@@ -253,11 +250,12 @@ CompareOptions2:
 	ret z
 	jr .extraMusicBank
 
-SetColorsCursorPosition:
-	ld hl, wOptions2
-	call GetTwoBitXPositionFromOptions
-	call LoadXValueAndGetHLCoord
-	jp PlaceUnfilledRightArrow
+; Sunsette: dead COLOR code, commented out to reclaim ROM space
+;SetColorsCursorPosition:
+;	ld hl, wOptions2
+;	call GetTwoBitXPositionFromOptions
+;	call LoadXValueAndGetHLCoord
+;	jp PlaceUnfilledRightArrow
 
 SetAltPalettesCursorPosition:
 	ld hl, wOptions2
@@ -294,54 +292,55 @@ SetGBCFadeCursorPosition:
 	ld c, BIT_GBC_FADE
 	jp SetSingleBitOptionCursorPosition
 
-GetTwoBitXPositionFromOptions:
-	ld a, [hl]
-	and %11 ;only care about first two bits
-	ld b, OPTION_COLORS_LEFT_XPOS
-	ret z
-	cp %11
-	ld b, OPTION_COLORS_RIGHT_XPOS
-	ret z
-	ld b, OPTION_COLORS_MIDDLE_XPOS
-	ret
-
-ToggleAltSGBYellowColors:
-	ld a, SFX_PRESS_AB
-	rst _PlaySound
-	ld a, [wOptions2]
-	xor %01000000
-	ld [wOptions2], a
-	and %01000011
-	call PrintSGBYellowOptionNumbers
-	jp RunDefaultPaletteCommand
-
-; input: a = color mode indicator. Bit 6 indicates if alternate color mode is activated. First 2 bits indictate the main color mode.
-PrintSGBYellowOptionNumbers:
-	hlcoord 15, 3
-	cp %01000001
-	ld [hl], '2'
-	jr z, .next
-	ld [hl], '1'
-.next
-	hlcoord 18, 3
-	cp %01000011
-	ld [hl], '2'
-	ret z
-	ld [hl], '1'
-	ret
+; Sunsette: dead COLOR code, commented out to reclaim ROM space
+;GetTwoBitXPositionFromOptions:
+;	ld a, [hl]
+;	and %11 ;only care about first two bits
+;	ld b, OPTION_COLORS_LEFT_XPOS
+;	ret z
+;	cp %11
+;	ld b, OPTION_COLORS_RIGHT_XPOS
+;	ret z
+;	ld b, OPTION_COLORS_MIDDLE_XPOS
+;	ret
+;
+;ToggleAltSGBYellowColors:
+;	ld a, SFX_PRESS_AB
+;	rst _PlaySound
+;	ld a, [wOptions2]
+;	xor %01000000
+;	ld [wOptions2], a
+;	and %01000011
+;	call PrintSGBYellowOptionNumbers
+;	jp RunDefaultPaletteCommand
+;
+;; input: a = color mode indicator. Bit 6 indicates if alternate color mode is activated. First 2 bits indictate the main color mode.
+;PrintSGBYellowOptionNumbers:
+;	hlcoord 15, 3
+;	cp %01000001
+;	ld [hl], '2'
+;	jr z, .next
+;	ld [hl], '1'
+;.next
+;	hlcoord 18, 3
+;	cp %01000011
+;	ld [hl], '2'
+;	ret z
+;	ld [hl], '1'
+;	ret
 
 
 OptionsMenu2InfoTextJumpTable:
-	dw ColorsOptionInfoText
 	dw AltPkmnColorsInfoText
 	dw MusicInfoText
 	dw AudioPanInfoText
 	dw BikeSongInfoText
 	dw GBCFadeInfoText
 
-ColorsOptionInfoText:
-	text_far _ColorsOptionInfoText
-	text_end
+; Sunsette: dead COLOR code, commented out to reclaim ROM space
+;ColorsOptionInfoText:
+;	text_far _ColorsOptionInfoText
+;	text_end
 
 AltPkmnColorsInfoText:
 	text_far _AltPkmnColorsInfoText

@@ -128,8 +128,7 @@ SlidePlayerAndEnemySilhouettesOnScreen:
 ;;;;;;;;;;
 
 	call Delay3
-	ld d, SET_PAL_BATTLE
-	call RunPaletteCommand
+	callfar SetEnemyTrainerIntroPalette ; Sunsette: SET_PAL_BATTLE, coloring the enemy trainer's intro pic
 	call HideSprites
 	jpfar PrintBeginningBattleText
 
@@ -809,6 +808,7 @@ HandleEnemyMonFainted:
 	ld a, d
 	and a
 	jp z, HandlePlayerBlackOut ; if no party mons are alive, the player blacks out
+	farcall SecondWindHeal ; Sunsette: happiness >= 128 trainer-KO heal (HUD redraw below shows it)
 	ld hl, wBattleMonHP
 	ld a, [hli]
 	or [hl] ; is battle mon HP zero?
@@ -1129,6 +1129,7 @@ PlayBattleVictoryMusic:
 HandlePlayerMonFainted:
 	ld a, 1
 	ld [wInHandlePlayerMonFainted], a
+	farcall LoseFaintHappiness ; Sunsette: -1 happiness when the active mon faints
 	call RemoveFaintedPlayerMon
 	call AnyPartyAlive     ; test if any more mons are alive
 	ld a, d
@@ -1212,6 +1213,10 @@ RemoveFaintedPlayerMon:
 
 PlayerMonFaintedText:
 	text_far _PlayerMonFaintedText
+	text_end
+
+AffectionEnduredText:
+	text_far _AffectionEnduredText
 	text_end
 
 ; asks if you want to use next mon
@@ -1985,6 +1990,7 @@ SendOutMon:
 	call AnimateSendingOutMon
 	ld a, [wCurPartySpecies]
 	call PlayCry
+	farcall SendOutHappinessMessage ; Sunsette: affection greeting + heart/sparkle cue
 	call PrintEmptyString
 	call SaveScreenTilesToBuffer1
 	jpfar CheckOnSendOutSpecialEffect
@@ -2060,11 +2066,8 @@ DrawPlayerHUDAndHPBar::
 	hlcoord 10, 7
 	call CenterMonName
 	call PlaceString
-;;;;;;;;;; PureRGBnote: ADDED: decide via the options value whether to display an EXP bar in battle
-	ld a, [wOptions3]
-	bit BIT_EXP_BAR, a
-	jr z, .noExpBar
-	farcall PrintEXPBar	
+;;;;;;;;;; Sunsette: EXP bar is always on
+	farcall PrintEXPBar
 .noExpBar
 ;;;;;;;;;;
 	ld hl, wBattleMonSpecies
@@ -3280,6 +3283,9 @@ SelectEnemyMove:
 	ld a, l
 	ld [wPPTrackingPointer + 1], a
 	callfar ChooseMovePPTrack
+	push de ; Sunsette: legendary Pressure - your legendary drains an extra PP off the enemy move
+	farcall PressureDrainEnemyMove
+	pop de
 	hl_deref_reverse wPPTrackingPointer
 	ld a, e
 	and a
@@ -3425,6 +3431,7 @@ PlayerCanExecuteMove:
 	ld de, wPlayerSelectedMove ; pointer to the move just used
 	ld b, BANK(DecrementPP)
 	rst _Bankswitch
+	farcall PressureDrainPlayerMove ; Sunsette: legendary Pressure - enemy legendary drains an extra PP off your move
 	ld a, [wPlayerMoveEffect] ; effect of the move just used
 	ld hl, ResidualEffects1
 	call IsInSingleByteArray
@@ -4891,6 +4898,22 @@ CriticalHitTest:
 	jr nz, .fullCritSpeed
 	srl b
 .fullCritSpeed
+; Sunsette: Articuno/Zapdos/Moltres/Mewtwo/Mew can only crit via Focus Energy or a high-crit move
+	call CheckCritRestrictedSpecies
+	jr nz, .critAllowed
+	ld a, [de]
+	bit GETTING_PUMPED, a        ; focus energy active -> crit allowed
+	jr nz, .critAllowed
+	ld hl, HighCriticalMoves
+.restrictLoop
+	ld a, [hli]
+	cp c                         ; high-crit move -> crit allowed
+	jr z, .critAllowed
+	inc a                        ; FF terminates loop
+	jr nz, .restrictLoop
+	ld b, 0                      ; otherwise this legendary cannot crit at all
+	jr .finishcalc
+.critAllowed
 	ld a, [de]
 	bit GETTING_PUMPED, a        ; test for focus energy
 	jr z, .noFocusEnergyUsed
@@ -4934,7 +4957,7 @@ CriticalHitTest:
 
 ; Sunsette: returns nz if the attacker keeps its full Speed->crit contribution, z if it should be halved.
 ; Full for: the player while holding the EARTHBADGE; enemy gym leaders / Giovanni / the rival / the
-; Elite Four; and wild Articuno / Zapdos / Moltres / Mewtwo. Uses only register a.
+; Elite Four. Uses only register a.
 CheckFullCritSpeed:
 	ldh a, [hWhoseTurn]
 	and a
@@ -4946,18 +4969,7 @@ CheckFullCritSpeed:
 .enemyTurn
 	ld a, [wIsInBattle]
 	cp 2
-	jr z, .enemyTrainer
-; wild battle -> full only for the legendary birds and Mewtwo
-	ld a, [wEnemyMonSpecies]
-	cp ARTICUNO
-	jr z, .full
-	cp ZAPDOS
-	jr z, .full
-	cp MOLTRES
-	jr z, .full
-	cp MEWTWO
-	jr z, .full
-	jr .halve
+	jr nz, .halve ; Sunsette: wild battles no longer grant a crit-speed exception
 .enemyTrainer
 	ld a, [wTrainerClass]
 	cp RIVAL1
@@ -4984,6 +4996,12 @@ CheckFullCritSpeed:
 .full
 	or 1 ; nz -> full
 	ret
+
+; Sunsette: returns z if the attacker (wCurSpecies) is one of the legendaries that can only crit
+; via Focus Energy or a high-crit move (Articuno / Zapdos / Moltres / Mewtwo / Mew). Uses register a.
+CheckCritRestrictedSpecies:
+	ld a, [wCurSpecies]
+	jp CheckLegendaryAffectionSpecies ; Sunsette: shared legendary check in home/pokemon.asm
 
 INCLUDE "data/battle/critical_hit_moves.asm"
 
@@ -5152,7 +5170,7 @@ ApplyDamageToPlayerPokemon:
 	ld b, a
 	ld a, [hl]
 	or b
-	jr z, ApplyAttackToPlayerPokemonDone ; we're done if damage is 0
+	jp z, ApplyAttackToPlayerPokemonDone ; we're done if damage is 0
 	ld a, [wPlayerBattleStatus2]
 	bit HAS_SUBSTITUTE_UP, a ; does the player have a substitute?
 	jp nz, AttackSubstitute
@@ -5171,20 +5189,39 @@ ApplyDamageToPlayerPokemon:
 	sbc b
 	ld [wBattleMonHP], a
 	ld [wHPBarNewHP+1], a
-	jr nc, .animateHpBar
-; if more damage was done than the current HP, zero the HP and set the damage (wDamage)
-; equal to how much HP the pokemon had before the attack
-	ld a, [wHPBarOldHP+1]
-	ld [hli], a
+	jp nc, .animateHpBar
+; Sunsette: this hit would faint the mon - give non-legendaries an affection survival
+	call BattleRandom
+	ld c, a
+	farcall TryAffectionSurvival
+	jr nc, .faintZeroHP
+; survived: keep it at 1 HP and set wDamage so the bar animates down to 1
 	ld a, [wHPBarOldHP]
-	ld [hl], a
+	sub 1
+	ld b, a
+	ld a, [wHPBarOldHP+1]
+	sbc 0
+	ld [wDamage], a
+	ld a, b
+	ld [wDamage+1], a
 	xor a
-	ld hl, wBattleMonHP
-	ld [hli], a
-	ld [hl], a
-	ld hl, wHPBarNewHP
-	ld [hli], a
-	ld [hl], a
+	ld [wBattleMonHP], a
+	ld [wHPBarNewHP+1], a
+	inc a
+	ld [wBattleMonHP+1], a
+	ld [wHPBarNewHP], a
+	jr .animateHpBar
+.faintZeroHP
+; more damage was done than the current HP: zero the HP and set wDamage = HP it had
+	ld a, [wHPBarOldHP+1]
+	ld [wDamage], a
+	ld a, [wHPBarOldHP]
+	ld [wDamage+1], a
+	xor a
+	ld [wBattleMonHP], a
+	ld [wBattleMonHP+1], a
+	ld [wHPBarNewHP], a
+	ld [wHPBarNewHP+1], a
 .animateHpBar
 	ld hl, wBattleMonMaxHP
 	ld a, [hli]
@@ -5195,6 +5232,13 @@ ApplyDamageToPlayerPokemon:
 	ld a, $01
 	ld [wHPBarType], a
 	predef UpdateHPBar ; animate the HP bar shortening
+	ld a, [wAffectionJustSurvived] ; Sunsette: announce the affection save after the bar drops to 1
+	and a
+	jr z, ApplyAttackToPlayerPokemonDone
+	xor a
+	ld [wAffectionJustSurvived], a
+	ld hl, AffectionEnduredText
+	rst _PrintText
 ApplyAttackToPlayerPokemonDone:
 	jp DrawHUDsAndHPBars
 
@@ -5464,7 +5508,6 @@ AdjustDamageForMoveType:
 	and 1 << BIT_STAB_DAMAGE
 	ld b, a
 	ld a, [hl] ; a = damage multiplier
-	call RemapTypeMatchupBasedOnOptions ; PureRGBnote: ADDED: remap type chart based on game options settings
 	ldh [hMultiplier], a
 ;;;; shinpokerednote: FIXED: fixing the wrong effectiveness message 
 	and a
@@ -5568,84 +5611,8 @@ ApplyDamageMultiplier2:
 
 ; PureRGBnote: ADDED: type matchups can be switched to match how they behave in later generations if so desired
 ; by default ghost affects psychic, but can be set back to psychic being unaffected by ghost.
-RemapTypeMatchupBasedOnOptions:
-	push bc
-	dec hl
-	ld c, a
-	ld a, [wMoveType]
-	ld b, a
-	ld a, [wOptions3]
-	and %1111 ; only care about the first 4 bits
-	jr z, .done ; if none are set we don't need to do any remapping
-	ld a, GHOST
-	cp b
-	jr z, .ghostOption
-	ld a, BUG
-	cp b
-	jr z, .bugOption
-	ld a, POISON
-	cp b
-	jr z, .poisonOption
-	ld a, ICE
-	cp b
-	jr z, .iceOption
-	jr .done
-.ghostOption
-	ld a, [wOptions3]
-	bit BIT_GHOST_PSYCHIC, a
-	jr nz, .ghostCheck
-	jr .done
-.iceOption
-	ld a, [wOptions3]
-	bit BIT_ICE_FIRE, a
-	jr nz, .iceCheck
-	jr .done
-.bugOption
-	ld a, [wOptions3]
-	bit BIT_BUG_PSN, a
-	jr nz, .bugCheck
-	jr .done
-.poisonOption
-	ld a, [wOptions3]
-	bit BIT_PSN_BUG, a
-	jr nz, .poisonCheck
-	jr .done
-.ghostCheck
-	ld a, PSYCHIC_TYPE
-	ld b, [hl]
-	cp b
-	jr nz, .done
-.doRemapGhost
-	ld c, NO_EFFECT
-	jr .done
-.iceCheck
-	ld a, FIRE
-	ld b, [hl]
-	cp b
-	jr nz, .done
-.doRemapIce
-	ld c, NOT_VERY_EFFECTIVE
-	jr .done
-.bugCheck
-	ld a, POISON
-	ld b, [hl]
-	cp b
-	jr nz, .done
-.doRemapBug
-	ld c, NOT_VERY_EFFECTIVE
-	jr .done
-.poisonCheck
-	ld a, BUG
-	ld b, [hl]
-	cp b
-	jr nz, .done
-.doRemapPoison
-	ld c, EFFECTIVE
-.done
-	ld a, c
-	inc hl
-	pop bc
-	ret
+; Sunsette: RemapTypeMatchupBasedOnOptions removed - the Ghost/Psychic, Ice/Fire, Bug/Poison and
+; Poison/Bug matchups are now hardcoded in the type chart, so the wOptions3 toggles are gone.
 
 GetPlayerTypeEffectiveness:
 	ld a, [wPlayerMoveType]
@@ -5717,7 +5684,6 @@ AIGetTypeEffectiveness:
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 .AImatchingPairFound
 	ld a, [hl]	;get damage multiplier
-	call RemapTypeMatchupBasedOnOptions ; potentially remap the type matchup based on our settings in the game
 	cp NOT_VERY_EFFECTIVE	;is it halved?
 	jr nz, .AInothalf	;jump down of not half
 	ld a, [wTypeEffectiveness]	;else get the effectiveness multiplier
@@ -6471,6 +6437,9 @@ GetCurrentMove:
 	jp CopyToStringBuffer
 
 LoadEnemyMonData:
+	xor a ; Sunsette: a new enemy (attacker) is on the field -> re-arm the affection survival
+	ld [wAffectionSurviveUsed], a
+	ld [wAffectionJustSurvived], a
 	ld a, [wLinkState]
 	cp LINK_STATE_BATTLING
 	jp z, LoadEnemyMonFromParty
@@ -7209,6 +7178,23 @@ PlayMoveAnimationNoDelay:
 	jpfar Func_78e98
 ;;;;;;;;;;
 
+; Sunsette: play animation a over the player's mon. Exported so the affection cues
+; (send-out / drink / second wind, in other banks) can trigger it via farcall.
+PlayPlayerSideAnim::
+	ld [wAnimationID], a
+	xor a
+	ld [wAnimationType], a ; Sunsette: no screen-shake/blink - plain overlay (stale type would flicker)
+	ldh [hWhoseTurn], a
+	jp PlayMoveAnimationNoDelay
+
+PlayEnemySideAnim:: ; Sunsette: same, but over the enemy's mon (for an enemy legendary's Pressure)
+	ld [wAnimationID], a
+	xor a
+	ld [wAnimationType], a ; Sunsette: no screen-shake/blink - plain overlay
+	ld a, 1
+	ldh [hWhoseTurn], a
+	jp PlayMoveAnimationNoDelay
+
 InitBattle::
 	ld a, [wCurOpponent]
 	and a
@@ -7477,21 +7463,9 @@ LoadMonBackPic::
 LoadMonBackPicInPokedex: ; PureRGBnote: ADDED: code that loads the back sprite of a pokemon into VRAM in the pokedex when pressing SELECT
 LoadMonBackPicCommon:
 ;;;;;;;;;; PureRGBnote: ADDED: code to switch between original and larged back sprites
-	ld a, [wSpriteOptions2]
-	bit BIT_BACK_SPRITES, a
-	ld hl,  wMonHBackSprite - wMonHeader
-	jr nz, .swSpriteHeader
-.ogSpriteHeader
-	ld hl,  wMonHAltBackSprite - wMonHeader
-.swSpriteHeader
+; Sunsette: mon back sprites use the SW97 (high-res, unzoomed) set
+	ld hl, wMonHBackSprite - wMonHeader
 	call UncompressMonBackSprite
-	ld a, [wSpriteOptions2]
-	bit BIT_BACK_SPRITES, a
-	jr nz, .swSprites
-.ogSprites
-	call LoadBackSpriteZoomed
-	jr .nextb
-.swSprites
 	call LoadBackSpriteUnzoomed
 .nextb
 ;;;;;;;;;;

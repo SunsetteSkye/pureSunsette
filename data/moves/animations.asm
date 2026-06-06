@@ -214,6 +214,8 @@ AttackAnimationPointers:
 	dw DivineProtectionAnim
 	dw PokeDollAnim
 	dw SendOutMonPoofAnim
+	dw HappinessHeartAnim ; Sunsette
+	dw HappinessSparkleAnim ; Sunsette
 	assert_table_length NUM_ATTACK_ANIMS
 	dw ZigZagScreenAnim
 
@@ -1261,6 +1263,14 @@ LovelyKissAnim:
 	battle_anim NO_MOVE, SE_RESET_MON_POSITION
 	battle_anim LOVELY_KISS, SE_CUSTOM_MOVE_SFX
 	battle_anim NO_MOVE, SUBANIM_0_HEART_1_MUSIC, 0, 6
+	db -1 ; end
+
+; Sunsette: affection cues - a heart (normal) / sparkle (legendary) over the player's mon
+HappinessHeartAnim:
+	battle_anim TAIL_WHIP, SUBANIM_HAPPINESS_HEART, 0, 10
+	db -1 ; end
+HappinessSparkleAnim:
+	battle_anim GLARE, SUBANIM_0_SPARKLES_FALLING, 0, 6
 	db -1 ; end
 
 SkyAttackAnim:

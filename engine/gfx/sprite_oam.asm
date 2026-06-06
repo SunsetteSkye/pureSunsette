@@ -30,6 +30,7 @@ PrepareOAMData::
 	inc e
 	ld a, [de] ; [x#SPRITESTATEDATA1_IMAGEINDEX]
 	ld [wSavedSpriteImageIndex], a
+	call SetOWObjPalSlot ; Sunsette: -> hOWObjPal (preserves de; returns a = image index)
 	cp $ff ; off-screen (don't draw)
 	jr nz, .visible
 
@@ -154,6 +155,15 @@ PrepareOAMData::
 	set 2, a ; palette 4 is OBP1
 .spriteusesOBP0
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;; Sunsette: apply this sprite's precomputed overworld OBJ palette slot (hOWObjPal,
+; set once per sprite by SetOWObjPalSlot). OR-ing 0 is a no-op (keeps the map default 0/4);
+; 1/2/3 select player / generic-human / special, preserving the OBP0/OBP1 bit (-> slot N or N+4).
+	push bc
+	ld b, a
+	ld a, [wOWObjPal]
+	or b
+	pop bc
+;;;;;;;;;;
 	inc hl
 	ld [de], a
 	inc e
@@ -214,4 +224,110 @@ GetSpriteScreenXY:
 	ldh a, [hSpriteScreenX]
 	and $f0
 	ld [de], a  ; [x#SPRITESTATEDATA1_XADJUSTED]
+	ret
+
+;;;;;;;;;; Sunsette: overworld per-sprite OBJ palette system ;;;;;;;;;;
+; Maps specific overworld sprite picture IDs to a custom palette, loaded into active OBJ
+; palette slot 3 by ScanSlot3Palette. Format: db SPRITE_*, PAL_* ; db 0 terminator.
+; The player is sprite slot 0 (handled before this table); Mewmon trainers (Oak/Giovanni/
+; Lance/Bruno) fall through to the generic human palette, so they need no entry.
+OverworldSpritePalettes:
+	db SPRITE_BLUE,     PAL_RIVAL_OW    ; rival (player is slot 0, unaffected)
+	db SPRITE_NURSE,    PAL_JOY_OW
+	db SPRITE_KOGA,     PAL_KOGA_OW
+	db SPRITE_AGATHA,   PAL_GRAYMON_OW
+	db SPRITE_LORELEI,  PAL_REDBAR_OW
+	db SPRITE_BROCK,    PAL_BROCK_OW
+	db SPRITE_MISTY,    PAL_REDBAR_OW
+	db SPRITE_LT_SURGE, PAL_GREENBAR_OW
+	db SPRITE_ERIKA,    PAL_REDBAR_OW
+	db SPRITE_SABRINA,  PAL_REDBAR_OW
+	db SPRITE_BLAINE,   PAL_SAFFRON_OW
+	db 0
+
+; Determine the overworld OBJ palette slot for the current sprite -> hOWObjPal.
+;  player (sprite slot 0) -> 1 ; sprite in OverworldSpritePalettes -> 3 ; generic animated
+;  human -> 2 ; unchanging object (image index >= $a0) -> 0 (keep the map default palette).
+; Preserves de. Returns a = the sprite's saved image index (for the caller's off-screen test).
+SetOWObjPalSlot:
+	ldh a, [hSpriteOffset2]
+	and a
+	jr nz, .notPlayer
+	ld a, 1
+	jr .store
+.notPlayer
+	push de
+	ld d, HIGH(wSpriteStateData1)
+	ldh a, [hSpriteOffset2]
+	ld e, a
+	ld a, [de] ; picture ID
+	pop de
+	ld b, a
+	ld hl, OverworldSpritePalettes
+.search
+	ld a, [hl]
+	and a
+	jr z, .notSpecial
+	cp b
+	jr z, .special
+	inc hl
+	inc hl
+	jr .search
+.special
+	ld a, 3
+	jr .store
+.notSpecial
+	ld a, [wSavedSpriteImageIndex]
+	cp $a0
+	jr c, .genericHuman ; image < $a0 = animated NPC -> human palette
+	; unchanging object: item balls take the human palette, boulders/statues keep the map default
+	ld a, b
+	cp SPRITE_POKE_BALL
+	jr z, .genericHuman
+	cp SPRITE_POKE_BALL2
+	jr z, .genericHuman
+	xor a ; map default (environment)
+	jr .store
+.genericHuman
+	ld a, 2
+.store
+	ld [wOWObjPal], a
+	ld a, [wSavedSpriteImageIndex]
+	ret
+
+; Scan the loaded map sprites for the first one in OverworldSpritePalettes and write its
+; palette into the overworld pal packet (active slot 3). Called via farcall from
+; SetPal_Overworld. Writes PAL_HUMANSPRITE (harmless; nothing routes to slot 3) if none.
+ScanSlot3Palette:
+	ld c, 0
+.spriteLoop
+	ld h, HIGH(wSpriteStateData1)
+	ld l, c
+	ld a, [hl] ; picture ID
+	and a
+	jr z, .nextSprite
+	ld b, a
+	ld hl, OverworldSpritePalettes
+.search
+	ld a, [hl]
+	and a
+	jr z, .nextSprite
+	cp b
+	jr z, .found
+	inc hl
+	inc hl
+	jr .search
+.nextSprite
+	ld a, c
+	add $10
+	ld c, a
+	and a
+	jr nz, .spriteLoop
+	ld a, PAL_HUMANSPRITE
+	jr .store
+.found
+	inc hl
+	ld a, [hl] ; PAL_*
+.store
+	ld [wPalPacket + 7], a
 	ret

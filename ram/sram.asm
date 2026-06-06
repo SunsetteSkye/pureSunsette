@@ -26,7 +26,12 @@ sBoxRenamedFlags:: flag_array NUM_BOXES ; 2 bytes
 sBoxRenamedFlagsEnd::
 sBoxNames:: ds NUM_BOXES * BOX_NAME_LENGTH ; 72 bytes
 
-; still quite a bit of space left here, around 1000 bytes
+; Sunsette: soft cache of recently-boxed mons' happiness so a quick PC trip doesn't floor it.
+; 8 entries of {species, DV lo, DV hi, level, happiness} + a ring write index.
+sHappinessCache:: ds 8 * 5
+sHappinessCacheNext:: db
+
+; still quite a bit of space left here, around 950 bytes
 
 
 

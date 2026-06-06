@@ -35,7 +35,7 @@ TypeEffects:
 	db ICE,          GRASS,        EFFECTIVE ; Grass no longer weak to Ice
 	db ICE,          GROUND,       SUPER_EFFECTIVE
 	db ICE,          FLYING,       SUPER_EFFECTIVE
-	db ICE,          FIRE,         EFFECTIVE ; PureRGBnote: ADDED: this was added to facilitate customization of type matchups even though it seems redundant
+	db ICE,          FIRE,         NOT_VERY_EFFECTIVE ; Sunsette: Fire always resists Ice
 	db FIGHTING,     NORMAL,       SUPER_EFFECTIVE
 	db FIGHTING,     POISON,       NOT_VERY_EFFECTIVE
 	db FIGHTING,     FLYING,       NOT_VERY_EFFECTIVE
@@ -47,7 +47,7 @@ TypeEffects:
 	db POISON,       GRASS,        SUPER_EFFECTIVE
 	db POISON,       POISON,       NOT_VERY_EFFECTIVE
 	db POISON,       GROUND,       NOT_VERY_EFFECTIVE
-	db POISON,       BUG,          SUPER_EFFECTIVE
+	db POISON,       BUG,          EFFECTIVE ; Sunsette: Poison always normal vs Bug
 	db POISON,       ROCK,         NOT_VERY_EFFECTIVE
 	db POISON,       GHOST,        NO_EFFECT
 	db GROUND,       FIRE,         SUPER_EFFECTIVE
@@ -69,7 +69,7 @@ TypeEffects:
 	db BUG,          FLYING,       NOT_VERY_EFFECTIVE
 	db BUG,          PSYCHIC_TYPE, SUPER_EFFECTIVE
 	db BUG,          GHOST,        NOT_VERY_EFFECTIVE
-	db BUG,          POISON,       SUPER_EFFECTIVE
+	db BUG,          POISON,       NOT_VERY_EFFECTIVE ; Sunsette: Bug always resisted by Poison
 	db ROCK,         FIRE,         SUPER_EFFECTIVE
 	db ROCK,         FIGHTING,     NOT_VERY_EFFECTIVE
 	db ROCK,         GROUND,       NOT_VERY_EFFECTIVE

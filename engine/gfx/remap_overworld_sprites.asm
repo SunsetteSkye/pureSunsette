@@ -6,10 +6,8 @@ CheckRemapSprite::
 	ld c, a
 	add hl, bc
 	ld [hl], d ; store the original sprite ID at the correct byte index of wMapSpriteOriginalPictureIDs
-	ld a, [wSpriteOptions2]
-	bit BIT_MENU_ICON_SPRITES, a ; if this option is turned on, we don't need to remap any sprites
-	ret nz 
-	; fall through
+; Sunsette: icons are always OG+ (enhanced) - no overworld sprite remapping needed
+	ret
 
 ; PureRGBnote: ADDED: code that will remap overworld NPC icons according to options selection (enhanced or original) 
 ; if not using enhanced sprites we remap the sprite to its original sprite.
@@ -69,9 +67,7 @@ LoopRemapSpritePictureIDs::
 	push hl
 	push bc
 	ld d, a
-	ld a, [wSpriteOptions2]
-	bit BIT_MENU_ICON_SPRITES, a
-	call z, RemapSpritePictureIDs
+; Sunsette: icons are always OG+ - no remap
 	ld a, d
 	pop bc
 	pop hl

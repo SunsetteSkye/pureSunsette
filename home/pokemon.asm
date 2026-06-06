@@ -362,3 +362,20 @@ AreLearnsetsEnabled::
 IndexToPokedex::
 	homecall _IndexToPokedex
 	ret
+
+; Sunsette: returns z if species (in a) is one of the affection-excluded legendaries
+; (Articuno / Zapdos / Moltres / Mewtwo / Armored Mewtwo / Mew). Shared by both the
+; critical-hit restriction and the happiness/affection system. Only touches flags + a.
+CheckLegendaryAffectionSpecies::
+	cp ARTICUNO
+	ret z
+	cp ZAPDOS
+	ret z
+	cp MOLTRES
+	ret z
+	cp MEWTWO
+	ret z
+	cp ARMORED_MEWTWO
+	ret z
+	cp MEW
+	ret

@@ -1,6 +1,6 @@
 ; PureRGBnote: ADDED: Accessed from your PC. This options page changes what areas are in the world. Currently only Volcano can be turned off/on.
 DEF OPTIONS_PAGE_5_COUNT EQU 6 ; number of options on this page
-DEF OPTIONS_PAGE_5_NUMBER EQU 5 ; must be 1 digit.
+DEF OPTIONS_PAGE_5_NUMBER EQU 3 ; Sunsette: now the 3rd page (old pages 3/4 removed)
 
 ; format: "bit set" x position, "bit not set" x position, which bit it is, pointer to wram variable
 Options3XPosBitData:
@@ -23,7 +23,7 @@ OptionsMenu3Header:
 	dw SetOptions3FromCursorPositions
 	dw Options3LeftRightFuncs
 	dw DisplayOptionMenu
-	dw DisplaySpriteOptions
+	dw DisplayOptions2 ; Sunsette: prev page skips removed pages 3/4, goes back to options 2
 	dw OptionsPageAorSelectButtonDefault
 	dw Options3InfoTextJumpTable
 	; fall through

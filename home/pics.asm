@@ -9,12 +9,10 @@ UncompressMonBackSprite::
 	ld [wSpriteInputPtr],a    ; fetch sprite input pointer
 	ld a,[hl]
 	ld [wSpriteInputPtr+1],a
-	ld a, [wSpriteOptions2]
-	bit BIT_BACK_SPRITES, a
+; Sunsette: mon back sprites use the SW97 set, so use the SpaceWorld bank to match
+; the wMonHBackSprite pointer used by LoadMonBackPic. (The trainer back uses the OG
+; set via LoadPlayerBackPic - its SW97 path caused a post-intro flicker.)
 	ld a,[wMonHSpaceWorldBackPicBank]
-	jr nz, .GotBank
-	ld a,[wMonHBackPicBank]
-.GotBank
 	jp UncompressSpriteData
 
 ; de: destination location

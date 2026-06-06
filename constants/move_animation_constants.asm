@@ -166,6 +166,7 @@ DEF FIRST_SE_ID EQU const_value
 	const SUBANIM_2_BONE_RECOVER
 	const SUBANIM_2_ANGER_SYMBOL
 	const SUBANIM_2_ANGER_SYMBOL_ENEMY
+	const SUBANIM_HAPPINESS_HEART ; Sunsette: clean single heart
 ;;;;;;;;;;
 DEF NUM_SUBANIMS EQU const_value
 

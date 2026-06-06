@@ -74,6 +74,25 @@ SetPal_Battle:
 	ld [wDefaultPaletteCommand], a
 	ret
 
+; Sunsette: SET_PAL_BATTLE, but for trainer battles temporarily restore the enemy trainer's OPP
+; class into wEnemyMonSpecies2 first so the intro pic gets its class palette (NonMonCustomPalettes,
+; unlisted classes default to PAL_MEWMON), then re-clear it. Wild battles are unchanged.
+SetEnemyTrainerIntroPalette:
+	ld a, [wIsInBattle]
+	cp $2
+	jr nz, .notTrainer
+	ld a, [wTrainerClass]
+	add OPP_ID_OFFSET
+	ld [wEnemyMonSpecies2], a
+	ld d, SET_PAL_BATTLE
+	call RunPaletteCommand
+	xor a
+	ld [wEnemyMonSpecies2], a
+	ret
+.notTrainer
+	ld d, SET_PAL_BATTLE
+	jp RunPaletteCommand
+
 SetPal_TownMap:
 	ld hl, PalPacket_TownMap
 	ld de, BlkPacket_WholeScreen
@@ -285,8 +304,13 @@ SetPal_Overworld:
 	ld bc, $10
 	rst _CopyData
 	call GetOverworldPalette
-	ld hl, wPalPacket + 1
-	ld [hld], a
+	ld [wPalPacket + 1], a ; active palette 0 = map BG palette
+	ld a, PAL_PLAYEROW     ; Sunsette: active palette 1 = player overworld OBJ color (slot 1)
+	ld [wPalPacket + 3], a
+	ld a, PAL_HUMANSPRITE  ; active palette 2 = generic human NPC color (slot 2)
+	ld [wPalPacket + 5], a
+	farcall ScanSlot3Palette ; Sunsette: active palette 3 = map's special NPC palette (writes wPalPacket+7)
+	ld hl, wPalPacket      ; hl must point to the pal packet (SendSGBPackets reads it via InitGBCPalettesNew)
 	ld de, BlkPacket_WholeScreen
 	ld a, SET_PAL_OVERWORLD
 	ld [wDefaultPaletteCommand], a
@@ -599,6 +623,23 @@ NonMonCustomPalettes:
 	db SPIRIT_PAINLESS, PAL_PINKMON ; whitemon?
 	db SPIRIT_IRRADIATED, PAL_SAFARIBALL
 	db SPIRIT_THE_MAW, PAL_REALLY_REDMON
+;;;;;;;;;; Sunsette: trainer front-sprite palettes (keyed by OPP class). Trainers not listed
+; here default to PAL_MEWMON via DeterminePaletteIDOutOfBattle (so Giovanni/Bruno/Oak + all
+; generic trainers = Mewmon). Battle order [white, light, dark, black], same as their fronts.
+	db OPP_BROCK, PAL_BROCK
+	db OPP_MISTY, PAL_REDBAR
+	db OPP_LT_SURGE, PAL_GREENBAR
+	db OPP_ERIKA, PAL_REDBAR
+	db OPP_KOGA, PAL_KOGA
+	db OPP_SABRINA, PAL_REDBAR
+	db OPP_BLAINE, PAL_REDBAR
+	db OPP_LORELEI, PAL_REDBAR
+	db OPP_AGATHA, PAL_GRAYMON
+	db OPP_LANCE, PAL_REDBAR
+	db OPP_RIVAL1, PAL_RIVAL
+	db OPP_RIVAL2, PAL_RIVAL
+	db OPP_RIVAL3, PAL_RIVAL
+;;;;;;;;;;
 	db -1
 
 SpecialMonCustomPalettes:
@@ -627,6 +668,9 @@ DeterminePaletteIDOutOfBattle:
 	ld de, 3
 	call IsInArray
 	jr c, .specialMonPalette
+	ld a, [wPokedexNum]    ; Sunsette: trainer class (index >= OPP offset) not listed above?
+	cp OPP_ID_OFFSET
+	jr nc, .trainerDefault ; -> default trainer color PAL_MEWMON ("most people")
 	call IndexToPokedex
 	ld a, [wPokedexNum]
 	; 0 = missingno is a valid value here
@@ -653,6 +697,12 @@ DeterminePaletteIDOutOfBattle:
 	ld [wIsAltPalettePkmn], a ; always reset this value after displaying a pokemon sprite
 ;;;;;;;;;;
 	ld a, [hl]
+	ret
+.trainerDefault
+	pop bc
+	xor a
+	ld [wIsAltPalettePkmn], a
+	ld a, PAL_MEWMON
 	ret
 .gotPalette
 	pop bc
@@ -704,269 +754,29 @@ UpdatePartyMenuBlkPacket:
 	ld [hl], e
 	ret
 
-SendSGBPacket: ; shinpokerednote: gbcnote - shifted joypad polling around
-; disable ReadJoypad to prevent it from interfering with sending the packet
-	ld a, 1
-	ldh [hDisableJoypadPolling], a ; don't poll joypad while sending packet
-	call _SendSGBPacket
-;re-enable joypad polling
-	xor a
-	ldh [hDisableJoypadPolling], a
-	ret
-
-_SendSGBPacket:
-;check number of packets
-	ld a, [hl]
-	and $07
-	ret z
-; store number of packets in B
-	ld b, a
-.loop2
-; save B for later use
-	push bc
-; send RESET signal (P14=LOW, P15=LOW)
-	xor a ; JOYP_SGB_START
-	ldh [rJOYP], a
-; set P14=HIGH, P15=HIGH
-	ld a, JOYP_SGB_FINISH
-	ldh [rJOYP], a
-;load length of packets (16 bytes)
-	ld b, 16
-.nextByte
-;set bit counter (8 bits per byte)
-	ld e, 8
-; get next byte in the packet
-	ld a, [hli]
-	ld d, a
-.nextBit0
-	bit 0, d
-; if 0th bit is not zero set P14=HIGH, P15=LOW (send bit 1)
-	ld a, JOYP_SGB_ONE
-	jr nz, .next0
-; else (if 0th bit is zero) set P14=LOW, P15=HIGH (send bit 0)
-	ld a, JOYP_SGB_ZERO
-.next0
-	ldh [rJOYP], a
-; must set P14=HIGH,P15=HIGH between each "pulse"
-	ld a, JOYP_SGB_FINISH
-	ldh [rJOYP], a
-; rotation will put next bit in 0th position (so  we can always use command
-; "bit 0, d" to fetch the bit that has to be sent)
-	rr d
-; decrease bit counter so we know when we have sent all 8 bits of current byte
-	dec e
-	jr nz, .nextBit0
-	dec b
-	jr nz, .nextByte
-; send bit 0 as a "stop bit" (end of parameter data)
-	ld a, JOYP_SGB_ZERO
-	ldh [rJOYP], a
-; set P14=HIGH,P15=HIGH
-	ld a, JOYP_SGB_FINISH
-	ldh [rJOYP], a
-; wait for about 70000 cycles
-	call Wait7000
-; restore (previously pushed) number of packets
-	pop bc
-	dec b
-; return if there are no more packets
-	ret z
-; else send 16 more bytes
-	jr .loop2
-
-; shinpokerednote: gbcnote: run GBC color code if on GBC when running this function now
 LoadSGB::
+; Sunsette: SGB support removed. GBC is treated as color-capable (wOnSGB=1); anything
+; else (a real DMG) stays grayscale (wOnSGB=0). No SGB detection, border, or packet
+; transfer - those paths were never reached on GBC anyway.
 	ldh a, [hGBC]
 	and a
 	ld a, 1
 	ld [wOnSGB], a
-	ret nz ; no need to do anything else if on GBC, we just treat it as SGB
+	ret nz ; GBC: color-capable, done
 	xor a
-	ld [wOnSGB], a
-	call CheckSGB
-	ld a, 1
-	jr c, .next
-	dec a
-.next
-	ld [wOnSGB], a
-	and a
-	ret z ; do nothing else if on DMG
-.onSGB
-	di
-	call PrepareSuperNintendoVRAMTransfer
-	ei
-	ld a, 1
-	ld [wCopyingSGBTileData], a
-	ld de, ChrTrnPacket
-	ld hl, SGBBorderGraphics
-	call CopyGfxToSuperNintendoVRAM
-	xor a
-	ld [wCopyingSGBTileData], a
-	ld de, PctTrnPacket
-	ld hl, BorderPalettes
-	call CopyGfxToSuperNintendoVRAM
-	xor a
-	ld [wCopyingSGBTileData], a
-;;;;;;;;;; PureRGBnote: ADDED: optional toggle between original SGB palettes and GBC palettes when playing on SGB
-	call GetPalettes
-	ld h, d
-	ld l, e ; GetPalettes stores the palette set address in de, but here we need it to be in hl, so we copy it over to hl
-;;;;;;;;;;
-	ld de, PalTrnPacket
-	call CopyGfxToSuperNintendoVRAM
-	call ClearVram
-	ld hl, MaskEnCancelPacket
-	jp SendSGBPacket
-
-PrepareSuperNintendoVRAMTransfer:
-	ld hl, .packetPointers
-	ld c, 9
-.loop
-	push bc
-	ld a, [hli]
-	push hl
-	ld h, [hl]
-	ld l, a
-	call SendSGBPacket
-	pop hl
-	inc hl
-	pop bc
-	dec c
-	jr nz, .loop
+	ld [wOnSGB], a ; not GBC: grayscale DMG (SGB no longer detected)
 	ret
 
-.packetPointers
-; Only the first packet is needed.
-	dw MaskEnFreezePacket
-	dw DataSndPacket1
-	dw DataSndPacket2
-	dw DataSndPacket3
-	dw DataSndPacket4
-	dw DataSndPacket5
-	dw DataSndPacket6
-	dw DataSndPacket7
-	dw DataSndPacket8
-
-CheckSGB:
-; Returns whether the game is running on an SGB in carry.
-	ld hl, MltReq2Packet
-	di
-	call SendSGBPacket
-	ld a, 1
-	ldh [hDisableJoypadPolling], a
-	ei
-	call Wait7000
-	ldh a, [rJOYP]
-	and JOYP_SGB_MLT_REQ
-	cp JOYP_SGB_MLT_REQ
-	jr nz, .isSGB
-	ld a, JOYP_SGB_ZERO
-	ldh [rJOYP], a
-	ldh a, [rJOYP]
-	ldh a, [rJOYP]
-	call Wait7000
-	call Wait7000
-	ld a, JOYP_SGB_FINISH
-	ldh [rJOYP], a
-	call Wait7000
-	call Wait7000
-	ld a, JOYP_SGB_ONE
-	ldh [rJOYP], a
-	ldh a, [rJOYP]
-	ldh a, [rJOYP]
-	ldh a, [rJOYP]
-	ldh a, [rJOYP]
-	ldh a, [rJOYP]
-	ldh a, [rJOYP]
-	call Wait7000
-	vc_hook Unknown_network_reset
-	call Wait7000
-	ld a, JOYP_SGB_FINISH
-	ldh [rJOYP], a
-	ldh a, [rJOYP]
-	ldh a, [rJOYP]
-	ldh a, [rJOYP]
-	call Wait7000
-	call Wait7000
-	ldh a, [rJOYP]
-	and JOYP_SGB_MLT_REQ
-	cp JOYP_SGB_MLT_REQ
-	jr nz, .isSGB
-	call SendMltReq1Packet
-	and a
-	ret
-.isSGB
-	call SendMltReq1Packet
-	scf
-	ret
-
-SendMltReq1Packet:
-	ld hl, MltReq1Packet
-	call SendSGBPacket
-	jp Wait7000
-
-CopyGfxToSuperNintendoVRAM:
-	di
-	push de
-	call DisableLCD
-	ld a, $e4
-	ldh [rBGP], a
-	call UpdateGBCPal_BGP ; shinpokerednote: gbcnote: color code from pokemon yellow
-	ld de, vChars1
-	ld a, [wCopyingSGBTileData]
-	and a
-	jr z, .notCopyingTileData
-	call CopySGBBorderTiles
-	jr .next
-.notCopyingTileData
-	ld bc, 256 tiles
-	rst _CopyData
-.next
-	ld hl, vBGMap0
-	ld de, TILEMAP_WIDTH - SCREEN_WIDTH
-	ld a, $80
-	ld c, (256 + SCREEN_WIDTH - 1) / SCREEN_WIDTH ; enough rows to fit 256 tiles
-.loop
-	ld b, SCREEN_WIDTH
-.innerLoop
-	ld [hli], a
-	inc a
-	dec b
-	jr nz, .innerLoop
-	add hl, de
-	dec c
-	jr nz, .loop
-	ld a, LCDC_DEFAULT
-	ldh [rLCDC], a
-	pop hl
-	call SendSGBPacket
-	xor a
-	ldh [rBGP], a
-	call UpdateGBCPal_BGP ; shinpokerednote: gbcnote: color code from pokemon yellow
-	reti
-
-Wait7000:
-; Each loop takes 9 cycles so this routine actually waits 63000 cycles.
-	ld de, 7000
-.loop
-	nop
-	nop
-	nop
-	dec de
-	ld a, d
-	or e
-	jr nz, .loop
-	ret
 
 SendSGBPackets:
+; Sunsette: GBC-only now (SGB removed). On a real DMG this returns and the existing
+; rBGP/rOBP grayscale registers are used directly.
 	ldh a, [hGBC]
 	and a
-	jr z, .notGBC
+	ret z
 	push de
 	call InitGBCPalettesNew
 	pop hl
-	;call EmptyFunc3
-	;shinpokerednote: gbcnote: initialize the second pal packet in de (now in hl) then enable the lcd
 	call InitGBCPalettesNew
 	ldh a, [rLCDC]
 	and LCDC_ON
@@ -974,11 +784,6 @@ SendSGBPackets:
 	CheckAndResetEvent FLAG_SKIP_DELAY_IN_GBC_PALETTE_FUNC
 	ret nz
 	jp Delay3
-.notGBC
-	push de
-	call SendSGBPacket
-	pop hl
-	jp SendSGBPacket
 
 ; PureRGBnote: ADDED: figure out if we have SGB or GBC palettes selected in the options.
 GetPalettes:
@@ -996,6 +801,12 @@ InitGBCPalettesNew:	;shinpokerednote: gbcnote: updating this to work with the Ye
 	jp z, TranslatePalPacketToBGMapAttributes	;jump if so
 	;otherwise hl points to a different pal packet or wPalPacket
 	inc hl
+	; Sunsette: three V-blank-batched passes, all reusing wBGPPalsBuffer (32 bytes) so no extra
+	; WRAM is needed. Pass 1 traverses the packet, records each base palette pointer, and flushes
+	; the BG palettes; passes 2/3 reconvert from the stored pointers for OBP0 (slots 0-3) and OBP1
+	; (slots 4-7). Previously the OBJ palettes were written per-H-blank, which tore across the
+	; visible frame once the overworld used distinct OBJ colors (the returned "infinite flicker").
+	; Pass 1: BG palettes
 DEF index = 0
 	REPT NUM_ACTIVE_PALS
 		IF index > 0
@@ -1018,19 +829,42 @@ DEF index = 0
 		ld a, CONVERT_BGP
 		call DMGPalToGBCPal
 		ld a, index
-		call TransferCurBGPData
+		call BufferBGPPal
+DEF index = index + 1
+	ENDR
+	call TransferBGPPals
 
+	; Pass 2: OBP0 palettes -> OBJ slots 0-3 (reusing the BG buffer)
+DEF index = 0
+	REPT NUM_ACTIVE_PALS
+		ld a, [wGBCBasePalPointers + index * 2]
+		ld e, a
+		ld a, [wGBCBasePalPointers + index * 2 + 1]
+		ld d, a
 		ld a, CONVERT_OBP0
 		call DMGPalToGBCPal
 		ld a, index
-		call TransferCurOBPData
-
-		ld a, CONVERT_OBP1
-		call DMGPalToGBCPal
-		ld a, index + 4
-		call TransferCurOBPData
+		call BufferBGPPal
 DEF index = index + 1
 	ENDR
+	xor a
+	call TransferOBPPalsFromBuffer
+
+	; Pass 3: OBP1 palettes -> OBJ slots 4-7
+DEF index = 0
+	REPT NUM_ACTIVE_PALS
+		ld a, [wGBCBasePalPointers + index * 2]
+		ld e, a
+		ld a, [wGBCBasePalPointers + index * 2 + 1]
+		ld d, a
+		ld a, CONVERT_OBP1
+		call DMGPalToGBCPal
+		ld a, index
+		call BufferBGPPal
+DEF index = index + 1
+	ENDR
+	ld a, 4
+	call TransferOBPPalsFromBuffer
 	ret
 
 GetGBCBasePalAddress:: ;shinpokerednote: gbcnote: new function
@@ -1211,6 +1045,38 @@ TransferBGPPals:: ;shinpokerednote: gbcnote: code from pokemon yellow
 	jr nz, .loop
 	ret
 
+; Sunsette: flush the 4 palettes currently in wBGPPalsBuffer to OBJ palette slots starting at
+; index a (0 = OBP0 set, 4 = OBP1 set), in a single V-blank. InitGBCPalettesNew reuses the BG
+; buffer for OBP0 then OBP1 after the BG flush, so the overworld's distinct OBJ palettes no
+; longer tear across the visible frame (the returned "infinite flicker").
+TransferOBPPalsFromBuffer:: ; a = starting OBJ palette index (0 or 4)
+	add a
+	add a
+	add a
+	or $80 ; auto-increment bit of rOBPI
+	ldh [rOBPI], a
+	ldh a, [rLCDC]
+	and LCDC_ON
+	jr z, .lcdDisabled
+	di
+.waitLoop
+	ldh a, [rLY]
+	cp 144
+	jr c, .waitLoop
+.lcdDisabled
+	call .DoTransfer
+	reti
+.DoTransfer:
+	ld de, rOBPD
+	ld hl, wBGPPalsBuffer
+	ld c, NUM_ACTIVE_PALS * PAL_SIZE
+.loop
+	ld a, [hli]
+	ld [de], a
+	dec c
+	jr nz, .loop
+	ret
+
 TransferCurOBPData:: ;shinpokerednote: gbcnote: code from pokemon yellow
 ; a = indexed offset of wGBCBasePalPointers
 	push de
@@ -1319,6 +1185,9 @@ _UpdateGBCPal_BGP:: ;shinpokerednote: gbcnote: code from pokemon yellow
 
 _UpdateGBCPal_OBP:: ;shinpokerednote: gbcnote: code from pokemon yellow
 ; d then c = CONVERT_OBP0 or CONVERT_OBP1
+; Sunsette: buffer all 4 OBJ palettes, then flush in a SINGLE V-blank (was per-H-blank
+; TransferCurOBPData, ~16 scanlines/frame of tearing whenever this fired with the overworld's
+; now-distinct OBJ palettes -> the random "infinite flicker" + extreme slowdown).
 	ld a, d
 	ld c, a
 DEF index = 0
@@ -1329,23 +1198,17 @@ DEF index = 0
 		ld d, a
 		ld a, c
 		call DMGPalToGBCPal
-		ld a, c
-		dec a
-		rlca
-		rlca
-
-		IF index > 0
-			IF index == 1
-				inc a
-			ELSE
-				add index
-			ENDC
-		ENDC
-		;OBP0: a = 0, 1, 2, or 3
-		;OBP1: a = 4, 5, 6, or 7
-		call TransferCurOBPData
+		push bc ; BufferBGPPal clobbers c (its byte counter); preserve the OBP0/OBP1 convert mode
+		ld a, index
+		call BufferBGPPal
+		pop bc
 DEF index = index + 1
 	ENDR
+	ld a, c
+	dec a
+	rlca
+	rlca ; a = 0 (OBP0 -> OBJ slots 0-3) or 4 (OBP1 -> OBJ slots 4-7)
+	call TransferOBPPalsFromBuffer
 	ret
 	
 ;shinpokerednote: gbcnote: new function
@@ -1401,35 +1264,7 @@ palPacketPointers:
 	dw BlkPacket_PokemonMiddleScreenBox
 palPacketPointersEnd:
 
-CopySGBBorderTiles:
-; SGB tile data is stored in a 4BPP planar format.
-; Each tile is 32 bytes. The first 16 bytes contain bit planes 1 and 2, while
-; the second 16 bytes contain bit planes 3 and 4.
-; This function converts 2BPP planar data into this format by mapping
-; 2BPP colors 0-3 to 4BPP colors 0-3. 4BPP colors 4-15 are not used.
-	ld b, 128
-.tileLoop
-; Copy bit planes 1 and 2 of the tile data.
-	ld c, TILE_SIZE
-.copyLoop
-	ld a, [hli]
-	ld [de], a
-	inc de
-	dec c
-	jr nz, .copyLoop
-
-; Zero bit planes 3 and 4.
-	ld c, 16
-	xor a
-.zeroLoop
-	ld [de], a
-	inc de
-	dec c
-	jr nz, .zeroLoop
-
-	dec b
-	jr nz, .tileLoop
-	ret
+; Sunsette: CopySGBBorderTiles removed (SGB border 2BPP->4BPP conversion).
 
 ;shinpokerednote: gbcnote: This function loads the palette for a given pokemon index in wCurPartySpecies into a specified palette register on the GBC
 ;d = CONVERT_OBP0, CONVERT_OBP1, or CONVERT_BGP
@@ -1475,8 +1310,7 @@ INCLUDE "data/sgb/sgb_palettes.asm"
 ; Sunsette: SGB2 and both GBC base-palette tables removed - everything uses SuperPalettes (SGB1) now.
 ; gbc_palettes.asm is kept only for its GBC_OGPalettes duochromatic defaults.
 INCLUDE "data/gbc/gbc_palettes.asm"
-
-INCLUDE "data/sgb/sgb_border.asm"
+; Sunsette: data/sgb/sgb_border.asm removed (SGB border graphics + palettes)
 
 ;shinpokerednote: ADDED: This is a function specifically for translating the default pokeyellow pals into the GBC color buffer
 ;DE is passed-in containing the address of a pal pattern...like FadePal4 or something

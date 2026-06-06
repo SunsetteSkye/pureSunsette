@@ -505,8 +505,8 @@ TheMawChooseMove::
 	add hl, de
 	ret
 .isPPActive
-	ld a, [wOptions3]
-	bit BIT_NPC_PP, a
+	ld a, 1 ; Sunsette: NPC PP is always on
+	and a
 	ret
 .checkPPNotZero
 	call .isPPActive

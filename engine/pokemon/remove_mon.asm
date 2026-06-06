@@ -1,4 +1,5 @@
 _RemovePokemon::
+	farcall ShiftHappinessForRemoval ; Sunsette: keep happiness aligned when a party slot is removed
 	ld hl, wPartyCount
 	ld a, [wRemoveMonFromBox]
 	and a

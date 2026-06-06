@@ -5,7 +5,7 @@ SuperPalettes:
 ; entries correspond to PAL_* constants
 	table_width 2 * 4, SuperPalettes
 	RGB 31,31,31, 22,31,22, 12,27,27, 00,00,00 ; PAL_ROUTE
-	RGB 31,31,31, 25,28,27, 20,26,31, 00,00,00 ; PAL_PALLET
+	RGB 31,31,30, 31,25,29, 20,26,31, 00,00,00 ; PAL_PALLET
 	RGB 31,31,31, 21,28,14, 09,15,11, 00,00,00 ; PAL_VIRIDIAN	; greener palette, but still works for the pond
 	RGB 31,31,31, 23,23,23, 11,15,23, 00,00,00 ; PAL_PEWTER ; Sunsette: Updated the palette again
 	RGB 31,31,31, 17,26,30, 14,14,27, 00,00,00 ; PAL_CERULEAN ; reversed bright and dark, suitable for wartortle and less eyeblinding as a map
@@ -82,5 +82,23 @@ ENDC
 	RGB 31,31,31, 30,30,30, 20,26,31, 00,00,00 ; PAL_AQUA     ; white, white, standard water blue, black
 	RGB 31,31,31, 26,21,22, 15,15,18, 00,00,00 ; PAL_DUSK     ; d6adb5 / 7b7b94
 	RGB 31,26,30, 24,22,28, 11,08,11, 00,00,00 ; PAL_MYSTIC   ; ffd4f7 / c1b1e7 / 5f435b
+;;;;;;;;;;
+;;;;;;;;;; Sunsette: ADDED: per-sprite / per-trainer palettes (white, light, dark, black)
+	RGB 31,31,31, 24,19,08, 02,10,01, 00,00,00 ; PAL_BROCK    ; c69c42 / 14510a
+	RGB 31,31,31, 28,25,20, 20,00,24, 00,00,00 ; PAL_KOGA     ; e4cda8 / a400c2
+	RGB 31,31,31, 31,27,22, 14,03,12, 00,00,00 ; PAL_RIVAL    ; ffdeb4 / 741962
+	RGB 31,31,31, 16,12,09, 07,05,02, 00,00,00 ; PAL_PLAYER   ; 83664c / 3d2714
+	RGB 31,29,25, 21,17,13, 00,00,00, 00,00,00 ; PAL_PLAYEROW ; idx0 face=fff0cd, idx1 hair=ab8869, idx2=transparent, idx3 outline=black
+	RGB 31,31,31, 31,27,22, 28,15,21, 00,00,00 ; PAL_JOY      ; rival light + pinkmon dark
+	RGB 31,31,31, 31,27,00, 00,01,31, 07,07,16 ; PAL_TITLELOGO ; bright yellow ffde00 / bright blue 000cff
+	RGB 31,28,23, 16,14,19, 00,00,00, 00,00,00 ; PAL_HUMANSPRITE ; face=light peach (divorced from Mewmon), hair=Mewmon dark
+	RGB 24,19,08, 02,10,01, 00,00,00, 00,00,00 ; PAL_BROCK_OW    ; c69c42 face / 14510a hair
+	RGB 30,26,15, 25,07,05, 00,00,00, 00,00,00 ; PAL_REDBAR_OW   ; redbar light face / dark hair
+	RGB 30,26,15, 09,20,11, 00,00,00, 00,00,00 ; PAL_GREENBAR_OW ; greenbar light face / dark hair
+	RGB 28,25,20, 20,00,24, 00,00,00, 00,00,00 ; PAL_KOGA_OW     ; e4cda8 face / a400c2 hair
+	RGB 31,25,02, 25,13,15, 00,00,00, 00,00,00 ; PAL_SAFFRON_OW  ; saffron light face / dark hair
+	RGB 27,27,28, 19,11,22, 00,00,00, 00,00,00 ; PAL_GRAYMON_OW  ; graymon light face / dark hair
+	RGB 31,30,27, 14,03,12, 00,00,00, 00,00,00 ; PAL_RIVAL_OW    ; lighter face / 741962 hair
+	RGB 31,27,22, 28,15,21, 00,00,00, 00,00,00 ; PAL_JOY_OW      ; joy light face / dark hair
 ;;;;;;;;;;
 	assert_table_length NUM_SGB_PALS

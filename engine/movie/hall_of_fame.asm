@@ -214,19 +214,7 @@ HoFLoadPlayerPics:
 	rst _CopyData
 	ld de, vFrontPic
 	call InterlaceMergeSpriteBuffers
-	ld a, [wSpriteOptions2]
-	bit BIT_BACK_SPRITES, a
-	jr nz, .swSprite
-.ogSprite
-	ld de, RedPicBack
-	ld a, BANK(RedPicBack)
-	call UncompressSpriteFromDE
-	callfar ScaleSpriteByTwo
-	ld de, vBackPic
-	call InterlaceMergeSpriteBuffers
-	ld c, $1
-	jr HoFLoadMonPlayerPicTileIDs
-.swSprite
+; Sunsette: always the SW97 player back sprite
 	ld de, RedPicBackSW
 	ld a, BANK(RedPicBackSW)
 	call UncompressSpriteFromDE

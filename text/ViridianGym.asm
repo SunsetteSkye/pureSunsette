@@ -73,6 +73,12 @@ _ViridianGymGiovanniEarthBadgeInfoText::
 	cont "SPEED to score"
 	cont "critical hits!"
 
+	para "Be warned: very"
+	line "rare #MON will"
+	cont "not ordinarily"
+	cont "score critical"
+	cont "hits!"
+
 	para "Take this <TM>"
 	line "as well!"
 	done

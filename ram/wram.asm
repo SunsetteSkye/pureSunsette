@@ -1238,7 +1238,10 @@ ENDU
 wExpAllActive:: db  ; nonzero once the Pokedex is obtained -> new distribution
 wTeamExpGained:: dw ; running total EXP for the single team message
 wExpGrowthThreshold:: db ; T2 (half-XP level) for the current badge count, computed for badge dialogue
-ds 9 ; unused 9 bytes (used to be wGymLeaderName and 2 bytes of wGymCityName; 4 repurposed above)
+wHappinessKeyScratch:: ds 5 ; Sunsette: transient {species,DVlo,DVhi,level,happiness} for the boxed-happiness cache
+wAffectionSurviveUsed:: db ; Sunsette: nonzero once the affection survive-at-1HP fired this switch-in
+wAffectionJustSurvived:: db ; Sunsette: transient - print the survive message after the HP bar animates
+	ds 2 ; unused 2 bytes
 
 UNION
 ds 16 ; PureRGBnote: CHANGED: used to be wItemList:: but now the item list for marts is expanded in size and reuses a bigger space elsewhere
@@ -2274,10 +2277,17 @@ wPlayerCoins:: dw ; BCD
 wToggleableObjectFlags:: flag_array $100
 wToggleableObjectFlagsEnd::
 
-	ds 7 ; unused save file 7 bytes
+; Sunsette: happiness/affection per party slot (0-255) + per-step accumulator.
+; Repurposed from unused saved bytes, so it rides along in the existing save with no layout change.
+wPartyMonHappiness:: ds PARTY_LENGTH ; 6 bytes
+wHappinessStepCounter:: db          ; 1 byte
 
 ; saved copy of SPRITESTATEDATA1_IMAGEINDEX (used for sprite facing/anim)
 wSavedSpriteImageIndex:: db
+
+; Sunsette: overworld OBJ palette slot for the current sprite
+; (set per-sprite by SetOWObjPalSlot, applied per-tile in PrepareOAMData)
+wOWObjPal:: db
 
 ; each entry consists of 2 bytes
 ; * the sprite ID (depending on the current map)
@@ -2285,7 +2295,7 @@ wSavedSpriteImageIndex:: db
 ; terminated with $FF
 wToggleableObjectList:: ds 16 * 2 + 1
 
-	ds 1 ; unused save file byte
+wHappinessSeedFlag:: db ; Sunsette: nonzero once happiness has been seeded/migrated for this save
 ; PureRGBnote: ADDED: additional new script variables replaced previously empty space for maps that now need script tracking
 wGameProgressFlags::
 wOaksLabCurScript:: db
@@ -2437,7 +2447,7 @@ wGBCPal:: ds PAL_SIZE ; 8 bytes
 wLastBGP::db
 wLastOBP0::db
 wLastOBP1::db 
-wBGPPalsBuffer:: ds NUM_ACTIVE_PALS * PAL_SIZE ; 32 bytes
+wBGPPalsBuffer:: ds NUM_ACTIVE_PALS * PAL_SIZE ; 32 bytes (Sunsette: reused for OBP0 then OBP1 batch flushes too)
 wdef5:: db
 
 ;;;;;;

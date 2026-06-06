@@ -7,6 +7,66 @@ _RefreshingText:: ; Sunsette: drink cleanse announcement
 	line "Stats reset!"
 	prompt
 
+_AffectionEnduredText:: ; Sunsette: affection survive-at-1HP announcement
+	text_ram wBattleMonNick
+	text_start
+	line "hung on out of"
+	cont "affection!"
+	prompt
+
+_SecondWindText:: ; Sunsette: happiness second-wind heal (non-legendary)
+	text_ram wBattleMonNick
+	text_start
+	line "got a second wind"
+	cont "from your bond!"
+	prompt
+
+_GloryOfBattleText:: ; Sunsette: happiness second-wind heal (legendary)
+	text_ram wBattleMonNick
+	text_start
+	line "revels in the"
+	cont "glory of battle!"
+	prompt
+
+_SendOutAffectionText:: ; Sunsette: send-out greeting (normal, 170-239)
+	text_ram wBattleMonNick
+	text_start
+	line "looks happy to"
+	cont "see you!"
+	prompt
+
+_SendOutAffectionMaxText:: ; Sunsette: send-out greeting (normal, 240+)
+	text_ram wBattleMonNick
+	text_start
+	line "can't wait to"
+	cont "battle for you!"
+	prompt
+
+_SendOutImpressedText:: ; Sunsette: send-out greeting (legendary, 170-239)
+	text_ram wBattleMonNick
+	text_start
+	line "seems impressed."
+	prompt
+
+_SendOutAweText:: ; Sunsette: send-out greeting (legendary, 240+)
+	text_ram wBattleMonNick
+	text_start
+	line "regards you with"
+	cont "deep respect."
+	prompt
+
+_PressureWornTheirsText:: ; Sunsette: your legendary's Pressure emptied a foe move
+	text_ram wBattleMonNick
+	text_start
+	line "sapped a foe move!"
+	prompt
+
+_PressureWornYoursText:: ; Sunsette: an enemy legendary's Pressure emptied your move
+	text_ram wEnemyMonNick
+	text_start
+	line "sapped your move!"
+	prompt
+
 _ItemUseText002::
 	text_ram_stringbuffer
 	text "!"

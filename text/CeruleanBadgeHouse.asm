@@ -77,6 +77,9 @@ _CeruleanBadgeHouseEarthBadgeText::
 	line "their full SPEED"
 	cont "to land critical"
 	cont "hits!"
+	para "But I don't think"
+	line "it works on"
+	cont "legendary #MON."
 	prompt
 
 _CeruleanBadgeHouseUpToLevel::
@@ -115,6 +118,15 @@ _CeruleanBadgeHouseGrowthLine::
 	text_decimal wExpGrowthThreshold, 1, 2
 	text "<LINE>grow more"
 	cont "efficiently!"
+	prompt
+
+_CeruleanBadgeHouseCouldRaiseText::
+	text "With that BADGE,"
+	line "you could easily"
+	cont "raise #MON up"
+	cont "to L@"
+	text_decimal wExpGrowthThreshold, 1, 2
+	text "!"
 	prompt
 
 _GarbageCrumpledUpPaper::

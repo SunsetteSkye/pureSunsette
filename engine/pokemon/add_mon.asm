@@ -294,6 +294,7 @@ ENDC
 	ld b, $0
 	call CalcStats         ; calculate fresh set of stats
 .done
+	call SetNewMonBaseHappiness ; Sunsette: affection base value for player-party adds
 	scf
 	ret
 
@@ -571,6 +572,7 @@ _MoveMon::
 	add hl, bc ; hl = wPartyMon*HPExp - 1
 	ld b, $1
 	call CalcStats
+	call SetWithdrawnMonHappiness ; Sunsette: affection for a withdrawn mon (Apex -> 70+lvl, else 70)
 .done
 	and a
 	ret

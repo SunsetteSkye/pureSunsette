@@ -21,29 +21,30 @@ _BattleStyleInfoText::
 	line "bit easier."
 	prompt
 
-_ColorsOptionInfoText::
-	text "Changes the color"
-	line "palettes used in"
-	cont "the whole game."
-	para "You can change"
-	line "between these:"
-	para "your original"
-	line "system's colors,"
-	para "Super Game Boy"
-	line "colors,"
-	para "YELLOW version's"
-	line "colors."
-	para "Some options have"
-	line "multiple variants"
-	cont "to choose from."
-	para "Cycle through them"
-	line "via the A button."
-	para "If you don't see"
-	line "color changes"
-	cont "right away please"
-	cont "save and reset"
-	cont "your system."
-	prompt
+; Sunsette: dead COLOR option info text, commented out to reclaim ROM space
+;_ColorsOptionInfoText::
+;	text "Changes the color"
+;	line "palettes used in"
+;	cont "the whole game."
+;	para "You can change"
+;	line "between these:"
+;	para "your original"
+;	line "system's colors,"
+;	para "Super Game Boy"
+;	line "colors,"
+;	para "YELLOW version's"
+;	line "colors."
+;	para "Some options have"
+;	line "multiple variants"
+;	cont "to choose from."
+;	para "Cycle through them"
+;	line "via the A button."
+;	para "If you don't see"
+;	line "color changes"
+;	cont "right away please"
+;	cont "save and reset"
+;	cont "your system."
+;	prompt
 
 _AltPkmnColorsInfoText::
 	text "If turned ON,"

@@ -117,9 +117,7 @@ UndoBurnParStats:
 ;shinpokerednote: ADDED: this function puts statexp per enemy pkmn level into de
 ;requires a, b, de, and wCurEnemyLevel
 CalcEnemyStatEXP:
-	ld a, [wOptions3]	;load game options
-	bit BIT_NPC_STAT_EXP, a			; check stat exp bit
-	jr z, .loadzero		;load zero stat exp if turned off
+	; Sunsette: NPC stat EXP is always on
 	;This loads 450 stat exp per level. Note that 450 in hex is the two-byte $01C2
 	ld a, $01
 	ldh [hMultiplicand], a
