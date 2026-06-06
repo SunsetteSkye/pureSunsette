@@ -78,9 +78,28 @@ SetPal_Battle:
 ; class into wEnemyMonSpecies2 first so the intro pic gets its class palette (NonMonCustomPalettes,
 ; unlisted classes default to PAL_MEWMON), then re-clear it. Wild battles are unchanged.
 SetEnemyTrainerIntroPalette:
+;;;;;;;;;; Sunsette: feed the player back-sprite sentinel species into wBattleMonSpecies so the
+; SAME SET_PAL_BATTLE colors slot 2 (the back-sprite body) directly - PAL_PLAYER, or PAL_REDBAR
+; in the volcano (lava suit) / PAL_BLUEMON in the scuba event - with no MEWMON flash. The real
+; player mon species is saved and restored around the command.
+	ld a, [wCurMapTileset]
+	cp VOLCANO
+	ld a, PLAYER_BACK_LAVA
+	jr z, .gotBackSentinel
+	CheckEvent EVENT_DRAGONAIR_EVENT_BATTLING_CLOYSTER
+	ld a, PLAYER_BACK_SCUBA
+	jr nz, .gotBackSentinel
+	ld a, PLAYER_BACK_NORMAL
+.gotBackSentinel
+	ld b, a
+	ld a, [wBattleMonSpecies]
+	push af
+	ld a, b
+	ld [wBattleMonSpecies], a
+;;;;;;;;;;
 	ld a, [wIsInBattle]
 	cp $2
-	jr nz, .notTrainer
+	jr nz, .wildPal
 	ld a, [wTrainerClass]
 	add OPP_ID_OFFSET
 	ld [wEnemyMonSpecies2], a
@@ -88,10 +107,32 @@ SetEnemyTrainerIntroPalette:
 	call RunPaletteCommand
 	xor a
 	ld [wEnemyMonSpecies2], a
-	ret
-.notTrainer
+	jr .restorePlayer
+.wildPal
 	ld d, SET_PAL_BATTLE
-	jp RunPaletteCommand
+	call RunPaletteCommand
+.restorePlayer
+	pop af
+	ld [wBattleMonSpecies], a ; restore the real player mon species
+	ret
+
+; Sunsette: write the red/white PAL_POKEBALL directly into OBJ palette slots 0 and 1 (the team-
+; size HUD balls), bypassing the HP-bar colors normally derived there. The balls are shown before
+; the HP bars, so this holds through the intro; a later battle palette refresh restores 0/1 for
+; the HP bars. Converted via OBP0 so it renders the ball tiles the same way the green did.
+SetPokeballPalette::
+	ldh a, [hGBC]
+	and a
+	ret z
+	ld a, PAL_POKEBALL
+	call GetGBCBasePalAddress
+	ld a, CONVERT_OBP0
+	call DMGPalToGBCPal
+	xor a
+	call TransferCurOBPData ; OBJ palette slot 0 (player balls)
+	ld a, 1
+	call TransferCurOBPData ; OBJ palette slot 1 (enemy balls)
+	ret
 
 SetPal_TownMap:
 	ld hl, PalPacket_TownMap
@@ -305,8 +346,13 @@ SetPal_Overworld:
 	rst _CopyData
 	call GetOverworldPalette
 	ld [wPalPacket + 1], a ; active palette 0 = map BG palette
-	ld a, PAL_PLAYEROW     ; Sunsette: active palette 1 = player overworld OBJ color (slot 1)
-	ld [wPalPacket + 3], a
+	ld a, [wCurMapTileset] ; Sunsette: lava-suited player (volcano) uses PAL_REDBAR_OW; else normal
+	cp VOLCANO
+	ld a, PAL_PLAYEROW
+	jr nz, .playerOWPal
+	ld a, PAL_REDBAR_OW
+.playerOWPal
+	ld [wPalPacket + 3], a ; active palette 1 = player overworld OBJ color (slot 1)
 	ld a, PAL_HUMANSPRITE  ; active palette 2 = generic human NPC color (slot 2)
 	ld [wPalPacket + 5], a
 	farcall ScanSlot3Palette ; Sunsette: active palette 3 = map's special NPC palette (writes wPalPacket+7)
@@ -617,6 +663,11 @@ BadgeBlkDataLengths:
 	db 6     ; Earth Badge
 
 ;;;;; PureRGBnote: ADDED: some opponents or variant pokemon get special palettes instead of the default for their species.
+; Sunsette: sentinel "species" values for the player back-sprite intro palette (slot 2). Above the
+; trainer OPP range, below $FF; caught by NonMonCustomPalettes before the trainer default.
+DEF PLAYER_BACK_NORMAL EQU 251
+DEF PLAYER_BACK_LAVA EQU 252
+DEF PLAYER_BACK_SCUBA EQU 253
 NonMonCustomPalettes:
 	db SPIRIT_TORCHED, PAL_VOLCANO
 	db SPIRIT_CHUNKY, PAL_MEWMON
@@ -639,6 +690,11 @@ NonMonCustomPalettes:
 	db OPP_RIVAL1, PAL_RIVAL
 	db OPP_RIVAL2, PAL_RIVAL
 	db OPP_RIVAL3, PAL_RIVAL
+;;;;;;;;;;
+;;;;;;;;;; Sunsette: player back-sprite (slot 2) intro palette sentinels (no MEWMON flash)
+	db PLAYER_BACK_NORMAL, PAL_PLAYER
+	db PLAYER_BACK_LAVA,   PAL_REDBAR
+	db PLAYER_BACK_SCUBA,  PAL_BLUEMON
 ;;;;;;;;;;
 	db -1
 

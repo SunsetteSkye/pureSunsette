@@ -87,7 +87,7 @@ ENDC
 	RGB 31,31,31, 24,19,08, 02,10,01, 00,00,00 ; PAL_BROCK    ; c69c42 / 14510a
 	RGB 31,31,31, 28,25,20, 20,00,24, 00,00,00 ; PAL_KOGA     ; e4cda8 / a400c2
 	RGB 31,31,31, 31,27,22, 14,03,12, 00,00,00 ; PAL_RIVAL    ; ffdeb4 / 741962
-	RGB 31,31,31, 16,12,09, 07,05,02, 00,00,00 ; PAL_PLAYER   ; 83664c / 3d2714
+	RGB 31,31,31, 25,18,16, 07,05,02, 00,00,00 ; PAL_PLAYER   ; ca9487 / 3d2714
 	RGB 31,29,25, 21,17,13, 00,00,00, 00,00,00 ; PAL_PLAYEROW ; idx0 face=fff0cd, idx1 hair=ab8869, idx2=transparent, idx3 outline=black
 	RGB 31,31,31, 31,27,22, 28,15,21, 00,00,00 ; PAL_JOY      ; rival light + pinkmon dark
 	RGB 31,31,31, 31,27,00, 00,01,31, 07,07,16 ; PAL_TITLELOGO ; bright yellow ffde00 / bright blue 000cff
@@ -100,5 +100,12 @@ ENDC
 	RGB 27,27,28, 19,11,22, 00,00,00, 00,00,00 ; PAL_GRAYMON_OW  ; graymon light face / dark hair
 	RGB 31,30,27, 14,03,12, 00,00,00, 00,00,00 ; PAL_RIVAL_OW    ; lighter face / 741962 hair
 	RGB 31,27,22, 28,15,21, 00,00,00, 00,00,00 ; PAL_JOY_OW      ; joy light face / dark hair
+	RGB 17,26,30, 14,14,27, 00,00,00, 00,00,00 ; PAL_ARTICUNO_OW ; cerulean light/dark
+	RGB 30,26,15, 28,20,14, 00,00,00, 00,00,00 ; PAL_ZAPDOS_OW   ; gamefreak light/dark
+	RGB 31,20,10, 25,07,05, 00,00,00, 00,00,00 ; PAL_MOLTRES_OW  ; redmon light/dark
+	RGB 27,27,28, 19,11,22, 00,00,00, 00,00,00 ; PAL_MEWTWO_OW   ; graymon light/dark
+	RGB 30,22,24, 28,15,21, 00,00,00, 00,00,00 ; PAL_MEW_OW      ; pinkmon light/dark
+	RGB 31,31,31, 31,28,24, 27,05,05, 00,00,00 ; PAL_POKEBALL    ; HUD party balls: white / warm-white / red / black
+	RGB 12,17,26, 04,06,13, 00,00,00, 00,00,00 ; PAL_BLUEMON_OW  ; scuba diver: bluemon light/dark
 ;;;;;;;;;;
 	assert_table_length NUM_SGB_PALS

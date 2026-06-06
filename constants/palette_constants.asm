@@ -98,5 +98,12 @@ DEF SET_PAL_DEFAULT EQU $ff
 	const PAL_GRAYMON_OW  ; Agatha overworld
 	const PAL_RIVAL_OW    ; Rival overworld
 	const PAL_JOY_OW      ; Nurse Joy overworld
+	const PAL_ARTICUNO_OW ; Articuno overworld (Seafoam Islands B4F)
+	const PAL_ZAPDOS_OW   ; Zapdos overworld (Power Plant)
+	const PAL_MOLTRES_OW  ; Moltres overworld (Cinnabar Volcano)
+	const PAL_MEWTWO_OW   ; Mewtwo overworld (Cerulean Cave B1F)
+	const PAL_MEW_OW      ; Mew overworld (Vermilion Dock)
+	const PAL_POKEBALL    ; team-size HUD balls (red/white)
+	const PAL_BLUEMON_OW  ; scuba diver overworld (bluemon light/dark)
 ;;;;;;;;;;
 DEF NUM_SGB_PALS EQU const_value

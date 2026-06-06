@@ -243,7 +243,48 @@ OverworldSpritePalettes:
 	db SPRITE_ERIKA,    PAL_REDBAR_OW
 	db SPRITE_SABRINA,  PAL_REDBAR_OW
 	db SPRITE_BLAINE,   PAL_SAFFRON_OW
+	db SPRITE_SCUBA_DIVER, PAL_BLUEMON_OW
 	db 0
+
+; Sunsette: per-map legendary encounter sprites. Their sprite IDs (SPRITE_BIRD2, SPRITE_PSYCHIC,
+; SPRITE_FAIRY) are shared with ordinary NPCs elsewhere, so they're keyed on the map instead of
+; the global table above. Format: db map, sprite ID, PAL_* ; -1 terminator.
+LegendaryOWPalettes:
+	db SEAFOAM_ISLANDS_B4F, SPRITE_BIRD2,   PAL_ARTICUNO_OW
+	db POWER_PLANT,         SPRITE_BIRD2,   PAL_ZAPDOS_OW
+	db CINNABAR_VOLCANO,    SPRITE_BIRD2,   PAL_MOLTRES_OW
+	db CERULEAN_CAVE_B1F,   SPRITE_PSYCHIC, PAL_MEWTWO_OW
+	db VERMILION_DOCK,      SPRITE_FAIRY,   PAL_MEW_OW
+	db -1
+
+; carry set if (current map, picture ID b) is a legendary encounter sprite. Clobbers a, c, hl.
+IsLegendaryHere:
+	ld a, [wCurMap]
+	ld c, a
+	ld hl, LegendaryOWPalettes
+.loop
+	ld a, [hl] ; map
+	inc a
+	jr z, .no  ; -1 terminator
+	dec a
+	cp c
+	jr nz, .next
+	inc hl
+	ld a, [hl] ; sprite ID
+	dec hl
+	cp b
+	jr z, .yes
+.next
+	inc hl
+	inc hl
+	inc hl
+	jr .loop
+.yes
+	scf
+	ret
+.no
+	or a
+	ret
 
 ; Determine the overworld OBJ palette slot for the current sprite -> hOWObjPal.
 ;  player (sprite slot 0) -> 1 ; sprite in OverworldSpritePalettes -> 3 ; generic animated
@@ -263,6 +304,8 @@ SetOWObjPalSlot:
 	ld a, [de] ; picture ID
 	pop de
 	ld b, a
+	call IsLegendaryHere ; Sunsette: map-specific legendary sprite -> slot 3
+	jr c, .special
 	ld hl, OverworldSpritePalettes
 .search
 	ld a, [hl]
@@ -299,6 +342,28 @@ SetOWObjPalSlot:
 ; palette into the overworld pal packet (active slot 3). Called via farcall from
 ; SetPal_Overworld. Writes PAL_HUMANSPRITE (harmless; nothing routes to slot 3) if none.
 ScanSlot3Palette:
+	; Sunsette: on a legendary's map, slot 3 = that legendary's palette (its shared sprite ID
+	; can't be distinguished globally, so key on the map)
+	ld a, [wCurMap]
+	ld c, a
+	ld hl, LegendaryOWPalettes
+.legLoop
+	ld a, [hl]
+	inc a
+	jr z, .noLeg
+	dec a
+	cp c
+	jr z, .legFound
+	inc hl
+	inc hl
+	inc hl
+	jr .legLoop
+.legFound:
+	inc hl
+	inc hl
+	ld a, [hl] ; palette
+	jr .store
+.noLeg:
 	ld c, 0
 .spriteLoop
 	ld h, HIGH(wSpriteStateData1)

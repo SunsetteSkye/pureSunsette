@@ -507,7 +507,7 @@ DrawPlayerCharacterAgain:
 	push af
 	ld a, [hl]	;Attributes/Flags
 	and %11111000
-	or  %00000010
+	or  %00000011 ; Sunsette: OBJ palette 3 = PAL_PLAYER (title-screen player)
 	ld [hl], a
 	pop af
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

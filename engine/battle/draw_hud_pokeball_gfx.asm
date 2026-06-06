@@ -3,12 +3,17 @@ DrawAllPokeballs:
 	call SetupOwnPartyPokeballs
 	ld a, [wIsInBattle]
 	dec a
-	ret z ; return if wild pokémon
-	jp SetupEnemyPartyPokeballs
+	jr z, .done ; wild pokémon: player balls only
+	call SetupEnemyPartyPokeballs
+.done
+	farcall SetPokeballPalette ; Sunsette: red/white OBJ palette for the team-size balls
+	ret
 
 DrawEnemyPokeballs:
 	call LoadPartyPokeballGfx
-	jp SetupEnemyPartyPokeballs
+	call SetupEnemyPartyPokeballs
+	farcall SetPokeballPalette ; Sunsette: red/white OBJ palette for the team-size balls
+	ret
 
 LoadPartyPokeballGfx:
 	ld de, PokeballTileGraphics

@@ -236,7 +236,7 @@ PalPacket_Black:          PAL_SET PAL_BLACK, PAL_BLACK, PAL_BLACK, PAL_BLACK
 PalPacket_TownMap:        PAL_SET PAL_TOWNMAP, 0, 0, 0
 PalPacket_Pokedex:        PAL_SET PAL_FUCHSIA, 0, 0, 0
 PalPacket_Slots:          PAL_SET PAL_SLOTS1, PAL_SLOTS2, PAL_SLOTS3, PAL_SLOTS4
-PalPacket_Titlescreen:    PAL_SET PAL_TITLELOGO, PAL_LOGO1, PAL_MEWMON, PAL_MEWMON ; Sunsette: brighter LOGO2 slot only, keep LOGO1
+PalPacket_Titlescreen:    PAL_SET PAL_TITLELOGO, PAL_LOGO1, PAL_MEWMON, PAL_PLAYER ; Sunsette: brighter LOGO2 slot, keep LOGO1, player (slot 3) = PAL_PLAYER
 IF DEF(_RED)
 PalPacket_PureTitlescreen_SGB:    PAL_SET PAL_LOGO2, PAL_LOGO1, PAL_REDMON, PAL_MEWMON
 ENDC
