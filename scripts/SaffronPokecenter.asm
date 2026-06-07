@@ -9,6 +9,8 @@ SaffronPokecenter_TextPointers:
 	dw_const SaffronPokecenterBeautyText,           TEXT_SAFFRONPOKECENTER_BEAUTY
 	dw_const SaffronPokecenterGentlemanText,        TEXT_SAFFRONPOKECENTER_GENTLEMAN
 	dw_const SaffronPokecenterLinkReceptionistText, TEXT_SAFFRONPOKECENTER_LINK_RECEPTIONIST
+	dw_const SaffronPokecenterBenchGuyText,         TEXT_SAFFRONPOKECENTER_COUCH_GUY
+	dw_const SaffronPokecenterBenchGuyText,         TEXT_SAFFRONPOKECENTER_COUCH_GUY2
 	dw_const SaffronPokecenterBenchGuyText,         TEXT_SAFFRONPOKECENTER_BENCH_GUY
 
 SaffronPokecenterNurseText:

@@ -32,7 +32,7 @@ GainExperience:
 	jp c, .nextMon ; no EXP gain for pokemon over fitness level limit
 .notFitnessBattle1
 	ld a, 4
-	ld [wTempByteValue], a ; Sunsette: share multiplier (xN then /5) - 4 = unfainted participant (80% of yield)
+	ld [wTempByteValue], a ; Sunsette: share sentinel - 4 = unfainted participant (60% of yield); 1 = "other" mon (20%)
 	inc hl
 	ld a, [hli]
 	or [hl] ; is mon's HP 0?
@@ -181,15 +181,14 @@ GainExperience:
 	ld a, [wExpAllActive]
 	and a
 	call nz, ApplyExpLevelScale
-; Sunsette: exp-all -> scale to this mon's share (participant 80% = x4 then /5 ; other 20% = x1 then /5)
+; Sunsette: exp-all -> scale to this mon's share (participant 60% = x3 then /5 ; other 20% = x1 then /5)
 	ld a, [wExpAllActive]
 	and a
 	jr z, .noExpAllFraction
 	ld a, [wTempByteValue]
 	cp 4
 	jr nz, .shareDivide ; multiplier 1 (other) -> no pre-multiply
-	call DoubleExp
-	call DoubleExp ; participant -> x4
+	call TripleExp ; participant -> x3 (60% after the /5 below)
 .shareDivide
 	ld a, 5
 	call DivideExpInPlace
@@ -272,12 +271,21 @@ GainExperience:
 	ld [wMonDataLocation], a
 	ld a, [wExpAllActive]
 	and a
-	jr nz, .noExpBar ; Sunsette: exp-all uses one team message, so skip the per-mon "gained" text + bar
-	ld a, [wWhichPokemon]
+	jr nz, .expAllBarOnly ; Sunsette: exp-all uses one team message - skip the per-mon "gained" text,
+	ld a, [wWhichPokemon] ; but still animate the bar below for the active mon (don't leave it static)
 	ld hl, wPartyMonNicks
 	call GetPartyMonName
 	ld hl, GainedText
 	rst _PrintText
+	jr .doExpBar
+.expAllBarOnly
+	; only the active mon's bar is on screen, so skip the bar for the rest of the team
+	ld a, [wPlayerMonNumber]
+	ld b, a
+	ld a, [wWhichPokemon]
+	cp b
+	jr nz, .noExpBar
+.doExpBar
 ;;;;;;;;;; PureRGBnote: ADDED: EXP bar is optional and will only render if the option is enabled.
 	call HasExpBar
 	jr z, .noExpBar
@@ -388,6 +396,9 @@ GainExperience:
 	callfar PrintEmptyString
 	call SaveScreenTilesToBuffer1
 .printGrewLevelText
+	ld a, [wWhichPokemon] ; Sunsette: reload this mon's nick here. With EXP-All on, the per-mon name
+	ld hl, wPartyMonNicks ; load up top is skipped, so wNameBuffer would still hold a stale battle
+	call GetPartyMonName ; move name - making every level-up message show that move instead.
 	ld hl, GrewLevelText
 	rst _PrintText
 	xor a ; PLAYER_PARTY_DATA
@@ -561,7 +572,7 @@ TripleExp:
 	ret
 
 ; Sunsette: scales a mon's EXP yield by its level vs badge-based thresholds (Pokedex/exp-all only).
-;   level <  T1 -> doubled ; level >  T3 -> tenth ; level >  T2 -> halved ; otherwise unchanged.
+;   level < T1 -> x1.5 ; level > T2 (the over-threshold penalty) -> x0.25 ; otherwise unchanged.
 ; Thresholds (ExpLevelScaleThresholds) are indexed by badge count (0-8), or by the Champion row (9).
 ; Operates on the 4-byte hQuotient in place; preserves hl/de/bc.
 ApplyExpLevelScale:
@@ -620,12 +631,12 @@ ApplyExpLevelScale:
 	call BoostExp ; level < T1 -> x1.5
 	jr .scaleDone
 .half
-	ld a, 2
-	call DivideExpInPlace ; T2 < level -> x0.5
+	ld a, 4
+	call DivideExpInPlace ; level > T2 -> x0.25 (over-threshold penalty)
 	jr .scaleDone
 .quarter
 	ld a, 4
-	call DivideExpInPlace ; T3 < level -> x0.25
+	call DivideExpInPlace ; level > T3 -> x0.25 (same depth; T3 row kept for future tuning)
 .scaleDone
 	pop bc
 	pop de
@@ -665,7 +676,7 @@ DoubleExp:
 	ret
 
 ExpLevelScaleThresholds:
-; boost-below (T1, x1.5), half-above (T2, x0.5), quarter-above (T3, x0.25)
+; boost-below (T1, x1.5), penalty-above (T2, x0.25), deeper-penalty-above (T3, also x0.25)
 	db  8,  12,  14 ; 0 badges
 	db 12,  18,  21 ; 1 badge
 	db 16,  24,  28 ; 2 badges

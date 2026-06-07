@@ -1,11 +1,15 @@
 _ScrollTrainerPicAfterBattle:
 ; Load the enemy trainer's pic and scrolls it into
 ; the screen from the right.
-; TODO: optional trainer colors
-	xor a
+; Sunsette: color the trainer pic for its class (slot 3) instead of reverting to MEWMON. The
+; class + OPP_ID_OFFSET is the NonMonCustomPalettes sentinel; slot 2 stays the player's mon.
+	ld a, [wTrainerClass]
+	add OPP_ID_OFFSET
 	ld [wEnemyMonSpecies2], a
 	ld d, SET_PAL_BATTLE
 	call RunPaletteCommand
+	xor a
+	ld [wEnemyMonSpecies2], a ; restore the original 0 post-condition
 	callfar _LoadTrainerPic
 	hlcoord 19, 0
 	ld c, 0

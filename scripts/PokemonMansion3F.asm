@@ -5,6 +5,7 @@ ASSERT BANK(PokemonMansionSwitchScript) == BANK(PokemonMansion3F_Script)
 PokemonMansion3F_Script:
 	call Mansion3CheckReplaceSwitchDoorBlocks
 	call EnableAutoTextBoxDrawing
+	callfar CheckUsedFlash ; Sunsette: Flash brightens the dark Mansion (mirrors Rock Tunnel)
 	ld hl, Mansion3TrainerHeaders
 	ld de, PokemonMansion3F_ScriptPointers
 	ld a, [wPokemonMansion3FCurScript]

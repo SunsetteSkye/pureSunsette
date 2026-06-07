@@ -118,7 +118,8 @@ BGMapAttributesPointers:
 	dw BGMapAttributes_StatusScreen
 	dw BGMapAttributes_Battle
 	dw BGMapAttributes_WholeScreen
-	dw BGMapAttributes_ShakeEnemyHUD
+	dw BGMapAttributes_EvolutionSplit ; Sunsette: index 12 (BlkPacket_EvolutionSplit is first in PalPacketPointers)
+	dw BGMapAttributes_ShakeEnemyHUD  ; Sunsette: moved to index 13 (was 12)
 
 HandleBadgeFaceAttributes:
 ; zero out the attributes if the player doesn't have the respective badge

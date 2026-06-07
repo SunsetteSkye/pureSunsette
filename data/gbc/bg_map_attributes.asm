@@ -439,7 +439,20 @@ BGMapAttributes_WholeScreen:
 	db $00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00
 	db $00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00
 
-; PureRGBnote: ADDED: BGMapAttributes_PokemonMiddleScreenBox is used for colorizing on gbc the box that displays when 
+; Sunsette: evolution morph - whole screen on pal 0 (the mon) EXCEPT the bottom textbox rows (12-17) on
+; pal 1, so the textbox keeps its own fixed palette while the mon's palette changes through the morph.
+; Same format as BGMapAttributes_WholeScreen (offset $000d reuses one block for both BG maps).
+BGMapAttributes_EvolutionSplit:
+	db $23 ; 18 visible rows (like BGMapAttributes_Battle)
+	dw $000d
+	ds 13, $00      ; header padding
+	ds 12 * 32, $00 ; rows 0-11 (above the textbox): pal 0
+	REPT 6          ; rows 12-17 (textbox): cols 0-19 -> pal 1, cols 20-31 -> pal 0
+	ds 20, $01
+	ds 12, $00
+	ENDR
+
+; PureRGBnote: ADDED: BGMapAttributes_PokemonMiddleScreenBox is used for colorizing on gbc the box that displays when
 ;                     you view the fossils in pewter city or the left binoculars in route 15
 
 BGMapAttributes_PokemonMiddleScreenBox:

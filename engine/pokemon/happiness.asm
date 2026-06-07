@@ -99,7 +99,7 @@ SetNewMonBaseHappiness::
 .notLegend
 	ld a, [wCurMap]
 	cp OAKS_LAB
-	jr z, .hundred ; the starter is the only player-party add in Oak's lab
+	jr z, .starter ; the starter is the only player-party add in Oak's lab
 	ld a, [wIsInBattle]
 	and a
 	jr z, .seventy ; gift/trade (not a capture)
@@ -110,7 +110,10 @@ SetNewMonBaseHappiness::
 	ld a, HAPPINESS_DEFAULT ; 70
 	ret
 .hundred
-	ld a, HAPPINESS_STARTER ; 100
+	ld a, HAPPINESS_STARTER ; 100 (Route 1 captures)
+	ret
+.starter
+	ld a, HAPPINESS_SURVIVE_FLOOR ; Sunsette: 128 - the starter begins in the bond-survival band
 	ret
 
 ; Sunsette: set happiness for a mon just withdrawn into the party (box/daycare -> party).
@@ -408,6 +411,64 @@ TryAffectionSurvival::
 	and a
 	ret
 
+; Sunsette: c = random byte. Sets the enemy mon's HP after a would-be-fatal hit. Tough-trainer
+; bond survival keeps it at 1 HP (~25%, as if 128 happiness) + flags wAffectionJustSurvived for the
+; announce; otherwise zeroes it. Sets wDamage so the bar animates to the right value. The HP>1 guard
+; limits it to one save per healthy state; reuses wAffectionJustSurvived (player- and enemy-damage
+; applications don't overlap). Kept out of the cramped Battle Core bank.
+HandleEnemyFaintOrSurvive::
+	call IsToughTrainerBattle
+	jr nz, .faint
+	ld a, [wHPBarOldHP + 1] ; enemy old HP high byte
+	and a
+	jr nz, .hpOk
+	ld a, [wHPBarOldHP] ; low byte
+	cp 2
+	jr c, .faint ; current HP <= 1
+.hpOk
+	ld a, c ; random byte
+	cp 64 ; 25% (as if 128 happiness: 128 >> 1)
+	jr nc, .faint
+; survive: keep the enemy at 1 HP, wDamage = oldHP - 1
+	ld a, 1
+	ld [wAffectionJustSurvived], a
+	ld a, [wHPBarOldHP]
+	sub 1
+	ld b, a
+	ld a, [wHPBarOldHP + 1]
+	sbc 0
+	ld [wDamage], a
+	ld a, b
+	ld [wDamage + 1], a
+	xor a
+	ld [wEnemyMonHP], a
+	inc a
+	ld [wEnemyMonHP + 1], a
+	ret
+.faint
+	ld a, [wHPBarOldHP + 1]
+	ld [wDamage], a
+	ld a, [wHPBarOldHP]
+	ld [wDamage + 1], a
+	xor a
+	ld [wEnemyMonHP], a
+	ld [wEnemyMonHP + 1], a
+	ret
+
+; Print the bond-survival line if the enemy just hung on (called after its HP bar animates).
+AnnounceEnemyBondSurvival::
+	ld a, [wAffectionJustSurvived]
+	and a
+	ret z
+	xor a
+	ld [wAffectionJustSurvived], a
+	ld hl, BondSurvivedText
+	rst _PrintText
+	ret
+BondSurvivedText:
+	text_far _BondSurvivedText
+	text_end
+
 ; --- Phase 3: legendary Pressure -------------------------------------------------
 ; A move used against a legendary drains an extra PP from the attacker's move; if the
 ; defender is the player's legendary, happiness >= 128 adds a happiness-scaled 3rd PP.
@@ -430,11 +491,39 @@ ClampedDrainPP:
 	or a
 	ret
 
-; After the player's move PP is decremented: if the enemy is a legendary, drain an extra
-; PP from the player's move (battle + party copies). Base Pressure only.
-PressureDrainPlayerMove::
+; Sunsette: "tough trainers" - gym leaders, Elite Four, Giovanni (every battle), and the rival
+; at Indigo (RIVAL3 only) - run their mons with the legendary Pressure + bond-survival systems.
+ToughTrainerClasses:
+	db BROCK, MISTY, LT_SURGE, ERIKA, KOGA, SABRINA, BLAINE
+	db GIOVANNI, LORELEI, BRUNO, AGATHA, LANCE, RIVAL3
+	db -1
+
+; z if the enemy's active mon should run Pressure: a legendary species, or any tough-trainer mon.
+IsEnemyPressureMon::
 	ld a, [wEnemyMonSpecies]
 	call CheckLegendaryAffectionSpecies
+	ret z
+	; fall through to IsToughTrainerBattle
+; z if the current battle is against a tough trainer.
+IsToughTrainerBattle::
+	ld a, [wIsInBattle]
+	cp 2
+	jr nz, .notTough ; not a trainer battle
+	ld a, [wTrainerClass]
+	ld hl, ToughTrainerClasses
+	ld de, 1
+	call IsInArray
+	jr nc, .notTough
+	xor a ; z = tough trainer
+	ret
+.notTough
+	or 1 ; nz
+	ret
+
+; After the player's move PP is decremented: if the enemy runs Pressure (legendary or tough
+; trainer), drain an extra PP from the player's move (battle + party copies). Base Pressure only.
+PressureDrainPlayerMove::
+	call IsEnemyPressureMon
 	ret nz
 	ld a, [wPlayerMoveListIndex]
 	ld c, a
@@ -455,7 +544,7 @@ PressureDrainPlayerMove::
 	pop af
 	ret nc ; the move still has PP -> no announcement
 ; an enemy legendary's Pressure emptied your move -> sparkle over the foe + message
-	ld a, HAPPINESS_SPARKLE_ANIM
+	ld e, HAPPINESS_SPARKLE_ANIM ; anim ID in e (callfar clobbers a with the target bank)
 	callfar PlayEnemySideAnim
 	ld hl, PressureWornYoursText
 	rst _PrintText
@@ -617,11 +706,11 @@ GloryOfBattleText:
 PlayAffectionCue:
 	ld a, [wBattleMonSpecies]
 	call CheckLegendaryAffectionSpecies
-	ld a, HAPPINESS_HEART_ANIM
-	jr nz, .play
-	ld a, HAPPINESS_SPARKLE_ANIM
-.play
-	callfar PlayPlayerSideAnim
+	ld e, HAPPINESS_HEART_ANIM
+	jr nz, .gotId
+	ld e, HAPPINESS_SPARKLE_ANIM
+.gotId
+	callfar PlayPlayerSideAnim ; anim ID in e - callfar clobbers a with the target bank, e survives
 	ret
 
 SendOutHappinessMessage::

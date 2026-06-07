@@ -9,6 +9,8 @@ PewterPokecenter_TextPointers:
 	dw_const PewterPokecenterGentlemanText,        TEXT_PEWTERPOKECENTER_GENTLEMAN
 	dw_const PewterPokecenterJigglypuffText,       TEXT_PEWTERPOKECENTER_JIGGLYPUFF
 	dw_const PewterPokecenterLinkReceptionistText, TEXT_PEWTERPOKECENTER_LINK_RECEPTIONIST
+	dw_const PewterPokecenterBenchGuyText,         TEXT_PEWTERPOKECENTER_COUCH_GUY
+	dw_const PewterPokecenterBenchGuyText,         TEXT_PEWTERPOKECENTER_COUCH_GUY2
 	dw_const PewterPokecenterBenchGuyText,         TEXT_PEWTERPOKECENTER_BENCH_GUY
 
 PewterPokecenterNurseText:

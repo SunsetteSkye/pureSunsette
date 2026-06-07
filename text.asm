@@ -297,7 +297,7 @@ INCLUDE "text/ChampArena.asm"
 INCLUDE "text/DiamondMine.asm"
 
 SECTION "Text 13", ROMX
-INCLUDE "text/Route23BadgeLecture.asm"
+INCLUDE "text/Route22GateBadgeLecture.asm"
 INCLUDE "text/PokemonTowerCatacombs.asm"
 INCLUDE "text/ErikAndSara.asm"
 INCLUDE "text/Learnsets.asm"
@@ -313,6 +313,9 @@ INCLUDE "text/FightingBrosHouse.asm"
 
 SECTION "Text 15", ROMX
 INCLUDE "text/CeruleanBadgeHouse.asm"
+
+SECTION "Sunsette Battle Text", ROMX
+INCLUDE "data/text/sunsette_battle_text.asm"
 
 SECTION "Pokédex Text", ROMX
 

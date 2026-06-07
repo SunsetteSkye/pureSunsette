@@ -105,5 +105,19 @@ DEF SET_PAL_DEFAULT EQU $ff
 	const PAL_MEW_OW      ; Mew overworld (Vermilion Dock)
 	const PAL_POKEBALL    ; team-size HUD balls (red/white)
 	const PAL_BLUEMON_OW  ; scuba diver overworld (bluemon light/dark)
+;;;;;;;;;; Sunsette: thrown-pokeball palettes (white / 31,31,30 light / kept dark / black)
+	const PAL_BLUEBALL
+	const PAL_GREENBALL
+	const PAL_PURPLEBALL
+	const PAL_YELLOWBALL
+	const PAL_PALEBALL
+	const PAL_CYANBALL
+	const PAL_INDIGOBALL
+	const PAL_PINKBALL
+	const PAL_GRAYBALL
+	const PAL_WHITEBALL
+	const PAL_ULTRABALL_2
 ;;;;;;;;;;
+	const PAL_MTMOONB2F ; Sunsette: Mt. Moon B2F-only cave palette (clears to PAL_CAVE on B1F/1F)
+	const PAL_SHADOW ; Sunsette: evolution morph silhouette palette (replaces PAL_BLACK for the morph)
 DEF NUM_SGB_PALS EQU const_value

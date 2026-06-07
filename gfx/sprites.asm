@@ -143,4 +143,6 @@ BlueSittingSprite:: INCBIN "gfx/sprites/champ_arena_audience/blue_sitting.2bpp"
 SECTION "NPC Sprites 5", ROMX
 
 QuadrupedSprite:: INCBIN "gfx/sprites/quadruped.2bpp"
+CouchGuySprite:: INCBIN "gfx/sprites/couchguy.2bpp"
+CouchGuy2Sprite:: INCBIN "gfx/sprites/couchguy2.2bpp"
 RedTakingPictureSprite:: INCBIN "gfx/sprites/red_taking_picture.2bpp"

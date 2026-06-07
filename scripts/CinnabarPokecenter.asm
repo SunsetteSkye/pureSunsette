@@ -9,6 +9,8 @@ CinnabarPokecenter_TextPointers:
 	dw_const CinnabarPokecenterCooltrainerFText,     TEXT_CINNABARPOKECENTER_COOLTRAINER_F
 	dw_const CinnabarPokecenterGentlemanText,        TEXT_CINNABARPOKECENTER_GENTLEMAN
 	dw_const CinnabarPokecenterLinkReceptionistText, TEXT_CINNABARPOKECENTER_LINK_RECEPTIONIST
+	dw_const CinnabarPokecenterBenchGuyText,         TEXT_CINNABARPOKECENTER_COUCH_GUY
+	dw_const CinnabarPokecenterBenchGuyText,         TEXT_CINNABARPOKECENTER_COUCH_GUY2
 	dw_const CinnabarPokecenterBenchGuyText,         TEXT_CINNABARPOKECENTER_BENCH_GUY
 
 CinnabarPokecenterNurseText:

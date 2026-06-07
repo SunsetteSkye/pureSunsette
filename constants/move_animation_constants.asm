@@ -167,6 +167,7 @@ DEF FIRST_SE_ID EQU const_value
 	const SUBANIM_2_ANGER_SYMBOL
 	const SUBANIM_2_ANGER_SYMBOL_ENEMY
 	const SUBANIM_HAPPINESS_HEART ; Sunsette: clean single heart
+	const SUBANIM_HAPPINESS_SPARKLE ; Sunsette: legendary sparkle over the player's mon
 ;;;;;;;;;;
 DEF NUM_SUBANIMS EQU const_value
 
@@ -310,6 +311,7 @@ DEF NUM_SUBANIMS EQU const_value
 	const FRAMEBLOCK_7D
 	const FRAMEBLOCK_7E
 	const FRAMEBLOCK_7F
+	const FRAMEBLOCK_80 ; Sunsette: a single sparkle (1 sprite of tile $1C) for the affection cue
 DEF NUM_FRAMEBLOCKS EQU const_value
 
 ; base coordinates that are part of subanimations

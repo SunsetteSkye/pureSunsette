@@ -43,8 +43,9 @@ TryDoWildEncounter:
 ; (the city-pest maps). Coast tiles are water-classified, so they never reach here.
 	ld hl, AmbientEncounterMaps
 	call IsInSingleByteArray ; a = wCurMap; carry set if flagged
-	jr nc, .CantEncounter2
+	jp nc, .CantEncounter2
 	ld a, [wGrassRate]
+	srl a ; Sunsette: halve the (already low) ambient city encounter rate
 	jr .CanEncounter
 .indoorAmbient
 	ld a, [wCurMapTileset]
@@ -76,7 +77,16 @@ TryDoWildEncounter:
 	ld [wIsAltPalettePkmn], a ; PureRGBnote: ADDED: store which encounter slot index (0-9) we ended up with into wIsAltPalettePokemon
 	                          ;                     we still don't know if the pokemon is alt palette yet, just storing the index.
 ; determine which wild pokemon (grass or water) can appear in the half-block we're standing in
-	ld c, [hl]
+	ld c, [hl] ; c = slot * 2
+	; Sunsette: GROWTH field move inverts encounter rarity - flip the slot (rare<->common) while armed
+	; (wUnusedMapVariable bit 1; cleared on map change)
+	ld a, [wUnusedMapVariable]
+	bit 1, a
+	jr z, .gotFinalSlot
+	ld a, (NUM_WILDMONS - 1) * 2
+	sub c
+	ld c, a ; inverted slot * 2
+.gotFinalSlot
 	ld hl, wGrassMons
 	lda_coord 8, 9
 	call TestWaterTile2 ; is the bottom left tile (8,9) of the half-block we're standing in a water tile?
@@ -125,6 +135,48 @@ TryDoWildEncounter:
 .willEncounter
 	callfar CheckWildPokemonPalettes ; PureRGBnote: ADDED: checks if the pokemon should use an alt palette and if so stores 1 in wIsAltPalettePkmn
 	xor a
+	ret
+
+; Sunsette: ADDED: force a wild encounter from the current map's table (used by the FLASH field move
+; outside dark caves). Picks the grass or water table by surf state, rolls an encounter slot via the
+; normal distribution, and sets wCurOpponent + wCurEnemyLevel. Carry set if an encounter was set up,
+; carry clear if this map has no matching wild table (caller falls back). The overworld loop launches
+; the battle once it sees wCurOpponent set, and end_of_battle clears wCurOpponent so it won't repeat.
+ForceWildEncounter::
+	ld a, [wWalkBikeSurfState]
+	cp 2 ; surfing?
+	jr z, .water
+	ld a, [wGrassRate]
+	and a
+	ret z ; no grass encounters on this map
+	ld de, wGrassMons
+	jr .roll
+.water
+	ld a, [wWaterRate]
+	and a
+	ret z ; no water encounters on this map
+	ld de, wWaterMons
+.roll
+	call Random
+	ld b, a
+	ld hl, WildMonEncounterSlotChances
+.slot
+	ld a, [hli] ; cumulative chance for this slot
+	cp b
+	jr nc, .gotSlot
+	inc hl ; skip the slot*2 byte to the next slot's chance
+	jr .slot
+.gotSlot
+	ld c, [hl] ; slot * 2 (each wGrassMons/wWaterMons entry is level,species)
+	ld b, 0
+	ld h, d
+	ld l, e ; hl = table base
+	add hl, bc
+	ld a, [hli]
+	ld [wCurEnemyLevel], a
+	ld a, [hl]
+	ld [wCurOpponent], a
+	scf
 	ret
 
 TestGrassTile:

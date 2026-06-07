@@ -118,4 +118,6 @@ DEF FIRST_STILL_SPRITE EQU const_value
 	const SPRITE_CAMERA                    ; $70
 	const SPRITE_SHADOW                    ; $71
 	const SPRITE_QUADRUPED                 ; $72
+	const SPRITE_COUCH_GUY                 ; $73 ; Sunsette: pokecenter couch NPC (was tileset-baked)
+	const SPRITE_COUCH_GUY2                ; $74 ; Sunsette: lower half of the couch NPC
 DEF NUM_SPRITES EQU const_value - 1

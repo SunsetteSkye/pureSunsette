@@ -3,6 +3,8 @@
 	const_export LAVENDERPOKECENTER_GENTLEMAN
 	const_export LAVENDERPOKECENTER_LITTLE_GIRL
 	const_export LAVENDERPOKECENTER_LINK_RECEPTIONIST
+	const_export LAVENDERPOKECENTER_COUCH_GUY
+	const_export LAVENDERPOKECENTER_COUCH_GUY2
 
 LavenderPokecenter_Object:
 	db $0 ; border block
@@ -19,5 +21,7 @@ LavenderPokecenter_Object:
 	object_event  5,  3, SPRITE_GENTLEMAN, STAY, NONE, TEXT_LAVENDERPOKECENTER_GENTLEMAN
 	object_event  2,  6, SPRITE_LITTLE_GIRL, WALK, UP_DOWN, TEXT_LAVENDERPOKECENTER_LITTLE_GIRL
 	object_event 11,  2, SPRITE_LINK_RECEPTIONIST, STAY, DOWN, TEXT_LAVENDERPOKECENTER_LINK_RECEPTIONIST
+	object_event  0,  4, SPRITE_COUCH_GUY, STAY, NONE, TEXT_LAVENDERPOKECENTER_COUCH_GUY ; Sunsette: couch tile is solid, so no extra collision needed
+	object_event  0,  5, SPRITE_COUCH_GUY2, STAY, NONE, TEXT_LAVENDERPOKECENTER_COUCH_GUY2 ; Sunsette: lower half - silent decoration on the solid couch tile
 
 	def_warps_to LAVENDER_POKECENTER

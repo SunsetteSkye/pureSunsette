@@ -808,7 +808,10 @@ HandleEnemyMonFainted:
 	ld a, d
 	and a
 	jp z, HandlePlayerBlackOut ; if no party mons are alive, the player blacks out
-	farcall SecondWindHeal ; Sunsette: happiness >= 128 trainer-KO heal (HUD redraw below shows it)
+	call AnyEnemyPokemonAliveCheck ; Sunsette: skip the second-wind heal/cue if the enemy's last mon
+	jr z, .skipSecondWind ; just fainted - the battle is ending, so it'd never be seen anyway
+	farcall SecondWindHeal ; happiness >= 128 trainer-KO heal (HUD redraw below shows it)
+.skipSecondWind
 	ld hl, wBattleMonHP
 	ld a, [hli]
 	or [hl] ; is battle mon HP zero?
@@ -1635,7 +1638,7 @@ EnemySendOutFirstMon:
 	ld a, [wEnemyMonSpecies2]
 	call PlayCry
 	call DrawEnemyHUDAndHPBar
-	callfar AutoWakeUpScreechEnemy
+	callfar EnemyOnSendOut ; Sunsette: AutoWakeUpScreechEnemy + per-map enemy-trainer send-out buffs
 	ld a, [wCurrentMenuItem]
 	and a
 	ret nz
@@ -5084,16 +5087,10 @@ ApplyDamageToEnemyPokemon:
 	sbc b
 	ld [wEnemyMonHP], a
 	jr nc, .animateHpBar
-; if more damage was done than the current HP, zero the HP and set the damage (wDamage)
-; equal to how much HP the pokemon had before the attack
-	ld a, [wHPBarOldHP+1]
-	ld [hli], a
-	ld a, [wHPBarOldHP]
-	ld [hl], a
-	xor a
-	ld hl, wEnemyMonHP
-	ld [hli], a
-	ld [hl], a
+; Sunsette: this hit would faint the enemy - a tough trainer's mon may hang on at 1 HP (bond).
+	call BattleRandom
+	ld c, a
+	farcall HandleEnemyFaintOrSurvive
 .animateHpBar
 	ld hl, wEnemyMonMaxHP
 	ld a, [hli]
@@ -5109,6 +5106,7 @@ ApplyDamageToEnemyPokemon:
 	xor a
 	ld [wHPBarType], a
 	predef UpdateHPBar ; animate the HP bar shortening
+	farcall AnnounceEnemyBondSurvival ; Sunsette: announce the enemy's bond survival (if any)
 ApplyAttackToEnemyPokemonDone:
 	jp DrawHUDsAndHPBars
 
@@ -7178,21 +7176,21 @@ PlayMoveAnimationNoDelay:
 	jpfar Func_78e98
 ;;;;;;;;;;
 
-; Sunsette: play animation a over the player's mon. Exported so the affection cues
-; (send-out / drink / second wind, in other banks) can trigger it via farcall.
-PlayPlayerSideAnim::
-	ld [wAnimationID], a
-	xor a
-	ld [wAnimationType], a ; Sunsette: no screen-shake/blink - plain overlay (stale type would flicker)
-	ldh [hWhoseTurn], a
-	jp PlayMoveAnimationNoDelay
-
-PlayEnemySideAnim:: ; Sunsette: same, but over the enemy's mon (for an enemy legendary's Pressure)
-	ld [wAnimationID], a
-	xor a
-	ld [wAnimationType], a ; Sunsette: no screen-shake/blink - plain overlay
+; Sunsette: play animation (ID in e) over the player's or enemy's mon. Exported so the affection /
+; Pressure cues in other banks can trigger them via farcall. The ID comes in e, NOT a: a cross-bank
+; callfar runs through Bankswitch (`ld a, b`), so a = this code's bank ($0f = 15 = CUT) on entry;
+; Bankswitch never touches e, so callers pass the ID there.
+PlayEnemySideAnim:: ; over the ENEMY's mon (an enemy legendary's Pressure)
 	ld a, 1
-	ldh [hWhoseTurn], a
+	jr SetSideAnimTurn
+PlayPlayerSideAnim:: ; over the player's mon
+	xor a
+SetSideAnimTurn:
+	ldh [hWhoseTurn], a ; 0 = player, 1 = enemy
+	ld a, e
+	ld [wAnimationID], a
+	xor a
+	ld [wAnimationType], a ; no screen-shake/blink - plain overlay (stale type would flicker)
 	jp PlayMoveAnimationNoDelay
 
 InitBattle::

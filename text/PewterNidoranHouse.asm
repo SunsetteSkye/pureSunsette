@@ -7,21 +7,13 @@ _PewterNidoranHouseLittleBoyText::
 	done
 
 _PewterNidoranHouseMiddleAgedManText::
-	text "Our #MON's an"
-	line "outsider, so it's"
-	cont "hard to handle."
-
-	para "An outsider is a"
-	line "#MON that you"
-	cont "get in a trade."
+	text "We got our #MON"
+	line "in a trade."
 
 	para "It grows fast, but"
-	line "we have trouble"
-	cont "teaching it new"
-	cont "things!"
-
-	para "If only we had"
-	line "some BADGEs<...>"
+	line "not as fast as if"
+	cont "we had some"
+	cont "BADGEs<...>"
 	done
 
 _PewterHouse1Text4Color::

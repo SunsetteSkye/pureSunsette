@@ -63,7 +63,18 @@ Route22GateGuardText:
 	ld a, [wObtainedBadges]
 	bit BIT_BOULDERBADGE, a
 	jr nz, .has_boulderbadge
+; Sunsette: teach the player what a BADGE is before turning them away (mirrors the Route 23 guards)
 	ld hl, Route22GateGuardNoBoulderbadgeText
+	rst _PrintText
+	ld hl, Route22GateKnowWhatBadgeText
+	rst _PrintText
+	call YesNoChoice
+	jr nz, .explainBadges ; No -> give the full spiel
+	ld hl, Route22GateThenYouKnowText
+	jr .turnAway
+.explainBadges
+	ld hl, Route22GateBadgeSpielText
+.turnAway
 	rst _PrintText
 	call Route22GateMovePlayerDownScript
 	ld a, SCRIPT_ROUTE22GATE_PLAYER_MOVING
@@ -78,16 +89,29 @@ Route22GateGuardText:
 
 Route22GateGuardNoBoulderbadgeText:
 	text_far _Route22GateGuardNoBoulderbadgeText
+	text_end
+
+; Sunsette: badge lecture, reusing the shared Route 23 lecture text DATA (bank-safe via text_far) with a
+; local DENIED sting to match the Route 23 guards. The old "I can't let you pass" line is superseded by it.
+Route22GateKnowWhatBadgeText:
+	text_far _Route22GateKnowWhatBadgeText
+	text_end
+
+Route22GateThenYouKnowText:
+	text_far _Route22GateThenYouKnowText
 	text_asm
 	ld a, SFX_DENIED
 	call PlaySoundWaitForCurrent
 	call WaitForSoundToFinish
-	ld hl, Route22GateGuardICantLetYouPassText
-	ret
+	rst TextScriptEnd
 
-Route22GateGuardICantLetYouPassText:
-	text_far _Route22GateGuardICantLetYouPassText
-	text_end
+Route22GateBadgeSpielText:
+	text_far _Route22GateBadgeSpielText
+	text_asm
+	ld a, SFX_DENIED
+	call PlaySoundWaitForCurrent
+	call WaitForSoundToFinish
+	rst TextScriptEnd
 
 Route22GateGuardGoRightAheadText:
 	text_far _Route22GateGuardGoRightAheadText

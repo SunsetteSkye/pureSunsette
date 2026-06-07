@@ -1,18 +1,19 @@
-; Sunsette: Route 23 guard "do you know what a BADGE is?" lecture (relocated here to keep Text 5 in budget).
-; Reached cross-bank via text_far from scripts/Route23.asm.
-_Route23KnowWhatBadgeText::
+; Sunsette: Route 22 Gate (Boulder Badge) guard "do you know what a BADGE is?" lecture.
+; Kept in its own file because Text 5 (Route22Gate's main text bank) is full; reached cross-bank
+; via text_far from scripts/Route22Gate.asm.
+_Route22GateKnowWhatBadgeText::
 	text "You DO know what"
 	line "a BADGE is,"
 	cont "right?"
 	done
 
-_Route23ThenYouKnowText::
+_Route22GateThenYouKnowText::
 	text "Then you know why"
 	line "I can't let you"
 	cont "through!@"
 	text_end
 
-_Route23BadgeSpielText::
+_Route22GateBadgeSpielText::
 	text "Tough trainers"
 	line "earn BADGEs at"
 	cont "#MON GYMs."

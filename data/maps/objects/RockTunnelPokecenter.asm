@@ -4,6 +4,8 @@
 	const_export ROCKTUNNELPOKECENTER_FISHER
 	const_export ROCKTUNNELPOKECENTER_LINK_RECEPTIONIST
 	const_export ROCKTUNNELPOKECENTER_NURSE2
+	const_export ROCKTUNNELPOKECENTER_COUCH_GUY
+	const_export ROCKTUNNELPOKECENTER_COUCH_GUY2
 
 RockTunnelPokecenter_Object:
 	db $0 ; border block
@@ -21,5 +23,7 @@ RockTunnelPokecenter_Object:
 	object_event  2,  5, SPRITE_FISHER, STAY, NONE, TEXT_ROCKTUNNELPOKECENTER_FISHER
 	object_event 11,  2, SPRITE_LINK_RECEPTIONIST, STAY, DOWN, TEXT_ROCKTUNNELPOKECENTER_LINK_RECEPTIONIST
 	object_event  5,  3, SPRITE_NURSE, STAY, DOWN, TEXT_ROCKTUNNELPOKECENTER_NURSE2
+	object_event  0,  4, SPRITE_COUCH_GUY, STAY, NONE, TEXT_ROCKTUNNELPOKECENTER_COUCH_GUY ; Sunsette: couch tile is solid, so no extra collision needed
+	object_event  0,  5, SPRITE_COUCH_GUY2, STAY, NONE, TEXT_ROCKTUNNELPOKECENTER_COUCH_GUY2 ; Sunsette: lower half - silent decoration on the solid couch tile
 
 	def_warps_to ROCK_TUNNEL_POKECENTER

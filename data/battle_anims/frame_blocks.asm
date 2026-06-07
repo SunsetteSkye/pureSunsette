@@ -128,6 +128,7 @@ FrameBlockPointers:
 	dw FrameBlock7d
 	dw FrameBlock7e
 	dw FrameBlock7f
+	dw FrameBlock80 ; Sunsette
 	assert_table_length NUM_FRAMEBLOCKS
 
 FrameBlock01:
@@ -1287,3 +1288,7 @@ FrameBlock7f:
 	dbsprite  1,  0,  0,  0, $02, OAM_XFLIP
 	dbsprite  0,  1,  0,  0, $02, OAM_YFLIP
 	dbsprite  1,  1,  0,  0, $02, OAM_XFLIP | OAM_YFLIP
+
+FrameBlock80: ; Sunsette: a single sparkle (one tile-$1C sprite) for the legendary affection cue
+	db 1
+	dbsprite  0,  0,  0,  0, $1C, 0

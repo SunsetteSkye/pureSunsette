@@ -2,7 +2,7 @@
 ;                     wUnusedC000 is set earlier in pokemon center code and indicates whether to speed things up or not.
 AnimateHealingMachine:
 	ld de, PokeCenterFlashingMonitorAndHealBall
-	ld hl, vChars0 tile $7c
+	ld hl, vChars0 tile $74 ; Sunsette: was $7c, but that VRAM is the engine's 2nd 4-tile (still) sprite slot, now used by the couch NPC's lower half. $74-$76 is free scratch below the still-sprite slots in any pokecenter.
 	lb bc, BANK(PokeCenterFlashingMonitorAndHealBall), 3 ; should be 2
 	call CopyVideoData
 	ld hl, wUpdateSpritesEnabled
@@ -81,13 +81,13 @@ PokeCenterFlashingMonitorAndHealBall:
 PokeCenterOAMData:
 ; TODO: update to use OAM palettes like OAM_PAL1 like in pokered
 ; shinpokerednote: gbcnote: updated for GBC
-	db $24,$34,$7C,$14 ; heal machine monitor
-	db $2B,$30,$7D,$14 ; pokeballs 1-6
-	db $2B,$38,$7D,$34
-	db $30,$30,$7D,$14
-	db $30,$38,$7D,$34
-	db $35,$30,$7D,$14
-	db $35,$38,$7D,$34
+	db $24,$34,$74,$14 ; heal machine monitor   ; Sunsette: tiles relocated $7C/$7D -> $74/$75 (see AnimateHealingMachine)
+	db $2B,$30,$75,$14 ; pokeballs 1-6
+	db $2B,$38,$75,$34
+	db $30,$30,$75,$14
+	db $30,$38,$75,$34
+	db $35,$30,$75,$14
+	db $35,$38,$75,$34
 
 ; d = value to xor with palette
 FlashSprite8Times:

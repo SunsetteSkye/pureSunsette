@@ -149,6 +149,11 @@ CheckPerTurnSpecialBattleEffect::
 
 ; PureRGBnote: ADDED: when battle starts in special battles something can happen, for example moltres in the volcano gets powered up by magma.
 CheckInitSpecialBattleEffect::
+	call CheckWildGrowthHealingMap ; Sunsette: ADDED: growth-healing maps give wild mons the GROWING regen
+	call CheckWildConfuseRayPalette ; Sunsette: ADDED: CONFUSE RAY makes the next wild mon use its alt palette
+	call CheckWildSurfSpeedDebuff ; Sunsette: ADDED: SURF -1 SPEED on the wild mon (non-Water/Flying)
+	call CheckWildDarknessAccuracyDebuff ; Sunsette: ADDED: dark-cave (Flash off) -2 ACCURACY on the wild mon
+	call CheckDarkCaveBattleIntro ; Sunsette: ADDED: "It's too dark to see!" warning in flash-off dark caves
 	ld a, [wCurMapTileset]
 	cp VOLCANO
 	jr z, .volcano
@@ -217,6 +222,493 @@ CheckInitSpecialBattleEffect::
 	text_end
 .painlessText
 	text_far _PainlessBattleInitText
+	text_end
+
+; Sunsette: ADDED: on "growth-healing" maps, wild Pokemon enter battle with the GROWING
+; status (Growth's leftovers-like 1/16-per-turn regen) and announce "It's full of energy!".
+; Active on the 4 outdoor Safari Zone maps ($D9-$DC). Wild battles only (trainers unaffected).
+CheckWildGrowthHealingMap:
+	ld a, [wIsInBattle]
+	dec a ; wild battle == 1
+	ret nz
+	ld a, [wCurMap]
+	cp SAFARI_ZONE_EAST
+	ret c
+	cp SAFARI_ZONE_CENTER_REST_HOUSE
+	ret nc
+.arm
+	ld hl, wEnemyBattleStatus3
+	set GROWING, [hl]
+	; Sunsette: announce it here (after the flag is set). This runs in CheckInitSpecialBattleEffect,
+	; which fires AFTER "Wild X appeared!" but before the battle menu - same slot as the volcano/tower
+	; effect texts. (The earlier attempt in PrintBeginningBattleText ran before GROWING was set.)
+	ld hl, .fullOfEnergyText
+	rst _PrintText
+	ret
+.fullOfEnergyText
+	text_far _FullOfEnergyText
+	text_end
+
+; Sunsette: ADDED: if CONFUSE RAY armed the current map (wUnusedMapVariable, set from the field
+; menu and auto-cleared on map change), make this wild mon appear in its alternate palette by
+; setting bit 0 of wEnemyMonFlags (read by SET_PAL_BATTLE -> AltMonsterPalettes). Consumes the
+; flag so only this one encounter is affected. Note: the alt palette itself still respects the
+; player's BIT_ALT_PKMN_PALETTES option. Wild battles only.
+CheckWildConfuseRayPalette:
+	ld a, [wIsInBattle]
+	dec a ; wild battle == 1
+	ret nz
+	ld hl, wUnusedMapVariable
+	bit 0, [hl] ; bit 0 = CONFUSE RAY armed
+	ret z
+	res 0, [hl] ; consume: next encounter only
+	ld hl, wEnemyMonFlags
+	set 0, [hl]
+	ret
+
+; Sunsette: ADDED: after the player sends out a mon at the START of battle, certain maps buff it.
+; VIRIDIAN_FOREST: a Grass-type player mon gets +1 DEFENSE with the custom "The FOREST..." line.
+; This affects the PLAYER's mon only (never wild/enemy mons). Battle-start send-out only; switching
+; a mon in mid-battle does not re-trigger it. Called via callfar from StartBattle.
+ApplyPlayerSendOutMapEffects::
+	ld a, 1 ; target = player
+	call CheckSurfSpeedDebuff ; Sunsette: SURF -1 SPEED on your mon (non-Water/Flying), any map while surfing
+	ld a, 1 ; target = player
+	call CheckSilphDebuff ; Sunsette: SILPH CO. -1 SPECIAL (Water/Grass) / -1 SPEED (Flying)
+	ld a, 1 ; target = player
+	call CheckDarknessAccuracyDebuff ; Sunsette: dark-cave (Flash off) -2 ACCURACY on your mon
+	ld a, [wCurMap]
+	cp VIRIDIAN_FOREST
+	jr z, .viridianGrassDefense
+	cp CELADON_GYM
+	jr z, .celadonSpores
+	; Pokemon Tower floors 3F-7F: black mist poisons the PLAYER's mon (the enemy mons here are
+	; mostly Poison/Ghost = immune, so the hazard targets you instead).
+	cp POKEMON_TOWER_3F
+	ret c
+	cp POKEMON_TOWER_7F + 1
+	ret nc
+	ld hl, BlackMistText
+	jr .poisonPlayerWithText
+.celadonSpores
+	ld hl, SporesText
+.poisonPlayerWithText
+	push hl
+	call PoisonPlayerMonIfAble
+	pop hl
+	ret nc ; immune / already statused -> no effect, no line
+	rst _PrintText
+	ret
+.viridianGrassDefense
+	ld a, [wBattleMonType1]
+	cp GRASS
+	jr z, .grassDefense
+	ld a, [wBattleMonType2]
+	cp GRASS
+	ret nz
+.grassDefense
+	xor a
+	ldh [hWhoseTurn], a       ; player's turn (so <USER> = the player's mon)
+	ld [wPlayerMoveNum], a    ; avoid the MINIMIZE substitute path inside StatModifierUpEffect
+	ld a, DEFENSE_UP1_EFFECT
+	ld [wPlayerMoveEffect], a
+	; print our own one-line message, and flag StatModifierUpEffect to skip its default "rose!" line
+	ld a, 1
+	ld [wRegionalStatRiseTextID], a
+	ld hl, .forestDefenseText
+	rst _PrintText
+	SetFlag FLAG_SKIP_STAT_ANIMATION
+	callfar StatModifierUpEffect
+	xor a
+	ld [wRegionalStatRiseTextID], a ; clear (also covers the no-op/maxed path that skips the text check)
+	ResetFlag FLAG_SKIP_STAT_ANIMATION
+	ret
+.forestDefenseText
+	text_far _ViridianForestDefenseText
+	text_end
+
+; Sunsette: poison the PLAYER's active mon unless it already has a status or is a POISON/GHOST
+; type. Carry set if poison actually landed (so the caller only prints its hazard line when
+; something happened). Used by the Celadon/Lavender hazards. We deliberately do NOT redraw the HUD
+; here - forcing DrawPlayerHUDAndHPBar at this point in the send-out flow kicks the GBC palette/
+; BG-transfer and causes infinite screen flicker. The PSN icon appears on the next natural HUD
+; refresh; the poison damage itself ticks normally from the residual-damage loop.
+PoisonPlayerMonIfAble:
+	ld a, [wBattleMonStatus]
+	and a
+	jr nz, .no ; can't add a status to an already-statused mon
+	ld a, [wBattleMonType1]
+	cp POISON
+	jr z, .no
+	cp GHOST
+	jr z, .no
+	ld a, [wBattleMonType2]
+	cp POISON
+	jr z, .no
+	cp GHOST
+	jr z, .no
+	ld hl, wBattleMonStatus
+	set PSN, [hl]
+	scf
+	ret
+.no
+	and a
+	ret
+
+SporesText:
+	text_far _CeladonGymBuffText
+	text_end
+BlackMistText:
+	text_far _LavenderTowerMistText
+	text_end
+
+; Sunsette: SURF environmental debuff - while the player is surfing (wWalkBikeSurfState == 2), a mon
+; entering battle loses 1 SPEED stage unless it is WATER- or FLYING-type. Applies to BOTH sides
+; (each mon as it appears). Input a: 0 = debuff the ENEMY mon, 1 = debuff the PLAYER's mon.
+CheckSurfSpeedDebuff:
+	ld b, a
+	ld a, [wWalkBikeSurfState]
+	cp 2 ; surfing?
+	ret nz
+	ld a, [wCurMapTileset]
+	cp VOLCANO
+	ret z ; don't trigger on the volcano's lava "surfing"
+	ld a, b
+	and a
+	ld hl, wEnemyMonType1
+	jr z, .gotTypes
+	ld hl, wBattleMonType1
+.gotTypes
+	ld a, [hli]
+	cp WATER
+	ret z
+	cp FLYING
+	ret z
+	ld a, [hl]
+	cp WATER
+	ret z
+	cp FLYING
+	ret z
+	ld c, SPEED_DOWN1_EFFECT
+	ld hl, SurfSpeedText
+	jp ApplyStatDownWithText
+
+; Sunsette: print a themed ambiance line (hl), then apply a -1 stat-stage effect (c) to target b
+; (0=enemy, 1=player). The engine's default "X's STAT fell!" still follows (the Battle Core bank is
+; full, so we can't suppress it the way the stat-UP path does); the themed line + "fell" reads fine.
+ApplyStatDownWithText:
+	push bc
+	rst _PrintText ; print the themed line in hl
+	pop bc
+	jp ApplyStatDownToTarget
+
+; Sunsette: apply a -1 stat-stage effect (c = a *_DOWN1_EFFECT) to one mon (b: 0 = enemy, 1 = player),
+; with no animation and bypassing the NPC 25% stat-down miss. NOTE: StatModifierDownEffect lowers the
+; OPPONENT of hWhoseTurn, so to hit the ENEMY we run it as the player's turn, and to hit the PLAYER as
+; the enemy's turn. hWhoseTurn is saved/restored.
+ApplyStatDownToTarget:
+	ldh a, [hWhoseTurn]
+	push af
+	ld a, b
+	and a
+	jr nz, .playerTarget
+	xor a                 ; player's turn -> lowers the ENEMY
+	ldh [hWhoseTurn], a
+	ld a, c
+	ld [wPlayerMoveEffect], a
+	jr .apply
+.playerTarget
+	ld a, 1               ; enemy's turn -> lowers the PLAYER
+	ldh [hWhoseTurn], a
+	ld a, c
+	ld [wEnemyMoveEffect], a
+.apply
+	SetFlag FLAG_SKIP_STAT_ANIMATION
+	SetFlag FLAG_SKIP_NPC_STAT_DOWN_DEBUFF
+	callfar StatModifierDownEffect
+	ResetFlag FLAG_SKIP_NPC_STAT_DOWN_DEBUFF
+	ResetFlag FLAG_SKIP_STAT_ANIMATION
+	pop af
+	ldh [hWhoseTurn], a
+	ret
+
+; Sunsette: wild-only wrapper - debuff the wild enemy mon (trainer enemy mons are handled per
+; send-out in EnemyOnSendOut, so this stays wild-only to avoid double-hitting a trainer's first mon).
+CheckWildSurfSpeedDebuff:
+	ld a, [wIsInBattle]
+	dec a ; wild battle == 1
+	ret nz
+	xor a ; target = enemy
+	jp CheckSurfSpeedDebuff
+
+; Sunsette: SILPH CO. environmental debuff - on any Silph Co. floor, a mon entering battle that is
+; WATER- or GRASS-type loses 1 SPECIAL stage; a FLYING-type loses 1 SPEED stage. BOTH sides. Silph
+; has trainers + the player (no wild), so this is called from the player hook and EnemyOnSendOut.
+; Input a: 0 = enemy mon, 1 = player mon.
+CheckSilphDebuff:
+	ld b, a
+	ld a, [wCurMap]
+	cp SILPH_CO_1F
+	jr z, .inSilph
+	cp SILPH_CO_2F
+	jr c, .notSilph
+	cp SILPH_CO_8F + 1
+	jr c, .inSilph
+	cp SILPH_CO_9F
+	jr c, .notSilph
+	cp SILPH_CO_ELEVATOR + 1
+	jr c, .inSilph
+.notSilph
+	ret
+.inSilph
+	ld a, b
+	and a
+	ld hl, wEnemyMonType1
+	jr z, .gotTypes
+	ld hl, wBattleMonType1
+.gotTypes
+	ld a, [hli]
+	ld d, a ; type1
+	ld a, [hl]
+	ld e, a ; type2
+	; FLYING takes precedence -> -1 SPEED. A Flying mon does NOT also take the Water/Grass Special drop.
+	ld a, d
+	cp FLYING
+	jr z, .speed
+	ld a, e
+	cp FLYING
+	jr z, .speed
+	; otherwise WATER/GRASS -> -1 SPECIAL
+	ld a, d
+	cp WATER
+	jr z, .special
+	cp GRASS
+	jr z, .special
+	ld a, e
+	cp WATER
+	jr z, .special
+	cp GRASS
+	jr z, .special
+	ret
+.special
+	ld c, SPECIAL_DOWN1_EFFECT
+	ld hl, SilphSpecialText
+	jp ApplyStatDownWithText
+.speed
+	ld c, SPEED_DOWN1_EFFECT
+	ld hl, SilphSpeedText
+	jp ApplyStatDownWithText
+
+SurfSpeedText:
+	text_far _SurfSpeedText
+	text_end
+SilphSpeedText:
+	text_far _SilphSpeedText
+	text_end
+SilphSpecialText:
+	text_far _SilphSpecialText
+	text_end
+
+; Sunsette: ROCK TUNNEL / POKEMON MANSION dark-cave debuff - if the player is in flash-off darkness
+; at battle start (wDarkCaveSnapshot == 6; snapshotted from wMapPalOffset in InitBattleVariables), a
+; mon entering battle takes -2 ACCURACY unless it is ZUBAT/GOLBAT or a FIGHTING/GROUND type. BOTH
+; sides. Accuracy is a pure stat-mod stage (no recalc), so we set the mod directly (neutral 7 -> 5,
+; floored at 1). The debuff is SILENT here (the "It's too dark to see!" warning is printed once per
+; battle by CheckDarkCaveBattleIntro - the per-mon debuff would otherwise rarely announce itself,
+; since Rock Tunnel's mons - Zubat/Geodude/Onix/Machop - are mostly exempt). Input a: 0 = enemy, 1 = player.
+CheckDarknessAccuracyDebuff:
+	ld b, a
+	ld a, [wDarkCaveSnapshot]
+	cp 6 ; flash-off dark cave?
+	ret nz
+	; exemptions: ZUBAT/GOLBAT species, or FIGHTING/GROUND type (of the target mon)
+	ld a, b
+	and a
+	jr z, .enemy
+	ld a, [wBattleMonSpecies]
+	ld hl, wBattleMonType1
+	jr .checkExempt
+.enemy
+	ld a, [wEnemyMonSpecies]
+	ld hl, wEnemyMonType1
+.checkExempt
+	cp ZUBAT
+	ret z
+	cp GOLBAT
+	ret z
+	ld a, [hli]
+	cp FIGHTING
+	ret z
+	cp GROUND
+	ret z
+	ld a, [hl]
+	cp FIGHTING
+	ret z
+	cp GROUND
+	ret z
+	; -2 to the target's ACCURACY mod (floor at 1)
+	ld a, b
+	and a
+	ld hl, wEnemyMonStatMods
+	jr z, .gotMods
+	ld hl, wPlayerMonStatMods
+.gotMods
+	ld de, MOD_ACCURACY
+	add hl, de
+	ld a, [hl]
+	sub 2
+	jr c, .floor
+	jr nz, .store
+.floor
+	ld a, 1
+.store
+	ld [hl], a
+	ret
+
+CheckWildDarknessAccuracyDebuff:
+	ld a, [wIsInBattle]
+	dec a ; wild battle == 1
+	ret nz
+	xor a ; target = enemy
+	jr CheckDarknessAccuracyDebuff
+
+; Sunsette: dark-cave (Flash off) battle-start warning, printed once per battle regardless of which
+; mons are exempt. Called from CheckInitSpecialBattleEffect (all battles).
+CheckDarkCaveBattleIntro:
+	ld a, [wDarkCaveSnapshot]
+	cp 6
+	ret nz
+	ld hl, TooDarkText
+	rst _PrintText
+	ret
+
+TooDarkText:
+	text_far _TooDarkToSeeText
+	text_end
+
+; Sunsette: ADDED: enemy-trainer send-out hook. Routed through the send-out-ONLY call site
+; (EnemySendOutFirstMon in core.asm, which used to `callfar AutoWakeUpScreechEnemy` directly).
+; We keep that wake-up behavior, then apply any per-map enemy buff. NOT reached from the mid-battle
+; heal path that also calls AutoWakeUpScreechEnemy, so gym buffs only fire on actual send-outs.
+EnemyOnSendOut::
+	callfar AutoWakeUpScreechEnemy ; preserve original on-send-out behavior
+	call ApplyEnemySendOutMapEffects
+	xor a ; target = enemy
+	call CheckSurfSpeedDebuff ; Sunsette: SURF -1 SPEED for a trainer's mon sent out while you surf
+	xor a ; target = enemy
+	call CheckSilphDebuff ; Sunsette: SILPH CO. -1 SPECIAL (Water/Grass) / -1 SPEED (Flying)
+	xor a ; target = enemy
+	call CheckDarknessAccuracyDebuff ; Sunsette: dark-cave (Flash off) -2 ACCURACY for a trainer's mon
+	ret
+
+; Sunsette: ADDED: certain maps apply an effect to the ENEMY trainer's just-sent-out mon and print
+; a flavor line. Two effect types (table-driven, add a row to extend):
+;   ENEMYBUFF_STATUP  - +1 stat stage (param = the *_UP1_EFFECT). The line replaces the default
+;                       "ENEMY X's STAT rose!" via the wRegionalStatRiseTextID skip.
+;   ENEMYBUFF_GROWING - set the GROWING regen flag (param unused).
+; Enemy stat mods reset to neutral per send-out (LoadEnemyMonData), so +1 is per-mon, no stacking.
+; Runs for trainer battles only (wild mons aren't sent via EnemySendOutFirstMon). NOTE: the
+; environmental POISON hazards (Celadon "spores", Lavender Tower "black mist") poison the PLAYER's
+; mon, not the enemy (the enemy mons there are mostly Poison/Ghost = immune) - see
+; ApplyPlayerSendOutMapEffects.
+DEF ENEMYBUFF_STATUP  EQU 0
+DEF ENEMYBUFF_GROWING EQU 1
+
+ApplyEnemySendOutMapEffects:
+	ld a, [wCurMap]
+	ld b, a
+	ld hl, EnemySendOutBuffTable
+.search
+	ld a, [hl]
+	cp $FF
+	ret z ; no buff for this map
+	cp b
+	jr z, .found
+	ld de, 5 ; entry size: db map, db type, db param, dw text
+	add hl, de
+	jr .search
+.found
+	inc hl
+	ld a, [hli] ; effect type
+	push af
+	ld a, [hli] ; param (stat-up effect for STATUP; ignored otherwise)
+	ld [wEnemyMoveEffect], a
+	ld a, [hli] ; text ptr lo
+	ld c, a
+	ld b, [hl]  ; text ptr hi
+	pop af      ; effect type
+	and a
+	jr z, .statUp
+.growing ; ENEMYBUFF_GROWING
+	ld hl, wEnemyBattleStatus3
+	set GROWING, [hl]
+	ld h, b
+	ld l, c
+	rst _PrintText
+	ret
+.statUp ; ENEMYBUFF_STATUP
+	ldh a, [hWhoseTurn]
+	push af
+	ld a, 1
+	ldh [hWhoseTurn], a    ; enemy's turn
+	xor a
+	ld [wEnemyMoveNum], a  ; avoid the MINIMIZE substitute path inside StatModifierUpEffect
+	inc a                  ; a = 1
+	ld [wRegionalStatRiseTextID], a ; tell StatModifierUpEffect to skip its default rose line
+	ld h, b
+	ld l, c
+	rst _PrintText         ; print our flavor line in its place
+	SetFlag FLAG_SKIP_STAT_ANIMATION
+	callfar StatModifierUpEffect
+	xor a
+	ld [wRegionalStatRiseTextID], a
+	ResetFlag FLAG_SKIP_STAT_ANIMATION
+	pop af
+	ldh [hWhoseTurn], a
+	ret
+
+; map, effect type, param, dw flavor text. Terminated by $FF.
+EnemySendOutBuffTable:
+	db PEWTER_GYM,    ENEMYBUFF_STATUP, SPECIAL_UP1_EFFECT
+	dw .pewterText
+	db VERMILION_GYM, ENEMYBUFF_STATUP, SPEED_UP1_EFFECT
+	dw .vermilionText
+	db FUCHSIA_GYM,   ENEMYBUFF_STATUP, EVASION_UP1_EFFECT
+	dw .fuchsiaText
+	db FIGHTING_DOJO, ENEMYBUFF_STATUP, DEFENSE_UP1_EFFECT
+	dw .dojoText
+	db SAFFRON_GYM,   ENEMYBUFF_STATUP, SPEED_UP1_EFFECT
+	dw .saffronText
+	db CINNABAR_GYM,  ENEMYBUFF_STATUP, SPECIAL_UP1_EFFECT
+	dw .cinnabarText
+	db VIRIDIAN_GYM,  ENEMYBUFF_STATUP, ACCURACY_UP1_EFFECT
+	dw .viridianText
+	db CERULEAN_GYM,  ENEMYBUFF_GROWING, 0
+	dw .ceruleanText
+	db $FF
+.pewterText
+	text_far _PewterGymBuffText
+	text_end
+.vermilionText
+	text_far _VermilionGymBuffText
+	text_end
+.fuchsiaText
+	text_far _FuchsiaGymBuffText
+	text_end
+.dojoText
+	text_far _FightingDojoBuffText
+	text_end
+.saffronText
+	text_far _SaffronGymBuffText
+	text_end
+.cinnabarText
+	text_far _CinnabarGymBuffText
+	text_end
+.viridianText
+	text_far _ViridianGymBuffText
+	text_end
+.ceruleanText
+	text_far _CeruleanGymBuffText
 	text_end
 
 ; a = which animation
@@ -289,6 +781,7 @@ IsBattleMonGhostCubone:
 ; send out every mon or a specific mon. Example: Sending out CUBONE vs THE MAW powers up Cubone.
 CheckOnSendOutSpecialEffect::
 	callfar AutoWakeUpSleepScreechPlayer
+	call ApplyPlayerSendOutMapEffects ; Sunsette: per-map buffs for the just-sent-out player mon (e.g. VIRIDIAN_FOREST Grass +1 DEF)
 	ld a, [wCurMap]
 	cp POKEMON_TOWER_B1F
 	ret nz

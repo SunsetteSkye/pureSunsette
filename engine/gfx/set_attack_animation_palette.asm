@@ -71,11 +71,10 @@ SetAttackAnimPal:
 	ld d, CONVERT_OBP0
 	ld e, c
 	dec e
-	ld a, b	
-	add NUM_POKEMON_INDEXES+2
-	ld [wCurPartySpecies], a
+	ld a, b	; Sunsette: raw palette ID - the old NUM_POKEMON_INDEXES+2 offset overflowed the byte for
+	ld [wCurPartySpecies], a ; high ball palettes; TransferAnimPal reads it as a palette, not a species
 	push bc
-	farcall TransferMonPal
+	farcall TransferAnimPal
 	pop bc
 	dec c
 	jr nz, .transfer
@@ -165,11 +164,11 @@ GetSpecificAnimPalettes: ; animations that have specific mappings
 
 AnimPaletteMapping:
 	db FLY_ANIM_PART1, PAL_MEWMON
-	db TOSS_ANIM, PAL_REDMON
-	db GREATTOSS_ANIM, PAL_BLUEMON
+	db TOSS_ANIM, PAL_POKEBALL
+	db GREATTOSS_ANIM, PAL_BLUEBALL
 	db ULTRATOSS_ANIM, PAL_ULTRABALL
-	db HYPERTOSS_ANIM, PAL_GREENMON
-	db MASTERTOSS_ANIM, PAL_PURPLEMON
+	db HYPERTOSS_ANIM, PAL_YELLOWBALL
+	db MASTERTOSS_ANIM, PAL_PURPLEBALL
 	db SAFARITOSS_ANIM, PAL_SAFARIBALL
 	db HYPER_BEAM, PAL_REDBAR
 	db BURN_ANIM, PAL_REDMON

@@ -10,6 +10,8 @@ RockTunnelPokecenter_TextPointers:
 	dw_const RockTunnelPokecenterFisherText,           TEXT_ROCKTUNNELPOKECENTER_FISHER
 	dw_const RockTunnelPokecenterLinkReceptionistText, TEXT_ROCKTUNNELPOKECENTER_LINK_RECEPTIONIST
 	dw_const RockTunnelCharityNurseText,               TEXT_ROCKTUNNELPOKECENTER_NURSE2
+	dw_const RockTunnelPokecenterBenchGuyText,         TEXT_ROCKTUNNELPOKECENTER_COUCH_GUY
+	dw_const RockTunnelPokecenterBenchGuyText,         TEXT_ROCKTUNNELPOKECENTER_COUCH_GUY2
 	dw_const RockTunnelPokecenterBenchGuyText,         TEXT_ROCKTUNNELPOKECENTER_BENCH_GUY
 
 RockTunnelPokecenterNurseText:

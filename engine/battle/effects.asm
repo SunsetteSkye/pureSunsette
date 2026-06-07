@@ -654,8 +654,15 @@ UpdateStatDone:
 	call z, ApplyBadgeBoostsForSpecificStat ; whenever the player uses a stat-up move, badge boosts get reapplied again to every stat,
 	                             ; even to those not affected by the stat-up move (will be boosted further)
 	                             ; PureRGBnote: FIXED: badge boosts only applied to the specific stat being modified
+	; Sunsette: ADDED: when a map effect (wRegionalStatRiseTextID, set from another bank) has
+	; already printed its own stat-rise line, skip the default "X's STAT rose!" message here.
+	; Defaults to 0 -> original behavior unchanged for every normal stat move.
+	ld a, [wRegionalStatRiseTextID]
+	and a
+	jr nz, .skipDefaultStatRose
 	ld hl, MonsStatsRoseText
 	rst _PrintText
+.skipDefaultStatRose
 
 ; these always run on the opponent, and run regardless of what stat was modified
 ;;;;;;;;;;; PureRGBnote: FIXED: These ran on the opponent's stats erroneously

@@ -129,4 +129,6 @@ SpriteSheetPointerTable:
 	overworld_sprite CameraSprite, 4                  ; SPRITE_CAMERA
 	overworld_sprite GhostSprite tile 4, 4, BANK(GhostSprite) ; SPRITE_SHADOW
 	overworld_sprite QuadrupedSprite, 4               ; SPRITE_QUADRUPED
+	overworld_sprite CouchGuySprite, 4                ; SPRITE_COUCH_GUY
+	overworld_sprite CouchGuy2Sprite, 4               ; SPRITE_COUCH_GUY2
 	assert_table_length NUM_SPRITES

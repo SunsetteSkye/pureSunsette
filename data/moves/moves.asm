@@ -61,7 +61,7 @@ Moves:
 	move ROAR,         ATTACK_DOWN_SIDE_EFFECT,     60, DRAGON,       100, 20
 	move SING,         SLEEP_EFFECT,                 0, NORMAL,        55, 15
 	move SUPERSONIC,   CONFUSION_EFFECT,             0, NORMAL,        55, 20
-	move SONICBOOM,    FLINCH_SIDE_EFFECT1,         50, GHOST,        100, 15 ; priority move
+	move SONICBOOM,    FLINCH_SIDE_EFFECT1,         50, GHOST,        100, 15 ; priority move; ILL WIND
 	move DISABLE,      DISABLE_EFFECT,               0, NORMAL,        85, 20
 	move ACID,         DEFENSE_DOWN_SIDE_EFFECT,    50, POISON,       100, 30
 	move EMBER,        BURN_SIDE_EFFECT1,           50, FIRE,         100, 25
@@ -108,7 +108,7 @@ Moves:
 	move CONFUSION,    CONFUSION_SIDE_EFFECT,       50, PSYCHIC_TYPE, 100, 25
 	move PSYCHIC_M,    SPECIAL_DOWN_SIDE_EFFECT,    90, PSYCHIC_TYPE, 100, 10
 	move HYPNOSIS,     SLEEP_EFFECT,                 0, PSYCHIC_TYPE,  60, 20
-	move MEDITATE,     MEDITATE_EFFECT,              0, PSYCHIC_TYPE, 100, 15
+	move MEDITATE,     MEDITATE_EFFECT,              0, PSYCHIC_TYPE, 100, 15 ; priority move
 	move AGILITY,      SPEED_UP2_EFFECT,             0, PSYCHIC_TYPE, 100, 30
 	move QUICK_ATTACK, SWIFT_EFFECT,   	            60, NORMAL,       100, 30 ; priority move
 	move RAGE,         ATTACK_UP_SIDE_EFFECT,       50, NORMAL,       100, 20

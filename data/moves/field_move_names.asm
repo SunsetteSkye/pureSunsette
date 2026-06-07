@@ -8,3 +8,6 @@ FieldMoveNames:
 	db "DIG@"
 	db "TELEPORT@"
 	db "SOFTBOILED@"
+	db "CONFUSE RAY@"
+	db "GROWTH@"
+	db "FLAMETHROWER@"

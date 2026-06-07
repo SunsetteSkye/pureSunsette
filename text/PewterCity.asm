@@ -60,6 +60,11 @@ _PewterCitySuperNerd2ImSprayingRepelText::
 	text "I'm spraying REPEL"
 	line "to keep #MON"
 	cont "out of my garden!"
+
+	para "Even in town, wild"
+	line "ones turn up now"
+	cont "and then if you're"
+	cont "not careful!"
 	done
 
 _PewterCityYoungsterYoureATrainerFollowMeText::
@@ -86,10 +91,11 @@ _PewterCityYoungsterGoTakeOnBrockText::
 _PewterCityTrainerTipsText::
 	text "<TIPS>"
 
-	para "Any #MON that"
-	line "takes part in"
-	cont "battle, however"
-	cont "short, earns EXP!"
+	para "Battle is the"
+	line "best way to grow,"
+	cont "but your whole"
+	cont "team gets EXP"
+	cont "from fights!"
 	done
 
 _PewterCityPoliceNoticeSignText::

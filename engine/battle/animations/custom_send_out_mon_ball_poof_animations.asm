@@ -204,7 +204,6 @@ LoadBallPoofTile:
 	ld b, BANK(NothingSprite)
 	jr .skip
 
-
 BallPoofAnimTileIndices:
 	; tileset 0
 	db 73 ; sphere
@@ -272,31 +271,31 @@ FarGetBallDataPalette::
 	ld e, [hl]
 	ret
 	
-BallDefaultPalettes:
-	db PAL_REDMON ; pokeball
-	db PAL_BLUEMON ; great ball
+BallDefaultPalettes: ; Sunsette: ball-throw palettes (bright white light + each ball's dark accent)
+	db PAL_POKEBALL ; pokeball
+	db PAL_BLUEBALL ; great ball
 	db PAL_ULTRABALL ; ultra ball
 	db PAL_SAFARIBALL ; safari ball
-	db PAL_GREENMON ; hyper ball
-	db PAL_PURPLEMON ; master ball
+	db PAL_YELLOWBALL ; hyper ball
+	db PAL_PURPLEBALL ; master ball
 
-BallAnimPaletteList:
-	db PAL_REDMON
-	db PAL_YELLOWMON
-	db PAL_MEWMON
-	db PAL_GREENMON 
-	db PAL_CYANMON
-	db PAL_BLUEMON
-	db PAL_0F
-	db PAL_PURPLEMON
-	db PAL_PINKMON
-	db PAL_GRAYMON
-	db PAL_BLACKMON
-	db PAL_WHITEMON
-	db PAL_REDBAR
-	db PAL_GREENBAR
-	db PAL_REALLY_REDMON
-	db PAL_PRISMATIC ; indicates to use multicolor
+BallAnimPaletteList: ; Sunsette: custom-ball color palettes (BALL_COLOR_* order)
+	db PAL_POKEBALL ; RED
+	db PAL_YELLOWBALL ; YELLOW
+	db PAL_PALEBALL ; PALE
+	db PAL_GREENBALL ; GREEN
+	db PAL_CYANBALL ; CYAN
+	db PAL_BLUEBALL ; BLUE
+	db PAL_INDIGOBALL ; INDIGO
+	db PAL_PURPLEBALL ; PURPLE
+	db PAL_PINKBALL ; PINK
+	db PAL_GRAYBALL ; GRAY
+	db PAL_ULTRABALL_2 ; BLACK
+	db PAL_WHITEBALL ; WHITE
+	db PAL_REDBAR ; REDYELLOW (unchanged)
+	db PAL_GREENBAR ; GREENYELLOW (unchanged)
+	db PAL_REALLY_REDMON ; CRIMSON (unchanged)
+	db PAL_PRISMATIC ; MULTI - indicates to use multicolor (unchanged)
 	
 PoofAnimJumpTable:
 	dw FastPoofAnim

@@ -127,6 +127,9 @@ StartMenu_Pokemon::
 	dw .dig
 	dw .teleport
 	dw .softboiled
+	dw .confuseRay ; Sunsette: ADDED
+	dw .growth ; Sunsette: ADDED
+	dw .flamethrower ; Sunsette: ADDED
 .fly
 	bit BIT_THUNDERBADGE, a
 	jp z, .newBadgeRequired
@@ -187,8 +190,15 @@ StartMenu_Pokemon::
 	bit BIT_BOULDERBADGE, a
 	jp z, .newBadgeRequired
 	ld a, [wMapPalOffset]
-	cp 6 ; dark palette
+	cp 6 ; dark cave -> light it up (normal Flash)
 	jr z, .useFlash
+	; Sunsette: outside dark caves, FLASH forces a wild encounter from the local table
+	callfar ForceWildEncounter
+	jr nc, .alreadyBrightMsg ; no wild table here -> nothing to draw out
+	ld hl, .flashEncounterText
+	rst _PrintText
+	jp .goBackToMap ; overworld launches the battle (wCurOpponent is set)
+.alreadyBrightMsg
 	ld hl, .alreadyBright
 	jp .printThenLoop
 .useFlash
@@ -197,6 +207,9 @@ StartMenu_Pokemon::
 	rst _PrintText
 	call GBPalWhiteOutWithDelay3
 	jp .goBackToMap
+.flashEncounterText
+	text_far _FlashAttractsText
+	text_end
 .flashLightsAreaText
 	text_far _FlashLightsAreaText
 	text_end
@@ -294,6 +307,41 @@ StartMenu_Pokemon::
 .notHealthyEnoughText
 	text_far _NotHealthyEnoughText
 	text_end
+; Sunsette: ADDED: CONFUSE RAY arms the next wild encounter on this map to appear in its
+; alternate palette. wUnusedMapVariable is repurposed as the armed flag; it is auto-cleared on
+; map change (ClearVariablesOnEnterMap), so the effect only lasts while you stay on this map.
+; No badge required. CheckWildConfuseRayPalette (volcano_battle_init.asm) consumes the flag.
+.confuseRay
+	ld hl, wUnusedMapVariable
+	set 0, [hl] ; bit 0 = CONFUSE RAY armed (Growth-invert uses bit 1)
+	ld hl, .confuseRayText
+	rst _PrintText
+	call GBPalWhiteOutWithDelay3
+	jp .goBackToMap
+.confuseRayText
+	text_far _ConfuseRayFieldText
+	text_end
+; Sunsette: ADDED: GROWTH inverts wild-encounter rarity (rare<->common) until you change maps.
+; Arms wUnusedMapVariable bit 1 (cleared on map change by ClearVariablesOnEnterMap); TryDoWildEncounter
+; flips the rolled encounter slot while it's set. No badge required.
+.growth
+	ld hl, wUnusedMapVariable
+	set 1, [hl] ; bit 1 = GROWTH-invert armed (cleared on map change with the byte)
+	ld hl, .growthText
+	rst _PrintText
+	call GBPalWhiteOutWithDelay3
+	jp .goBackToMap
+.growthText
+	text_far _GrowthFieldText
+	text_end
+; Sunsette: ADDED: FLAMETHROWER scorches every cuttable block (tall grass AND cut-trees) in the
+; visible map window, directly in wOverworldMap so it stays burned until the map is reloaded.
+; Gated behind the Cascade Badge (same badge as CUT). UsedFlamethrower (cut.asm) does the work.
+.flamethrower
+	bit BIT_CASCADEBADGE, a
+	jp z, .newBadgeRequired
+	callfar UsedFlamethrower
+	jp CloseTextDisplay
 .goBackToMap
 	call RestoreScreenTilesAndReloadTilePatterns
 	jp CloseTextDisplay

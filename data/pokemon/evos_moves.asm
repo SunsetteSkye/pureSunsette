@@ -349,15 +349,16 @@ IvysaurEvosMoves:
 	db EVOLVE_LEVEL, 32, VENUSAUR
 	db 0
 ; Learnset
-	db 7, LEECH_SEED
-	db 13, VINE_WHIP
-	db 16, POISONPOWDER
-	db 19, STUN_SPORE
-	db 24, ACID
-	db 29, RAZOR_LEAF
-	db 35, SLEEP_POWDER
+	db 6, LEECH_SEED
+	db 8, VINE_WHIP
+	db 11, POISONPOWDER
+	db 14, ACID
+	db 18, STUN_SPORE
+	db 21, RAZOR_LEAF
+	db 25, ACID_ARMOR
+	db 33, SLEEP_POWDER
 	db 38, GROWTH
-	db 46, SOLARBEAM
+	db 45, SOLARBEAM
 	db 0
 
 ExeggutorEvosMoves:
@@ -648,7 +649,8 @@ BlastoiseEvosMoves:
 ; Evolutions
 	db 0
 ; Learnset
-	db 8, BUBBLE
+	db 6, BUBBLE
+	db 8, MIST
 	db 11, BITE
 	db 14, WATER_GUN
 	db 18, LOW_KICK
@@ -2197,12 +2199,13 @@ BulbasaurEvosMoves:
 	db EVOLVE_LEVEL, 16, IVYSAUR
 	db 0
 ; Learnset
-	db 7, LEECH_SEED
-	db 11, VINE_WHIP
-	db 14, POISONPOWDER
+	db 6, LEECH_SEED
+	db 8, VINE_WHIP
+	db 11, POISONPOWDER
+	db 14, ACID
 	db 18, STUN_SPORE
-	db 21, ACID
-	db 25, RAZOR_LEAF
+	db 21, RAZOR_LEAF
+	db 25, ACID_ARMOR
 	db 33, SLEEP_POWDER
 	db 38, GROWTH
 	db 45, SOLARBEAM
@@ -2212,15 +2215,16 @@ VenusaurEvosMoves:
 ; Evolutions
 	db 0
 ; Learnset
-	db 7, LEECH_SEED
-	db 13, VINE_WHIP
-	db 17, POISONPOWDER
-	db 20, STUN_SPORE
-	db 24, ACID
-	db 30, RAZOR_LEAF
-	db 36, SLEEP_POWDER
-	db 40, GROWTH
-	db 50, SOLARBEAM
+	db 6, LEECH_SEED
+	db 8, VINE_WHIP
+	db 11, POISONPOWDER
+	db 14, ACID
+	db 18, STUN_SPORE
+	db 21, RAZOR_LEAF
+	db 25, ACID_ARMOR
+	db 33, SLEEP_POWDER
+	db 38, GROWTH
+	db 45, SOLARBEAM
 	db 0
 
 TentacruelEvosMoves:
@@ -2445,10 +2449,10 @@ CharmanderEvosMoves:
 	db EVOLVE_LEVEL, 16, CHARMELEON
 	db 0
 ; Learnset
-	db 7, LEER
-	db 9, EMBER
+	db 6, EMBER
+	db 9, SMOKESCREEN
 	db 12, ROAR
-	db 15, SMOKESCREEN
+	db 15, HAZE
 	db 18, TAKE_DOWN ; HEAT RUSH
 	db 23, GLARE
 	db 26, SLASH
@@ -2462,7 +2466,8 @@ SquirtleEvosMoves:
 	db EVOLVE_LEVEL, 16, WARTORTLE
 	db 0
 ; Learnset
-	db 8, BUBBLE
+	db 6, BUBBLE
+	db 8, MIST
 	db 11, BITE
 	db 14, WATER_GUN
 	db 18, LOW_KICK
@@ -2478,15 +2483,15 @@ CharmeleonEvosMoves:
 	db EVOLVE_LEVEL, 36, CHARIZARD
 	db 0
 ; Learnset
-	db 7, LEER
-	db 9, EMBER
-	db 13, ROAR
-	db 15, SMOKESCREEN
-	db 19, TAKE_DOWN ; HEAT RUSH
+	db 6, EMBER
+	db 9, SMOKESCREEN
+	db 12, ROAR
+	db 15, HAZE
+	db 18, TAKE_DOWN ; HEAT RUSH
 	db 23, GLARE
 	db 26, SLASH
 	db 30, DRAGON_RAGE
-	db 39, FLAMETHROWER
+	db 38, FLAMETHROWER
 	db 46, HYPER_BEAM
 	db 0
 
@@ -2495,7 +2500,8 @@ WartortleEvosMoves:
 	db EVOLVE_LEVEL, 36, BLASTOISE
 	db 0
 ; Learnset
-	db 8, BUBBLE
+	db 6, BUBBLE
+	db 8, MIST
 	db 11, BITE
 	db 14, WATER_GUN
 	db 18, LOW_KICK
@@ -2510,16 +2516,16 @@ CharizardEvosMoves:
 ; Evolutions
 	db 0
 ; Learnset
-	db 7, LEER
-	db 9, EMBER
-	db 13, ROAR
-	db 15, SMOKESCREEN
-	db 19, TAKE_DOWN ; HEAT_RUSH
+	db 6, EMBER
+	db 9, SMOKESCREEN
+	db 12, ROAR
+	db 15, HAZE
+	db 18, TAKE_DOWN ; HEAT RUSH
 	db 23, GLARE
 	db 26, SLASH
 	db 30, DRAGON_RAGE
-	db 41, FLAMETHROWER
-	db 48, HYPER_BEAM
+	db 38, FLAMETHROWER
+	db 46, HYPER_BEAM
 	db 0
 
 OddishEvosMoves:

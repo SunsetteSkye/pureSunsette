@@ -42,6 +42,26 @@ _FlashLightsAreaText::
 	line "lights the area!"
 	prompt
 
+_FullOfEnergyText::
+	text "It's full of"
+	line "energy!"
+	prompt
+
+_ViridianForestDefenseText::
+	text "The FOREST makes"
+	line "<USER>'s"
+	cont "DEFENSE rise!"
+	prompt
+
+_ConfuseRayFieldText::
+	text "An eerie light"
+	line "warps the air..."
+
+	para "The next #MON"
+	line "here will look"
+	cont "strange!"
+	prompt
+
 _EscapeText::
 	text "Escape@"
 	text_end

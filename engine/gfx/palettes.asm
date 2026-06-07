@@ -91,11 +91,10 @@ SetEnemyTrainerIntroPalette:
 	jr nz, .gotBackSentinel
 	ld a, PLAYER_BACK_NORMAL
 .gotBackSentinel
-	ld b, a
-	ld a, [wBattleMonSpecies]
-	push af
-	ld a, b
-	ld [wBattleMonSpecies], a
+	ld [wBattleMonSpecies], a ; leave the sentinel in place: it must persist through the slide-off
+	; and the enemy's send-out (both re-run SET_PAL_BATTLE while the player back is still on screen
+	; and the player's mon isn't loaded yet) until the player's own send-out overwrites it. Nothing
+	; else reads wBattleMonSpecies as a real species before then, so the sentinel is harmless there.
 ;;;;;;;;;;
 	ld a, [wIsInBattle]
 	cp $2
@@ -107,14 +106,10 @@ SetEnemyTrainerIntroPalette:
 	call RunPaletteCommand
 	xor a
 	ld [wEnemyMonSpecies2], a
-	jr .restorePlayer
+	ret
 .wildPal
 	ld d, SET_PAL_BATTLE
-	call RunPaletteCommand
-.restorePlayer
-	pop af
-	ld [wBattleMonSpecies], a ; restore the real player mon species
-	ret
+	jp RunPaletteCommand
 
 ; Sunsette: write the red/white PAL_POKEBALL directly into OBJ palette slots 0 and 1 (the team-
 ; size HUD balls), bypassing the HP-bar colors normally derived there. The balls are shown before
@@ -346,11 +341,17 @@ SetPal_Overworld:
 	rst _CopyData
 	call GetOverworldPalette
 	ld [wPalPacket + 1], a ; active palette 0 = map BG palette
-	ld a, [wCurMapTileset] ; Sunsette: lava-suited player (volcano) uses PAL_REDBAR_OW; else normal
+	; Sunsette: player overworld OBJ color (slot 1): volcano = lava suit (PAL_REDBAR_OW); else
+	; surfing = blue (PAL_BLUEMON_OW); else normal (PAL_PLAYEROW).
+	ld a, [wCurMapTileset]
 	cp VOLCANO
-	ld a, PAL_PLAYEROW
-	jr nz, .playerOWPal
 	ld a, PAL_REDBAR_OW
+	jr z, .playerOWPal
+	ld a, [wWalkBikeSurfState]
+	cp 2 ; surfing?
+	ld a, PAL_BLUEMON_OW
+	jr z, .playerOWPal
+	ld a, PAL_PLAYEROW
 .playerOWPal
 	ld [wPalPacket + 3], a ; active palette 1 = player overworld OBJ color (slot 1)
 	ld a, PAL_HUMANSPRITE  ; active palette 2 = generic human NPC color (slot 2)
@@ -483,6 +484,13 @@ MapPalettesJumpTable:
 	db SEAFOAM_ISLANDS_B4F, PAL_0F
 	db FUCHSIA_GOOD_ROD_HOUSE, PAL_FUCHSIA
 	db CERULEAN_ROCKET_HOUSE_B1F, PAL_REDMON
+	db OAKS_LAB, PAL_PEWTER ; Sunsette: Oak's Lab uses Pewter City's palette
+	db MT_MOON_B2F, PAL_MTMOONB2F ; Sunsette: only B2F; B1F/1F fall through to the CAVERN tileset's PAL_CAVE, so it clears when you go back up
+	; Sunsette: Safari Zone (the 4 outdoor encounter areas) use PAL_SAFFRON
+	db SAFARI_ZONE_EAST, PAL_SAFFRON
+	db SAFARI_ZONE_NORTH, PAL_SAFFRON
+	db SAFARI_ZONE_WEST, PAL_SAFFRON
+	db SAFARI_ZONE_CENTER, PAL_SAFFRON
 ;;;;;;;;;; Sunsette: environment palette overhaul
 	; Forest palette
 	db ROUTE_2, PAL_FOREST
@@ -582,12 +590,48 @@ SetPal_PokemonWholeScreenTrade:
 	ld a, PAL_BLACK
 	jr z, .next
 	ld a, e
+	cp $FE ; Sunsette: $FE = PAL_SHADOW (evolution morph silhouette)
+	ld a, PAL_SHADOW
+	jr z, .next
+	ld a, e
 	call DeterminePaletteIDOutOfBattle
 .next
 	ld [wPalPacket + 1], a
 	ld hl, wPalPacket
 	ld de, BlkPacket_WholeScreen
 	ret
+
+; Sunsette: like SetPal_PokemonWholeScreen, but only the TOP of the screen gets the mon palette (slot 0,
+; selector in e: species / $FF=PAL_BLACK / $FE=PAL_SHADOW). The bottom textbox rows get a fixed PAL_BLACK
+; (slot 1) via BlkPacket_EvolutionSplit, so the textbox never palette-jumps as the morph swaps slot 0.
+; Self-contained (farcall-safe, arg in e survives the bankswitch).
+_SetPalEvolutionSplit::
+	ld a, [wOnSGB]
+	and a
+	ret z
+	push de
+	ld hl, PalPacket_Empty
+	ld de, wPalPacket
+	ld bc, $10
+	rst _CopyData
+	pop de
+	ld a, e
+	cp $FF
+	ld a, PAL_BLACK
+	jr z, .gotMonPal
+	ld a, e
+	cp $FE
+	ld a, PAL_SHADOW
+	jr z, .gotMonPal
+	ld a, e
+	call DeterminePaletteIDOutOfBattle
+.gotMonPal
+	ld [wPalPacket + 1], a ; slot 0 = mon (top)
+	ld a, PAL_BLACK
+	ld [wPalPacket + 3], a ; slot 1 = fixed textbox palette (bottom)
+	ld hl, wPalPacket
+	ld de, BlkPacket_EvolutionSplit
+	jp SendSGBPackets
 
 SetPal_TrainerCard:
 	ld hl, BlkPacket_TrainerCard
@@ -1306,6 +1350,7 @@ TranslatePalPacketToBGMapAttributes::
 PalPacketPointers::
 	db (palPacketPointersEnd - palPacketPointers) / 2
 palPacketPointers:
+	dw BlkPacket_EvolutionSplit ; Sunsette: first entry -> reverse-maps to BGMapAttributesPointers index 12
 	dw BlkPacket_WholeScreen
 	dw BlkPacket_Battle
 	dw BlkPacket_StatusScreen
@@ -1326,10 +1371,23 @@ palPacketPointersEnd:
 ;d = CONVERT_OBP0, CONVERT_OBP1, or CONVERT_BGP
 ;e = palette register # (0 to 7)
 ;if wCurPartySpecies has bit 7 set, then it the address holds a specific palette instead of a 'mon
+TransferAnimPal:: ; Sunsette: like TransferMonPal, but wCurPartySpecies holds a RAW palette ID (no
+; NUM_POKEMON_INDEXES+2 offset). That offset overflows the 1-byte var for high palette IDs (the ball
+; palettes), which then get read as a Pokemon species -> wrong colors. d = CONVERT_*, e = pal slot.
+	ldh a, [hGBC]
+	and a
+	ret z
+	ld a, e
+	push af
+	ld a, d
+	push af
+	ld a, [wCurPartySpecies]
+	jr TransferMonPal.back
+
 TransferMonPal:
 	ldh a, [hGBC]
 	and a
-	ret z 
+	ret z
 	ld a, e
 	push af
 	ld a, d
@@ -1338,7 +1396,7 @@ TransferMonPal:
 	cp NUM_POKEMON_INDEXES+2
 	jr c, .isMon
 	sub NUM_POKEMON_INDEXES+2
-.back	
+.back
 	call GetGBCBasePalAddress
 	pop af
 	cp CONVERT_BGP

@@ -3048,7 +3048,7 @@ AnimationShakeEnemyHUD:
 	ldh a, [hGBC]
 	and a
 	jr z, .notGBC
-	ld d, 13
+	ld d, 14 ; Sunsette: ShakeEnemyHUD moved to BGMapAttributesPointers index 13 (BlkPacket_EvolutionSplit added)
 	farcall LoadBGMapAttributes
 .notGBC
 ;;;;;;;;;;

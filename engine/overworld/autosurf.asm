@@ -27,6 +27,7 @@ CheckForAutoSurf::
 	ld [wWalkBikeSurfState], a ; change player state to surfing
 	call nz, PlayDefaultMusic ; play surfing music (but not if surfing on lava)
 	call LoadPlayerSpriteGraphics
+	call RunDefaultPaletteCommand ; Sunsette: refresh the player OW palette so the surfing blue (PAL_BLUEMON_OW) applies on (re)mount
 	and a
 	ret
 

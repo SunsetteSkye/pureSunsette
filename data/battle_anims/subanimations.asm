@@ -102,6 +102,7 @@ SubanimationPointers:
 	dw Subanim_2AngerSymbol
 	dw Subanim_2AngerSymbol_Enemy
 	dw Subanim_HappinessHeart ; Sunsette
+	dw Subanim_HappinessSparkle ; Sunsette
 	assert_table_length NUM_SUBANIMS
 
 ; format:
@@ -249,11 +250,22 @@ Subanim_0Heart_1Music:
 	db FRAMEBLOCK_17, BASECOORD_3F, FRAMEBLOCKMODE_00
 	db FRAMEBLOCK_17, BASECOORD_1F, FRAMEBLOCKMODE_00
 
-; Sunsette: a clean single heart held briefly over the mon (no music notes)
+; Sunsette: a heart flashed over the player's mon's head, twice in two spots - placement copied
+; from the status-condition flashes (Subanim_0StatusConfused: COORDFLIP, BASECOORD_71/72). The old
+; BASECOORD_30 was the music-heart's spot (the Growl target = the enemy). FRAMEBLOCK_17 + tileset 0
+; is the heart (as in Mega Drain); tileset 1 would render the same block as music notes.
 Subanim_HappinessHeart:
 	subanim SUBANIMTYPE_COORDFLIP, 2
-	db FRAMEBLOCK_17, BASECOORD_30, FRAMEBLOCKMODE_00
-	db FRAMEBLOCK_17, BASECOORD_30, FRAMEBLOCKMODE_00
+	db FRAMEBLOCK_17, BASECOORD_71, FRAMEBLOCKMODE_00
+	db FRAMEBLOCK_17, BASECOORD_72, FRAMEBLOCKMODE_00
+
+; Sunsette: legendary sparkle over the player's mon's head - same placement as the heart
+; (BASECOORD_71/72). One sparkle at a time (FRAMEBLOCK_80 = a single $1C sprite; 7B/7C were rows of
+; 4/8). Two spots, single play (no loop - see HappinessSparkleAnim).
+Subanim_HappinessSparkle:
+	subanim SUBANIMTYPE_COORDFLIP, 2
+	db FRAMEBLOCK_80, BASECOORD_71, FRAMEBLOCKMODE_00
+	db FRAMEBLOCK_80, BASECOORD_72, FRAMEBLOCKMODE_00
 
 Subanim_0Star:
 	subanim SUBANIMTYPE_HFLIP, 1

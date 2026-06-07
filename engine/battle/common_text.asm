@@ -28,6 +28,11 @@ PrintBeginningBattleText:
 	callfar DrawAllPokeballs
 	pop hl
 	rst _PrintText
+	; Sunsette: a legendary or a tough trainer -> "The pressure is intense!"
+	callfar IsEnemyPressureMon
+	ret nz
+	ld hl, PressureIsIntenseText
+	rst _PrintText
 	ret
 .pokemonTower
 	ld b, SILPH_SCOPE
@@ -134,6 +139,10 @@ PlayGhostSfx:
 
 WildMonAppearedText:
 	text_far _WildMonAppearedText
+	text_end
+
+PressureIsIntenseText: ; Sunsette
+	text_far _PressureIsIntenseText
 	text_end
 
 HookedMonAttackedText:

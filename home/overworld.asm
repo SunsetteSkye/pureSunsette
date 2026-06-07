@@ -552,7 +552,10 @@ WarpFound2::
 	ldh a, [hWarpDestinationMap]
 	ld [wCurMap], a
 	cp ROCK_TUNNEL_1F
+	jr z, .enterDarkMap
+	cp POKEMON_MANSION_1F ; Sunsette: Pokemon Mansion is a dark/Flash-required map too (deeper floors keep the offset)
 	jr nz, .done
+.enterDarkMap
 	ld a, 6
 	ld [wMapPalOffset], a
 	jr .done
@@ -1862,6 +1865,7 @@ CollisionCheckOnWater::
 	ld [wWalkBikeSurfState], a
 	call nz, PlayDefaultMusicWithExtraCheck ; play default music if walking but not if lava suit
 	call LoadPlayerSpriteGraphics
+	call RunDefaultPaletteCommand ; Sunsette: refresh the player OW palette so the surfing blue (PAL_BLUEMON_OW) clears on land
 	jr .noCollision
 
 ; function to run the current map's script

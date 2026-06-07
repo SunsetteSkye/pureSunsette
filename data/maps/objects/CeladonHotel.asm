@@ -4,6 +4,8 @@
 	const_export CELADONHOTEL_BEAUTY
 	const_export CELADONHOTEL_SUPER_NERD
 	const_export CELADONHOTEL_LAPRAS_GUY
+	const_export CELADONHOTEL_COUCH_GUY
+	const_export CELADONHOTEL_COUCH_GUY2
 
 CeladonHotel_Object:
 	db $0 ; border block
@@ -21,5 +23,7 @@ CeladonHotel_Object:
 	object_event  2,  4, SPRITE_BEAUTY, STAY, NONE, TEXT_CELADONHOTEL_BEAUTY
 	object_event  8,  4, SPRITE_SUPER_NERD, WALK, LEFT_RIGHT, TEXT_CELADONHOTEL_SUPER_NERD
 	object_event  5,  3, SPRITE_SILPH_WORKER_M, STAY, NONE, TEXT_CELADONHOTEL_LAPRAS_GUY
+	object_event  0,  4, SPRITE_COUCH_GUY, STAY, NONE, TEXT_CELADONHOTEL_COUCH_GUY ; Sunsette: couch tile is solid, so no extra collision needed
+	object_event  0,  5, SPRITE_COUCH_GUY2, STAY, NONE, TEXT_CELADONHOTEL_COUCH_GUY2 ; Sunsette: lower half - silent decoration on the solid couch tile
 
 	def_warps_to CELADON_HOTEL

@@ -45,11 +45,16 @@ EvolveMon:
 	call PlayMusic
 	ld c, 80
 	rst _DelayFrames
-	ld e, $FF ; set PAL_BLACK instead of mon palette
-	call EvolutionSetWholeScreenPalette
+; Sunsette: back-loaded progression - base form at normal brightness early, first lightness ~a third in,
+; switch to PAL_SHADOW ~halfway, stronger lightness near the end. The brief white-out flash + reveal are
+; done at .done (NOT held in the loop).
 	lb bc, $1, $10
 .animLoop
 	push bc
+	ld a, b
+	cp 5
+	call z, EvolutionSwitchToShadowPalette ; base form palette -> PAL_SHADOW about halfway through
+	call EvolutionRampLighten              ; ramp the whole-screen lighten by morph progress
 	call Evolution_CheckForCancel
 	jr c, .evolutionCancelled
 	call Evolution_BackAndForthAnim
@@ -66,15 +71,27 @@ EvolveMon:
 	ld a, [wEvoNewSpecies]
 .done
 	push af
+; Sunsette: brief full white-out FLASH at the climax (PAL_SHADOW washes to pure white for a split second).
+	xor a ; %00000000
+	ldh [rBGP], a
+	call UpdateGBCPal_BGP
+	ld c, 8 ; split-second hold (raise/lower to taste)
+	rst _DelayFrames
+; Sunsette: reveal the evolved mon - set its real palette + restore normal brightness while still white, so
+; PAL_SHADOW is never seen at normal brightness and the new form pops straight in.
+	pop af
+	push af
+	ld e, a
+	call EvolutionSetWholeScreenPalette
+	ld a, %11100100 ; standard BG palette mapping
+	ldh [rBGP], a
+	call UpdateGBCPal_BGP
+; the jingle announcing the end + the new mon's cry
 	ld a, SFX_STOP_ALL_MUSIC
 	ld [wNewSoundID], a
 	rst _PlaySound
 	pop af
-	push af
 	call PlayCry
-	pop af
-	ld e, a
-	call EvolutionSetWholeScreenPalette
 	pop af
 	ld [wCurSpecies], a
 	pop af
@@ -95,8 +112,42 @@ EvolveMon:
 	jr .done
 
 EvolutionSetWholeScreenPalette:
-	ld d, SET_PAL_POKEMON_WHOLE_SCREEN
-	jp RunPaletteCommand
+; Sunsette: mon palette (e) on the top, fixed PAL_BLACK on the bottom textbox rows (so it doesn't jump).
+	farcall _SetPalEvolutionSplit
+	ret
+
+; Sunsette: switch the morph's whole-screen base to PAL_SHADOW (called once, partway through the morph).
+EvolutionSwitchToShadowPalette:
+	push bc
+	ld e, $FE ; PAL_SHADOW
+	call EvolutionSetWholeScreenPalette
+	pop bc
+	ret
+
+; Sunsette: back-loaded lighten by morph progress (b = 1..8): normal -> first lightness (~1/3 in) ->
+; stronger lightness (near the end). The full white-out is NOT here - it's a brief flash at .done.
+; UpdateGBCPal_BGP only does real work when rBGP actually changes.
+EvolutionRampLighten:
+	push bc
+	push hl
+	ld a, b
+	cp 7
+	jr nc, .second
+	cp 4
+	jr nc, .first
+	ld a, %11100100 ; early (first ~third): normal brightness, base form's own colours
+	jr .apply
+.first
+	ld a, %10010000 ; ~a third in: first lightness
+	jr .apply
+.second
+	ld a, %01000000 ; near the end: stronger lightness
+.apply
+	ldh [rBGP], a
+	call UpdateGBCPal_BGP
+	pop hl
+	pop bc
+	ret
 
 Evolution_LoadPic:
 	call GetMonHeader

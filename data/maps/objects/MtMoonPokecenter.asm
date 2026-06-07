@@ -15,6 +15,7 @@ MtMoonPokecenter_Object:
 
 	def_bg_events
 	bg_event 0, 4, TEXT_MTMOONPOKECENTER_BENCH_GUY
+	bg_event 0, 5, TEXT_MTMOONPOKECENTER_BENCH_GUY ; Sunsette: couch has no sprite here, so give the lower tile the bench text too (parity with other centers)
 
 	def_object_events
 	object_event  3,  1, SPRITE_NURSE, STAY, DOWN, TEXT_MTMOONPOKECENTER_NURSE

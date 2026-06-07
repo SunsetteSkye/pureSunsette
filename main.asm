@@ -451,6 +451,7 @@ INCLUDE "engine/battle/move_effects/defense_curl_effect.asm"
 INCLUDE "engine/battle/remap_move_data.asm"
 INCLUDE "engine/battle/move_effects/conversion.asm"
 INCLUDE "engine/overworld/overworld_animation.asm"
+INCLUDE "engine/overworld/flamethrower_field.asm" ; Sunsette: ADDED: FLAMETHROWER field move (burn grass + trees)
 
 SECTION "newCode2", ROMX
 

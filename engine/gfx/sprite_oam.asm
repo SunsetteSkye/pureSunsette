@@ -323,11 +323,20 @@ SetOWObjPalSlot:
 	ld a, [wSavedSpriteImageIndex]
 	cp $a0
 	jr c, .genericHuman ; image < $a0 = animated NPC -> human palette
-	; unchanging object: item balls take the human palette, boulders/statues keep the map default
+	; unchanging object: item balls + still NPC sprites take the human palette, boulders/statues keep
+	; the map default
 	ld a, b
 	cp SPRITE_POKE_BALL
 	jr z, .genericHuman
 	cp SPRITE_POKE_BALL2
+	jr z, .genericHuman
+	cp SPRITE_GAMEBOY_KID ; Sunsette: still sprites that are actually people
+	jr z, .genericHuman
+	cp SPRITE_CLIPBOARD
+	jr z, .genericHuman
+	cp SPRITE_COUCH_GUY
+	jr z, .genericHuman
+	cp SPRITE_COUCH_GUY2
 	jr z, .genericHuman
 	xor a ; map default (environment)
 	jr .store

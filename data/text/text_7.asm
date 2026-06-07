@@ -67,6 +67,16 @@ _PressureWornYoursText:: ; Sunsette: an enemy legendary's Pressure emptied your 
 	line "sapped your move!"
 	prompt
 
+_PressureIsIntenseText:: ; Sunsette: legendary / tough-trainer battle-intro cue
+	text "The pressure is"
+	line "intense!"
+	prompt
+
+_BondSurvivedText:: ; Sunsette: a tough-trainer mon hangs on at 1 HP via its bond
+	text "But their bond let"
+	line "them survive!"
+	prompt
+
 _ItemUseText002::
 	text_ram_stringbuffer
 	text "!"

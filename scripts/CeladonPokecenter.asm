@@ -9,6 +9,8 @@ CeladonPokecenter_TextPointers:
 	dw_const CeladonPokecenterGentlemanText,        TEXT_CELADONPOKECENTER_GENTLEMAN
 	dw_const CeladonPokecenterBeautyText,           TEXT_CELADONPOKECENTER_BEAUTY
 	dw_const CeladonPokecenterLinkReceptionistText, TEXT_CELADONPOKECENTER_LINK_RECEPTIONIST
+	dw_const CeladonPokecenterBenchGuyText,         TEXT_CELADONPOKECENTER_COUCH_GUY
+	dw_const CeladonPokecenterBenchGuyText,         TEXT_CELADONPOKECENTER_COUCH_GUY2
 	dw_const CeladonPokecenterBenchGuyText,         TEXT_CELADONPOKECENTER_BENCH_GUY
 
 CeladonPokecenterLinkReceptionistText:

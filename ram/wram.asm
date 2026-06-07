@@ -362,7 +362,7 @@ wPredefBC:: dw
 
 wTrainerHeaderFlagBit:: db
 
-	ds 1 ; Unused lone byte
+wRegionalStatRiseTextID:: db ; Sunsette: 0 = normal "X's STAT rose!"; nonzero selects a custom map-effect stat-rise line in StatModifierUpEffect (consumed on use)
 
 ; which NPC movement script pointer is being used
 ; 0 if an NPC movement script is not running
@@ -643,7 +643,7 @@ wEngagedTrainerClass:: db
 wEngagedTrainerSet:: db
 ENDU
 
-	ds 1 ; unused lone byte
+wDarkCaveSnapshot:: db ; Sunsette: snapshot of wMapPalOffset taken at battle start (==6 => the player is in flash-off dark-cave darkness); read by the Rock Tunnel/Mansion -2 accuracy effect
 
 wNPCMovementDirections2Index::
 wUnusedLinkMenuByte::

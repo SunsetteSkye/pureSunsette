@@ -62,6 +62,16 @@ BlkPacket_WholeScreen:
 ;	db $03, 00,00, 19,17, $00
 	db $00
 
+; Sunsette: evolution morph split - keeps the bottom textbox rows on their own palette (pal 1) so they
+; don't palette-jump with the mon. Top (mon + bg) -> pal 0 (changes through the morph); textbox -> pal 1
+; (fixed base). The global lighten still brightens both, which is desired.
+BlkPacket_EvolutionSplit:
+	ATTR_BLK 2
+	ATTR_BLK_DATA %011, 0,0,0, 00,00, 19,17 ; reset whole screen -> pal 0 (clears stale battle attributes)
+	ATTR_BLK_DATA %011, 1,1,0, 00,12, 19,17 ; textbox rows 12-17 -> pal 1
+	ds 2, 0
+	db $00
+
 BlkPacket_Battle:
 	ATTR_BLK 5
 	ATTR_BLK_DATA %111, 2,2,0, 00,12, 19,17 ; message box: pal 2

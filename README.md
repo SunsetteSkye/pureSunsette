@@ -1,10 +1,20 @@
 # PureSunsette
 
-A graphical edit of PureRGB for my own purposes that grew a balance pass when I wasn't looking.
+A graphical edit of PureRGB for my own purposes that grew into a balance pass because I can't control myself.
 
 ![full color roster](screenshots/palettework.png)
 
-The visuals are still the bulk of it — a full-color roster, reworked palettes, and a front-sprite set cherry-picked from the best of Red/Green/Blue/Spaceworld with some personal edits. A decent amount of effort went into making FWG the actual core of the game — the spine the original trio never got to be until Steel and Fairy turned up to keep Psychic and Dragon honest. So the type chart got reworked: Grass stops being a punching bag (no longer weak to Ice, neutral into Flying), and Psychic gets knocked down a peg. 
+There's a full-color roster, reworked palettes, and a front-sprite set cherry-picked from the best of Red/Green/Blue/Spaceworld with some personal edits. A decent amount of effort went into making FWG the actual core of the game, despite the absence of Steel, Dark, and Fairy. The type chart got reworked: Grass and Fire have been improved on both offense and defense, Psychic gets knocked down a peg, Ghost becomes a little Steely.
+
+Early wild tables were tweaked for a bit more variety up front. More of the roster turns up sooner, without cramming the first routes full of rare, high-value catches that feel a little too wish-fulfillment. Several areas have type-dependent zone-wide battle effects to help encourage team variety, and there are more field moves. You can even run into encounters in cities, now! 
+
+A small affection system has been added. It's a little less RNG-happy and pervasive than what we get in the modern games, but I hope it helps bring some of that bond feeling to the Game Boy. If you routinely swap your Pokémon out into boxes, you may find the ones left there for long become less affectionate; be warned.
+
+(Also... some of the enemies get to use it too. Watch out for fights where the pressure is intense!)
+
+The Exp. Share got rebuilt into something a lot less broken than gen 6 design, thanks to less generous experience distributions. Finally, as I sincerely doubt anyone's trading on this version of the game, the badge system got heavily reworked—added soft level gates and a little something else so that you appreciate every single badge. And it all works a little differently for legends!
+
+Vortyne's feature list follows since I'm nowhere near done. Do note that I killed a lot of his options (like palette changes) in order to make room for my changes.
 
 # Pokémon PureRGB (PureRed, PureGreen, PureBlue)
 

@@ -91,7 +91,7 @@ ENDC
 	RGB 31,29,25, 21,17,13, 00,00,00, 00,00,00 ; PAL_PLAYEROW ; idx0 face=fff0cd, idx1 hair=ab8869, idx2=transparent, idx3 outline=black
 	RGB 31,31,31, 31,27,22, 28,15,21, 00,00,00 ; PAL_JOY      ; rival light + pinkmon dark
 	RGB 31,31,31, 31,27,00, 00,01,31, 07,07,16 ; PAL_TITLELOGO ; bright yellow ffde00 / bright blue 000cff
-	RGB 31,28,23, 16,14,19, 00,00,00, 00,00,00 ; PAL_HUMANSPRITE ; face=light peach (divorced from Mewmon), hair=Mewmon dark
+	RGB 31,28,23, 24,13,13, 00,00,00, 00,00,00 ; PAL_HUMANSPRITE ; face=light peach (divorced from Mewmon), hair=Mewmon dark
 	RGB 24,19,08, 02,10,01, 00,00,00, 00,00,00 ; PAL_BROCK_OW    ; c69c42 face / 14510a hair
 	RGB 30,26,15, 25,07,05, 00,00,00, 00,00,00 ; PAL_REDBAR_OW   ; redbar light face / dark hair
 	RGB 30,26,15, 09,20,11, 00,00,00, 00,00,00 ; PAL_GREENBAR_OW ; greenbar light face / dark hair
@@ -105,7 +105,21 @@ ENDC
 	RGB 31,20,10, 25,07,05, 00,00,00, 00,00,00 ; PAL_MOLTRES_OW  ; redmon light/dark
 	RGB 27,27,28, 19,11,22, 00,00,00, 00,00,00 ; PAL_MEWTWO_OW   ; graymon light/dark
 	RGB 30,22,24, 28,15,21, 00,00,00, 00,00,00 ; PAL_MEW_OW      ; pinkmon light/dark
-	RGB 31,31,31, 31,28,24, 27,05,05, 00,00,00 ; PAL_POKEBALL    ; HUD party balls: white / warm-white / red / black
+	RGB 31,31,31, 31,31,30, 27,05,05, 00,00,00 ; PAL_POKEBALL    ; HUD party balls: white / warm-white / red / black
 	RGB 12,17,26, 04,06,13, 00,00,00, 00,00,00 ; PAL_BLUEMON_OW  ; scuba diver: bluemon light/dark
+;;;;;;;;;; Sunsette: thrown-pokeball palettes (white / 31,31,30 light / kept dark / black)
+	RGB 31,31,31, 31,31,30, 04,06,13, 00,00,00 ; PAL_BLUEBALL    ; bluemon dark (Great Ball, BLUE)
+	RGB 31,31,31, 31,31,30, 03,13,05, 00,00,00 ; PAL_GREENBALL   ; greenmon dark (GREEN)
+	RGB 31,31,31, 31,31,30, 19,03,15, 00,00,00 ; PAL_PURPLEBALL  ; purplemon dark (Master Ball, PURPLE)
+	RGB 31,31,31, 31,31,30, 17,08,04, 00,00,00 ; PAL_YELLOWBALL  ; yellowmon dark (Hyper Ball, YELLOW)
+	RGB 31,31,31, 31,31,30, 16,14,19, 00,00,00 ; PAL_PALEBALL    ; mewmon dark (PALE)
+	RGB 31,31,31, 31,31,30, 11,15,23, 00,00,00 ; PAL_CYANBALL    ; cyanmon dark (CYAN)
+	RGB 31,31,31, 31,31,30, 11,20,30, 00,00,00 ; PAL_INDIGOBALL  ; pal_0f dark (INDIGO)
+	RGB 31,31,31, 31,31,30, 28,15,21, 00,00,00 ; PAL_PINKBALL    ; pinkmon dark (PINK)
+	RGB 31,31,31, 31,31,30, 19,11,22, 00,00,00 ; PAL_GRAYBALL    ; graymon dark (GRAY)
+	RGB 31,31,31, 31,31,30, 16,14,19, 00,00,00 ; PAL_WHITEBALL   ; whitemon dark (WHITE)
+	RGB 31,31,31, 31,31,30, 03,03,03, 00,00,00 ; PAL_ULTRABALL_2 ; black ball: ultraball near-black (BLACK)
 ;;;;;;;;;;
+	RGB 25,31,31, 07,07,06, 15,09,06, 00,00,00 ; PAL_MTMOONB2F ; Sunsette: Mt. Moon B2F (ccfaff / 3a3a31 / 7b4a31 / black)
+	RGB 31,29,31, 07,07,07, 02,03,03, 03,02,02 ; PAL_SHADOW ; Sunsette: evolution morph silhouette
 	assert_table_length NUM_SGB_PALS

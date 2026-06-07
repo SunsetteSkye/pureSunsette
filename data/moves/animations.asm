@@ -1266,11 +1266,16 @@ LovelyKissAnim:
 	db -1 ; end
 
 ; Sunsette: affection cues - a heart (normal) / sparkle (legendary) over the player's mon
-HappinessHeartAnim:
-	battle_anim TAIL_WHIP, SUBANIM_HAPPINESS_HEART, 0, 10
+HappinessHeartAnim: ; Sunsette: play the 2-spot heart subanim twice (loop once) -> 4 hearts, slower
+; (delay 16). Sound fires at each subanim's start, so TAIL_WHIP lands on the 1st and 3rd heart.
+	battle_anim TAIL_WHIP, SUBANIM_HAPPINESS_HEART, 0, 16
+	battle_anim TAIL_WHIP, SUBANIM_HAPPINESS_HEART, 0, 16
 	db -1 ; end
-HappinessSparkleAnim:
-	battle_anim GLARE, SUBANIM_0_SPARKLES_FALLING, 0, 6
+HappinessSparkleAnim: ; Sunsette: legendary sparkle over the player's mon. FOCUS_ENERGY (a longer
+; SFX) plays on its own command + a short delay first, so the sound leads the visual; then a single
+; play (no loop), a smidge slower than the heart (delay 20 vs 16).
+	battle_anim FOCUS_ENERGY, SE_DELAY_ANIMATION_10
+	battle_anim NO_MOVE, SUBANIM_HAPPINESS_SPARKLE, 0, 20
 	db -1 ; end
 
 SkyAttackAnim:

@@ -9,6 +9,8 @@ CeruleanPokecenter_TextPointers:
 	dw_const CeruleanPokecenterSuperNerdText,        TEXT_CERULEANPOKECENTER_SUPER_NERD
 	dw_const CeruleanPokecenterGentlemanText,        TEXT_CERULEANPOKECENTER_GENTLEMAN
 	dw_const CeruleanPokecenterLinkReceptionistText, TEXT_CERULEANPOKECENTER_LINK_RECEPTIONIST
+	dw_const CeruleanPokecenterBenchGuyText,         TEXT_CERULEANPOKECENTER_COUCH_GUY
+	dw_const CeruleanPokecenterBenchGuyText,         TEXT_CERULEANPOKECENTER_COUCH_GUY2
 	dw_const CeruleanPokecenterBenchGuyText,         TEXT_CERULEANPOKECENTER_BENCH_GUY
 
 CeruleanPokecenterLinkReceptionistText:
