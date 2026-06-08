@@ -1450,7 +1450,9 @@ ItemUseMedicine:
 	call ItemUseNoEffect
 	jp .done
 .doneHealing
-	farcall GainDrinkHappiness ; Sunsette: +3 happiness if the healing item was a drink (self-gates)
+	push hl ; Sunsette: protect the HP-bar coords - farcall does `ld hl,target`, which would clobber
+	farcall GainDrinkHappiness ; the coords UpdateHPBar needs and make the heal bar animate off-screen
+	pop hl ; +3 happiness if the healing item was a drink (self-gates)
 	ld a, [wPseudoItemID]
 	and a ; using Softboiled?
 	jr nz, .skipRemovingItem ; no item to remove if using Softboiled

@@ -135,15 +135,17 @@ _PewterGymGuideBeginAdviceText::
 	prompt
 
 _PewterGymGuideAdviceText::
-	text "The 1st #MON"
-	line "out in a match is"
-	cont "at the top of the"
-	cont "#MON LIST!"
+	text "A GYM is an arena!"
 
-	para "By changing the"
-	line "order of #MON,"
-	cont "matches could be"
-	cont "made easier!"
+	para "Every trainer here"
+	line "battles with one"
+	cont "type, and bends"
+	cont "the arena itself"
+	cont "to fight harder!"
+
+	para "Spot their type,"
+	line "and come ready"
+	cont "to counter it!"
 	done
 
 _PewterGymGuideFreeServiceText::

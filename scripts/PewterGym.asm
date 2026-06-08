@@ -179,9 +179,9 @@ PewterGymGuideText: ; PureRGBnote: ADDED: gym guide gives you apex chips after b
 	ld hl, PewterGymGuidePreAdviceText
 	rst _PrintText
 	call YesNoChoice
-	ld hl, PewterGymGuideBeginAdviceText
-	jr nz, .gotYesNoChoice
 	ld hl, PewterGymGuideFreeServiceText
+	jr nz, .gotYesNoChoice ; NZ = NO -> "It's a free service!"; Z = YES falls through to "All right!"
+	ld hl, PewterGymGuideBeginAdviceText
 .gotYesNoChoice
 	rst _PrintText
 	ld hl, PewterGymGuideAdviceText
