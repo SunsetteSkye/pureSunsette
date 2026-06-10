@@ -1,12 +1,12 @@
-_Route2GateOaksAideFlashExplanationText::
-	text "The HM FLASH"
-	line "lights even the"
-	cont "darkest dungeons."
+_Route2GateOaksAideFlyExplanationText::
+	text "The HM FLY carries"
+	line "you to any town"
+	cont "you've visited."
 	done
 
 _Route2GateYoungsterText::
 	text "Once a #MON"
-	line "learns FLASH, you"
-	cont "can get through"
-	cont "ROCK TUNNEL."
+	line "learns FLY, you"
+	cont "can soar back to"
+	cont "any town!"
 	done

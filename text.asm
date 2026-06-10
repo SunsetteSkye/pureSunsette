@@ -130,7 +130,6 @@ INCLUDE "text/Route13.asm"
 INCLUDE "text/Route14.asm"
 INCLUDE "text/Route15.asm"
 INCLUDE "text/Route16.asm"
-INCLUDE "text/Route17.asm"
 INCLUDE "text/Route18.asm"
 INCLUDE "text/Route19.asm"
 INCLUDE "text/Route20.asm"
@@ -166,6 +165,7 @@ INCLUDE "text/PewterGym.asm"
 SECTION "Text 6b", ROMX
 
 INCLUDE "text/SaffronAbandonedBuilding.asm"
+INCLUDE "text/Route17.asm" ; Sunsette: moved out of full Text 5
 
 
 SECTION "Text 7", ROMX

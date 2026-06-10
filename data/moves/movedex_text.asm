@@ -121,8 +121,16 @@ _Generic30PercentParalysisText::
 _GuillotineDexEntry::
 	text "Giant claws"
 	next "violently crush"
-	next "the <opponent>."
-	; fall through
+	next "the <opponent>.@"
+
+	bage "A brutal hit that"
+	next "lands critical"
+	next "hits very often,"
+
+	bage "though its aim"
+	next "is poor."
+	dex
+
 _GenericOHKOText::
 	bage "Always KOs the"
 	next "<opponent>, but"
@@ -156,9 +164,10 @@ _SwordsDanceDexEntry::
 _CutDexEntry::
 	text "Slices the foe"
 	next "with a claw, barb"
-	next "tooth, wing, etc.@"
+	next "tooth, wing, etc."
 
-	text_call _GenericOftenLandsCriticalHitsText
+	bage "Also DISABLEs the"
+	next "foe's last move!"
 
 	bage "Usable outside"
 	next "battle to cut down"
@@ -191,13 +200,13 @@ _Generic30PercentConfusionText::
 	dex
 
 _FlyDexEntry::
-	text "The #MON raises"
-	next "its EVASION."
-	next "(+2 EVASION.)"
+	text "The #MON flies"
+	next "up high and then"
+	next "dive-bombs foe."
 
-	bage "This move"
-	next "always goes"
-	next "first."
+	bage "Flying up raises"
+	next "EVASION and dodges"
+	next "most attacks."
 
 	bage "Usable outside"
 	next "battle to fly to"
@@ -285,15 +294,10 @@ _SandAttackDexEntry::
 
 	text_call _GenericLowerAccuracyText
 
-	bage "GROUND-types live"
-	next "in earth, so they"
-	next "are unaffected."
-
 	bage "FLYING #MON's"
 	next "keen eyes are"
-	next "also unaffected"
-	dex
-	; fall through
+	next "unaffected."
+	text_jump _HidingFieldText ; Sunsette: out-of-battle repel-like hiding
 _GenericLowerAccuracyText::
 	bage "Lowers the foe's"
 	next "ACCURACY."
@@ -548,9 +552,15 @@ _FlamethrowerDexEntry::
 
 	bage "A famous and"
 	next "beloved FIRE move"
-	next "for its power.@"
+	next "for its power."
 
-	text_jump _Generic10PercentBurnText
+	bage "Out of battle it"
+	next "burns away tall"
+	next "grass and trees!"
+
+	bage "30% chance of"
+	next "burning the foe"
+	dex
 
 _MistDexEntry::
 	text "The <user> releases"
@@ -576,14 +586,14 @@ _MistDexEntry::
 	bage "as GROWL, SCREECH"
 	next "SMOKESCREEN, etc."
 	next "as well"
-	dex
+	text_jump _HidingFieldText ; Sunsette: out-of-battle repel-like hiding
 
 _WaterGunDexEntry::
 	text "Shoots a small"
 	next "pressurized jet"
 	next "of water at foe.@"
 
-	text_jump _Generic33PercentLowerSpeedText
+	text_jump _WaterifyDexText
 
 _HydroPumpDexEntry::
 	text "A huge column of"
@@ -592,7 +602,7 @@ _HydroPumpDexEntry::
 
 	bage "at the <opponent>.@"
 
-	text_jump _Generic33PercentLowerSpeedText
+	text_jump _WaterifyDexText
 
 
 _SurfDexEntry::
@@ -613,7 +623,7 @@ _IceBeamDexEntry::
 	next "is shot at the"
 
 	bage "<opponent>."
-	next "10% chance of"
+	next "30% chance of"
 	next "freezing the foe"
 	dex
 
@@ -622,10 +632,10 @@ _BlizzardDexEntry::
 	next "a powerful winter"
 	next "storm that"
 
-	bage "batters the foe."
-	next "10% chance of"
-	next "freezing the foe"
-	dex
+	bage "batters the foe"
+	next "and cannot miss.@"
+
+	text_jump _GenericNoAdditionalEffectText
 
 _PsybeamDexEntry::
 	text "Psychic power"
@@ -690,12 +700,12 @@ _DrillPeckDexEntry::
 _SubmissionDexEntry::
 	text "The <user> puts"
 	next "the foe in a"
-	next "grappling hold"
+	next "grappling hold."
 
-	bage "that leaves the"
-	next "<user> at a big"
-	next "advantage."
-	; fall through
+	bage "Also DISABLEs the"
+	next "foe's last move!"
+	dex
+
 _GenericRaisesAttack1StageText::
 	bage "Raises the <user>'s"
 	next "ATTACK."
@@ -805,6 +815,13 @@ _GrowthDexEntry::
 
 	bage "until the <user>"
 	next "leaves battle."
+
+	bage "Out of battle,"
+	next "rare #MON are"
+	next "drawn out"
+
+	bage "until you leave"
+	next "the area!"
 	dex
 
 _RazorLeafDexEntry::
@@ -900,7 +917,7 @@ _ThunderboltDexEntry::
 	next "fans due to its"
 	next "power/flashiness.@"
 
-	text_jump _Generic10PercentParalysisText
+	text_jump _Generic30PercentParalysisText
 
 _ThunderWaveDexEntry::
 	text "Discharges an"
@@ -919,9 +936,9 @@ _ThunderDexEntry::
 	next "drops a titanic"
 	next "lightning bolt"
 
-	bage "on the foe that"
-	next "can't miss.@"
-	text_jump _GenericNoAdditionalEffectText
+	bage "on the foe.@"
+
+	text_jump _Generic10PercentParalysisText
 
 _RockThrowDexEntry::
 	text "Rocks are dropped"
@@ -958,9 +975,10 @@ _DigDexEntry::
 	bage "to strike the foe"
 	next "the next turn."
 
-	bage "While underground"
-	next "the <user> cannot"
-	next "be hit by moves."
+	bage "Digging down also"
+	next "raises EVASION; the"
+	next "<user> cannot be"
+	next "hit while under."
 
 	bage "Usable outside"
 	next "battle to dig out"
@@ -1170,10 +1188,10 @@ _SmokescreenDexEntry::
 
 	text_call _GenericLowerAccuracyText
 
-	bage "FIRE types are"
-	next "unaffected by this"
-	next "smoke"
-	dex
+	bage "POISON types are"
+	next "used to noxious"
+	next "clouds; unfazed."
+	text_jump _HidingFieldText ; Sunsette: out-of-battle repel-like hiding
 
 _ConfuseRayDexEntry::
 	text "Strange rays of"
@@ -1181,6 +1199,13 @@ _ConfuseRayDexEntry::
 	next "<opponent>."
 
 	bage "Causes confusion"
+
+	bage "Out of battle,"
+	next "lures the next"
+	next "wild #MON here"
+
+	bage "in a strange"
+	next "color!"
 	dex
 
 _WithdrawDexEntry::
@@ -1260,7 +1285,11 @@ _HazeDexEntry::
 	bage "LEECH SEED,"
 	next "DISABLE, DIRE HIT"
 	next "GUARD SPEC"
-	dex
+
+	bage "Now strikes first"
+	next "with a 30% chance"
+	next "to flinch."
+	text_jump _HidingFieldText ; Sunsette: out-of-battle repel-like hiding
 
 _ReflectDexEntry::
 	text "A reflective wall"
@@ -1612,7 +1641,7 @@ _BubbleDexEntry::
 	next "that bursts in"
 	next "the foe's face.@"
 
-	text_jump _Generic10PercentConfusionText
+	text_jump _Generic30PercentConfusionText
 
 _DizzyPunchDexEntry::
 	text "A rhythmic punch"
@@ -1640,11 +1669,26 @@ _FlashDexEntry::
 
 	bage "Usually caused"
 	next "by a powerful"
-	next "electric arc.@"
+	next "electric arc."
 
-	text_call _GenericAlwaysGoesFirstText
-	text_end
-	text_jump _Generic30PercentFlinchText
+	bage "Out of battle it"
+	next "lights dark"
+	next "caves... and"
+
+	bage "elsewhere, draws"
+	next "out a wild #MON"
+	next "to battle!"
+
+	bage "Always goes"
+	next "first and deals"
+	next "no damage."
+
+	bage "Sharply raises"
+	next "ACCURACY; may"
+	next "flinch the foe"
+
+	bage "30% of the time."
+	dex
 
 _PsywaveDexEntry::
 	text "A small psychic"
@@ -1837,4 +1881,23 @@ _StruggleDexEntry::
 	bage "have 0 PP left."
 	next "Does heavy recoil"
 	next "to the <user>"
+	dex
+
+; Sunsette: shared field-effect tail for SAND-ATTACK / MIST / HAZE / SMOKESCREEN, which double as
+; Repel-like field moves out of battle (jumped to from each of those four entries).
+_HidingFieldText::
+	bage "Out of battle,"
+	next "wild #MON lose"
+	next "your trail like"
+	bage "a REPEL, until it"
+	next "fades away!"
+	dex
+
+; Sunsette: shared tail for WATER GUN / HYDRO PUMP (their WATERIFY_EFFECT retype).
+_WaterifyDexText::
+	bage "It also drenches"
+	next "the foe, making"
+	next "it a pure WATER"
+	bage "type until it"
+	next "leaves battle!"
 	dex

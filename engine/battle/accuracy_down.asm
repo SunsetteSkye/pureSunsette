@@ -29,17 +29,17 @@ AccuracyDownEffectivenessCheck::
 	ld a, [hl]
 	jr .compareSandAttack
 .smokescreen
+	; Sunsette: POISON-types (used to noxious clouds) shrug off SMOKESCREEN, not FIRE.
 	ld a, [hli]
-	cp FIRE
+	cp POISON
 	ret z
 	ld a, [hl]
-	cp FIRE
+	cp POISON
 	ret z
 	scf
 	ret
 .compareSandAttack
-	cp GROUND
-	ret z
+	; Sunsette: GROUND-types are no longer immune to SAND-ATTACK; only FLYING shrugs it off.
 	cp FLYING
 	ret z
 	scf

@@ -1,6 +1,7 @@
 ; PureRGBnote: ADDED: code was added pertaining to battling professor oak on this floor.
 
 CeruleanCave2F_Script:
+	callfar CheckUsedFlash ; Sunsette: FLASH brightens this dark cave (mirrors Rock Tunnel)
 	call EnableAutoTextBoxDrawing
 	ld hl, CeruleanCave2F_ScriptPointers
 	ld a, [wCeruleanCave2FCurScript]

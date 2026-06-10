@@ -168,7 +168,7 @@ FreezeBurnParalyzeEffect:
 ; extra effectiveness
 	ld b, 30 percent + 1
 	ASSERT PARALYZE_SIDE_EFFECT2 - PARALYZE_SIDE_EFFECT1 == BURN_SIDE_EFFECT2 - BURN_SIDE_EFFECT1
-	ASSERT PARALYZE_SIDE_EFFECT2 - PARALYZE_SIDE_EFFECT1 == SPEED_UP_SIDE_EFFECT - FREEZE_SIDE_EFFECT1
+	ASSERT PARALYZE_SIDE_EFFECT2 - PARALYZE_SIDE_EFFECT1 == FREEZE_SIDE_EFFECT2 - FREEZE_SIDE_EFFECT1 ; Sunsette: Ice Beam's 30% freeze rides this native EFFECT2 path
 	sub PARALYZE_SIDE_EFFECT2 - PARALYZE_SIDE_EFFECT1 ; treat extra effective as regular from now on
 .regular_effectiveness
 	push af
@@ -199,6 +199,7 @@ FreezeBurnParalyzeEffect:
 	call ClearHyperBeam ; resets hyper beam (recharge) condition from target
 	ld a, 1 << FRZ
 	ld [wEnemyMonStatus], a
+	callfar HalveSpecialAndSpeedDueToFreeze ; Sunsette: FRZ halves the target's Special + Speed
 	ld a, SHAKE_ENEMY_HUD_ANIM
 	call PlayBattleAnimation
 	jp PrintFrozenText
@@ -260,6 +261,7 @@ FreezeBurnParalyzeEffect:
 ; hyper beam bits aren't reset for opponent's side
 	ld a, 1 << FRZ
 	ld [wBattleMonStatus], a
+	callfar HalveSpecialAndSpeedDueToFreeze ; Sunsette: FRZ halves the target's Special + Speed
 	; fall through
 PrintFrozenText:
 	ld hl, FrozenText
@@ -1193,6 +1195,7 @@ ChargeEffect:
 	ld [wChargeMoveNum], a
 	ld hl, ChargeMoveEffectText
 	rst _PrintText
+	callfar ChargeMoveEvasionBoost ; Sunsette: Fly/Dig also raise the user's EVASION +1 on the charge turn
 	ret
 
 ChargeMoveEffectText:
@@ -1294,6 +1297,9 @@ FocusEnergyEffect:
 
 RecoilEffect:
 	jpfar DefaultRecoilEffect_
+
+WaterifyEffect: ; Sunsette: retype the surviving target to pure WATER (Water Gun / Hydro Pump)
+	jpfar WaterifyEffect_
 
 BigRecoilEffect:
 	jpfar BigRecoilEffect_ ; PureRGBnote: ADDED: recoil effect that does 1/2 of the damage done to the user
@@ -1524,7 +1530,10 @@ DisableEffect:
 	call MoveHitTest
 	ld a, [wMoveMissed]
 	and a
-	jp nz, .moveMissed
+	jp nz, DisableEffectCore.moveMissed ; (.moveMissed is scoped under DisableEffectCore below)
+; Sunsette: the actual disabling, minus the accuracy check above. CUT_DISABLE_EFFECT (Cut's added
+; on-hit effect) jumps straight here - Cut already landed its hit, so it skips MoveHitTest.
+DisableEffectCore:
 	ld de, wEnemyDisabledMove
 	ld hl, wEnemyMonMoves
 	ld a, [wEnemyLastSelectedMoveDisable]
@@ -1622,9 +1631,9 @@ DisableEffect:
 .moveMissedPopHL
 	pop hl
 .moveMissed
-	ld c, 50
-	rst _DelayFrames
-	jp PrintButItFailedText_
+	; Sunsette: print "They're already DISABLED!" vs "But, it failed!" depending on whether the target
+	; already has a move disabled. The delay + text choice live in a floating bank (Battle Core is full).
+	jpfar SmartDisableFail_
 ;;;;;;;;;;
 
 MoveWasDisabledText:
@@ -1640,7 +1649,10 @@ TriAttackEffect:
 	jpfar TriAttackEffect_
 
 HazeEffect:
-	jpfar HazeEffect_
+	; Sunsette: Haze clears stats (HazeEffect_) AND now rolls a 30% flinch. Both are sequenced in a
+	; floating-bank wrapper to keep Battle Core small; see HazeFlinchEffect_.
+	jpfar HazeFlinchEffect_
+
 
 ; PureRGBnote: ADDED: growth raises special by 1 and heals around 1/3rd health. Does nothing at all if you're at full health.
 GrowthEffect:

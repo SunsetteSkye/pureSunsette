@@ -100,6 +100,40 @@ HandleLedges::
 
 
 
+; Sunsette: "shoved away" knockback. A ledge-style arc+shadow hop two tiles in the direction
+; OPPOSITE the player's current facing, so they're knocked back while still facing whoever
+; shoved them, with a boulder-push thud. callfar'd from the museum grunt's text.
+DoMuseumGruntShove::
+	ld a, [wSpritePlayerStateData1FacingDirection]
+	; lock the facing (toward the pusher) for the duration of the hop
+	inc a
+	ld [wForcedPlayerFacing], a
+	dec a
+	; travel direction = opposite of the player's facing
+	cp SPRITE_FACING_DOWN
+	ld b, PAD_UP
+	jr z, .go
+	cp SPRITE_FACING_UP
+	ld b, PAD_DOWN
+	jr z, .go
+	cp SPRITE_FACING_LEFT
+	ld b, PAD_RIGHT
+	jr z, .go
+	ld b, PAD_LEFT ; facing right
+.go
+	ld hl, wMovementFlags
+	set BIT_LEDGE_OR_FISHING, [hl]
+	call StartSimulatingJoypadStatesNoJoypad
+	ld a, b
+	ld [wSimulatedJoypadStatesEnd], a
+	ld [wSimulatedJoypadStatesEnd + 1], a ; two states -> a two-tile hop, like a ledge
+	ld a, 2
+	ld [wSimulatedJoypadStatesIndex], a
+	call LoadHoppingShadowOAM
+	ld a, SFX_PUSH_BOULDER ; the "thud" from shoving a Strength boulder
+	rst _PlaySound
+	jp UpdateSprites
+
 INCLUDE "data/tilesets/ledge_tiles.asm"
 
 LoadHoppingShadowOAM:

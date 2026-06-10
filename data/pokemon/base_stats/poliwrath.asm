@@ -10,11 +10,12 @@
 	INCBIN "gfx/pokemon/front/poliwrath.pic", 0, 1 ; sprite dimensions
 	dw PoliwrathPicFront, PoliwrathPicBackSW
 
-	db BUBBLE, NO_MOVE, NO_MOVE, NO_MOVE ; level 1 learnset
+	db BUBBLE, POUND, NO_MOVE, NO_MOVE ; level 1 learnset
 	db GROWTH_MEDIUM_SLOW ; growth rate
 
 	; tm/hm learnset
 	tmhm \
+	DISABLE,\
 	ICE_PUNCH,\
 	FIRE_PUNCH,\
 	TOXIC,\

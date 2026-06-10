@@ -67,18 +67,17 @@ _PewterCitySuperNerd2ImSprayingRepelText::
 	cont "not careful!"
 	done
 
-_PewterCityYoungsterYoureATrainerFollowMeText::
-	text "Whoa! You can't go"
-	line "to ROUTE 3 yet!"
+_PewterCityYoungsterMtMoonWarningText::
+	text "Heads up! ROUTE 3"
+	line "leads to MT.MOON."
 
-	para "MT.MOON's crawling"
-	line "with tough"
-	cont "trainers- they"
-	cont "creamed me!"
+	para "It's a dark maze"
+	line "crawling with"
+	cont "tough trainers."
 
-	para "Get a BADGE from"
-	line "BROCK first!"
-	cont "Follow me!"
+	para "You'll need the"
+	line "Flash HM before"
+	cont "you go there!"
 	done
 
 _PewterCityYoungsterGoTakeOnBrockText::

@@ -15,6 +15,7 @@
 
 	; tm/hm learnset
 	tmhm \
+	DISABLE,\
 	TOXIC,\
 	DOUBLE_EDGE,\
 	BUBBLEBEAM,\
@@ -28,7 +29,6 @@
 	MEGA_DRAIN,\
 	REFLECT,\
 	BIDE,\
-	AGILITY,\
 	BARRAGE,\
 	MEDITATE,\
 	LIGHT_SCREEN,\

@@ -70,6 +70,11 @@ _TooDarkToSeeText::
 	line "to see!"
 	prompt
 
+_ABitDarkToSeeText::
+	text "It's a little dark"
+	line "in here..."
+	prompt
+
 _FlashAttractsText::
 	text "The FLASH drew out"
 	line "a wild #MON!"
@@ -83,4 +88,32 @@ _GrowthFieldText::
 _UsedFlamethrowerText::
 	text "The area went up"
 	line "in flames!"
+	prompt
+
+; Sunsette: SAND ATTACK / MIST / HAZE / SMOKESCREEN field move (repel-like hiding)
+_StartHidingText::
+	text "You stirred up"
+	line "cover! Wild #MON"
+	cont "lose your trail!"
+	prompt
+
+_StoppedHidingText::
+	text "The cover settled"
+	line "and faded away..."
+	prompt
+
+_KeepHidingText::
+	text "Keep hiding?"
+	done
+
+; Sunsette: WATERIFY_EFFECT (Water Gun / Hydro Pump retype the target to WATER)
+_WaterifiedText::
+	text "Drenched! It is"
+	line "now a WATER type!"
+	prompt
+
+; Sunsette: a frozen mon thaws itself by using a burn-inflicting (heat) move
+_SelfThawedText::
+	text "The heat melted"
+	line "the ice away!"
 	prompt

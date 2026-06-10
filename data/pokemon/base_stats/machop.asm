@@ -15,6 +15,7 @@
 
 	; tm/hm learnset
 	tmhm \
+	DISABLE,\
 	ICE_PUNCH,\
 	FIRE_PUNCH,\
 	TOXIC,\

@@ -10,10 +10,12 @@
 	INCBIN "gfx/pokemon/front/pidgeot.pic", 0, 1 ; sprite dimensions
 	dw PidgeotPicFront, PidgeotPicBackSW
 
-	db SCRATCH, NO_MOVE, NO_MOVE, NO_MOVE ; level 1 learnset
+	db TACKLE, GROWL, NO_MOVE, NO_MOVE ; level 1 learnset
 	db GROWTH_MEDIUM_SLOW ; growth rate
 
 	tmhm \
+	DISABLE,\
+	SONICBOOM,\ ; ILL WIND
 	RAZOR_WIND,\ ; ROOST
 	PIN_MISSILE,\
 	TOXIC,\
@@ -28,7 +30,6 @@
 	KINESIS,\ ; MIRAGE
 	REFLECT,\
 	BIDE,\
-	AGILITY,\
 	BARRAGE,\
 	SLAM,\ ; FILTHY SLAM
 	SKY_ATTACK,\

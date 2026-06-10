@@ -99,6 +99,13 @@ _SilphCo7FScientistBattleText::
 
 	para "You mistook me for"
 	line "a SILPH worker?"
+
+	para "I once helped"
+	line "create the"
+	cont "ULTIMATE #MON!"
+
+	para "With TEAM ROCKET,"
+	line "I'll do it again!"
 	done
 
 _SilphCo7FScientistEndBattleText::

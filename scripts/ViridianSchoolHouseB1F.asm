@@ -203,9 +203,17 @@ SchoolB1FLeftTeacher:
 	rst _PrintText
 	jr .later
 .gotMoveDex
-	ld hl, SchoolB1FLeftTeacherQuizFinalInfoPrompt
-	rst _PrintText
-	ld hl, SchoolB1FLeftTeacherEnd
+	; Sunsette: once the player owns the MOVEDEX and has >= 2 badges, this teacher
+	; becomes a Move Relearner instead of repeating the MOVEDEX spiel.
+	ld hl, wObtainedBadges
+	ld b, 1
+	call CountSetBits
+	cp 2
+	jr c, .notEnoughBadgesForRelearn
+	callfar MoveRelearnerScript
+	jr .done
+.notEnoughBadgesForRelearn
+	ld hl, SchoolB1FLeftTeacherComeBackForRelearn
 	rst _PrintText
 	jr .done
 .notReady
@@ -694,6 +702,10 @@ SchoolB1FLeftTeacherQuizFinalInfoPrompt:
 
 SchoolB1FLeftTeacherEnd:
 	text_far _SchoolB1FLeftTeacherEnd
+	text_end
+
+SchoolB1FLeftTeacherComeBackForRelearn:
+	text_far _SchoolB1FRelearnerComeBack
 	text_end
 
 ViridianSchoolHouseB1FBookCases::

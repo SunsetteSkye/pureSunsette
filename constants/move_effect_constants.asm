@@ -39,7 +39,7 @@
 	const SLEEP_EFFECT               ; $20
 	const POISON_SIDE_EFFECT2        ; $21
 	const BURN_SIDE_EFFECT2          ; $22
-	const SPEED_UP_SIDE_EFFECT       ; $23 ; PureRGBnote: ADDED: new effect, used in meditate
+	const FREEZE_SIDE_EFFECT2        ; $23 ; Sunsette: 30% freeze (Ice Beam). Lives in the native EFFECT2 slot so FreezeBurnParalyzeEffect handles it with no special-casing (swapped with SPEED_UP_SIDE_EFFECT, now $64)
 	const PARALYZE_SIDE_EFFECT2      ; $24
 	const FLINCH_SIDE_EFFECT2        ; $25
 	const OHKO_EFFECT                ; $26 moves like Horn Drill
@@ -104,4 +104,8 @@
 	const HEAT_RUSH_EFFECT           ; $5F ; PureRGBnote: ADDED: new effect, 30% burn chance, and if used by a fire pokemon, 40% chance of raising special one stage
 	const MEGA_PUNCH_EFFECT          ; $60 ; PureRGBnote: ADDED: new effect, 30% flinch chance if user is FIGHTING type, 10% flinch otherwise
 	const SCREECH_EFFECT             ; $61 ; PureRGBnote: ADDED: new effect, Defense down 2, but also prevents SLEEP status for the battle. Auto-used when a pokemon who has it is put to sleep.
+	const WATERIFY_EFFECT            ; $62 ; Sunsette: ADDED: damaging move that retypes the surviving target to pure WATER until it switches out
+	const CUT_DISABLE_EFFECT         ; $63 ; Sunsette: ADDED: damaging move that also DISABLEs the target's last move (Cut)
+	const SPEED_UP_SIDE_EFFECT       ; $64 ; PureRGBnote: ADDED: new effect, used in meditate (NULL handler; applied via stat-mapping). Sunsette: moved from $23 to free the freeze EFFECT2 slot
+	const FLASH_EFFECT               ; $65 ; Sunsette: ADDED: no-damage priority move; raises user ACCURACY +3 and 30% chance to flinch (Flash)
 DEF NUM_MOVE_EFFECTS EQU const_value - 1

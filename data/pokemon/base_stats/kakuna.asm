@@ -15,6 +15,8 @@
 
 	; tm/hm learnset
 	tmhm \
+	DISABLE,\
+	SONICBOOM,\ ; ILL WIND
 	PIN_MISSILE,\
 	TOXIC,\
 	DOUBLE_EDGE,\

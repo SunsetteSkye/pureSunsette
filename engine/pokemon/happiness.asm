@@ -417,7 +417,9 @@ TryAffectionSurvival::
 ; limits it to one save per healthy state; reuses wAffectionJustSurvived (player- and enemy-damage
 ; applications don't overlap). Kept out of the cramped Battle Core bank.
 HandleEnemyFaintOrSurvive::
-	call IsToughTrainerBattle
+	push bc ; Sunsette FIX: preserve the random byte in c - IsToughTrainerBattle -> IsInArray does
+	call IsToughTrainerBattle ; `ld c, a`, which was clobbering c and making the 25% check always pass
+	pop bc
 	jr nz, .faint
 	ld a, [wHPBarOldHP + 1] ; enemy old HP high byte
 	and a
@@ -544,8 +546,8 @@ PressureDrainPlayerMove::
 	pop af
 	ret nc ; the move still has PP -> no announcement
 ; an enemy legendary's Pressure emptied your move -> sparkle over the foe + message
-	ld e, HAPPINESS_SPARKLE_ANIM ; anim ID in e (callfar clobbers a with the target bank)
-	callfar PlayEnemySideAnim
+	ld e, HAPPINESS_SPARKLE_ENEMY_ANIM ; anim ID in e (callfar clobbers a with the target bank); the
+	callfar PlayEnemySideAnim ; ENEMY variant sits above the FOE's head (player coords flip below it)
 	ld hl, PressureWornYoursText
 	rst _PrintText
 	ret
@@ -604,8 +606,9 @@ PressureWornYoursText:
 
 ; --- Phase 3: "second wind" heal on a trainer-battle KO --------------------------
 ; When you KO an enemy mon in a TRAINER battle and your active mon's happiness >= 128,
-; restore 1/16 of its max HP, with a flavor line (legendary -> "glory of battle",
-; otherwise "second wind"). The caller redraws the player HUD afterward, showing the gain.
+; restore 1/4 of its max HP, but only while the HP bar is YELLOW or RED (i.e. the mon is hurt - not
+; green), with a flavor line (legendary -> "glory of battle", otherwise "second wind"). The caller
+; redraws the player HUD afterward, showing the gain.
 SecondWindHeal::
 	ld a, [wIsInBattle]
 	cp 2
@@ -615,6 +618,11 @@ SecondWindHeal::
 	ld a, [hl]
 	cp HAPPINESS_SURVIVE_FLOOR ; 128
 	ret c
+	; Sunsette: only on a hurt mon (yellow OR red bar - NOT green). wPlayerHPBarColor (0=green/1=yellow/
+	; 2=red) is kept current by the in-battle HUD draws.
+	ld a, [wPlayerHPBarColor]
+	and a
+	ret z ; green health -> no second wind (not hurt enough)
 	; de = current HP, hl = max HP (both big-endian)
 	ld a, [wBattleMonHP]
 	ld d, a
@@ -624,9 +632,11 @@ SecondWindHeal::
 	ld h, a
 	ld a, [wBattleMonMaxHP + 1]
 	ld l, a
+	; fainted guard: a 0-HP mon also reads as a RED bar (so the "not green" gate let it through). Without
+	; this, a double-KO would let SecondWindHeal partially revive a fainted mon.
 	ld a, d
 	or e
-	ret z ; fainted (guard)
+	ret z
 	; room to heal? ret if current HP >= max HP
 	ld a, d
 	cp h
@@ -640,17 +650,9 @@ SecondWindHeal::
 	srl h
 	rr l
 	srl h
-	rr l
-	srl h
-	rr l
-	srl h
-	rr l ; hl = maxHP / 16
-	ld a, l
-	and a
-	jr nz, .gotHeal
-	inc a ; minimum heal of 1
-.gotHeal
-	ld b, a
+	rr l ; hl = maxHP / 4 (always >= 1: Gen 1's lowest maxHP is ~11 at level 1, and maxHP < 2048
+	; so the whole quotient sits in l with h = 0)
+	ld b, l
 	pop de
 	ld a, e
 	add b
@@ -673,10 +675,10 @@ SecondWindHeal::
 	ld d, h
 	ld e, l
 .store
-	ld a, d
-	ld [wBattleMonHP], a
-	ld a, e
-	ld [wBattleMonHP + 1], a
+	; Sunsette: de = new HP. Store it + animate the player's HP bar filling like a Potion (instead of
+	; snapping). The store/animation lives in a roomier bank (this bank is nearly full in the debug build);
+	; de survives the callfar bankswitch, and wBattleMonHP still holds the OLD HP for the helper to capture.
+	callfar SecondWindHealApply
 	ld a, [wBattleMonSpecies]
 	call CheckLegendaryAffectionSpecies
 	ld hl, SecondWindText

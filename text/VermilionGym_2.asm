@@ -11,11 +11,6 @@ _VermilionGymLTSurgePostBattleAdviceText::
 	done
 
 _VermilionGymLTSurgeThunderBadgeInfoText::
-	text_asm
-	callfar ComputeExpGrowthThresholdLeader
-	ld hl, .body
-	ret
-.body:
 	text "The THUNDERBADGE"
 	line "cranks up your"
 	cont "#MON's SPEED!"
@@ -23,12 +18,6 @@ _VermilionGymLTSurgeThunderBadgeInfoText::
 	para "It also lets your"
 	line "#MON FLY any"
 	cont "time, kid!"
-
-	para "And your #MON"
-	line "up to L"
-	text_decimal wExpGrowthThreshold, 1, 2
-	text " grow"
-	cont "more efficiently!"
 
 	para "You're special,"
 	line "kid! Take this!"
@@ -125,13 +114,9 @@ _VermilionGymGymGuideChampInMakingText::
 	cont "the Lightning"
 	cont "American!"
 
-	para "He's an expert on"
-	line "electric #MON!"
-
-	para "Birds and water"
-	line "#MON are at"
-	cont "risk! Beware of"
-	cont "paralysis too!"
+	para "The wired floor"
+	line "jolts his #MON"
+	cont "to shocking SPEED!"
 
 	para "LT.SURGE is very"
 	line "cautious!"
@@ -142,9 +127,22 @@ _VermilionGymGymGuideChampInMakingText::
 	done
 
 _VermilionGymGymGuideBeatLTSurgeText::
+	text_asm
+	push bc
+	callfar ComputeExpGrowthThreshold
+	pop bc
+	ld hl, .body
+	ret
+.body:
 	text "Whew! That match"
-	line "was electric!@"
-	text_end
+	line "was electric!"
+
+	para "That BADGE lets"
+	line "you raise #MON"
+	cont "up to L@"
+	text_decimal wExpGrowthThreshold, 1, 2
+	text "!"
+	prompt
 
 _VermilionGymGuideApexChipElectricText::
 	text "For electric"

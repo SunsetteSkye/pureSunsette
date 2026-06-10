@@ -15,6 +15,7 @@
 
 	; tm/hm learnset
 	tmhm \
+	DISABLE,\
 	TOXIC,\
 	DOUBLE_EDGE,\
 	BARRIER,\

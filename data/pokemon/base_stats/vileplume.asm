@@ -10,11 +10,13 @@
 	INCBIN "gfx/pokemon/front/vileplume.pic", 0, 1 ; sprite dimensions
 	dw VileplumePicFront, VileplumePicBackSW
 
-	db ABSORB, NO_MOVE, NO_MOVE, NO_MOVE ; level 1 learnset
+	db ABSORB, TACKLE, NO_MOVE, NO_MOVE ; level 1 learnset
 	db GROWTH_MEDIUM_SLOW ; growth rate
 
 	; tm/hm learnset
 	tmhm \
+	DISABLE,\
+	SONICBOOM,\ ; ILL WIND
 	LEECH_SEED,\
 	TOXIC,\
 	BODY_SLAM,\

@@ -13,7 +13,29 @@ _Museum1FScientist1WouldYouLikeToComeInText::
 _Museum1FScientist1ThankYouText::
 	text "Right, ¥50!"
 	line "Thank you!"
+	para "Learning about our"
+	line "world... that's"
+	cont "truly what it"
+	cont "means to be"
+	cont "SPECIAL!"
 	done
+
+_Museum1FRocketGruntEyeingText::
+	text "Hmm, these fossils"
+	line "look valuable..."
+	done
+
+_Museum1FRocketGruntScramText::
+	text "Scram, kid!"
+	line "I'm busy!"
+	done
+
+; shared "feel smarter" exhibit message (printed via a script-bank wrapper that adds the jingle)
+_MuseumSmarterText::
+	text "You and your team"
+	line "feel a little"
+	cont "smarter!@"
+	text_end
 
 _Museum1FScientist1DoYouKnowWhatAmberIsText::
 	text "You can't sneak"

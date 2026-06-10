@@ -171,6 +171,8 @@ _SchoolB1FLeftTeacherQuizFinalInfo::
 	para "Just open up your"
 	line "#DEX and press"
 	cont "START!"
+	para "Get a few BADGEs"
+	line "then see me!"
 	done
 
 _SchoolB1FLeftTeacherEnd::

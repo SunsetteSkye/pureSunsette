@@ -5,8 +5,17 @@ _SSAnneBowSuperNerdText::
 	done
 
 _SSAnneBowSailor1Text::
-	text "Scrubbing decks"
-	line "is hard work!"
+	text "Scrubbin' decks"
+	line "is hard work..."
+	para "But out past the"
+	line "bow, in the cold"
+	cont "sea mist, I once"
+	cont "saw a bird of"
+	cont "pure ice-white"
+	cont "as a blizzard!"
+	para "Heh. Nobody"
+	line "believes an old"
+	cont "sailor."
 	done
 
 _SSAnneBowCooltrainerMText::

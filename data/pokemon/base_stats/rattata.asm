@@ -10,11 +10,12 @@
 	INCBIN "gfx/pokemon/front/rattata.pic", 0, 1 ; sprite dimensions
 	dw RattataPicFront, RattataPicBackSW
 
-	db TACKLE, TAIL_WHIP, NO_MOVE, NO_MOVE ; level 1 learnset
+	db SCRATCH, TAIL_WHIP, NO_MOVE, NO_MOVE ; level 1 learnset
 	db GROWTH_MEDIUM_FAST ; growth rate
 
 	; tm/hm learnset
 	tmhm \
+	DISABLE,\
 	TOXIC,\
 	BODY_SLAM,\
 	DOUBLE_EDGE,\
@@ -31,7 +32,6 @@
 	KINESIS,\ ; MIRAGE
 	SWORDS_DANCE,\
 	BIDE,\
-	AGILITY,\
 	BARRAGE,\
 	SLAM,\ ; FILTHY SLAM
 	GLARE,\

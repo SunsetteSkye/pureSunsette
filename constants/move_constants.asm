@@ -227,7 +227,8 @@ DEF CANNOT_MOVE EQU $ff
 	const POKE_DOLL_ANIM
 	const SEND_OUT_MON_BALL_POOF_ANIM
 	const HAPPINESS_HEART_ANIM ; Sunsette: affection heart cue
-	const HAPPINESS_SPARKLE_ANIM ; Sunsette: legendary sparkle cue
+	const HAPPINESS_SPARKLE_ANIM ; Sunsette: legendary sparkle cue (over the PLAYER's mon)
+	const HAPPINESS_SPARKLE_ENEMY_ANIM ; Sunsette: legendary sparkle cue (over the ENEMY's mon)
 ;;;;;
 
 	; 45 non-move anims + 166 move anims = 201 anims

@@ -10,11 +10,6 @@ _FuchsiaGymKogaPostBattleAdviceText::
 	done
 
 _FuchsiaGymKogaSoulBadgeInfoText::
-	text_asm
-	callfar ComputeExpGrowthThresholdLeader
-	ld hl, .body
-	ret
-.body:
 	text "Now that you have"
 	line "the MARSHBADGE,"
 	cont "the DEFENSE of"
@@ -24,12 +19,6 @@ _FuchsiaGymKogaSoulBadgeInfoText::
 	para "It also lets you"
 	line "SURF outside of"
 	cont "battle!"
-
-	para "And your #MON"
-	line "up to L"
-	text_decimal wExpGrowthThreshold, 1, 2
-	text " grow"
-	cont "more efficiently!"
 
 	para "Ah! Take this"
 	line "too!"
@@ -188,9 +177,10 @@ _FuchsiaGymGymGuideChampInMakingText::
 	line "riddled with"
 	cont "invisible walls!"
 
-	para "KOGA might appear"
-	line "close, but he's"
-	cont "blocked off!"
+	para "That same haze"
+	line "makes his #MON"
+	cont "slippery and"
+	cont "hard to hit!"
 
 	para "You have to find"
 	line "gaps in the walls"
@@ -198,10 +188,23 @@ _FuchsiaGymGymGuideChampInMakingText::
 	done
 
 _FuchsiaGymGymGuideBeatKogaText::
+	text_asm
+	push bc
+	callfar ComputeExpGrowthThreshold
+	pop bc
+	ld hl, .body
+	ret
+.body:
 	text "It's amazing how"
 	line "ninja can terrify"
-	cont "even now!@"
-	text_end
+	cont "even now!"
+
+	para "That BADGE lets"
+	line "you raise #MON"
+	cont "up to L@"
+	text_decimal wExpGrowthThreshold, 1, 2
+	text "!"
+	prompt
 
 _FuchsiaGymGuideApexChipPoisonText::
 	text "For poison"

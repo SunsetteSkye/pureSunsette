@@ -103,6 +103,7 @@ SubanimationPointers:
 	dw Subanim_2AngerSymbol_Enemy
 	dw Subanim_HappinessHeart ; Sunsette
 	dw Subanim_HappinessSparkle ; Sunsette
+	dw Subanim_HappinessSparkleEnemy ; Sunsette
 	assert_table_length NUM_SUBANIMS
 
 ; format:
@@ -266,6 +267,13 @@ Subanim_HappinessSparkle:
 	subanim SUBANIMTYPE_COORDFLIP, 2
 	db FRAMEBLOCK_80, BASECOORD_71, FRAMEBLOCKMODE_00
 	db FRAMEBLOCK_80, BASECOORD_72, FRAMEBLOCKMODE_00
+
+; Sunsette: ENEMY-side sparkle - above the ENEMY's mon's head. NORMAL (not COORDFLIP) with the enemy
+; base coords from Subanim_0StatusConfusedEnemy (01/2C); played at hWhoseTurn=1 by PlayEnemySideAnim.
+Subanim_HappinessSparkleEnemy:
+	subanim SUBANIMTYPE_NORMAL, 2
+	db FRAMEBLOCK_80, BASECOORD_01, FRAMEBLOCKMODE_00
+	db FRAMEBLOCK_80, BASECOORD_2C, FRAMEBLOCKMODE_00
 
 Subanim_0Star:
 	subanim SUBANIMTYPE_HFLIP, 1

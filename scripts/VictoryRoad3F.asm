@@ -1,4 +1,5 @@
 VictoryRoad3F_Script:
+	callfar CheckUsedFlash ; Sunsette: FLASH brightens this dark cave (mirrors Rock Tunnel)
 	call VictoryRoad3FCheckBoulderEventScript
 	call EnableAutoTextBoxDrawing
 	ld hl, VictoryRoad3TrainerHeaders

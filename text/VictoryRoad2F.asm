@@ -45,9 +45,14 @@ _VictoryRoad2FCooltrainerMEndBattleText::
 	prompt
 
 _VictoryRoad2FCooltrainerMAfterBattleText::
-	text "You earned the"
-	line "right to be on"
-	cont "VICTORY ROAD!"
+	text "They say a bird"
+	line "of living flame"
+	cont "once nested here."
+	para "The very SPIRIT"
+	line "of VICTORY!"
+	para "Make it through,"
+	line "and maybe you'll"
+	cont "feel its fire."
 	done
 
 _VictoryRoad2FSuperNerd2BattleText::

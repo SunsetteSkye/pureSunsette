@@ -15,6 +15,7 @@
 
 	; tm/hm learnset
 	tmhm \
+	DISABLE,\
 	LEECH_SEED,\
 	TOXIC,\
 	BODY_SLAM,\

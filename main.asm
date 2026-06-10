@@ -452,6 +452,9 @@ INCLUDE "engine/battle/remap_move_data.asm"
 INCLUDE "engine/battle/move_effects/conversion.asm"
 INCLUDE "engine/overworld/overworld_animation.asm"
 INCLUDE "engine/overworld/flamethrower_field.asm" ; Sunsette: ADDED: FLAMETHROWER field move (burn grass + trees)
+INCLUDE "engine/battle/play_side_anim.asm" ; Sunsette: ADDED: affection/Pressure overlay cues (moved out of full Battle Core)
+INCLUDE "engine/battle/move_effects/waterify.asm" ; Sunsette: ADDED: WATERIFY_EFFECT (Water Gun / Hydro Pump retype target to WATER)
+INCLUDE "engine/battle/freeze_penalty.asm" ; Sunsette: ADDED: FREEZE halves Special + Speed instead of skipping the turn
 
 SECTION "newCode2", ROMX
 
@@ -481,6 +484,8 @@ INCLUDE "engine/movie/title.asm"
 INCLUDE "audio/pause_resume_music.asm"
 INCLUDE "engine/battle/prevent_invalid_encounters.asm"
 INCLUDE "engine/items/sort_items.asm"
+INCLUDE "engine/events/move_relearner.asm" ; Sunsette: ADDED: Viridian schoolhouse Move Relearner (movedex + 2 badges)
+INCLUDE "engine/events/museum_exhibit_bonus.asm" ; Sunsette: ADDED: Pewter Museum exhibit "feel smarter" Special stat-EXP bonus
 
 SECTION "Silph Card Key Scripts", ROMX
 

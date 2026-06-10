@@ -9,9 +9,9 @@ PriorityMoves:
 	db MIRROR_MOVE
 	db SONICBOOM
 	db PIN_MISSILE
-	db FLY
 	db MEDITATE
 	db POISON_GAS
+	db HAZE ; Sunsette: Haze is now a priority move with a 30% flinch
 	db -1 ; end
 
 FarCheckPriority:

@@ -1,4 +1,5 @@
 MtMoon1F_Script:
+	callfar CheckUsedFlash ; Sunsette: FLASH brightens this dim cave (Mt. Moon)
 	call EnableAutoTextBoxDrawing
 	ld hl, MtMoon1TrainerHeaders
 	ld de, MtMoon1F_ScriptPointers

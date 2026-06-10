@@ -10,11 +10,13 @@
 	INCBIN "gfx/pokemon/front/pidgey.pic", 0, 1 ; sprite dimensions
 	dw PidgeyPicFront, PidgeyPicBackSW
 
-	db SCRATCH, GROWL, NO_MOVE, NO_MOVE ; level 1 learnset
+	db TACKLE, GROWL, NO_MOVE, NO_MOVE ; level 1 learnset
 	db GROWTH_MEDIUM_SLOW ; growth rate
 
 	; tm/hm learnset
 	tmhm \
+	DISABLE,\
+	SONICBOOM,\ ; ILL WIND
 	RAZOR_WIND,\ ; ROOST
 	PIN_MISSILE,\
 	TOXIC,\
@@ -28,7 +30,6 @@
 	KINESIS,\ ; MIRAGE
 	REFLECT,\
 	BIDE,\
-	AGILITY,\
 	BARRAGE,\
 	SLAM,\ ; FILTHY SLAM
 	KARATE_CHOP,\

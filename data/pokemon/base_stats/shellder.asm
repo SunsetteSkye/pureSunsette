@@ -15,6 +15,7 @@
 
 	; tm/hm learnset
 	tmhm \
+	DISABLE,\
 	TOXIC,\
 	HORN_DRILL,\
 	BODY_SLAM,\

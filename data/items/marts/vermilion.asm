@@ -10,4 +10,4 @@ VermilionMartClerkText::
 VermilionTMKidShop::
 	script_mart \
 	TM_KINESIS, \ ; MIRAGE
-	TM_LEECH_SEED
+	TM_MEGA_DRAIN

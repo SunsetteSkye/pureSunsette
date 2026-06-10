@@ -15,6 +15,7 @@
 
 	; tm/hm learnset
 	tmhm \
+	DISABLE,\
 	BUBBLEBEAM,\
 	BIDE
 	; end

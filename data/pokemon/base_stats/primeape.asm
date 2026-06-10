@@ -10,16 +10,17 @@
 	INCBIN "gfx/pokemon/front/primeape.pic", 0, 1 ; sprite dimensions
 	dw PrimeapePicFront, PrimeapePicBackSW
 
-	db SCRATCH, LEER, NO_MOVE, NO_MOVE ; level 1 learnset
+	db SCRATCH, LEER, POUND, NO_MOVE ; level 1 learnset
 	db GROWTH_MEDIUM_FAST ; growth rate
 
 	; tm/hm learnset
 	tmhm \
+	SONICBOOM,\ ; ILL WIND
 	ICE_PUNCH,\
 	FIRE_PUNCH,\
 	TOXIC,\
 	BODY_SLAM,\
-	SLASH,\
+	DISABLE,\
 	DOUBLE_EDGE,\
 	HYPER_BEAM,\
 	HI_JUMP_KICK,\
@@ -33,7 +34,6 @@
 	DIG,\
 	SWORDS_DANCE,\
 	BIDE,\
-	AGILITY,\
 	BARRAGE,\
 	SLAM,\ ; FILTHY SLAM
 	KARATE_CHOP,\

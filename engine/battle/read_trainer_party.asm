@@ -129,32 +129,43 @@ ReadTrainer:
 	pop hl
 	jr .SpecialTrainerLoop
 .AddLoneMove
-; does the trainer have a single monster with a different move?
-	ld a, [wLoneAttackNo] ; Brock is 01, Misty is 02, Erika is 04, etc
+; PureRGBnote/Sunsette: gym leaders can give one OR MORE of their pokemon a custom move (LoneMoves).
+; wLoneAttackNo is the gym leader number (1-8); apply EVERY LoneMoves row tagged with that number.
+	ld a, [wLoneAttackNo] ; Brock is 01, Misty is 02, etc
 	and a
 	jr z, .AddTeamMove
 	cp 9
-	jr nc, .AddTeamMove ; higher than 8 are elite four which we don't want getting these moves since their movesets are good already
-;;;;;;;;;; PureRGBnote: CHANGED: gym leader special moves can have custom indices instead of hardcoded to replace move 2 of the given pokemon.
-	dec a ; indices start at 0, wLoneAttackNo starts at 1
-	ld b, a
-	add b ; double the index value 
-	add b ; triple the index value (each entry is 3 bytes)
-	ld c, a
-	ld b, 0
-	ld hl, LoneMoves 
-	add hl, bc ; select the correct entry from LoneMoves
-	ld a, [hli] ; pokemon index
-	ld c, [hl] ; move index for the above pokemon
+	jr nc, .AddTeamMove ; >8 = elite four, whose movesets are already good
+	ld e, a ; e = this gym leader's number (preserved across the loop)
+	ld hl, LoneMoves
+.scanLoneMoves
+	ld a, [hl]
+	cp -1
+	jr z, .AddTeamMove ; end of table -> done
+	cp e
+	jr z, .applyLoneMove ; this row belongs to our leader
+	inc hl ; skip this 4-byte row
 	inc hl
-	ld d, [hl] ; move to be given
+	inc hl
+	inc hl
+	jr .scanLoneMoves
+.applyLoneMove
+	inc hl ; past the leader-number byte
+	ld a, [hli] ; a = pokemon index (0-based)
+	ld c, [hl] ; c = move slot to overwrite
+	inc hl
+	ld b, [hl] ; b = move to give
+	inc hl ; hl -> next row
+	push hl ; preserve the table pointer across AddNTimes
+	ld d, b ; d = move (survives AddNTimes; e/d untouched by it)
+	ld b, 0 ; bc = move slot
 	ld hl, wEnemyMon1Moves
-	add hl, bc ; select which move will be replaced based on c
+	add hl, bc ; + the move slot
 	ld bc, PARTYMON_STRUCT_LENGTH
-	call AddNTimes ; select the correct pokemon to modify
-	ld [hl], d ; modify the move at the given slot to be the given move
-;;;;;;;;;;
-	jr .FinishUp
+	call AddNTimes ; hl += pokemon index * struct length -> the target move byte
+	ld [hl], d ; overwrite that move
+	pop hl
+	jr .scanLoneMoves
 .AddTeamMove
 ; check if our trainer's team has special moves
 

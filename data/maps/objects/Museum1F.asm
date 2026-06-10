@@ -4,6 +4,7 @@
 	const_export MUSEUM1F_SCIENTIST2
 	const_export MUSEUM1F_SCIENTIST3
 	const_export MUSEUM1F_OLD_AMBER
+	const_export MUSEUM1F_ROCKET_GRUNT
 
 Museum1F_Object:
 	db $a ; border block
@@ -25,5 +26,6 @@ Museum1F_Object:
 	object_event 15,  2, SPRITE_SCIENTIST, STAY, DOWN, TEXT_MUSEUM1F_SCIENTIST2
 	object_event 17,  4, SPRITE_SCIENTIST, STAY, NONE, TEXT_MUSEUM1F_SCIENTIST3
 	object_event 16,  2, SPRITE_OLD_AMBER, STAY, NONE, TEXT_MUSEUM1F_OLD_AMBER
+	object_event  8,  1, SPRITE_ROCKET, STAY, DOWN, TEXT_MUSEUM1F_ROCKET_GRUNT ; Sunsette: gone after the Mt. Moon fossil
 
 	def_warps_to MUSEUM_1F

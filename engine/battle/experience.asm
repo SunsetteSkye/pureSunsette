@@ -677,16 +677,18 @@ DoubleExp:
 
 ExpLevelScaleThresholds:
 ; boost-below (T1, x1.5), penalty-above (T2, x0.25), deeper-penalty-above (T3, also x0.25)
-	db  8,  12,  14 ; 0 badges
-	db 12,  18,  21 ; 1 badge
-	db 16,  24,  28 ; 2 badges
-	db 20,  30,  35 ; 3 badges
-	db 24,  36,  42 ; 4 badges
-	db 27,  40,  46 ; 5 badges
-	db 30,  44,  51 ; 6 badges
-	db 33,  48,  55 ; 7 badges
-	db 42,  60,  69 ; 8 badges
-	db 50, 100, 100 ; Champion
+; Sunsette: tuned to THIS hack's level curve - T2 caps just below the NEXT leader's ace, T1 just
+; below the PREVIOUS leader's ace (so the bands chain). Next-leader aces in the comments.
+	db  8,  12,  14 ; 0 badges -> Brock (14)
+	db 12,  21,  23 ; 1 badge  -> Misty (23)
+	db 21,  26,  28 ; 2 badges -> Lt. Surge (28)
+	db 26,  35,  37 ; 3 badges -> Erika (37)
+	db 35,  48,  50 ; 4 badges -> Koga (50)
+	db 48,  56,  58 ; 5 badges -> Sabrina (58)
+	db 56,  60,  62 ; 6 badges -> Blaine (62)
+	db 60,  62,  64 ; 7 badges -> Giovanni (64)
+	db 62,  64,  66 ; 8 badges -> Elite Four / Lorelei (66)
+	db 70, 100, 100 ; Champion (post-game; T1 = champ ace 72 - 2, T2 effectively no cap)
 
 ; Sunsette: count obtained badges -> a (0-8); preserves bc
 CountObtainedBadges:

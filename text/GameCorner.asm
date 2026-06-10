@@ -88,25 +88,36 @@ _GameCornerMiddleAgedWomanText::
 	done
 
 _GameCornerGymGuideChampInMakingText::
-	text "Hey!"
+	text "Hey, champ!"
 
-	para "You have better"
-	line "things to do,"
-	cont "champ in making!"
+	para "Men can't enter"
+	line "that GYM unless"
+	cont "challenging the"
+	cont "LEADER, so I'm"
+	cont "here at the slots!"
 
-	para "CELADON GYM's"
-	line "LEADER is ERIKA!"
-	cont "She uses grass-"
-	cont "type #MON!"
-
-	para "She might appear"
-	line "docile, but don't"
-	cont "be fooled!"
+	para "ERIKA uses grass-"
+	line "types. The perfume"
+	cont "in there is"
+	cont "intense!"
 	done
 
 _CeladonGameCornerText_gymguide::
+	text_asm
+	push bc
+	callfar ComputeExpGrowthThreshold
+	pop bc
+	ld hl, .body
+	ret
+.body:
 	text "I hear you beat"
 	line "ERIKA!"
+
+	para "That BADGE lets"
+	line "you raise #MON"
+	cont "up to L@"
+	text_decimal wExpGrowthThreshold, 1, 2
+	text "!"
 	prompt
 
 _CeladonGameCornerGymGuideApexChipGrassText::

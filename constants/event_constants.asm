@@ -71,7 +71,8 @@
 	const_next $68
 	const EVENT_BOUGHT_MUSEUM_TICKET
 	const EVENT_GOT_OLD_AMBER
-	const_skip 5
+	const_skip 4
+	const EVENT_WARNED_ABOUT_MT_MOON ; Sunsette: the Pewter east-exit youngster has given his one-time Mt. Moon warning
 	const EVENT_GYM_GUIDE_CALLED_PLAYER_OVER
 	const EVENT_RETURNED_LOST_WALLET
 	const EVENT_BEAT_WALLET_KID
@@ -717,7 +718,8 @@ DEF FLAG_JIGGLE_TOGGLE EQU const_value
 	const_skip
 	const EVENT_FIGHT_ROUTE16_SNORLAX
 	const EVENT_BEAT_ROUTE16_SNORLAX
-	const_skip 4
+	const_skip 3
+	const EVENT_GOT_FAMOUS_GIRL_TM ; Sunsette: Route 16 "famous girl" now gives the LEECH SEED TM (claimed from the 4-bit skip; EVENT_GOT_HM02 below keeps its position)
 	const EVENT_GOT_HM02
 	const EVENT_RESCUED_MR_FUJI
 
@@ -904,6 +906,12 @@ DEF FLAG_JIGGLE_TOGGLE EQU const_value
 ; Type Guy's house
 	const EVENT_TYPE_GUY_LIGHT_SWITCH
 	const EVENT_TYPE_GUY_SKIP_INTRO
+
+; Sunsette: Pewter Museum exhibit "feel smarter" one-time bonuses
+	const EVENT_MUSEUM_READ_AERODACTYL_FOSSIL
+	const EVENT_MUSEUM_READ_KABUTOPS_FOSSIL
+	const EVENT_MUSEUM_READ_SPACE_SHUTTLE
+	const EVENT_MUSEUM_READ_MOON_STONE
 
 	; pureRGBnote: ~62 bits of unused space (large)
 

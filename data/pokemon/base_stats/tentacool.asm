@@ -15,9 +15,10 @@
 
 	; tm/hm learnset
 	tmhm \
+	SONICBOOM,\ ; ILL WIND
 	PIN_MISSILE,\
 	TOXIC,\
-	SLASH,\
+	DISABLE,\
 	DOUBLE_EDGE,\
 	BUBBLEBEAM,\
 	AURORA_BEAM,\

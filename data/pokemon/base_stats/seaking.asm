@@ -15,6 +15,7 @@
 
 	; tm/hm learnset
 	tmhm \
+	DISABLE,\
 	TOXIC,\
 	HORN_DRILL,\
 	BODY_SLAM,\
@@ -28,7 +29,6 @@
 	SWORDS_DANCE,\
 	REFLECT,\
 	BIDE,\
-	AGILITY,\
 	BARRAGE,\
 	SLAM,\ ; FILTHY SLAM
 	LOVELY_KISS,\

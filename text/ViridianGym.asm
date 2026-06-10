@@ -44,11 +44,6 @@ _ViridianGymGiovanniPostBattleAdviceText::
 	text_end
 
 _ViridianGymGiovanniEarthBadgeInfoText::
-	text_asm
-	callfar ComputeExpGrowthThresholdLeader
-	ld hl, .body
-	ret
-.body:
 	text "The EARTHBADGE is"
 	line "evidence of your"
 	cont "mastery as a"
@@ -61,12 +56,6 @@ _ViridianGymGiovanniEarthBadgeInfoText::
 	para "It is my gift for"
 	line "your #MON"
 	cont "LEAGUE challenge!"
-
-	para "And your #MON"
-	line "up to L"
-	text_decimal wExpGrowthThreshold, 1, 2
-	text " grow"
-	cont "more efficiently!"
 
 	para "Now your #MON"
 	line "use their full"
@@ -243,17 +232,30 @@ _ViridianGymGuidePreBattleText::
 	line "toughest of all"
 	cont "the GYM LEADERs!"
 
-	para "I heard that the"
-	line "trainers here"
-	cont "like ground-type"
-	cont "#MON!"
+	para "The packed earth"
+	line "here steadies"
+	cont "their aim-- they"
+	cont "rarely miss!"
 	done
 
 _ViridianGymGuidePostBattleText::
+	text_asm
+	push bc
+	callfar ComputeExpGrowthThreshold
+	pop bc
+	ld hl, .body
+	ret
+.body:
 	text "Blow me away!"
 	line "GIOVANNI was the"
-	cont "GYM LEADER here?@"
-	text_end
+	cont "GYM LEADER here?"
+
+	para "That BADGE lets"
+	line "you raise #MON"
+	cont "up to L@"
+	text_decimal wExpGrowthThreshold, 1, 2
+	text "!"
+	prompt
 
 _ViridianGymGuideApexChipGroundText::
 	text "For ground"

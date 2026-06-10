@@ -1,6 +1,9 @@
 _RockTunnel1FHiker1BattleText::
-	text "This tunnel goes"
-	line "a long way, kid!"
+	text "Bah! I've wandered"
+	line "these tunnels for"
+	cont "days, I reckon!"
+	para "Which way is OUT,"
+	line "kid?!"
 	done
 
 _RockTunnel1FHiker1EndBattleText::
@@ -9,9 +12,16 @@ _RockTunnel1FHiker1EndBattleText::
 	prompt
 
 _RockTunnel1FHiker1AfterBattleText::
-	text "Watch for ONIX!"
-	line "It can put the"
-	cont "squeeze on you!"
+	text "Y'know, a GYM"
+	line "LEADER got lost"
+	cont "in peaks like"
+	cont "these once."
+	para "A bird wreathed"
+	line "in flame led him"
+	cont "to safety, they"
+	cont "say."
+	para "...Bah. Just an"
+	line "old hiker's tale."
 	done
 
 _RockTunnel1FHiker2BattleText::

@@ -58,6 +58,21 @@ UpdatePlayerSprite:
 	ld [wSpritePlayerStateData1AnimFrameCounter], a
 	jr .calcImageIndex
 .next
+	; Sunsette: a "knockback" hop (e.g. the museum grunt's shove) keeps the player facing
+	; the pusher instead of the travel direction. Only honored mid-hop so normal walking,
+	; and normal ledge jumps (which leave wForcedPlayerFacing 0), behave as before.
+	ld b, a ; b = movement-derived facing
+	ld a, [wMovementFlags]
+	bit BIT_LEDGE_OR_FISHING, a
+	jr z, .normalFacing
+	ld a, [wForcedPlayerFacing]
+	and a
+	jr z, .normalFacing
+	dec a ; stored as facing+1
+	jr .storeFacing
+.normalFacing
+	ld a, b
+.storeFacing
 	ld [wSpritePlayerStateData1FacingDirection], a
 	ld a, [wFontLoaded]
 	bit BIT_FONT_LOADED, a

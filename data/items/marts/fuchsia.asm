@@ -9,9 +9,9 @@ FuchsiaMartClerkText::
 	
 FuchsiaTMKidShop::
 	script_mart \
-	TM_SLASH, \
-	TM_MEGA_DRAIN, \
+	TM_DISABLE, \
+	TM_LEECH_SEED, \
 	TM_PIN_MISSILE, \
-	TM_AGILITY
+	TM_SONICBOOM
 	
 

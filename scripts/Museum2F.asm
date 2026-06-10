@@ -48,11 +48,45 @@ Museum2FHikerText:
 	text_end
 
 Museum2FSpaceShuttleSignText:
+	text_asm
+	ld hl, .text
+	rst _PrintText
+	; Sunsette: first time reading the space shuttle exhibit -> +Special stat EXP to the party
+	CheckEvent EVENT_MUSEUM_READ_SPACE_SHUTTLE
+	jr nz, .done
+	SetEvent EVENT_MUSEUM_READ_SPACE_SHUTTLE
+	call WaitForTextScrollButtonPress ; finish reading the exhibit, THEN the bonus message
+	callfar GrantMuseumSmartsBonus
+	ld hl, Museum2FSmarterText
+	rst _PrintText
+.done
+	rst TextScriptEnd
+.text
 	text_far _Museum2FSpaceShuttleSignText
 	text_end
 
 Museum2FMoonStoneSignText:
+	text_asm
+	ld hl, .text
+	rst _PrintText
+	; Sunsette: first time reading the moon stone exhibit -> +Special stat EXP to the party
+	CheckEvent EVENT_MUSEUM_READ_MOON_STONE
+	jr nz, .done
+	SetEvent EVENT_MUSEUM_READ_MOON_STONE
+	call WaitForTextScrollButtonPress ; finish reading the exhibit, THEN the bonus message
+	callfar GrantMuseumSmartsBonus
+	ld hl, Museum2FSmarterText
+	rst _PrintText
+.done
+	rst TextScriptEnd
+.text
 	text_far _Museum2FMoonStoneSignText
+	text_end
+
+; printed from this script bank so the get-item jingle keeps its bank
+Museum2FSmarterText:
+	text_far _MuseumSmarterText
+	sound_get_item_1
 	text_end
 
 Museum2FTrainerHeaders:

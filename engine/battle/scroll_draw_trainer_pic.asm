@@ -3,6 +3,10 @@ _ScrollTrainerPicAfterBattle:
 ; the screen from the right.
 ; Sunsette: color the trainer pic for its class (slot 3) instead of reverting to MEWMON. The
 ; class + OPP_ID_OFFSET is the NonMonCustomPalettes sentinel; slot 2 stays the player's mon.
+	; Sunsette: drop any WATERIFY "force PAL_BLUEMON" soak (bit 1) left on the just-fainted enemy mon
+	; BEFORE the SET_PAL_BATTLE below, so the defeated trainer's reappearing pic isn't tinted blue.
+	ld hl, wEnemyMonFlags
+	res 1, [hl]
 	ld a, [wTrainerClass]
 	add OPP_ID_OFFSET
 	ld [wEnemyMonSpecies2], a

@@ -232,3 +232,18 @@ _FightingBrosRocketText4::
 	para "FIGHTING BROS."
 	line "NEVER GIVE UP!"
 	done
+
+; Sunsette: relocated here from text/ViridianForest.asm (its Text 1 bank is full). Shown when you re-talk
+; to the Viridian Forest PIKACHU girl after she's given you HM05 FLASH.
+_ViridianForestPikaGirlHMExplanationText::
+	text "A Hidden Machine"
+	line "teaches a #MON"
+	cont "a new move."
+
+	para "And that move can"
+	line "be used outside"
+	cont "battle, too-"
+
+	para "once you've earned"
+	line "the right BADGE!"
+	done

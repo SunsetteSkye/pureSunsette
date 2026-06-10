@@ -15,11 +15,12 @@
 
 	; tm/hm learnset
 	tmhm \
+	SONICBOOM,\ ; ILL WIND
 	LEECH_SEED,\
 	PIN_MISSILE,\
 	TOXIC,\
 	BODY_SLAM,\
-	SLASH,\
+	DISABLE,\
 	DOUBLE_EDGE,\
 	HYPER_BEAM,\
 	AMNESIA,\

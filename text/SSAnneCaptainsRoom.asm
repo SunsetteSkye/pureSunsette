@@ -29,6 +29,11 @@ _SSAnneCaptainsRoomCaptainIFeelMuchBetterText::
 	line "#MON and you"
 	cont "can see it CUT"
 	cont "any time!"
+
+	para "It cuts deep!"
+	line "It DISABLEs the"
+	cont "foe's last move"
+	cont "as it damages!"
 	prompt
 
 _SSAnneCaptainsRoomCaptainNotSickAnymoreText::

@@ -8,17 +8,17 @@ Route16FlyHouse_TextPointers:
 
 Route16FlyHouseBrunetteGirlText:
 	text_asm
-	CheckEvent EVENT_GOT_HM02
-	ld hl, .HM02ExplanationText
+	CheckEvent EVENT_GOT_FAMOUS_GIRL_TM
+	ld hl, .TMExplanationText
 	jr nz, .printDone
 	ld hl, .Text
 	rst _PrintText
-	lb bc, HM_FLY, 1
+	lb bc, TM_LEECH_SEED, 1
 	call GiveItem
-	ld hl, .HM02NoRoomText
+	ld hl, .NoRoomText
 	jr nc, .printDone
-	SetEvent EVENT_GOT_HM02
-	ld hl, .ReceivedHM02Text
+	SetEvent EVENT_GOT_FAMOUS_GIRL_TM
+	ld hl, .ReceivedTMText
 .printDone
 	rst _PrintText
 	rst TextScriptEnd
@@ -27,17 +27,17 @@ Route16FlyHouseBrunetteGirlText:
 	text_far _Route16FlyHouseBrunetteGirlText
 	text_end
 
-.ReceivedHM02Text:
-	text_far _Route16FlyHouseBrunetteGirlReceivedHM02Text
-	sound_get_key_item
+.ReceivedTMText:
+	text_far _Route16FlyHouseBrunetteGirlReceivedTMText
+	sound_get_item_1
 	text_end
 
-.HM02ExplanationText:
-	text_far _Route16FlyHouseBrunetteGirlHM02ExplanationText
+.TMExplanationText:
+	text_far _Route16FlyHouseBrunetteGirlTMExplanationText
 	text_end
 
-.HM02NoRoomText:
-	text_far _Route16FlyHouseBrunetteGirlHM02NoRoomText
+.NoRoomText:
+	text_far _Route16FlyHouseBrunetteGirlNoRoomText
 	text_end
 
 Route16FlyHouseFearowText:

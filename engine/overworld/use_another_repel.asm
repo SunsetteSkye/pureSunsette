@@ -35,3 +35,42 @@ UseAnotherRepel::
 RepelUseAnotherText:
 	text_far _RepelUseAnotherText
 	text_end
+
+; Sunsette: ADDED: called when the repel/hiding step counter reaches 0 (DisplayRepelWoreOffText).
+; Branches on wHidingMoveID: 0 = a normal Repel item wore off (vanilla "use another?"); otherwise a
+; "hiding" field move (SAND ATTACK / MIST / HAZE / SMOKESCREEN) wore off, in which case we offer to
+; keep hiding only if a party member can still use that exact move.
+RepelOrHidingWoreOff::
+	ld a, [wHidingMoveID]
+	and a
+	jr nz, .hiding
+; normal Repel item wore off
+	ld hl, RepelWoreOffText ; home text wrapper, mapped in every bank
+	rst _PrintText
+	jr UseAnotherRepel
+.hiding
+	ld hl, StoppedHidingText
+	rst _PrintText
+	ld a, [wHidingMoveID]
+	ld d, a
+	call IsMoveInParty ; d = move -> d = match count, z if none (direct call: z flag survives)
+	jr z, .stopHiding ; no party member can keep it up -> hiding ends
+	ld hl, KeepHidingText
+	rst _PrintText
+	call YesNoChoice
+	jr nz, .stopHiding ; chose No
+	ld a, 100
+	ld [wRepelRemainingSteps], a ; re-arm the hiding counter; wHidingMoveID unchanged
+	ret
+.stopHiding
+	xor a
+	ld [wHidingMoveID], a
+	ret
+
+StoppedHidingText:
+	text_far _StoppedHidingText
+	text_end
+
+KeepHidingText:
+	text_far _KeepHidingText
+	text_end

@@ -10,11 +10,13 @@
 	INCBIN "gfx/pokemon/front/muk.pic", 0, 1 ; sprite dimensions
 	dw MukPicFront, MukPicBackSW
 
-	db POUND, DISABLE, NO_MOVE, NO_MOVE ; level 1 learnset
+	db TACKLE, DISABLE, NO_MOVE, NO_MOVE ; level 1 learnset
 	db GROWTH_MEDIUM_FAST ; growth rate
 
 	; tm/hm learnset
 	tmhm \
+	DISABLE,\
+	SONICBOOM,\ ; ILL WIND
 	ICE_PUNCH,\
 	LEECH_SEED,\
 	FIRE_PUNCH,\

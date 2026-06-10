@@ -894,7 +894,12 @@ NEXTU
 wJigglypuffFacingDirections:: ds 4
 
 NEXTU
-	ds 16
+	; Sunsette: connection-crossfade scratch. Overlays the Jigglypuff/Cut overworld-animation union
+	; members; none of those can be active while crossing a map connection, so reusing the space is safe.
+wXfadeOldColors:: ds 8 ; snapshot of the OLD map's BG slot-0 colors (4 x 15-bit), captured at the cross
+wXfadeTargetPal:: db   ; the NEW map's overworld PAL (its colors are re-read from SuperPalettes during the fade)
+wXfadePending:: db     ; 1 = a crossfade is queued (set at the cross, consumed once the new map is drawn)
+	ds 6
 ; $3d = tree tile, $52 = grass tile
 wCutTile:: db
 	ds 2
@@ -1237,7 +1242,8 @@ ENDU
 ; Sunsette: always-on EXP ALL state (set per GainExperience call) - carved from the unused gap below
 wExpAllActive:: db  ; nonzero once the Pokedex is obtained -> new distribution
 wTeamExpGained:: dw ; running total EXP for the single team message
-wExpGrowthThreshold:: db ; T2 (half-XP level) for the current badge count, computed for badge dialogue
+	ds 1 ; Sunsette: was wExpGrowthThreshold - MOVED to a stable saved-data byte (the $cf scratch here
+	     ; got clobbered on the battle->overworld transition, garbling the badge-dialogue number)
 wHappinessKeyScratch:: ds 5 ; Sunsette: transient {species,DVlo,DVhi,level,happiness} for the boxed-happiness cache
 wAffectionSurviveUsed:: db ; Sunsette: nonzero once the affection survive-at-1HP fired this switch-in
 wAffectionJustSurvived:: db ; Sunsette: transient - print the survive message after the HP bar animates
@@ -1801,7 +1807,12 @@ wSavedTileAnimations:: db
 
 wDamage:: dw
 
-	ds 2 ; unused 2 bytes
+	ds 1 ; unused
+
+; Sunsette: 0 = the active repel is a normal Repel item; otherwise the field move
+; (SAND_ATTACK / MIST / HAZE / SMOKESCREEN) that is currently keeping you hidden.
+; Parallels wRepelRemainingSteps so it is equally stable across steps/maps.
+wHidingMoveID:: db
 
 wRepelRemainingSteps:: db
 
@@ -1818,7 +1829,10 @@ wLearnsetList::
 ; concatenated move name list where intermediate '@' are replaced with '<NEXT>'
 wMovesString:: ds NUM_MOVES * MOVE_NAME_LENGTH ; 56
 
-ds 3 ; unused 3 bytes (used to be wUnusedCurMapTilesetCopy and wWalkBikeSurfStateCopy and wInitListType but that was a pointless waste)
+; Sunsette: scratch for the Viridian schoolhouse Move Relearner (3 bytes, formerly unused)
+wRelearnerLevel:: db       ; selected mon's current level (used while filtering relearnable moves)
+wRelearnerPartyIndex:: db  ; selected party mon index (the move list menu clobbers wWhichPokemon)
+wRelearnerMove:: db        ; the move chosen from the relearn list
 
 ; 0 if no mon was captured
 wCapturedMonSpecies:: db
@@ -2457,7 +2471,11 @@ wLevelLimit:: db
 wFitnessOpponentLevel:: db
 wFitnessOpponentMonCount:: db
 
-	ds 1 ; unused save file byte
+; Sunsette: MOVED here from the $cf scratch region (was $cf71). It's computed in the gym/badge text
+; and read by text_decimal a moment later, but $cf gets reused on the battle->overworld transition
+; that coincides with the post-battle badge text, garbling the number. This stable saved-data byte
+; (next to wLevelLimit, which works with text_decimal) survives that window. Value is transient.
+wExpGrowthThreshold:: db ; T2 (half-XP level) for the current badge count, for the badge dialogue
 
 wObtainedHiddenItemsFlags:: flag_array MAX_HIDDEN_ITEMS
 wObtainedHiddenCoinsFlags:: flag_array MAX_HIDDEN_COINS
@@ -2489,7 +2507,10 @@ wPlayerJumpingYScreenCoordsIndex:: db
 
 wRivalStarter:: db
 
-	ds 1
+; Sunsette: while a ledge-style "knockback" hop is in progress (BIT_LEDGE_OR_FISHING),
+; force the player's facing to this value minus 1 instead of the travel direction
+; (0 = no override). Set by DoMuseumGruntShove, cleared when the hop finishes.
+wForcedPlayerFacing:: db
 
 wPlayerStarter:: db
 

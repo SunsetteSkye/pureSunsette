@@ -1,4 +1,5 @@
 CeruleanCaveB1F_Script:
+	callfar CheckUsedFlash ; Sunsette: FLASH brightens this dark cave (mirrors Rock Tunnel)
 	call EnableAutoTextBoxDrawing
 	ld hl, wCurrentMapScriptFlags
 	res BIT_CUR_MAP_LOADED_1, [hl]

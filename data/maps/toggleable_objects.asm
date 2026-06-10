@@ -162,6 +162,7 @@ ToggleableObjectStates:
 
 	toggleable_objects_for MUSEUM_1F
 	toggle_object_state MUSEUM1F_OLD_AMBER, ON
+	toggle_object_state MUSEUM1F_ROCKET_GRUNT, ON ; Sunsette: shown until the Mt. Moon fossil is received
 
 	toggleable_objects_for CERULEAN_CAVE_1F
 	toggle_object_state CERULEANCAVE1F_ITEM1, ON

@@ -62,11 +62,6 @@ _PewterGymBrockReceivedBoulderBadgeText::
 	text_end
 
 _PewterGymBrockBoulderBadgeInfoText::
-	text_asm
-	callfar ComputeExpGrowthThresholdLeader
-	ld hl, .body
-	ret
-.body:
 	text_start
 
 	para "That's an official"
@@ -74,18 +69,9 @@ _PewterGymBrockBoulderBadgeInfoText::
 	cont "BADGE!"
 
 	para "Its bearer's"
-	line "#MON become"
-	cont "more powerful!"
-
-	para "And your #MON"
-	line "up to L"
-	text_decimal wExpGrowthThreshold, 1, 2
-	text " grow"
-	cont "more efficiently!"
-
-	para "That limit rises"
-	line "with each BADGE"
-	cont "you earn!"
+	line "#MON grow"
+	cont "faster, and hit"
+	cont "a bit harder!"
 
 	para "The technique"
 	line "FLASH can now be"
@@ -136,16 +122,21 @@ _PewterGymGuideBeginAdviceText::
 
 _PewterGymGuideAdviceText::
 	text "A GYM is an arena!"
+	line "One type, bending"
+	cont "the field to"
+	cont "fight harder!"
 
-	para "Every trainer here"
-	line "battles with one"
-	cont "type, and bends"
-	cont "the arena itself"
-	cont "to fight harder!"
+	para "Here it's the"
+	line "ROCK-type. Tough"
+	cont "on FIRE and lots"
+	cont "of common types,"
+	cont "but with severe"
+	cont "weaknesses!"
 
-	para "Spot their type,"
-	line "and come ready"
-	cont "to counter it!"
+	para "The arena hides"
+	line "some of those"
+	cont "weaknesses, but"
+	cont "not all!"
 	done
 
 _PewterGymGuideFreeServiceText::
@@ -155,9 +146,30 @@ _PewterGymGuideFreeServiceText::
 	prompt
 
 _PewterGymGuidePostBattleText::
+	text_asm
+	push bc ; preserve the text cursor (bc) - the callfar macro's `ld b,BANK` clobbers b, which would
+	callfar ComputeExpGrowthThreshold ; shift the first line off the top of the box. true badge count
+	pop bc ; -> wExpGrowthThreshold (XP-growth level)
+	ld hl, .body
+	ret
+.body:
 	text "Just as I thought!"
 	line "You're #MON"
 	cont "champ material!"
+
+	para "A BADGE lets you"
+	line "raise #MON to a"
+	cont "higher level"
+	cont "before they slow."
+
+	para "Right now, that's"
+	line "about L@"
+	text_decimal wExpGrowthThreshold, 1, 2
+	text "!"
+
+	para "But that's not"
+	line "what I called"
+	cont "you over for!"
 	prompt
 
 _PewterGymGuideApexChipText::

@@ -8,7 +8,17 @@ _PokemonTower7FMrFujiRescueText::
 
 	para "I came to calm"
 	line "the soul of"
-	cont "CUBONE's mother.@"
+	cont "CUBONE's mother."
+
+	para "...So many souls"
+	line "I could not save."
+
+	para "Even one born of"
+	line "dreams, long ago,"
+	cont "rare as a mirage."
+
+	para "Forgive an old"
+	line "man's mutterings.@"
 	text_end
 
 _PokemonTower7FMrFujiCaughtText::

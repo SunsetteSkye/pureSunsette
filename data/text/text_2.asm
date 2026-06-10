@@ -698,8 +698,10 @@ _ViridianBlackboardBurnText::
 
 _ViridianBlackboardFrozenText::
 	text "If frozen, a"
-	line "#MON becomes"
-	cont "totally immobile!"
+	line "#MON can still"
+	cont "act, but its"
+	cont "SPECIAL and SPEED"
+	cont "are cut in half!"
 
 	para "It stays frozen"
 	line "even after the"

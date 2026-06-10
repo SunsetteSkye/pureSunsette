@@ -10,7 +10,7 @@
 	INCBIN "gfx/pokemon/front/lickitung.pic", 0, 1 ; sprite dimensions
 	dw LickitungPicFront, LickitungPicBackSW
 
-	db LICK, POUND, NO_MOVE, NO_MOVE ; level 1 learnset
+	db LICK, TACKLE, NO_MOVE, NO_MOVE ; level 1 learnset
 	db GROWTH_MEDIUM_FAST ; growth rate
 
 	; tm/hm learnset
@@ -20,7 +20,7 @@
 	FIRE_PUNCH,\
 	TOXIC,\
 	BODY_SLAM,\
-	SLASH,\
+	DISABLE,\
 	DOUBLE_EDGE,\
 	BUBBLEBEAM,\
 	AURORA_BEAM,\

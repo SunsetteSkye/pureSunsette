@@ -8,21 +8,22 @@ _Route16FlyHouseBrunetteGirlText::
 	cont "to you with this!"
 	prompt
 
-_Route16FlyHouseBrunetteGirlReceivedHM02Text::
+_Route16FlyHouseBrunetteGirlReceivedTMText::
 	text "<PLAYER> received"
-	line "HM02!"
+	line "the LEECH SEED TM!"
 	done
 
-_Route16FlyHouseBrunetteGirlHM02ExplanationText::
-	text "HM02 is FLY."
-	line "It will take you"
-	cont "back to any town."
+_Route16FlyHouseBrunetteGirlTMExplanationText::
+	text "LEECH SEED saps"
+	line "the foe's HP each"
+	cont "turn to heal your"
+	cont "own #MON!"
 
 	para "Put it to good"
 	line "use!"
 	done
 
-_Route16FlyHouseBrunetteGirlHM02NoRoomText::
+_Route16FlyHouseBrunetteGirlNoRoomText::
 	text "You don't have any"
 	line "room for this."
 	done

@@ -15,6 +15,7 @@
 
 	; tm/hm learnset
 	tmhm \
+	DISABLE,\
 	ICE_PUNCH,\
 	TOXIC,\
 	BODY_SLAM,\
@@ -42,8 +43,7 @@
 	SUBSTITUTE,\
 	CUT,\
 	SURF,\
-	STRENGTH,\
-	FLASH
+	STRENGTH
 
 	db BANK(BlastoisePicFront)
 	db BANK(BlastoisePicFrontAlt)

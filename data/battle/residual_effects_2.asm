@@ -32,5 +32,6 @@ ResidualEffects2:
 	db ATTACK_DEFENSE_UP1_EFFECT
 	db MEDITATE_EFFECT
 	db SCREECH_EFFECT
+	db FLASH_EFFECT ; Sunsette: no-damage accuracy-up (+ flinch) move
 ;;;;;;;;;;
 	db -1 ; end

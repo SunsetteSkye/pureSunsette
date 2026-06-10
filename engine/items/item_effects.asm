@@ -2007,8 +2007,12 @@ ItemUseRepelCommon:
 	ld a, [wIsInBattle]
 	and a
 	jp nz, ItemUseNotTime
-	ld a, b
-	ld [wRepelRemainingSteps], a
+	; Sunsette: wHidingMoveID sits immediately before wRepelRemainingSteps, so clear it (a Repel item is
+	; a normal repel, not move-hiding) and write the step count in a single pass through hl.
+	xor a
+	ld hl, wHidingMoveID
+	ld [hli], a ; wHidingMoveID = 0
+	ld [hl], b ; wRepelRemainingSteps = b
 	jp PrintItemUseTextAndRemoveItem
 
 ; handles X Accuracy item
@@ -2063,7 +2067,7 @@ ItemUseGuardSpec:
 
 ItemUseSuperRepel:
 	ld b, 200
-	jp ItemUseRepelCommon
+	jr ItemUseRepelCommon
 
 ItemUseMaxRepel:
 	ld a, [wIsInBattle]
@@ -2072,7 +2076,7 @@ ItemUseMaxRepel:
 	SetEvent EVENT_USING_MAX_REPEL
 .skip
 	ld b, 250
-	jp ItemUseRepelCommon
+	jr ItemUseRepelCommon
 
 ItemUseDireHit:
 	ld a, [wIsInBattle]

@@ -4,9 +4,9 @@ A graphical edit of PureRGB for my own purposes that grew into a balance pass be
 
 ![full color roster](screenshots/palettework.png)
 
-There's a full-color roster, reworked palettes, and a front-sprite set cherry-picked from the best of Red/Green/Blue/Spaceworld with some personal edits. A decent amount of effort went into making FWG the actual core of the game, despite the absence of Steel, Dark, and Fairy. The type chart got reworked: Grass and Fire have been improved on both offense and defense, Psychic gets knocked down a peg, Ghost becomes a little Steely.
+There's a full-color roster, reworked palettes, and a front-sprite set cherry-picked from the best of Red/Green/Blue/Spaceworld with some personal edits. A decent amount of effort went into making FWG the actual core of the game, despite the absence of Steel, Dark, and Fairy. The type chart got reworked: Grass and Fire have been improved on both offense and defense, Normal resists Psychic now, and Ghost becomes a little Steely.
 
-Early wild tables were tweaked for a bit more variety up front. More of the roster turns up sooner, without cramming the first routes full of rare, high-value catches that feel a little too wish-fulfillment. Several areas have type-dependent zone-wide battle effects to help encourage team variety, and there are more field moves. You can even run into encounters in cities, now! 
+Early wild tables were tweaked for a bit more variety up front. More of the roster turns up sooner, without cramming the first routes full of rare, high-value catches that feel a little too wish-fulfillment. Several areas have type-dependent zone-wide battle effects to help encourage team variety, and there are several more field moves (none of which are necessary, but multiple of which may prove convenient to you). You can even run into encounters in cities, now! 
 
 A small affection system has been added. It's a little less RNG-happy and pervasive than what we get in the modern games, but I hope it helps bring some of that bond feeling to the Game Boy. If you routinely swap your Pokémon out into boxes, you may find the ones left there for long become less affectionate; be warned.
 

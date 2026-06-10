@@ -147,7 +147,7 @@ DEF TM01 EQU const_value
 	add_tm TOXIC        ; $CE
 	add_tm HORN_DRILL   ; $CF
 	add_tm BODY_SLAM    ; $D0
-	add_tm SLASH    	; $D1
+	add_tm DISABLE    	; $D1
 	add_tm DOUBLE_EDGE  ; $D2
 	add_tm BUBBLEBEAM   ; $D3
 	add_tm AURORA_BEAM  ; $D4
@@ -173,7 +173,7 @@ DEF TM01 EQU const_value
 	add_tm SWORDS_DANCE ; $E8
 	add_tm REFLECT      ; $E9
 	add_tm BIDE         ; $EA 
-	add_tm AGILITY    	; $EB
+	add_tm SONICBOOM    	; $EB
 	add_tm BARRAGE 		; $EC
 	add_tm FLAMETHROWER ; $ED
 	add_tm FIRE_BLAST   ; $EE

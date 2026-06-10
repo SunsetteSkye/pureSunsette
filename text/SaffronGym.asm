@@ -41,15 +41,13 @@ _TM46ExplanationText::
 	text_start
 	para "@"
 	text_ram_stringbuffer
-	text " is MEDITATE!"
-	para "Meditating helps"
-	line "focus, raising"
-	cont "many stats."
-	para "In a city with"
-	line "a FIGHTING DOJO"
-	cont "and PSYCHIC GYM,"
-	para "meditation is our"
-	line "common ground!"
+	text " is AMNESIA!"
+	para "Empty the mind of"
+	line "every thought,"
+	para "and your SPECIAL"
+	line "rises!"
+	para "Let it all go,"
+	line "as I have."
 	done
 
 _SaffronGymSabrinaTM46NoRoomText::
@@ -62,23 +60,33 @@ _SaffronGymGuideChampInMakingText::
 	line "use psychic power"
 	cont "instead of force!"
 
-	para "Fighting #MON"
-	line "are weak against"
-	cont "psychic #MON!"
-
-	para "They get creamed"
-	line "before they can"
-	cont "even aim a punch!"
+	para "The charged air"
+	line "here sharpens"
+	cont "her #MON to"
+	cont "strike first!"
 	done
 
 _SaffronGymGuideBeatSabrinaText::
+	text_asm
+	push bc
+	callfar ComputeExpGrowthThreshold
+	pop bc
+	ld hl, .body
+	ret
+.body:
 	text "Psychic power,"
 	line "huh?"
 
-	para "If I had that,"
-	line "I'd make a bundle"
-	cont "at the slots!@"
-	text_end
+	para "If I had that, I'd"
+	line "make a bundle at"
+	cont "the slots!"
+
+	para "That BADGE lets"
+	line "you raise #MON"
+	cont "up to L@"
+	text_decimal wExpGrowthThreshold, 1, 2
+	text "!"
+	prompt
 
 _SaffronGymGuideApexChipPsychicText::
 	text "For psychic"

@@ -15,6 +15,7 @@
 
 	; tm/hm learnset
 	tmhm \
+	DISABLE,\
 	ICE_PUNCH,\
 	FIRE_PUNCH,\
 	TOXIC,\
@@ -30,7 +31,6 @@
 	DIG,\
 	REFLECT,\
 	BIDE,\
-	AGILITY,\
 	BARRAGE,\
 	SLAM,\ ; FILTHY SLAM
 	KARATE_CHOP,\

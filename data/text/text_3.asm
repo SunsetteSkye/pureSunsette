@@ -250,6 +250,11 @@ _ButItFailedText::
 	text "But, it failed!"
 	prompt
 
+_AlreadyDisabledText:: ; Sunsette: Disable/Cut/Submission vs a mon that already has a move disabled
+	text "They're already"
+	line "DISABLED!"
+	prompt
+
 _DidntAffectText::
 	text "It didn't affect"
 	line "<TARGET>!"

@@ -112,7 +112,37 @@ ViridianForestEndBattleText4:
 	text_end
 
 ViridianForestAfterBattleText4:
-	text_far _ViridianForestAfterBattleTextPikaGirl
+	; Sunsette: the PIKACHU girl gives HM05 FLASH once beaten - she gave up finding a PIKACHU to light
+	; Mt. Moon, so she hands you the hidden machine. Shown on re-talk (TalkToTrainer's rst _PrintText
+	; supports text_asm); one-time via EVENT_GOT_HM05 (Oak's Aide no longer sets it).
+	text_asm
+	CheckEvent EVENT_GOT_HM05
+	ld hl, .alreadyText
+	jr nz, .printDone
+	ld hl, .grantText
+	rst _PrintText
+	lb bc, HM_FLASH, 1
+	call GiveItem
+	ld hl, .noRoomText
+	jr nc, .printDone
+	SetEvent EVENT_GOT_HM05
+	ld hl, .receivedText
+.printDone
+	rst _PrintText
+	rst TextScriptEnd
+
+.alreadyText:
+	text_far _ViridianForestPikaGirlHMExplanationText
+	text_end
+.grantText:
+	text_far _ViridianForestPikaGirlFlashGrantText
+	text_end
+.receivedText:
+	text_far _ViridianForestPikaGirlReceivedFlashText
+	sound_get_key_item
+	text_end
+.noRoomText:
+	text_far _ViridianForestPikaGirlNoRoomText
 	text_end
 
 ViridianForestBattleText5:

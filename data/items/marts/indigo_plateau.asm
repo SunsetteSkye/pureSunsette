@@ -42,7 +42,7 @@ IndigoGymGuideSonShop2: ; all TMs
 	TM_TOXIC, \
 	TM_HORN_DRILL, \
 	TM_BODY_SLAM, \
-	TM_SLASH, \
+	TM_DISABLE, \
 	TM_DOUBLE_EDGE, \
 	TM_BUBBLEBEAM, \
 	TM_AURORA_BEAM, \
@@ -68,7 +68,7 @@ IndigoGymGuideSonShop2: ; all TMs
 	TM_SWORDS_DANCE, \
 	TM_REFLECT, \
 	TM_BIDE, \
-	TM_AGILITY, \
+	TM_SONICBOOM, \
 	TM_BARRAGE, \
 	TM_FIRE_BLAST, \
 	TM_FLAMETHROWER, \

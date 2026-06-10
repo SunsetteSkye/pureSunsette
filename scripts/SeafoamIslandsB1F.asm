@@ -1,4 +1,5 @@
 SeafoamIslandsB1F_Script:
+	callfar CheckUsedFlash ; Sunsette: FLASH brightens this dark cave (mirrors Rock Tunnel)
 	call EnableAutoTextBoxDrawing
 
 	ld de, SeafoamB1FHolesCoords

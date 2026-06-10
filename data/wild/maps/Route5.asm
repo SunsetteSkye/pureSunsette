@@ -1,11 +1,11 @@
 Route5WildMons:
 	def_grass_wildmons 25 ; encounter rate
-	db 13, MEOWTH
+	db 13, VENONAT
 	db 13, FARFETCHD
 	db 15, FARFETCHD
-	db 10, MEOWTH
+	db 10, VENONAT
 	db 12, FARFETCHD
-	db 15, MEOWTH
+	db 15, VENONAT
 	db 16, SPEAROW
 	db 16, SPEAROW
 	db 14, GROWLITHE

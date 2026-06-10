@@ -348,7 +348,7 @@ MainInBattleLoop:
 	and a
 	ret nz ; return if pokedoll was used to escape from battle
 	ld a, [wBattleMonStatus]
-	and (1 << FRZ) | SLP_MASK
+	and SLP_MASK ; Sunsette: was (1 << FRZ) | SLP_MASK - freeze no longer blocks acting, so only sleep skips the turn
 	jr nz, .selectEnemyMove ; if so, jump
 	ld a, [wPlayerBattleStatus1]
 	and (1 << USING_TRAPPING_MOVE) ; check player is using Bide or using a multi-turn attack like wrap
@@ -3219,7 +3219,7 @@ SelectEnemyMove:
 	and (1 << CHARGING_UP) | (1 << THRASHING_ABOUT) ; using a charging move or thrash/petal dance
 	ret nz
 	ld a, [wEnemyMonStatus]
-	and (1 << FRZ) | SLP_MASK
+	and SLP_MASK ; Sunsette: was (1 << FRZ) | SLP_MASK - freeze no longer blocks acting, so only sleep skips the turn
 	ret nz
 	ld a, [wEnemyBattleStatus1]
 	and (1 << USING_TRAPPING_MOVE) ; using a trapping move like wrap or bide ; PureRGBnote: CHANGED: bide code removed since its effect was changed
@@ -3405,6 +3405,7 @@ ExecutePlayerMove:
 .skipLoadingPreviousMove
 ;;;;;;;;;;
 	call GetCurrentMove
+	callfar SelfThawOnBurnMove ; Sunsette: a frozen mon using a heat move thaws itself + restores stats
 	ld hl, wPlayerBattleStatus1
 	bit CHARGING_UP, [hl] ; charging up for attack
 	jr nz, PlayerCanExecuteChargingMove
@@ -3552,6 +3553,7 @@ MirrorMoveCheck:
 	call ApplyAttackToEnemyPokemon
 	call PrintCriticalOHKOText
 	callfar DisplayEffectiveness
+	farcall AnnounceEnemyBondSurvival ; Sunsette: enemy bond-survival line AFTER "super effective!"
 	ld a, 1
 	ld [wMoveDidntMiss], a
 .notDone
@@ -3621,7 +3623,7 @@ PrintGhostText:
 	and a
 	jr nz, .Ghost
 	ld a, [wBattleMonStatus] ; player's turn
-	and (1 << FRZ) | SLP_MASK
+	and SLP_MASK ; Sunsette: was (1 << FRZ) | SLP_MASK - freeze no longer blocks acting, so only sleep skips the turn
 	ret nz
 	ld hl, ScaredText
 	rst _PrintText
@@ -3687,15 +3689,8 @@ CheckPlayerStatusConditions:
 	jp .returnToHL
 
 .FrozenCheck
-	bit FRZ, [hl] ; frozen?
-	jr z, .HeldInPlaceCheck
-	ld hl, IsFrozenText
-	rst _PrintText
-	xor a
-	ld [wPlayerUsedMove], a
-	ld hl, ExecutePlayerMoveDone ; player can't move this turn
-	jp .returnToHL
-
+; Sunsette: FRZ no longer prevents acting - it halves the frozen mon's Special + Speed instead
+; (HalveSpecialAndSpeedDueToFreeze, applied at switch-in and on-inflict). Just fall through.
 .HeldInPlaceCheck
 	ld a, [wEnemyBattleStatus1]
 	bit USING_TRAPPING_MOVE, a ; is enemy using a multi-turn move like wrap?
@@ -5106,7 +5101,8 @@ ApplyDamageToEnemyPokemon:
 	xor a
 	ld [wHPBarType], a
 	predef UpdateHPBar ; animate the HP bar shortening
-	farcall AnnounceEnemyBondSurvival ; Sunsette: announce the enemy's bond survival (if any)
+	; Sunsette: the bond-survival message is announced LATER (after the effectiveness text), at the
+	; ExecutePlayerMove site below - not here - so it reads "super effective! ... endured the hit!"
 ApplyAttackToEnemyPokemonDone:
 	jp DrawHUDsAndHPBars
 
@@ -5188,7 +5184,9 @@ ApplyDamageToPlayerPokemon:
 	ld [wBattleMonHP], a
 	ld [wHPBarNewHP+1], a
 	jp nc, .animateHpBar
-; Sunsette: this hit would faint the mon - give non-legendaries an affection survival
+; Sunsette: this hit would faint the mon - give non-legendaries an affection survival. TryAffectionSurvival
+; now also FAILS when the player's selected move would self-heal (Absorb etc.) so survive-then-heal stalls
+; can't happen; a normal (non-heal) survive-at-1HP is still allowed.
 	call BattleRandom
 	ld c, a
 	farcall TryAffectionSurvival
@@ -5983,6 +5981,7 @@ ExecuteEnemyMove:
 	bit CHARGING_UP, [hl] ; is the enemy charging up for attack?
 	jr nz, EnemyCanExecuteChargingMove ; if so, jump
 	call GetCurrentMove
+	callfar SelfThawOnBurnMove ; Sunsette: a frozen mon using a heat move thaws itself + restores stats
 
 CheckIfEnemyNeedsToChargeUp:
 	ld a, [wEnemyMoveEffect]
@@ -6136,7 +6135,9 @@ EnemyCheckIfMirrorMoveEffect:
 	call c, JumpMoveEffect
 	ld hl, wBattleMonHP
 	ld a, [hli]
-	or b
+	or [hl] ; Sunsette FIX: was `or b` (b is garbage here from callfar DisplayEffectiveness/JumpMoveEffect),
+	; which let a 0-HP player mon count as "still standing" and act (degenerate if the move self-heals).
+	; The symmetric enemy-faint check at .notDone does `ld b,[hl]; or b`; here we just OR the HP low byte.
 	jr nz, .playerStillStanding
 ; PureRGB: a KO skips Hyper Beam's recharge (Gen 1 bug), so confuse the user instead
 	ld a, [wEnemyMoveEffect]
@@ -6209,14 +6210,7 @@ CheckEnemyStatusConditions:
 	ld hl, ExecuteEnemyMoveDone ; enemy can't move this turn
 	jp .enemyReturnToHL
 .checkIfFrozen
-	bit FRZ, [hl]
-	jr z, .checkIfTrapped
-	ld hl, IsFrozenText
-	rst _PrintText
-	xor a
-	ld [wEnemyUsedMove], a
-	ld hl, ExecuteEnemyMoveDone ; enemy can't move this turn
-	jp .enemyReturnToHL
+; Sunsette: FRZ no longer prevents acting (it halves Special + Speed instead). Fall through.
 .checkIfTrapped
 	ld a, [wPlayerBattleStatus1]
 	bit USING_TRAPPING_MOVE, a ; is the player using a multi-turn attack like wrap
@@ -6793,7 +6787,8 @@ ApplyBurnAndParalysisPenaltiesToEnemy:
 ApplyBurnAndParalysisPenalties:
 	ldh [hWhoseTurn], a
 	call QuarterSpeedDueToParalysis
-	jp HalveAttackDueToBurn
+	call HalveAttackDueToBurn
+	jpfar HalveSpecialAndSpeedDueToFreeze ; Sunsette: FRZ halves Special + Speed (function in newCode)
 
 
 ; PureRGBnote: CHANGED: this subroutine was optimized a lot but does the same thing.
@@ -7170,28 +7165,15 @@ PlayMoveAnimation:
 	vc_hook_red Reduce_move_anim_flashing_Confusion
 	call Delay3
 	vc_hook_red Reduce_move_anim_flashing_Psychic
-PlayMoveAnimationNoDelay:
+PlayMoveAnimationNoDelay::
 ;;;;;;;;;; shinpokerednote: gbcnote: color code from yellow
 	predef MoveAnimation
 	jpfar Func_78e98
 ;;;;;;;;;;
 
-; Sunsette: play animation (ID in e) over the player's or enemy's mon. Exported so the affection /
-; Pressure cues in other banks can trigger them via farcall. The ID comes in e, NOT a: a cross-bank
-; callfar runs through Bankswitch (`ld a, b`), so a = this code's bank ($0f = 15 = CUT) on entry;
-; Bankswitch never touches e, so callers pass the ID there.
-PlayEnemySideAnim:: ; over the ENEMY's mon (an enemy legendary's Pressure)
-	ld a, 1
-	jr SetSideAnimTurn
-PlayPlayerSideAnim:: ; over the player's mon
-	xor a
-SetSideAnimTurn:
-	ldh [hWhoseTurn], a ; 0 = player, 1 = enemy
-	ld a, e
-	ld [wAnimationID], a
-	xor a
-	ld [wAnimationType], a ; no screen-shake/blink - plain overlay (stale type would flicker)
-	jp PlayMoveAnimationNoDelay
+; Sunsette: PlayEnemySideAnim / PlayPlayerSideAnim (the affection/Pressure overlay cues) MOVED out
+; of this full "Battle Core" section to engine/battle/play_side_anim.asm (a floating section), so the
+; hWhoseTurn save/restore fix would fit. They callfar PlayMoveAnimationNoDelay (now exported, above).
 
 InitBattle::
 	ld a, [wCurOpponent]

@@ -10,11 +10,12 @@
 	INCBIN "gfx/pokemon/front/raticate.pic", 0, 1 ; sprite dimensions
 	dw RaticatePicFront, RaticatePicBackSW
 
-	db TACKLE, TAIL_WHIP, QUICK_ATTACK, NO_MOVE ; level 1 learnset
+	db SCRATCH, TAIL_WHIP, QUICK_ATTACK, NO_MOVE ; level 1 learnset
 	db GROWTH_MEDIUM_FAST ; growth rate
 
 	; tm/hm learnset
 	tmhm \
+	DISABLE,\
 	ICE_PUNCH,\
 	FIRE_PUNCH,\
 	TOXIC,\
@@ -36,7 +37,6 @@
 	KINESIS,\ ; MIRAGE
 	SWORDS_DANCE,\
 	BIDE,\
-	AGILITY,\
 	BARRAGE,\
 	SLAM,\ ; FILTHY SLAM
 	KARATE_CHOP,\

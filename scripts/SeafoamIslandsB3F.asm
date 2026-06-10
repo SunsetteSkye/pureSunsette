@@ -1,5 +1,6 @@
 ; PureRGBnote: CHANGED: This map script was changed a bunch to simplify how currents move the player around.
 SeafoamIslandsB3F_Script:
+	callfar CheckUsedFlash ; Sunsette: FLASH brightens this dark cave (mirrors Rock Tunnel)
 	call EnableAutoTextBoxDrawing
 	call SeafoamIslandsB3FOnMapLoad
 	ld de, SeafoamB3FHolesCoords

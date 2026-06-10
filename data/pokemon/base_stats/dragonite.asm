@@ -15,6 +15,8 @@
 
 	; tm/hm learnset
 	tmhm \
+	DISABLE,\
+	SONICBOOM,\ ; ILL WIND
 	RAZOR_WIND,\ ; ROOST
 	FIRE_PUNCH,\
 	TOXIC,\
@@ -31,7 +33,6 @@
 	KINESIS,\ ; MIRAGE
 	REFLECT,\
 	BIDE,\
-	AGILITY,\
 	BARRAGE,\
 	FIRE_BLAST,\
 	FLAMETHROWER,\

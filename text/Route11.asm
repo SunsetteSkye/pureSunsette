@@ -55,9 +55,9 @@ _Route11Youngster1AfterBattleText::
 	done
 
 _Route11SuperNerd1BattleText::
-	text "Careful!"
-	line "I'm laying down"
-	cont "some cables!"
+	text "Careful! I'm an"
+	line "ENGINEER layin'"
+	cont "down some cables!"
 	done
 
 _Route11SuperNerd1EndBattleText::
@@ -66,8 +66,16 @@ _Route11SuperNerd1EndBattleText::
 	prompt
 
 _Route11SuperNerd1AfterBattleText::
-	text "Spread the word"
-	line "to save energy!"
+	text "I used to work"
+	line "at the POWER"
+	cont "PLANT up the"
+	cont "coast..."
+	para "Til somethin'"
+	line "fierce came"
+	cont "feedin' on all"
+	cont "that current."
+	para "We dropped our"
+	line "tools and RAN."
 	done
 
 _LearnsetMagneton::

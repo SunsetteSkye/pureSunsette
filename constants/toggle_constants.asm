@@ -133,6 +133,7 @@ ENDM
 
 	toggle_consts_for MUSEUM_1F
 	const TOGGLE_OLD_AMBER                     ; 34
+	const TOGGLE_MUSEUM1F_ROCKET_GRUNT         ; 35 ; Sunsette: hides after the Mt. Moon fossil is taken
 
 	toggle_consts_for CERULEAN_CAVE_1F
 	const TOGGLE_CERULEAN_CAVE_1F_ITEM_1       ; 35 X

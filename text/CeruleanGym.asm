@@ -26,11 +26,6 @@ _CeruleanGymMistyTM11ExplanationText::
 	done
 
 _CeruleanGymMistyCascadeBadgeInfoText::
-	text_asm
-	callfar ComputeExpGrowthThresholdLeader
-	ld hl, .body
-	ret
-.body:
 	text "The CASCADEBADGE"
 	line "lets you use CUT"
 	cont "any time!"
@@ -42,12 +37,6 @@ _CeruleanGymMistyCascadeBadgeInfoText::
 	para "It also doubles"
 	line "the power of your"
 	cont "POTIONs!"
-
-	para "And your #MON"
-	line "up to L"
-	text_decimal wExpGrowthThreshold, 1, 2
-	text " grow"
-	cont "more efficiently!"
 
 	para "You can also have"
 	line "my favorite <TM>!"
@@ -111,26 +100,33 @@ _GymGuideChampInMakingText::
 _CeruleanGymGymGuideChampInMakingText::
 	text "Here's my advice!"
 
-	para "The LEADER, MISTY,"
-	line "is a pro who uses"
-	cont "water #MON!"
-
-	para "You can drain all"
-	line "their water with"
-	cont "plant #MON!"
-
-	para "Or, zap them with"
-	line "electricity!"
+	para "MISTY bends this"
+	line "GYM's pool to her"
+	cont "will-- her #MON"
+	cont "mend their wounds"
+	cont "as you fight!"
 	done
 
 _CeruleanGymGymGuideBeatMistyText::
+	text_asm
+	push bc
+	callfar ComputeExpGrowthThreshold
+	pop bc
+	ld hl, .body
+	ret
+.body:
 	text "You beat MISTY!"
 	line "What'd I tell ya?"
 
-	para "You and me kid,"
-	line "we make a pretty"
-	cont "darn good team!@"
-	text_end
+	para "You and me kid, we"
+	line "make a good team!"
+
+	para "That BADGE lets"
+	line "you raise #MON"
+	cont "up to L@"
+	text_decimal wExpGrowthThreshold, 1, 2
+	text "!"
+	prompt
 
 _GymGuideMoreApexChipText::
 	text "I've got two more"

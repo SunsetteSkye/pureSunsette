@@ -130,10 +130,10 @@ DisplayPlayerBlackedOutText::
 	jr HoldTextDisplayOpen
 
 DisplayRepelWoreOffText::
-	ld hl, RepelWoreOffText
-	rst _PrintText
-	callfar UseAnotherRepel ; PureRGBnote: ADDED: when repel wears off ask to use another if available
-	jr CloseTextDisplay  
+	; Sunsette: RepelOrHidingWoreOff prints the correct wore-off line and offers to renew, branching on
+	; wHidingMoveID (normal Repel item vs. SAND ATTACK/MIST/HAZE/SMOKESCREEN "keep hiding?").
+	callfar RepelOrHidingWoreOff
+	jr CloseTextDisplay
 
 CloseTextDisplayPart1:
 	ld a, [wCurMap]

@@ -35,7 +35,7 @@ MoveEffectPointerTable:
 	dw SleepEffect               ; SLEEP_EFFECT
 	dw PoisonEffect              ; POISON_SIDE_EFFECT2
 	dw FreezeBurnParalyzeEffect  ; BURN_SIDE_EFFECT2
-	dw NULL                      ; SPEED_UP_SIDE_EFFECT
+	dw FreezeBurnParalyzeEffect  ; FREEZE_SIDE_EFFECT2 ; Sunsette: 30% freeze, handled natively by the EFFECT2 path
 	dw FreezeBurnParalyzeEffect  ; PARALYZE_SIDE_EFFECT2
 	dw FlinchSideEffect          ; FLINCH_SIDE_EFFECT2
 	dw OneHitKOEffect            ; OHKO_EFFECT
@@ -98,4 +98,8 @@ MoveEffectPointerTable:
 	dw HeatRushEffect            ; HEAT_RUSH_EFFECT
 	dw MegaPunchEffect           ; MEGA_PUNCH_EFFECT
 	dw ScreechEffect             ; SCREECH_EFFECT
+	dw WaterifyEffect            ; WATERIFY_EFFECT
+	dw DisableEffectCore         ; CUT_DISABLE_EFFECT ; Sunsette: runs after Cut's damage -> disable the target's last move (in Battle Core, so no trampoline needed)
+	dw NULL                      ; SPEED_UP_SIDE_EFFECT ; Sunsette: moved here from $23 (NULL handler; Meditate applies it via stat-mapping)
+	dw HazeEffect                ; FLASH_EFFECT ; Sunsette: shares Haze's Battle Core trampoline (Battle Core is full); the floating HazeFlinchEffect_ dispatches Haze vs Flash by effect
 	assert_table_length NUM_MOVE_EFFECTS

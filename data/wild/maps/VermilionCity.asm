@@ -5,11 +5,11 @@ VermilionCityWildMons:
 	db 11, MEOWTH
 	db 14, RATTATA
 	db 12, PIDGEY
-	db 11, VENONAT
+	db 11, KOFFING
 	db 14, MEOWTH
 	db 13, RATTATA
 	db 15, PIDGEY
-	db 12, VENONAT
+	db 12, KOFFING
 	end_grass_wildmons
 
 	def_water_wildmons 5 ; encounter rate

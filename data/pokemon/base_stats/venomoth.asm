@@ -15,6 +15,8 @@
 
 	; tm/hm learnset
 	tmhm \
+	DISABLE,\
+	SONICBOOM,\ ; ILL WIND
 	RAZOR_WIND,\ ; ROOST
 	LEECH_SEED,\
 	PIN_MISSILE,\
@@ -31,7 +33,6 @@
 	SWORDS_DANCE,\
 	REFLECT,\
 	BIDE,\
-	AGILITY,\
 	BARRAGE,\
 	SKY_ATTACK,\
 	LIGHT_SCREEN,\

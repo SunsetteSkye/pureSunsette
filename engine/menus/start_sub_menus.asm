@@ -130,6 +130,10 @@ StartMenu_Pokemon::
 	dw .confuseRay ; Sunsette: ADDED
 	dw .growth ; Sunsette: ADDED
 	dw .flamethrower ; Sunsette: ADDED
+	dw .sandAttack ; Sunsette: ADDED
+	dw .mist ; Sunsette: ADDED
+	dw .haze ; Sunsette: ADDED
+	dw .smokescreen ; Sunsette: ADDED
 .fly
 	bit BIT_THUNDERBADGE, a
 	jp z, .newBadgeRequired
@@ -189,10 +193,16 @@ StartMenu_Pokemon::
 .flash
 	bit BIT_BOULDERBADGE, a
 	jp z, .newBadgeRequired
+	; Sunsette: FLASH lights any dark OR dim cave (wMapPalOffset >= 3), brightening it and clearing
+	; the dark-cave accuracy debuff. Everywhere else it flushes out a wild encounter from the local
+	; table. The Ball Designer dims its own palette but isn't a cave, so exclude it (-> flush).
+	ld a, [wCurMap]
+	cp CERULEAN_BALL_DESIGNER
+	jr z, .flashForceEncounter
 	ld a, [wMapPalOffset]
-	cp 6 ; dark cave -> light it up (normal Flash)
-	jr z, .useFlash
-	; Sunsette: outside dark caves, FLASH forces a wild encounter from the local table
+	cp 3
+	jr nc, .useFlash
+.flashForceEncounter
 	callfar ForceWildEncounter
 	jr nc, .alreadyBrightMsg ; no wild table here -> nothing to draw out
 	ld hl, .flashEncounterText
@@ -342,6 +352,31 @@ StartMenu_Pokemon::
 	jp z, .newBadgeRequired
 	callfar UsedFlamethrower
 	jp CloseTextDisplay
+; Sunsette: ADDED: SAND ATTACK / MIST / HAZE / SMOKESCREEN kick up cover that hides you from wild
+; encounters exactly like a Repel (100 steps). wHidingMoveID records which move so the wear-off can
+; offer to "keep hiding?" if a party member can still use it. No badge required.
+.sandAttack
+	ld a, SAND_ATTACK
+	jr .startHiding
+.mist
+	ld a, MIST
+	jr .startHiding
+.haze
+	ld a, HAZE
+	jr .startHiding
+.smokescreen
+	ld a, SMOKESCREEN
+.startHiding
+	ld [wHidingMoveID], a
+	ld a, 100
+	ld [wRepelRemainingSteps], a
+	ld hl, .startHidingText
+	rst _PrintText
+	call GBPalWhiteOutWithDelay3
+	jp .goBackToMap
+.startHidingText
+	text_far _StartHidingText
+	text_end
 .goBackToMap
 	call RestoreScreenTilesAndReloadTilePatterns
 	jp CloseTextDisplay

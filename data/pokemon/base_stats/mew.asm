@@ -10,20 +10,21 @@
 	INCBIN "gfx/pokemon/front/mew.pic", 0, 1 ; sprite dimensions
 	dw MewPicFront, MewPicBackSW
 
-	db POUND, PSYCHIC_M, MIMIC, RECOVER ; level 1 learnset
+	db TACKLE, PSYCHIC_M, MIMIC, RECOVER ; level 1 learnset
 	db GROWTH_MEDIUM_SLOW ; growth rate
 
 	; tm/hm learnset
 	tmhm \
+	SONICBOOM,\ ; ILL WIND
 	ICE_PUNCH,\
 	RAZOR_WIND,\ ; ROOST
-	LEECH_SEED,\ 
-	PIN_MISSILE,\ 
+	LEECH_SEED,\
+	PIN_MISSILE,\
 	FIRE_PUNCH,\
 	TOXIC,\
 	HORN_DRILL,\
 	BODY_SLAM,\
-	SLASH,\
+	DISABLE,\
 	DOUBLE_EDGE,\
 	BUBBLEBEAM,\
 	AURORA_BEAM,\
@@ -33,7 +34,7 @@
 	AMNESIA,\
 	HI_JUMP_KICK,\
 	THUNDERPUNCH,\
-	ROLLING_KICK,\ 
+	ROLLING_KICK,\
 	BARRIER,\
 	RAZOR_LEAF,\
 	SOLARBEAM,\
@@ -49,8 +50,7 @@
 	SWORDS_DANCE,\
 	REFLECT,\
 	BIDE,\
-	AGILITY,\   
-	BARRAGE,\ 
+	BARRAGE,\
 	FIRE_BLAST,\
 	FLAMETHROWER,\
 	SLAM,\ ; FILTHY SLAM

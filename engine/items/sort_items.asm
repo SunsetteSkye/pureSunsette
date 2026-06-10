@@ -242,7 +242,7 @@ ItemSortedList:
 	db TM_TOXIC        ; $CE
 	db TM_HORN_DRILL   ; $CF
 	db TM_BODY_SLAM    ; $D0
-	db TM_SLASH    	; $D1
+	db TM_DISABLE    	; $D1
 	db TM_DOUBLE_EDGE  ; $D2
 	db TM_BUBBLEBEAM   ; $D3
 	db TM_AURORA_BEAM  ; $D4
@@ -268,7 +268,7 @@ ItemSortedList:
 	db TM_SWORDS_DANCE ; $E8
 	db TM_REFLECT      ; $E9
 	db TM_BIDE         ; $EA 
-	db TM_AGILITY    	; $EB
+	db TM_SONICBOOM    	; $EB
 	db TM_BARRAGE 		; $EC
 	db TM_FLAMETHROWER ; $ED
 	db TM_FIRE_BLAST   ; $EE

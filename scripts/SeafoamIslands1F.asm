@@ -1,5 +1,6 @@
 ; PureRGBnote: ADDED: This map is also used for the "Bottom of the seafoam cave lake" underwater area you see in the dragonair event.
 SeafoamIslands1F_Script:
+	callfar CheckUsedFlash ; Sunsette: FLASH brightens this dark cave (mirrors Rock Tunnel)
 	call EnableAutoTextBoxDrawing
 	ld a, [wXCoord]
 	cp 32

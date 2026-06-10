@@ -1,6 +1,7 @@
 ; PureRGBnote: ADDED: Digletts show up here visually now if OG+ Icons are turned on.
 ; PureRGBnote: ADDED: This map is also used for the secret tunnel from saffron city to the underground path.
 DiglettsCave_Script:
+	callfar CheckUsedFlash ; Sunsette: FLASH brightens the half-dark cave to 0 (clears the accuracy debuff too), like Rock Tunnel
 	call DiglettsCaveCheckStandingOnWarp
 	call CheckAutoHideDigletts
 	jp EnableAutoTextBoxDrawing

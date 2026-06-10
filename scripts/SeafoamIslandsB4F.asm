@@ -2,6 +2,7 @@
 ; before you fight ARTICUNO, and some events/text when SARA and ERIK come here to research the DRAGONAIR in the lake.
 
 SeafoamIslandsB4F_Script:
+	callfar CheckUsedFlash ; Sunsette: FLASH brightens this dark cave (mirrors Rock Tunnel)
 	call EnableAutoTextBoxDrawing
 	call SeafoamIslandsB4FOnMapLoad
 	ld a, [wSeafoamIslandsB4FCurScript]

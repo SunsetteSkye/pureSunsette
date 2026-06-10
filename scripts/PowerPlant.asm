@@ -7,6 +7,7 @@ DEF VOLTORB_POKEBALL_TILE1 EQU $780
 DEF VOLTORB_POKEBALL_TILE2 EQU $7C0
 
 PowerPlant_Script:
+	callfar CheckUsedFlash ; Sunsette: FLASH brightens this dark cave (mirrors Rock Tunnel)
 	call EnableAutoTextBoxDrawing
 	call PowerPlantCheckPowersBack
 	call PowerPlantOnMapLoad

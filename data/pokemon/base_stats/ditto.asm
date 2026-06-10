@@ -14,8 +14,9 @@
 	db GROWTH_MEDIUM_FAST ; growth rate
 
 	; tm/hm learnset
-	tmhm
-	; end
+	tmhm \
+	DISABLE,\
+	 ; end
 
 	db BANK(DittoPicFront)
 	db 0

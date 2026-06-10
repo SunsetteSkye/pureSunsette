@@ -11,3 +11,7 @@ FieldMoveNames:
 	db "CONFUSE RAY@"
 	db "GROWTH@"
 	db "FLAMETHROWER@"
+	db "SAND-ATTACK@"
+	db "MIST@"
+	db "HAZE@"
+	db "SMOKESCREEN@"

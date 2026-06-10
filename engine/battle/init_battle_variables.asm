@@ -1,6 +1,14 @@
 InitBattleVariables:
 	ld a, [wMapPalOffset] ; Sunsette: snapshot dark-cave state (==6) before it's cleared below
 	ld [wDarkCaveSnapshot], a
+	; Sunsette: clear any stale WATERIFY "force PAL_BLUEMON" soak (bit 1) on both active-mon flag bytes at
+	; the start of every battle. The send-out hooks only res it when a MON appears, which is AFTER the
+	; trainer's intro pic is palette'd - so a leftover bit 1 from a prior battle was tinting the trainer
+	; pic (and the player's back sprite) blue. Keep bit 0 (confuse-ray alt palette) intact.
+	ld hl, wEnemyMonFlags
+	res 1, [hl]
+	ld hl, wBattleMonFlags
+	res 1, [hl]
 	ldh a, [hTileAnimations]
 	ld [wSavedTileAnimations], a
 	ResetEvent FLAG_SKIP_STAT_ANIMATION

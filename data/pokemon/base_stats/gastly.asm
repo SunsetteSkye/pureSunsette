@@ -15,6 +15,8 @@
 
 	; tm/hm learnset
 	tmhm \
+	DISABLE,\
+	SONICBOOM,\ ; ILL WIND
 	TOXIC,\
 	DOUBLE_EDGE,\
 	AURORA_BEAM,\

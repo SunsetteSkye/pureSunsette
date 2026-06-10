@@ -216,6 +216,7 @@ AttackAnimationPointers:
 	dw SendOutMonPoofAnim
 	dw HappinessHeartAnim ; Sunsette
 	dw HappinessSparkleAnim ; Sunsette
+	dw HappinessSparkleAnimEnemy ; Sunsette
 	assert_table_length NUM_ATTACK_ANIMS
 	dw ZigZagScreenAnim
 
@@ -305,7 +306,12 @@ VicegripAnim:
 	db -1 ; end
 
 GuillotineAnim:
+	battle_anim LEECH_SEED, SE_DARK_SCREEN_PALETTE
+	battle_anim NO_MOVE, SE_SPIRAL_BALLS_INWARD
 	battle_anim GUILLOTINE, SUBANIM_0_SLICE_BOTH_SIDES, 0, 6
+	battle_anim NO_MOVE, SE_DARK_SCREEN_FLASH
+	battle_anim NO_MOVE, SE_RESET_SCREEN_PALETTE
+
 	db -1 ; end
 
 RazorWindAnim:
@@ -348,10 +354,9 @@ WhirlwindAnim:
 
 FlyAnimPart2:
 	battle_anim NO_MOVE, SE_LIGHT_SCREEN_PALETTE
-	battle_anim TELEPORT, SE_SQUISH_MON_PIC
-	battle_anim NO_MOVE, SE_SHOOT_BALLS_UPWARD
-	battle_anim NO_MOVE, SE_RESET_SCREEN_PALETTE
+	battle_anim FLY, SUBANIM_1_STAR_BIG_MOVING, 1, 6
 	battle_anim FLY, SE_SHOW_MON_PIC
+	battle_anim NO_MOVE, SE_RESET_SCREEN_PALETTE
 	db -1 ; end
 
 BindAnim:
@@ -939,7 +944,6 @@ FlyAnimPart1:
 	battle_anim TELEPORT, SE_SQUISH_MON_PIC
 	battle_anim NO_MOVE, SE_SHOOT_BALLS_UPWARD
 	battle_anim NO_MOVE, SE_RESET_SCREEN_PALETTE
-	battle_anim FLY, SE_SHOW_MON_PIC
 	db -1 ; end
 
 TeleportAnim:
@@ -1276,6 +1280,13 @@ HappinessSparkleAnim: ; Sunsette: legendary sparkle over the player's mon. FOCUS
 ; play (no loop), a smidge slower than the heart (delay 20 vs 16).
 	battle_anim FOCUS_ENERGY, SE_DELAY_ANIMATION_10
 	battle_anim NO_MOVE, SUBANIM_HAPPINESS_SPARKLE, 0, 20
+	db -1 ; end
+
+HappinessSparkleAnimEnemy: ; Sunsette: same as HappinessSparkleAnim but its subanim sits above the
+; ENEMY's mon (NORMAL + enemy base coords). Used by the enemy-Pressure cue (PlayEnemySideAnim), since
+; the player-side sparkle's COORDFLIP coords flip BELOW the foe on the enemy's turn.
+	battle_anim FOCUS_ENERGY, SE_DELAY_ANIMATION_10
+	battle_anim NO_MOVE, SUBANIM_HAPPINESS_SPARKLE_ENEMY, 0, 20
 	db -1 ; end
 
 SkyAttackAnim:

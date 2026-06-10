@@ -492,6 +492,7 @@ HandleMidJump::
 	ldh [hJoyPressed], a
 	ldh [hJoyReleased], a
 	ld [wPlayerJumpingYScreenCoordsIndex], a
+	ld [wForcedPlayerFacing], a ; Sunsette: clear any knockback facing-lock (a = 0 here)
 	ld hl, wMovementFlags
 	res BIT_LEDGE_OR_FISHING, [hl]
 	ld hl, wStatusFlags5

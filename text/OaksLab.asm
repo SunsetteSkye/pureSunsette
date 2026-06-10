@@ -318,31 +318,25 @@ _OaksLabOakGotPokedexText::
 	text_end
 
 _OaksLabOakThatWasMyDreamText::
-	text "To make a complete"
-	line "guide on all the"
-	cont "#MON in the"
-	cont "world<...>"
+	text "My dream was a"
+	line "complete guide to"
+	cont "every #MON in"
+	cont "the world<...>"
 
-	para "That was my dream!"
+	para "But that's a task"
+	line "for young legs,"
+	cont "not mine."
 
-	para "But, I'm too old!"
-	line "I can't do it!"
+	para "So I leave it to"
+	line "you two!"
 
-	para "So, I want you two"
-	line "to fulfill my"
-	cont "dream for me!"
+	para "Keep the #DEX"
+	line "close- a studied"
+	cont "team grows all"
+	cont "the stronger!"
 
-	para "Keep it close- you"
-	line "may find it helps"
-	cont "your whole team"
-	cont "grow!"
-
-	para "Get moving, you"
-	line "two!"
-
-	para "This is a great"
-	line "undertaking in"
-	cont "#MON history!"
+	para "Now get going-"
+	line "history awaits!"
 	done
 
 _OaksLabRivalLeaveItAllToMeText::

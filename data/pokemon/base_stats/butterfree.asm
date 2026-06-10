@@ -15,6 +15,7 @@
 
 	; tm/hm learnset
 	tmhm \
+	DISABLE,\
 	RAZOR_WIND,\ ; ROOST
 	LEECH_SEED,\
 	TOXIC,\

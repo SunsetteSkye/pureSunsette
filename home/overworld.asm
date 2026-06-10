@@ -551,12 +551,31 @@ WarpFound2::
 	; ld [wUnusedLastMapWidth], a ; not read
 	ldh a, [hWarpDestinationMap]
 	ld [wCurMap], a
-	cp ROCK_TUNNEL_1F
-	jr z, .enterDarkMap
-	cp POKEMON_MANSION_1F ; Sunsette: Pokemon Mansion is a dark/Flash-required map too (deeper floors keep the offset)
-	jr nz, .done
-.enterDarkMap
+	; Sunsette: dark (Flash-required) maps - set the dark palette offset on entry from an outside
+	; map. DarkMaps = full dark (offset 6, -2 ACC, "It's too dark!"); DimMaps = half dark (offset
+	; 3, -1 ACC, "It's a little dark..."). Deeper floors inherit (internal warps don't touch the
+	; offset; returning to an outside map clears it). The offset value also drives FLASH + the
+	; battle warning + the accuracy debuff.
+	ld b, a ; b = destination map
+	ld hl, DarkMaps
+.darkMapLoop
+	ld a, [hli]
+	cp -1
+	jr z, .checkDimMap
+	cp b
+	jr nz, .darkMapLoop
 	ld a, 6
+	jr .setDarkOffset
+.checkDimMap
+	ld hl, DimMaps
+.dimMapLoop
+	ld a, [hli]
+	cp -1
+	jr z, .done
+	cp b
+	jr nz, .dimMapLoop
+	ld a, 3
+.setDarkOffset
 	ld [wMapPalOffset], a
 	jr .done
 
@@ -568,6 +587,25 @@ WarpFound2::
 	jr z, .goBackOutside
 ; if not going back to the previous map
 	ld [wCurMap], a
+	; Sunsette: Diglett's Cave is only DIMLY dark (same as DimMaps: offset 3 = half as dark,
+	; FadePal3 vs FadePal2, milder -1 ACCURACY). It's set here, not in DimMaps, because it's
+	; reached only via its two indoor entrance rooms (which stay lit), not directly from outside.
+	; FLASH lights it like any dark/dim cave (start menu lights offset>=3; CheckUsedFlash in its
+	; script does the brighten). a still holds the destination map here.
+	cp DIGLETTS_CAVE
+	jr nz, .notDiglettsCave
+	ld a, 3
+	ld [wMapPalOffset], a
+	jr .afterDiglettDark
+.notDiglettsCave
+	cp DIGLETTS_CAVE_ROUTE_2
+	jr z, .diglettEntranceLit
+	cp DIGLETTS_CAVE_ROUTE_11
+	jr nz, .afterDiglettDark
+.diglettEntranceLit
+	xor a
+	ld [wMapPalOffset], a
+.afterDiglettDark
 	farcall IsPlayerStandingOnWarpPadOrHole
 	ld a, [wStandingOnWarpPadOrHole]
 	dec a ; is the player on a warp pad?
@@ -603,6 +641,23 @@ WarpFound2::
 ;;;;
 	jp EnterMap
 
+; Sunsette: maps that need HM05 FLASH (wMapPalOffset set on entry from an outside map).
+; Only floors reachable directly from an OUTSIDE map need listing; deeper floors inherit the
+; offset across internal warps. Seafoam/Victory Road enter at 1F/2F from the routes.
+DarkMaps: ; fully dark -> offset 6, -2 ACC
+	db ROCK_TUNNEL_1F
+	db SEAFOAM_ISLANDS_1F
+	db CERULEAN_CAVE_1F
+	db -1
+DimMaps: ; only half dark -> offset 3, -1 ACC (DIGLETTS_CAVE is dim too, but it's entered from
+	      ; indoor entrance rooms, so it's handled in the .indoorMaps branch instead)
+	db POWER_PLANT
+	db VICTORY_ROAD_1F
+	db VICTORY_ROAD_2F
+	db MT_MOON_1F
+	db MT_MOON_B1F ; B1F also connects to an outside route; B2F inherits
+	db -1
+
 ContinueCheckWarpsNoCollisionLoop::
 	inc b ; increment warp number
 	dec c ; decrement number of warps
@@ -618,12 +673,14 @@ CheckMapConnections::
 	set BIT_CROSSED_MAP_CONNECTION, [hl] ; PureRGBnote: ADDED: flag to indicate we crossed between maps by walking in the overworld
 	call LoadMapHeader
 	call PlayDefaultMusicFadeOutCurrent
-	ld d, SET_PAL_OVERWORLD
-	call RunPaletteCommand
+	; Sunsette: instead of snapping the overworld palette, snapshot the old colors and (if the new map's
+	; palette differs) leave them showing + queue a crossfade; XfadeRunPending fades after the map draws.
+	callfar XfadeConnectionPalettePrep
 ; Since the sprite set shouldn't change, this will just update VRAM slots at
 ; x#SPRITESTATEDATA2_IMAGEBASEOFFSET without loading any tile patterns.
 	farcall InitMapSprites
 	call LoadTileBlockMap
+	callfar XfadeRunPending ; Sunsette: new map is drawn (still in the old colors) - run the queued crossfade
 	jp OverworldLoopLessDelay
 
 .didNotEnterConnectedMap

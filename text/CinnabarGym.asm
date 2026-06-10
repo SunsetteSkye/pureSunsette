@@ -44,23 +44,12 @@ _CinnabarGymBlaineMoltres::
 	done
 
 _CinnabarGymBlaineVolcanoBadgeInfoText::
-	text_asm
-	callfar ComputeExpGrowthThresholdLeader
-	ld hl, .body
-	ret
-.body:
 	text "Hah!"
 
 	para "The VOLCANOBADGE"
 	line "heightens the"
 	cont "SPECIAL abilities"
 	cont "of your #MON!"
-
-	para "And your #MON"
-	line "up to L"
-	text_decimal wExpGrowthThreshold, 1, 2
-	text " grow"
-	cont "more efficiently!"
 
 	para "Here, you can"
 	line "have this too!"
@@ -215,17 +204,32 @@ _CinnabarGymGymGuideChampInMakingText::
 	line "BLAINE is a fire"
 	cont "#MON pro!"
 
-	para "Douse his spirits"
-	line "with water!"
+	para "The volcanic heat"
+	line "here stokes his"
+	cont "#MON's SPECIAL"
+	cont "power!"
 
 	para "You better take"
 	line "some BURN HEALs!"
 	done
 
 _CinnabarGymGymGuideBeatBlaineText::
+	text_asm
+	push bc
+	callfar ComputeExpGrowthThreshold
+	pop bc
+	ld hl, .body
+	ret
+.body:
 	text "<PLAYER>! You beat"
-	line "that fire brand!@"
-	text_end
+	line "that fire brand!"
+
+	para "That BADGE lets"
+	line "you raise #MON"
+	cont "up to L@"
+	text_decimal wExpGrowthThreshold, 1, 2
+	text "!"
+	prompt
 
 _CinnabarGymGuideApexChipFireText::
 	text "An APEX CHIP will"

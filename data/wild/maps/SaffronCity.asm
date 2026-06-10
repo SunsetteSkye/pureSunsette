@@ -5,11 +5,11 @@ SaffronCityWildMons:
 	db 14, MEOWTH
 	db 18, RATTATA
 	db 16, PIDGEY
-	db 15, VENONAT
+	db 15, KOFFING
 	db 18, MEOWTH
 	db 17, RATTATA
 	db 17, PIDGEY
-	db 16, VENONAT
+	db 16, KOFFING
 	end_grass_wildmons
 
 	def_water_wildmons 0 ; encounter rate

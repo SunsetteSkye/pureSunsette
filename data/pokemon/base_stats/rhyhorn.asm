@@ -15,6 +15,7 @@
 
 	; tm/hm learnset
 	tmhm \
+	DISABLE,\
 	PIN_MISSILE,\
 	TOXIC,\
 	HORN_DRILL,\

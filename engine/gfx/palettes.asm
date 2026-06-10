@@ -46,6 +46,10 @@ SetPal_Battle:
 	ld hl, wBattleMonSpecies
 	call DeterminePaletteID
 	ld b, a
+	ld a, [wBattleMonFlags] ; Sunsette: bit 1 = WATERIFY soak -> force PAL_BLUEMON
+	bit 1, a
+	jr z, .override
+	ld b, PAL_BLUEMON
 .override
 	ld a, [wEnemyMonFlags]
 	and 1 ; only the 1st bit of the flags determines alt palette
@@ -54,6 +58,11 @@ SetPal_Battle:
 	ld hl, wEnemyMonSpecies2
 	call DeterminePaletteID
 	ld c, a
+	ld a, [wEnemyMonFlags] ; Sunsette: bit 1 = WATERIFY soak -> force PAL_BLUEMON
+	bit 1, a
+	jr z, .gotEnemyPal
+	ld c, PAL_BLUEMON
+.gotEnemyPal
 	ld hl, wPalPacket + 1
 	ld a, [wPlayerHPBarColor]
 	add PAL_GREENBAR
@@ -429,6 +438,187 @@ GetOverworldPalette:
 	ld a, [hl]
 	ret
 
+;;;;;;;;;; Sunsette: connection-crossing palette CROSSFADE
+; Replaces the SET_PAL_OVERWORLD snap in CheckMapConnections (home). At the cross, wCurMap is already the
+; NEW map. We snapshot the OLD (still-displayed) slot-0 colors; if the new map's overworld palette differs
+; we DON'T snap - we leave the old colors in slot 0 (so the freshly-drawn map shows the old colors, no
+; flash) and queue a crossfade. XfadeRunPending (called after the new map is drawn) then marches slot 0
+; from the old colors to the new ones, one step per channel per frame-batch, for a smooth fade. Same
+; palette (or back-to-back identical) -> normal snap. Runtime, so it works for any connection.
+DEF XFADE_FRAMES_PER_STEP EQU 10
+
+XfadeConnectionPalettePrep::
+	ld hl, wBGPPalsBuffer ; slot 0 = the currently-displayed (old map) colors
+	ld de, wXfadeOldColors
+	ld bc, 8
+	rst _CopyData
+	call GetOverworldPalette ; new map's PAL
+	ld [wXfadeTargetPal], a
+	call XfadeTargetColorsPtr ; hl = the new map's 4 colors
+	ld de, wXfadeOldColors
+	ld b, 8
+.cmp
+	ld a, [de]
+	cp [hl]
+	jr nz, .differ
+	inc de
+	inc hl
+	dec b
+	jr nz, .cmp
+	; identical palette -> normal snap, no fade
+	xor a
+	ld [wXfadePending], a
+	ld d, SET_PAL_OVERWORLD
+	jp RunPaletteCommand
+.differ
+	ld a, 1
+	ld [wXfadePending], a ; leave the old colors in slot 0; the fade happens after the map draws
+	ret
+
+; hl = &SuperPalettes[wXfadeTargetPal] (the new map's 4 colors, 8 bytes)
+XfadeTargetColorsPtr:
+	ld a, [wXfadeTargetPal]
+	ld l, a
+	ld h, 0
+	add hl, hl
+	add hl, hl
+	add hl, hl ; * 8 (PAL_SIZE)
+	ld de, SuperPalettes
+	add hl, de
+	ret
+
+; Called after the new map is drawn (still showing the old colors). If a crossfade is queued, fade slot 0
+; from the snapshotted old colors to the new map's colors, then apply the new palette to all slots.
+XfadeRunPending::
+	ld a, [wXfadePending]
+	and a
+	ret z
+	xor a
+	ld [wXfadePending], a
+	ld hl, wXfadeOldColors ; unpack the (current) old colors -> wBuffer[0..11]
+	ld de, wBuffer
+	call XfadeUnpack4
+	call XfadeTargetColorsPtr ; unpack the target colors -> wBuffer[12..23]
+	ld de, wBuffer + 12
+	call XfadeUnpack4
+	ld b, 32 ; safety cap on the number of fade steps
+.step
+	push bc
+	call XfadeMarchChannels ; nudge wBuffer[0..11] one step toward [12..23]; a=0 if nothing moved
+	push af
+	ld hl, wBuffer ; repack the marched colors back into BG slot 0
+	ld de, wBGPPalsBuffer
+	call XfadeRepack4
+	call TransferBGPPals
+	ld c, XFADE_FRAMES_PER_STEP
+	rst _DelayFrames
+	pop af
+	pop bc
+	jr z, .done ; reached the target colors
+	dec b
+	jr nz, .step
+.done
+	ld d, SET_PAL_OVERWORLD
+	jp RunPaletteCommand
+
+; march each of the 12 channels in wBuffer[0..11] one step toward wBuffer[12..23]. a (z) = none changed.
+XfadeMarchChannels:
+	ld hl, wBuffer ; current channels
+	ld de, wBuffer + 12 ; target channels
+	ld c, 12
+	ld b, 0 ; "something changed" flag
+.ch
+	ld a, [de]
+	cp [hl]
+	jr z, .next
+	jr c, .dec ; target < current
+	inc [hl]
+	ld b, 1
+	jr .next
+.dec
+	dec [hl]
+	ld b, 1
+.next
+	inc hl
+	inc de
+	dec c
+	jr nz, .ch
+	ld a, b
+	and a
+	ret
+
+; unpack 4 packed 15-bit colors (hl, 8 bytes) into 12 channel bytes R,G,B per color (de)
+XfadeUnpack4:
+	call XfadeUnpackColor
+	call XfadeUnpackColor
+	call XfadeUnpackColor
+	jp XfadeUnpackColor
+XfadeUnpackColor: ; hl=src(lo,hi)+=2 ; de=dst(R,G,B)+=3 ; color = %0BBBBBGGGGGRRRRR
+	ld a, [hli]
+	ld c, a ; lo
+	ld a, [hli]
+	ld b, a ; hi
+	ld a, c
+	and $1F ; R = lo & $1F
+	ld [de], a
+	inc de
+	inc de ; -> B slot
+	ld a, b
+	srl a
+	srl a
+	and $1F ; B = (hi >> 2) & $1F
+	ld [de], a
+	dec de ; -> G slot
+	ld a, b
+	and $03
+	add a
+	add a
+	add a ; (hi & 3) << 3
+	ld b, a
+	ld a, c
+	srl a
+	srl a
+	srl a
+	srl a
+	srl a ; lo >> 5
+	or b ; G
+	ld [de], a
+	inc de
+	inc de ; -> next color
+	ret
+
+; repack 12 channel bytes (hl) into 4 packed colors (de, 8 bytes)
+XfadeRepack4:
+	call XfadeRepackColor
+	call XfadeRepackColor
+	call XfadeRepackColor
+	jp XfadeRepackColor
+XfadeRepackColor: ; hl=src(R,G,B)+=3 ; de=dst(lo,hi)+=2
+	ld a, [hli]
+	ld c, a ; R
+	ld a, [hli]
+	ld b, a ; G
+	and $07
+	swap a
+	rlca ; (G & 7) << 5
+	or c ; | R
+	ld [de], a ; lo
+	inc de
+	ld a, [hl] ; B
+	add a
+	add a ; B << 2
+	ld c, a
+	ld a, b
+	srl a
+	srl a
+	srl a ; G >> 3
+	or c ; (B << 2) | (G >> 3)
+	ld [de], a ; hi
+	inc de
+	inc hl ; -> next color
+	ret
+;;;;;;;;;;
+
 LoreleiPalettes:
 	call GetPalettes
 	ld a, PAL_0F
@@ -529,10 +719,15 @@ MapPalettesJumpTable:
 	db PEWTER_GYM, PAL_BROWNMON
 	; Vermilion palette
 	db ROUTE_11, PAL_VERMILION
-	db ROUTE_12, PAL_VERMILION
-	db ROUTE_13, PAL_VERMILION
-	db ROUTE_14, PAL_VERMILION
-	db ROUTE_15, PAL_VERMILION
+	db ROUTE_19, PAL_VERMILION
+	db ROUTE_20, PAL_VERMILION
+	; Vermilion-gold palette (Vermilion w/ Saffron's gold instead of orange)
+	db ROUTE_12, PAL_VERMILIONGOLD
+	db ROUTE_13, PAL_VERMILIONGOLD
+	db ROUTE_14, PAL_VERMILIONGOLD
+	db ROUTE_15, PAL_VERMILIONGOLD
+	; Fuchsia palette
+	db ROUTE_21, PAL_FUCHSIA
 	; Aqua palette (white + standard water blue)
 	db LORELEIS_ROOM, PAL_AQUA
 	db CERULEAN_GYM, PAL_AQUA

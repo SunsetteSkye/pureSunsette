@@ -1,8 +1,18 @@
 Museum1F_Script:
 	call DisableAutoTextBoxDrawing
+	call WasMapJustLoaded
+	call nz, Museum1FHideGruntIfFossilTaken
 	ld hl, Museum1F_ScriptPointers
 	ld a, [wMuseum1FCurScript]
 	jp CallFunctionInTable
+
+; Sunsette: the Team Rocket grunt eyeing the fossils vanishes once you've taken
+; a fossil from the Mt. Moon super nerd (the dome or helix).
+Museum1FHideGruntIfFossilTaken:
+	CheckEitherEventSet EVENT_GOT_DOME_FOSSIL, EVENT_GOT_HELIX_FOSSIL, 1
+	ret z
+	ld c, TOGGLE_MUSEUM1F_ROCKET_GRUNT
+	jp HideObject
 
 Museum1F_ScriptPointers:
 	def_script_pointers
@@ -33,6 +43,7 @@ Museum1F_TextPointers:
 	dw_const Museum1FScientist2Text, TEXT_MUSEUM1F_SCIENTIST2
 	dw_const Museum1FScientist3Text, TEXT_MUSEUM1F_SCIENTIST3
 	dw_const Museum1FOldAmberText,   TEXT_MUSEUM1F_OLD_AMBER
+	dw_const Museum1FRocketGruntText, TEXT_MUSEUM1F_ROCKET_GRUNT
 	dw_const Museum1FAerodactylFossilText, TEXT_MUSEUM1F_AERODACTYL_FOSSIL
 	dw_const Museum1FKabutopsFossilText, TEXT_MUSEUM1F_KABUTOPS_FOSSIL
 
@@ -247,6 +258,43 @@ Museum1FOldAmberText:
 	text_far _Museum1FOldAmberText
 	text_end
 
+Museum1FRocketGruntText:
+	text_asm
+	; we drive every wait here, so suppress DisplayTextID's automatic end-of-text wait
+	ld a, 1
+	ld [wDoNotWaitForButtonPressAfterDisplayingText], a
+	ld hl, .EyeingFossilsText
+	rst _PrintText
+	call WaitForTextScrollButtonPress ; press A to finish his muttering...
+	; ...THEN the "!" fires over his head
+	ld a, MUSEUM1F_ROCKET_GRUNT
+	ld [wEmotionBubbleSpriteIndex], a
+	xor a
+	ld [wWhichEmotionBubble], a ; EXCLAMATION_BUBBLE
+	callfar EmotionBubble
+	; a beat before he barks at you
+	ld c, 60
+	rst _DelayFrames
+	ld hl, .ScramText
+	rst _PrintText
+	call WaitForTextScrollButtonPress ; press A to advance -> only now does he send you flying
+	; knock the player back with a ledge-style hop + thud
+	callfar DoMuseumGruntShove
+	rst TextScriptEnd
+.EyeingFossilsText
+	text_far _Museum1FRocketGruntEyeingText
+	text_end
+.ScramText
+	text_far _Museum1FRocketGruntScramText
+	text_end
+
+; printed (from this script bank, so the get-item jingle keeps its bank) the first time
+; the player reads any 1F exhibit
+Museum1FSmarterText:
+	text_far _MuseumSmarterText
+	sound_get_item_1
+	text_end
+
 Museum1FAerodactylFossilText:
 	text_asm
 	ld a, AERODACTYL
@@ -264,6 +312,24 @@ Museum1FAerodactylFossilText:
 	call LoadFontTilePatterns
 	ld hl, .text
 	rst _PrintText
+	; Sunsette: first time reading each fossil exhibit -> +Special stat EXP to the party
+	ld a, [wCurPartySpecies]
+	cp FOSSIL_KABUTOPS
+	jr z, .kabutopsBonus
+	CheckEvent EVENT_MUSEUM_READ_AERODACTYL_FOSSIL
+	jr nz, .doneFossil
+	SetEvent EVENT_MUSEUM_READ_AERODACTYL_FOSSIL
+	jr .grantFossil
+.kabutopsBonus
+	CheckEvent EVENT_MUSEUM_READ_KABUTOPS_FOSSIL
+	jr nz, .doneFossil
+	SetEvent EVENT_MUSEUM_READ_KABUTOPS_FOSSIL
+.grantFossil
+	call WaitForTextScrollButtonPress ; finish reading the fossil, THEN the bonus message
+	callfar GrantMuseumSmartsBonus
+	ld hl, Museum1FSmarterText
+	rst _PrintText
+.doneFossil
 	rst TextScriptEnd
 .text
 	text_far _AerodactylKabutopsFossilText

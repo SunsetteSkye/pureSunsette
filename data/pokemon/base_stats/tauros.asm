@@ -15,6 +15,7 @@
 
 	; tm/hm learnset
 	tmhm \
+	DISABLE,\
 	PIN_MISSILE,\
 	TOXIC,\
 	HORN_DRILL,\
@@ -29,7 +30,6 @@
 	EARTHQUAKE,\
 	SWORDS_DANCE,\
 	BIDE,\
-	AGILITY,\
 	BARRAGE,\
 	FIRE_BLAST,\
 	FLAMETHROWER,\

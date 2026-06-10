@@ -167,7 +167,8 @@ DEF FIRST_SE_ID EQU const_value
 	const SUBANIM_2_ANGER_SYMBOL
 	const SUBANIM_2_ANGER_SYMBOL_ENEMY
 	const SUBANIM_HAPPINESS_HEART ; Sunsette: clean single heart
-	const SUBANIM_HAPPINESS_SPARKLE ; Sunsette: legendary sparkle over the player's mon
+	const SUBANIM_HAPPINESS_SPARKLE ; Sunsette: legendary sparkle over the PLAYER's mon
+	const SUBANIM_HAPPINESS_SPARKLE_ENEMY ; Sunsette: legendary sparkle over the ENEMY's mon
 ;;;;;;;;;;
 DEF NUM_SUBANIMS EQU const_value
 

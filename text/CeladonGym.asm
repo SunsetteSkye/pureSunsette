@@ -48,11 +48,6 @@ _CeladonGymErikaPostBattleAdviceText::
 	done
 
 _CeladonGymRainbowBadgeInfoText::
-	text_asm
-	callfar ComputeExpGrowthThresholdLeader
-	ld hl, .body
-	ret
-.body:
 	text "The RAINBOWBADGE"
 	line "lets #MON use"
 	cont "STRENGTH in and"
@@ -61,12 +56,6 @@ _CeladonGymRainbowBadgeInfoText::
 	para "It also boosts how"
 	line "much vitamins"
 	cont "strengthen #MON!"
-
-	para "And your #MON"
-	line "up to L"
-	text_decimal wExpGrowthThreshold, 1, 2
-	text " grow"
-	cont "more efficiently!"
 
 	para "Please also take"
 	line "this with you."
@@ -92,10 +81,13 @@ _CeladonGymTM21NoRoomText::
 	done
 
 _CeladonGymBattleText2::
-	text "Hey!"
+	text "Hey! No boys"
+	line "allowed in--"
 
-	para "You are not"
-	line "allowed in here!"
+	para "...Oh my. Aren't"
+	line "YOU a darling"
+	cont "thing? Still,"
+	cont "rules are rules!"
 	done
 
 _CeladonGymEndBattleText2::
@@ -118,7 +110,9 @@ _CeladonGymAfterBattleText2GymDefeated::
 
 _CeladonGymBattleText3::
 	text "I was getting"
-	line "bored."
+	line "bored... ooh, and"
+	cont "what a CUTE one"
+	cont "they sent me!"
 	done
 
 _CeladonGymEndBattleText3::
@@ -139,6 +133,10 @@ _CeladonGymAfterBattleText3::
 _CeladonGymBattleText4::
 	text "Aren't you the"
 	line "peeping Tom?"
+
+	para "...Too pretty to"
+	line "be a creep. Fine,"
+	cont "let's battle!"
 	done
 
 _CeladonGymEndBattleText4::
@@ -153,11 +151,8 @@ _CeladonGymAfterBattleText4::
 	done
 
 _CeladonGymBattleText5::
-	text "Look at my grass"
-	line "#MON!"
-
-	para "They're so easy"
-	line "to raise!"
+	text "You're cuter than"
+	line "my flowers, hon!"
 	done
 
 _RocketHideoutB4FRocket3EndBattleText::
@@ -176,8 +171,9 @@ _CeladonGymAfterBattleText5::
 	done
 
 _CeladonGymBattleText6::
-	text "Don't bring any"
-	line "bugs or fire"
+	text "Love the look,"
+	line "sweetie! But no"
+	cont "bugs or fire"
 	cont "#MON in here!"
 	done
 
@@ -194,9 +190,11 @@ _CeladonGymAfterBattleText6::
 	done
 
 _CeladonGymBattleText7::
-	text "Pleased to meet"
-	line "you. My hobby is"
-	cont "#MON training."
+	text "Aren't you just"
+	line "adorable! Pleased"
+	cont "to meet you. My"
+	cont "hobby is #MON"
+	cont "training."
 	done
 
 _CeladonGymEndBattleText7::
@@ -212,11 +210,12 @@ _CeladonGymAfterBattleText7::
 	done
 
 _CeladonGymBattleText8::
-	text "Welcome to"
-	line "CELADON GYM!"
+	text "Welcome to CELADON"
+	line "GYM, gorgeous!"
 
-	para "You better not"
-	line "underestimate"
+	para "Out-pretty us all"
+	line "you like! But"
+	cont "don't underrate"
 	cont "girl power!"
 	done
 

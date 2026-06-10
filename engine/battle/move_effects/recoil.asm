@@ -19,9 +19,24 @@ BigRecoilEffect_:
 	jr GotRecoilDamage
 
 DefaultRecoilEffect_:
-	call RecoilEffect_
-	srl b ; PureRGBnote: CHANGED: recoil effect does 50% by default, so divide that by 2 here to get the original 25% of damage done.
-	rr c
+	; Sunsette: recoil is 1/3 of the damage dealt (was 1/4). Approximate wDamage/3 as wDamage * 86 / 256
+	; (86 ~= 256/3) via Multiply - exact for typical damage, at most +2 HP at very high damage.
+	xor a
+	ldh [hMultiplicand], a
+	ld a, [wDamage]
+	ldh [hMultiplicand+1], a
+	ld a, [wDamage+1]
+	ldh [hMultiplicand+2], a
+	ld a, 86
+	ldh [hMultiplier], a
+	call Multiply
+	ldh a, [hProduct+1] ; (wDamage*86) >> 8 -> ~wDamage/3 (fits in 2 bytes)
+	ld b, a
+	ldh a, [hProduct+2]
+	ld c, a
+	call GetMaxHPIntoDE ; hl = the user's max HP address, as GotRecoilDamage expects
+	ld h, d
+	ld l, e
 	jr GotRecoilDamage
 
 GetMaxHPIntoDE:

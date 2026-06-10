@@ -8,11 +8,11 @@ Route2Gate_TextPointers:
 
 Route2GateOaksAideText:
 	text_asm
-	CheckEvent EVENT_GOT_HM05
-	jr nz, .flashExplanation
+	CheckEvent EVENT_GOT_HM02
+	jr nz, .flyExplanation
 	ld a, 10
 	ldh [hOaksAideRequirement], a
-	ld a, HM_FLASH
+	ld a, HM_FLY
 	ldh [hOaksAideRewardItem], a
 	ld [wNamedObjectIndex], a
 	call GetItemName
@@ -24,16 +24,16 @@ Route2GateOaksAideText:
 	ldh a, [hOaksAideResult]
 	cp OAKS_AIDE_GOT_ITEM
 	jr nz, .no_item
-	SetEvent EVENT_GOT_HM05
-.flashExplanation
-	ld hl, .FlashExplanationText
+	SetEvent EVENT_GOT_HM02
+.flyExplanation
+	ld hl, .FlyExplanationText
 .printDone
 	rst _PrintText
 .no_item
 	rst TextScriptEnd
 
-.FlashExplanationText:
-	text_far _Route2GateOaksAideFlashExplanationText
+.FlyExplanationText:
+	text_far _Route2GateOaksAideFlyExplanationText
 	text_end
 
 Route2GateYoungsterText:

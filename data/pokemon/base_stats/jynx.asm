@@ -10,11 +10,12 @@
 	INCBIN "gfx/pokemon/front/jynx.pic", 0, 1 ; sprite dimensions
 	dw JynxPicFront, JynxPicBackSW
 
-	db POUND, LOVELY_KISS, LICK, DOUBLESLAP ; level 1 learnset
+	db TACKLE, LOVELY_KISS, LICK, DOUBLESLAP ; level 1 learnset
 	db GROWTH_MEDIUM_FAST ; growth rate
 
 	; tm/hm learnset
 	tmhm \
+	DISABLE,\
 	ICE_PUNCH,\
 	FIRE_PUNCH,\
 	TOXIC,\

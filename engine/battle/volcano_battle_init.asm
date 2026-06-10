@@ -271,6 +271,8 @@ CheckWildConfuseRayPalette:
 ; This affects the PLAYER's mon only (never wild/enemy mons). Battle-start send-out only; switching
 ; a mon in mid-battle does not re-trigger it. Called via callfar from StartBattle.
 ApplyPlayerSendOutMapEffects::
+	ld hl, wBattleMonFlags ; Sunsette: a freshly sent-out mon isn't WATERIFY-soaked; clear the blue flag (bit 1)
+	res 1, [hl]
 	ld a, 1 ; target = player
 	call CheckSurfSpeedDebuff ; Sunsette: SURF -1 SPEED on your mon (non-Water/Flying), any map while surfing
 	ld a, 1 ; target = player
@@ -509,7 +511,7 @@ SilphSpecialText:
 	text_far _SilphSpecialText
 	text_end
 
-; Sunsette: ROCK TUNNEL / POKEMON MANSION dark-cave debuff - if the player is in flash-off darkness
+; Sunsette: dark-cave debuff (any Flash-required map - see DarkMaps in overworld.asm) - if the player is in flash-off darkness
 ; at battle start (wDarkCaveSnapshot == 6; snapshotted from wMapPalOffset in InitBattleVariables), a
 ; mon entering battle takes -2 ACCURACY unless it is ZUBAT/GOLBAT or a FIGHTING/GROUND type. BOTH
 ; sides. Accuracy is a pure stat-mod stage (no recalc), so we set the mod directly (neutral 7 -> 5,
@@ -519,8 +521,11 @@ SilphSpecialText:
 CheckDarknessAccuracyDebuff:
 	ld b, a
 	ld a, [wDarkCaveSnapshot]
-	cp 6 ; flash-off dark cave?
+	cp 6 ; full-dark cave -> -2 ACC
+	jr z, .isDarkCave
+	cp 3 ; Diglett's Cave is only half-dark -> -1 ACC
 	ret nz
+.isDarkCave
 	; exemptions: ZUBAT/GOLBAT species, or FIGHTING/GROUND type (of the target mon)
 	ld a, b
 	and a
@@ -546,7 +551,13 @@ CheckDarknessAccuracyDebuff:
 	ret z
 	cp GROUND
 	ret z
-	; -2 to the target's ACCURACY mod (floor at 1)
+	; -2 in a full-dark cave, -1 in Diglett's half-dark cave (floor at 1)
+	ld a, [wDarkCaveSnapshot]
+	cp 6
+	ld c, 2
+	jr z, .gotDebuffAmount
+	ld c, 1
+.gotDebuffAmount
 	ld a, b
 	and a
 	ld hl, wEnemyMonStatMods
@@ -556,7 +567,7 @@ CheckDarknessAccuracyDebuff:
 	ld de, MOD_ACCURACY
 	add hl, de
 	ld a, [hl]
-	sub 2
+	sub c
 	jr c, .floor
 	jr nz, .store
 .floor
@@ -577,7 +588,13 @@ CheckWildDarknessAccuracyDebuff:
 CheckDarkCaveBattleIntro:
 	ld a, [wDarkCaveSnapshot]
 	cp 6
+	jr z, .tooDark
+	cp 3 ; Diglett's Cave half-dark
 	ret nz
+	ld hl, ABitDarkText
+	rst _PrintText
+	ret
+.tooDark
 	ld hl, TooDarkText
 	rst _PrintText
 	ret
@@ -586,11 +603,165 @@ TooDarkText:
 	text_far _TooDarkToSeeText
 	text_end
 
+ABitDarkText:
+	text_far _ABitDarkToSeeText
+	text_end
+
+; Sunsette: FLY and DIG raise the USER's EVASION by 1 on the charge turn (callfar'd from ChargeEffect
+; in Battle Core, after "flew up!" / "dug a hole!"). We reuse the engine's own StatModifierUpEffect by
+; temporarily pointing the user's move effect at EVASION_UP1_EFFECT (and zeroing the move number, which
+; dodges StatModifierUpEffect's Minimize/substitute path), with the stat-rise animation suppressed - then
+; restore both so turn 2's charged attack still fires normally. hWhoseTurn is already the charging mon.
+ChargeMoveEvasionBoost::
+	ldh a, [hWhoseTurn]
+	and a
+	ld hl, wPlayerMoveEffect
+	ld de, wPlayerMoveNum
+	jr z, .gotPtrs
+	ld hl, wEnemyMoveEffect
+	ld de, wEnemyMoveNum
+.gotPtrs
+	ld a, [hl]
+	push af ; save the real move effect (FLY_EFFECT / CHARGE_EFFECT)
+	ld a, [de]
+	push af ; save the real move number
+	ld a, EVASION_UP1_EFFECT
+	ld [hl], a
+	xor a
+	ld [de], a
+	SetFlag FLAG_SKIP_STAT_ANIMATION
+	callfar StatModifierUpEffect ; +1 EVASION to the user, prints the standard "rose!" line
+	ResetFlag FLAG_SKIP_STAT_ANIMATION
+	; callfar clobbered hl/de - re-derive the same pointers to restore the saved values
+	ldh a, [hWhoseTurn]
+	and a
+	ld hl, wPlayerMoveEffect
+	ld de, wPlayerMoveNum
+	jr z, .restore
+	ld hl, wEnemyMoveEffect
+	ld de, wEnemyMoveNum
+.restore
+	pop af
+	ld [de], a ; restore move number
+	pop af
+	ld [hl], a ; restore move effect
+	ret
+
+; Sunsette: shared body for HAZE_EFFECT and FLASH_EFFECT - both point at Battle Core's HazeEffect
+; trampoline (Battle Core is full, so we can't afford a second one), which jpfar's here. We dispatch on
+; the active move effect: FLASH_EFFECT branches to the Flash body below; otherwise it's Haze.
+; HAZE: clear all stat changes/statuses via the engine's own HazeEffect_, then roll a 30% flinch.
+; FlinchSideEffect reads the move effect to choose its chance and picks 30% for anything that isn't
+; FLINCH_SIDE_EFFECT1 (HAZE_EFFECT qualifies). Tail-jumps, so the final ret returns to HazeEffect's caller.
+HazeFlinchEffect_::
+	ldh a, [hWhoseTurn]
+	and a
+	ld a, [wPlayerMoveEffect]
+	jr z, .gotEffect
+	ld a, [wEnemyMoveEffect]
+.gotEffect
+	cp FLASH_EFFECT
+	jr z, FlashEffect_
+	callfar HazeEffect_
+	jpfar FlinchSideEffect
+
+; FLASH's effect body (reached from HazeFlinchEffect_ above). FLASH deals
+; no damage; it raises the USER's ACCURACY by 3 stages - a visible +2 ("sharply rose!") through the
+; engine's StatModifierUpEffect, then a silent +1 poked straight into the accuracy stat-mod byte (which
+; is wPlayerMonStatMods + 4, so it stacks) - then rolls a 30% flinch via FlinchSideEffect. hWhoseTurn is
+; the FLASH user; FlinchSideEffect reads the move effect to pick its chance, and FLASH_EFFECT (not
+; FLINCH_SIDE_EFFECT1) yields 30%, so we restore the real effect before tail-jumping into it.
+FlashEffect_::
+	ldh a, [hWhoseTurn]
+	and a
+	ld hl, wPlayerMoveEffect
+	jr z, .gotEffectPtr
+	ld hl, wEnemyMoveEffect
+.gotEffectPtr
+	ld a, ACCURACY_UP2_EFFECT
+	ld [hl], a
+	callfar StatModifierUpEffect ; +2 ACCURACY with the standard "sharply rose!" line + animation
+	ldh a, [hWhoseTurn]
+	and a
+	ld hl, wPlayerMoveEffect
+	ld de, wPlayerMonAccuracyMod
+	jr z, .restoreEffect
+	ld hl, wEnemyMoveEffect
+	ld de, wEnemyMonAccuracyMod
+.restoreEffect
+	ld a, FLASH_EFFECT ; restore so FlinchSideEffect rolls 30% (not the 10% of FLINCH_SIDE_EFFECT1)
+	ld [hl], a
+	ld a, [de] ; silent +1 ACCURACY to reach +3 total, capped at +6
+	cp MAX_STAT_LEVEL
+	jr nc, .accuracyMaxed
+	inc a
+	ld [de], a
+.accuracyMaxed
+	jpfar FlinchSideEffect
+
+; Sunsette: stores the SecondWind heal (de = new HP, passed through the callfar from SecondWindHeal in
+; bank3 - Bankswitch preserves de) and animates the player's in-battle HP bar filling like a Potion,
+; instead of snapping it. On entry wBattleMonHP still holds the OLD HP, which we capture as wHPBarOldHP.
+; The wHPBar* vars are little-endian (low byte at +0, high at +1); mon HP/MaxHP are big-endian. Player
+; battle bar = coord 10,9 with wHPBarType 1 (cf. UpdateCurMonHPBar). predef works from any bank.
+SecondWindHealApply::
+	ld a, [wBattleMonHP]
+	ld [wHPBarOldHP + 1], a
+	ld a, [wBattleMonHP + 1]
+	ld [wHPBarOldHP], a
+	ld a, d
+	ld [wBattleMonHP], a
+	ld [wHPBarNewHP + 1], a
+	ld a, e
+	ld [wBattleMonHP + 1], a
+	ld [wHPBarNewHP], a
+	ld a, [wBattleMonMaxHP]
+	ld [wHPBarMaxHP + 1], a
+	ld a, [wBattleMonMaxHP + 1]
+	ld [wHPBarMaxHP], a
+	hlcoord 10, 9
+	ld a, 1
+	ld [wHPBarType], a
+	predef UpdateHPBar
+	ret
+
+; Sunsette: shared failure message for Disable / Cut / Submission (DISABLE family). Battle Core's
+; DisableEffectCore.moveMissed jpfar's here instead of printing "But, it failed!" inline, so we can
+; pick the right line with no Battle Core cost (it was full). We re-derive the target's disabled-move
+; slot from hWhoseTurn: if the target already has a move disabled, say so; otherwise it's a genuine
+; miss/no-PP failure. (An accuracy miss against an already-disabled target also lands on the "already
+; DISABLED" line, which is acceptable - it's still true.) Tail-rets to DisableEffectCore's caller.
+SmartDisableFail_::
+	ld c, 50
+	rst _DelayFrames
+	ld de, wEnemyDisabledMove
+	ldh a, [hWhoseTurn]
+	and a
+	jr z, .gotSlot
+	ld de, wPlayerDisabledMove
+.gotSlot
+	ld a, [de]
+	and a
+	ld hl, .alreadyDisabledText
+	jr nz, .print
+	ld hl, .failedText
+.print
+	rst _PrintText
+	ret
+.alreadyDisabledText
+	text_far _AlreadyDisabledText
+	text_end
+.failedText
+	text_far _ButItFailedText
+	text_end
+
 ; Sunsette: ADDED: enemy-trainer send-out hook. Routed through the send-out-ONLY call site
 ; (EnemySendOutFirstMon in core.asm, which used to `callfar AutoWakeUpScreechEnemy` directly).
 ; We keep that wake-up behavior, then apply any per-map enemy buff. NOT reached from the mid-battle
 ; heal path that also calls AutoWakeUpScreechEnemy, so gym buffs only fire on actual send-outs.
 EnemyOnSendOut::
+	ld hl, wEnemyMonFlags ; Sunsette: a fresh enemy mon isn't WATERIFY-soaked; clear bit 1 (keep bit 0 = confuse-ray alt palette)
+	res 1, [hl]
 	callfar AutoWakeUpScreechEnemy ; preserve original on-send-out behavior
 	call ApplyEnemySendOutMapEffects
 	xor a ; target = enemy

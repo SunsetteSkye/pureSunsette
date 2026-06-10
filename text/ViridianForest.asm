@@ -72,12 +72,24 @@ _ViridianForestEndBattleTextPikaGirl::
 	line "really?"
 	prompt
 
-_ViridianForestAfterBattleTextPikaGirl::
-	text "I've heard there"
-	line "are wild PIKACHU"
-	cont "here!"
-	para "Have you seen"
-	line "any?"
+; Sunsette: _ViridianForestPikaGirlHMExplanationText lives in text/FightingBrosHouse.asm (Text 14) -
+; Text 1 (this bank) is full. text_far resolves the bank, so the script reference works cross-bank.
+
+_ViridianForestPikaGirlFlashGrantText:: ; Sunsette: PIKACHU girl gives up and hands over HM05 FLASH
+	text "I can't find a"
+	line "PIKACHU to light"
+	cont "up MT.MOON<...>"
+
+	para "You take this"
+	line "hidden machine!"
+	prompt
+
+_ViridianForestPikaGirlReceivedFlashText::
+	text "<PLAYER> got HM05!"
+	done
+
+_ViridianForestPikaGirlNoRoomText::
+	text "No room for this!"
 	done
 
 _ViridianForestBattleTextSamurai::

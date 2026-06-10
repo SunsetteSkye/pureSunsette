@@ -15,6 +15,7 @@
 
 	; tm/hm learnset
 	tmhm \
+	DISABLE,\
 	TOXIC,\
 	PIN_MISSILE,\
 	DOUBLE_EDGE,\
@@ -30,7 +31,6 @@
 	KINESIS,\ ; MIRAGE
 	REFLECT,\
 	BIDE,\
-	AGILITY,\
 	BARRAGE,\
 	FIRE_BLAST,\
 	FLAMETHROWER,\

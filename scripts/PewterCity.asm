@@ -20,7 +20,10 @@ PewterCityDefaultScript:
 	ResetEvent EVENT_BOUGHT_MUSEUM_TICKET
 	; fall through
 PewterCityCheckPlayerLeavingEastScript:
-	CheckEvent EVENT_BEAT_BROCK
+	; Sunsette: the east-exit youngster now just gives a ONE-TIME Mt. Moon warning (no forced walk to the
+	; gym, no permanent block). Once he's warned the player (EVENT_WARNED_ABOUT_MT_MOON) he never stops you
+	; again - so this is no longer gated on beating Brock.
+	CheckEvent EVENT_WARNED_ABOUT_MT_MOON
 	ret nz
 IF DEF(_DEBUG)
 	call DebugPressedOrHeldB
@@ -30,6 +33,18 @@ ENDC
 	call ArePlayerCoordsInArray
 	ret nc
 	call DisableDpad
+	; Sunsette: the guard still does the "!" surprise reaction (emote + sound) over his head as he stops
+	; you, even though he no longer drags you anywhere. He's at (35,16) facing down, right above the exit.
+	ld a, PEWTERCITY_YOUNGSTER
+	ld [wEmotionBubbleSpriteIndex], a
+	ld a, EXCLAMATION_BUBBLE
+	ld [wWhichEmotionBubble], a
+	ld b, BANK(ExclamationBubbleSFX)
+	call MuteAudioAndChangeAudioBank
+	ld de, ExclamationBubbleSFX
+	call PlayNewSoundChannel5
+	callfar EmotionBubble
+	call UnmuteAudioAndRestoreAudioBank
 	ld a, TEXT_PEWTERCITY_YOUNGSTER
 	ldh [hTextID], a
 	jp DisplayTextID
@@ -253,15 +268,18 @@ PewterCityStartMovementFromTextScript:
 	rst TextScriptEnd
 
 PewterCityYoungsterText:
+	; Sunsette: was a forced "follow me to the GYM" drag. Now a one-time Mt. Moon heads-up that never
+	; blocks the player - just prints, flags itself done, and re-enables the d-pad (the east-exit trigger
+	; DisableDpad'd it). Talking to him directly also works (EnableAllJoypad is a no-op when already on).
 	text_asm
-	ld hl, .YoureATrainerFollowMeText
+	ld hl, .MtMoonWarningText
 	rst _PrintText
-	lb bc, PEWTERCITY_YOUNGSTER, SCRIPT_PEWTERCITY_YOUNGSTER_SHOWS_PLAYER_GYM
-	ld d, 3
-	jr PewterCityStartMovementFromTextScript
+	SetEvent EVENT_WARNED_ABOUT_MT_MOON
+	call EnableAllJoypad
+	rst TextScriptEnd
 
-.YoureATrainerFollowMeText:
-	text_far _PewterCityYoungsterYoureATrainerFollowMeText
+.MtMoonWarningText:
+	text_far _PewterCityYoungsterMtMoonWarningText
 	text_end
 
 PewterCitySuperNerd1ItsRightHereText:

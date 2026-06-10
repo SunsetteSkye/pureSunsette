@@ -24,9 +24,15 @@ _Route17Biker2EndBattleText::
 	prompt
 
 _Route17Biker2AfterBattleText::
-	text "I could belly-"
-	line "bump you outta"
-	cont "here!"
+	text "Us bikers got a"
+	line "legend, kid."
+	para "A thunderbird,"
+	line "wild and free,"
+	cont "cracklin' with"
+	cont "raw voltage."
+	para "The pure ESSENCE"
+	line "of punk! THAT'S"
+	cont "the dream!"
 	done
 
 _Route17Biker3BattleText::

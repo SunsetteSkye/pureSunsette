@@ -15,6 +15,8 @@
 
 	; tm/hm learnset
 	tmhm \
+	DISABLE,\
+	SONICBOOM,\ ; ILL WIND
 	TOXIC,\
 	BODY_SLAM,\
 	DOUBLE_EDGE,\
@@ -29,7 +31,6 @@
 	SWORDS_DANCE,\
 	REFLECT,\
 	BIDE,\
-	AGILITY,\
 	BARRAGE,\
 	LIGHT_SCREEN,\
 	THUNDER_WAVE,\
