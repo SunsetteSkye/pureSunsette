@@ -48,14 +48,14 @@ _SchoolB1FCornerGameboyKid::
 
 	para "I already"
 	line "memorized the"
-	cont "whole textbook"
-	cont "anyway."
+	cont "whole textbook."
+	cont "It's kinda bogus"
+	cont "that criticals"
+	cont "ignore all"
+	cont "stat boosts..."
 	
-	para "Gotta beat this"
-	line "videogame!"
-	
-	para "What is it?"
-	line "It's called:"
+	para "Anyway! Gotta"
+	line "beat this game."
 	
 	para "FOR THE FROG"
 	line "THE BELL TOLLS"
@@ -329,6 +329,8 @@ _SchoolB1FNerdNotebookSpeed::
 	para "Whoever has the"
 	line "highest SPEED"
 	cont "will go first."
+	para "It also increases"
+	line "critical chance."
 	prompt
 
 _SchoolB1FNerdNotebookSpecial::

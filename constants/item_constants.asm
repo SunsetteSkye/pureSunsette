@@ -154,7 +154,7 @@ DEF TM01 EQU const_value
 	add_tm ICE_BEAM     ; $D5
 	add_tm BLIZZARD     ; $D6 (SLEET STORM)
 	add_tm HYPER_BEAM   ; $D7
-	add_tm AMNESIA      ; $D8
+	add_tm AMNESIA      ; $D8 (CALM MIND)
 	add_tm LOW_KICK     ; $D9 ; Sunsette: was HI_JUMP_KICK; now the weight-based LOW KICK TM (TM_HI_JUMP_KICK -> TM_LOW_KICK), taught to all but a set of exclusions
 	add_tm THUNDERPUNCH ; $DA
 	add_tm ROLLING_KICK ; $DB (METEOR SWEEP)
@@ -179,7 +179,7 @@ DEF TM01 EQU const_value
 	add_tm FIRE_BLAST   ; $EE
 	add_tm SLAM        	; $EF (WASTEMAKER)
 	add_tm KARATE_CHOP  ; $F0
-	add_tm MEDITATE   	; $F1 
+	add_tm MEDITATE   	; $F1  (VOID MIND)
 	add_tm LOVELY_KISS  ; $F2
 	add_tm SKY_ATTACK   ; $F3
 	add_tm LIGHT_SCREEN ; $F4

@@ -10,7 +10,7 @@
 	INCBIN "gfx/pokemon/front/snorlax.pic", 0, 1 ; sprite dimensions
 	dw SnorlaxPicFront, SnorlaxPicBackSW
 
-	db ROAR, AMNESIA, REST, HEADBUTT  ; level 1 learnset (BELLOW)
+	db ROAR, AMNESIA, REST, HEADBUTT  ; level 1 learnset (BELLOW) (CALM MIND)
 	db GROWTH_MEDIUM_SLOW ; growth rate
 
 	; tm/hm learnset
@@ -27,7 +27,7 @@
 	ICE_BEAM,\
 	BLIZZARD,\ ; SLEET STORM
 	HYPER_BEAM,\
-	AMNESIA,\
+	AMNESIA,\ ; CALM MIND
 	THUNDERPUNCH,\
 	ROLLING_KICK,\ ; METEOR SWEEP
 	SOLARBEAM,\
@@ -42,7 +42,7 @@
 	FLAMETHROWER,\
 	SLAM,\ ; WASTEMAKER
 	KARATE_CHOP,\
-	MEDITATE,\
+	MEDITATE,\ ; VOID MIND
 	PSYWAVE,\ ; MINDWIPE
 	ROCK_SLIDE,\
 	SUBSTITUTE,\

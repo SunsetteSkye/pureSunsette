@@ -10,7 +10,7 @@
 	INCBIN "gfx/pokemon/front/hitmonlee.pic", 0, 1 ; sprite dimensions
 	dw HitmonleePicFront, HitmonleePicBackSW
 
-	db DOUBLE_KICK, MEDITATE, NO_MOVE, NO_MOVE ; level 1 learnset
+	db DOUBLE_KICK, MEDITATE, NO_MOVE, NO_MOVE ; level 1 learnset (VOID MIND)
 	db GROWTH_MEDIUM_FAST ; growth rate
 
 	; tm/hm learnset
@@ -32,7 +32,7 @@
 	BARRAGE,\ ; SHADOW BALL
 	SLAM,\ ; WASTEMAKER
 	KARATE_CHOP,\
-	MEDITATE,\
+	MEDITATE,\ ; VOID MIND
 	ROCK_SLIDE,\
 	GLARE,\
 	SUBSTITUTE,\

@@ -340,7 +340,7 @@ SlowbroEvosMoves:
 	db 28, PSYBEAM
 	db 32, WITHDRAW
 	db 36, SLAM ; WASTEMAKER
-	db 41, AMNESIA
+	db 41, AMNESIA ; CALM MIND
 	db 45, PSYCHIC_M
 	db 0
 
@@ -388,7 +388,7 @@ LickitungEvosMoves:
 	db 23, HEADBUTT
 	db 28, DIZZY_PUNCH
 	db 31, SLAM ; WASTEMAKER
-	db 37, MEDITATE
+	db 37, MEDITATE ; VOID MIND
 	db 42, MEGA_PUNCH ; HAYMAKER
 	db 50, HYPER_BEAM
 	db 0
@@ -579,7 +579,7 @@ ShellderEvosMoves:
 	db 32, WATERFALL
 	db 36, VICEGRIP ; LOCKJAW
 	db 45, ICE_BEAM
-	db 52, AMNESIA
+	db 52, AMNESIA ; CALM MIND
 	db 56, SPIKE_CANNON
 	db 0
 
@@ -689,7 +689,7 @@ TangelaEvosMoves:
 	db 34, CONSTRICT ;STRANGLEVINE
 	db 44, SPORE
 	db 49, DREAM_EATER ; SOULSTEALER
-	db 54, AMNESIA
+	db 54, AMNESIA ; CALM MIND
 	db 0
 
 NothingEvosMoves:
@@ -763,7 +763,7 @@ PidgeyEvosMoves:
 	db 23, WING_ATTACK
 	db 28, RAZOR_LEAF
 	db 32, SWIFT
-	db 35, SHARPEN
+	db 35, SHARPEN ; HONE EDGE
 	db 41, WHIRLWIND ; HURRICANE
 	db 48, PETAL_DANCE
 	db 54, DOUBLE_EDGE
@@ -782,7 +782,7 @@ SlowpokeEvosMoves:
 	db 29, PSYBEAM
 	db 32, WITHDRAW
 	db 36, SLAM ; WASTEMAKER
-	db 41, AMNESIA
+	db 41, AMNESIA ; CALM MIND
 	db 45, PSYCHIC_M
 	db 0
 
@@ -798,7 +798,7 @@ KadabraEvosMoves:
 	db 31, RECOVER
 	db 38, PSYCHIC_M
 	db 42, REFLECT
-	db 54, MEDITATE
+	db 54, MEDITATE ; VOID MIND
 	db 0
 
 GravelerEvosMoves:
@@ -865,7 +865,7 @@ MrMimeEvosMoves:
 	db 25, TELEPORT
 	db 28, MIRROR_MOVE ; MOCKINGBIRD
 	db 31, SEISMIC_TOSS
-	db 35, MEDITATE
+	db 35, MEDITATE ; VOID MIND
 	db 39, PSYCHIC_M
 	db 44, SONICBOOM; ILL WIND
 	db 48, SUBSTITUTE
@@ -949,7 +949,7 @@ PsyduckEvosMoves:
 	db 27, WATERFALL
 	db 32, REFLECT
 	db 34, SWIFT
-	db 38, AMNESIA
+	db 38, AMNESIA ; CALM MIND
 	db 44, PSYCHIC_M
 	db 50, TELEPORT
 	db 56, MIRROR_MOVE ; MOCKINGBIRD
@@ -967,7 +967,7 @@ DrowzeeEvosMoves:
 	db 29, POISON_GAS ; MIASMA
 	db 33, NIGHT_SHADE ; PHANTASM
 	db 37, PSYCHIC_M
-	db 43, MEDITATE
+	db 43, MEDITATE ; VOID MIND
 	db 48, DREAM_EATER ; SOULSTEALER
 	db 48, HYPNOSIS
 	db 0
@@ -1093,7 +1093,7 @@ SeelEvosMoves:
 	db 35, ICE_BEAM
 	db 39, SKULL_BASH ; METEOR DRIVE
 	db 41, MIST ; ETHEREAL
-	db 43, AMNESIA
+	db 43, AMNESIA ; CALM MIND
 	db 50, BLIZZARD ; SLEET STORM
 	db 55, SWIFT
 	db 59, WITHDRAW
@@ -1209,7 +1209,7 @@ PoliwagEvosMoves:
 	db 27, BODY_SLAM
 	db 30, WATERFALL
 	db 36, DIZZY_PUNCH
-	db 41, AMNESIA
+	db 41, AMNESIA ; CALM MIND
 	db 45, HYDRO_PUMP
 	db 52, COUNTER ; SHADOW BOX
 	db 0
@@ -1223,7 +1223,7 @@ JynxEvosMoves:
 	db 27, BODY_SLAM
 	db 30, ICE_PUNCH
 	db 34, PSYBEAM
-	db 39, AMNESIA
+	db 39, AMNESIA ; CALM MIND
 	db 42, DREAM_EATER ; SOULSTEALER
 	db 42, LOVELY_KISS
 	db 47, BLIZZARD ; SLEET STORM
@@ -1310,7 +1310,7 @@ VulpixEvosMoves:
 	db 23, CONFUSE_RAY
 	db 28, NIGHT_SHADE ; PHANTASM
 	db 35, FLAMETHROWER
-	db 44, AMNESIA
+	db 44, AMNESIA ; CALM MIND
 	db 50, PSYCHIC_M
 	db 56, DREAM_EATER ; SOULSTEALER
 	db 60, FIRE_SPIN
@@ -1327,7 +1327,7 @@ NinetalesEvosMoves:
 	db 23, CONFUSE_RAY
 	db 28, NIGHT_SHADE ; PHANTASM
 	db 35, FLAMETHROWER
-	db 44, AMNESIA
+	db 44, AMNESIA ; CALM MIND
 	db 50, PSYCHIC_M
 	db 56, DREAM_EATER ; SOULSTEALER
 	db 60, FIRE_SPIN
@@ -1413,7 +1413,7 @@ KabutopsEvosMoves:
 ; Learnset
 	db 24, LEECH_LIFE
 	db 28, BIND ; STONEBOUND
-	db 33, SHARPEN
+	db 33, SHARPEN ; HONE EDGE
 	db 35, FURY_ATTACK ; DUAL SPEAR
 	db 39, SKULL_BASH ; METEOR DRIVE
 	db 44, GUILLOTINE ; EXTERMINATE
@@ -1461,7 +1461,7 @@ SandshrewEvosMoves:
 ; Learnset
 	db 10, SAND_ATTACK
 	db 12, POISON_STING
-	db 14, SHARPEN
+	db 14, SHARPEN ; HONE EDGE
 	db 17, PIN_MISSILE
 	db 20, DIG
 	db 24, SLASH
@@ -1477,7 +1477,7 @@ SandslashEvosMoves:
 ; Learnset
 	db 10, SAND_ATTACK
 	db 12, POISON_STING
-	db 14, SHARPEN
+	db 14, SHARPEN ; HONE EDGE
 	db 17, PIN_MISSILE
 	db 20, DIG
 	db 23, SLASH
@@ -1552,7 +1552,7 @@ EeveeEvosMoves:
 	db EVOLVE_ITEM, WATER_STONE, 1, VAPOREON
 	db 0
 ; Learnset
-	db 6, SHARPEN
+	db 6, SHARPEN ; HONE EDGE
 	db 10, BITE
 	db 14, ROAR ; BELLOW
 	db 18, QUICK_ATTACK
@@ -1564,7 +1564,7 @@ FlareonEvosMoves: ; Automatically tries to learn EMBER on evolution
 ; Evolutions
 	db 0
 ; Learnset
-	db 6, SHARPEN
+	db 6, SHARPEN ; HONE EDGE
 	db 10, BITE
 	db 14, ROAR ; BELLOW
 	db 18, QUICK_ATTACK
@@ -1581,7 +1581,7 @@ JolteonEvosMoves: ; Automatically tries to learn THUNDERSHOCK on evolution
 ; Evolutions
 	db 0
 ; Learnset
-	db 6, SHARPEN
+	db 6, SHARPEN ; HONE EDGE
 	db 10, BITE
 	db 14, ROAR ; BELLOW
 	db 18, QUICK_ATTACK
@@ -1598,7 +1598,7 @@ VaporeonEvosMoves: ; Automatically tries to learn WATER_GUN on evolution
 ; Evolutions
 	db 0
 ; Learnset
-	db 6, SHARPEN
+	db 6, SHARPEN ; HONE EDGE
 	db 10, BITE
 	db 14, ROAR ; BELLOW
 	db 18, QUICK_ATTACK
@@ -1699,7 +1699,7 @@ PoliwhirlEvosMoves:
 	db 27, BODY_SLAM
 	db 30, WATERFALL
 	db 36, DIZZY_PUNCH
-	db 41, AMNESIA
+	db 41, AMNESIA ; CALM MIND
 	db 45, HYDRO_PUMP
 	db 52, COUNTER ; SHADOW BOX
 	db 0
@@ -1715,7 +1715,7 @@ PoliwrathEvosMoves:
 	db 27, BODY_SLAM
 	db 30, WATERFALL
 	db 36, DIZZY_PUNCH
-	db 41, AMNESIA
+	db 41, AMNESIA ; CALM MIND
 	db 45, HYDRO_PUMP
 	db 52, COUNTER ; SHADOW BOX
 	db 0
@@ -1836,7 +1836,7 @@ DewgongEvosMoves:
 	db 35, ICE_BEAM
 	db 39, SKULL_BASH ; METEOR DRIVE
 	db 41, MIST ; ETHEREAL
-	db 43, AMNESIA
+	db 43, AMNESIA ; CALM MIND
 	db 50, BLIZZARD ; SLEET STORM
 	db 55, SWIFT
 	db 59, WITHDRAW
@@ -1906,7 +1906,7 @@ GolduckEvosMoves:
 	db 27, WATERFALL
 	db 32, REFLECT
 	db 34, SWIFT
-	db 38, AMNESIA
+	db 38, AMNESIA ; CALM MIND
 	db 44, PSYCHIC_M
 	db 50, TELEPORT
 	db 56, MIRROR_MOVE ; MOCKINGBIRD
@@ -1923,7 +1923,7 @@ HypnoEvosMoves:
 	db 29, POISON_GAS ; MIASMA
 	db 33, NIGHT_SHADE ; PHANTASM
 	db 37, PSYCHIC_M
-	db 43, MEDITATE
+	db 43, MEDITATE ; VOID MIND
 	db 48, DREAM_EATER ; SOULSTEALER
 	db 48, HYPNOSIS
 	db 0
@@ -1954,7 +1954,7 @@ MewtwoEvosMoves:
 	db 70, RECOVER
 	db 72, BARRIER
 	db 75, MIST ; ETHEREAL
-	db 81, AMNESIA
+	db 81, AMNESIA ; CALM MIND
 	db 0
 
 SnorlaxEvosMoves:
@@ -2018,7 +2018,7 @@ CloysterEvosMoves:
 	db 32, WATERFALL
 	db 36, VICEGRIP ; LOCKJAW
 	db 45, ICE_BEAM
-	db 52, AMNESIA
+	db 52, AMNESIA ; CALM MIND
 	db 56, SPIKE_CANNON
 	db 0
 
@@ -2142,7 +2142,7 @@ AlakazamEvosMoves:
 	db 31, RECOVER
 	db 38, PSYCHIC_M
 	db 42, REFLECT
-	db 54, MEDITATE
+	db 54, MEDITATE ; VOID MIND
 	db 0
 
 PidgeottoEvosMoves:
@@ -2157,7 +2157,7 @@ PidgeottoEvosMoves:
 	db 23, WING_ATTACK
 	db 28, RAZOR_LEAF
 	db 32, SWIFT
-	db 35, SHARPEN
+	db 35, SHARPEN ; HONE EDGE
 	db 41, WHIRLWIND ; HURRICANE
 	db 48, PETAL_DANCE
 	db 54, DOUBLE_EDGE
@@ -2175,7 +2175,7 @@ PidgeotEvosMoves:
 	db 23, WING_ATTACK
 	db 28, RAZOR_LEAF
 	db 32, SWIFT
-	db 35, SHARPEN
+	db 35, SHARPEN ; HONE EDGE
 	db 41, WHIRLWIND ; HURRICANE
 	db 48, PETAL_DANCE
 	db 54, DOUBLE_EDGE

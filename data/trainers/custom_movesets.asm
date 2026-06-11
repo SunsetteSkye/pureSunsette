@@ -91,7 +91,7 @@ ChampArenaErikaMoveset:
 	db THUNDER
 	; butterfree
 	db RAZOR_WIND ; ROOST
-	db MEDITATE
+	db MEDITATE ; VOID MIND
 	db PSYCHIC_M
 	db THUNDER_WAVE
 	; venusaur
@@ -115,7 +115,7 @@ ChampArenaBlaineMoveset:
 	db PSYCHIC_M
 	db FIRE_PUNCH
 	db ICE_PUNCH
-	db MEDITATE
+	db MEDITATE ; VOID MIND
 	; flareon
 	db FLAMETHROWER
 	db GLARE
@@ -198,7 +198,7 @@ ChampArenaSabrinaMoveset:
 	; alakazam 2
 	db AURORA_BEAM
 	db PSYCHIC_M
-	db MEDITATE
+	db MEDITATE ; VOID MIND
 	db RECOVER
 
 ChampArenaBrunoMoveset:
@@ -280,11 +280,11 @@ ChampArenaLanceMoveset:
 	db DRAGON_RAGE ; WYRM WRATH
 	db WATERFALL
 	db FIRE_BLAST
-	db AMNESIA
+	db AMNESIA ; CALM MIND
 	; dragonite 1
 	db KARATE_CHOP
 	db RAZOR_WIND ; ROOST
-	db SHARPEN
+	db SHARPEN ; HONE EDGE
 	db WHIRLWIND ; HURRICANE
 	; aerodactyl
 	db RAZOR_WIND ; ROOST
@@ -443,7 +443,7 @@ ChampArenaGymGuideMoveset:
 	db GLARE
 	; alakazam
 	db PSYCHIC_M
-	db MEDITATE
+	db MEDITATE ; VOID MIND
 	db RECOVER
 	db DISABLE
 	; tauros
@@ -593,7 +593,7 @@ EliteFourRivalMoveset1:
 	db WHIRLWIND ; HURRICANE
 	; alakazam
 	db PSYCHIC_M
-	db AMNESIA
+	db AMNESIA ; CALM MIND
 	db REFLECT
 	db RECOVER
 	; rhydon
@@ -625,7 +625,7 @@ EliteFourRivalMoveset2:
 	db DRAGON_RAGE ; WYRM WRATH
 	; alakazam
 	db PSYCHIC_M
-	db AMNESIA
+	db AMNESIA ; CALM MIND
 	db REFLECT
 	db RECOVER
 	; rhydon
@@ -657,7 +657,7 @@ EliteFourRivalMoveset3:
 	db SPIKE_CANNON
 	; alakazam
 	db PSYCHIC_M
-	db AMNESIA
+	db AMNESIA ; CALM MIND
 	db REFLECT
 	db RECOVER
 	; kingler

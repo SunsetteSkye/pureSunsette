@@ -249,7 +249,7 @@ ItemSortedList:
 	db TM_ICE_BEAM     ; $D5
 	db TM_BLIZZARD     ; $D6 (SLEET STORM)
 	db TM_HYPER_BEAM   ; $D7
-	db TM_AMNESIA      ; $D8
+	db TM_AMNESIA      ; $D8 (CALM MIND)
 	db TM_LOW_KICK     ; $D9 ; LOW KICK
 	db TM_THUNDERPUNCH ; $DA
 	db TM_ROLLING_KICK ; $DB (METEOR SWEEP)
@@ -274,7 +274,7 @@ ItemSortedList:
 	db TM_FIRE_BLAST   ; $EE
 	db TM_SLAM        	; $EF (WASTEMAKER)
 	db TM_KARATE_CHOP  ; $F0
-	db TM_MEDITATE   	; $F1 
+	db TM_MEDITATE   	; $F1  (VOID MIND)
 	db TM_LOVELY_KISS  ; $F2
 	db TM_SKY_ATTACK   ; $F3
 	db TM_LIGHT_SCREEN ; $F4

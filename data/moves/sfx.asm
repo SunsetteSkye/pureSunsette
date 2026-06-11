@@ -96,7 +96,7 @@ MoveSoundTable:
 	db SFX_BATTLE_14,          $00, $20 ; CONFUSION
 	db SFX_PSYCHIC_M,          $00, $80 ; PSYCHIC_M
 	db SFX_BATTLE_35,          $11, $18 ; HYPNOSIS
-	db SFX_BATTLE_09,          $20, $c0 ; MEDITATE
+	db SFX_BATTLE_09,          $20, $c0 ; VOID MIND
 	db SFX_FAINT_FALL,         $20, $c0 ; AGILITY
 	db SFX_BATTLE_25,          $00, $10 ; QUICK_ATTACK
 	db SFX_BATTLE_26,          $f0, $20 ; RAGE
@@ -133,7 +133,7 @@ MoveSoundTable:
 	db SFX_BATTLE_26,          $1e, $20 ; SKULL_BASH (METEOR DRIVE)
 	db SFX_BATTLE_26,          $1f, $18 ; SPIKE_CANNON
 	db SFX_BATTLE_14,          $0f, $80 ; CONSTRICT
-	db SFX_BATTLE_09,          $f8, $10 ; AMNESIA
+	db SFX_BATTLE_09,          $f8, $10 ; CALM MIND
 	db SFX_FAINT_FALL,         $18, $20 ; KINESIS
 	db SFX_BATTLE_32,          $08, $40 ; SOFTBOILED
 	db SFX_BATTLE_17,          $01, $e0 ; HI_JUMP_KICK
@@ -159,7 +159,7 @@ MoveSoundTable:
 	db SFX_BATTLE_21,          $12, $10 ; REST
 	db SFX_BATTLE_36,          $f0, $20 ; ROCK_SLIDE
 	db SFX_BATTLE_1E,          $12, $ff ; HYPER_FANG
-	db SFX_ICE,          	   $00, $00 ; SHARPEN
+	db SFX_ICE,          	   $00, $00 ; HONE EDGE
 	db SFX_BATTLE_33,          $f0, $10 ; CONVERSION
 	db SFX_BATTLE_29,          $f8, $ff ; TRI_ATTACK
 	db SFX_BATTLE_26,          $f0, $ff ; SUPER_FANG

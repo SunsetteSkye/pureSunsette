@@ -186,9 +186,9 @@ _SwordsDanceDexEntry::
 	next "to raise fighting"
 	next "spirit."
 
-	bage "Raises ATTACK"
-	next "and ACCURACY."
-	next "(+1 Each)"
+	bage "Sharply raises"
+	next "the <user>'s"
+	next "ATTACK. (+2)"
 	dex
 
 _CutDexEntry::

@@ -360,7 +360,7 @@ PSYCHICName:
 HYPNOSISName:
 	db "HYPNOSIS@"
 MEDITATEName:
-	db "MEDITATE@"
+	db "VOID MIND@" ; visible name; internal const MEDITATE (was MEDITATE)
 AGILITYName:
 	db "AGILITY@"
 QUICKATTACKName:
@@ -434,7 +434,7 @@ SPIKECANNONName:
 CONSTRICTName:
 	db "STRANGLEVINE@" ; changed from CONSTRICT
 AMNESIAName:
-	db "AMNESIA@"
+	db "CALM MIND@" ; visible name; internal const AMNESIA (was AMNESIA)
 KINESISName:
 	db "MIRAGE@" ; changed from KINESIS
 SOFTBOILEDName:
@@ -486,7 +486,7 @@ ROCKSLIDEName:
 HYPERFANGName:
 	db "HYPER FANG@"
 SHARPENName:
-	db "SHARPEN@"
+	db "HONE EDGE@" ; visible name; internal const SHARPEN (was SHARPEN)
 CONVERSIONName:
 	db "CONVERSION@"
 TRIATTACKName:

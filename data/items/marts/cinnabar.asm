@@ -13,7 +13,7 @@ CinnabarTMKidShop::
 	script_mart \
 	TM_TOXIC, \
 	TM_BARRIER, \
-	TM_AMNESIA, \
+	TM_AMNESIA, \ ; CALM MIND
 	TM_BODY_SLAM, \
 	TM_BARRAGE, \ ; SHADOW BALL
 	TM_SLAM ; WASTEMAKER

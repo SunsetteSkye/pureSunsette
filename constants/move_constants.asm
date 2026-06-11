@@ -101,7 +101,7 @@
 	const CONFUSION    ; 5d
 	const PSYCHIC_M    ; 5e
 	const HYPNOSIS     ; 5f
-	const MEDITATE     ; 60
+	const MEDITATE     ; 60 (VOID MIND)
 	const AGILITY      ; 61
 	const QUICK_ATTACK ; 62
 	const RAGE         ; 63
@@ -138,7 +138,7 @@
 	const SKULL_BASH   ; 82 (METEOR DRIVE)
 	const SPIKE_CANNON ; 83
 	const CONSTRICT    ; 84
-	const AMNESIA      ; 85
+	const AMNESIA      ; 85 (CALM MIND)
 	const KINESIS      ; 86
 	const SOFTBOILED   ; 87
 	const HI_JUMP_KICK ; 88
@@ -164,7 +164,7 @@
 	const REST         ; 9c
 	const ROCK_SLIDE   ; 9d
 	const HYPER_FANG   ; 9e
-	const SHARPEN      ; 9f
+	const SHARPEN      ; 9f (HONE EDGE)
 	const CONVERSION   ; a0
 	const TRI_ATTACK   ; a1
 	const SUPER_FANG   ; a2

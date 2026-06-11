@@ -26,7 +26,7 @@ Moves:
 	move VICEGRIP,     SWIFT_EFFECT,                75, BUG,          100, 30 ; LOCKJAW: never-miss BUG move (+30% -1 EVASION via SwiftEffect_); was a paralysis move
 	move GUILLOTINE,   NO_ADDITIONAL_EFFECT,        90, BUG,           80,  5 ; Sunsette: powerful, inaccurate, high-crit BUG move (was OHKO) (EXTERMINATE)
 	move RAZOR_WIND,   ROOST_EFFECT,       	         0, FLYING,       100, 10 ; -> ROOST: heal 1/2 + refresh to natural type/palette (cures MINDWIPE/WATERIFY) + ground (strip FLYING/FLOATING this turn)
-	move SWORDS_DANCE, ATTACK_ACCURACY_UP1_EFFECT,   0, FIRE,         100, 30
+	move SWORDS_DANCE, ATTACK_UP2_EFFECT,            0, FIRE,         100, 30 ; 
 	move CUT,          CUT_DISABLE_EFFECT,          70, BUG,          100, 20
 	move GUST,         ACCURACY_DOWN_SIDE_EFFECT,	50, FLYING,       100, 20 ; Sunsette: 30% chance to lower the target's ACCURACY
 	move WING_ATTACK,  FLINCH_SIDE_EFFECT2,         65, FLYING,       100, 15 ; Sunsette: 30% flinch
@@ -39,7 +39,7 @@ Moves:
 	move DOUBLE_KICK,  ATTACK_TWICE_EFFECT,         30, FIGHTING,     100, 30
 	move MEGA_KICK,    PARALYZE_SIDE_EFFECT2,      110, FIGHTING,      90,  5 ; PISTON KICK: 30% paralyze
 	move JUMP_KICK,    JUMP_KICK_EFFECT,            95, FIGHTING,      90, 25
-	move ROLLING_KICK, SWIFT_EFFECT,                70, ROCK,         100, 15 ; METEOR SWEEP: never-miss ROCK move (+30% -1 EVASION via SwiftEffect_)
+	move ROLLING_KICK, SWIFT_EFFECT,                70, ROCK,         100, 15 ; METEOR SWEEP: never-miss ROCK move (+30% -1 EVASION)
 	move SAND_ATTACK,  ACCURACY_DOWN1_EFFECT,        0, GROUND,       100, 15
 	move HEADBUTT,     FLINCH_SIDE_EFFECT2,         75, NORMAL,       100, 15
 	move HORN_ATTACK,  NO_ADDITIONAL_EFFECT,        60, ROCK,          90, 25 ; METEOR HORN 
@@ -74,7 +74,7 @@ Moves:
 	move BLIZZARD,     SWIFT_EFFECT      ,         100, ICE,          100,  5 ; SLEET STORM
 	move PSYBEAM,      CONFUSION_SIDE_EFFECT,       65, PSYCHIC_TYPE, 100, 20
 	move BUBBLEBEAM,   CONFUSION_BIG_SIDE_EFFECT,   75, WATER,        100, 20
-	move AURORA_BEAM,  CONFUSION_BIG_SIDE_EFFECT,   65, ICE,          100, 20 ; Sunsette: 30% confusion (was -1 ATK side effect)
+	move AURORA_BEAM,  CONFUSION_BIG_SIDE_EFFECT,   65, ICE,          100, 20 ; Sunsette: 30% confusion 
 	move HYPER_BEAM,   HYPER_BEAM_EFFECT,          150, NORMAL,        90,  5
 	move PECK,         NO_ADDITIONAL_EFFECT,        40, FLYING,       100, 35
 	move DRILL_PECK,   CUT_DISABLE_EFFECT,          80, FLYING,       100, 20
@@ -108,7 +108,7 @@ Moves:
 	move CONFUSION,    CONFUSION_SIDE_EFFECT,       50, PSYCHIC_TYPE, 100, 25
 	move PSYCHIC_M,    SPECIAL_DOWN_SIDE_EFFECT,    90, PSYCHIC_TYPE, 100, 10
 	move HYPNOSIS,     SLEEP_EFFECT,                 0, PSYCHIC_TYPE,  60, 20
-	move MEDITATE,     MEDITATE_EFFECT,              0, PSYCHIC_TYPE, 100, 15 ; priority move
+	move MEDITATE,     MEDITATE_EFFECT,              0, PSYCHIC_TYPE, 100, 15 ; VOID MIND: priority; Light Screen on user + ATTACK +1
 	move AGILITY,      SPEED_UP2_EFFECT,             0, PSYCHIC_TYPE, 100, 30
 	move QUICK_ATTACK, NO_ADDITIONAL_EFFECT,        70, NORMAL,       100, 10 ; priority move
 	move RAGE,         ATTACK_UP_SIDE_EFFECT,       50, NORMAL,       100, 20
@@ -145,7 +145,7 @@ Moves:
 	move SKULL_BASH,   JUMP_KICK_EFFECT,           110, ROCK,          80, 10
 	move SPIKE_CANNON, TWO_OR_THREE_ATTACKS_EFFECT, 42, ROCK,         100, 10
 	move CONSTRICT,    PARALYZE_SIDE_EFFECT2,       75, GRASS,     100, 20 ; -> STRANGLEVINE: 30% paralyze; 90 BP for TANGELA (see RemappableMoves)
-	move AMNESIA,      SPECIAL_UP1_EFFECT,           0, PSYCHIC_TYPE, 100, 20 
+	move AMNESIA,      SPECIAL_UP1_EFFECT,           0, PSYCHIC_TYPE, 100, 20 ; CALM MIND: +1 SPECIAL (raises both special atk & def in Gen 1)
 	move KINESIS,      MIRAGE_EFFECT,                0, FIRE,          90, 30 ; -> MIRAGE ; no damage; confuses a non-fire target, burns if user is fire or target already confused
 	move SOFTBOILED,   HEAL_EFFECT,                  0, NORMAL,       100, 10
 	move HI_JUMP_KICK, JUMP_KICK_EFFECT,           130, FIGHTING,      90, 10
@@ -171,7 +171,7 @@ Moves:
 	move REST,         HEAL_EFFECT,                  0, PSYCHIC_TYPE, 100, 10
 	move ROCK_SLIDE,   FLINCH_SIDE_EFFECT2,         85, ROCK,          90, 10
 	move HYPER_FANG,   FLINCH_SIDE_EFFECT2,         90, NORMAL,        90, 15
-	move SHARPEN,      ATTACK_ACCURACY_UP1_EFFECT,   0, NORMAL,       100, 30 
+	move SHARPEN,      ATTACK_ACCURACY_UP1_EFFECT,   0, NORMAL,       100, 30 ; HONE EDGE: ATTACK +1 and ACCURACY +1 
 	move CONVERSION,   CONVERSION_EFFECT,            0, TRI,          100,  5 ; Two modes, defense mode halves damage. Attack mode uses an attack that is super effective on the opponent.
 	move TRI_ATTACK,   TRI_ATTACK_EFFECT,           90, TRI,          100, 10 ; 10% chance each of freeze/burn/paralysis, uses SPECIAL stat, NORMAL pokemon get STAB.
 	move SUPER_FANG,   SUPER_FANG_EFFECT,            1, NORMAL,       100, 10 ; now does 2/3 of the opponents HP instead of 1/2
