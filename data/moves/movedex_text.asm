@@ -273,7 +273,12 @@ _VineWhipDexEntry::
 	next "with a plant"
 	next "vine.@"
 
-	text_jump _Generic30PercentFlinchText
+	text_call _GenericAlwaysGoesFirstText
+
+	bage "Lowers the foe's"
+	next "DEFENSE 30% of"
+	next "the time"
+	dex
 
 _StompDexEntry::
 	text "Stomps on the foe"

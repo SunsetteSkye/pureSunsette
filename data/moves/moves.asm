@@ -34,7 +34,7 @@ Moves:
 	move FLY,          FLY_EFFECT,                  75, FLYING,       100, 20
 	move BIND,         TRAPPING_EFFECT,             25, ROCK,          85, 15 ; STONEBOUND
 	move SLAM,         CUT_DISABLE_EFFECT,          70, POISON,       100, 20 ; WASTEMAKER
-	move VINE_WHIP,    FLINCH_SIDE_EFFECT2,         40, GRASS,        100, 15 
+	move VINE_WHIP,    DEFENSE_DOWN_SIDE_EFFECT,    40, GRASS,        100, 15
 	move STOMP,        FLINCH_SIDE_EFFECT2,         65, NORMAL,       100, 20
 	move DOUBLE_KICK,  ATTACK_TWICE_EFFECT,         30, FIGHTING,     100, 30
 	move MEGA_KICK,    PARALYZE_SIDE_EFFECT2,      110, FIGHTING,      90,  5 ; PISTON KICK: 30% paralyze

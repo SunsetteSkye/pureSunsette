@@ -12,6 +12,7 @@ PriorityMoves:
 	db MEDITATE
 	db POISON_GAS ; MIASMA
 	db HAZE ; Sunsette: Haze is now a priority move with a 30% flinch (BLACK HAZE)
+	db VINE_WHIP ; Sunsette: priority GRASS move with 30% -1 DEFENSE
 	db -1 ; end
 
 FarCheckPriority:
