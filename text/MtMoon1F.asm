@@ -38,13 +38,15 @@ _MtMoon1FCooltrainerF1BattleText::
 	done
 
 _MtMoon1FCooltrainerF1EndBattleText::
-	text "Oh!"
-	line "I lost it!"
+	text "How do you get"
+	line "out of here?"
 	prompt
 
 _MtMoon1FCooltrainerF1AfterBattleText::
-	text "How do you get"
-	line "out of here?"
+	text "My girlfriend has"
+	line "an HM to light the"
+	cont "dark but, she's in"
+	cont "VIRIDIAN FOREST!"
 	done
 
 _MtMoon1FSuperNerdBattleText::
@@ -113,11 +115,4 @@ _MtMoon1FYoungster3AfterBattleText::
 	cont "catch one."
 	done
 
-_MtMoon1FBewareZubatSign::
-	text "Beware! ZUBAT is"
-	line "a blood sucker!"
-	para "The sign has lots"
-	line "of info about"
-	cont "ZUBAT's physiology"
-	cont "and ecology."
-	done
+; Sunsette: _MtMoon1FBewareZubatSign moved to data/text/sunsette_overworld_text.asm (Text 1 bank was full)

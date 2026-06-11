@@ -46,10 +46,21 @@ SetPal_Battle:
 	ld hl, wBattleMonSpecies
 	call DeterminePaletteID
 	ld b, a
-	ld a, [wBattleMonFlags] ; Sunsette: bit 1 = WATERIFY soak -> force PAL_BLUEMON
+	ld a, [wBattleMonFlags] ; Sunsette: bit 1 = WATERIFY soak -> PAL_BLUEMON; bit 2 = CONVERSION recolor -> wPlayerConvertPalette
 	bit 1, a
-	jr z, .override
+	jr z, .checkConvertPlayer
 	ld b, PAL_BLUEMON
+	jr .override
+.checkConvertPlayer
+	bit 2, a
+	jr z, .checkGrayPlayer
+	ld a, [wPlayerConvertPalette]
+	ld b, a
+	jr .override
+.checkGrayPlayer
+	bit 3, a ; Sunsette: MINDWIPE -> PAL_MINDWIPE (all-gray)
+	jr z, .override
+	ld b, PAL_MINDWIPE
 .override
 	ld a, [wEnemyMonFlags]
 	and 1 ; only the 1st bit of the flags determines alt palette
@@ -58,10 +69,21 @@ SetPal_Battle:
 	ld hl, wEnemyMonSpecies2
 	call DeterminePaletteID
 	ld c, a
-	ld a, [wEnemyMonFlags] ; Sunsette: bit 1 = WATERIFY soak -> force PAL_BLUEMON
+	ld a, [wEnemyMonFlags] ; Sunsette: bit 1 = WATERIFY soak -> PAL_BLUEMON; bit 2 = CONVERSION recolor -> wEnemyConvertPalette
 	bit 1, a
-	jr z, .gotEnemyPal
+	jr z, .checkConvertEnemy
 	ld c, PAL_BLUEMON
+	jr .gotEnemyPal
+.checkConvertEnemy
+	bit 2, a
+	jr z, .checkGrayEnemy
+	ld a, [wEnemyConvertPalette]
+	ld c, a
+	jr .gotEnemyPal
+.checkGrayEnemy
+	bit 3, a ; Sunsette: MINDWIPE -> PAL_MINDWIPE (all-gray)
+	jr z, .gotEnemyPal
+	ld c, PAL_MINDWIPE
 .gotEnemyPal
 	ld hl, wPalPacket + 1
 	ld a, [wPlayerHPBarColor]

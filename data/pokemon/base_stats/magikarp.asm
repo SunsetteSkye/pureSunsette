@@ -17,7 +17,7 @@
 	tmhm \
 	DISABLE,\
 	BUBBLEBEAM,\
-	BIDE
+	BIDE ; BULK UP
 	; end
 
 

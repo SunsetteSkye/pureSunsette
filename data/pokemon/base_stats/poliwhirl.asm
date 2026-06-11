@@ -10,11 +10,12 @@
 	INCBIN "gfx/pokemon/front/poliwhirl.pic", 0, 1 ; sprite dimensions
 	dw PoliwhirlPicFront, PoliwhirlPicBackSW
 
-	db BUBBLE, POUND, NO_MOVE, NO_MOVE ; level 1 learnset
+	db BUBBLE, POUND, NO_MOVE, NO_MOVE ; level 1 learnset (JOLT BOLT)
 	db GROWTH_MEDIUM_SLOW ; growth rate
 
 	; tm/hm learnset
 	tmhm \
+	LOW_KICK,\
 	DISABLE,\
 	ICE_PUNCH,\
 	FIRE_PUNCH,\
@@ -24,20 +25,20 @@
 	BUBBLEBEAM,\
 	AURORA_BEAM,\
 	ICE_BEAM,\
-	BLIZZARD,\
+	BLIZZARD,\ ; SLEET STORM
 	AMNESIA,\
 	THUNDERPUNCH,\
-	ROLLING_KICK,\
+	ROLLING_KICK,\ ; METEOR SWEEP
 	BARRIER,\
 	DIG,\
 	PSYCHIC_M,\
 	REFLECT,\
-	BIDE,\
-	BARRAGE,\
+	BIDE,\ ; BULK UP
+	BARRAGE,\ ; SHADOW BALL
 	KARATE_CHOP,\
 	MEDITATE,\
 	LIGHT_SCREEN,\
-	PSYBEAM,\
+	PSYWAVE,\ ; MINDWIPE
 	GLARE,\
 	SUBSTITUTE,\
 	SURF,\

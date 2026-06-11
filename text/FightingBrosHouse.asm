@@ -246,4 +246,12 @@ _ViridianForestPikaGirlHMExplanationText::
 
 	para "once you've earned"
 	line "the right BADGE!"
+
+	para "Even without it,"
+	line "FLASH still helps"
+	cont "in battle-"
+
+	para "its glare drops a"
+	line "tough foe's"
+	cont "EVASION sharply!"
 	done

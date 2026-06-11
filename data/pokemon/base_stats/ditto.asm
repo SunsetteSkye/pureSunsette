@@ -15,6 +15,7 @@
 
 	; tm/hm learnset
 	tmhm \
+	LOW_KICK,\
 	DISABLE,\
 	 ; end
 

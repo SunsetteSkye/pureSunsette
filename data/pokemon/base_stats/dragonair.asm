@@ -10,7 +10,7 @@
 	INCBIN "gfx/pokemon/front/dragonair.pic", 0, 1 ; sprite dimensions
 	dw DragonairPicFront, DragonairPicBackSW
 
-	db WRAP, LEER, ROAR, NO_MOVE ; level 1 learnset
+	db WRAP, LEER, ROAR, NO_MOVE ; level 1 learnset (BELLOW)
 	db GROWTH_SLOW ; growth rate
 
 	; tm/hm learnset
@@ -22,17 +22,18 @@
 	BUBBLEBEAM,\
 	AURORA_BEAM,\
 	ICE_BEAM,\
-	BLIZZARD,\
-	DRAGON_RAGE,\
+	BLIZZARD,\ ; SLEET STORM
+	SOLARBEAM,\
+	DRAGON_RAGE,\ ; WYRM WRATH
 	THUNDERBOLT,\
 	THUNDER,\
 	KINESIS,\ ; MIRAGE
 	REFLECT,\
-	BIDE,\
-	BARRAGE,\
+	BIDE,\ ; BULK UP
+	BARRAGE,\ ; SHADOW BALL
 	FIRE_BLAST,\
 	FLAMETHROWER,\
-	SLAM,\ ; FILTHY SLAM
+	SLAM,\ ; WASTEMAKER
 	LIGHT_SCREEN,\
 	THUNDER_WAVE,\
 	SUBSTITUTE,\

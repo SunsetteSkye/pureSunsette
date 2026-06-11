@@ -123,4 +123,5 @@ ENDC
 	RGB 25,31,31, 07,07,06, 15,09,06, 00,00,00 ; PAL_MTMOONB2F ; Sunsette: Mt. Moon B2F (ccfaff / 3a3a31 / 7b4a31 / black)
 	RGB 31,29,31, 07,07,07, 02,03,03, 03,02,02 ; PAL_SHADOW ; Sunsette: evolution morph silhouette
 	RGB 31,31,31, 31,25,02, 20,26,31, 00,00,00 ; PAL_VERMILIONGOLD ; Sunsette: Vermilion w/ Saffron's gold (31,25,02) in place of the orange
+	RGB 31,31,31, 21,21,21, 11,11,11, 00,00,00 ; PAL_MINDWIPE ; Sunsette: true grayscale (r=g=b, no purple tint) for the MINDWIPE'd target
 	assert_table_length NUM_SGB_PALS

@@ -709,6 +709,11 @@ _ViridianBlackboardFrozenText::
 
 	para "Use ICE HEAL to"
 	line "thaw out #MON!"
+
+	para "In battle, using a"
+	line "HEAT move - or an"
+	cont "absorbing move -"
+	cont "thaws the user!"
 	prompt
 
 _VermilionGymTrashText::

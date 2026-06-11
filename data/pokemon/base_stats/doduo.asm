@@ -10,7 +10,7 @@
 	INCBIN "gfx/pokemon/front/doduo.pic", 0, 1 ; sprite dimensions
 	dw DoduoPicFront, DoduoPicBackSW
 
-	db PECK, FURY_SWIPES, NO_MOVE, NO_MOVE ; level 1 learnset
+	db PECK, FURY_SWIPES, NO_MOVE, NO_MOVE ; level 1 learnset (MUD CLAW)
 	db GROWTH_MEDIUM_FAST ; growth rate
 
 	; tm/hm learnset
@@ -22,16 +22,16 @@
 	BODY_SLAM,\
 	DISABLE,\
 	DOUBLE_EDGE,\
-	HI_JUMP_KICK,\
-	ROLLING_KICK,\
+	LOW_KICK,\
+	ROLLING_KICK,\ ; METEOR SWEEP
 	BARRIER,\
 	EARTHQUAKE,\
 	DIG,\
 	SWORDS_DANCE,\
 	REFLECT,\
-	BIDE,\
-	BARRAGE,\
-	SLAM,\ ; FILTHY SLAM
+	BIDE,\ ; BULK UP
+	BARRAGE,\ ; SHADOW BALL
+	SLAM,\ ; WASTEMAKER
 	SKY_ATTACK,\
 	THUNDER_WAVE,\
 	GLARE,\

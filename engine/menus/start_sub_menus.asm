@@ -331,12 +331,12 @@ StartMenu_Pokemon::
 .confuseRayText
 	text_far _ConfuseRayFieldText
 	text_end
-; Sunsette: ADDED: GROWTH inverts wild-encounter rarity (rare<->common) until you change maps.
+; Sunsette: ADDED: GROWTH inverts wild-encounter rarity (rare<->common) until you change maps. (FLOURISH)
 ; Arms wUnusedMapVariable bit 1 (cleared on map change by ClearVariablesOnEnterMap); TryDoWildEncounter
 ; flips the rolled encounter slot while it's set. No badge required.
 .growth
 	ld hl, wUnusedMapVariable
-	set 1, [hl] ; bit 1 = GROWTH-invert armed (cleared on map change with the byte)
+	set 1, [hl] ; bit 1 = GROWTH-invert armed (cleared on map change with the byte) (FLOURISH)
 	ld hl, .growthText
 	rst _PrintText
 	call GBPalWhiteOutWithDelay3
@@ -352,17 +352,17 @@ StartMenu_Pokemon::
 	jp z, .newBadgeRequired
 	callfar UsedFlamethrower
 	jp CloseTextDisplay
-; Sunsette: ADDED: SAND ATTACK / MIST / HAZE / SMOKESCREEN kick up cover that hides you from wild
+; Sunsette: ADDED: SAND ATTACK / MIST / HAZE / SMOKESCREEN kick up cover that hides you from wild (BLACK HAZE, ETHEREAL)
 ; encounters exactly like a Repel (100 steps). wHidingMoveID records which move so the wear-off can
 ; offer to "keep hiding?" if a party member can still use it. No badge required.
 .sandAttack
 	ld a, SAND_ATTACK
 	jr .startHiding
 .mist
-	ld a, MIST
+	ld a, MIST ; ETHEREAL
 	jr .startHiding
 .haze
-	ld a, HAZE
+	ld a, HAZE ; BLACK HAZE
 	jr .startHiding
 .smokescreen
 	ld a, SMOKESCREEN

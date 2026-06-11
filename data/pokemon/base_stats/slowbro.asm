@@ -10,11 +10,12 @@
 	INCBIN "gfx/pokemon/front/slowbro.pic", 0, 1 ; sprite dimensions
 	dw SlowbroPicFront, SlowbroPicBackSW
 
-	db PSYWAVE, WATER_GUN, NO_MOVE, NO_MOVE ; level 1 learnset
+	db CONFUSION, WATER_GUN, NO_MOVE, NO_MOVE ; level 1 learnset
 	db GROWTH_MEDIUM_FAST ; growth rate
 
 	; tm/hm learnset
 	tmhm \
+	LOW_KICK,\
 	DISABLE,\
 	ICE_PUNCH,\
 	FIRE_PUNCH,\
@@ -24,25 +25,25 @@
 	BUBBLEBEAM,\
 	AURORA_BEAM,\
 	ICE_BEAM,\
-	BLIZZARD,\
+	BLIZZARD,\ ; SLEET STORM
 	HYPER_BEAM,\
 	AMNESIA,\
 	THUNDERPUNCH,\
-	ROLLING_KICK,\
+	ROLLING_KICK,\ ; METEOR SWEEP
 	EARTHQUAKE,\
 	CRABHAMMER,\
 	DIG,\
 	PSYCHIC_M,\
 	REFLECT,\
-	BIDE,\
-	BARRAGE,\
+	BIDE,\ ; BULK UP
+	BARRAGE,\ ; SHADOW BALL
 	FIRE_BLAST,\
 	FLAMETHROWER,\
-	SLAM,\ ; FILTHY SLAM
+	SLAM,\ ; WASTEMAKER
 	KARATE_CHOP,\
 	MEDITATE,\
 	LIGHT_SCREEN,\
-	PSYBEAM,\
+	PSYWAVE,\ ; MINDWIPE
 	SUBSTITUTE,\
 	CUT,\
 	SURF,\

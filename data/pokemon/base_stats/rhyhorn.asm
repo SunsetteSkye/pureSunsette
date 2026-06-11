@@ -10,20 +10,21 @@
 	INCBIN "gfx/pokemon/front/rhyhorn.pic", 0, 1 ; sprite dimensions
 	dw RhyhornPicFront, RhyhornPicBackSW
 
-	db FURY_SWIPES, NO_MOVE, NO_MOVE, NO_MOVE ; level 1 learnset
+	db FURY_SWIPES, NO_MOVE, NO_MOVE, NO_MOVE ; level 1 learnset (MUD CLAW)
 	db GROWTH_MEDIUM_SLOW ; growth rate
 
 	; tm/hm learnset
 	tmhm \
+	LOW_KICK,\
 	DISABLE,\
 	PIN_MISSILE,\
 	TOXIC,\
-	HORN_DRILL,\
+	HORN_DRILL,\ ; WICKED DRILL
 	BODY_SLAM,\
 	DOUBLE_EDGE,\
-	ROLLING_KICK,\
+	ROLLING_KICK,\ ; METEOR SWEEP
 	BARRIER,\
-	DRAGON_RAGE,\
+	DRAGON_RAGE,\ ; WYRM WRATH
 	THUNDERBOLT,\
 	THUNDER,\
 	EARTHQUAKE,\
@@ -31,11 +32,11 @@
 	DIG,\
 	KINESIS,\ ; MIRAGE
 	SWORDS_DANCE,\
-	BIDE,\
-	BARRAGE,\
+	BIDE,\ ; BULK UP
+	BARRAGE,\ ; SHADOW BALL
 	FIRE_BLAST,\
 	FLAMETHROWER,\
-	SLAM,\ ; FILTHY SLAM
+	SLAM,\ ; WASTEMAKER
 	ROCK_SLIDE,\
 	GLARE,\
 	SUBSTITUTE,\

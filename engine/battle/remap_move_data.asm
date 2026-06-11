@@ -82,8 +82,9 @@ RemappableMoves::
 	db EXPLOSION, -1, -2, 2
 	db SELFDESTRUCT, -1, -2, 2
 	db TOXIC, -1, -2, 4
-	db SKULL_BASH, -1, -2, 5
-	db SLAM, -1, -2, 6 ; FILTHY SLAM
+	db SKULL_BASH, -1, -2, 5 ; METEOR DRIVE
+	db SLAM, -1, -2, 6 ; WASTEMAKER
+	db SOLARBEAM, -1, -2, 7 ; Sunsette: live power - 60 (charge) / 120 (release, primed) / 90 (FIRE user)
 	; signature moves start here
 	db POISON_STING, BEEDRILL, 45, 0
 	db TWINEEDLE, BEEDRILL, 65, 0 
@@ -91,22 +92,24 @@ RemappableMoves::
 	db DRILL_PECK, FEAROW, 100, 0
 	db ROCK_SLIDE, GOLEM, 110, 0
 	db HI_JUMP_KICK, HITMONLEE, 120, 0
-	db COMET_PUNCH, HITMONCHAN, 90, 0
+	db COMET_PUNCH, HITMONCHAN, 90, 0 ; MACH PUNCH
 	db THUNDERPUNCH, ELECTABUZZ, 105, 0
 	db FIRE_PUNCH, MAGMAR, 105, 0
 	db ICE_PUNCH, JYNX, 105, 0
 	db HYPNOSIS, HYPNO, -1, 85 percent
-	db DRAGON_RAGE, DRAGONITE, 110, 0
+	db DRAGON_RAGE, DRAGONITE, 110, 0 ; WYRM WRATH
 	db WATERFALL, SEAKING, 120, 0
 	db DIZZY_PUNCH, KANGASKHAN, 110, 0
 	db LICK, LICKITUNG, 70, 0
 	db SPIKE_CANNON, OMASTAR, 70, 0
-	db WHIRLWIND, PIDGEOT, -1, 100 percent
+	db WHIRLWIND, PIDGEOT, -1, 100 percent ; HURRICANE
 	db HYDRO_PUMP, BLASTOISE, -1, 100 percent
 	db FIRE_BLAST, ARCANINE, -1, 100 percent
-	db BLIZZARD, DEWGONG, -1, 100 percent
+	db BLIZZARD, DEWGONG, -1, 100 percent ; SLEET STORM
 	db PSYBEAM, GOLDUCK, 105, 0
-	; SKULL_BASH for BLASTOISE is handled in SkullBashModifier (SKULL_BASH already has a modifier entry above)
+	db CONSTRICT, TANGELA, 90, 0 ; STRANGLEVINE: 75 BP normally, 90 BP for TANGELA (signature)
+	db LOW_KICK, -1, -2, 8 ; Sunsette: power scales with the TARGET's weight (LowKickModifier)
+	; SKULL_BASH for BLASTOISE is handled in SkullBashModifier (SKULL_BASH already has a modifier entry above) (METEOR DRIVE)
 	db -1
 
 ModifierFuncs:
@@ -117,6 +120,99 @@ ModifierFuncs:
 	dw ToxicModifier
 	dw SkullBashModifier
 	dw FilthySlamModifier
+	dw SolarBeamPowerModifier
+	dw LowKickModifier
+
+; Sunsette: SolarBeam's power is decided live, before damage calc, from the user's state:
+;   FIRE-type user           -> 90  (one-shot recoil+burn variant, never primes)
+;   non-fire, SOLARBEAM_PRIMED set -> 120 (the release of a charged beam)
+;   non-fire, not primed     -> 60  (the Mega-Drain-like charge turn that primes it)
+; The matching post-damage behavior (drain / recoil / burn / arm / disarm) is SolarBeamEffect_.
+SolarBeamPowerModifier:
+	call GetMoveRemapData2 ; bc = wXxxMovePower for the active side (de = accuracy, unused)
+	call GetUserType       ; hl -> user's type1
+	ld a, [hli]
+	cp FIRE
+	jr z, .fire
+	ld a, [hl]
+	cp FIRE
+	jr z, .fire
+	ldh a, [hWhoseTurn]
+	and a
+	ld hl, wPlayerBattleStatus3
+	jr z, .gotStatus
+	ld hl, wEnemyBattleStatus3
+.gotStatus
+	bit SOLARBEAM_PRIMED, [hl]
+	ld a, 60  ; not primed -> charge turn
+	jr z, .store
+	ld a, 120 ; primed -> release
+	jr .store
+.fire
+	ld a, 90
+.store
+	ld [bc], a
+	ret
+
+; Sunsette: LOW KICK scales with the TARGET's weight (Gen-4+ style). We look up the target's dex weight
+; and pick a power bracket. Non-dex foes (MISSINGNO, the SPIRIT_* ghosts, etc.) have no real dex weight,
+; so they fall back to the move's listed 60 BP. Weight from GetMetricMeasurements is in 1/10 of a kg:
+;   <=10kg(100):20  <=25kg(250):40  <=50kg(500):60  <=100kg(1000):80  <=200kg(2000):100  else:120
+LowKickModifier:
+	call GetMoveRemapData2 ; bc = wXxxMovePower (user side); de = accuracy (unused)
+	push bc                ; save the power pointer across the lookups
+	ldh a, [hWhoseTurn]
+	and a
+	ld a, [wEnemyMonSpecies] ; player's turn -> target = enemy
+	jr z, .gotSpecies
+	ld a, [wBattleMonSpecies]
+.gotSpecies
+	ld [wPokedexNum], a
+	call IndexToPokedex      ; wPokedexNum: internal index -> dex number (home)
+	ld a, [wPokedexNum]
+	and a
+	jr z, .fallback          ; index 0 / non-dex
+	cp 151 + 1
+	jr nc, .fallback         ; > 151 (MISSINGNO / spirits) -> no real weight
+	farcall GetMetricMeasurements ; de = weight in 1/10 kg (de survives the bankswitch)
+	ld bc, 100
+	call .weightLE
+	ld a, 20
+	jr c, .store
+	ld bc, 250
+	call .weightLE
+	ld a, 40
+	jr c, .store
+	ld bc, 500
+	call .weightLE
+	ld a, 60
+	jr c, .store
+	ld bc, 1000
+	call .weightLE
+	ld a, 80
+	jr c, .store
+	ld bc, 2000
+	call .weightLE
+	ld a, 100
+	jr c, .store
+	ld a, 120
+.store
+	pop hl                   ; recover the power pointer
+	ld [hl], a
+	ret
+.fallback
+	ld a, 60                 ; listed power for non-dex foes
+	pop hl
+	ld [hl], a
+	ret
+; carry SET if de <= bc (weight <= threshold). Clobbers a only.
+.weightLE
+	ld a, c
+	sub e
+	ld a, b
+	sbc d                    ; bc - de: carry set if bc < de (weight > threshold)
+	ccf                      ; invert: carry set if de <= bc
+	ret
 
 CheckIfAsleep::
 GetOpponentStatus::

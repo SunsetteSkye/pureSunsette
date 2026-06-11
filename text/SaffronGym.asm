@@ -41,13 +41,15 @@ _TM46ExplanationText::
 	text_start
 	para "@"
 	text_ram_stringbuffer
-	text " is AMNESIA!"
-	para "Empty the mind of"
-	line "every thought,"
-	para "and your SPECIAL"
-	line "rises!"
-	para "Let it all go,"
-	line "as I have."
+	text " is MINDWIPE!"
+	para "Empty the foe's"
+	line "mind of all that"
+	cont "it is!"
+	para "It forgets what"
+	line "it is, left a"
+	cont "mere BUG."
+	para "Its aim falters,"
+	line "too."
 	done
 
 _SaffronGymSabrinaTM46NoRoomText::

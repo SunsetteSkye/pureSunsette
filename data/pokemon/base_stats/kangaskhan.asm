@@ -10,7 +10,7 @@
 	INCBIN "gfx/pokemon/front/kangaskhan.pic", 0, 1 ; sprite dimensions
 	dw KangaskhanPicFront, KangaskhanPicBackSW
 
-	db POUND, RAGE, NO_MOVE, NO_MOVE ; level 1 learnset
+	db POUND, RAGE, NO_MOVE, NO_MOVE ; level 1 learnset (JOLT BOLT)
 	db GROWTH_MEDIUM_FAST ; growth rate
 
 	; tm/hm learnset
@@ -24,22 +24,22 @@
 	BUBBLEBEAM,\
 	AURORA_BEAM,\
 	ICE_BEAM,\
-	BLIZZARD,\
+	BLIZZARD,\ ; SLEET STORM
 	HYPER_BEAM,\
-	HI_JUMP_KICK,\
+	LOW_KICK,\
 	THUNDERPUNCH,\
-	ROLLING_KICK,\
+	ROLLING_KICK,\ ; METEOR SWEEP
 	SOLARBEAM,\
 	THUNDERBOLT,\
 	THUNDER,\
 	EARTHQUAKE,\
 	DIG,\
 	SWORDS_DANCE,\
-	BIDE,\
-	BARRAGE,\
+	BIDE,\ ; BULK UP
+	BARRAGE,\ ; SHADOW BALL
 	FIRE_BLAST,\
 	FLAMETHROWER,\
-	SLAM,\ ; FILTHY SLAM
+	SLAM,\ ; WASTEMAKER
 	KARATE_CHOP,\
 	MEDITATE,\
 	ROCK_SLIDE,\

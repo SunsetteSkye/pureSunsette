@@ -273,6 +273,10 @@ CheckWildConfuseRayPalette:
 ApplyPlayerSendOutMapEffects::
 	ld hl, wBattleMonFlags ; Sunsette: a freshly sent-out mon isn't WATERIFY-soaked; clear the blue flag (bit 1)
 	res 1, [hl]
+	res 2, [hl] ; and isn't CONVERSION-recolored (bit 2) - its types reset to natural on send-out
+	res 3, [hl] ; and isn't MINDWIPE-grayed (bit 3)
+	ld hl, wPlayerBattleStatus3
+	res SOLARBEAM_PRIMED, [hl] ; Sunsette: switching out disarms a charged SolarBeam
 	ld a, 1 ; target = player
 	call CheckSurfSpeedDebuff ; Sunsette: SURF -1 SPEED on your mon (non-Water/Flying), any map while surfing
 	ld a, 1 ; target = player
@@ -434,6 +438,57 @@ ApplyStatDownToTarget:
 	ldh [hWhoseTurn], a
 	ret
 
+; Sunsette: MOCKINGBIRD (was MIRROR MOVE). Instead of copying the foe's last move, it now copies ALL
+; of the foe's stat-stage changes onto the user (overwriting the user's stages), recomputes the user's
+; battle stats from its OWN base stats with those stages, announces it, then drops the foe's SPECIAL by
+; one stage. Reached via `callfar MockingbirdEffect_` from Battle Core (player + enemy move paths).
+; hWhoseTurn = the MOCKINGBIRD user; the foe is the opposite side.
+MockingbirdEffect_:
+	ldh a, [hWhoseTurn]
+	and a
+	ld hl, wEnemyMonStatMods ; player's turn -> foe = enemy (source of the stages to copy)
+	ld de, wPlayerMonStatMods ; user = player (destination)
+	jr z, .gotPtrs
+	ld hl, wPlayerMonStatMods
+	ld de, wEnemyMonStatMods
+.gotPtrs
+	ld c, 6 ; the 6 stat stages: Attack, Defense, Speed, Special, Accuracy, Evasion (NUM_STAT_MODS is 8 - it counts 2 trailing padding bytes we don't want to copy)
+.copyLoop
+	ld a, [hli]
+	ld [de], a
+	inc de
+	dec c
+	jr nz, .copyLoop
+; recompute the USER's modified battle stats (Atk/Def/Spd/Spc) from its OWN unmodified stats + the
+; copied stages. wCalculateWhoseStats: 0 = player, nonzero = enemy - same sense as hWhoseTurn.
+	ldh a, [hWhoseTurn]
+	ld [wCalculateWhoseStats], a
+	callfar CalculateModifiedStats
+	ld hl, MockingbirdCopiedText
+	rst _PrintText
+; then drop the FOE's SPECIAL by 1 (guaranteed, recomputes its stats, prints "fell!"). b = the foe
+; side for ApplyStatDownToTarget (0 = enemy, 1 = player): on player's turn the foe is the enemy (0).
+	ldh a, [hWhoseTurn]
+	and 1 ; 0 on player's turn -> foe = enemy; 1 on enemy's turn -> foe = player
+	ld b, a
+	ld c, SPECIAL_DOWN1_EFFECT
+	call ApplyStatDownToTarget
+; ApplyStatDownToTarget left the in-flight move effect as SPECIAL_DOWN1; restore MIRROR_MOVE_EFFECT
+; (MOCKINGBIRD) so any post-move bookkeeping sees the real effect.
+	ldh a, [hWhoseTurn]
+	and a
+	ld hl, wPlayerMoveEffect
+	jr z, .restoreEff
+	ld hl, wEnemyMoveEffect
+.restoreEff
+	ld a, MIRROR_MOVE_EFFECT ; MOCKINGBIRD
+	ld [hl], a
+	ret
+
+MockingbirdCopiedText:
+	text_far _MockingbirdText
+	text_end
+
 ; Sunsette: wild-only wrapper - debuff the wild enemy mon (trainer enemy mons are handled per
 ; send-out in EnemyOnSendOut, so this stays wild-only to avoid double-hitting a trainer's first mon).
 CheckWildSurfSpeedDebuff:
@@ -513,7 +568,7 @@ SilphSpecialText:
 
 ; Sunsette: dark-cave debuff (any Flash-required map - see DarkMaps in overworld.asm) - if the player is in flash-off darkness
 ; at battle start (wDarkCaveSnapshot == 6; snapshotted from wMapPalOffset in InitBattleVariables), a
-; mon entering battle takes -2 ACCURACY unless it is ZUBAT/GOLBAT or a FIGHTING/GROUND type. BOTH
+; mon entering battle takes -2 ACCURACY unless it is ZUBAT/GOLBAT or a FIGHTING/GROUND/BUG type. BOTH
 ; sides. Accuracy is a pure stat-mod stage (no recalc), so we set the mod directly (neutral 7 -> 5,
 ; floored at 1). The debuff is SILENT here (the "It's too dark to see!" warning is printed once per
 ; battle by CheckDarkCaveBattleIntro - the per-mon debuff would otherwise rarely announce itself,
@@ -546,10 +601,14 @@ CheckDarknessAccuracyDebuff:
 	ret z
 	cp GROUND
 	ret z
+	cp BUG ; Sunsette: BUG types navigate the dark fine too (Viridian Forest dwellers etc.)
+	ret z
 	ld a, [hl]
 	cp FIGHTING
 	ret z
 	cp GROUND
+	ret z
+	cp BUG
 	ret z
 	; -2 in a full-dark cave, -1 in Diglett's half-dark cave (floor at 1)
 	ld a, [wDarkCaveSnapshot]
@@ -647,10 +706,104 @@ ChargeMoveEvasionBoost::
 	ld [hl], a ; restore move effect
 	ret
 
+; Sunsette: species-specific bonus applied AFTER certain damaging moves HIT (post-damage, target
+; alive). callfar'd from Battle Core's player & enemy SpecialEffects tail; hWhoseTurn = the user.
+;   MOLTRES  + SKY_ATTACK -> the GROWING regen state (like FLOURISH) + a 30% burn chance
+;   ZAPDOS   + DRILL_PECK -> a 30% paralyze chance
+;   ARTICUNO + WHIRLWIND  -> a 30% freeze chance
+; The status reuses Battle Core's FreezeBurnParalyzeEffect by temporarily setting the user's move
+; EFFECT to the matching *_SIDE_EFFECT2 (= 30%) and its move TYPE so the routine's same-type
+; immunity check is right (burn<-FIRE so fire-types are immune, freeze<-ICE so ice-types are
+; immune, paralyze<-NORMAL which that routine treats as "affects any type"), then restores both.
+SpeciesMoveBonus::
+	ldh a, [hWhoseTurn]
+	and a
+	jr nz, .enemy
+	ld a, [wBattleMonSpecies]
+	ld b, a
+	ld a, [wPlayerMoveNum]
+	jr .gotBoth
+.enemy
+	ld a, [wEnemyMonSpecies]
+	ld b, a
+	ld a, [wEnemyMoveNum]
+.gotBoth
+	; a = move number, b = user species
+	cp SKY_ATTACK
+	jr z, .sky
+	cp DRILL_PECK
+	jr z, .drill
+	cp WHIRLWIND
+	jr z, .whirl
+	ret
+.sky
+	ld a, b
+	cp MOLTRES
+	ret nz
+	call SetUserGrowing            ; Moltres always gains GROWING when Sky Attack lands
+	ld d, BURN_SIDE_EFFECT2
+	ld e, FIRE
+	jr .applyStatus
+.drill
+	ld a, b
+	cp ZAPDOS
+	ret nz
+	ld d, PARALYZE_SIDE_EFFECT2
+	ld e, NORMAL
+	jr .applyStatus
+.whirl
+	ld a, b
+	cp ARTICUNO
+	ret nz
+	ld d, FREEZE_SIDE_EFFECT2
+	ld e, ICE
+.applyStatus
+	ldh a, [hWhoseTurn]
+	and a
+	ld hl, wPlayerMoveEffect
+	ld bc, wPlayerMoveType
+	jr z, .gotPtrs
+	ld hl, wEnemyMoveEffect
+	ld bc, wEnemyMoveType
+.gotPtrs
+	ld a, [hl]
+	push af                        ; save real move effect
+	ld a, [bc]
+	push af                        ; save real move type
+	ld a, d
+	ld [hl], a                     ; set the *_SIDE_EFFECT2 status
+	ld a, e
+	ld [bc], a                     ; set the immunity-check type
+	farcall FreezeBurnParalyzeEffect ; 30% roll + status + anim/text
+	; farcall clobbered registers - re-derive pointers to restore
+	ldh a, [hWhoseTurn]
+	and a
+	ld hl, wPlayerMoveType
+	ld de, wPlayerMoveEffect
+	jr z, .restore
+	ld hl, wEnemyMoveType
+	ld de, wEnemyMoveEffect
+.restore
+	pop af
+	ld [hl], a                     ; restore move type
+	pop af
+	ld [de], a                     ; restore move effect
+	ret
+
+SetUserGrowing:
+	ld hl, wPlayerBattleStatus3
+	ldh a, [hWhoseTurn]
+	and a
+	jr z, .got
+	ld hl, wEnemyBattleStatus3
+.got
+	set GROWING, [hl]
+	ret
+
 ; Sunsette: shared body for HAZE_EFFECT and FLASH_EFFECT - both point at Battle Core's HazeEffect
 ; trampoline (Battle Core is full, so we can't afford a second one), which jpfar's here. We dispatch on
 ; the active move effect: FLASH_EFFECT branches to the Flash body below; otherwise it's Haze.
-; HAZE: clear all stat changes/statuses via the engine's own HazeEffect_, then roll a 30% flinch.
+; HAZE: clear all stat changes/statuses via the engine's own HazeEffect_, then roll a 30% flinch. (BLACK HAZE)
 ; FlinchSideEffect reads the move effect to choose its chance and picks 30% for anything that isn't
 ; FLINCH_SIDE_EFFECT1 (HAZE_EFFECT qualifies). Tail-jumps, so the final ret returns to HazeEffect's caller.
 HazeFlinchEffect_::
@@ -662,14 +815,27 @@ HazeFlinchEffect_::
 .gotEffect
 	cp FLASH_EFFECT
 	jr z, FlashEffect_
+	cp SWIFT_EFFECT
+	jp z, SwiftEffect_
+	cp ACCURACY_DOWN_SIDE_EFFECT
+	jp z, GustAccuracyEffect_
+	cp SOLARBEAM_EFFECT
+	jp z, SolarBeamEffect_
+	cp MINDWIPE_EFFECT
+	jp z, MindwipeEffect_
+	cp ROOST_EFFECT
+	jp z, RoostEffect_
+	cp JOLT_BOLT_EFFECT
+	jp z, JoltBoltEffect_
 	callfar HazeEffect_
 	jpfar FlinchSideEffect
 
-; FLASH's effect body (reached from HazeFlinchEffect_ above). FLASH deals
-; no damage; it raises the USER's ACCURACY by 3 stages - a visible +2 ("sharply rose!") through the
-; engine's StatModifierUpEffect, then a silent +1 poked straight into the accuracy stat-mod byte (which
-; is wPlayerMonStatMods + 4, so it stacks) - then rolls a 30% flinch via FlinchSideEffect. hWhoseTurn is
-; the FLASH user; FlinchSideEffect reads the move effect to pick its chance, and FLASH_EFFECT (not
+; FLASH's effect body (reached from HazeFlinchEffect_ above). FLASH deals no damage; the burst of light
+; lowers the TARGET's EVASION by 3 stages - a visible -2 ("sharply fell!") through the engine's
+; StatModifierDownEffect (with FLAG_SKIP_STAT_ANIMATION so it's guaranteed + skips the anim/accuracy test),
+; then a silent -1 poked straight into the target's evasion stat-mod byte (floored at MIN). The 30% flinch
+; that follows simulates being momentarily blinded. hWhoseTurn is the FLASH user, so the TARGET is the
+; opposite side; FlinchSideEffect reads the move effect to pick its chance, and FLASH_EFFECT (not
 ; FLINCH_SIDE_EFFECT1) yields 30%, so we restore the real effect before tail-jumping into it.
 FlashEffect_::
 	ldh a, [hWhoseTurn]
@@ -678,26 +844,448 @@ FlashEffect_::
 	jr z, .gotEffectPtr
 	ld hl, wEnemyMoveEffect
 .gotEffectPtr
-	ld a, ACCURACY_UP2_EFFECT
+	ld a, EVASION_DOWN2_EFFECT
 	ld [hl], a
-	callfar StatModifierUpEffect ; +2 ACCURACY with the standard "sharply rose!" line + animation
+	SetFlagHL FLAG_SKIP_STAT_ANIMATION ; hl-form (cheaper); hl is free here - the effect was just written, and we re-derive it after the callfar
+	callfar StatModifierDownEffect ; -2 EVASION on the target ("sharply fell!" line, no anim, no accuracy check)
+	ResetEvent FLAG_SKIP_STAT_ANIMATION
+	ldh a, [hWhoseTurn] ; callfar clobbered hl/de - re-derive: effect ptr (user side, in de) + target's evasion mod (in hl)
+	and a
+	ld de, wPlayerMoveEffect
+	ld hl, wEnemyMonEvasionMod ; player's turn -> target is the enemy
+	jr z, .restoreEffect
+	ld de, wEnemyMoveEffect
+	ld hl, wPlayerMonEvasionMod
+.restoreEffect
+	ld a, FLASH_EFFECT ; restore so FlinchSideEffect rolls 30% (not the 10% of FLINCH_SIDE_EFFECT1)
+	ld [de], a
+	ld a, [hl] ; silent -1 EVASION to reach -3 total, floored at MIN_STAT_LEVEL (1)
+	cp 2
+	jr c, .evasionMinned ; already at 1 - can't go lower
+	dec [hl]
+.evasionMinned
+	jpfar FlinchSideEffect
+
+; Sunsette: SWIFT_EFFECT auto-hit moves (Surf/Earthquake/Blizzard/Swift) also get a 30% chance to drop the
+; TARGET's EVASION by 1. Reached from the shared HazeEffect trampoline via the HazeFlinchEffect_ dispatcher;
+; runs as a post-damage side effect (SWIFT_EFFECT was removed from SpecialEffects so JumpMoveEffect fires).
+; We borrow StatModifierDownEffect by temporarily pointing the move effect at EVASION_DOWN1, with
+; FLAG_SKIP_STAT_ANIMATION so it skips the accuracy test (guaranteed) + the stat anim. If the target has a
+; substitute, StatModifierDownEffect bails to MoveMissed - harmless here, the move already hit so it no-prints.
+SwiftEffect_::
+	callfar FarBattleRandom ; d = random byte (de survives the bankswitch)
+	ld a, d
+	cp 30 percent + 1
+	ret nc ; 70%: no evasion drop
 	ldh a, [hWhoseTurn]
 	and a
 	ld hl, wPlayerMoveEffect
-	ld de, wPlayerMonAccuracyMod
-	jr z, .restoreEffect
+	jr z, .gotPtr
 	ld hl, wEnemyMoveEffect
-	ld de, wEnemyMonAccuracyMod
-.restoreEffect
-	ld a, FLASH_EFFECT ; restore so FlinchSideEffect rolls 30% (not the 10% of FLINCH_SIDE_EFFECT1)
+.gotPtr
+	ld a, [hl]
+	push af ; save the real effect (SWIFT_EFFECT)
+	ld a, EVASION_DOWN1_EFFECT
 	ld [hl], a
-	ld a, [de] ; silent +1 ACCURACY to reach +3 total, capped at +6
-	cp MAX_STAT_LEVEL
-	jr nc, .accuracyMaxed
-	inc a
-	ld [de], a
-.accuracyMaxed
-	jpfar FlinchSideEffect
+	SetFlag FLAG_SKIP_STAT_ANIMATION
+	callfar StatModifierDownEffect ; -1 EVASION on the target ("fell" line, no anim, no accuracy check)
+	ResetFlag FLAG_SKIP_STAT_ANIMATION
+	ldh a, [hWhoseTurn] ; callfar clobbered hl - re-derive to restore the effect
+	and a
+	ld hl, wPlayerMoveEffect
+	jr z, .restore
+	ld hl, wEnemyMoveEffect
+.restore
+	pop af
+	ld [hl], a ; restore SWIFT_EFFECT
+	ret
+
+; Sunsette: GUST's post-damage side effect - 30% chance to drop the TARGET's ACCURACY by 1. Mirrors
+; SwiftEffect_ exactly but borrows ACCURACY_DOWN1 instead of EVASION_DOWN1. Reached from the shared
+; HazeEffect trampoline via HazeFlinchEffect_ (ACCURACY_DOWN_SIDE_EFFECT is kept out of SpecialEffects so
+; JumpMoveEffect fires after Gust's damage). Gust is NOT in the SWIFT never-miss list, so it keeps its
+; 100% accuracy. Substitute -> StatModifierDownEffect bails to MoveMissed harmlessly (Gust already hit).
+GustAccuracyEffect_::
+	callfar FarBattleRandom ; d = random byte (de survives the bankswitch)
+	ld a, d
+	cp 30 percent + 1
+	ret nc ; 70%: no accuracy drop
+	ldh a, [hWhoseTurn]
+	and a
+	ld hl, wPlayerMoveEffect
+	jr z, .gotPtr
+	ld hl, wEnemyMoveEffect
+.gotPtr
+	ld a, [hl]
+	push af ; save the real effect (ACCURACY_DOWN_SIDE_EFFECT)
+	ld a, ACCURACY_DOWN1_EFFECT
+	ld [hl], a
+	SetFlag FLAG_SKIP_STAT_ANIMATION
+	callfar StatModifierDownEffect ; -1 ACCURACY on the target ("fell" line, no anim, no accuracy check)
+	ResetFlag FLAG_SKIP_STAT_ANIMATION
+	ldh a, [hWhoseTurn] ; callfar clobbered hl - re-derive to restore the effect
+	and a
+	ld hl, wPlayerMoveEffect
+	jr z, .restoreGust
+	ld hl, wEnemyMoveEffect
+.restoreGust
+	pop af
+	ld [hl], a ; restore ACCURACY_DOWN_SIDE_EFFECT
+	ret
+
+; Sunsette: SolarBeam (pseudo-charge). Reached post-damage via the Haze trampoline -> HazeFlinchEffect_.
+; The live power was already set by SolarBeamPowerModifier (60/120/90), so the damage step is done; here
+; we only handle the after-effects + the priming bit. hWhoseTurn = the user.
+;   FIRE-type user           -> 1/3 recoil to the user (DefaultRecoilEffect_) + a 30% burn. Never primes.
+;   non-fire, primed         -> the release: a 30% burn, then disarm the primed bit.
+;   non-fire, not primed     -> the charge: drain 1/2 of the damage (DrainHPEffect_, "took in energy!"),
+;                               then arm the primed bit so the NEXT SolarBeam is the release.
+; (Self-thaw on both turns is handled earlier by SelfThawOnBurnMove via BurnInflictingEffects.)
+SolarBeamEffect_::
+	call .userIsFire
+	jr c, .fire
+	; non-fire path: branch on the primed bit (this side's status3)
+	ldh a, [hWhoseTurn]
+	and a
+	ld hl, wPlayerBattleStatus3
+	jr z, .gotStatus
+	ld hl, wEnemyBattleStatus3
+.gotStatus
+	bit SOLARBEAM_PRIMED, [hl]
+	jr nz, .release
+	; charge turn: arm, then drain 1/2 (DrainHPEffect_ prints the "took in energy!" line via the move-num check)
+	set SOLARBEAM_PRIMED, [hl]
+	farcall DrainHPEffect_
+	ret
+.release
+	res SOLARBEAM_PRIMED, [hl] ; the charge is spent
+	jr .burn
+.fire
+	farcall DefaultRecoilEffect_ ; 1/3 recoil to the FIRE user
+	; fall through to .burn
+.burn:
+	; 30% burn, but only if the target is still standing (this runs even on a KO)
+	call .targetAlive
+	ret z
+	ldh a, [hWhoseTurn]
+	and a
+	ld hl, wPlayerMoveEffect
+	jr z, .gotEff
+	ld hl, wEnemyMoveEffect
+.gotEff
+	ld a, [hl]
+	push af ; save SOLARBEAM_EFFECT
+	ld a, BURN_SIDE_EFFECT2
+	ld [hl], a ; 30% roll; FreezeBurnParalyzeEffect's own SOLARBEAM branch uses FIRE for the immunity check
+	farcall FreezeBurnParalyzeEffect
+	ldh a, [hWhoseTurn]
+	and a
+	ld hl, wPlayerMoveEffect
+	jr z, .restoreEff
+	ld hl, wEnemyMoveEffect
+.restoreEff
+	pop af
+	ld [hl], a ; restore SOLARBEAM_EFFECT
+	ret
+; carry set if the SolarBeam user is FIRE-type
+.userIsFire
+	ldh a, [hWhoseTurn]
+	and a
+	ld hl, wBattleMonType1
+	jr z, .gotUserType
+	ld hl, wEnemyMonType1
+.gotUserType
+	ld a, [hli]
+	cp FIRE
+	jr z, .yesFire
+	ld a, [hl]
+	cp FIRE
+	jr z, .yesFire
+	and a ; clear carry
+	ret
+.yesFire
+	scf
+	ret
+; z set if the target (the opponent of hWhoseTurn) has fainted
+.targetAlive
+	ldh a, [hWhoseTurn]
+	and a
+	ld hl, wEnemyMonHP
+	jr z, .gotTargetHP
+	ld hl, wBattleMonHP
+.gotTargetHP
+	ld a, [hli]
+	or [hl]
+	ret
+
+; Sunsette: when the SolarBeam MOVE animation is about to play, a non-fire user that hasn't yet
+; "charged" (SOLARBEAM_PRIMED clear) shows the MEGA DRAIN animation instead - so the charge turn reads
+; as gathering energy and the release shows the real beam. FIRE users (one-shot) and the primed release
+; keep the SOLARBEAM animation. Called via callfar from PlayMoveAnimation right after it stores
+; wAnimationID; hWhoseTurn = the acting mon. The primed bit is read here at PRE-effect time (same as
+; SolarBeamPowerModifier), so the anim matches the power: charge=MegaDrain/60, release=SolarBeam/120.
+; Because the animation engine's SetMoveDexSeen keys off wAnimationID, when we repoint the ID we first
+; mark SOLARBEAM seen ourselves and consume the seen-flag so SetMoveDexSeen won't credit MEGA DRAIN.
+SolarBeamAnimSwap::
+	ld a, [wAnimationID]
+	cp SOLARBEAM
+	ret nz ; not the SolarBeam move animation - leave it alone (covers non-move anim IDs too)
+	ldh a, [hWhoseTurn]
+	and a
+	ld hl, wBattleMonType1
+	jr z, .gotType
+	ld hl, wEnemyMonType1
+.gotType
+	ld a, [hli]
+	cp FIRE
+	ret z ; FIRE user fires the beam in one shot - keep SOLARBEAM
+	ld a, [hl]
+	cp FIRE
+	ret z
+	ldh a, [hWhoseTurn]
+	and a
+	ld hl, wPlayerBattleStatus3
+	jr z, .gotStatus
+	ld hl, wEnemyBattleStatus3
+.gotStatus
+	bit SOLARBEAM_PRIMED, [hl]
+	ret nz ; primed -> this is the release -> keep the SOLARBEAM beam
+	; charge turn: mark SOLARBEAM seen now + consume the flag so SetMoveDexSeen won't mark MEGA DRAIN
+	ld a, [wBattleFunctionalFlags]
+	bit 0, a
+	jr z, .swap
+	res 0, a
+	ld [wBattleFunctionalFlags], a
+	ld c, SOLARBEAM - 1
+	ld b, FLAG_SET
+	ld hl, wMovedexSeen
+	call FlagAction
+.swap
+	ld a, MEGA_DRAIN
+	ld [wAnimationID], a
+	ret
+
+; Sunsette: MINDWIPE (PSYWAVE). No-damage PSYCHIC status move, reached via the Haze trampoline ->
+; HazeFlinchEffect_ (it's in ResidualEffects1, so it's dispatched before damage and runs its own
+; accuracy test). It RETYPES the target to NORMAL with a gray "wiped" palette (the WATERIFY flag path,
+; bit 3 of the target's Flags byte), drops the target's SPECIAL by 1, and confuses it. A Substitute
+; blocks the whole move. hWhoseTurn = the user; the target is the opposite side. The NORMAL type + gray
+; persist until the target switches out (types reload + the send-out hooks res the flag).
+MindwipeEffect_::
+	ldh a, [hWhoseTurn]
+	and a
+	ld hl, wEnemyBattleStatus2 ; player's turn -> target = enemy
+	jr z, .gotSub
+	ld hl, wPlayerBattleStatus2
+.gotSub
+	bit HAS_SUBSTITUTE_UP, [hl]
+	jr nz, .didntAffect
+	callfar MoveHitTest ; 0-power moves skip the engine accuracy test, so run it ourselves
+	ld a, [wMoveMissed]
+	and a
+	jr nz, .didntAffect
+	callfar PlayCurrentMoveAnimation
+	; retype the target to BUG and arm its gray palette (bit 3 of the Flags byte after Type2)
+	ldh a, [hWhoseTurn]
+	and a
+	ld hl, wEnemyMonType1
+	jr z, .gotType
+	ld hl, wBattleMonType1
+.gotType
+	ld a, BUG
+	ld [hli], a ; type1 = BUG
+	ld [hli], a ; type2 = BUG; hl -> Flags byte
+	set 3, [hl] ; bit 3 = MINDWIPE gray palette (preserves bits 0-2)
+	call RunDefaultPaletteCommand ; re-apply SET_PAL_BATTLE so the gray shows immediately
+	ld hl, MindwipedText
+	rst _PrintText
+	; -1 ACCURACY to the target (ApplyStatDownToTarget b: 0 = enemy, 1 = player = hWhoseTurn for "the foe").
+	; (Tuned down from the original confuse + -1 SPECIAL: the retype alone is already strong.)
+	ldh a, [hWhoseTurn]
+	and 1
+	ld b, a
+	ld c, ACCURACY_DOWN1_EFFECT
+	call ApplyStatDownToTarget
+	; ApplyStatDownToTarget left the in-flight effect as ACCURACY_DOWN1; restore MINDWIPE_EFFECT
+	ldh a, [hWhoseTurn]
+	and a
+	ld hl, wPlayerMoveEffect
+	jr z, .restoreEff
+	ld hl, wEnemyMoveEffect
+.restoreEff
+	ld [hl], MINDWIPE_EFFECT
+	ret
+.didntAffect
+	ld c, 50
+	rst _DelayFrames
+	jpfar PrintDidntAffectText
+
+MindwipedText:
+	text_far _MindwipedText
+	text_end
+
+; Sunsette: ROOST (RAZOR_WIND). No-damage status move (ResidualEffects1 -> Haze trampoline). It heals
+; 1/2 (reusing HealEffect_, which heals 1/2 for RAZOR_WIND's move num + plays the anim), then does a full
+; refresh of the user to its NATURAL types + palette (curing MINDWIPE's BUG / WATERIFY's WATER + their
+; palettes), then strips FLYING/FLOATING for this turn (grounding it; NORMAL if that would leave it
+; typeless, e.g. a CONVERSION'd pure-Flyer). The stripped types come back at the start of the user's next
+; turn via RestoreRoostedTypes (callfar'd from the move preamble). hWhoseTurn = the ROOST user.
+RoostEffect_::
+	farcall HealEffect_          ; heal 1/2 + move animation + "regained health" (RAZOR_WIND move num -> 1/2)
+	call RefreshUserNaturalTypes ; restore base types + clear the WATERIFY/CONVERSION/MINDWIPE palette flags
+	call StripFlyingFloating     ; ground the user (remove FLYING/FLOATING; NORMAL fallback)
+	ldh a, [hWhoseTurn]
+	and a
+	ld hl, wPlayerBattleStatus3
+	jr z, .gotS3
+	ld hl, wEnemyBattleStatus3
+.gotS3
+	set ROOSTED, [hl]
+	ret
+
+; Sunsette: at the start of the user's next turn, if it ROOSTED last turn, refresh its natural types
+; (FLYING/FLOATING come back) and clear the flag. callfar'd from the move-execution preamble (next to
+; SelfThawOnBurnMove) for both sides. Re-running the palette refresh is harmless.
+RestoreRoostedTypes::
+	ldh a, [hWhoseTurn]
+	and a
+	ld hl, wPlayerBattleStatus3
+	jr z, .gotS3
+	ld hl, wEnemyBattleStatus3
+.gotS3
+	bit ROOSTED, [hl]
+	ret z
+	res ROOSTED, [hl]
+	; fall through to RefreshUserNaturalTypes
+
+; Sunsette: reload the user's NATURAL types from its species header (same source as send-out:
+; GetMonHeader -> wMonHTypes -> copy -> TryRemapTyping) and clear its type-change palette flags + repaint.
+; This undoes any MINDWIPE (BUG) / WATERIFY (WATER) / CONVERSION retype + their palettes. hWhoseTurn = user.
+RefreshUserNaturalTypes:
+	ldh a, [hWhoseTurn]
+	and a
+	ld a, [wEnemyMonSpecies]
+	ld de, wEnemyMonType
+	jr nz, .gotSide
+	ld a, [wBattleMonSpecies]
+	ld de, wBattleMonType
+.gotSide
+	ld [wCurSpecies], a
+	push de
+	call GetMonHeader           ; home; loads wMonHTypes for wCurSpecies
+	pop de
+	ld hl, wMonHTypes
+	ld a, [hli]
+	ld [de], a                  ; type1
+	push de
+	inc de
+	ld a, [hl]
+	ld [de], a                  ; type2
+	pop de                      ; de -> type1 (TryRemapTyping wants this + wCurSpecies)
+	call TryRemapTyping         ; same bank (newCode); applies the per-species OriginalTypings override
+	ldh a, [hWhoseTurn]
+	and a
+	ld hl, wBattleMonFlags
+	jr z, .gotFlags
+	ld hl, wEnemyMonFlags
+.gotFlags
+	res 1, [hl]                 ; WATERIFY blue
+	res 2, [hl]                 ; CONVERSION recolor
+	res 3, [hl]                 ; MINDWIPE gray
+	jp RunDefaultPaletteCommand ; repaint to the natural palette (home; tail-call)
+
+; Sunsette: remove FLYING ($02) and FLOATING ($12) from the user's two type bytes. If both are an air
+; type (e.g. a CONVERSION'd pure-Flyer/Floater) the user would be left typeless, so it becomes NORMAL;
+; if only one is, the surviving type fills both slots (a clean mono-type). hWhoseTurn = user.
+StripFlyingFloating:
+	ldh a, [hWhoseTurn]
+	and a
+	ld hl, wBattleMonType1
+	jr z, .gotType
+	ld hl, wEnemyMonType1
+.gotType
+	ld a, [hl]
+	ld b, a                     ; b = type1
+	inc hl
+	ld a, [hl]
+	ld c, a                     ; c = type2 ; hl -> type2
+	dec hl                      ; hl -> type1
+	ld a, b
+	call .isAir
+	jr c, .t1Air
+	; type1 is a real type
+	ld a, c
+	call .isAir
+	ret nc                      ; neither is air -> no change (not a normal ROOST user)
+	; only type2 is air -> mono type1
+	ld a, b
+	jr .setBoth
+.t1Air
+	ld a, c
+	call .isAir
+	jr c, .bothAir
+	; only type1 is air -> mono type2
+	ld a, c
+	jr .setBoth
+.bothAir
+	ld a, NORMAL                ; typeless -> NORMAL safety
+.setBoth
+	ld [hli], a                 ; type1
+	ld [hl], a                  ; type2
+	ret
+.isAir
+	cp FLYING
+	jr z, .yesAir
+	cp FLOATING
+	jr z, .yesAir
+	and a
+	ret
+.yesAir
+	scf
+	ret
+
+; Sunsette: JOLT BOLT (POUND) post-damage side effect - a 50% chance to raise the USER's EVASION by 1.
+; Reached via the Haze trampoline -> HazeFlinchEffect_. = SwiftEffect_'s 50% roll + ChargeMoveEvasionBoost's
+; evasion-up: temp-swap the user's move effect to EVASION_UP1_EFFECT and zero its move num (dodges
+; StatModifierUpEffect's Minimize/substitute path), SetFlag FLAG_SKIP_STAT_ANIMATION, callfar
+; StatModifierUpEffect (prints the "rose!" line), then restore both. hWhoseTurn = the JOLT BOLT user.
+JoltBoltEffect_:
+	callfar FarBattleRandom ; d = random byte (de survives the bankswitch)
+	ld a, d
+	cp 50 percent + 1
+	ret nc ; 50%: no evasion boost
+	ldh a, [hWhoseTurn]
+	and a
+	ld hl, wPlayerMoveEffect
+	ld de, wPlayerMoveNum
+	jr z, .gotPtrs
+	ld hl, wEnemyMoveEffect
+	ld de, wEnemyMoveNum
+.gotPtrs
+	ld a, [hl]
+	push af ; save the real move effect (JOLT_BOLT_EFFECT)
+	ld a, [de]
+	push af ; save the real move num (POUND)
+	ld a, EVASION_UP1_EFFECT
+	ld [hl], a
+	xor a
+	ld [de], a ; zero move num -> dodge the Minimize/substitute path
+	SetFlag FLAG_SKIP_STAT_ANIMATION
+	callfar StatModifierUpEffect ; +1 EVASION to the user
+	ResetFlag FLAG_SKIP_STAT_ANIMATION
+	ldh a, [hWhoseTurn] ; callfar clobbered hl/de - re-derive to restore
+	and a
+	ld hl, wPlayerMoveEffect
+	ld de, wPlayerMoveNum
+	jr z, .restore
+	ld hl, wEnemyMoveEffect
+	ld de, wEnemyMoveNum
+.restore
+	pop af
+	ld [de], a ; restore move num
+	pop af
+	ld [hl], a ; restore move effect
+	ret
 
 ; Sunsette: stores the SecondWind heal (de = new HP, passed through the callfar from SecondWindHeal in
 ; bank3 - Bankswitch preserves de) and animates the player's in-battle HP bar filling like a Potion,
@@ -762,6 +1350,10 @@ SmartDisableFail_::
 EnemyOnSendOut::
 	ld hl, wEnemyMonFlags ; Sunsette: a fresh enemy mon isn't WATERIFY-soaked; clear bit 1 (keep bit 0 = confuse-ray alt palette)
 	res 1, [hl]
+	res 2, [hl] ; and isn't CONVERSION-recolored (bit 2) - types reset to natural on send-out
+	res 3, [hl] ; and isn't MINDWIPE-grayed (bit 3)
+	ld hl, wEnemyBattleStatus3
+	res SOLARBEAM_PRIMED, [hl] ; Sunsette: switching out disarms a charged SolarBeam
 	callfar AutoWakeUpScreechEnemy ; preserve original on-send-out behavior
 	call ApplyEnemySendOutMapEffects
 	xor a ; target = enemy
@@ -1141,7 +1733,7 @@ TheMawChooseMove::
 	ld de, wEnemyMonPP + 3
 	call .checkPPNotZero
 	ret z
-	ld a, POISON_GAS
+	ld a, POISON_GAS ; MIASMA
 	ld b, 3
 	scf
 	ret

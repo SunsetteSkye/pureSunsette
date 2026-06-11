@@ -12,7 +12,9 @@ A small affection system has been added. It's a little less RNG-happy and pervas
 
 (Also... some of the enemies get to use it too. Watch out for fights where the pressure is intense!)
 
-The Exp. Share got rebuilt into something a lot less broken than gen 6 design, thanks to less generous experience distributions. Finally, as I sincerely doubt anyone's trading on this version of the game, the badge system got heavily reworked—added soft level gates and a little something else so that you appreciate every single badge. And it all works a little differently for legends!
+The Exp. Share got rebuilt into something a lot less broken than gen 6 design, thanks to less generous experience distributions, and the daycare has been overhauled -- it gets a lot better as you get more badges, raising Pokémon's EXP and stats in real time rather than steps.
+
+Finally, as I sincerely doubt anyone's trading on this version of the game, the badge system got heavily reworked—added soft level gates and a little something else so that you appreciate every single badge. And it all works a little differently for legends!
 
 Vortyne's feature list follows since I'm nowhere near done. Do note that I killed a lot of his options (like palette changes) in order to make room for my changes.
 

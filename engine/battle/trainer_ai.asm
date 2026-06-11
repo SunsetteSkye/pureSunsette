@@ -156,8 +156,14 @@ AIMoveChoiceModification1:
 	inc de
 	call ReadMove
 	ld a, [wEnemyMoveNum]
-	cp MIRROR_MOVE
-	call z, CheckRemapMirrorMove ; we will treat mirror move as the move it will use if selected
+	cp MIRROR_MOVE ; MOCKINGBIRD
+	call z, EncourageMockingbird ; Sunsette: encourage MOCKINGBIRD when it's worth the stat-steal / Special drop
+	ld a, [wEnemyMoveNum]
+	cp SOLARBEAM
+	call z, EncourageSolarBeam ; Sunsette: once charged, prefer firing the SolarBeam release
+	ld a, [wEnemyMoveNum]
+	cp PSYWAVE ; MINDWIPE
+	call z, ScoreMindwipe ; Sunsette: MINDWIPE - avoid vs Bug/Poison/Fighting, prefer vs Ghost/Normal
 	ld a, [wPlayerBattleStatus1]
 	bit INVULNERABLE, a
 	jp nz, .playerSemiInvulnerable
@@ -208,10 +214,10 @@ AIMoveChoiceModification1:
 					   ; even if the player heals the status or switches out that turn
 	ld a, [wAIMoveSpamAvoider] ; set if we switched or healed this turn
 	cp 2 ; set to 2 if we switched
-	jr z, .nextMove ; if the AI thinks the player DOESNT have a status before they switch, we should avoid discouraging status moves
+	jp z, .nextMove ; if the AI thinks the player DOESNT have a status before they switch, we should avoid discouraging status moves (jp: my MINDWIPE hook pushed this past jr range)
 	ld a, [wBattleMonStatus]
 	and a
-	jr z, .nextMove ; no need to discourage status moves if the player doesn't have a status
+	jp z, .nextMove ; no need to discourage status moves if the player doesn't have a status (jp: my SolarBeam hook pushed this past jr range)
 .discourage
 	ld a, [hl]
 	add 5 ; heavily discourage move
@@ -424,15 +430,161 @@ CheckFullHealth: ; avoid using moves like recover at full health.
 	and a
 	ret
 
-CheckRemapMirrorMove:
-	ld a, [wPlayerLastSelectedMove]
-	and a
-	jr nz, .skipDiscourageMirrorMove ; don't use mirror move if the player has never selected a move yet
+; Sunsette: CheckRemapMirrorMove / GetMirrorMoveResultMove removed - MOCKINGBIRD (was MIRROR MOVE) is now
+; a stat-copy status move, so the AI evaluates it by its own move data instead of remapping it to a copy.
+; Instead we ENCOURAGE MOCKINGBIRD (dec [hl], lower score = more likely) when it pays off:
+;  - the player is 2+ total stat stages ahead of us (copying the foe's stages catches us up), OR
+;  - our mon is a special attacker (Special > Attack), so the -1 foe SPECIAL softens it up for us, OR
+;  - the player's mon is a special attacker (Special > Attack), so the -1 foe SPECIAL blunts its offense.
+; hl = this move's score slot on entry; we preserve hl/de/bc for the AIMoveChoiceModification1 loop.
+; Sunsette: once a non-fire SolarBeam has been "charged" (SOLARBEAM_PRIMED on our mon), strongly prefer
+; firing the release now rather than wasting the charge by doing something else. The charge turn itself
+; (not yet primed) and FIRE users get no special pull - normal scoring handles them. hl = the move's
+; score slot (lower = more likely); we only touch a + hl, so the loop's de/bc are preserved.
+EncourageSolarBeam:
+	ld a, [wEnemyBattleStatus3]
+	bit SOLARBEAM_PRIMED, a
+	ret z
 	ld a, [hl]
-	add 5 ; heavily discourage mirror move when it will fail
+	sub 3 ; encourage
 	ld [hl], a
-.skipDiscourageMirrorMove
-	jp GetMirrorMoveResultMove ; otherwise remap this move to the one it will use, and we'll check if it should be discouraged after
+	ret
+
+; Sunsette: MINDWIPE (PSYWAVE) retypes the target to BUG. Pointless/bad vs a target that's already
+; BUG/POISON/FIGHTING (discourage, +5), great vs GHOST or NORMAL (encourage, -3 = lower score = more
+; likely). hl = the move's score slot; preserve hl/de/bc for the AIMoveChoiceModification1 loop.
+ScoreMindwipe:
+	push bc
+	push de
+	push hl                ; save the score slot (top of stack)
+	call GetTargetTypeFromMod1 ; hl -> the target's type1 (type2 at hl+1)
+	ld a, [hli]
+	ld d, a                ; d = target type1
+	ld a, [hl]
+	ld e, a                ; e = target type2
+	pop hl                 ; hl = score slot
+	ld a, d
+	call .avoidType
+	jr c, .discourage
+	ld a, e
+	call .avoidType
+	jr c, .discourage
+	ld a, d
+	call .prizeType
+	jr c, .encourage
+	ld a, e
+	call .prizeType
+	jr c, .encourage
+	jr .done
+.discourage
+	ld a, [hl]
+	add 5
+	ld [hl], a
+	jr .done
+.encourage
+	ld a, [hl]
+	sub 3
+	ld [hl], a
+.done
+	pop de
+	pop bc
+	ret
+.avoidType ; carry set if a is BUG / POISON / FIGHTING (retype to BUG is pointless or counterproductive)
+	cp BUG
+	jr z, .yesType
+	cp POISON
+	jr z, .yesType
+	cp FIGHTING
+	jr z, .yesType
+	and a
+	ret
+.prizeType ; carry set if a is GHOST or NORMAL (retype strips strong defensive typing)
+	cp GHOST
+	jr z, .yesType
+	cp NORMAL
+	jr z, .yesType
+	and a
+	ret
+.yesType
+	scf
+	ret
+
+EncourageMockingbird:
+	push bc
+	push de
+	push hl
+	call .shouldEncourage
+	pop hl
+	jr nc, .done
+	dec [hl] ; encourage
+.done
+	pop de
+	pop bc
+	ret
+.shouldEncourage:
+	call MockingbirdPlayerStatLead ; (c) player 2+ total stages ahead
+	ret c
+	ld hl, wEnemyMonUnmodifiedAttack ; (a) we want our Special attacks to hit harder
+	call StatSpecialOverAttack
+	ret c
+	ld hl, wPlayerMonUnmodifiedAttack ; (b) we fear the player's Special attacks
+	jp StatSpecialOverAttack
+
+; carry set if the player's summed stat stages are at least 2 higher than the enemy's.
+MockingbirdPlayerStatLead:
+	ld hl, wPlayerMonStatMods
+	call .sumSix
+	ld d, a ; player total
+	ld hl, wEnemyMonStatMods
+	call .sumSix ; a = enemy total
+	ld e, a
+	ld a, d
+	sub e ; player - enemy
+	jr c, .no ; borrow -> player is behind
+	cp 2
+	jr c, .no ; difference < 2
+	scf
+	ret
+.no:
+	and a ; clear carry
+	ret
+.sumSix:
+	ld b, 6 ; Attack, Defense, Speed, Special, Accuracy, Evasion stages (1-13, 7 = neutral)
+	xor a
+.sumLoop:
+	add [hl]
+	inc hl
+	dec b
+	jr nz, .sumLoop
+	ret
+
+; hl -> a mon's UnmodifiedAttack (big-endian 16-bit; Special sits 6 bytes later).
+; carry set if Special > Attack (i.e. the mon leans special-offense).
+StatSpecialOverAttack:
+	ld d, h
+	ld e, l ; de -> Attack
+	ld bc, 6
+	add hl, bc ; hl -> Special
+	ld a, [de] ; Attack high byte
+	ld b, a
+	ld a, [hl] ; Special high byte
+	cp b
+	jr c, .notSpecial ; Special_hi < Attack_hi
+	jr nz, .isSpecial ; Special_hi > Attack_hi
+	inc de
+	inc hl
+	ld a, [de] ; Attack low byte
+	ld b, a
+	ld a, [hl] ; Special low byte
+	cp b
+	jr c, .notSpecial
+	jr z, .notSpecial ; equal -> not strictly greater
+.isSpecial
+	scf
+	ret
+.notSpecial
+	and a
+	ret
 
 CheckDefenseCurlUp:
 	ld a, [wEnemyBattleStatus1]
@@ -564,9 +716,6 @@ AIMoveChoiceModification2:
 	ret z ; no more moves in move set
 	inc de
 	call ReadMove
-	ld a, [wEnemyMoveNum]
-	cp MIRROR_MOVE
-	call z, GetMirrorMoveResultMove ; we will treat mirror move as the move it will use if selected
 	ld a, [wEnemyMoveEffect]
 	cp DISABLE_EFFECT
 	jr z, .disable
@@ -766,8 +915,6 @@ AIMoveChoiceModification3:
 	ld a, [wEnemyMoveNum]
 	cp CONVERSION
 	jr z, .skipEffectivenessCheckAndEncourage
-	cp MIRROR_MOVE
-	call z, GetMirrorMoveResultMove ; we will treat mirror move as the move it will use if selected
 	ld a, [wEnemyMovePower]
 	and a
 	jr z, .nextMove ; ignores moves that do no damage (status moves), as we're only concerned with damaging moves for this modifier
@@ -927,16 +1074,6 @@ EncourageDrainingMoveIfLowHealth:
 	dec [hl] ; encourage the draining move if enemy has more than half health gone
 	ret
 
-; PureRGBnote: ADDED: gets the move that using mirror move will use, so we can see if using mirror move will be a good idea
-GetMirrorMoveResultMove:
-	ld a, [wPlayerLastSelectedMove]
-	and a
-	ret z ; no move to be mirrored, don't rewrite any move data, we'll avoid using mirror move
-	call ReadMove ; read move data into wEnemyMove struct
-	ld a, MIRROR_MOVE
-	ld [wEnemyMoveNum], a ; keep the move number as MIRROR_MOVE so we know it's mirror move being used for later
-	ret
-
 ; PureRGBnote: ADDED: one trainer in the game can use x accuracy, and will prioritize OHKO moves once they have
 EncourageOHKOMoveIfXAccuracy:
 	; further encourage OHKO move if x accuracy is active (only 1 trainer uses x accuracies ever)
@@ -966,9 +1103,6 @@ AIMoveChoiceModification4:
 	ret z ; no more moves in move set
 	inc de
 	call ReadMove
-	ld a, [wEnemyMoveNum]
-	cp MIRROR_MOVE
-	call z, GetMirrorMoveResultMove ; we will treat mirror move as the move it will use if selected
 	ld a, [wEnemyMoveEffect]
 	cp DREAM_EATER_EFFECT
 	jr z, .checkOpponentAsleep

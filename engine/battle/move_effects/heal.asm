@@ -101,7 +101,7 @@ HealEffectCommon:
 	rr c
 	cp WITHDRAW
 	jr z, .oneThird
-	cp GROWTH
+	cp GROWTH ; FLOURISH
 	jr z, .oneThird
 	cp TELEPORT
 	jr nz, .gotHPAmountToHeal

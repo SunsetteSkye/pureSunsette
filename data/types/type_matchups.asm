@@ -32,7 +32,7 @@ TypeEffects:
 	db GRASS,        ROCK,         SUPER_EFFECTIVE
 	db GRASS,        FLYING,       EFFECTIVE ; Flying no longer resists Grass
 	db ICE,          WATER,        NOT_VERY_EFFECTIVE
-	db ICE,          GRASS,        EFFECTIVE ; Grass no longer weak to Ice
+	db ICE,          GRASS,        SUPER_EFFECTIVE ; Sunsette: Grass IS weak to Ice (reverted the earlier nerf)
 	db ICE,          GROUND,       SUPER_EFFECTIVE
 	db ICE,          FLYING,       SUPER_EFFECTIVE
 	db ICE,          FIRE,         NOT_VERY_EFFECTIVE ; Sunsette: Fire always resists Ice
@@ -106,6 +106,7 @@ TypeEffects:
 	db BONEMERANG_TYPE,   BUG,          NOT_VERY_EFFECTIVE
 	db BONEMERANG_TYPE,   ROCK,         SUPER_EFFECTIVE
 	db BONEMERANG_TYPE,   POISON,       SUPER_EFFECTIVE
+	db BONEMERANG_TYPE,   FIGHTING,     NOT_VERY_EFFECTIVE
 	db WATER,        MAGMA,        NO_EFFECT
 	db FIRE,         MAGMA,        NO_EFFECT
 	db ELECTRIC,     MAGMA,        NO_EFFECT

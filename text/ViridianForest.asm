@@ -137,10 +137,10 @@ _ViridianForestUseAntidoteSignText::
 _ViridianForestTrainerTips2Text::
 	text "<TIPS>"
 
-	para "Contact PROF.OAK"
-	line "via <PC> to get"
-	cont "your #DEX"
-	cont "evaluated!"
+	para "Some places may"
+	line "need #MON with"
+	cont "special moves to"
+	cont "travel safely!"
 	done
 
 _ViridianForestTrainerTips3Text::

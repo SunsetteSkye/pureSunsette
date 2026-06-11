@@ -145,23 +145,23 @@ DEF TM01 EQU const_value
 	add_tm PIN_MISSILE  ; $CC
 	add_tm FIRE_PUNCH   ; $CD
 	add_tm TOXIC        ; $CE
-	add_tm HORN_DRILL   ; $CF
+	add_tm HORN_DRILL   ; $CF (WICKED DRILL)
 	add_tm BODY_SLAM    ; $D0
 	add_tm DISABLE    	; $D1
 	add_tm DOUBLE_EDGE  ; $D2
 	add_tm BUBBLEBEAM   ; $D3
 	add_tm AURORA_BEAM  ; $D4
 	add_tm ICE_BEAM     ; $D5
-	add_tm BLIZZARD     ; $D6
+	add_tm BLIZZARD     ; $D6 (SLEET STORM)
 	add_tm HYPER_BEAM   ; $D7
 	add_tm AMNESIA      ; $D8
-	add_tm HI_JUMP_KICK ; $D9
+	add_tm LOW_KICK     ; $D9 ; Sunsette: was HI_JUMP_KICK; now the weight-based LOW KICK TM (TM_HI_JUMP_KICK -> TM_LOW_KICK), taught to all but a set of exclusions
 	add_tm THUNDERPUNCH ; $DA
-	add_tm ROLLING_KICK ; $DB
+	add_tm ROLLING_KICK ; $DB (METEOR SWEEP)
 	add_tm BARRIER      ; $DC
 	add_tm RAZOR_LEAF   ; $DD
 	add_tm SOLARBEAM    ; $DE
-	add_tm DRAGON_RAGE  ; $DF
+	add_tm DRAGON_RAGE  ; $DF (WYRM WRATH)
 	add_tm THUNDERBOLT  ; $E0
 	add_tm THUNDER      ; $E1
 	add_tm EARTHQUAKE   ; $E2
@@ -172,20 +172,20 @@ DEF TM01 EQU const_value
 	add_tm KINESIS      ; $E7 MIRAGE
 	add_tm SWORDS_DANCE ; $E8
 	add_tm REFLECT      ; $E9
-	add_tm BIDE         ; $EA 
+	add_tm BIDE         ; $EA (BULK UP)
 	add_tm SONICBOOM    	; $EB
-	add_tm BARRAGE 		; $EC
+	add_tm BARRAGE 		; $EC (SHADOW BALL)
 	add_tm FLAMETHROWER ; $ED
 	add_tm FIRE_BLAST   ; $EE
-	add_tm SLAM        	; $EF FILTHY SLAM
+	add_tm SLAM        	; $EF (WASTEMAKER)
 	add_tm KARATE_CHOP  ; $F0
 	add_tm MEDITATE   	; $F1 
 	add_tm LOVELY_KISS  ; $F2
 	add_tm SKY_ATTACK   ; $F3
 	add_tm LIGHT_SCREEN ; $F4
 	add_tm THUNDER_WAVE ; $F5
-	add_tm PSYBEAM      ; $F6
-	add_tm SLUDGE    	; $F7
+	add_tm PSYWAVE      ; $F6 ; MINDWIPE (was PSYBEAM's TM; now teaches PSYWAVE/MINDWIPE)
+	add_tm SLUDGE    	; $F7 (SLUDGE BOMB)
 	add_tm ROCK_SLIDE   ; $F8
 	add_tm GLARE   		; $F9
 	add_tm SUBSTITUTE   ; $FA

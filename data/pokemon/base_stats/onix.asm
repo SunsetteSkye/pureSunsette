@@ -10,7 +10,7 @@
 	INCBIN "gfx/pokemon/front/onix.pic", 0, 1 ; sprite dimensions
 	dw OnixPicFront, OnixPicBackSW
 
-	db TACKLE, SCREECH, HARDEN, BIND ; level 1 learnset
+	db TACKLE, SCREECH, HARDEN, BIND ; level 1 learnset (STONEBOUND)
 	db GROWTH_FAST ; growth rate
 
 	; tm/hm learnset
@@ -21,19 +21,19 @@
 	DOUBLE_EDGE,\
 	HYPER_BEAM,\
 	BARRIER,\
-	DRAGON_RAGE,\
+	DRAGON_RAGE,\ ; WYRM WRATH
 	EARTHQUAKE,\
 	CRABHAMMER,\
 	DIG,\
 	KINESIS,\ ; MIRAGE
 	SWORDS_DANCE,\
-	BIDE,\
-	BARRAGE,\
+	BIDE,\ ; BULK UP
+	BARRAGE,\ ; SHADOW BALL
 	FIRE_BLAST,\
 	FLAMETHROWER,\
-	SLAM,\ ; FILTHY SLAM
+	SLAM,\ ; WASTEMAKER
 	LIGHT_SCREEN,\
-	SLUDGE,\
+	SLUDGE,\ ; SLUDGE BOMB
 	ROCK_SLIDE,\
 	GLARE,\
 	SUBSTITUTE,\

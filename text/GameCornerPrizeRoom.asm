@@ -72,9 +72,9 @@ _TangelaPrizeKingText::
 	text " has"
 	line "crazy DEFENSE!"
 	para "It learns SPORE"
-	line "and DREAM EATER!"
+	line "and SOULSTEALER!"
 	para "On top of that,"
-	line "DEFENSE CURL!"
+	line "BUNKER DOWN!"
 	para "What else could"
 	line "you want?!"
 	done

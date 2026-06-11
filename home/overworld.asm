@@ -536,6 +536,16 @@ WarpFound1::
 	ldh [hWarpDestinationMap], a
 
 WarpFound2::
+;;;;;;;;;; Sunsette: morale lockout - confirm before leaving a gym / Silph 2F+ / Rocket Hideout pre-boss
+	push bc
+	push de
+	push hl
+	callfar CheckLockedWalkExit_ ; carry set = allow the warp; clear = player declined (walk-back queued)
+	pop hl
+	pop de
+	pop bc
+	jp nc, OverworldLoop ; declined -> abort this warp, resume the overworld (player steps back one tile)
+;;;;;;;;;;
 	ld a, [wNumberOfWarps]
 	sub c
 	ld [wWarpedFromWhichWarp], a ; save ID of used warp (needed for elevators)
@@ -817,6 +827,15 @@ StopMusic::
 	jp StopAllSounds
 
 HandleFlyWarpOrDungeonWarp::
+;;;;;;;;;; Sunsette: morale lockout for menu escapes (Teleport/Dig/Fly/Escape Rope/Pocket Abra). Gate on
+;;;;;;;;;; BIT_FLY_WARP so forced hole-falls (BIT_DUNGEON_WARP only) are never prompted.
+	ld a, [wStatusFlags6]
+	bit BIT_FLY_WARP, a
+	jr z, .sunsetteNotMenuEscape
+	callfar CheckLockedMenuExit_ ; carry set = allow; clear = declined (warp flags already cleared)
+	jp nc, OverworldLoop
+.sunsetteNotMenuEscape
+;;;;;;;;;;
 	call UpdateSpritesAndDelay3
 	xor a
 	ld [wBattleResult], a

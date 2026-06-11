@@ -4,5 +4,6 @@ HighCriticalMoves:
 	db CRABHAMMER
 	db SLASH
 	db HORN_DRILL ; Sunsette: Wicked Drill (poison, high-crit)
-	db GUILLOTINE ; Sunsette: ADDED: now a powerful, inaccurate, high-crit BUG move (Bug's reliable nuke)
+	db GUILLOTINE ; Sunsette: ADDED: now a powerful, inaccurate, high-crit move (EXTERMINATE)
+	db SWIFT
 	db -1 ; end

@@ -10,7 +10,7 @@
 	INCBIN "gfx/pokemon/front/mankey.pic", 0, 1 ; sprite dimensions
 	dw MankeyPicFront, MankeyPicBackSW
 
-	db SCRATCH, LEER, POUND, NO_MOVE ; level 1 learnset
+	db SCRATCH, LEER, POUND, NO_MOVE ; level 1 learnset (JOLT BOLT)
 	db GROWTH_MEDIUM_FAST ; growth rate
 
 	; tm/hm learnset
@@ -22,19 +22,19 @@
 	BODY_SLAM,\
 	DISABLE,\
 	DOUBLE_EDGE,\
-	HI_JUMP_KICK,\
+	LOW_KICK,\
 	THUNDERPUNCH,\
-	ROLLING_KICK,\
-	DRAGON_RAGE,\
+	ROLLING_KICK,\ ; METEOR SWEEP
+	DRAGON_RAGE,\ ; WYRM WRATH
 	THUNDERBOLT,\
 	THUNDER,\
 	EARTHQUAKE,\
 	CRABHAMMER,\
 	DIG,\
 	SWORDS_DANCE,\
-	BIDE,\
-	BARRAGE,\
-	SLAM,\ ; FILTHY SLAM
+	BIDE,\ ; BULK UP
+	BARRAGE,\ ; SHADOW BALL
+	SLAM,\ ; WASTEMAKER
 	KARATE_CHOP,\
 	MEDITATE,\
 	ROCK_SLIDE,\

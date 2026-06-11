@@ -10,7 +10,7 @@
 	INCBIN "gfx/battle/spirit_irradiated.pic", 0, 1 ; sprite dimensions
 	dw IrradiatedPicFront, HitmonchanPicBackSW
 
-	db GROWTH, SLUDGE, STRUGGLE, DRAGON_RAGE ; level 1 learnset
+	db GROWTH, SLUDGE, STRUGGLE, DRAGON_RAGE ; level 1 learnset (WYRM WRATH, FLOURISH) (SLUDGE BOMB)
 	db GROWTH_MEDIUM_FAST ; growth rate
 
 	; tm/hm learnset
@@ -23,15 +23,15 @@
 	DISABLE,\
 	DOUBLE_EDGE,\
 	HYPER_BEAM,\
-	HI_JUMP_KICK,\
+	LOW_KICK,\
 	THUNDERPUNCH,\
-	ROLLING_KICK,\
+	ROLLING_KICK,\ ; METEOR SWEEP
 	BARRIER,\
 	EARTHQUAKE,\
 	SWORDS_DANCE,\
-	BIDE,\
-	BARRAGE,\
-	SLAM,\ ; FILTHY SLAM
+	BIDE,\ ; BULK UP
+	BARRAGE,\ ; SHADOW BALL
+	SLAM,\ ; WASTEMAKER
 	KARATE_CHOP,\
 	MEDITATE,\
 	ROCK_SLIDE,\

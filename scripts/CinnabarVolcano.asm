@@ -1084,7 +1084,7 @@ CinnabarVolcanoBombRockText:
 	jr z, .explodeRocksExplosion
 	cp SELFDESTRUCT
 	jr z, .explodeRocksSelfdestruct
-	cp SKULL_BASH
+	cp SKULL_BASH ; METEOR DRIVE
 	jr z, .shatterRocksSkullBash
 	dec b
 	jr nz, .loop

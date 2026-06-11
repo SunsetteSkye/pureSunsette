@@ -18,3 +18,5 @@ _ViridianForestSouthGateLittleGirl2Text::
 	para "You're on the path"
 	line "to cool school!"
 	done
+
+; Sunsette: the Oak's Aide texts moved to data/text/sunsette_overworld_text.asm (Text 3 bank was full)

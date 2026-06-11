@@ -10,11 +10,12 @@
 	INCBIN "gfx/battle/spirit_the_maw.pic", 0, 1 ; sprite dimensions
 	dw TheMawPicFront, GolbatPicBackSW
 
-	db LEECH_LIFE, HYPER_BEAM, MEGA_DRAIN, POISON_GAS ; level 1 learnset
+	db LEECH_LIFE, HYPER_BEAM, MEGA_DRAIN, POISON_GAS ; level 1 learnset (MIASMA)
 	db GROWTH_MEDIUM_FAST ; growth rate
 
 	; tm/hm learnset
 	tmhm \
+	LOW_KICK,\
 	SONICBOOM,\ ; ILL WIND
 	RAZOR_WIND,\ ; ROOST
 	TOXIC,\
@@ -25,12 +26,12 @@
 	BARRIER,\
 	MEGA_DRAIN,\
 	SWORDS_DANCE,\
-	BIDE,\
-	BARRAGE,\
-	SLAM,\ ; FILTHY SLAM
+	BIDE,\ ; BULK UP
+	BARRAGE,\ ; SHADOW BALL
+	SLAM,\ ; WASTEMAKER
 	LOVELY_KISS,\
 	SKY_ATTACK,\
-	SLUDGE,\
+	SLUDGE,\ ; SLUDGE BOMB
 	GLARE,\
 	SUBSTITUTE,\
 	CUT,\

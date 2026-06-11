@@ -10,7 +10,7 @@
 	INCBIN "gfx/pokemon/front/gengar.pic", 0, 1 ; sprite dimensions
 	dw GengarPicFront, GengarPicBackSW
 
-	db LICK, CONFUSE_RAY, NIGHT_SHADE, NO_MOVE ; level 1 learnset
+	db LICK, HAZE, GUST, NO_MOVE ; level 1 learnset
 	db GROWTH_MEDIUM_SLOW ; growth rate
 
 	; tm/hm learnset
@@ -23,21 +23,21 @@
 	DOUBLE_EDGE,\
 	AURORA_BEAM,\
 	HYPER_BEAM,\
-	HI_JUMP_KICK,\
+	LOW_KICK,\
 	THUNDERPUNCH,\
-	ROLLING_KICK,\
+	ROLLING_KICK,\ ; METEOR SWEEP
 	THUNDERBOLT,\
 	THUNDER,\
 	PSYCHIC_M,\
 	MEGA_DRAIN,\
 	KINESIS,\ ; MIRAGE
-	BIDE,\
-	BARRAGE,\
-	SLAM,\ ; FILTHY SLAM
+	BIDE,\ ; BULK UP
+	BARRAGE,\ ; SHADOW BALL
+	SLAM,\ ; WASTEMAKER
 	KARATE_CHOP,\
 	LOVELY_KISS,\
-	PSYBEAM,\
-	SLUDGE,\
+	PSYWAVE,\ ; MINDWIPE
+	SLUDGE,\ ; SLUDGE BOMB
 	GLARE,\
 	SUBSTITUTE,\
 	CUT,\

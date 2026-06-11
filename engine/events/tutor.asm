@@ -2,7 +2,7 @@ CeladonMoveTutorMoves::
 	dbw SELFDESTRUCT, SelfdestructLearnset
 	dbw EXPLOSION,    ExplosionLearnset
 	dbw TRI_ATTACK,   TriAttackLearnset
-	dbw DREAM_EATER,  DreamEaterLearnset
+	dbw DREAM_EATER,  DreamEaterLearnset ; SOULSTEALER
 	dbw PAY_DAY,      PayDayLearnset
 	dbw REST,         -1
 	dbw TELEPORT,     TeleportLearnset
@@ -10,10 +10,10 @@ CeladonMoveTutorMoves::
 	db -1
 
 SaffronMoveTutorMoves::
-	dbw MEGA_PUNCH, MegaPunchLearnset
-	dbw MEGA_KICK,  MegaKickLearnset
-	dbw WHIRLWIND,  WhirlwindLearnset
-	dbw SKULL_BASH, SkullBashLearnset
+	dbw MEGA_PUNCH, MegaPunchLearnset ; HAYMAKER
+	dbw MEGA_KICK,  MegaKickLearnset ; PISTON KICK
+	dbw WHIRLWIND,  WhirlwindLearnset ; HURRICANE
+	dbw SKULL_BASH, SkullBashLearnset ; METEOR DRIVE
 	dbw SWIFT,      SwiftLearnset
 	dbw EGG_BOMB,   EggBombLearnset
 	dbw RAGE,       -1

@@ -1,3 +1,5 @@
+; status-mechanic tutorial blackboard text is in data/text/text_2.asm.
+
 _ViridianSchoolHouseBrunetteGirlText::
 	text "Whew! I'm trying"
 	line "to memorize all"
@@ -112,7 +114,9 @@ _SchoolB1FLittleGirlRetort::
 _SchoolB1FLittleGirlRetort2::
 	text "Actually, they're"
 	line "weak to BUG and"
-	cont "GHOST types."
+	cont "GHOST. GRASS and"
+	cont "NORMAL resist"
+	cont "them, too!"
 	prompt
 
 _SchoolB1FNerdSilence::
@@ -262,7 +266,7 @@ _SchoolB1FBottomLeftNotebook::
 	line "moves always go"
 	cont "first!"
 	para "QUICK ATTACK,"
-	line "COMET PUNCH, and"
+	line "MACH PUNCH, and"
 	cont "SWIFT are"
 	cont "some examples."
 	done

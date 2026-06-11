@@ -16,6 +16,7 @@ SpecialEffectPointers:
 	special_effect SE_SLIDE_MON_DOWN,            AnimationSlideMonDown            ; $F6
 	special_effect SE_FLASH_MON_PIC,             AnimationFlashMonPic             ; $F5
 	special_effect SE_SLIDE_MON_OFF,             AnimationSlideMonOff             ; $F4
+	special_effect SE_SLIDE_MON_OFF_FAST,        AnimationSlideMonOffFast         ; $CA Sunsette: faster slide for Quick Attack
 	special_effect SE_BLINK_MON,                 AnimationBlinkMon                ; $F3
 	special_effect SE_MOVE_MON_HORIZONTALLY,     AnimationMoveMonHorizontally     ; $F2
 	special_effect SE_RESET_MON_POSITION,        AnimationResetMonPosition        ; $F1

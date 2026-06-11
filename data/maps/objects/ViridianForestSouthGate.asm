@@ -1,6 +1,7 @@
 	object_const_def
 	const_export VIRIDIANFORESTSOUTHGATE_GIRL
 	const_export VIRIDIANFORESTSOUTHGATE_LITTLE_GIRL
+	const_export VIRIDIANFORESTSOUTHGATE_OAKS_AIDE
 
 ViridianForestSouthGate_Object:
 	db $a ; border block
@@ -16,5 +17,6 @@ ViridianForestSouthGate_Object:
 	def_object_events
 	object_event  8,  4, SPRITE_GIRL, STAY, LEFT, TEXT_VIRIDIANFORESTSOUTHGATE_GIRL
 	object_event  2,  4, SPRITE_LITTLE_GIRL, WALK, UP_DOWN, TEXT_VIRIDIANFORESTSOUTHGATE_LITTLE_GIRL
+	object_event  6,  4, SPRITE_SCIENTIST, STAY, DOWN, TEXT_VIRIDIANFORESTSOUTHGATE_OAKS_AIDE ; Sunsette: ADDED Oak's Aide
 
 	def_warps_to VIRIDIAN_FOREST_SOUTH_GATE

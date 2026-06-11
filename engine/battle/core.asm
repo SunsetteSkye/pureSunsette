@@ -2926,11 +2926,8 @@ SelectMenuItem:
 	add hl, bc
 	ld a, [hl]
 	ld [wPlayerSelectedMove], a
-;;;;; PureRGBnote: ADDED: when using CONVERSION, a special menu shows up when selecting the move to select the conversion mode.
-	cp CONVERSION
-	jr z, .conversion
-.conversionChosen
-;;;;;
+; Sunsette: CONVERSION no longer pops a mode menu here - it now works like Mimic (pick + use a foe's
+; move) and additionally retypes the user; the move pick happens at effect-execution time, not here.
 	xor a
 	ret
 .disabled
@@ -2940,15 +2937,8 @@ SelectMenuItem:
 	ld hl, MoveNoPPText
 .print
 	rst _PrintText
-.conversionGoBack
 	call LoadScreenTilesFromBuffer1
 	jp MoveSelectionMenu
-;;;;; PureRGBnote: ADDED: when using CONVERSION, a special menu shows up when selecting the move to select the conversion mode.
-.conversion
-	callfar ShowConversionMenu
-	jr c, .conversionChosen
-	jr .conversionGoBack
-;;;;;
 
 MoveNoPPText:
 	text_far _MoveNoPPText
@@ -3406,6 +3396,7 @@ ExecutePlayerMove:
 ;;;;;;;;;;
 	call GetCurrentMove
 	callfar SelfThawOnBurnMove ; Sunsette: a frozen mon using a heat move thaws itself + restores stats
+	callfar RestoreRoostedTypes ; Sunsette: if the user ROOSTed last turn, restore its FLYING/FLOATING now
 	ld hl, wPlayerBattleStatus1
 	bit CHARGING_UP, [hl] ; charging up for attack
 	jr nz, PlayerCanExecuteChargingMove
@@ -3518,13 +3509,10 @@ PlayerCheckIfFlyOrChargeEffect:
 	call PlayMoveAnimation
 MirrorMoveCheck:
 	ld a, [wPlayerMoveEffect]
-	cp MIRROR_MOVE_EFFECT
+	cp MIRROR_MOVE_EFFECT ; MOCKINGBIRD
 	jr nz, .metronomeCheck
-	call MirrorMoveCopyMove
-	jp z, ExecutePlayerMoveDone
-	xor a
-	ld [wMonIsDisobedient], a
-	jp CheckIfPlayerNeedsToChargeUp ; if Mirror Move was successful go back to damage calculation for copied move
+	callfar MockingbirdEffect_ ; MOCKINGBIRD: copy the foe's stat-stage changes onto the user, then -1 foe SPECIAL
+	jp ExecutePlayerMoveDone ; status move - no damage step
 .metronomeCheck
 	cp METRONOME_EFFECT
 	jr nz, .next
@@ -3603,6 +3591,7 @@ MirrorMoveCheck:
 	; which are the effects not covered yet. Rage effect will be executed for a second time (though it's irrelevant).
 	; Includes side effects that only need to be called if the target didn't faint.
 	; Responsible for executing Twineedle's second side effect (poison).
+	callfar SpeciesMoveBonus ; Sunsette: Moltres/Sky Attack, Zapdos/Drill Peck, Articuno/Whirlwind bonuses
 	jp ExecutePlayerMoveDone
 
 MultiHitText:
@@ -3819,7 +3808,7 @@ CheckPlayerStatusConditions:
 .ThrashingAboutCheck
 	bit THRASHING_ABOUT, [hl] ; is mon using thrash or petal dance?
 	jr z, .MultiturnMoveCheck
-	ld a, THRASH
+	ld a, THRASH ; OUTRAGE
 	ld [wPlayerMoveNum], a
 	ld hl, ThrashingAboutText
 	rst _PrintText
@@ -4366,6 +4355,12 @@ GetDamageVarsForPlayerAttack:
 	ld a, [wPlayerMoveNum] ; Sunsette: Egg Bomb is Normal-typed but attacks special
 	cp EGG_BOMB
 	jr z, .specialAttack
+	cp FIRE_PUNCH ; Sunsette: the elemental punches use whichever of the user's Attack/Special is higher (GHOST-style dynamic category), keeping their FIRE/ICE/ELECTRIC type
+	jr z, DynamicTypeCheckPlayer
+	cp ICE_PUNCH
+	jr z, DynamicTypeCheckPlayer
+	cp THUNDERPUNCH
+	jr z, DynamicTypeCheckPlayer
 	ld a, [hl] ; a = [wPlayerMoveType]
 	cp GHOST
 	jr z, DynamicTypeCheckPlayer
@@ -4508,6 +4503,12 @@ GetDamageVarsForEnemyAttack:
 	ld a, [wEnemyMoveNum] ; Sunsette: Egg Bomb is Normal-typed but attacks special
 	cp EGG_BOMB
 	jr z, .specialAttack
+	cp FIRE_PUNCH ; Sunsette: the elemental punches use whichever of the user's Attack/Special is higher (GHOST-style dynamic category), keeping their FIRE/ICE/ELECTRIC type
+	jr z, DynamicTypeCheckEnemy
+	cp ICE_PUNCH
+	jr z, DynamicTypeCheckEnemy
+	cp THUNDERPUNCH
+	jr z, DynamicTypeCheckEnemy
 	ld a, [hl] ; a = [wEnemyMoveType]
 	cp GHOST
 	jr z, DynamicTypeCheckEnemy
@@ -5027,14 +5028,14 @@ ApplyAttackToEnemyPokemon:
 	ld a, [wPlayerMoveNum]
 	cp SEISMIC_TOSS
 	jr z, .storeDamage
-	cp NIGHT_SHADE
+	cp NIGHT_SHADE ; PHANTASM
 	jr z, .storeDamage
 	ld b, SONICBOOM_DAMAGE ; 20
 	cp SONICBOOM
 	jr z, .storeDamage
 	; PureRGBnote: CHANGED: dragon rage doesn't do a set 40 damage anymore
 	;ld b, DRAGON_RAGE_DAMAGE ; 40 dragon rage was made a normal move instead of fixed damage
-	;cp DRAGON_RAGE
+	; cp DRAGON_RAGE (WYRM WRATH)
 	;jr z, .storeDamage
 ; Psywave ; PureRGBnote: CHANGED: Psywave is a basic low power psychic move now, don't need this old code for randomizing its damage
 ;	ld a, [hl]
@@ -5128,14 +5129,14 @@ ApplyAttackToPlayerPokemon:
 	ld a, [wEnemyMoveNum]
 	cp SEISMIC_TOSS
 	jr z, .storeDamage
-	; cp NIGHT_SHADE
+	; cp NIGHT_SHADE (PHANTASM)
 	; jr z, .storeDamage ; night shade was made a normal move instead of fixed damage
 	ld b, SONICBOOM_DAMAGE
 	cp SONICBOOM
 	jr z, .storeDamage
 	; PureRGBnote: CHANGED: dragon rage doesn't do a set 40 damage anymore
 	;ld b, DRAGON_RAGE_DAMAGE ; dragon rage was made a normal move instead of fixed damage
-	;cp DRAGON_RAGE
+	; cp DRAGON_RAGE (WYRM WRATH)
 	;jr z, .storeDamage
 ; Psywave ;; PureRGBnote: CHANGED: Psywave is now a basic low-power psychic move
 ;	ld a, [hl]
@@ -5303,74 +5304,13 @@ SubstituteBrokeText:
 
 ; PureRGBnote: CHANGED: rage's effect was changed so don't need code for it here.
 
-; copy last move for Mirror Move
-; sets zero flag on failure and unsets zero flag on success
-MirrorMoveCopyMove:
-; Mirror Move makes use of wPlayerUsedMove and wEnemyUsedMove,
-; which are mainly used to print the "[Pokemon] used [Move]" text.
-; PureRGBnote: CHANGED: now it uses wEnemyLastSelectedMove and wPlayerLastSelectedMove
-; which persist between switches and turns where the opponent can't move.
-; basically means mirror move will always use the previously used opponent move, 
-; no matter if the pokemon that used the move fainted, switched, etc.
-
-	ldh a, [hWhoseTurn]
-	and a
-; values for player turn
-	ld a, [wEnemyLastSelectedMove]
-	ld hl, wPlayerSelectedMove
-	ld de, wPlayerMoveNum
-	jr z, .next
-; values for enemy turn
-	ld a, [wPlayerLastSelectedMove]
-	ld de, wEnemyMoveNum
-	ld hl, wEnemySelectedMove
-.next
-	ld [hl], a
-	cp MIRROR_MOVE ; did the target Pokemon last use Mirror Move, and miss?
-	jr z, .mirrorMoveFailed
-	and a ; has the target selected any move yet?
-	jr nz, .doMirrorMove
-.mirrorMoveFailed
-	ld hl, MirrorMoveFailedText
-	rst _PrintText
-	xor a
-	ret
-;;;;;;;;;; PureRGBnote: ADDED: Mirror move has a small animation before using the mirrored move now
-;;;;;;;;;; Also, if it ends up using conversion, use the conversion mode the opponent last used.
-.doMirrorMove
-	ld a, [hl]
-	push af
-	ld [hl], MIRROR_MOVE
-	push hl
-	push de
-	call PlayCurrentMoveAnimation
-	pop de
-	pop hl
-	pop af
-	push af
-	cp CONVERSION
-	jr nz, .skipLoadConversionMode
-	ldh a, [hWhoseTurn]
-	and a
-	ld a, [wEnemyPreviousConversionMode]
-	jr z, .loadForcedConversionMode
-	ld a, [wPlayerConversionMode]
-.loadForcedConversionMode
-	inc a
-	ld [wForcedConversionMode], a
-.skipLoadConversionMode
-	pop af
-	ld [hl], a
-	jr ReloadMoveData
-;;;;;;;;;;
-
-MirrorMoveFailedText:
-	text_far _MirrorMoveFailedText
-	text_end
+; Sunsette: MirrorMoveCopyMove (the old "copy the foe's last move" routine) + MirrorMoveFailedText were
+; removed - MOCKINGBIRD no longer copies a move; it copies the foe's stat stages (see MockingbirdEffect_
+; in engine/battle/volcano_battle_init.asm), dispatched from MirrorMoveCheck / EnemyCheckIfMirrorMoveEffect.
 
 FarReloadMoveData::
 	ld a, [wNamedObjectIndex]
-; function used to reload move data for moves like Mirror Move and Metronome
+; function used to reload move data for moves like Metronome and Mimic
 ReloadMoveData:
 	ld [wNamedObjectIndex], a
 	dec a
@@ -5982,6 +5922,7 @@ ExecuteEnemyMove:
 	jr nz, EnemyCanExecuteChargingMove ; if so, jump
 	call GetCurrentMove
 	callfar SelfThawOnBurnMove ; Sunsette: a frozen mon using a heat move thaws itself + restores stats
+	callfar RestoreRoostedTypes ; Sunsette: if the user ROOSTed last turn, restore its FLYING/FLOATING now
 
 CheckIfEnemyNeedsToChargeUp:
 	ld a, [wEnemyMoveEffect]
@@ -6093,11 +6034,10 @@ EnemyCheckIfFlyOrChargeEffect:
 	call PlayMoveAnimation
 EnemyCheckIfMirrorMoveEffect:
 	ld a, [wEnemyMoveEffect]
-	cp MIRROR_MOVE_EFFECT
+	cp MIRROR_MOVE_EFFECT ; MOCKINGBIRD
 	jr nz, .notMirrorMoveEffect
-	call MirrorMoveCopyMove
-	jp z, ExecuteEnemyMoveDone
-	jp CheckIfEnemyNeedsToChargeUp
+	callfar MockingbirdEffect_ ; MOCKINGBIRD: copy the foe's stat-stage changes onto the user, then -1 foe SPECIAL
+	jp ExecuteEnemyMoveDone
 .notMirrorMoveEffect
 	cp METRONOME_EFFECT
 	jr nz, .notMetronomeEffect
@@ -6174,6 +6114,7 @@ EnemyCheckIfMirrorMoveEffect:
 	ld hl, SpecialEffects
 	call IsInSingleByteArray
 	call nc, JumpMoveEffect
+	callfar SpeciesMoveBonus ; Sunsette: Moltres/Sky Attack, Zapdos/Drill Peck, Articuno/Whirlwind bonuses
 	jr ExecuteEnemyMoveDone
 
 HitXTimesText:
@@ -6311,7 +6252,7 @@ CheckEnemyStatusConditions:
 	xor a
 	ld [wAnimationType], a
 	ldh [hWhoseTurn], a
-	ld a, POUND
+	ld a, POUND ; JOLT BOLT
 	call PlayMoveAnimation
 	ld a, $1
 	ldh [hWhoseTurn], a
@@ -6364,7 +6305,7 @@ CheckEnemyStatusConditions:
 .checkIfThrashingAbout
 	bit THRASHING_ABOUT, [hl] ; is mon using thrash or petal dance?
 	jr z, .checkIfUsingMultiturnMove
-	ld a, THRASH
+	ld a, THRASH ; OUTRAGE
 	ld [wEnemyMoveNum], a
 	ld hl, ThrashingAboutText
 	rst _PrintText
@@ -7157,11 +7098,12 @@ HandleExplodingAnimation:
 	ret nz
 	ld a, ANIMATIONTYPE_SHAKE_SCREEN_HORIZONTALLY_LIGHT
 	ld [wAnimationType], a
-	ASSERT ANIMATIONTYPE_SHAKE_SCREEN_HORIZONTALLY_LIGHT == MEGA_PUNCH
-	; ld a, MEGA_PUNCH
+	ASSERT ANIMATIONTYPE_SHAKE_SCREEN_HORIZONTALLY_LIGHT == MEGA_PUNCH ; HAYMAKER
+	; ld a, MEGA_PUNCH (HAYMAKER)
 ; fallthrough
 PlayMoveAnimation:
 	ld [wAnimationID], a
+	callfar SolarBeamAnimSwap ; Sunsette: SolarBeam's non-fire charge turn shows the MEGA DRAIN animation instead of the beam
 	vc_hook_red Reduce_move_anim_flashing_Confusion
 	call Delay3
 	vc_hook_red Reduce_move_anim_flashing_Psychic

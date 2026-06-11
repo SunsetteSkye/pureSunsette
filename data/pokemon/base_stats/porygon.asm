@@ -10,7 +10,7 @@
 	INCBIN "gfx/pokemon/front/porygon.pic", 0, 1 ; sprite dimensions
 	dw PorygonPicFront, PorygonPicBackSW
 
-	db TACKLE, SHARPEN, KINESIS, MIRROR_MOVE ; level 1 learnset
+	db TACKLE, SHARPEN, KINESIS, MIRROR_MOVE ; level 1 learnset (MOCKINGBIRD)
 	db GROWTH_FAST ; growth rate
 
 	; tm/hm learnset
@@ -22,7 +22,7 @@
 	DOUBLE_EDGE,\
 	AURORA_BEAM,\
 	ICE_BEAM,\
-	BLIZZARD,\
+	BLIZZARD,\ ; SLEET STORM
 	HYPER_BEAM,\
 	BARRIER,\
 	SOLARBEAM,\
@@ -32,14 +32,14 @@
 	MEGA_DRAIN,\
 	KINESIS,\ ; MIRAGE
 	REFLECT,\
-	BIDE,\
-	BARRAGE,\
+	BIDE,\ ; BULK UP
+	BARRAGE,\ ; SHADOW BALL
 	FIRE_BLAST,\
 	FLAMETHROWER,\
 	MEDITATE,\
 	LIGHT_SCREEN,\
 	THUNDER_WAVE,\
-	PSYBEAM,\
+	PSYWAVE,\ ; MINDWIPE
 	SUBSTITUTE,\
 	FLASH
 	; end

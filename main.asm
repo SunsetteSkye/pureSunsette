@@ -49,7 +49,6 @@ INCLUDE "engine/overworld/clear_variables.asm"
 INCLUDE "engine/overworld/player_state.asm"
 INCLUDE "engine/events/poison.asm"
 INCLUDE "engine/overworld/tilesets.asm"
-INCLUDE "engine/overworld/daycare_exp.asm"
 INCLUDE "data/maps/toggleable_objects.asm"
 INCLUDE "engine/overworld/field_move_messages.asm"
 INCLUDE "engine/items/inventory.asm"
@@ -455,6 +454,8 @@ INCLUDE "engine/overworld/flamethrower_field.asm" ; Sunsette: ADDED: FLAMETHROWE
 INCLUDE "engine/battle/play_side_anim.asm" ; Sunsette: ADDED: affection/Pressure overlay cues (moved out of full Battle Core)
 INCLUDE "engine/battle/move_effects/waterify.asm" ; Sunsette: ADDED: WATERIFY_EFFECT (Water Gun / Hydro Pump retype target to WATER)
 INCLUDE "engine/battle/freeze_penalty.asm" ; Sunsette: ADDED: FREEZE halves Special + Speed instead of skipping the turn
+INCLUDE "engine/events/locked_area_lockout.asm" ; Sunsette: ADDED: morale lockout - confirm before leaving a gym/Silph 2F+/Rocket Hideout pre-boss
+INCLUDE "engine/overworld/daycare_exp.asm" ; Sunsette: moved out of full bank3 - time-based daycare reward (callfar'd, bank-agnostic)
 
 SECTION "newCode2", ROMX
 

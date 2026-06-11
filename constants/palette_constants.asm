@@ -121,4 +121,5 @@ DEF SET_PAL_DEFAULT EQU $ff
 	const PAL_MTMOONB2F ; Sunsette: Mt. Moon B2F-only cave palette (clears to PAL_CAVE on B1F/1F)
 	const PAL_SHADOW ; Sunsette: evolution morph silhouette palette (replaces PAL_BLACK for the morph)
 	const PAL_VERMILIONGOLD ; Sunsette: Vermilion palette with the orange swapped for Saffron's gold (Routes 12-15)
+	const PAL_MINDWIPE ; Sunsette: MINDWIPE all-gray mon palette (true grayscale, no purple tint like PAL_GRAYMON)
 DEF NUM_SGB_PALS EQU const_value

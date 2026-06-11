@@ -29,3 +29,7 @@
 *.sn*
 *.sa*
 *.sg1
+
+# scratch/playtest tooling (build-critical sources in tools/ stay tracked;
+# git never un-tracks already-committed files, so this only ignores untracked scratch)
+tools/

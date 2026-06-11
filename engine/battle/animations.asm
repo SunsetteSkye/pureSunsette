@@ -1519,6 +1519,14 @@ AnimationSlideMonOff:
 	ld [wSlideMonDelay], a
 	jp _AnimationSlideMonOff
 
+AnimationSlideMonOffFast:
+; Sunsette: like AnimationSlideMonOff but waits only 1 V-blank per tile (vs 3) - a much snappier slide,
+; used by Quick Attack. Separate effect so Low Kick/Substitute/Seismic Toss keep the normal speed.
+	ld e, 8
+	ld a, 1
+	ld [wSlideMonDelay], a
+	jp _AnimationSlideMonOff
+
 AnimationSlideEnemyMonOff:
 ; Slides the enemy mon off the screen horizontally.
 	ld hl, AnimationSlideMonOff
@@ -2752,7 +2760,7 @@ IsCryMove:
 	ld a, [wAnimationID]
 	cp GROWL
 	jr z, .CryMove
-	cp ROAR
+	cp ROAR ; BELLOW
 	jr z, .CryMove
 	and a ; clear carry
 	ret

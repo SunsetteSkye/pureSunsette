@@ -698,7 +698,7 @@ PrintNothingHappenedText:
 	jr z, .playerTurn
 	ld a, [wEnemyMoveNum]
 .playerTurn
-	cp SUBMISSION
+	cp SUBMISSION ; FULL NELSON
 	ret z ; if the move is a side effect, skip writing "nothing happened"
 	cp RAGE
 	ret z ; if the move is a side effect, skip writing "nothing happened"
@@ -1208,7 +1208,7 @@ ChargeMoveEffectText:
 	;cp SOLARBEAM
 	;ld hl, TookInSunlightText
 	;ret z
-	;cp SKULL_BASH
+	;cp SKULL_BASH (METEOR DRIVE)
 	;ld hl, LoweredItsHeadText
 	;ret z
 	;cp SKY_ATTACK
@@ -1414,12 +1414,17 @@ ClearHyperBeam:
 	;set USING_RAGE, [hl] ; mon is now in "rage" mode
 	;ret
 
+; Sunsette: CONVERSION now reuses Mimic's "copy a foe's move and use it immediately" flow, then also
+; retypes the user to the copied move's type. The two entries differ only by a flag: ConversionEffect
+; sets wConversionRetype, MimicEffect clears it; both share the body below. After the move is copied and
+; reloaded, the flag decides whether we retype the user (to the move's type, for STAB) before executing.
 ConversionEffect:
-	callfar ConversionEffect_
-	ret nc
-	jp ExecuteReplacedMove
-
+	ld a, 1
+	jr MimicCommon
 MimicEffect:
+	xor a
+MimicCommon:
+	ld [wConversionRetype], a
 	ld c, 50
 	rst _DelayFrames
 	call MoveHitTest
@@ -1438,7 +1443,7 @@ MimicEffect:
 	ld a, [wEnemyBattleStatus1]
 .enemyTurn
 	bit INVULNERABLE, a
-	jr nz, MimicMissed
+	jp nz, MimicMissed
 .getRandomMove
 	push hl
 	call BattleRandom
@@ -1501,6 +1506,10 @@ MimicEffect:
 	pop af
 	ld [hl], a
 	call ReloadMoveData
+	ld a, [wConversionRetype]
+	and a
+	jp z, ExecuteReplacedMove ; plain Mimic - just use the copied move
+	callfar ConversionRetypeUser_ ; Sunsette: CONVERSION - retype the user to the copied move's type (in wPlayerMoveType, reloaded just above), then use it
 	; fall through
 ExecuteReplacedMove::
 	ldh a, [hWhoseTurn]

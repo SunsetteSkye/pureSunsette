@@ -6,7 +6,8 @@ SpecialEffects:
 	db EXPLODE_EFFECT
 	db DREAM_EATER_EFFECT
 	db PAY_DAY_EFFECT
-	db SWIFT_EFFECT
+	; Sunsette: SWIFT_EFFECT removed - it now has a post-damage side effect (30% -1 EVASION), so it must
+	; get the .executeOtherEffects JumpMoveEffect call instead of being skipped here.
 	db TWO_OR_THREE_ATTACKS_EFFECT ; PureRGBnote: ADDED:
 	db TWO_TO_FIVE_ATTACKS_EFFECT
 	db CHARGE_EFFECT
@@ -21,6 +22,8 @@ SpecialEffects:
 	db EXPLODE_RECOIL_EFFECT ; PureRGBnote: ADDED:
 	db SIPHON_SNAG_EFFECT ; PureRGBnote: ADDED:
 	db HEAT_RUSH_EFFECT ; PureRGBnote: ADDED:
+	db SOLARBEAM_EFFECT ; Sunsette: kept out of the post-damage executeOtherEffects pass; it runs once via AlwaysHappenSideEffects
+	db JOLT_BOLT_EFFECT ; Sunsette: ditto - runs once via AlwaysHappenSideEffects, not again post-damage
 	; fallthrough
 SpecialEffectsCont:
 ; damaging moves whose effect is executed prior to damage calculation

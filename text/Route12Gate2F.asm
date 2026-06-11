@@ -10,7 +10,7 @@ _Route12Gate2FBrunetteGirlYouCanHaveThisText::
 
 _Route12Gate2FBrunetteGirlTM39ExplanationText::
 	text "<TM>39 is"
-	line "FILTHY SLAM."
+	line "WASTEMAKER."
 
 	para "It's a strong"
 	line "POISON type move."

@@ -10,7 +10,7 @@
 	INCBIN "gfx/pokemon/front/dragonite.pic", 0, 1 ; sprite dimensions
 	dw DragonitePicFront, DragonitePicBackSW
 
-	db WRAP, LEER, ROAR, NO_MOVE ; level 1 learnset
+	db WRAP, LEER, ROAR, NO_MOVE ; level 1 learnset (BELLOW)
 	db GROWTH_SLOW ; growth rate
 
 	; tm/hm learnset
@@ -25,18 +25,19 @@
 	BUBBLEBEAM,\
 	AURORA_BEAM,\
 	ICE_BEAM,\
-	BLIZZARD,\
+	BLIZZARD,\ ; SLEET STORM
 	HYPER_BEAM,\
-	DRAGON_RAGE,\
+	SOLARBEAM,\
+	DRAGON_RAGE,\ ; WYRM WRATH
 	THUNDERBOLT,\
 	THUNDER,\
 	KINESIS,\ ; MIRAGE
 	REFLECT,\
-	BIDE,\
-	BARRAGE,\
+	BIDE,\ ; BULK UP
+	BARRAGE,\ ; SHADOW BALL
 	FIRE_BLAST,\
 	FLAMETHROWER,\
-	SLAM,\ ; FILTHY SLAM
+	SLAM,\ ; WASTEMAKER
 	KARATE_CHOP,\
 	LIGHT_SCREEN,\
 	THUNDER_WAVE,\

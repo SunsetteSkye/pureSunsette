@@ -250,7 +250,7 @@ MoveDexQuestion2::
 	dw FourOptionMenu
 	db   "AGILITY"
 	next "QUICK ATTACK"
-	next "WHIRLWIND"
+	next "HURRICANE"
 	next "PIN MISSILE@"
 
 MoveDexQuestion3::

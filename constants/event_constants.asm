@@ -45,7 +45,8 @@
 	const EVENT_VIRIDIAN_GYM_OPEN
 	const EVENT_GOT_TM42
 	const EVENT_USING_MAX_REPEL
-	const_skip 13
+	const EVENT_GOT_POKEBALLS_FROM_MOM ; Sunsette: Mom gifts 5 Poke Balls the first time you visit after getting the #DEX (claimed from the skip below; Pallet's own byte is full)
+	const_skip 12
 	const EVENT_OAK_GOT_PARCEL
 	const EVENT_GOT_OAKS_PARCEL
 	const EVENT_CHECKED_AROUND_SCHOOLHOUSE

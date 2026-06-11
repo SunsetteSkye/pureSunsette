@@ -46,6 +46,7 @@ DaycareGentlemanText:
 	rst _PrintText
 	ld a, 1
 	ld [wDayCareInUse], a
+	callfar StampDayCareDeposit ; Sunsette: record deposit play-time + save this mon's affection (before RemovePokemon shifts the array)
 	ld a, PARTY_TO_DAYCARE
 	ld [wMoveMonType], a
 	call MoveMon
@@ -58,6 +59,7 @@ DaycareGentlemanText:
 	jp .done
 
 .daycareInUse
+	callfar ApplyDayCareTimeGains ; Sunsette: grant the time-based EXP/stat-exp/affection before the level is read
 	xor a
 	ld hl, wDayCareMonName
 	call GetPartyMonName
@@ -164,6 +166,7 @@ DaycareGentlemanText:
 	ld a, DAYCARE_TO_PARTY
 	ld [wMoveMonType], a
 	call MoveMon
+	callfar RestoreDayCareHappiness ; Sunsette: restore the daycare mon's (grown) affection to its new party slot
 	ld a, [wDayCareMonSpecies]
 	ld [wCurPartySpecies], a
 	ld a, [wPartyCount]

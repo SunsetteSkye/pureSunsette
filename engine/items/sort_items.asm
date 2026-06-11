@@ -240,23 +240,23 @@ ItemSortedList:
 	db TM_PIN_MISSILE  ; $CC
 	db TM_FIRE_PUNCH   ; $CD
 	db TM_TOXIC        ; $CE
-	db TM_HORN_DRILL   ; $CF
+	db TM_HORN_DRILL   ; $CF (WICKED DRILL)
 	db TM_BODY_SLAM    ; $D0
 	db TM_DISABLE    	; $D1
 	db TM_DOUBLE_EDGE  ; $D2
 	db TM_BUBBLEBEAM   ; $D3
 	db TM_AURORA_BEAM  ; $D4
 	db TM_ICE_BEAM     ; $D5
-	db TM_BLIZZARD     ; $D6
+	db TM_BLIZZARD     ; $D6 (SLEET STORM)
 	db TM_HYPER_BEAM   ; $D7
 	db TM_AMNESIA      ; $D8
-	db TM_HI_JUMP_KICK ; $D9
+	db TM_LOW_KICK     ; $D9 ; LOW KICK
 	db TM_THUNDERPUNCH ; $DA
-	db TM_ROLLING_KICK ; $DB
+	db TM_ROLLING_KICK ; $DB (METEOR SWEEP)
 	db TM_BARRIER      ; $DC
 	db TM_RAZOR_LEAF   ; $DD
 	db TM_SOLARBEAM    ; $DE
-	db TM_DRAGON_RAGE  ; $DF
+	db TM_DRAGON_RAGE  ; $DF (WYRM WRATH)
 	db TM_THUNDERBOLT  ; $E0
 	db TM_THUNDER      ; $E1
 	db TM_EARTHQUAKE   ; $E2
@@ -267,20 +267,20 @@ ItemSortedList:
 	db TM_KINESIS      ; $E7 MIRAGE
 	db TM_SWORDS_DANCE ; $E8
 	db TM_REFLECT      ; $E9
-	db TM_BIDE         ; $EA 
+	db TM_BIDE         ; $EA (BULK UP)
 	db TM_SONICBOOM    	; $EB
-	db TM_BARRAGE 		; $EC
+	db TM_BARRAGE 		; $EC (SHADOW BALL)
 	db TM_FLAMETHROWER ; $ED
 	db TM_FIRE_BLAST   ; $EE
-	db TM_SLAM        	; $EF FILTHY SLAM
+	db TM_SLAM        	; $EF (WASTEMAKER)
 	db TM_KARATE_CHOP  ; $F0
 	db TM_MEDITATE   	; $F1 
 	db TM_LOVELY_KISS  ; $F2
 	db TM_SKY_ATTACK   ; $F3
 	db TM_LIGHT_SCREEN ; $F4
 	db TM_THUNDER_WAVE ; $F5
-	db TM_PSYBEAM      ; $F6
-	db TM_SLUDGE    	; $F7
+	db TM_PSYWAVE      ; $F6 ; MINDWIPE
+	db TM_SLUDGE    	; $F7 (SLUDGE BOMB)
 	db TM_ROCK_SLIDE   ; $F8
 	db TM_GLARE   		; $F9
 	db TM_SUBSTITUTE   ; $FA

@@ -9,7 +9,7 @@ MoveEffectPointerTable:
 	dw FreezeBurnParalyzeEffect  ; PARALYZE_SIDE_EFFECT1
 	dw DoRet                     ; EXPLODE_EFFECT
 	dw DrainHPEffect             ; DREAM_EATER_EFFECT
-	dw NULL                      ; MIRROR_MOVE_EFFECT
+	dw NULL                      ; MIRROR_MOVE_EFFECT (MOCKINGBIRD)
 	dw StatModifierUpEffect      ; ATTACK_UP1_EFFECT
 	dw StatModifierUpEffect      ; DEFENSE_UP1_EFFECT
 	dw StatModifierUpEffect      ; SPEED_UP1_EFFECT
@@ -17,7 +17,7 @@ MoveEffectPointerTable:
 	dw StatModifierUpEffect      ; ACCURACY_UP1_EFFECT
 	dw StatModifierUpEffect      ; EVASION_UP1_EFFECT
 	dw PayDayEffect              ; PAY_DAY_EFFECT
-	dw NULL                      ; SWIFT_EFFECT
+	dw HazeEffect                ; SWIFT_EFFECT ; Sunsette: shares the Haze/Flash trampoline; the floating HazeFlinchEffect_ dispatches it to SwiftEffect_ (30% -1 EVASION). Never-miss is still handled by the hit-test.
 	dw StatModifierDownEffect    ; ATTACK_DOWN1_EFFECT
 	dw StatModifierDownEffect    ; DEFENSE_DOWN1_EFFECT
 	dw StatModifierDownEffect    ; SPEED_DOWN1_EFFECT
@@ -102,4 +102,9 @@ MoveEffectPointerTable:
 	dw DisableEffectCore         ; CUT_DISABLE_EFFECT ; Sunsette: runs after Cut's damage -> disable the target's last move (in Battle Core, so no trampoline needed)
 	dw NULL                      ; SPEED_UP_SIDE_EFFECT ; Sunsette: moved here from $23 (NULL handler; Meditate applies it via stat-mapping)
 	dw HazeEffect                ; FLASH_EFFECT ; Sunsette: shares Haze's Battle Core trampoline (Battle Core is full); the floating HazeFlinchEffect_ dispatches Haze vs Flash by effect
+	dw HazeEffect                ; ACCURACY_DOWN_SIDE_EFFECT ; Sunsette: also shares the Haze trampoline; HazeFlinchEffect_ dispatches it to GustAccuracyEffect_ (30% -1 ACCURACY, post-damage)
+	dw HazeEffect                ; SOLARBEAM_EFFECT ; Sunsette: also shares the Haze trampoline; HazeFlinchEffect_ dispatches it to SolarBeamEffect_ (drain+prime / release-burn / fire recoil+burn)
+	dw HazeEffect                ; MINDWIPE_EFFECT ; Sunsette: also shares the Haze trampoline; HazeFlinchEffect_ dispatches it to MindwipeEffect_ (retype BUG + gray + -1 ACC, no damage)
+	dw HazeEffect                ; ROOST_EFFECT ; Sunsette: also shares the Haze trampoline; HazeFlinchEffect_ dispatches it to RoostEffect_ (heal + natural-type/palette refresh + strip FLYING/FLOATING)
+	dw HazeEffect                ; JOLT_BOLT_EFFECT ; Sunsette: also shares the Haze trampoline; HazeFlinchEffect_ dispatches it to JoltBoltEffect_ (50% chance +1 user EVASION, post-damage)
 	assert_table_length NUM_MOVE_EFFECTS

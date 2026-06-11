@@ -10,7 +10,7 @@
 	INCBIN "gfx/pokemon/front/omanyte.pic", 0, 1 ; sprite dimensions
 	dw OmanytePicFront, OmanytePicBackSW
 
-	db WATER_GUN, HORN_ATTACK, NO_MOVE, NO_MOVE ; level 1 learnset
+	db WATER_GUN, HORN_ATTACK, NO_MOVE, NO_MOVE ; level 1 learnset (METEOR HORN)
 	db GROWTH_MEDIUM_FAST ; growth rate
 
 	; tm/hm learnset
@@ -24,7 +24,7 @@
 	BUBBLEBEAM,\
 	AURORA_BEAM,\
 	ICE_BEAM,\
-	BLIZZARD,\
+	BLIZZARD,\ ; SLEET STORM
 	AMNESIA,\
 	BARRIER,\
 	EARTHQUAKE,\
@@ -32,10 +32,10 @@
 	DIG,\
 	MEGA_DRAIN,\
 	REFLECT,\
-	BIDE,\
-	BARRAGE,\
-	SLAM,\ ; FILTHY SLAM
-	SLUDGE,\
+	BIDE,\ ; BULK UP
+	BARRAGE,\ ; SHADOW BALL
+	SLAM,\ ; WASTEMAKER
+	SLUDGE,\ ; SLUDGE BOMB
 	ROCK_SLIDE,\
 	GLARE,\
 	SUBSTITUTE,\

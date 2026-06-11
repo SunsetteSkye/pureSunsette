@@ -10,7 +10,7 @@
 	INCBIN "gfx/pokemon/front/tauros.pic", 0, 1 ; sprite dimensions
 	dw TaurosPicFront, TaurosPicBackSW
 
-	db TACKLE, HORN_ATTACK, NO_MOVE, NO_MOVE ; level 1 learnset
+	db TACKLE, HORN_ATTACK, NO_MOVE, NO_MOVE ; level 1 learnset (METEOR HORN)
 	db GROWTH_MEDIUM_SLOW ; growth rate
 
 	; tm/hm learnset
@@ -18,22 +18,22 @@
 	DISABLE,\
 	PIN_MISSILE,\
 	TOXIC,\
-	HORN_DRILL,\
+	HORN_DRILL,\ ; WICKED DRILL
 	BODY_SLAM,\
 	DOUBLE_EDGE,\
 	AURORA_BEAM,\
 	ICE_BEAM,\
-	BLIZZARD,\
+	BLIZZARD,\ ; SLEET STORM
 	HYPER_BEAM,\
 	THUNDERBOLT,\
 	THUNDER,\
 	EARTHQUAKE,\
 	SWORDS_DANCE,\
-	BIDE,\
-	BARRAGE,\
+	BIDE,\ ; BULK UP
+	BARRAGE,\ ; SHADOW BALL
 	FIRE_BLAST,\
 	FLAMETHROWER,\
-	SLAM,\ ; FILTHY SLAM
+	SLAM,\ ; WASTEMAKER
 	ROCK_SLIDE,\
 	GLARE,\
 	SUBSTITUTE,\

@@ -208,7 +208,7 @@ ReadTrainer:
 ;	cp STARTER1
 ;	ld b, FIRE_BLAST
 ;	jr z, .GiveStarterMove
-;	ld b, BLIZZARD ; must be squirtle
+; ld b, BLIZZARD ; must be squirtle (SLEET STORM)
 ;.GiveStarterMove
 ;	ld a, b
 ;	ld [wEnemyMon6Moves + 2], a

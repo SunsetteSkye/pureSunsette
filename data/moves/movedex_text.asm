@@ -1,13 +1,25 @@
 ; PureRGBnote: ADDED: text pointers for the descriptions that show up in the movedex.
 
 _PoundDexEntry::
-	text "Pounds the foe"
-	next "with a leg, tail"
-	next "or hand."
-	; fall through
+	text "A swift jolt of"
+	next "electricity that"
+	next "always strikes"
+	next "first."
+
+	bage "50% chance to"
+	next "raise the user's"
+	cont "EVASION by 1."
+	dex
+
 _GenericNoAdditionalEffectText::
 	bage "No additional"
 	next "effect"
+	dex
+
+_Generic30PercentLowerEvasionText:: ; Sunsette: shared by the SWIFT_EFFECT auto-hit moves
+	bage "30% chance to"
+	next "lower the foe's"
+	next "EVASION"
 	dex
 
 _KarateChopDexEntry::
@@ -73,7 +85,12 @@ _FirePunchDexEntry::
 	text "Punches the foe"
 	next "with a burning"
 	next "fist."
-	; fall through
+
+	bage "Hits with the"
+	next "user's higher of"
+	cont "ATTACK or SPECIAL."
+	dex
+
 _Generic10PercentBurnText::
 	bage "10% chance of"
 	next "burning the foe"
@@ -84,16 +101,21 @@ _IcePunchDexEntry::
 	next "with a freezing"
 	next "fist."
 
-	bage "10% chance of"
-	next "freezing the foe"
-	next "solid"
+	bage "Hits with the"
+	next "user's higher of"
+	cont "ATTACK or SPECIAL."
 	dex
 
 _ThunderPunchDexEntry::
 	text "Zaps the foe with"
 	next "an electrically"
 	next "charged fist."
-	; fall through
+
+	bage "Hits with the"
+	next "user's higher of"
+	cont "ATTACK or SPECIAL."
+	dex
+
 _Generic10PercentParalysisText::
 	bage "10% chance of"
 	next "paralyzing the"
@@ -108,10 +130,11 @@ _ScratchDexEntry::
 	text_jump _GenericNoAdditionalEffectText
 
 _VicegripDexEntry::
-	text "Crushes the foe"
-	next "between claws,"
-	next "hands, or jaws."
-	; fall through
+	text "An inescapable"
+	next "bite that never"
+	next "misses.@"
+	text_jump _Generic30PercentLowerEvasionText
+
 _Generic30PercentParalysisText::
 	bage "30% chance of"
 	next "paralyzing the"
@@ -143,9 +166,16 @@ _GenericOHKOText::
 
 _RazorWindDexEntry::
 	text "The <user> lands"
-	next "from flying and"
-	next "rests."
-	; fall through
+	next "to rest, healing"
+	next "half its HP."
+
+	bage "It sheds FLYING /"
+	next "FLOATING for the"
+	cont "turn, and snaps"
+	cont "back to its true"
+	cont "TYPE."
+	dex
+
 _GenericHealsHalfText::
 	bage "Heals half of"
 	next "<user>'s max HP"
@@ -181,7 +211,11 @@ _GustDexEntry::
 	text "Kicks up a gust"
 	next "of wind towards"
 	next "the <opponent>.@"
-	text_jump _Generic30PercentFlinchText
+
+	bage "30% chance to"
+	next "lower the foe's"
+	next "ACCURACY."
+	dex
 
 _WingAttackDexEntry::
 	text "Strikes and slaps"
@@ -221,13 +255,16 @@ _BindDexEntry::
 	text_jump _GenericTrappingMoveText
 
 _SlamDexEntry::
-	text "Slams the foe"
+	text "Wastes the foe"
 	next "with a dirty tail"
 	next "leg, arm, etc. "
 
-	bage "Power increases to"
-	next "130 if opponent is"
-	next "poisoned"
+	bage "Power rises to 130"
+	next "if the foe is"
+	next "poisoned."
+
+	bage "Also DISABLEs the"
+	next "foe's last move!"
 	dex
 
 
@@ -264,7 +301,7 @@ _MegaKickDexEntry::
 
 	bage "weight behind it.@"
 
-	text_jump _GenericNoAdditionalEffectText
+	text_jump _Generic30PercentParalysisText
 
 _JumpKickDexEntry::
 	text "Jumps through the"
@@ -282,10 +319,11 @@ _GenericKeptGoingCrashedText::
 
 _RollingKickDexEntry::
 	text "Rolls like a"
-	next "stone to deliver"
-	next "a rock-hard kick.@"
+	next "stone for a kick"
+	next "that never"
+	next "misses.@"
 
-	text_jump _Generic30PercentFlinchText
+	text_jump _Generic30PercentLowerEvasionText
 
 _SandAttackDexEntry::
 	text "Blinds the foe"
@@ -473,8 +511,8 @@ _GrowlDexEntry::
 
 _RoarDexEntry::
 	text "A loud scary"
-	next "roar or bark that"
-	next "hurts the ears."
+	next "bellow or bark"
+	next "that hurts ears."
 	; fall through
 _Generic33PercentLowerAttackText::
 	bage "33% chance to"
@@ -608,9 +646,11 @@ _HydroPumpDexEntry::
 _SurfDexEntry::
 	text "The whole area"
 	next "is flooded. This"
-	next "can't miss.@"
+	next "can't miss."
 
-	text_call _Generic33PercentLowerSpeedText
+	bage "30% chance to"
+	next "lower the foe's"
+	next "EVASION."
 
 	bage "Usable outside"
 	next "battle to travel"
@@ -635,7 +675,7 @@ _BlizzardDexEntry::
 	bage "batters the foe"
 	next "and cannot miss.@"
 
-	text_jump _GenericNoAdditionalEffectText
+	text_jump _Generic30PercentLowerEvasionText
 
 _PsybeamDexEntry::
 	text "Psychic power"
@@ -663,7 +703,7 @@ _AuroraBeamDexEntry::
 
 	bage "at the <opponent>.@"
 
-	text_jump _Generic33PercentLowerAttackText
+	text_jump _Generic30PercentConfusionText
 
 _HyperBeamDexEntry::
 	text "A powerful beam;"
@@ -695,7 +735,9 @@ _DrillPeckDexEntry::
 	next "pecking attack"
 	next "with a beak/horn.@"
 
-	text_jump _Generic30PercentFlinchText
+	bage "Also DISABLEs the"
+	next "foe's last move!"
+	dex
 
 _SubmissionDexEntry::
 	text "The <user> puts"
@@ -713,9 +755,9 @@ _GenericRaisesAttack1StageText::
 	dex
 
 _LowKickDexEntry::
-	text "A low-sweeping"
-	next "kick that can"
-	next "trip up the foe.@"
+	text "A low kick that"
+	next "hits harder the"
+	next "heavier the foe.@"
 
 	text_jump _Generic30PercentFlinchText
 
@@ -832,10 +874,18 @@ _RazorLeafDexEntry::
 	text_jump _GenericOftenLandsCriticalHitsText
 
 _SolarbeamDexEntry::
-	text "Focuses sunlight"
-	next "into a powerful"
-	next "searing beam.@"
-	text_jump _Generic25PercentRecoilText
+	text "Soaks up light,"
+	next "then fires it as"
+	next "a searing beam."
+
+	bage "The 2nd use in a"
+	next "row hits double"
+	next "and may BURN."
+
+	bage "FIRE types fire"
+	next "now: weaker, and"
+	next "it recoils."
+	dex
 
 _PoisonPowderDexEntry::
 	text "A poisonous dust"
@@ -955,7 +1005,7 @@ _EarthquakeDexEntry::
 	next "to by trainers as"
 	next "“Old Reliable”@"
 
-	text_jump _GenericNoAdditionalEffectText
+	text_jump _Generic30PercentLowerEvasionText
 
 _FissureDexEntry::
 	text "The <user> creates"
@@ -1177,9 +1227,12 @@ _HardenDexEntry::
 _MinimizeDexEntry::
 	text "The <user> shrinks"
 	next "to a tiny size to"
-	next "avoid being hit.@"
+	next "avoid being hit."
 
-	text_jump _GenericRaisesEvasion1StageText
+	bage "Raises <user>'s"
+	next "EVASION sharply."
+	next "(+2 EVASION)"
+	dex
 
 _SmokescreenDexEntry::
 	text "Black smoke is"
@@ -1336,14 +1389,18 @@ _MetronomeDexEntry::
 	dex
 
 _MirrorMoveDexEntry::
-	text "Uses the last"
-	next "move any foe"
-	next "used.@"
+	text "The <user> mimics"
+	next "the foe, copying"
+	next "all its stat"
+
+	bage "changes onto"
+	next "itself.@"
 
 	text_call _GenericAlwaysGoesFirstText
 
-	bage "Fails if no foe"
-	next "has attacked yet"
+	bage "Then lowers the"
+	next "foe's SPECIAL"
+	next "by one stage."
 	dex
 
 _SelfdestructDexEntry::
@@ -1453,13 +1510,15 @@ _ClampDexEntry::
 
 
 _SwiftDexEntry::
-	text "A biting cold"
-	next "snap of frost"
-	next "strikes the foe."
+	text "Flings a barrage"
+	next "of tiny stars"
+	next "that never miss"
 
-	bage "Always goes"
-	next "first and"
-	next "never misses."
+	bage "and strike vital"
+	next "spots often."
+
+	bage "May also lower"
+	next "the foe's EVASION."
 	dex
 
 _SkullBashDexEntry::
@@ -1487,15 +1546,11 @@ _SpikeCannonDexEntry::
 	dex
 
 _ConstrictDexEntry::
-	text "The <opponent> is"
-	next "snared with a"
-	next "powerful tendril"
+	text "The foe is snared"
+	next "and crushed by a"
+	next "choking vine.@"
 
-	bage "or vine or such"
-	next "that chokes the"
-	next "foe.@"
-
-	text_jump _Generic33PercentLowerSpecialText
+	text_jump _Generic30PercentParalysisText
 
 _AmnesiaDexEntry::
 	text "The <user> empties"
@@ -1561,11 +1616,14 @@ _GlareDexEntry::
 	dex
 
 _DreamEaterDexEntry::
-	text "Eat a foe's hopes"
-	next "and dreams to"
+	text "Drains life from"
+	next "a weakened foe to"
 	next "regain HP."
 
-	text_jump _GenericAbsorbMoveText
+	bage "Heals only if the"
+	next "foe has a status"
+	next "or is confused."
+	dex
 
 _PoisonGasDexEntry::
 	text "Releases a cloud"
@@ -1580,17 +1638,11 @@ _PoisonGasDexEntry::
 	dex
 
 _BarrageDexEntry::
-	text "Gathers spirit"
-	next "energy and hurls"
-	next "it at the foe."
+	text "Hurls a sinister"
+	next "blob of ghostly"
+	next "energy.@"
 
-	bage "Where this"
-	next "ghostly power"
-	next "comes from is"
-
-	bage "unknown.@"
-
-	text_jump _GenericHitsTwiceText
+	text_jump _Generic33PercentLowerSpecialText
 
 _LeechLifeDexEntry::
 	text "Bites and sucks"
@@ -1683,18 +1735,26 @@ _FlashDexEntry::
 	next "first and deals"
 	next "no damage."
 
-	bage "Sharply raises"
-	next "ACCURACY; may"
-	next "flinch the foe"
+	bage "Sharply lowers"
+	next "the foe's"
+	next "EVASION; may"
 
-	bage "30% of the time."
+	bage "flinch the foe"
+	next "30% of the time."
 	dex
 
 _PsywaveDexEntry::
-	text "A small psychic"
-	next "wave hits the"
-	next "<opponent>."
-	; fall through
+	text "A psychic pulse"
+	next "that blanks the"
+	next "foe's mind."
+
+	bage "No damage. Resets"
+	next "the foe to the"
+	next "BUG type and"
+	cont "lowers its"
+	cont "ACCURACY."
+	dex
+
 _Generic33PercentLowerSpecialText::
 	bage "33% chance to"
 	next "lower SPECIAL."
@@ -1745,7 +1805,7 @@ _ExplosionDexEntry::
 
 _FurySwipesDexEntry::
 	text "Scratches the foe"
-	next "with dust-ridden"
+	next "with mud-caked"
 	next "claws.@"
 
 	text_jump _GenericNoAdditionalEffectText
@@ -1803,29 +1863,20 @@ _SharpenDexEntry::
 	dex
 
 _ConversionDexEntry::
-	text "The <user> analyzes"
-	next "the <opponent> and"
-	next "upgrades its body"
+	text "The <user> copies"
+	next "one of the foe's"
+	next "moves and uses"
 
-	bage "to be better"
-	next "suited for taking"
-	next "down its enemy."
+	bage "it at once, just"
+	next "like MIMIC."
 
-	bage "The <user> converts"
-	next "to either ATTACK"
-	next "or DEFENSE mode."
+	bage "The <user> also"
+	next "takes on that"
+	next "move's type,"
 
-	bage "In ATTACK mode"
-	next "the <user> queries"
-	next "a move that will"
-
-	bage "always work well"
-	next "on the foe from"
-	next "its data banks."
-
-	bage "In DEFENSE mode,"
-	next "damage from foe's"
-	next "moves is halved"
+	bage "so the copied"
+	next "move is boosted"
+	next "by STAB."
 	dex
 
 _TriAttackDexEntry::

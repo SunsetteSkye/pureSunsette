@@ -197,14 +197,14 @@ _MoveMysticPidgeotText::
 	line "skies with"
 	cont "peerless aim!"
 	para "Its signature"
-	line "WHIRLWIND never"
+	line "HURRICANE never"
 	cont "misses its mark!"
 	done
 
 _MoveMysticBlastoiseText::
 	text "Its cannons fire"
 	line "with deadly aim!"
-	para "SKULL BASH and"
+	para "METEOR DRIVE and"
 	line "HYDRO PUMP both"
 	cont "gain 100%"
 	cont "ACCURACY!"

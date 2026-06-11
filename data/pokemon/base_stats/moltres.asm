@@ -10,7 +10,7 @@
 	INCBIN "gfx/pokemon/front/moltres.pic", 0, 1 ; sprite dimensions
 	dw MoltresPicFront, MoltresPicBackSW
 
-	db FURY_ATTACK, FIRE_SPIN, FLAMETHROWER, NO_MOVE ; level 1 learnset
+	db FURY_ATTACK, FIRE_SPIN, FLAMETHROWER, NO_MOVE ; level 1 learnset (DUAL SPEAR)
 	db GROWTH_SLOW ; growth rate
 
 	; tm/hm learnset
@@ -25,18 +25,18 @@
 	AMNESIA,\
 	BARRIER,\
 	SOLARBEAM,\
-	DRAGON_RAGE,\
+	DRAGON_RAGE,\ ; WYRM WRATH
 	THUNDERBOLT,\
 	THUNDER,\
 	KINESIS,\ ; MIRAGE
 	REFLECT,\
-	BIDE,\
-	BARRAGE,\
+	BIDE,\ ; BULK UP
+	BARRAGE,\ ; SHADOW BALL
 	FIRE_BLAST,\
 	FLAMETHROWER,\
 	SKY_ATTACK,\
 	LIGHT_SCREEN,\
-	PSYBEAM,\
+	PSYWAVE,\ ; MINDWIPE
 	GLARE,\
 	SUBSTITUTE,\
 	CUT,\

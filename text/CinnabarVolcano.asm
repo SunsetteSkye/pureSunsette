@@ -164,7 +164,7 @@ _ShatteredRocksSkullBashText::
 	text_ram_namebuffer
 	text " smashed"
 	line "the rocks with"
-	cont "SKULL BASH!"
+	cont "METEOR DRIVE!"
 	done
 
 _ShatteredRocksText::

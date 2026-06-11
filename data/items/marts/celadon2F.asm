@@ -16,8 +16,8 @@ CeladonMart2FClerk1Text::
 CeladonMart2FClerk2Text::
 	script_mart \
 	TM_RAZOR_WIND, \ ; ROOST
-	TM_HORN_DRILL, \
-	TM_ROLLING_KICK, \
+	TM_HORN_DRILL, \ ; WICKED DRILL
+	TM_ROLLING_KICK, \ ; METEOR SWEEP
 	TM_DIG, \
 	TM_REFLECT, \
 	TM_LIGHT_SCREEN

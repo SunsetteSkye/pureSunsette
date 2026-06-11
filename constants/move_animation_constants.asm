@@ -2,7 +2,8 @@
 ; SpecialEffectPointers associates them with effect routines (see data/battle_anims/special_effect_pointers.asm)
 	const_def $C0
 DEF FIRST_SE_ID EQU const_value
-	const_skip $B
+	const_skip $A
+	const SE_SLIDE_MON_OFF_FAST         ; $CA Sunsette: like SE_SLIDE_MON_OFF but a faster slide (Quick Attack); claimed from the skip so $CB+ are unchanged
 ;;;;;;;;;; PureRGBnote: ADDED: new special effects
 	const SE_CUSTOM_MOVE_SFX           ; $CB used for playing new sound effects during moves
 	const SE_SEND_OUT_MON_POOF_ANIM    ; $CC used for custom pokeball send out animations

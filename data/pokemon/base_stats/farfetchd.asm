@@ -10,7 +10,7 @@
 	INCBIN "gfx/pokemon/front/farfetchd.pic", 0, 1 ; sprite dimensions
 	dw FarfetchdPicFront, FarfetchdPicBackSW
 
-	db PECK, SAND_ATTACK, LEER, MIRROR_MOVE ; level 1 learnset
+	db GUST, BUBBLE, LEER, NO_MOVE
 	db GROWTH_FAST ; growth rate
 
 	; tm/hm learnset
@@ -25,16 +25,16 @@
 	DOUBLE_EDGE,\
 	BUBBLEBEAM,\
 	HYPER_BEAM,\
-	HI_JUMP_KICK,\
-	ROLLING_KICK,\
+	LOW_KICK,\
+	ROLLING_KICK,\ ; METEOR SWEEP
 	BARRIER,\
 	RAZOR_LEAF,\
 	DIG,\
 	SWORDS_DANCE,\
 	REFLECT,\
-	BIDE,\
-	BARRAGE,\
-	SLAM,\ ; FILTHY SLAM
+	BIDE,\ ; BULK UP
+	BARRAGE,\ ; SHADOW BALL
+	SLAM,\ ; WASTEMAKER
 	KARATE_CHOP,\
 	MEDITATE,\
 	SKY_ATTACK,\

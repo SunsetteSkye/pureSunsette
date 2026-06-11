@@ -16,4 +16,6 @@ ResidualEffects1:
 	db LEECH_SEED_EFFECT
 	db SPLASH_EFFECT
 	db MIRAGE_EFFECT ; PureRGBnote: no-damage status move; runs its own accuracy test + animation
+	db MINDWIPE_EFFECT ; Sunsette: no-damage status move (PSYWAVE); MindwipeEffect_ runs its own accuracy test
+	db ROOST_EFFECT ; Sunsette: ROOST (RAZOR_WIND) - heal + type/palette refresh; handled by RoostEffect_
 	db -1 ; end

@@ -15,6 +15,7 @@
 
 	; tm/hm learnset
 	tmhm \
+	LOW_KICK,\
 	PIN_MISSILE,\
 	TOXIC,\
 	BODY_SLAM,\
@@ -23,9 +24,9 @@
 	HYPER_BEAM,\
 	EARTHQUAKE,\
 	DIG,\
-	BIDE,\
-	BARRAGE,\
-	SLAM,\ ; FILTHY SLAM
+	BIDE,\ ; BULK UP
+	BARRAGE,\ ; SHADOW BALL
+	SLAM,\ ; WASTEMAKER
 	KARATE_CHOP,\
 	ROCK_SLIDE,\
 	GLARE,\

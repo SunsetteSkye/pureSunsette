@@ -10,27 +10,35 @@
 	INCBIN "gfx/pokemon/front/alakazam.pic", 0, 1 ; sprite dimensions
 	dw AlakazamPicFront, AlakazamPicBackSW
 
-	db TELEPORT, PSYWAVE, NO_MOVE, NO_MOVE ; level 1 learnset
+	db TELEPORT, SEISMIC_TOSS, NO_MOVE, NO_MOVE ; level 1 learnset
 	db GROWTH_MEDIUM_SLOW ; growth rate
 
 	; tm/hm learnset
 	tmhm \
+	LOW_KICK,\
+	SONICBOOM,\ ; ILL WIND
+	ICE_PUNCH,\
 	DISABLE,\
+	FIRE_PUNCH,\
 	TOXIC,\
 	BODY_SLAM,\
 	DOUBLE_EDGE,\
 	AURORA_BEAM,\
 	HYPER_BEAM,\
-	ROLLING_KICK,\
+	AMNESIA,\
+	THUNDERPUNCH,\
+	ROLLING_KICK,\ ; METEOR SWEEP
 	DIG,\
 	PSYCHIC_M,\
+	KINESIS,\ ; MIRAGE
 	REFLECT,\
-	BIDE,\
-	BARRAGE,\
+	BIDE,\ ; BULK UP
+	BARRAGE,\ ; SHADOW BALL
 	KARATE_CHOP,\
 	MEDITATE,\
 	LIGHT_SCREEN,\
-	PSYBEAM,\
+	PSYWAVE,\ ; MINDWIPE
+	GLARE,\
 	SUBSTITUTE,\
 	FLASH
 	; end

@@ -35,7 +35,7 @@ _TM34ExplanationText::
 	para "@"
 	text_ram_stringbuffer
 	text " contains"
-	line "BIDE!"
+	line "BULK UP!"
 
 	para "Your #MON will"
 	line "steel itself,"

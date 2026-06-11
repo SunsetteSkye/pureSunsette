@@ -11,6 +11,27 @@ RedsHouse1F_TextPointers:
 
 RedsHouse1FMomText:
 	text_asm
+; Sunsette: the first time you come home after getting the #DEX (and before earning your first badge),
+; Mom notices Oak sent you off without any Poke Balls and gives you 5.
+	CheckEvent EVENT_GOT_POKEBALLS_FROM_MOM
+	jr nz, .normalMom
+	CheckEvent EVENT_GOT_POKEDEX
+	jr z, .normalMom
+	ld a, [wObtainedBadges]
+	and a
+	jr nz, .normalMom
+	ld hl, .MomBallsPreText
+	rst _PrintText
+	lb bc, POKE_BALL, 5
+	call GiveItem
+	ld hl, .MomBallsNoRoomText
+	jr nc, .ballsDone ; bag full (practically impossible this early) - don't set the event, retry next visit
+	SetEvent EVENT_GOT_POKEBALLS_FROM_MOM
+	ld hl, .MomBallsReceivedText
+.ballsDone
+	rst _PrintText
+	rst TextScriptEnd
+.normalMom
 	CheckEvent EVENT_MET_DAD
 	jr nz, .dadAround
 	CheckEvent EVENT_CALLED_DAD_WAITING
@@ -148,6 +169,19 @@ RedsHouse1FMomText:
 
 .WakeUpText:
 	text_far _RedsHouse1FMomWakeUpText
+	text_end
+
+.MomBallsPreText:
+	text_far _RedsHouse1FMomBallsPreText
+	text_end
+
+.MomBallsReceivedText:
+	text_far _RedsHouse1FMomBallsReceivedText
+	sound_get_item_1
+	text_end
+
+.MomBallsNoRoomText:
+	text_far _GenericNoRoomText
 	text_end
 
 MomDadNotHereText:

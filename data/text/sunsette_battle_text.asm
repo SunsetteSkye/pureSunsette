@@ -112,8 +112,83 @@ _WaterifiedText::
 	line "now a WATER type!"
 	prompt
 
+; Sunsette: CONVERSION retypes the user to match the move it just copied (Mimic + retype)
+_ConvertedTypeText::
+	text "Its body adapted"
+	line "to the new move!"
+	prompt
+
+; Sunsette: MINDWIPE (PSYWAVE) blanks the target's mind - retypes it to BUG (gray palette)
+_MindwipedText::
+	text "Its mind went"
+	line "blank! It is now"
+	cont "a BUG type!"
+	prompt
+
+; Sunsette: MOCKINGBIRD (was MIRROR MOVE) copies all the foe's stat-stage changes onto the user
+_MockingbirdText::
+	text "Mimicked the foe's"
+	line "stat changes!"
+	prompt
+
 ; Sunsette: a frozen mon thaws itself by using a burn-inflicting (heat) move
 _SelfThawedText::
 	text "The heat melted"
 	line "the ice away!"
 	prompt
+
+; Sunsette: SolarBeam's non-fire charge turn (Mega-Drain-like; arms the release)
+_SolarBeamChargeText::
+	text "It took in"
+	line "energy!"
+	prompt
+
+; Sunsette: Move Mystic entries for the legendary-bird move adjustments (relocated here
+; out of the full "Text 3" bank). Epithets + mechanic descriptions.
+_MoltresMoveMysticText::
+	text_start
+	line "blazing phoenix."
+	prompt
+
+_ZapdosMoveMysticText::
+	text_start
+	line "thunder tyrant."
+	prompt
+
+_ArticunoMoveMysticText::
+	text_start
+	line "glacial gale."
+	prompt
+
+; Sunsette: TANGELA's STRANGLEVINE signature (90 BP) - uses the generic power-increase info path
+_TangelaMoveMysticText::
+	text_start
+	line "tangled terror."
+	prompt
+
+_MoveMysticMoltresText::
+	text "Its wings burn"
+	line "with living"
+	cont "fire!"
+	para "SKY ATTACK gains a"
+	line "30% BURN, plus"
+	cont "FLOURISH's regen!"
+	done
+
+_MoveMysticZapdosText::
+	text "Static crackles"
+	line "in its"
+	cont "feathers!"
+	para "DRILL PECK gains a"
+	line "30% PARALYZE"
+	cont "chance!"
+	done
+
+_MoveMysticArticunoText::
+	text "Its gusts carry"
+	line "a deathly"
+	cont "chill!"
+	para "HURRICANE gains a"
+	line "30% FREEZE"
+	cont "chance!"
+	done

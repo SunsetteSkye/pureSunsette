@@ -2,16 +2,16 @@
 
 PriorityMoves:
 	db QUICK_ATTACK
+	db POUND ; Sunsette: JOLT BOLT - priority ELECTRIC move
 	db COMET_PUNCH
 	db FLASH
-	db SWIFT
 	db TRANSFORM
-	db MIRROR_MOVE
+	db MIRROR_MOVE ; MOCKINGBIRD
 	db SONICBOOM
 	db PIN_MISSILE
 	db MEDITATE
-	db POISON_GAS
-	db HAZE ; Sunsette: Haze is now a priority move with a 30% flinch
+	db POISON_GAS ; MIASMA
+	db HAZE ; Sunsette: Haze is now a priority move with a 30% flinch (BLACK HAZE)
 	db -1 ; end
 
 FarCheckPriority:

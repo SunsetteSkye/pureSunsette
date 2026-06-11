@@ -32,7 +32,7 @@ MovedexEntryPointers:
 	dw SandAttackDexEntry
 	dw HeadbuttDexEntry
 	dw HornAttackDexEntry
-	dw FuryAttackDexEntry
+	dw FuryAttackDexEntry ; DUAL SPEAR
 	dw HornDrillDexEntry
 	dw TackleDexEntry
 	dw BodySlamDexEntry
@@ -120,7 +120,7 @@ MovedexEntryPointers:
 	dw FocusEnergyDexEntry
 	dw BideDexEntry
 	dw MetronomeDexEntry
-	dw MirrorMoveDexEntry
+	dw MirrorMoveDexEntry ; MOCKINGBIRD
 	dw SelfdestructDexEntry
 	dw EggBombDexEntry
 	dw LickDexEntry

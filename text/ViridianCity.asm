@@ -55,6 +55,8 @@ _ViridianCityGirlWhenIGoShopText::
 	cont "have to take the"
 	cont "winding trail in"
 	cont "VIRIDIAN FOREST."
+	cont "At least it isn't"
+	cont "dim like MT MOON."
 	done
 
 _ViridianCityOldManSleepyPrivatePropertyText::

@@ -7,8 +7,10 @@ InitBattleVariables:
 	; pic (and the player's back sprite) blue. Keep bit 0 (confuse-ray alt palette) intact.
 	ld hl, wEnemyMonFlags
 	res 1, [hl]
+	res 2, [hl] ; Sunsette: also clear any stale CONVERSION recolor (bit 2)
 	ld hl, wBattleMonFlags
 	res 1, [hl]
+	res 2, [hl]
 	ldh a, [hTileAnimations]
 	ld [wSavedTileAnimations], a
 	ResetEvent FLAG_SKIP_STAT_ANIMATION
@@ -53,7 +55,7 @@ InitBattleVariables:
 	ld [hli], a
 	dec b
 	jr nz, .loop
-	inc a ; POUND
+	inc a ; POUND (PUMMEL)
 	ld [wTestBattlePlayerSelectedMove], a
 	ld a, [wCurMap]
 	cp SAFARI_ZONE_EAST

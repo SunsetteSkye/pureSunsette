@@ -470,13 +470,22 @@ MoveMysticCrystalBallText:
 	ld a, d
 	cp BEEDRILL
 	ld hl, .beedrillInfoText
-	jr z, .printDone
+	jp z, .printDone
 	cp PIDGEOT
 	ld hl, .pidgeotInfoText
-	jr z, .printDone
+	jp z, .printDone
 	cp BLASTOISE
 	ld hl, .blastoiseInfoText
-	jr z, .printDone
+	jp z, .printDone
+	cp MOLTRES ; Sunsette: legendary-bird move adjustments get custom info text
+	ld hl, .moltresInfoText
+	jp z, .printDone
+	cp ZAPDOS
+	ld hl, .zapdosInfoText
+	jp z, .printDone
+	cp ARTICUNO
+	ld hl, .articunoInfoText
+	jp z, .printDone
 	push de
 	cp JIGGLYPUFF
 	jr z, .forceSING
@@ -580,6 +589,15 @@ MoveMysticCrystalBallText:
 	text_end
 .blastoiseInfoText
 	text_far _MoveMysticBlastoiseText
+	text_end
+.moltresInfoText
+	text_far _MoveMysticMoltresText
+	text_end
+.zapdosInfoText
+	text_far _MoveMysticZapdosText
+	text_end
+.articunoInfoText
+	text_far _MoveMysticArticunoText
 	text_end
 .masterOfMove
 	text_far _MoveMysticMasterOfMoveText
@@ -704,6 +722,10 @@ MoveMysticMonsList:
 	db DRAGONITE, DEX_DRAGONITE
 	db PIDGEOT, DEX_PIDGEOT
 	db BLASTOISE, DEX_BLASTOISE
+	db MOLTRES, DEX_MOLTRES
+	db ZAPDOS, DEX_ZAPDOS
+	db ARTICUNO, DEX_ARTICUNO
+	db TANGELA, DEX_TANGELA ; Sunsette: STRANGLEVINE -> 90 BP (signature); uses the generic power-increase path
 	db -1
 
 MoveMysticMonTextEntries:
@@ -772,4 +794,16 @@ PidgeotMoveMysticText::
 	text_end
 BlastoiseMoveMysticText::
 	text_far _BlastoiseMoveMysticText
+	text_end
+MoltresMoveMysticText::
+	text_far _MoltresMoveMysticText
+	text_end
+ZapdosMoveMysticText::
+	text_far _ZapdosMoveMysticText
+	text_end
+ArticunoMoveMysticText::
+	text_far _ArticunoMoveMysticText
+	text_end
+TangelaMoveMysticText::
+	text_far _TangelaMoveMysticText
 	text_end

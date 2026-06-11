@@ -10,11 +10,12 @@
 	INCBIN "gfx/pokemon/front/slowpoke.pic", 0, 1 ; sprite dimensions
 	dw SlowpokePicFront, SlowpokePicBackSW
 
-	db PSYWAVE, WATER_GUN, NO_MOVE, NO_MOVE ; level 1 learnset
+	db CONFUSION, WATER_GUN, NO_MOVE, NO_MOVE ; level 1 learnset
 	db GROWTH_MEDIUM_FAST ; growth rate
 
 	; tm/hm learnset
 	tmhm \
+	LOW_KICK,\
 	DISABLE,\
 	TOXIC,\
 	BODY_SLAM,\
@@ -22,21 +23,21 @@
 	BUBBLEBEAM,\
 	AURORA_BEAM,\
 	ICE_BEAM,\
-	BLIZZARD,\
+	BLIZZARD,\ ; SLEET STORM
 	AMNESIA,\
-	ROLLING_KICK,\
+	ROLLING_KICK,\ ; METEOR SWEEP
 	EARTHQUAKE,\
 	DIG,\
 	PSYCHIC_M,\
 	REFLECT,\
-	BIDE,\
-	BARRAGE,\
+	BIDE,\ ; BULK UP
+	BARRAGE,\ ; SHADOW BALL
 	FIRE_BLAST,\
 	FLAMETHROWER,\
-	SLAM,\ ; FILTHY SLAM
+	SLAM,\ ; WASTEMAKER
 	MEDITATE,\
 	LIGHT_SCREEN,\
-	PSYBEAM,\
+	PSYWAVE,\ ; MINDWIPE
 	SUBSTITUTE,\
 	CUT,\
 	SURF,\

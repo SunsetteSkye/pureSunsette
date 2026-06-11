@@ -38,7 +38,7 @@ RepelUseAnotherText:
 
 ; Sunsette: ADDED: called when the repel/hiding step counter reaches 0 (DisplayRepelWoreOffText).
 ; Branches on wHidingMoveID: 0 = a normal Repel item wore off (vanilla "use another?"); otherwise a
-; "hiding" field move (SAND ATTACK / MIST / HAZE / SMOKESCREEN) wore off, in which case we offer to
+; "hiding" field move (SAND ATTACK / MIST / HAZE / SMOKESCREEN) wore off, in which case we offer to (BLACK HAZE, ETHEREAL)
 ; keep hiding only if a party member can still use that exact move.
 RepelOrHidingWoreOff::
 	ld a, [wHidingMoveID]

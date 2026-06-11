@@ -317,6 +317,9 @@ INCLUDE "text/CeruleanBadgeHouse.asm"
 SECTION "Sunsette Battle Text", ROMX
 INCLUDE "data/text/sunsette_battle_text.asm"
 
+SECTION "Sunsette Overworld Text", ROMX
+INCLUDE "data/text/sunsette_overworld_text.asm"
+
 SECTION "Pokédex Text", ROMX
 
 INCLUDE "data/pokemon/dex_text.asm"

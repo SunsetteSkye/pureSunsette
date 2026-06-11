@@ -170,15 +170,15 @@ MoveNameJumpTable::
 ; in-battle "used <move name>!" text can only fit 12 (MOVE_NAME_LENGTH - 2) characters
 
 POUNDName:
-	db "POUND@"
+	db "JOLT BOLT@" ; visible name; internal const POUND (was PUMMEL)
 KARATECHOPName:
 	db "KARATE CHOP@"
 DOUBLESLAPName:
 	db "DOUBLESLAP@"
 COMETPUNCHName:
-	db "COMET PUNCH@"
+	db "MACH PUNCH@" ; visible name; internal const COMET_PUNCH (was COMET PUNCH)
 MEGAPUNCHName:
-	db "MEGA PUNCH@"
+	db "HAYMAKER@" ; visible name; internal const MEGA_PUNCH (was MEGA PUNCH)
 PAYDAYName:
 	db "PAY DAY@"
 FIREPUNCHName:
@@ -190,9 +190,9 @@ THUNDERPUNCHName:
 SCRATCHName:
 	db "SCRATCH@"
 VICEGRIPName:
-	db "VICEGRIP@"
+	db "LOCKJAW@" ; visible name; internal const VICEGRIP (was VICEGRIP)
 GUILLOTINEName:
-	db "GUILLOTINE@"
+	db "EXTERMINATE@"
 RAZORWINDName:
 	db "ROOST@" ; changed from RAZOR WIND
 SWORDSDANCEName:
@@ -204,13 +204,13 @@ GUSTName:
 WINGATTACKName:
 	db "WING ATTACK@"
 WHIRLWINDName:
-	db "WHIRLWIND@"
+	db "HURRICANE@"
 FLYName:
 	db "FLY@"
 BINDName:
-	db "BIND@"
+	db "STONEBOUND@" ; visible name; internal const BIND (was BIND)
 SLAMName:
-	db "FILTHY SLAM@" ; changed from SLAM
+	db "WASTEMAKER@"
 VINEWHIPName:
 	db "VINE WHIP@"
 STOMPName:
@@ -218,19 +218,19 @@ STOMPName:
 DOUBLEKICKName:
 	db "DOUBLE KICK@"
 MEGAKICKName:
-	db "MEGA KICK@"
+	db "PISTON KICK@" ; visible name; internal const MEGA_KICK (was MEGA KICK)
 JUMPKICKName:
 	db "JUMP KICK@"
 ROLLINGKICKName:
-	db "ROLLING KICK@"
+	db "METEOR SWEEP@" ; visible name; internal const ROLLING_KICK (was ROLLING KICK)
 SANDATTACKName:
 	db "SAND-ATTACK@"
 HEADBUTTName:
 	db "HEADBUTT@"
 HORNATTACKName:
-	db "HORN ATTACK@"
+	db "METEOR HORN@" ; visible name; internal const HORN_ATTACK (was HORN ATTACK)
 FURYATTACKName:
-	db "FURY ATTACK@"
+	db "DUAL SPEAR@"
 HORNDRILLName:
 	db "WICKED DRILL@" ; changed from HORN DRILL
 TACKLEName:
@@ -242,7 +242,7 @@ WRAPName:
 TAKEDOWNName:
 	db "HEAT RUSH@" ; changed from TAKE DOWN
 THRASHName:
-	db "THRASH@"
+	db "OUTRAGE@" ; changed from THRASH
 DOUBLEEDGEName:
 	db "DOUBLE-EDGE@"
 TAILWHIPName:
@@ -260,7 +260,7 @@ BITEName:
 GROWLName:
 	db "GROWL@"
 ROARName:
-	db "ROAR@"
+	db "BELLOW@"
 SINGName:
 	db "SING@"
 SUPERSONICName:
@@ -276,7 +276,7 @@ EMBERName:
 FLAMETHROWERName:
 	db "FLAMETHROWER@"
 MISTName:
-	db "MIST@"
+	db "ETHEREAL@"
 WATERGUNName:
 	db "WATER GUN@"
 HYDROPUMPName:
@@ -286,7 +286,7 @@ SURFName:
 ICEBEAMName:
 	db "ICE BEAM@"
 BLIZZARDName:
-	db "BLIZZARD@"
+	db "SLEET STORM@"
 PSYBEAMName:
 	db "PSYBEAM@"
 BUBBLEBEAMName:
@@ -300,11 +300,11 @@ PECKName:
 DRILLPECKName:
 	db "DRILL PECK@"
 SUBMISSIONName:
-	db "SUBMISSION@"
+	db "FULL NELSON@"
 LOWKICKName:
 	db "LOW KICK@"
 COUNTERName:
-	db "DRAIN PUNCH@" ; changed from COUNTER
+	db "SHADOW BOX@"
 SEISMICTOSSName:
 	db "SEISMIC TOSS@"
 STRENGTHName:
@@ -316,7 +316,7 @@ MEGADRAINName:
 LEECHSEEDName:
 	db "LEECH SEED@"
 GROWTHName:
-	db "GROWTH@"
+	db "FLOURISH@"
 RAZORLEAFName:
 	db "RAZOR LEAF@"
 SOLARBEAMName:
@@ -332,7 +332,7 @@ PETALDANCEName:
 STRINGSHOTName:
 	db "STRING SHOT@"
 DRAGONRAGEName:
-	db "DRAGON RAGE@"
+	db "WYRM WRATH@"
 FIRESPINName:
 	db "FIRE SPIN@"
 THUNDERSHOCKName:
@@ -370,7 +370,7 @@ RAGEName:
 TELEPORTName:
 	db "TELEPORT@"
 NIGHTSHADEName:
-	db "NIGHT SHADE@"
+	db "PHANTASM@" ; visible name; internal const NIGHT_SHADE (was NIGHT STALK)
 MIMICName:
 	db "MIMIC@"
 SCREECHName:
@@ -390,23 +390,23 @@ CONFUSERAYName:
 WITHDRAWName:
 	db "WITHDRAW@"
 DEFENSECURLName:
-	db "DEFENSE CURL@"
+	db "BUNKER DOWN@"
 BARRIERName:
 	db "BARRIER@"
 LIGHTSCREENName:
 	db "LIGHT SCREEN@"
 HAZEName:
-	db "HAZE@"
+	db "BLACK HAZE@"
 REFLECTName:
 	db "REFLECT@"
 FOCUSENERGYName:
 	db "FOCUS ENERGY@"
 BIDEName:
-	db "BIDE@"
+	db "BULK UP@"
 METRONOMEName:
 	db "METRONOME@"
 MIRRORMOVEName:
-	db "MIRROR MOVE@"
+	db "MOCKINGBIRD@"
 SELFDESTRUCTName:
 	db "SELFDESTRUCT@"
 EGGBOMBName:
@@ -416,7 +416,7 @@ LICKName:
 SMOGName:
 	db "SMOG@"
 SLUDGEName:
-	db "SLUDGE@"
+	db "SLUDGE BOMB@" ; visible name; internal const SLUDGE (was SLUDGE)
 BONECLUBName:
 	db "BONE CLUB@"
 FIREBLASTName:
@@ -426,9 +426,9 @@ WATERFALLName:
 CLAMPName:
 	db "CLAMP@"
 SWIFTName:
-	db "COLD SNAP@" ; changed from SWIFT
+	db "SWIFT@"
 SKULLBASHName:
-	db "SKULL BASH@"
+	db "METEOR DRIVE@" ; visible name; internal const SKULL_BASH (was SKULL BASH)
 SPIKECANNONName:
 	db "SPIKE CANNON@"
 CONSTRICTName:
@@ -444,11 +444,11 @@ HIJUMPKICKName:
 GLAREName:
 	db "GLARE@"
 DREAMEATERName:
-	db "DREAM EATER@"
+	db "SOULSTEALER@" ; visible name; internal const DREAM_EATER (was DREAM EATER)
 POISONGASName:
-	db "POISON GAS@"
+	db "MIASMA@" ; changed from POISON GAS
 BARRAGEName:
-	db "SPIRIT BOMB@" ; changed from BARRAGE
+	db "SHADOW BALL@" ; visible name; internal const BARRAGE (was SPIRIT BOMB)
 LEECHLIFEName:
 	db "LEECH LIFE@"
 LOVELYKISSName:
@@ -466,17 +466,17 @@ SPOREName:
 FLASHName:
 	db "FLASH@"
 PSYWAVEName:
-	db "PSYWAVE@"
+	db "MINDWIPE@" ; visible name; internal const PSYWAVE (was PSYWAVE)
 SPLASHName:
 	db "SPLASH@"
 ACIDARMORName:
-	db "ACID ARMOR@"
+	db "ACID CLOAK@"
 CRABHAMMERName:
 	db "CRABHAMMER@"
 EXPLOSIONName:
 	db "EXPLOSION@"
 FURYSWIPESName:
-	db "DUST CLAW@" ; changed from FURY SWIPES
+	db "MUD CLAW@"
 BONEMERANGName:
 	db "BONEMERANG@"
 RESTName:

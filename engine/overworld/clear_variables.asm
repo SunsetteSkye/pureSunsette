@@ -11,7 +11,7 @@ ClearVariablesOnEnterMap::
 	ldh [hJoyHeld], a
 	ld [wMuteAudioAndPauseMusic], a
 	ld [wActionResultOrTookBattleTurn], a
-	ld [wUnusedMapVariable], a ; Sunsette: also clears the CONFUSE RAY (bit 0) + GROWTH-invert (bit 1) field-move flags on map change
+	ld [wUnusedMapVariable], a ; Sunsette: also clears the CONFUSE RAY (bit 0) + GROWTH-invert (bit 1) field-move flags on map change (FLOURISH)
 	ld [wIsAltPalettePkmn], a
 	ld [wIsAltPalettePkmnData], a
 	ld [wOverworldAnimationCounter], a

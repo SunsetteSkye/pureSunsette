@@ -9,9 +9,9 @@ FieldMoveNames:
 	db "TELEPORT@"
 	db "SOFTBOILED@"
 	db "CONFUSE RAY@"
-	db "GROWTH@"
+	db "GROWTH@" ; FLOURISH
 	db "FLAMETHROWER@"
 	db "SAND-ATTACK@"
-	db "MIST@"
-	db "HAZE@"
+	db "MIST@" ; ETHEREAL
+	db "HAZE@" ; BLACK HAZE
 	db "SMOKESCREEN@"

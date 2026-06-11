@@ -2725,6 +2725,13 @@ ItemUseTMHM:
 	callfar TMToMove ; get move ID from TM/HM ID
 	ld a, [wTempTMHM]
 	ld [wMoveNum], a
+; Sunsette: booting up a TM/HM unlocks that move's MOVEDEX entry, whether or not you teach it
+; (mirrors SetMoveDexSeen: FlagAction on wMovedexSeen with the 0-based move index). a = move id here.
+	dec a
+	ld c, a
+	ld b, FLAG_SET
+	ld hl, wMovedexSeen
+	call FlagAction
 	call GetMoveName
 	call CopyToStringBuffer
 	pop af

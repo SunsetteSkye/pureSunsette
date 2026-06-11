@@ -574,9 +574,13 @@ wEnemyNumHits:: db
 
 ; the amount of damage accumulated by the enemy while biding
 ;wEnemyBideAccumulatedDamage:: dw ; PureRGBnote: CHANGED: bide effect changed to normal buff move, so this is unused
-wPlayerConversionMode:: db ; PureRGBnote: ADDED: which conversion mode the player selected
-wEnemyPreviousConversionMode::db ; PureRGBnote: ADDED: which conversion mode the enemy last selected, needed for mirror move to use the correct mode.
-wForcedConversionMode:: db ; if used mirror move to execute conversion, it will use whatever mode the foe used previously
+; Sunsette: CONVERSION was redesigned to work like MIMIC + a user retype, so the old attack/defense
+; mode bytes (wPlayerConversionMode / wEnemyPreviousConversionMode / wForcedConversionMode) are gone.
+wConversionRetype:: db ; 1 = the move in flight is CONVERSION (retype user to the copied move's type after Mimic copies it); 0 = plain MIMIC. Set in MimicCommon, consumed at MimicCommon's tail.
+; Sunsette: forced battle-sprite palettes for a CONVERSION-retyped mon (used when its Flags bit 2 is set;
+; see SetPal_Battle + ConversionSetPalette). One per side since both actives are colored each refresh.
+wPlayerConvertPalette:: db
+wEnemyConvertPalette:: db
 
 	ds 6
 	
@@ -2250,7 +2254,9 @@ wTilesetTalkingOverTiles:: ds 3
 
 wGrassTile:: db
 
-	ds 4 ; unused save file 4 bytes
+; Sunsette: time-based daycare (all 4 of these previously-unused saved bytes; no save-layout change)
+wDayCareDepositMinutes:: ds 3 ; 24-bit total play-minutes (hours*60+min) stamped at deposit (big-endian +0 hi/+1 mid/+2 lo)
+wDayCareMonHappiness:: db ; the daycare mon's affection (the stored box_struct has no happiness field), preserved + grown
 
 UNION
 ;;;;; PureRGBnote: CHANGED: Box items were moved elsewhere to expand the pc item capacity in version 2.6.0.

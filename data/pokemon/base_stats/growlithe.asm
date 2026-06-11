@@ -10,7 +10,7 @@
 	INCBIN "gfx/pokemon/front/growlithe.pic", 0, 1 ; sprite dimensions
 	dw GrowlithePicFront, GrowlithePicBackSW
 
-	db BITE, ROAR, NO_MOVE, NO_MOVE ; level 1 learnset
+	db BITE, ROAR, NO_MOVE, NO_MOVE ; level 1 learnset (BELLOW)
 	db GROWTH_MEDIUM_SLOW ; growth rate
 
 	; tm/hm learnset
@@ -19,14 +19,14 @@
 	BODY_SLAM,\
 	DISABLE,\
 	DOUBLE_EDGE,\
-	ROLLING_KICK,\
+	ROLLING_KICK,\ ; METEOR SWEEP
 	SOLARBEAM,\
-	DRAGON_RAGE,\
+	DRAGON_RAGE,\ ; WYRM WRATH
 	DIG,\
 	KINESIS,\ ; MIRAGE
 	REFLECT,\
-	BIDE,\
-	BARRAGE,\
+	BIDE,\ ; BULK UP
+	BARRAGE,\ ; SHADOW BALL
 	FIRE_BLAST,\
 	FLAMETHROWER,\
 	LIGHT_SCREEN,\

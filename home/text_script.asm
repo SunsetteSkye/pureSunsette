@@ -131,7 +131,7 @@ DisplayPlayerBlackedOutText::
 
 DisplayRepelWoreOffText::
 	; Sunsette: RepelOrHidingWoreOff prints the correct wore-off line and offers to renew, branching on
-	; wHidingMoveID (normal Repel item vs. SAND ATTACK/MIST/HAZE/SMOKESCREEN "keep hiding?").
+	; wHidingMoveID (normal Repel item vs. SAND ATTACK/MIST/HAZE/SMOKESCREEN "keep hiding?"). (BLACK HAZE, ETHEREAL)
 	callfar RepelOrHidingWoreOff
 	jr CloseTextDisplay
 

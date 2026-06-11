@@ -10,7 +10,7 @@
 	INCBIN "gfx/pokemon/front/articuno.pic", 0, 1 ; sprite dimensions
 	dw ArticunoPicFront, ArticunoPicBackSW
 
-	db WING_ATTACK, ICE_BEAM, MIST, NO_MOVE ; level 1 learnset
+	db WING_ATTACK, ICE_BEAM, MIST, NO_MOVE ; level 1 learnset (ETHEREAL)
 	db GROWTH_SLOW ; growth rate
 
 	; tm/hm learnset
@@ -24,17 +24,17 @@
 	BUBBLEBEAM,\
 	AURORA_BEAM,\
 	ICE_BEAM,\
-	BLIZZARD,\
+	BLIZZARD,\ ; SLEET STORM
 	HYPER_BEAM,\
 	AMNESIA,\
 	BARRIER,\
 	PSYCHIC_M,\
 	REFLECT,\
-	BIDE,\
-	BARRAGE,\
+	BIDE,\ ; BULK UP
+	BARRAGE,\ ; SHADOW BALL
 	SKY_ATTACK,\
 	LIGHT_SCREEN,\
-	PSYBEAM,\
+	PSYWAVE,\ ; MINDWIPE
 	GLARE,\
 	SUBSTITUTE,\
 	CUT,\
