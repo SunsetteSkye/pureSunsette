@@ -87,7 +87,7 @@
 	const SPRITE_DAISY_SITTING             ; $52
 	const SPRITE_OAK_SITTING               ; $53
 	const SPRITE_AGATHA_SITTING            ; $54
-	const SPRITE_GIOVANNI_SITTING          ; $55
+	const SPRITE_ROCKET_QUEEN          ; $55
 	const SPRITE_BLUE_SITTING              ; $56
 	const SPRITE_LAVA_SUIT                 ; $57
 	const SPRITE_MONSTER_SWIMMING          ; $58

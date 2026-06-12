@@ -107,4 +107,5 @@ MoveEffectPointerTable:
 	dw HazeEffect                ; MINDWIPE_EFFECT ; Sunsette: also shares the Haze trampoline; HazeFlinchEffect_ dispatches it to MindwipeEffect_ (retype BUG + gray + -1 ACC, no damage)
 	dw HazeEffect                ; ROOST_EFFECT ; Sunsette: also shares the Haze trampoline; HazeFlinchEffect_ dispatches it to RoostEffect_ (heal + natural-type/palette refresh + strip FLYING/FLOATING)
 	dw HazeEffect                ; JOLT_BOLT_EFFECT ; Sunsette: also shares the Haze trampoline; HazeFlinchEffect_ dispatches it to JoltBoltEffect_ (50% chance +1 user EVASION, post-damage)
+	dw HazeEffect                ; HOBBLE_EFFECT ; Sunsette: also shares the Haze trampoline; HazeFlinchEffect_ dispatches it to HobbleEffect_ (guaranteed -1 SPEED and -1 EVASION to the target, post-damage)
 	assert_table_length NUM_MOVE_EFFECTS

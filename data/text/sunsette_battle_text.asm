@@ -93,8 +93,9 @@ _UsedFlamethrowerText::
 ; Sunsette: SAND ATTACK / MIST / HAZE / SMOKESCREEN field move (repel-like hiding)
 _StartHidingText::
 	text "You stirred up"
-	line "cover! Wild #MON"
-	cont "lose your trail!"
+	line "cover! Wild"
+	cont "#MON lose your"
+	cont "trail!"
 	prompt
 
 _StoppedHidingText::
@@ -118,7 +119,7 @@ _ConvertedTypeText::
 	line "to the new move!"
 	prompt
 
-; Sunsette: MINDWIPE (PSYWAVE) blanks the target's mind - retypes it to BUG (gray palette)
+; Sunsette: SKITTERMIND (PSYWAVE) blanks the target's mind - retypes it to BUG (gray palette)
 _MindwipedText::
 	text "Its mind went"
 	line "blank! It is now"
@@ -191,4 +192,58 @@ _MoveMysticArticunoText::
 	para "HURRICANE gains a"
 	line "30% FREEZE"
 	cont "chance!"
+	done
+
+; Sunsette: KRABBY/KINGLER MOVE MYSTIC flavor + CRABHAMMER info (moved here; MoveMystic.asm's Text 3 bank was full)
+_KrabbyMoveMysticText::
+	text_start
+	line "river ruffian."
+	prompt
+
+_KinglerMoveMysticText::
+	text_start
+	line "crushing claw."
+	prompt
+
+_MoveMysticKrabbyText::
+	text "Its hardy pincer"
+	line "strikes with"
+	cont "surprising force!"
+	para "CRABHAMMER's"
+	line "POWER rises to"
+	cont "75!"
+	done
+
+_MoveMysticKinglerText::
+	text "Its giant pincer"
+	line "crushes all in"
+	cont "its grip!"
+	para "CRABHAMMER's"
+	line "POWER rises to"
+	cont "100!"
+	done
+
+_SnorlaxMoveMysticText::
+	text_start
+	line "slumbering giant."
+	prompt
+
+_MoveMysticSnorlaxText::
+	text "Its deep slumber"
+	line "is restorative!"
+
+	para "After a REST it"
+	line "feeds on leftovers"
+	cont "and gets a SPEED"
+	cont "boost!"
+	done
+
+_MoveMysticArbokText::
+	text "When it uses FOCUS"
+	line "ENERGY, its SPEED"
+	cont "surges too!"
+
+	para "And its WRAP coils"
+	line "on two rounds"
+	cont "longer than most!"
 	done

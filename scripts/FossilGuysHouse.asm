@@ -471,6 +471,9 @@ MoveMysticCrystalBallText:
 	cp BEEDRILL
 	ld hl, .beedrillInfoText
 	jp z, .printDone
+	cp ARBOK ; Sunsette: FOCUS ENERGY (+2 SPEED) / WRAP (+2 trap turns) signatures - effect adds, not a power remap
+	ld hl, .arbokInfoText
+	jp z, .printDone
 	cp PIDGEOT
 	ld hl, .pidgeotInfoText
 	jp z, .printDone
@@ -485,6 +488,15 @@ MoveMysticCrystalBallText:
 	jp z, .printDone
 	cp ARTICUNO
 	ld hl, .articunoInfoText
+	jp z, .printDone
+	cp KRABBY ; Sunsette: KRABBY/KINGLER use the CrabhammerModifier (byte2=-1, not species-searchable), so custom text
+	ld hl, .krabbyInfoText
+	jp z, .printDone
+	cp KINGLER
+	ld hl, .kinglerInfoText
+	jp z, .printDone
+	cp SNORLAX ; Sunsette: REST bonus is an effect add (not a power remap), so custom text
+	ld hl, .snorlaxInfoText
 	jp z, .printDone
 	push de
 	cp JIGGLYPUFF
@@ -529,11 +541,6 @@ MoveMysticCrystalBallText:
 	jr z, .printDone
 	cp HYPNO
 	ld hl, .hypnoText
-	jr z, .printDone
-	ld hl, .accuracyText
-	cp ARCANINE
-	jr z, .printDone
-	cp DEWGONG
 	jr z, .printDone
 	ld hl, .genericMovePowerIncreasesText
 .printDone
@@ -584,11 +591,23 @@ MoveMysticCrystalBallText:
 .beedrillInfoText
 	text_far _MoveMysticBeedrillText
 	text_end
+.arbokInfoText
+	text_far _MoveMysticArbokText
+	text_end
 .pidgeotInfoText
 	text_far _MoveMysticPidgeotText
 	text_end
 .blastoiseInfoText
 	text_far _MoveMysticBlastoiseText
+	text_end
+.krabbyInfoText
+	text_far _MoveMysticKrabbyText
+	text_end
+.kinglerInfoText
+	text_far _MoveMysticKinglerText
+	text_end
+.snorlaxInfoText
+	text_far _MoveMysticSnorlaxText
 	text_end
 .moltresInfoText
 	text_far _MoveMysticMoltresText
@@ -620,9 +639,6 @@ MoveMysticCrystalBallText:
 	text_end
 .hypnoText
 	text_far _MoveMysticAccuracy85
-	text_end
-.accuracyText
-	text_far _MoveMysticAccuracy100
 	text_end
 
 ; hl = start of sprite in wShadowOAM at tile ID attribute
@@ -701,19 +717,13 @@ FormulateMoveMysticMonList:
 ; if it's guaranteed to be seen at meeting this NPC $FF is used instead for dex ID
 MoveMysticMonsList:
 	db BEEDRILL, $FF
-	db FEAROW, DEX_FEAROW
 	db ARBOK, DEX_ARBOK
 	db JIGGLYPUFF, $FF
 	db WIGGLYTUFF, DEX_WIGGLYTUFF
 	db GOLDUCK, DEX_GOLDUCK
-	db ARCANINE, DEX_ARCANINE
 	db GOLEM, DEX_GOLEM
-	db DEWGONG, DEX_DEWGONG
 	db HYPNO, DEX_HYPNO
-	db HITMONLEE, DEX_HITMONLEE
-	db HITMONCHAN, DEX_HITMONCHAN
 	db LICKITUNG, $FF
-	db KANGASKHAN, DEX_KANGASKHAN
 	db SEAKING, DEX_SEAKING
 	db JYNX, DEX_JYNX
 	db ELECTABUZZ, DEX_ELECTABUZZ
@@ -726,14 +736,14 @@ MoveMysticMonsList:
 	db ZAPDOS, DEX_ZAPDOS
 	db ARTICUNO, DEX_ARTICUNO
 	db TANGELA, DEX_TANGELA ; Sunsette: STRANGLEVINE -> 90 BP (signature); uses the generic power-increase path
+	db KRABBY, DEX_KRABBY ; Sunsette: CRABHAMMER -> 75 BP (signature)
+	db KINGLER, DEX_KINGLER ; Sunsette: CRABHAMMER -> 100 BP (signature)
+	db SNORLAX, DEX_SNORLAX ; Sunsette: REST -> FLOURISH (GROWING) + SPEED +1
 	db -1
 
 MoveMysticMonTextEntries:
 BeedrillMoveMysticText:
 	text_far _BeedrillMoveMysticText
-	text_end
-FearowMoveMysticText::
-	text_far _FearowMoveMysticText
 	text_end
 ArbokMoveMysticText::
 	text_far _ArbokMoveMysticText
@@ -747,29 +757,14 @@ WigglytuffMoveMysticText::
 GolduckMoveMysticText::
 	text_far _GolduckMoveMysticText
 	text_end
-ArcanineMoveMysticText::
-	text_far _ArcanineMoveMysticText
-	text_end
 GolemMoveMysticText::
 	text_far _GolemMoveMysticText
 	text_end
-DewgongMoveMysticText::
-	text_far _DewgongMoveMysticText
-	text_end
 HypnoMoveMysticText::
 	text_far _HypnoMoveMysticText
-	text_end	
-HitmonleeMoveMysticText::
-	text_far _HitmonleeMoveMysticText
-	text_end
-HitmonchanMoveMysticText::
-	text_far _HitmonchanMoveMysticText
 	text_end
 LickitungMoveMysticText::
 	text_far _LickitungMoveMysticText
-	text_end
-KangaskhanMoveMysticText::
-	text_far _KangaskhanMoveMysticText
 	text_end
 SeakingMoveMysticText::
 	text_far _SeakingMoveMysticText
@@ -806,4 +801,13 @@ ArticunoMoveMysticText::
 	text_end
 TangelaMoveMysticText::
 	text_far _TangelaMoveMysticText
+	text_end
+KrabbyMoveMysticText::
+	text_far _KrabbyMoveMysticText
+	text_end
+KinglerMoveMysticText::
+	text_far _KinglerMoveMysticText
+	text_end
+SnorlaxMoveMysticText::
+	text_far _SnorlaxMoveMysticText
 	text_end

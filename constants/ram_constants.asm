@@ -190,10 +190,7 @@ DEF PALETTES_YELLOW2    EQU  %01000011
 
 ; wOptions3
 	const_def
-	const BIT_GHOST_PSYCHIC    ; 0
-	const BIT_ICE_FIRE         ; 1
-	const BIT_BUG_PSN          ; 2
-	const BIT_PSN_BUG          ; 3
+	const_skip 4 ; Sunsette: bits 0-3 were the now-removed type-matchup toggles (GHST/ICE/BUG/PSN); reserved to keep the bits below stable
 	const BIT_EXP_BAR          ; 4
 	const BIT_NPC_STAT_EXP     ; 5
 	const BIT_NPC_PP           ; 6

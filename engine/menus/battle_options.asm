@@ -1,18 +1,10 @@
 ; PureRGBnote: ADDED: one of the new pages in the options menu. This one's for battle-related settings
-DEF OPTIONS_PAGE_3_COUNT EQU 7 ; number of options on this page
+DEF OPTIONS_PAGE_3_COUNT EQU 3 ; number of options on this page (was 7; removed 4 vestigial type-matchup toggles)
 DEF OPTIONS_PAGE_3_NUMBER EQU 3 ; must be 1 digit.
 
 ; format: "bit set" x position, "bit not set" x position, which bit it is, pointer to wram variable
 BattleOptionsXPosBitData:
-	db 11, 14, BIT_GHOST_PSYCHIC
-	dw wOptions3
-	db 14, 11, BIT_ICE_FIRE 
-	dw wOptions3
-	db 14, 11, BIT_BUG_PSN 
-	dw wOptions3
-	db 14, 11, BIT_PSN_BUG 
-	dw wOptions3
-	db 11, 14, BIT_EXP_BAR 
+	db 11, 14, BIT_EXP_BAR
 	dw wOptions3
 	db 11, 14, BIT_NPC_STAT_EXP
 	dw wOptions3
@@ -41,10 +33,6 @@ BattleOptionsYCoordVariableOffsetList:
 	db 3, 0
 	db 5, 1
 	db 7, 2
-	db 9, 3
-	db 11, 4
-	db 13, 5
-	db 15, 6
 	db PAGE_CONTROLS_Y_COORD, MAX_OPTIONS_PER_PAGE
 
 BattleOptionsData:
@@ -57,17 +45,9 @@ BattleOptionsSetCursorPositionActions:
 	dw SetCursorPositionFromBattleOptions
 	dw SetCursorPositionFromBattleOptions
 	dw SetCursorPositionFromBattleOptions
-	dw SetCursorPositionFromBattleOptions
-	dw SetCursorPositionFromBattleOptions
-	dw SetCursorPositionFromBattleOptions
-	dw SetCursorPositionFromBattleOptions
 
 BattleOptionText:
 	db   "BATTLE OPTIONS"
-	next " GHST→PSY: 0× 2×"
-	next " ICE→FIRE: 1× 0.5×"
-	next " BUG→PSN:  2× 0.5×"
-	next " PSN→BUG:  2× 1×"
 	next " EXP BAR:  ON OFF"
 	next " NPC EVs:  ON OFF"
 	next " NPC PP:   ON OFF@"
@@ -81,10 +61,6 @@ DrawBattleOptionsMenu:
 	jp PlaceString
 
 BattleOptionsLeftRightFuncs:
-	dw GenericBattleOptionsCursorToggleFunc
-	dw GenericBattleOptionsCursorToggleFunc
-	dw GenericBattleOptionsCursorToggleFunc
-	dw GenericBattleOptionsCursorToggleFunc
 	dw GenericBattleOptionsCursorToggleFunc
 	dw GenericBattleOptionsCursorToggleFunc
 	dw GenericBattleOptionsCursorToggleFunc
@@ -165,17 +141,9 @@ SetGenericCursorPositionFromOptions:
 	jp SetSingleBitOptionCursorPosition
 
 BattleOptionsInfoTextJumpTable:
-	dw TypeMatchupText
-	dw TypeMatchupText
-	dw TypeMatchupText
-	dw TypeMatchupText
 	dw EXPBarText
 	dw NPCEVsText
 	dw NPCPPText
-
-TypeMatchupText:
-	text_far _TypeMatchupText
-	text_end
 
 EXPBarText:
 	text_far _EXPBarText

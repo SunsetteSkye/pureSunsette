@@ -96,7 +96,7 @@ DEF EFFECTIVENESS_MASK EQU %01111111
 	const PSYCHIC_IMMUNITY         ; 3 ; Haze secondary effect
 	const HAS_SUBSTITUTE_UP        ; 4
 	const NEEDS_TO_RECHARGE        ; 5 ; Hyper Beam
-	const NORMAL_FIGHTING_IMMUNITY ; 6 ; Mist secondary effect
+	const NORMAL_DRAGON_IMMUNITY   ; 6 ; Mist secondary effect
 	const SEEDED                   ; 7
 
 ; wPlayerBattleStatus3 or wEnemyBattleStatus3 bit flags

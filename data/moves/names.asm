@@ -232,7 +232,7 @@ HORNATTACKName:
 FURYATTACKName:
 	db "DUAL SPEAR@"
 HORNDRILLName:
-	db "WICKED DRILL@" ; changed from HORN DRILL
+	db "VENOM DRILL@"
 TACKLEName:
 	db "TACKLE@"
 BODYSLAMName:
@@ -286,7 +286,7 @@ SURFName:
 ICEBEAMName:
 	db "ICE BEAM@"
 BLIZZARDName:
-	db "SLEET STORM@"
+	db "BLIZZARD@"
 PSYBEAMName:
 	db "PSYBEAM@"
 BUBBLEBEAMName:
@@ -320,7 +320,7 @@ GROWTHName:
 RAZORLEAFName:
 	db "RAZOR LEAF@"
 SOLARBEAMName:
-	db "SOLARBEAM@"
+	db "SOLAR CANNON@"
 POISONPOWDERName:
 	db "POISONPOWDER@"
 STUNSPOREName:
@@ -466,7 +466,7 @@ SPOREName:
 FLASHName:
 	db "FLASH@"
 PSYWAVEName:
-	db "MINDWIPE@" ; visible name; internal const PSYWAVE (was PSYWAVE)
+	db "SKITTERMIND@" ; internal const PSYWAVE
 SPLASHName:
 	db "SPLASH@"
 ACIDARMORName:

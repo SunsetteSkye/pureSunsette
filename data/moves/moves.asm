@@ -23,31 +23,31 @@ Moves:
 	move ICE_PUNCH,    NO_ADDITIONAL_EFFECT,        75, ICE,          100, 15 ; Sunsette: no status; dynamic ATTACK/SPECIAL category
 	move THUNDERPUNCH, NO_ADDITIONAL_EFFECT,        75, ELECTRIC,     100, 15 ; Sunsette: no status; dynamic ATTACK/SPECIAL category
 	move SCRATCH,      NO_ADDITIONAL_EFFECT,        45, NORMAL,       100, 35
-	move VICEGRIP,     SWIFT_EFFECT,                75, BUG,          100, 30 ; LOCKJAW: never-miss BUG move (+30% -1 EVASION via SwiftEffect_); was a paralysis move
-	move GUILLOTINE,   NO_ADDITIONAL_EFFECT,        90, BUG,           80,  5 ; Sunsette: powerful, inaccurate, high-crit BUG move (was OHKO) (EXTERMINATE)
-	move RAZOR_WIND,   ROOST_EFFECT,       	         0, FLYING,       100, 10 ; -> ROOST: heal 1/2 + refresh to natural type/palette (cures MINDWIPE/WATERIFY) + ground (strip FLYING/FLOATING this turn)
+	move VICEGRIP,     HOBBLE_EFFECT,               75, BUG,          100, 30 ; LOCKJAW: BUG move that guarantees -1 SPEED and -1 EVASION on the target (HobbleEffect_)
+	move GUILLOTINE,   NO_ADDITIONAL_EFFECT,        80, BUG,           80,  5 ; Sunsette: powerful, inaccurate, high-crit BUG move (was OHKO) (EXTERMINATE)
+	move RAZOR_WIND,   ROOST_EFFECT,       	         0, FLYING,       100, 10 ; -> ROOST: heal 1/2 + refresh to natural type/palette (cures SKITTERMIND/WATERIFY) + ground (strip FLYING/FLOATING this turn)
 	move SWORDS_DANCE, ATTACK_UP2_EFFECT,            0, FIRE,         100, 30 ; 
 	move CUT,          CUT_DISABLE_EFFECT,          70, BUG,          100, 20
 	move GUST,         ACCURACY_DOWN_SIDE_EFFECT,	50, FLYING,       100, 20 ; Sunsette: 30% chance to lower the target's ACCURACY
 	move WING_ATTACK,  FLINCH_SIDE_EFFECT2,         65, FLYING,       100, 15 ; Sunsette: 30% flinch
 	move WHIRLWIND,    CONFUSION_BIG_SIDE_EFFECT,  110, FLYING,        80, 10 ; HURRICANE
 	move FLY,          FLY_EFFECT,                  75, FLYING,       100, 20
-	move BIND,         TRAPPING_EFFECT,             25, ROCK,          85, 15 ; STONEBOUND
+	move BIND,         TRAPPING_EFFECT,             25, ROCK,          85,  5 ; STONEBOUND
 	move SLAM,         CUT_DISABLE_EFFECT,          70, POISON,       100, 20 ; WASTEMAKER
-	move VINE_WHIP,    DEFENSE_DOWN_SIDE_EFFECT,    40, GRASS,        100, 15
+	move VINE_WHIP,    DEFENSE_DOWN_SIDE_EFFECT,    30, GRASS,        100, 15
 	move STOMP,        FLINCH_SIDE_EFFECT2,         65, NORMAL,       100, 20
 	move DOUBLE_KICK,  ATTACK_TWICE_EFFECT,         30, FIGHTING,     100, 30
 	move MEGA_KICK,    PARALYZE_SIDE_EFFECT2,      110, FIGHTING,      90,  5 ; PISTON KICK: 30% paralyze
 	move JUMP_KICK,    JUMP_KICK_EFFECT,            95, FIGHTING,      90, 25
-	move ROLLING_KICK, SWIFT_EFFECT,                70, ROCK,         100, 15 ; METEOR SWEEP: never-miss ROCK move (+30% -1 EVASION)
+	move ROLLING_KICK, HOBBLE_EFFECT,               70, ROCK,         100, 15 ; METEOR SWEEP: ROCK move that guarantees -1 SPEED and -1 EVASION on the target (HobbleEffect_)
 	move SAND_ATTACK,  ACCURACY_DOWN1_EFFECT,        0, GROUND,       100, 15
 	move HEADBUTT,     FLINCH_SIDE_EFFECT2,         75, NORMAL,       100, 15
 	move HORN_ATTACK,  NO_ADDITIONAL_EFFECT,        60, ROCK,          90, 25 ; METEOR HORN 
 	move FURY_ATTACK,  BONEMERANG_EFFECT,           40, FLYING,        90, 20 ; DUAL SPEAR
-	move HORN_DRILL,   POISON_SIDE_EFFECT2,         80, POISON,       100, 10 ; -> WICKED DRILL ; high crit ratio
+	move HORN_DRILL,   POISON_SIDE_EFFECT2,         75, POISON,        80,  5 ; -> VENOM DRILL ; high crit ratio
 	move TACKLE,       NO_ADDITIONAL_EFFECT,        35, NORMAL,       100, 35
 	move BODY_SLAM,    PARALYZE_SIDE_EFFECT2,       85, NORMAL,       100, 15
-	move WRAP,         TRAPPING_EFFECT,             22, NORMAL,        75, 25
+	move WRAP,         TRAPPING_EFFECT,             15, NORMAL,        90, 10
 	move TAKE_DOWN,    HEAT_RUSH_EFFECT,            65, FIRE,         100, 20 ; -> HEAT RUSH ; Flame Charge: damage + raises user Speed
 	move THRASH,       THRASH_PETAL_DANCE_EFFECT,  100, DRAGON,       100, 20 ; OUTRAGE
 	move DOUBLE_EDGE,  RECOIL_EFFECT,          	   120, NORMAL,       100, 15
@@ -65,13 +65,13 @@ Moves:
 	move DISABLE,      DISABLE_EFFECT,               0, NORMAL,       100, 10
 	move ACID,         DEFENSE_DOWN_SIDE_EFFECT,    50, POISON,       100, 30
 	move EMBER,        BURN_SIDE_EFFECT1,           40, FIRE,         100, 25
-	move FLAMETHROWER, BURN_SIDE_EFFECT2,           90, FIRE,         100, 15
+	move FLAMETHROWER, BURN_SIDE_EFFECT2,           80, FIRE,         100, 15
 	move MIST,         MIST_EFFECT,                  0, ICE,          100, 30 ; priority (ETHEREAL)
 	move WATER_GUN,    WATERIFY_EFFECT,            45, WATER,        100, 25 ; Sunsette: retypes the target to WATER
-	move HYDRO_PUMP,   WATERIFY_EFFECT,           120, WATER,         85,  5 ; Sunsette: retypes the target to WATER
+	move HYDRO_PUMP,   WATERIFY_EFFECT,           120, WATER,         90, 10 ; Sunsette: retypes the target to WATER
 	move SURF,         SWIFT_EFFECT,  		        90, WATER,        100, 15
-	move ICE_BEAM,     FREEZE_SIDE_EFFECT2,          80, ICE,          100, 10
-	move BLIZZARD,     SWIFT_EFFECT      ,         100, ICE,          100,  5 ; SLEET STORM
+	move ICE_BEAM,     FREEZE_SIDE_EFFECT2,         80, ICE,         100, 10
+	move BLIZZARD,     FREEZE_SIDE_EFFECT2,         120, ICE,          80,  5 ; Sunsette: 30% freeze; reaches FLY users through their semi-invuln turn (CheckSemiInvulnBypass)
 	move PSYBEAM,      CONFUSION_SIDE_EFFECT,       65, PSYCHIC_TYPE, 100, 20
 	move BUBBLEBEAM,   CONFUSION_BIG_SIDE_EFFECT,   75, WATER,        100, 20
 	move AURORA_BEAM,  CONFUSION_BIG_SIDE_EFFECT,   65, ICE,          100, 20 ; Sunsette: 30% confusion 
@@ -88,18 +88,18 @@ Moves:
 	move LEECH_SEED,   LEECH_SEED_EFFECT,            0, GRASS,        100, 10
 	move GROWTH,       GROWTH_EFFECT,                0, GRASS,        100, 10 ; FLOURISH
 	move RAZOR_LEAF,   NO_ADDITIONAL_EFFECT,        55, GRASS,        100, 25 ; high crit ratio
-	move SOLARBEAM,    SOLARBEAM_EFFECT,    	   120, GRASS,        100,  5 ; Sunsette: pseudo-charge (power set live: 60 charge / 120 release / 90 fire by SolarBeamPowerModifier)
+	move SOLARBEAM,    SOLARBEAM_EFFECT,    	   120, GRASS,        100,  5 ; SOLAR CANNON: pseudo-charge (power set live: 60 charge / 120 release / 90 fire by SolarBeamPowerModifier)
 	move POISONPOWDER, POISON_EFFECT,                0, POISON,        75, 35
 	move STUN_SPORE,   PARALYZE_EFFECT,              0, GRASS,         75, 30
 	move SLEEP_POWDER, SLEEP_EFFECT,                 0, GRASS,         75, 15
 	move PETAL_DANCE,  CONFUSION_BIG_SIDE_EFFECT,  110, GRASS,         85, 10
 	move STRING_SHOT,  SPEED_DOWN1_EFFECT,           0, BUG,           95, 40
 	move DRAGON_RAGE,  SPECIAL_DOWN_SIDE_EFFECT,    90, DRAGON,       100, 10 ; WYRM WRATH
-	move FIRE_SPIN,    TRAPPING_EFFECT,             25, FIRE,          85, 15
+	move FIRE_SPIN,    TRAPPING_EFFECT,             30, FIRE,          85,  5
 	move THUNDERSHOCK, PARALYZE_SIDE_EFFECT1,       40, ELECTRIC,     100, 30
-	move THUNDERBOLT,  PARALYZE_SIDE_EFFECT2,       90, ELECTRIC,     100, 15
+	move THUNDERBOLT,  PARALYZE_SIDE_EFFECT2,       80, ELECTRIC,     100, 15
 	move THUNDER_WAVE, PARALYZE_EFFECT,              0, ELECTRIC,     100, 20
-	move THUNDER,      PARALYZE_SIDE_EFFECT1,      120, ELECTRIC,      90, 10
+	move THUNDER,      PARALYZE_SIDE_EFFECT1,      120, ELECTRIC,      85, 10
 	move ROCK_THROW,   NO_ADDITIONAL_EFFECT,        50, ROCK,          90, 15
 	move EARTHQUAKE,   SWIFT_EFFECT,    		   100, GROUND,       100, 10
 	move FISSURE,      OHKO_EFFECT,                  1, GROUND,        30,  5
@@ -138,30 +138,30 @@ Moves:
 	move SMOG,         POISON_SIDE_EFFECT2,         30, POISON,       100, 20
 	move SLUDGE,       POISON_SIDE_EFFECT2,         90, POISON,       100, 20 ; SLUDGE BOMB
 	move BONE_CLUB,    FLINCH_SIDE_EFFECT1,         65, GROUND,       100, 20
-	move FIRE_BLAST,   BURN_SIDE_EFFECT1,          120, FIRE,          90,  5
+	move FIRE_BLAST,   BURN_SIDE_EFFECT1,          120, FIRE,          85,  5
 	move WATERFALL,    FLINCH_SIDE_EFFECT2,         80, WATER,        100, 15
-	move CLAMP,        TRAPPING_EFFECT,             25, WATER,         75, 25
+	move CLAMP,        TRAPPING_EFFECT,             15, WATER,         90, 10
 	move SWIFT,        SWIFT_EFFECT,                50, NORMAL,       100, 20 ; 
-	move SKULL_BASH,   JUMP_KICK_EFFECT,           110, ROCK,          80, 10
+	move SKULL_BASH,   JUMP_KICK_EFFECT,           100, ROCK,          80, 10
 	move SPIKE_CANNON, TWO_OR_THREE_ATTACKS_EFFECT, 42, ROCK,         100, 10
 	move CONSTRICT,    PARALYZE_SIDE_EFFECT2,       75, GRASS,     100, 20 ; -> STRANGLEVINE: 30% paralyze; 90 BP for TANGELA (see RemappableMoves)
 	move AMNESIA,      SPECIAL_UP1_EFFECT,           0, PSYCHIC_TYPE, 100, 20 ; CALM MIND: +1 SPECIAL (raises both special atk & def in Gen 1)
 	move KINESIS,      MIRAGE_EFFECT,                0, FIRE,          90, 30 ; -> MIRAGE ; no damage; confuses a non-fire target, burns if user is fire or target already confused
 	move SOFTBOILED,   HEAL_EFFECT,                  0, NORMAL,       100, 10
-	move HI_JUMP_KICK, JUMP_KICK_EFFECT,           130, FIGHTING,      90, 10
+	move HI_JUMP_KICK, JUMP_KICK_EFFECT,           120, FIGHTING,      90, 10
 	move GLARE,        PARALYZE_EFFECT,              0, NORMAL,       100, 30
-	move DREAM_EATER,  DRAIN_HP_EFFECT,             90, GHOST,        100, 15 ; SOULSTEALER (was DREAM EATER): heals only if the foe has a status or is confused (gated in DrainHPEffect_)
+	move DREAM_EATER,  DRAIN_HP_EFFECT,             90, GHOST,        100, 15 ; SOULSTEALER : heals only if the foe has a status or is confused
 	move POISON_GAS,   FLINCH_SIDE_EFFECT2,         40, POISON,       100, 20 ; MIASMA priority move ; high flinch chance
 	move BARRAGE,      SPECIAL_DOWN_SIDE_EFFECT,    80, GHOST,        100, 20 ; -> SHADOW BALL (was SPIRIT BOMB): 80 BP GHOST, ~33% chance to drop the foe's SPECIAL
 	move LEECH_LIFE,   DRAIN_HP_EFFECT,             75, BUG,          100, 15
 	move LOVELY_KISS,  SLEEP_EFFECT,                 0, PSYCHIC_TYPE,  75, 10
-	move SKY_ATTACK,   RECOIL_EFFECT,          	   130, FLYING,       100, 10
+	move SKY_ATTACK,   RECOIL_EFFECT,          	   120, FLYING,       100, 10
 	move TRANSFORM,    TRANSFORM_EFFECT,             0, NORMAL,       100, 10 ; priority move
 	move BUBBLE,       CONFUSION_BIG_SIDE_EFFECT,   20, WATER,        100, 30 ; low confusion chance
 	move DIZZY_PUNCH,  CONFUSION_BIG_SIDE_EFFECT,   90, FIGHTING,     100, 10
 	move SPORE,        SLEEP_EFFECT,                 0, GRASS,         90, 15
 	move FLASH,        FLASH_EFFECT,                 0, ELECTRIC,     100, 15 ; priority move; no damage, +3 user ACCURACY, 30% flinch
-	move PSYWAVE,      MINDWIPE_EFFECT,              0, PSYCHIC_TYPE, 100, 20 ; MINDWIPE: no damage; retype target to BUG (gray palette) + -1 ACCURACY
+	move PSYWAVE,      MINDWIPE_EFFECT,              0, PSYCHIC_TYPE, 100, 20 ; SKITTERMIND: no damage; retype target to BUG (gray palette) + -1 ACCURACY
 	move SPLASH,       SPLASH_EFFECT,                0, NORMAL,       100, 40
 	move ACID_ARMOR,   ACID_ARMOR_EFFECT,            0, POISON,       100, 20 ; combined reflect and light screen effects in one move (ACID CLOAK)
 	move CRABHAMMER,   NO_ADDITIONAL_EFFECT,        50, WATER,         95, 10 ; high critical hit ratio

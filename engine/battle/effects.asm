@@ -1285,8 +1285,9 @@ TrappingEffect:
 	ld a, 3
 .setTrappingCounter
 	dec a
-;;;;;;;;;;;;;;;;;
 	ld [de], a
+;;;;;;;;;;;;;;;;;
+	callfar ArbokWrapBonus ; Sunsette: ARBOK's WRAP keeps the foe trapped 2 rounds longer (self-contained; honors the signature toggle)
 	ret
 
 MistEffect:

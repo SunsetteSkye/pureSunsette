@@ -32,6 +32,88 @@ RedsHouse1FMomText:
 	rst _PrintText
 	rst TextScriptEnd
 .normalMom
+; Sunsette: one-time badge-milestone gift dialogue. Champion line takes priority; otherwise the highest
+; badge Mom cares about (Boulder/Thunder/Marsh=Psychic/Volcano) that hasn't been claimed. Only the current
+; (highest) milestone is ever offered, so reaching a higher one without talking loses the lower line + gift.
+	CheckEvent EVENT_BEAT_CHAMPION_RIVAL
+	jr z, .momCheckBadges
+	CheckEvent EVENT_MOM_CHAMPION_TALK
+	jr nz, .momCheckBadges
+	ld hl, .MomChampionText
+	rst _PrintText
+	lb bc, MASTER_BALL, 1
+	call GiveItem
+	jr nc, .momChampBagFull
+	ld hl, .MomChampionGiftText
+	rst _PrintText
+	SetEvent EVENT_MOM_CHAMPION_TALK
+	rst TextScriptEnd
+.momChampBagFull
+	ld hl, .MomBallsNoRoomText
+	rst _PrintText
+	rst TextScriptEnd
+.momCheckBadges
+	ld a, [wObtainedBadges]
+	ld b, a
+	bit BIT_VOLCANOBADGE, b
+	jr nz, .momVolcano
+	bit BIT_PSYCHICBADGE, b
+	jr nz, .momMarsh
+	bit BIT_THUNDERBADGE, b
+	jr nz, .momThunder
+	bit BIT_BOULDERBADGE, b
+	jr nz, .momBoulder
+	jr .momNoGift
+.momVolcano
+	CheckEvent EVENT_MOM_GIFT_VOLCANO
+	jr nz, .momNoGift
+	ld hl, .MomVolcanoText
+	call .momGiveRareCandy
+	jr nc, .momGiftDone
+	SetEvent EVENT_MOM_GIFT_VOLCANO
+	jr .momGiftDone
+.momMarsh
+	CheckEvent EVENT_MOM_GIFT_MARSH
+	jr nz, .momNoGift
+	ld hl, .MomMarshText
+	call .momGiveRareCandy
+	jr nc, .momGiftDone
+	SetEvent EVENT_MOM_GIFT_MARSH
+	jr .momGiftDone
+.momThunder
+	CheckEvent EVENT_MOM_GIFT_THUNDER
+	jr nz, .momNoGift
+	ld hl, .MomThunderText
+	call .momGiveRareCandy
+	jr nc, .momGiftDone
+	SetEvent EVENT_MOM_GIFT_THUNDER
+	jr .momGiftDone
+.momBoulder
+	CheckEvent EVENT_MOM_GIFT_BOULDER
+	jr nz, .momNoGift
+	ld hl, .MomBoulderText
+	call .momGiveRareCandy
+	jr nc, .momGiftDone
+	SetEvent EVENT_MOM_GIFT_BOULDER
+.momGiftDone
+	rst TextScriptEnd
+; prints the dialogue in hl, gives one RARE CANDY; carry set = given (flag should be set), clear = bag full
+.momGiveRareCandy
+	rst _PrintText
+	lb bc, RARE_CANDY, 1
+	call GiveItem
+	jr nc, .momCandyNoRoom
+	ld hl, .MomGotCandyText
+	rst _PrintText
+	scf
+	ret
+.momCandyNoRoom
+	ld hl, .MomBallsNoRoomText ; reuses _GenericNoRoomText
+	rst _PrintText
+	and a
+	ret
+.momNoGift
+	callfar MomBadgeComment ; Sunsette: one-time acknowledgment (no item) for Daisy's badge set
 	CheckEvent EVENT_MET_DAD
 	jr nz, .dadAround
 	CheckEvent EVENT_CALLED_DAD_WAITING
@@ -184,6 +266,29 @@ RedsHouse1FMomText:
 	text_far _GenericNoRoomText
 	text_end
 
+.MomBoulderText:
+	text_far _MomMilestoneBoulderText
+	text_end
+.MomThunderText:
+	text_far _MomMilestoneThunderText
+	text_end
+.MomMarshText:
+	text_far _MomMilestoneMarshText
+	text_end
+.MomVolcanoText:
+	text_far _MomMilestoneVolcanoText
+	text_end
+.MomChampionText:
+	text_far _MomMilestoneChampionText
+	text_end
+.MomChampionGiftText:
+	text_far _MomChampionGiftText
+	sound_get_item_1
+	text_end
+.MomGotCandyText:
+	text_far _MomMilestoneGotCandyText
+	sound_get_item_1
+	text_end
 MomDadNotHereText:
 	text_far _MomDadNotHereText
 	text_end

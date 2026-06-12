@@ -60,7 +60,7 @@ _SilphCo8FRocket2BattleText::
 _SilphCo7FRocket2BattleText::
 _SilphCo6FRocket1BattleText::
 	text "I am one of the 4"
-	line "<ROCKET> BROTHERS!"
+	line "<ROCKET> SISTERS!"
 	done
 
 _SilphCo6FRocket1EndBattleText::
@@ -70,7 +70,7 @@ _SilphCo6FRocket1EndBattleText::
 
 _SilphCo6FRocket1AfterBattleText::
 	text "No matter!"
-	line "My brothers will"
+	line "My sisters will"
 	cont "avenge me!"
 	done
 

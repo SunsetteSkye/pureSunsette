@@ -18,8 +18,8 @@ LoneMoves:
 	db 4, 2, 1, SOLARBEAM   ; Erika: Dragonair gets SOLARBEAM over QUICK_ATTACK (slot 1) - showcases the reworked SolarBeam; keeps DISABLE + OUTRAGE + MIST
 	db 5, 4, 0, TOXIC       ; Koga: Weezing ace (Tentacruel, Muk, Venomoth, Scyther, Weezing)
 	db 6, 5, 1, PSYCHIC_M   ; Sabrina: Alakazam ace (Hypno, Mr.Mime, Golduck, Butterfree, Gengar, Alakazam)
-	db 6, 5, 2, PSYWAVE     ; Sabrina: Alakazam ace also gets MINDWIPE (PSYWAVE) - her signature TM move
-	db 6, 0, 3, PSYWAVE     ; Sabrina: Hypno gets MINDWIPE too, so the team showcases it
+	db 6, 5, 2, PSYWAVE     ; Sabrina: Alakazam ace also gets SKITTERMIND (PSYWAVE) - her signature TM move
+	db 6, 0, 3, PSYWAVE     ; Sabrina: Hypno gets SKITTERMIND too, so the team showcases it
 	db 7, 5, 1, FIRE_BLAST  ; Blaine: Arcanine ace (Ninetales, Magmar, Electrode, Rapidash, Golem, Arcanine)
 	db 7, 2, 1, THUNDERBOLT ; Blaine: Electrode gets THUNDERBOLT over Reflect (slot 1)
 	db 8, 5, 1, EARTHQUAKE  ; Giovanni: Rhydon ace (Kingler, Dodrio, Dugtrio, Nidoqueen, Nidoking, Rhydon)

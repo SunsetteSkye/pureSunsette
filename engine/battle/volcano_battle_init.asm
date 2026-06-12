@@ -274,7 +274,7 @@ ApplyPlayerSendOutMapEffects::
 	ld hl, wBattleMonFlags ; Sunsette: a freshly sent-out mon isn't WATERIFY-soaked; clear the blue flag (bit 1)
 	res 1, [hl]
 	res 2, [hl] ; and isn't CONVERSION-recolored (bit 2) - its types reset to natural on send-out
-	res 3, [hl] ; and isn't MINDWIPE-grayed (bit 3)
+	res 3, [hl] ; and isn't SKITTERMIND-grayed (bit 3)
 	ld hl, wPlayerBattleStatus3
 	res SOLARBEAM_PRIMED, [hl] ; Sunsette: switching out disarms a charged SolarBeam
 	ld a, 1 ; target = player
@@ -800,6 +800,55 @@ SetUserGrowing:
 	set GROWING, [hl]
 	ret
 
+; Sunsette: SNORLAX's REST also grants the FLOURISH/GROWING regen state and +1 SPEED. Called from
+; HealEffect_ (heal.asm) on the successful-REST branch; hWhoseTurn = the REST user. Honors the MOVE
+; MYSTIC signature-move toggle. The SPEED boost borrows StatModifierUpEffect via JoltBoltEffect_'s
+; temp-swap (set the effect to SPEED_UP1, zero the move num to dodge the Minimize/substitute path).
+SnorlaxRestBonus::
+	CheckEvent FLAG_SIGNATURE_MOVES_TURNED_OFF
+	ret nz
+	ldh a, [hWhoseTurn]
+	and a
+	ld a, [wBattleMonSpecies]
+	jr z, .gotSpecies
+	ld a, [wEnemyMonSpecies]
+.gotSpecies
+	cp SNORLAX
+	ret nz
+	call SetUserGrowing ; FLOURISH regen (GROWING) on the user
+	ldh a, [hWhoseTurn]
+	and a
+	ld hl, wPlayerMoveEffect
+	ld de, wPlayerMoveNum
+	jr z, .gotPtrs
+	ld hl, wEnemyMoveEffect
+	ld de, wEnemyMoveNum
+.gotPtrs
+	ld a, [hl]
+	push af ; save the real move effect (HEAL_EFFECT)
+	ld a, [de]
+	push af ; save the real move num (REST)
+	ld a, SPEED_UP1_EFFECT
+	ld [hl], a
+	xor a
+	ld [de], a ; zero move num -> dodge the Minimize/substitute path
+	SetFlag FLAG_SKIP_STAT_ANIMATION
+	callfar StatModifierUpEffect ; +1 SPEED to the user
+	ResetFlag FLAG_SKIP_STAT_ANIMATION
+	ldh a, [hWhoseTurn]
+	and a
+	ld hl, wPlayerMoveEffect
+	ld de, wPlayerMoveNum
+	jr z, .restore
+	ld hl, wEnemyMoveEffect
+	ld de, wEnemyMoveNum
+.restore
+	pop af
+	ld [de], a ; restore move num
+	pop af
+	ld [hl], a ; restore move effect
+	ret
+
 ; Sunsette: shared body for HAZE_EFFECT and FLASH_EFFECT - both point at Battle Core's HazeEffect
 ; trampoline (Battle Core is full, so we can't afford a second one), which jpfar's here. We dispatch on
 ; the active move effect: FLASH_EFFECT branches to the Flash body below; otherwise it's Haze.
@@ -827,6 +876,8 @@ HazeFlinchEffect_::
 	jp z, RoostEffect_
 	cp JOLT_BOLT_EFFECT
 	jp z, JoltBoltEffect_
+	cp HOBBLE_EFFECT
+	jp z, HobbleEffect_
 	callfar HazeEffect_
 	jpfar FlinchSideEffect
 
@@ -1065,7 +1116,7 @@ SolarBeamAnimSwap::
 	ld [wAnimationID], a
 	ret
 
-; Sunsette: MINDWIPE (PSYWAVE). No-damage PSYCHIC status move, reached via the Haze trampoline ->
+; Sunsette: SKITTERMIND (PSYWAVE). No-damage PSYCHIC status move, reached via the Haze trampoline ->
 ; HazeFlinchEffect_ (it's in ResidualEffects1, so it's dispatched before damage and runs its own
 ; accuracy test). It RETYPES the target to NORMAL with a gray "wiped" palette (the WATERIFY flag path,
 ; bit 3 of the target's Flags byte), drops the target's SPECIAL by 1, and confuses it. A Substitute
@@ -1095,7 +1146,7 @@ MindwipeEffect_::
 	ld a, BUG
 	ld [hli], a ; type1 = BUG
 	ld [hli], a ; type2 = BUG; hl -> Flags byte
-	set 3, [hl] ; bit 3 = MINDWIPE gray palette (preserves bits 0-2)
+	set 3, [hl] ; bit 3 = SKITTERMIND gray palette (preserves bits 0-2)
 	call RunDefaultPaletteCommand ; re-apply SET_PAL_BATTLE so the gray shows immediately
 	ld hl, MindwipedText
 	rst _PrintText
@@ -1126,13 +1177,13 @@ MindwipedText:
 
 ; Sunsette: ROOST (RAZOR_WIND). No-damage status move (ResidualEffects1 -> Haze trampoline). It heals
 ; 1/2 (reusing HealEffect_, which heals 1/2 for RAZOR_WIND's move num + plays the anim), then does a full
-; refresh of the user to its NATURAL types + palette (curing MINDWIPE's BUG / WATERIFY's WATER + their
+; refresh of the user to its NATURAL types + palette (curing SKITTERMIND's BUG / WATERIFY's WATER + their
 ; palettes), then strips FLYING/FLOATING for this turn (grounding it; NORMAL if that would leave it
 ; typeless, e.g. a CONVERSION'd pure-Flyer). The stripped types come back at the start of the user's next
 ; turn via RestoreRoostedTypes (callfar'd from the move preamble). hWhoseTurn = the ROOST user.
 RoostEffect_::
 	farcall HealEffect_          ; heal 1/2 + move animation + "regained health" (RAZOR_WIND move num -> 1/2)
-	call RefreshUserNaturalTypes ; restore base types + clear the WATERIFY/CONVERSION/MINDWIPE palette flags
+	call RefreshUserNaturalTypes ; restore base types + clear the WATERIFY/CONVERSION/SKITTERMIND palette flags
 	call StripFlyingFloating     ; ground the user (remove FLYING/FLOATING; NORMAL fallback)
 	ldh a, [hWhoseTurn]
 	and a
@@ -1160,7 +1211,7 @@ RestoreRoostedTypes::
 
 ; Sunsette: reload the user's NATURAL types from its species header (same source as send-out:
 ; GetMonHeader -> wMonHTypes -> copy -> TryRemapTyping) and clear its type-change palette flags + repaint.
-; This undoes any MINDWIPE (BUG) / WATERIFY (WATER) / CONVERSION retype + their palettes. hWhoseTurn = user.
+; This undoes any SKITTERMIND (BUG) / WATERIFY (WATER) / CONVERSION retype + their palettes. hWhoseTurn = user.
 RefreshUserNaturalTypes:
 	ldh a, [hWhoseTurn]
 	and a
@@ -1191,7 +1242,7 @@ RefreshUserNaturalTypes:
 .gotFlags
 	res 1, [hl]                 ; WATERIFY blue
 	res 2, [hl]                 ; CONVERSION recolor
-	res 3, [hl]                 ; MINDWIPE gray
+	res 3, [hl]                 ; SKITTERMIND gray
 	jp RunDefaultPaletteCommand ; repaint to the natural palette (home; tail-call)
 
 ; Sunsette: remove FLYING ($02) and FLOATING ($12) from the user's two type bytes. If both are an air
@@ -1287,6 +1338,102 @@ JoltBoltEffect_:
 	ld [hl], a ; restore move effect
 	ret
 
+; Sunsette: LOCKJAW (Vicegrip) / METEOR SWEEP (Rolling Kick) signature - guaranteed -1 SPEED and -1
+; EVASION to the TARGET on hit (post-damage; HOBBLE_EFFECT is kept out of SpecialEffects so it runs via
+; .executeOtherEffects, i.e. only when the move connected and the target survived). Reached from the
+; shared HazeEffect trampoline via HazeFlinchEffect_. We borrow StatModifierDownEffect twice by
+; temporarily pointing the user's move effect at SPEED_DOWN1 then EVASION_DOWN1, each with
+; FLAG_SKIP_STAT_ANIMATION (skips the accuracy/invuln re-test + the stat anim, so the drop is guaranteed)
+; and FLAG_SKIP_NPC_STAT_DOWN_DEBUFF (so an enemy user isn't subject to the 25% stat-down miss). If the
+; target has a substitute, StatModifierDownEffect bails to MoveMissed - harmless, the move already hit.
+HobbleEffect_:
+	SetFlag FLAG_SKIP_STAT_ANIMATION
+	SetFlag FLAG_SKIP_NPC_STAT_DOWN_DEBUFF
+	ld a, SPEED_DOWN1_EFFECT
+	call .applyDrop ; -1 SPEED on the target ("fell" line, no anim, guaranteed)
+	ld a, EVASION_DOWN1_EFFECT
+	call .applyDrop ; -1 EVASION on the target
+	ResetFlag FLAG_SKIP_NPC_STAT_DOWN_DEBUFF
+	ResetFlag FLAG_SKIP_STAT_ANIMATION
+	; restore the real move effect (HOBBLE_EFFECT)
+	ldh a, [hWhoseTurn]
+	and a
+	ld hl, wPlayerMoveEffect
+	jr z, .restoreReal
+	ld hl, wEnemyMoveEffect
+.restoreReal
+	ld a, HOBBLE_EFFECT
+	ld [hl], a
+	ret
+
+; a = the temporary -1 stat-down effect to apply; StatModifierDownEffect re-derives its own side pointers
+; from hWhoseTurn, so we only need to write the temp effect into the user's move-effect byte each time.
+.applyDrop
+	push af
+	ldh a, [hWhoseTurn]
+	and a
+	ld hl, wPlayerMoveEffect
+	jr z, .gotPtr
+	ld hl, wEnemyMoveEffect
+.gotPtr
+	pop af
+	ld [hl], a
+	callfar StatModifierDownEffect
+	ret
+
+; Sunsette: decide whether the move being used can reach the target through a semi-invulnerable (Fly/Dig)
+; state. Self-contained (derives target + move from hWhoseTurn) so it's safe to callfar from MoveHitTest
+; (Battle Core is full); callfar preserves carry, so the caller branches on the result directly.
+; Returns carry SET = reachable: the target isn't semi-invulnerable, OR this move can bypass its state.
+; Returns carry CLEAR = the target dodges (semi-invulnerable in a state this move can't reach).
+; The INVULNERABLE bit is shared by Fly and Dig; wChargeMoveNum (set by ChargeEffect on the most recent
+; charger - the target mid-charge) tells which one. SWIFT bypasses both; SURF/EARTHQUAKE bypass DIG only;
+; BLIZZARD/THUNDER/WHIRLWIND (HURRICANE) bypass FLY only; anything else can't reach a semi-invuln target.
+CheckSemiInvulnBypass::
+	ldh a, [hWhoseTurn]
+	and a
+	jr nz, .enemyTurn
+	ld a, [wEnemyBattleStatus1] ; player attacking -> target is the enemy
+	bit INVULNERABLE, a
+	jr z, .reachable ; not flying/digging -> reachable
+	ld a, [wPlayerMoveNum]
+	jr .classify
+.enemyTurn
+	ld a, [wPlayerBattleStatus1]
+	bit INVULNERABLE, a
+	jr z, .reachable
+	ld a, [wEnemyMoveNum]
+.classify
+	cp SWIFT
+	jr z, .reachable ; Swift reaches both Fly and Dig
+	cp SURF
+	jr z, .digOnly
+	cp EARTHQUAKE
+	jr z, .digOnly
+	cp BLIZZARD
+	jr z, .flyOnly
+	cp THUNDER
+	jr z, .flyOnly
+	cp WHIRLWIND ; HURRICANE
+	jr z, .flyOnly
+	and a ; no bypass -> clear carry (dodged)
+	ret
+.digOnly
+	ld a, [wChargeMoveNum]
+	cp DIG
+	jr z, .reachable
+	and a
+	ret
+.flyOnly
+	ld a, [wChargeMoveNum]
+	cp FLY
+	jr z, .reachable
+	and a
+	ret
+.reachable
+	scf
+	ret
+
 ; Sunsette: stores the SecondWind heal (de = new HP, passed through the callfar from SecondWindHeal in
 ; bank3 - Bankswitch preserves de) and animates the player's in-battle HP bar filling like a Potion,
 ; instead of snapping it. On entry wBattleMonHP still holds the OLD HP, which we capture as wHPBarOldHP.
@@ -1351,7 +1498,7 @@ EnemyOnSendOut::
 	ld hl, wEnemyMonFlags ; Sunsette: a fresh enemy mon isn't WATERIFY-soaked; clear bit 1 (keep bit 0 = confuse-ray alt palette)
 	res 1, [hl]
 	res 2, [hl] ; and isn't CONVERSION-recolored (bit 2) - types reset to natural on send-out
-	res 3, [hl] ; and isn't MINDWIPE-grayed (bit 3)
+	res 3, [hl] ; and isn't SKITTERMIND-grayed (bit 3)
 	ld hl, wEnemyBattleStatus3
 	res SOLARBEAM_PRIMED, [hl] ; Sunsette: switching out disarms a charged SolarBeam
 	callfar AutoWakeUpScreechEnemy ; preserve original on-send-out behavior

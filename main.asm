@@ -487,6 +487,9 @@ INCLUDE "engine/battle/prevent_invalid_encounters.asm"
 INCLUDE "engine/items/sort_items.asm"
 INCLUDE "engine/events/move_relearner.asm" ; Sunsette: ADDED: Viridian schoolhouse Move Relearner (movedex + 2 badges)
 INCLUDE "engine/events/museum_exhibit_bonus.asm" ; Sunsette: ADDED: Pewter Museum exhibit "feel smarter" Special stat-EXP bonus
+INCLUDE "engine/events/family_badge_comments.asm" ; Sunsette: MOM/DAISY non-item badge acknowledgments (callfar'd from their full map banks)
+INCLUDE "engine/events/oak_legendary_comments.asm" ; Sunsette: OAK's one-time legendary remarks (callfar'd from OaksLab)
+INCLUDE "engine/battle/arbok_signature.asm" ; Sunsette: ARBOK FOCUS ENERGY (+2 SPEED) / WRAP (+2 trap turns) bonuses (callfar'd; Battle Core + newCode are full)
 
 SECTION "Silph Card Key Scripts", ROMX
 

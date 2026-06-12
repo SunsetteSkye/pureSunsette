@@ -1,4 +1,8 @@
 OaksLab_Script:
+	call WasMapJustLoaded ; Sunsette: clear OAK's legendary "one comment per visit" gate on each lab reload
+	jr z, .notJustLoaded
+	ResetEvent EVENT_OAK_COMMENTED_THIS_VISIT
+.notJustLoaded
 	CheckEvent EVENT_PALLET_AFTER_GETTING_POKEBALLS_2
 	call nz, OaksLabLoadTextPointers2Script
 	ld a, 1 << BIT_NO_AUTO_TEXT_BOX
@@ -925,6 +929,7 @@ OaksLabOak1Text:
 	CheckEvent EVENT_GOT_POKEDEX
 	jr z, .check_for_poke_balls
 .already_got_poke_balls
+	callfar OakVisitComment ; Sunsette: legendary remark (random, 1/visit) or else a highest-badge remark, then normal dex talk
 	ld hl, .HowIsYourPokedexComingText
 	rst _PrintText
 	ld a, $1

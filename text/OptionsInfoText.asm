@@ -81,18 +81,6 @@ _GBCFadeInfoText::
 	cont "are used."
 	prompt
 
-_TypeMatchupText::
-	text "Chooses how"
-	line "effective the"
-	cont "left TYPE is when"
-	cont "attacking the"
-	cont "right TYPE."
-	para "0×: no effect"
-	line "0.5×: notvery eff"
-	para "1×: normal effect"
-	line "2×: super effect"
-	prompt
-
 _EXPBarText::
 	text "If ON, A small EXP"
 	line "tracker displays"

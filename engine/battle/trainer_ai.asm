@@ -162,8 +162,8 @@ AIMoveChoiceModification1:
 	cp SOLARBEAM
 	call z, EncourageSolarBeam ; Sunsette: once charged, prefer firing the SolarBeam release
 	ld a, [wEnemyMoveNum]
-	cp PSYWAVE ; MINDWIPE
-	call z, ScoreMindwipe ; Sunsette: MINDWIPE - avoid vs Bug/Poison/Fighting, prefer vs Ghost/Normal
+	cp PSYWAVE ; SKITTERMIND
+	call z, ScoreMindwipe ; Sunsette: SKITTERMIND - avoid vs Bug/Poison/Fighting, prefer vs Ghost/Normal
 	ld a, [wPlayerBattleStatus1]
 	bit INVULNERABLE, a
 	jp nz, .playerSemiInvulnerable
@@ -214,7 +214,7 @@ AIMoveChoiceModification1:
 					   ; even if the player heals the status or switches out that turn
 	ld a, [wAIMoveSpamAvoider] ; set if we switched or healed this turn
 	cp 2 ; set to 2 if we switched
-	jp z, .nextMove ; if the AI thinks the player DOESNT have a status before they switch, we should avoid discouraging status moves (jp: my MINDWIPE hook pushed this past jr range)
+	jp z, .nextMove ; if the AI thinks the player DOESNT have a status before they switch, we should avoid discouraging status moves (jp: my SKITTERMIND hook pushed this past jr range)
 	ld a, [wBattleMonStatus]
 	and a
 	jp z, .nextMove ; no need to discourage status moves if the player doesn't have a status (jp: my SolarBeam hook pushed this past jr range)
@@ -450,7 +450,7 @@ EncourageSolarBeam:
 	ld [hl], a
 	ret
 
-; Sunsette: MINDWIPE (PSYWAVE) retypes the target to BUG. Pointless/bad vs a target that's already
+; Sunsette: SKITTERMIND (PSYWAVE) retypes the target to BUG. Pointless/bad vs a target that's already
 ; BUG/POISON/FIGHTING (discourage, +5), great vs GHOST or NORMAL (encourage, -3 = lower score = more
 ; likely). hl = the move's score slot; preserve hl/de/bc for the AIMoveChoiceModification1 loop.
 ScoreMindwipe:

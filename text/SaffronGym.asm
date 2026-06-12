@@ -41,7 +41,7 @@ _TM46ExplanationText::
 	text_start
 	para "@"
 	text_ram_stringbuffer
-	text " is MINDWIPE!"
+	text " is SKITTERMIND!"
 	para "Empty the foe's"
 	line "mind of all that"
 	cont "it is!"

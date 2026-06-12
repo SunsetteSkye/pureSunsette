@@ -121,12 +121,12 @@ _SilphCo7FScientistAfterBattleText::
 
 _SilphCo7FRocket2EndBattleText::
 	text "Aack!"
-	line "Brothers, I lost!"
+	line "Sisters, I lost!"
 	prompt
 
 _SilphCo7FRocket2AfterBattleText::
 	text "Doesn't matter."
-	line "My brothers will"
+	line "My sisters will"
 	cont "repay the favor!"
 	done
 

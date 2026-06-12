@@ -10,7 +10,8 @@ FocusEnergyEffect_:
 	set GETTING_PUMPED, [hl] ; mon is now using focus energy
 	callfar PlayCurrentMoveAnimation
 	ld hl, GettingPumpedText
-	jp PrintText
+	call PrintText
+	jpfar ArbokFocusEnergyBonus ; Sunsette: ARBOK signature - also +2 SPEED (no-op for any other user). Only on a fresh use, so the "already active -> fails" rule still prevents stacking the boost.
 .alreadyUsing
 	ld c, 50
 	rst _DelayFrames

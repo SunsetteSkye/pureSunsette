@@ -87,28 +87,22 @@ RemappableMoves::
 	db SOLARBEAM, -1, -2, 7 ; Sunsette: live power - 60 (charge) / 120 (release, primed) / 90 (FIRE user)
 	; signature moves start here
 	db POISON_STING, BEEDRILL, 45, 0
-	db TWINEEDLE, BEEDRILL, 65, 0 
-	db ACID, ARBOK, 100, 0
-	db DRILL_PECK, FEAROW, 100, 0
+	db TWINEEDLE, BEEDRILL, 65, 0
 	db ROCK_SLIDE, GOLEM, 110, 0
-	db HI_JUMP_KICK, HITMONLEE, 120, 0
-	db COMET_PUNCH, HITMONCHAN, 90, 0 ; MACH PUNCH
-	db THUNDERPUNCH, ELECTABUZZ, 105, 0
-	db FIRE_PUNCH, MAGMAR, 105, 0
-	db ICE_PUNCH, JYNX, 105, 0
+	db THUNDERPUNCH, ELECTABUZZ, 90, 0
+	db FIRE_PUNCH, MAGMAR, 90, 0
+	db ICE_PUNCH, JYNX, 90, 0
 	db HYPNOSIS, HYPNO, -1, 85 percent
 	db DRAGON_RAGE, DRAGONITE, 110, 0 ; WYRM WRATH
-	db WATERFALL, SEAKING, 120, 0
-	db DIZZY_PUNCH, KANGASKHAN, 110, 0
+	db WATERFALL, SEAKING, 110, 0
 	db LICK, LICKITUNG, 70, 0
 	db SPIKE_CANNON, OMASTAR, 70, 0
 	db WHIRLWIND, PIDGEOT, -1, 100 percent ; HURRICANE
 	db HYDRO_PUMP, BLASTOISE, -1, 100 percent
-	db FIRE_BLAST, ARCANINE, -1, 100 percent
-	db BLIZZARD, DEWGONG, -1, 100 percent ; SLEET STORM
 	db PSYBEAM, GOLDUCK, 105, 0
 	db CONSTRICT, TANGELA, 90, 0 ; STRANGLEVINE: 75 BP normally, 90 BP for TANGELA (signature)
 	db LOW_KICK, -1, -2, 8 ; Sunsette: power scales with the TARGET's weight (LowKickModifier)
+	db CRABHAMMER, -1, -2, 9 ; Sunsette: signature power by user - 75 KRABBY / 100 KINGLER (CrabhammerModifier)
 	; SKULL_BASH for BLASTOISE is handled in SkullBashModifier (SKULL_BASH already has a modifier entry above) (METEOR DRIVE)
 	db -1
 
@@ -122,6 +116,7 @@ ModifierFuncs:
 	dw FilthySlamModifier
 	dw SolarBeamPowerModifier
 	dw LowKickModifier
+	dw CrabhammerModifier
 
 ; Sunsette: SolarBeam's power is decided live, before damage calc, from the user's state:
 ;   FIRE-type user           -> 90  (one-shot recoil+burn variant, never primes)
@@ -212,6 +207,28 @@ LowKickModifier:
 	ld a, b
 	sbc d                    ; bc - de: carry set if bc < de (weight > threshold)
 	ccf                      ; invert: carry set if de <= bc
+	ret
+
+; Sunsette: CRABHAMMER is the KRABBY line's signature move - 75 BP for KRABBY, 100 BP for KINGLER.
+; Any other user keeps the move's listed 50 BP. Toggleable via the MOVE MYSTIC's signature switch.
+; byte 2 of its RemappableMoves entry is -1, so CheckRemapMoveData skips the signature gate - we do it here.
+CrabhammerModifier:
+	CheckEvent FLAG_SIGNATURE_MOVES_TURNED_OFF
+	ret nz
+	call GetMoveRemapData ; d = user species
+	ld a, d
+	cp KRABBY
+	jr z, .krabby
+	cp KINGLER
+	ret nz
+	call GetMoveRemapData2 ; bc = wXxxMovePower (clobbers a)
+	ld a, 100
+	ld [bc], a
+	ret
+.krabby
+	call GetMoveRemapData2
+	ld a, 75
+	ld [bc], a
 	ret
 
 CheckIfAsleep::

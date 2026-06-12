@@ -252,22 +252,8 @@ SaffronGymYoungster1EndBattleText:
 	text_far _SaffronGymYoungster1EndBattleText
 	text_end
 
-; PureRGBnote: CHANGED: this trainer will change how they respond now based on your type matchup settings
+; Sunsette: PSYCHIC is always weak to BUG+GHOST now, so this is always the bug-and-ghost line
 SaffronGymYoungster1AfterBattleText:
-	text_asm
-	ld a, [wOptions3]
-	bit BIT_GHOST_PSYCHIC, a
-	ld hl, .onlyBugText
-	jr nz, .print
-	ld hl, .bugAndGhostText
-.print
-	rst _PrintText
-	rst TextScriptEnd
-.onlyBugText
-	text_far _SaffronGymYoungster1AfterBattleText
-	text_far _ExclamationPointText
-	text_end
-.bugAndGhostText
 	text_far _SaffronGymYoungster1AfterBattleText
 	text_promptbutton
 	text_far _SaffronGymYoungster1AfterBattleText3

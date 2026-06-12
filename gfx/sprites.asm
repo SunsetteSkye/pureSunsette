@@ -135,7 +135,7 @@ DadSittingSprite:: INCBIN "gfx/sprites/champ_arena_audience/dad_sitting.2bpp"
 DaisySittingSprite:: INCBIN "gfx/sprites/champ_arena_audience/daisy_sitting.2bpp"
 OakSittingSprite:: INCBIN "gfx/sprites/champ_arena_audience/oak_sitting.2bpp"
 AgathaSittingSprite:: INCBIN "gfx/sprites/champ_arena_audience/agatha_sitting.2bpp"
-GiovanniSittingSprite:: INCBIN "gfx/sprites/champ_arena_audience/giovanni_sitting.2bpp"
+RocketQueenSprite:: INCBIN "gfx/sprites/rocketsister.2bpp" ; Sunsette: ROCKET QUEEN overworld sprite (repurposed the unused Giovanni-sitting slot)
 BlueSittingSprite:: INCBIN "gfx/sprites/champ_arena_audience/blue_sitting.2bpp"
 
 

@@ -58,7 +58,7 @@ SetPal_Battle:
 	ld b, a
 	jr .override
 .checkGrayPlayer
-	bit 3, a ; Sunsette: MINDWIPE -> PAL_MINDWIPE (all-gray)
+	bit 3, a ; Sunsette: SKITTERMIND -> PAL_MINDWIPE (all-gray)
 	jr z, .override
 	ld b, PAL_MINDWIPE
 .override
@@ -81,7 +81,7 @@ SetPal_Battle:
 	ld c, a
 	jr .gotEnemyPal
 .checkGrayEnemy
-	bit 3, a ; Sunsette: MINDWIPE -> PAL_MINDWIPE (all-gray)
+	bit 3, a ; Sunsette: SKITTERMIND -> PAL_MINDWIPE (all-gray)
 	jr z, .gotEnemyPal
 	ld c, PAL_MINDWIPE
 .gotEnemyPal
@@ -467,9 +467,13 @@ GetOverworldPalette:
 ; flash) and queue a crossfade. XfadeRunPending (called after the new map is drawn) then marches slot 0
 ; from the old colors to the new ones, one step per channel per frame-batch, for a smooth fade. Same
 ; palette (or back-to-back identical) -> normal snap. Runtime, so it works for any connection.
-DEF XFADE_FRAMES_PER_STEP EQU 10
+DEF XFADE_FRAMES_PER_STEP EQU 5 ; Sunsette: was 10 - halved to speed up the outdoor palette crossfade
 
 XfadeConnectionPalettePrep::
+	; Sunsette: respect the GBC FADE option - if it's off, skip the crossfade and snap to the new palette
+	ld a, [wOptions2]
+	bit BIT_GBC_FADE, a
+	jr z, .snap
 	ld hl, wBGPPalsBuffer ; slot 0 = the currently-displayed (old map) colors
 	ld de, wXfadeOldColors
 	ld bc, 8
@@ -487,7 +491,8 @@ XfadeConnectionPalettePrep::
 	inc hl
 	dec b
 	jr nz, .cmp
-	; identical palette -> normal snap, no fade
+	; identical palette (or fade disabled) -> normal snap, no fade
+.snap
 	xor a
 	ld [wXfadePending], a
 	ld d, SET_PAL_OVERWORLD
@@ -951,6 +956,7 @@ NonMonCustomPalettes:
 	db OPP_RIVAL1, PAL_RIVAL
 	db OPP_RIVAL2, PAL_RIVAL
 	db OPP_RIVAL3, PAL_RIVAL
+	db OPP_ROCKET_QUEEN, PAL_ROCKETSISTER ; Sunsette
 ;;;;;;;;;;
 ;;;;;;;;;; Sunsette: player back-sprite (slot 2) intro palette sentinels (no MEWMON flash)
 	db PLAYER_BACK_NORMAL, PAL_PLAYER

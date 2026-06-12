@@ -493,11 +493,12 @@ ClampedDrainPP:
 	or a
 	ret
 
-; Sunsette: "tough trainers" - gym leaders, Elite Four, Giovanni (every battle), and the rival
-; at Indigo (RIVAL3 only) - run their mons with the legendary Pressure + bond-survival systems.
+; Sunsette: "tough trainers" - gym leaders, Elite Four, Giovanni (every battle), the rival at Indigo
+; (RIVAL3 only), and the four ROCKET SISTERS - run their mons with the legendary Pressure +
+; bond-survival systems.
 ToughTrainerClasses:
 	db BROCK, MISTY, LT_SURGE, ERIKA, KOGA, SABRINA, BLAINE
-	db GIOVANNI, LORELEI, BRUNO, AGATHA, LANCE, RIVAL3
+	db GIOVANNI, LORELEI, BRUNO, AGATHA, LANCE, RIVAL3, ROCKET_QUEEN
 	db -1
 
 ; z if the enemy's active mon should run Pressure: a legendary species, or any tough-trainer mon.

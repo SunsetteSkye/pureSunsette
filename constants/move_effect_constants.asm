@@ -110,7 +110,8 @@
 	const FLASH_EFFECT               ; $65 ; Sunsette: ADDED: no-damage priority move; raises user ACCURACY +3 and 30% chance to flinch (Flash)
 	const ACCURACY_DOWN_SIDE_EFFECT  ; $66 ; Sunsette: ADDED: damaging move with a 30% post-damage chance to lower the target's ACCURACY (Gust). Shares Haze's trampoline -> GustAccuracyEffect_
 	const SOLARBEAM_EFFECT           ; $67 ; Sunsette: ADDED: SolarBeam pseudo-charge. Non-fire: 1st use drains 1/2 + "primes"; next use is the 120-BP release with a 30% burn. FIRE users: 90 BP, 1/3 recoil, 30% burn, no priming. Shares Haze's trampoline -> SolarBeamEffect_
-	const MINDWIPE_EFFECT            ; $68 ; Sunsette: ADDED: PSYWAVE->MINDWIPE. No damage; retypes the target to BUG (+ gray palette) and drops its ACCURACY by 1. In ResidualEffects1 -> MindwipeEffect_
-	const ROOST_EFFECT               ; $69 ; Sunsette: ADDED: RAZOR_WIND->ROOST. Heal 1/2 + refresh user to natural types/palette (cures MINDWIPE/WATERIFY) + strip FLYING/FLOATING this turn (NORMAL if that leaves it typeless); restored next turn. In ResidualEffects1 -> RoostEffect_
+	const MINDWIPE_EFFECT            ; $68 ; Sunsette: ADDED: PSYWAVE->SKITTERMIND. No damage; retypes the target to BUG (+ gray palette) and drops its ACCURACY by 1. In ResidualEffects1 -> MindwipeEffect_
+	const ROOST_EFFECT               ; $69 ; Sunsette: ADDED: RAZOR_WIND->ROOST. Heal 1/2 + refresh user to natural types/palette (cures SKITTERMIND/WATERIFY) + strip FLYING/FLOATING this turn (NORMAL if that leaves it typeless); restored next turn. In ResidualEffects1 -> RoostEffect_
 	const JOLT_BOLT_EFFECT           ; $6A ; Sunsette: ADDED: POUND->JOLT BOLT. Damaging ELECTRIC priority move with a 50% chance to raise the USER's EVASION by 1 (post-damage side effect). Shares Haze's trampoline -> JoltBoltEffect_
+	const HOBBLE_EFFECT              ; $6B ; Sunsette: ADDED: LOCKJAW (Vicegrip) / METEOR SWEEP (Rolling Kick) signature. Damaging move that guarantees -1 SPEED and -1 EVASION to the target on hit (post-damage side effect). Shares Haze's trampoline -> HobbleEffect_
 DEF NUM_MOVE_EFFECTS EQU const_value - 1

@@ -21,10 +21,14 @@ _MtMoonPokecenterMagikarpSalesmanIGotADealText::
 	line "Have I got a deal"
 	cont "just for you!"
 
-	para "I'll let you have"
-	line "a swell MAGIKARP"
-	cont "for just ¥500!"
-	cont "What do you say?"
+	para "A special golden"
+	line "MAGIKARP! The"
+	cont "luckiest of all"
+	cont "fish!"
+
+	para "Yours for just"
+	line "¥500! What do"
+	cont "you say?"
 	done
 
 _MtMoonPokecenterMagikarpSalesmanNoText::

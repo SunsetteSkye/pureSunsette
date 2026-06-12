@@ -106,11 +106,6 @@ _SchoolB1FNerd::
 	cont "weaknesses!"
 	prompt
 
-_SchoolB1FLittleGirlRetort::
-	text "Actually, they're"
-	line "weak to BUG-type."
-	prompt
-
 _SchoolB1FLittleGirlRetort2::
 	text "Actually, they're"
 	line "weak to BUG and"

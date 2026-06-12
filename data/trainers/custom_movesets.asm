@@ -332,7 +332,7 @@ ChampArenaKogaMoveset:
 ChampArenaLoreleiMoveset:
 	; dewgong
 	db WITHDRAW
-	db BLIZZARD ; SLEET STORM
+	db BLIZZARD
 	db SURF
 	db CONSTRICT ; SIPHON_SNAG
 	; slowbro
@@ -351,7 +351,7 @@ ChampArenaLoreleiMoveset:
 	db ICE_BEAM
 	db THUNDERBOLT
 	; lapras
-	db BLIZZARD ; SLEET STORM
+	db BLIZZARD
 	db HYDRO_PUMP
 	db SOLARBEAM
 	db FLASH
@@ -438,7 +438,7 @@ ChampArenaGymGuideMoveset:
 	db EARTHQUAKE
 	; cloyster
 	db CRABHAMMER
-	db BLIZZARD ; SLEET STORM
+	db BLIZZARD
 	db WITHDRAW
 	db GLARE
 	; alakazam
@@ -448,9 +448,9 @@ ChampArenaGymGuideMoveset:
 	db DISABLE
 	; tauros
 	db SLASH
-	db BLIZZARD ; SLEET STORM
+	db BLIZZARD
 	db EARTHQUAKE
-	db HORN_DRILL ; WICKED DRILL
+	db HORN_DRILL ; VENOM DRILL
 	; missingno
 	db RAZOR_WIND ; ROOST
 	db HI_JUMP_KICK
@@ -588,7 +588,7 @@ EliteFourLanceMoveset:
 EliteFourRivalMoveset1:
 	; articuno
 	db ICE_BEAM
-	db BLIZZARD ; SLEET STORM
+	db BLIZZARD
 	db AGILITY
 	db WHIRLWIND ; HURRICANE
 	; alakazam

@@ -6,6 +6,9 @@
 *.2bpp
 *.pic
 
+# image editor source files
+*.psd
+
 # compiled roms
 *.gbc
 *.gb

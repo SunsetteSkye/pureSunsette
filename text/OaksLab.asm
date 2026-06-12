@@ -331,12 +331,12 @@ _OaksLabOakThatWasMyDreamText::
 	line "you two!"
 
 	para "Keep the #DEX"
-	line "close- a studied"
+	line "close. A studied"
 	cont "team grows all"
 	cont "the stronger!"
 
-	para "Now get going-"
-	line "history awaits!"
+	para "Now get going!"
+	line "History awaits!"
 	done
 
 _OaksLabRivalLeaveItAllToMeText::

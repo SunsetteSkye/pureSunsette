@@ -106,9 +106,8 @@ _SchoolB1FLeftTeacherQuizQuestion2::
 
 _SchoolB1FLeftTeacherQuizQuickAttack::
 	text "Ah, QUICK ATTACK."
-	para "Quite the"
-	line "bog-standard move"
-	cont "shall we say?"
+	para "Rarer than it"
+	line "used to be!"
 	para "Terribly useful"
 	line "though. Wot-wot!"
 	prompt

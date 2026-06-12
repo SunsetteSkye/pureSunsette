@@ -632,6 +632,8 @@ LavaSuitBattlePic::   INCBIN "gfx/player/lava_suitb.pic"
 ScubaSuitBattlePicSW:: INCBIN "gfx/player/scuba_suitb_big.pic"
 ScubaSuitBattlePic::   INCBIN "gfx/player/scuba_suitb.pic"
 
+RocketSisterPic::    INCBIN "gfx/trainers/rocketsister.pic" ; Sunsette: ROCKET QUEEN front sprite (dialogue calls them ROCKET SISTERS)
+
 SECTION "Pics Sunny", ROMX
 PidgeyPicFront::      INCBIN "gfx/pokemon/front/pidgey.pic"
 PidgeyPicBackSW::     INCBIN "gfx/pokemon/back_sw/pidgeyb.pic"

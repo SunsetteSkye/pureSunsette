@@ -1901,10 +1901,10 @@ ReloadVariableCrowd:
 	lb bc, BANK(BlueSittingSprite), 4
 	ld de, BlueSittingSprite
 	ret
-.giovanni
-	ld a, SPRITE_GIOVANNI_SITTING
-	lb bc, BANK(GiovanniSittingSprite), 12
-	ld de, GiovanniSittingSprite
+.giovanni ; Sunsette: this slot's sprite was repurposed for the ROCKET QUEEN overworld sprite; show a generic spectator here instead
+	ld a, SPRITE_MIDDLE_AGED_MAN_SITTING
+	lb bc, BANK(MiddleAgedManSittingSprite), 12
+	ld de, MiddleAgedManSittingSprite
 	ret
 
 ShowChampArenaTrainerSelectMenu:

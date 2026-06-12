@@ -248,12 +248,12 @@ ZigZagScreenAnim:
 
 PoundAnim:
 	battle_anim QUICK_ATTACK, SE_SLIDE_MON_OFF_FAST 
-	battle_anim THUNDERBOLT, SE_SIPHON_SNAG_ATTACK
+	battle_anim THUNDER_WAVE, SUBANIM_1_LIGHTNING_BALL, 1, 2
 	battle_anim NO_MOVE, SE_SHOW_MON_PIC
 	db -1 ; end
 
 StruggleAnim:
-	battle_anim STRUGGLE, SUBANIM_0_STAR_TWICE, 0, 8
+	battle_anim POUND, SUBANIM_0_STAR_TWICE, 0, 8
 	db -1 ; end
 
 KarateChopAnim:

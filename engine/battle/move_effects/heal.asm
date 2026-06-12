@@ -161,6 +161,7 @@ HealEffectCommon:
 	call GetMoveNumber
 	cp REST
 	ret nz
+	callfar SnorlaxRestBonus ; Sunsette: SNORLAX's REST also grants FLOURISH (GROWING) + SPEED +1
 	jr .checkScreech
 .failed
 	call GetMoveNumber

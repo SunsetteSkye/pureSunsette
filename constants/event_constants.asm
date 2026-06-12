@@ -46,7 +46,18 @@
 	const EVENT_GOT_TM42
 	const EVENT_USING_MAX_REPEL
 	const EVENT_GOT_POKEBALLS_FROM_MOM ; Sunsette: Mom gifts 5 Poke Balls the first time you visit after getting the #DEX (claimed from the skip below; Pallet's own byte is full)
-	const_skip 12
+	const EVENT_MOM_GIFT_BOULDER  ; Sunsette: Mom's one-time badge-milestone gift dialogues (RARE CANDY); each expires when the next milestone is reached
+	const EVENT_MOM_GIFT_THUNDER
+	const EVENT_MOM_GIFT_MARSH
+	const EVENT_MOM_GIFT_VOLCANO
+	const EVENT_MOM_CHAMPION_TALK
+	const EVENT_DAISY_GIFT_CASCADE ; Sunsette: DAISY's one-time badge-milestone flirt dialogues (PP UP); same expiry rule
+	const EVENT_DAISY_GIFT_RAINBOW
+	const EVENT_DAISY_GIFT_SOUL
+	const EVENT_DAISY_GIFT_EARTH
+	const EVENT_DAISY_CHAMPION_TALK
+	const EVENT_OAK_SAW_SNORLAX ; Sunsette: OAK's one-time remark after you've fought either SNORLAX
+	const EVENT_OAK_SAW_SURF ; Sunsette: OAK's one-time remark on getting HM03 (SURF)
 	const EVENT_OAK_GOT_PARCEL
 	const EVENT_GOT_OAKS_PARCEL
 	const EVENT_CHECKED_AROUND_SCHOOLHOUSE
@@ -66,7 +77,26 @@
 	const EVENT_BEAT_VIRIDIAN_GYM_TRAINER_6
 	const EVENT_BEAT_VIRIDIAN_GYM_TRAINER_7
 
-	; pureRGBnote: ~15 bits of unused event space
+	; Sunsette: one-time "noticed your badge" acknowledgments (no item) for the four badges each of
+	; MOM / DAISY doesn't gift for - claimed from the unused space below
+	const EVENT_MOM_SAW_CASCADE
+	const EVENT_MOM_SAW_RAINBOW
+	const EVENT_MOM_SAW_SOUL
+	const EVENT_MOM_SAW_EARTH
+	const EVENT_DAISY_SAW_BOULDER
+	const EVENT_DAISY_SAW_THUNDER
+	const EVENT_DAISY_SAW_MARSH
+	const EVENT_DAISY_SAW_VOLCANO
+	; Sunsette: OAK's one-time comment on each caught legendary; the THIS_VISIT gate (cleared on lab
+	; reload) limits him to one comment per Pallet visit when several are pending
+	const EVENT_OAK_SAW_MOLTRES
+	const EVENT_OAK_SAW_ARTICUNO
+	const EVENT_OAK_SAW_ZAPDOS
+	const EVENT_OAK_SAW_MEW
+	const EVENT_OAK_SAW_MEWTWO
+	const EVENT_OAK_COMMENTED_THIS_VISIT
+
+	; pureRGBnote: ~15 bits of unused event space (14 claimed above by Sunsette)
 
 ; Pewter City events
 	const_next $68

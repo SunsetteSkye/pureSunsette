@@ -77,7 +77,7 @@ ENDC
 	RGB 31,31,31, 25,11,07, 15,05,04, 00,00,00 ; PAL_REALLY_REDMON ; improved contrast on color 3, desaturated and lightened color 2
 	RGB 31,31,31, 21,24,27, 20,19,26, 00,00,00 ; PAL_PRISMATIC
 ;;;;;;;;;; Sunsette: ADDED: new environment palettes
-	RGB 31,31,31, 27,31,22, 14,28,12, 00,00,00 ; PAL_FOREST   ; deffb7 / 71e066
+	RGB 26,29,24, 04,21,00, 14,28,12, 00,00,00 ; PAL_FOREST   ; d7eac4 / 21ae00 / 71e066
 	RGB 31,31,31, 22,26,16, 27,23,18, 00,00,00 ; PAL_HIGHLAND ; b2d782 / dbb994
 	RGB 31,31,31, 30,30,30, 20,26,31, 00,00,00 ; PAL_AQUA     ; white, white, standard water blue, black
 	RGB 31,31,31, 26,21,22, 15,15,18, 00,00,00 ; PAL_DUSK     ; d6adb5 / 7b7b94
@@ -123,5 +123,6 @@ ENDC
 	RGB 25,31,31, 07,07,06, 15,09,06, 00,00,00 ; PAL_MTMOONB2F ; Sunsette: Mt. Moon B2F (ccfaff / 3a3a31 / 7b4a31 / black)
 	RGB 31,29,31, 07,07,07, 02,03,03, 03,02,02 ; PAL_SHADOW ; Sunsette: evolution morph silhouette
 	RGB 31,31,31, 31,25,02, 20,26,31, 00,00,00 ; PAL_VERMILIONGOLD ; Sunsette: Vermilion w/ Saffron's gold (31,25,02) in place of the orange
-	RGB 31,31,31, 21,21,21, 11,11,11, 00,00,00 ; PAL_MINDWIPE ; Sunsette: true grayscale (r=g=b, no purple tint) for the MINDWIPE'd target
+	RGB 31,31,31, 21,21,21, 11,11,11, 00,00,00 ; PAL_MINDWIPE ; Sunsette: true grayscale (r=g=b, no purple tint) for the SKITTERMIND'd target
+	RGB 31,31,31, 30,22,17, 18,07,11, 00,00,00 ; PAL_ROCKETSISTER ; Sunsette: white / f7b58c / 953a58 / black (ROCKET SISTER front sprite)
 	assert_table_length NUM_SGB_PALS

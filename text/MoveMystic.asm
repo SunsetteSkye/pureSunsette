@@ -47,25 +47,9 @@ _ArbokMoveMysticText::
 	line "venomous viper."
 	prompt
 
-_FearowMoveMysticText::
-	text_start
-	line "bloodthirsty"
-	cont "beak."
-	prompt
-
 _GolemMoveMysticText::
 	text_start
 	line "rolling rock."
-	prompt
-
-_HitmonleeMoveMysticText::
-	text_start
-	line "king of kicks."
-	prompt
-
-_HitmonchanMoveMysticText::
-	text_start
-	line "furious fist."
 	prompt
 
 _ElectabuzzMoveMysticText::
@@ -98,13 +82,7 @@ _SeakingMoveMysticText::
 	text_start
 	line "fabulous fish."
 	prompt
-	
-_KangaskhanMoveMysticText::
-	text_start
-	line "parental"
-	cont "powerhouse."
-	prompt
-	
+
 _LickitungMoveMysticText::
 	text_start
 	line "salivating"
@@ -132,16 +110,6 @@ _GolduckMoveMysticText::
 	line "dangerous duck."
 	prompt
 
-_DewgongMoveMysticText::
-	text_start
-	line "splendid seal."
-	prompt
-
-_ArcanineMoveMysticText::
-	text_start
-	line "heroic hound."
-	prompt
-
 _PidgeotMoveMysticText::
 	text_start
 	line "tempest talon."
@@ -151,6 +119,9 @@ _BlastoiseMoveMysticText::
 	text_start
 	line "cannon colossus."
 	prompt
+
+; Sunsette: _KrabbyMoveMysticText / _KinglerMoveMysticText flavor + their CRABHAMMER info texts
+; live in data/text/sunsette_battle_text.asm (Text 3 bank was full).
 
 _MoveMysticMasterOfMoveText::
 	text "It's a master"
@@ -213,11 +184,6 @@ _MoveMysticBlastoiseText::
 _MoveMysticAccuracy85::
 	text "Its ACCURACY"
 	line "increases to 85%!"
-	done
-
-_MoveMysticAccuracy100::
-	text "Its ACCURACY"
-	line "increases to 100%!"
 	done
 
 _MoveMysticJigglyWigglyOnlyLevel20Text::

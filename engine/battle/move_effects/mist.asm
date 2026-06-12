@@ -5,10 +5,10 @@ MistEffect_:
 	jr z, .mistEffect
 	ld hl, wEnemyBattleStatus2
 .mistEffect
-	bit NORMAL_FIGHTING_IMMUNITY, [hl] ; is mon protected by mist?
+	bit NORMAL_DRAGON_IMMUNITY, [hl] ; is mon protected by mist?
 	jr nz, .mistAlreadyInUse
 	set STAT_DOWN_IMMUNITY, [hl] ; mon is now protected by mist (shared with guard spec)
-	set NORMAL_FIGHTING_IMMUNITY, [hl] ; secondary effect of mist
+	set NORMAL_DRAGON_IMMUNITY, [hl] ; secondary effect of mist: immune to NORMAL and DRAGON moves
 	callfar PlayCurrentMoveAnimation
 	ld hl, ShroudedInMistText
 	jp PrintText

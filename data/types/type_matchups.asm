@@ -30,7 +30,7 @@ TypeEffects:
 	db GRASS,        BUG,          NOT_VERY_EFFECTIVE
 	db GRASS,        POISON,       NOT_VERY_EFFECTIVE
 	db GRASS,        ROCK,         SUPER_EFFECTIVE
-	db GRASS,        FLYING,       EFFECTIVE ; Flying no longer resists Grass
+	db GRASS,        FLYING,       NOT_VERY_EFFECTIVE
 	db ICE,          WATER,        NOT_VERY_EFFECTIVE
 	db ICE,          GRASS,        SUPER_EFFECTIVE ; Sunsette: Grass IS weak to Ice (reverted the earlier nerf)
 	db ICE,          GROUND,       SUPER_EFFECTIVE

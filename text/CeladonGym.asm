@@ -55,7 +55,8 @@ _CeladonGymRainbowBadgeInfoText::
 
 	para "It also boosts how"
 	line "much vitamins"
-	cont "strengthen #MON!"
+	cont "strengthen your"
+	cont "#MON!"
 
 	para "Please also take"
 	line "this with you."
@@ -67,7 +68,7 @@ _TM21ExplanationText::
 	para "@"
 	text_ram_stringbuffer
 	text " contains"
-	line "SOLARBEAM."
+	line "SOLAR CANNON."
 
 	para "It gathers light,"
 	line "then the next use"

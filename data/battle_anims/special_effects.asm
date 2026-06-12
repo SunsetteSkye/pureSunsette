@@ -14,7 +14,7 @@ AnimationIdSpecialEffects:
 	anim_special_effect TAIL_WHIP,             TailWhipAnimationUnused
 	anim_special_effect GROWL,                 DoGrowlSpecialEffects
 	anim_special_effect DISABLE,               AnimationFlashScreen
-	anim_special_effect BLIZZARD,              DoBlizzardSpecialEffects ; SLEET STORM
+	anim_special_effect BLIZZARD,              DoBlizzardSpecialEffects
 	anim_special_effect BUBBLEBEAM,            AnimationFlashScreen
 	anim_special_effect HYPER_BEAM,            FlashScreenEveryFourFrameBlocks
 	anim_special_effect THUNDERBOLT,           FlashScreenEveryEightFrameBlocks ; four?

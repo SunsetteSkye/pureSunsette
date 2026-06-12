@@ -58,6 +58,7 @@ TrainerDataPointers:
 	dw RookieData
 	dw RookieData
 	dw RookieData
+	dw RocketSisterData ; Sunsette: ROCKET_QUEEN
 	assert_table_length NUM_TRAINERS
 
 ; if first byte != $FF, then
@@ -665,6 +666,15 @@ FitnessProxyParty5::
 ; Silph Co. 11F
 	db 43, LICKITUNG, CHARIZARD, GOLEM, MAGMAR, GYARADOS, 0
 	db 46, STARMIE, RAICHU, MAROWAK, 0
+
+; Sunsette: the four ROCKET SISTERS (Silph Co. 6F/7F/8F/9F). Built on the old ROCKET BROTHERS rosters
+; (which PureRGB already gave some flare), bumped a notch and each given one signature deviation mon
+; (Scyther / Vaporeon / Flareon / Jolteon). A midpoint between a plain ROCKET and a gym leader.
+RocketSisterData:
+	db 47, MACHAMP, VICTREEBEL, SCYTHER, 0          ; 1: 6F
+	db 47, EXEGGUTOR, KINGLER, VAPOREON, 0          ; 2: 7F
+	db 48, HITMONLEE, GOLBAT, GENGAR, FLAREON, 0    ; 3: 8F
+	db 49, RHYDON, SLOWBRO, MACHAMP, JOLTEON, 0     ; 4: 9F (eldest)
 
 CooltrainerMData:
 ; Viridian Gym

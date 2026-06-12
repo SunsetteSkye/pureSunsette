@@ -25,15 +25,23 @@ Route2GateOaksAideText:
 	cp OAKS_AIDE_GOT_ITEM
 	jr nz, .no_item
 	SetEvent EVENT_GOT_HM02
+	ld hl, .FlyExplanationText
+	rst _PrintText
+	ld hl, .VisitHomeText ; Sunsette: first-get nudge to FLY home and visit family/friends
+	rst _PrintText
+	rst TextScriptEnd
 .flyExplanation
 	ld hl, .FlyExplanationText
-.printDone
 	rst _PrintText
 .no_item
 	rst TextScriptEnd
 
 .FlyExplanationText:
 	text_far _Route2GateOaksAideFlyExplanationText
+	text_end
+
+.VisitHomeText:
+	text_far _Route2GateOaksAideVisitHomeText
 	text_end
 
 Route2GateYoungsterText:

@@ -56,4 +56,5 @@ TrainerNames::
 	li "FITNESS PRO"
 	li "SPRINTER"
 	li "FISTFIGHTER"
+	li "ROCKET QUEEN"
 	assert_list_length NUM_TRAINERS

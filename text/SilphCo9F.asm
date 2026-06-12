@@ -48,10 +48,10 @@ _SilphCo9FScientistAfterBattleText::
 
 _SilphCo9FRocket2EndBattleText::
 	text "Warg!"
-	line "Brothers, I lost!"
+	line "Sisters, I lost!"
 	prompt
 
 _SilphCo9FRocket2AfterBattleText::
-	text "My brothers will"
+	text "My sisters will"
 	line "avenge me!"
 	done

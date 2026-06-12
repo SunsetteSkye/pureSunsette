@@ -99,7 +99,7 @@ SpriteSheetPointerTable:
 	overworld_sprite DaisySittingSprite, 12           ; SPRITE_DAISY_SITTING
 	overworld_sprite OakSittingSprite, 12             ; SPRITE_OAK_SITTING
 	overworld_sprite AgathaSittingSprite, 12          ; SPRITE_AGATHA_SITTING
-	overworld_sprite GiovanniSittingSprite, 12        ; SPRITE_GIOVANNI_SITTING
+	overworld_sprite RocketQueenSprite, 12        ; SPRITE_ROCKET_QUEEN
 	overworld_sprite BlueSittingSprite, 12            ; SPRITE_BLUE_SITTING
 	overworld_sprite LavaSuitSprite, 12               ; SPRITE_LAVA_SUIT
 	overworld_sprite MonsterSwimmingSprite, 12        ; SPRITE_MONSTER_SWIMMING

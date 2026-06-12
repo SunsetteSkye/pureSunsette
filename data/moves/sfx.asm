@@ -32,7 +32,7 @@ MoveSoundTable:
 	db SFX_BATTLE_18,          $00, $80 ; HEADBUTT
 	db SFX_BATTLE_1E,          $00, $60 ; HORN_ATTACK (METEOR HORN)
 	db SFX_BATTLE_1E,          $01, $40 ; FURY_ATTACK (DUAL SPEAR)
-	db SFX_HORN_DRILL,         $00, $a0 ; HORN_DRILL (WICKED DRILL)
+	db SFX_HORN_DRILL,         $00, $a0 ; HORN_DRILL (VENOM DRILL)
 	db SFX_SUPER_EFFECTIVE,    $10, $a0 ; TACKLE
 	db SFX_BATTLE_20,          $00, $c0 ; BODY_SLAM
 	db SFX_BATTLE_14,          $10, $60 ; WRAP
@@ -59,7 +59,7 @@ MoveSoundTable:
 	db SFX_BATTLE_2A,          $00, $80 ; HYDRO_PUMP
 	db SFX_BATTLE_2C,          $00, $80 ; SURF
 	db SFX_BATTLE_28,          $40, $80 ; ICE_BEAM
-	db SFX_BATTLE_29,          $f0, $e0 ; BLIZZARD (SLEET STORM)
+	db SFX_BATTLE_29,          $f0, $e0 ; BLIZZARD
 	db SFX_PSYBEAM,            $00, $80 ; PSYBEAM
 	db SFX_BATTLE_2A,          $f0, $60 ; BUBBLEBEAM
 	db SFX_BATTLE_28,          $00, $80 ; AURORA_BEAM
@@ -149,7 +149,7 @@ MoveSoundTable:
 	db SFX_FAINT_FALL,         $ff, $04 ; DIZZY_PUNCH
 	db SFX_BATTLE_1C,          $22, $ff ; SPORE
 	db SFX_BATTLE_13,          $f8, $ff ; FLASH
-	db SFX_BATTLE_0C,          $f0, $f0 ; MINDWIPE
+	db SFX_BATTLE_0C,          $f0, $f0 ; SKITTERMIND
 	db SFX_BATTLE_0F,          $08, $10 ; SPLASH
 	db SFX_ACID_ARMOR,         $00, $00 ; ACID_ARMOR (ACID CLOAK)
 	db SFX_SUPER_EFFECTIVE,    $f0, $ff ; CRABHAMMER

@@ -63,4 +63,5 @@ TrainerPicAndMoneyPointers::
 	pic_money FitnessGirlPic,  3000
 	pic_money SprinterPic,     3000
 	pic_money FistFighterPic,  3000
+	pic_money RocketSisterPic, 4000 ; Sunsette: a touch richer than a plain ROCKET (3000)
 	assert_table_length NUM_TRAINERS

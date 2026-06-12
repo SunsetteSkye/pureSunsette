@@ -240,14 +240,14 @@ ItemSortedList:
 	db TM_PIN_MISSILE  ; $CC
 	db TM_FIRE_PUNCH   ; $CD
 	db TM_TOXIC        ; $CE
-	db TM_HORN_DRILL   ; $CF (WICKED DRILL)
+	db TM_HORN_DRILL   ; $CF (VENOM DRILL)
 	db TM_BODY_SLAM    ; $D0
 	db TM_DISABLE    	; $D1
 	db TM_DOUBLE_EDGE  ; $D2
 	db TM_BUBBLEBEAM   ; $D3
 	db TM_AURORA_BEAM  ; $D4
 	db TM_ICE_BEAM     ; $D5
-	db TM_BLIZZARD     ; $D6 (SLEET STORM)
+	db TM_BLIZZARD     ; $D6
 	db TM_HYPER_BEAM   ; $D7
 	db TM_AMNESIA      ; $D8 (CALM MIND)
 	db TM_LOW_KICK     ; $D9 ; LOW KICK
@@ -279,7 +279,7 @@ ItemSortedList:
 	db TM_SKY_ATTACK   ; $F3
 	db TM_LIGHT_SCREEN ; $F4
 	db TM_THUNDER_WAVE ; $F5
-	db TM_PSYWAVE      ; $F6 ; MINDWIPE
+	db TM_PSYWAVE      ; $F6 ; SKITTERMIND
 	db TM_SLUDGE    	; $F7 (SLUDGE BOMB)
 	db TM_ROCK_SLIDE   ; $F8
 	db TM_GLARE   		; $F9

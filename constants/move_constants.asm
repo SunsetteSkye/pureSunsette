@@ -37,7 +37,7 @@
 	const HEADBUTT     ; 1d
 	const HORN_ATTACK  ; 1e (METEOR HORN)
 	const FURY_ATTACK  ; 1f (DUAL SPEAR)
-	const HORN_DRILL   ; 20 (WICKED DRILL)
+	const HORN_DRILL   ; 20 (VENOM DRILL)
 	const TACKLE       ; 21
 	const BODY_SLAM    ; 22
 	const WRAP         ; 23
@@ -64,7 +64,7 @@
 	const HYDRO_PUMP   ; 38
 	const SURF         ; 39
 	const ICE_BEAM     ; 3a
-	const BLIZZARD     ; 3b (SLEET STORM)
+	const BLIZZARD     ; 3b
 	const PSYBEAM      ; 3c
 	const BUBBLEBEAM   ; 3d
 	const AURORA_BEAM  ; 3e
@@ -154,7 +154,7 @@
 	const DIZZY_PUNCH  ; 92
 	const SPORE        ; 93
 	const FLASH        ; 94
-	const PSYWAVE      ; 95 (MINDWIPE)
+	const PSYWAVE      ; 95 (SKITTERMIND)
 	const SPLASH       ; 96
 	const ACID_ARMOR   ; 97 (ACID CLOAK)
 	const CRABHAMMER   ; 98

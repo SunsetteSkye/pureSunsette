@@ -318,7 +318,16 @@ SECTION "Sunsette Battle Text", ROMX
 INCLUDE "data/text/sunsette_battle_text.asm"
 
 SECTION "Sunsette Overworld Text", ROMX
-INCLUDE "data/text/sunsette_overworld_text.asm"
+INCLUDE "text/sunsette_overworld_text.asm"
+
+SECTION "Sunsette Family Text", ROMX
+INCLUDE "text/sunsette_family_text.asm"
+
+SECTION "Sunsette Legendary Text", ROMX
+INCLUDE "text/sunsette_legendary_text.asm"
+
+SECTION "Sunsette Oak Badge Text", ROMX
+INCLUDE "text/sunsette_oak_badge_text.asm"
 
 SECTION "Pokédex Text", ROMX
 

@@ -115,4 +115,4 @@ _MtMoon1FYoungster3AfterBattleText::
 	cont "catch one."
 	done
 
-; Sunsette: _MtMoon1FBewareZubatSign moved to data/text/sunsette_overworld_text.asm (Text 1 bank was full)
+; Sunsette: _MtMoon1FBewareZubatSign moved to text/sunsette_overworld_text.asm (Text 1 bank was full)

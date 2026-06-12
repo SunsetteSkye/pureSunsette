@@ -26,7 +26,8 @@ _RedsHouse1FMomBallsPreText::
 
 _RedsHouse1FMomBallsReceivedText::
 	text "<PLAYER> got 5"
-	line "# BALLs from MOM!"
+	line "# BALLs"
+	cont "from MOM!"
 	done
 
 _RedsHouse1FMomYouShouldRestText::

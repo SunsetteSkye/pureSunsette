@@ -102,12 +102,7 @@ SchoolB1FNerd:
 	rst _PrintText
 	ld a, SCHOOLB1F_LITTLE_GIRL
 	call SetSpriteFacingLeft
-  	ld a, [wOptions3]
-  	bit BIT_GHOST_PSYCHIC, a
-  	ld hl, SchoolB1FLittleGirlRetort2Text
-  	jr z, .ghostWeak
-  	ld hl, SchoolB1FLittleGirlRetortText
- .ghostWeak
+  	ld hl, SchoolB1FLittleGirlRetort2Text ; Sunsette: PSYCHIC is always weak to BUG+GHOST now
   	rst _PrintText
 	ld a, SCHOOLB1F_NERD
 	call SetSpriteFacingUp
@@ -131,10 +126,6 @@ SchoolB1FNerd:
 
 SchoolB1FNerdText:
 	text_far _SchoolB1FNerd
-	text_end
-
-SchoolB1FLittleGirlRetortText:
-	text_far _SchoolB1FLittleGirlRetort
 	text_end
 
 SchoolB1FLittleGirlRetort2Text:

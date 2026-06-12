@@ -67,6 +67,7 @@ TrainerClassMoveChoiceModifications:
 	move_choices 1, 3    ; FITNESS_PRO
 	move_choices 1, 3    ; SPRINTER
 	move_choices 1, 3    ; FISTFIGHTER
+	move_choices 1       ; ROCKET_QUEEN (mirror plain ROCKET)
 	assert __move_choices__ == NUM_TRAINERS, \
 		"TrainerClassMoveChoiceModifications: expected {d:NUM_TRAINERS} entries, got {d:__move_choices__}"
 

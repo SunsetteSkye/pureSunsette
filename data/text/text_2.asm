@@ -663,6 +663,8 @@ _ViridianBlackboardPoisonText::
 
 	para "Poison lingers"
 	line "after battles."
+	cont "GHOST and POISON"
+	cont "are immune."
 
 	para "Use an ANTIDOTE"
 	line "to cure poison!"
@@ -688,6 +690,7 @@ _ViridianBlackboardBurnText::
 	line "the ATTACK stat."
 	cont "It also causes"
 	cont "ongoing damage."
+	cont "FIRE is immune."
 
 	para "Burns remain"
 	line "after battles."
@@ -711,9 +714,10 @@ _ViridianBlackboardFrozenText::
 	line "thaw out #MON!"
 
 	para "In battle, using a"
-	line "HEAT move - or an"
-	cont "absorbing move -"
-	cont "thaws the user!"
+	line "burning or absorb"
+	cont "move thaws it out!"
+	cont "FIRE and ICE are"
+	cont "immune."
 	prompt
 
 _VermilionGymTrashText::

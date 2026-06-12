@@ -71,6 +71,7 @@ ENDM
 	trainer_const FITNESS_GIRL   ; $36
 	trainer_const SPRINTER       ; $37
 	trainer_const FIST_FIGHTER   ; $38
+	trainer_const ROCKET_QUEEN  ; $39 ; Sunsette: the four Silph Co. "ROCKET SISTERS" (was the ROCKET BROTHERS)
 ;;;;;;;;;;
-	; two trainer slots left
+	; one trainer slot left
 DEF NUM_TRAINERS EQU const_value - 1

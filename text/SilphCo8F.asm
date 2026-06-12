@@ -42,10 +42,10 @@ _SilphCo8FScientistAfterBattleText::
 
 _SilphCo8FRocket2EndBattleText::
 	text "Whoo!"
-	line "Oh brothers!"
+	line "Oh sisters!"
 	prompt
 
 _SilphCo8FRocket2AfterBattleText::
 	text "I'll leave you up"
-	line "to my brothers!"
+	line "to my sisters!"
 	done

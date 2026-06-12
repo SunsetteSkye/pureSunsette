@@ -3969,6 +3969,7 @@ HandleSelfConfusionDamage:
 	ld [wAnimationType], a
 	inc a
 	ldh [hWhoseTurn], a
+	ld a, STRUGGLE ; Sunsette: self-hit shows STRUGGLE's plain hit (POUND's slot is now JOLT BOLT's flashy anim)
 	call PlayMoveAnimation
 	call DrawPlayerHUDAndHPBar
 	xor a
@@ -4979,6 +4980,8 @@ CheckFullCritSpeed:
 	jr z, .full
 	cp RIVAL3
 	jr z, .full
+	cp ROCKET_QUEEN ; Sunsette: the four ROCKET SISTERS also get unlocked (full base-Speed) crit
+	jr z, .full
 	cp LORELEI
 	jr z, .full
 	cp AGATHA
@@ -5684,9 +5687,6 @@ MoveHitTest::
 	and SLP_MASK
 	jp z, .moveMissed
 .swiftCheck
-	ld a, [de]
-	cp SWIFT_EFFECT
-	ret z ; Swift never misses
 	call CheckTargetSubstitute
 	jr z, .checkForDigOrFlyStatus
 	; TODO: should the bug where draining moves should miss on substituted pokemon be fixed here or leave it?
@@ -5697,8 +5697,15 @@ MoveHitTest::
 	cp DREAM_EATER_EFFECT
 	jp z, .moveMissed
 .checkForDigOrFlyStatus
-	bit INVULNERABLE, [hl]
-	jp nz, .moveMissed
+; Sunsette: a semi-invulnerable (Fly/Dig) target is missed unless this move can reach it - Thunder/Blizzard/
+; Hurricane reach Fly users, Surf/Earthquake reach Dig users (CheckSemiInvulnBypass returns carry = reachable;
+; a non-invuln target is always reachable). SWIFT_EFFECT then never misses a reachable target; every other
+; move rolls its normal accuracy. One shared callfar keeps this Battle-Core path small.
+	callfar CheckSemiInvulnBypass ; preserves carry
+	jp nc, .moveMissed
+	ld a, [de]
+	cp SWIFT_EFFECT
+	ret z ; SWIFT_EFFECT (Swift/Surf/Earthquake/Blizzard) never misses a reachable target
 	ldh a, [hWhoseTurn]
 	and a
 	jr nz, .enemyTurn
@@ -6252,7 +6259,7 @@ CheckEnemyStatusConditions:
 	xor a
 	ld [wAnimationType], a
 	ldh [hWhoseTurn], a
-	ld a, POUND ; JOLT BOLT
+	ld a, STRUGGLE ; Sunsette: self-hit shows STRUGGLE's plain hit (POUND's slot is now JOLT BOLT's flashy anim)
 	call PlayMoveAnimation
 	ld a, $1
 	ldh [hWhoseTurn], a
@@ -7492,19 +7499,14 @@ CheckHazeMistImmunityGetArgs:
 	ld hl, wPlayerBattleStatus2
 	; fall through
 CheckHazeMistImmunity:
-	cp PSYCHIC_TYPE
-	jr z, .hazeCheck
+	; Sunsette: BLACK HAZE's PSYCHIC immunity was removed; only MIST's NORMAL/DRAGON immunity remains
 	cp NORMAL
 	jr z, .mistCheck
-	cp FIGHTING
+	cp DRAGON
 	jr z, .mistCheck
 	jr .noImmunity
-.hazeCheck
-	bit PSYCHIC_IMMUNITY, [hl]
-	jr nz, .immunity
-	jr .noImmunity
 .mistCheck
-	bit NORMAL_FIGHTING_IMMUNITY, [hl]
+	bit NORMAL_DRAGON_IMMUNITY, [hl]
 	jr nz, .immunity
 .noImmunity
 	and a ; clear carry

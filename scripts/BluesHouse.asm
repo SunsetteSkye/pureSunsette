@@ -82,6 +82,88 @@ BluesHouseDaisySittingText:
 	rst TextScriptEnd
 
 .got_town_map
+; Sunsette: one-time badge-milestone flirt + PP UP. Champion line first; else the highest of DAISY's
+; badges (Cascade/Rainbow/Soul=Poison/Earth) not yet claimed. Only the current (highest) milestone is
+; offered, so a skipped lower one is lost. Falls through to the normal tea / use-map behavior otherwise.
+	CheckEvent EVENT_BEAT_CHAMPION_RIVAL
+	jr z, .daisyCheckBadges
+	CheckEvent EVENT_DAISY_CHAMPION_TALK
+	jr nz, .daisyCheckBadges
+	ld hl, DaisyMilestoneChampionText
+	rst _PrintText
+	lb bc, TM_LOVELY_KISS, 1
+	call GiveItem
+	jr nc, .daisyChampNoRoom
+	ld hl, DaisyMilestoneGotTMText
+	rst _PrintText
+	SetEvent EVENT_DAISY_CHAMPION_TALK
+	rst TextScriptEnd
+.daisyChampNoRoom
+	ld hl, BluesHouseDaisyBagFullText
+	rst _PrintText
+	rst TextScriptEnd
+.daisyCheckBadges
+	ld a, [wObtainedBadges]
+	ld b, a
+	bit BIT_EARTHBADGE, b
+	jr nz, .daisyEarth
+	bit BIT_POISONBADGE, b
+	jr nz, .daisySoul
+	bit BIT_RAINBOWBADGE, b
+	jr nz, .daisyRainbow
+	bit BIT_CASCADEBADGE, b
+	jr nz, .daisyCascade
+	jr .daisyNoGift
+.daisyEarth
+	CheckEvent EVENT_DAISY_GIFT_EARTH
+	jr nz, .daisyNoGift
+	ld hl, DaisyMilestoneEarthText
+	call .daisyGivePPUp
+	jr nc, .daisyGiftDone
+	SetEvent EVENT_DAISY_GIFT_EARTH
+	jr .daisyGiftDone
+.daisySoul
+	CheckEvent EVENT_DAISY_GIFT_SOUL
+	jr nz, .daisyNoGift
+	ld hl, DaisyMilestoneSoulText
+	call .daisyGivePPUp
+	jr nc, .daisyGiftDone
+	SetEvent EVENT_DAISY_GIFT_SOUL
+	jr .daisyGiftDone
+.daisyRainbow
+	CheckEvent EVENT_DAISY_GIFT_RAINBOW
+	jr nz, .daisyNoGift
+	ld hl, DaisyMilestoneRainbowText
+	call .daisyGivePPUp
+	jr nc, .daisyGiftDone
+	SetEvent EVENT_DAISY_GIFT_RAINBOW
+	jr .daisyGiftDone
+.daisyCascade
+	CheckEvent EVENT_DAISY_GIFT_CASCADE
+	jr nz, .daisyNoGift
+	ld hl, DaisyMilestoneCascadeText
+	call .daisyGivePPUp
+	jr nc, .daisyGiftDone
+	SetEvent EVENT_DAISY_GIFT_CASCADE
+.daisyGiftDone
+	rst TextScriptEnd
+; prints dialogue in hl, gives one PP UP; carry set = given (set flag), clear = bag full
+.daisyGivePPUp
+	rst _PrintText
+	lb bc, PP_UP, 1
+	call GiveItem
+	jr nc, .daisyPPUpNoRoom
+	ld hl, DaisyMilestoneGotPPUpText
+	rst _PrintText
+	scf
+	ret
+.daisyPPUpNoRoom
+	ld hl, BluesHouseDaisyBagFullText
+	rst _PrintText
+	and a
+	ret
+.daisyNoGift
+	callfar DaisyBadgeComment ; Sunsette: one-time acknowledgment (no item) for Mom's badge set
 	CheckEvent EVENT_CALLED_RIVAL_FROM_CELADON
 	jr nz, .teaWithDaisy
 	ld hl, BluesHouseDaisyUseMapText
@@ -219,6 +301,7 @@ BluesHouseTeaEvent:
 	rst _DelayFrames
 	call ClearScreen
 	callfar MomHealPokemonImmediate
+	call AddTeaAffectionToParty ; Sunsette: tea with DAISY also bonds the party (+10 affection each)
 	ld hl, vChars2 tile $36
 	ld de, House_GFX tile $36
 	lb bc, BANK(House_GFX), 1
@@ -276,8 +359,32 @@ BluesHouseTeaEvent:
 	rst _PrintText
 	ret
 
+; Sunsette: add 10 affection (capped at 255) to every party mon - called when tea is drunk.
+AddTeaAffectionToParty:
+	ld a, [wPartyCount]
+	and a
+	ret z
+	ld b, a ; count
+	ld c, 0 ; slot
+.loop
+	push bc
+	ld b, 0
+	ld hl, wPartyMonHappiness
+	add hl, bc ; &happiness[slot]
+	pop bc
+	ld a, [hl]
+	add 10
+	jr nc, .store
+	ld a, $FF ; cap at 255
+.store
+	ld [hl], a
+	inc c
+	dec b
+	jr nz, .loop
+	ret
+
 PlayerDaisyFacingEachOther:
-	
+
 
 DaisyBlink:
   	ld c, 20
@@ -371,4 +478,29 @@ TeaReaction:
 
 DaisyTeaEnd:
 	text_far _DaisyTeaEnd
+	text_end
+
+; Sunsette: badge-milestone flirt lines (far text in text/sunsette_family_text.asm)
+DaisyMilestoneCascadeText:
+	text_far _DaisyMilestoneCascadeText
+	text_end
+DaisyMilestoneRainbowText:
+	text_far _DaisyMilestoneRainbowText
+	text_end
+DaisyMilestoneSoulText:
+	text_far _DaisyMilestoneSoulText
+	text_end
+DaisyMilestoneEarthText:
+	text_far _DaisyMilestoneEarthText
+	text_end
+DaisyMilestoneChampionText:
+	text_far _DaisyMilestoneChampionText
+	text_end
+DaisyMilestoneGotTMText:
+	text_far _DaisyMilestoneGotTMText
+	sound_get_item_1
+	text_end
+DaisyMilestoneGotPPUpText:
+	text_far _DaisyMilestoneGotPPUpText
+	sound_get_item_1
 	text_end

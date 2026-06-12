@@ -117,29 +117,48 @@ ViridianForestAfterBattleText4:
 	; supports text_asm); one-time via EVENT_GOT_HM05 (Oak's Aide no longer sets it).
 	text_asm
 	CheckEvent EVENT_GOT_HM05
-	ld hl, .alreadyText
-	jr nz, .printDone
+	jr nz, .offerExplain ; already has FLASH -> straight to the repeatable HM-explain offer
 	ld hl, .grantText
 	rst _PrintText
 	lb bc, HM_FLASH, 1
 	call GiveItem
-	ld hl, .noRoomText
-	jr nc, .printDone
+	jr nc, .noRoom
 	SetEvent EVENT_GOT_HM05
 	ld hl, .receivedText
-.printDone
+	rst _PrintText
+	call WaitForTextScrollButtonPress ; read "got HM05!" before the explain offer
+.offerExplain
+	ld hl, .explainOfferText
+	rst _PrintText
+	call YesNoChoice ; YES (default) = "I know" -> skip the lecture; NO = "I don't" -> explain
+	jr nz, .doesntKnowHM
+	ld hl, .knowsHMText
+	rst _PrintText
+	rst TextScriptEnd
+.doesntKnowHM
+	ld hl, .explanationText
+	rst _PrintText
+	rst TextScriptEnd
+.noRoom
+	ld hl, .noRoomText
 	rst _PrintText
 	rst TextScriptEnd
 
-.alreadyText:
-	text_far _ViridianForestPikaGirlHMExplanationText
-	text_end
 .grantText:
 	text_far _ViridianForestPikaGirlFlashGrantText
 	text_end
 .receivedText:
 	text_far _ViridianForestPikaGirlReceivedFlashText
 	sound_get_key_item
+	text_end
+.explainOfferText:
+	text_far _ViridianForestPikaGirlExplainOfferText
+	text_end
+.knowsHMText:
+	text_far _ViridianForestPikaGirlKnowsHMText
+	text_end
+.explanationText:
+	text_far _ViridianForestPikaGirlHMExplanationText
 	text_end
 .noRoomText:
 	text_far _ViridianForestPikaGirlNoRoomText

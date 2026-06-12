@@ -19,4 +19,4 @@ _ViridianForestSouthGateLittleGirl2Text::
 	line "to cool school!"
 	done
 
-; Sunsette: the Oak's Aide texts moved to data/text/sunsette_overworld_text.asm (Text 3 bank was full)
+; Sunsette: the Oak's Aide texts moved to text/sunsette_overworld_text.asm (Text 3 bank was full)

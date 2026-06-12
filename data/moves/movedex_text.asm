@@ -33,14 +33,14 @@ _GenericOftenLandsCriticalHitsText::
 	dex
 
 _DoubleslapDexEntry::
-	text "Repeatedly slaps"
-	next "the <opponent> with"
-	next "two hands."
+	text "Slaps the foe 2-5"
+	next "times in a row."
 
-	bage "Power doubles if"
-	next "foe is asleep, but"
-	next "foe will wake up."
-	; fall through
+	bage "Power doubles on a"
+	next "sleeping foe, but"
+	next "wakes it up."
+	dex
+
 _Generic2To5HitsText::
 	bage "Hits 2-5 times in"
 	next "succession."
@@ -131,9 +131,12 @@ _ScratchDexEntry::
 
 _VicegripDexEntry::
 	text "An inescapable"
-	next "bite that never"
-	next "misses.@"
-	text_jump _Generic30PercentLowerEvasionText
+	next "grip on the foe."
+
+	bage "Lowers the foe's"
+	next "SPEED and EVASION."
+	next "(-1 each)"
+	dex
 
 _Generic30PercentParalysisText::
 	bage "30% chance of"
@@ -192,19 +195,13 @@ _SwordsDanceDexEntry::
 	dex
 
 _CutDexEntry::
-	text "Slices the foe"
-	next "with a claw, barb"
-	next "tooth, wing, etc."
+	text "Slices the foe,"
+	next "also DISABLING its"
+	next "last move!"
 
-	bage "Also DISABLEs the"
-	next "foe's last move!"
-
-	bage "Usable outside"
-	next "battle to cut down"
-	next "shrubs or clear"
-	
-	bage "patches of tall"
-	next "grass"
+	bage "Out of battle, it"
+	next "cuts down shrubs"
+	next "and clears grass."
 	dex
 
 _GustDexEntry::
@@ -227,6 +224,9 @@ _WhirlwindDexEntry::
 	text "A massive tornado"
 	next "is summoned and"
 	next "hurled at foe."
+
+	bage "Strikes foes that"
+	next "are flying high."
 	; fall through
 _Generic30PercentConfusionText::
 	bage "Causes confusion"
@@ -323,12 +323,14 @@ _GenericKeptGoingCrashedText::
 	dex
 
 _RollingKickDexEntry::
-	text "Rolls like a"
-	next "stone for a kick"
-	next "that never"
-	next "misses.@"
+	text "Rolls like a stone"
+	next "into a sweeping"
+	next "kick."
 
-	text_jump _Generic30PercentLowerEvasionText
+	bage "Lowers the foe's"
+	next "SPEED and EVASION."
+	next "(-1 each)"
+	dex
 
 _SandAttackDexEntry::
 	text "Blinds the foe"
@@ -590,45 +592,25 @@ _EmberDexEntry::
 
 _FlamethrowerDexEntry::
 	text "A jet of searing"
-	next "flame is blown"
-	next "at the <opponent>."
-
-	bage "A famous and"
-	next "beloved FIRE move"
-	next "for its power."
+	next "flame. 30% chance"
+	next "to BURN the foe."
 
 	bage "Out of battle it"
 	next "burns away tall"
 	next "grass and trees!"
-
-	bage "30% chance of"
-	next "burning the foe"
 	dex
 
 _MistDexEntry::
-	text "The <user> releases"
-	next "sparkling white"
-	next "mist composed of"
+	text "Cloaks the user in"
+	next "icy mist."
 
-	bage "ice crystals,"
-	next "enshrouding it in"
-	next "ethereal vapor."
-
-	bage "The <user> becomes"
-	next "ethereal; immune"
+	bage "Until it switches"
+	next "out, it's immune"
 	next "to NORMAL and"
 
-	bage "FIGHTING-type"
-	next "moves until it"
-	next "switches out."
-
-	bage "Prevents stats"
-	next "from decreasing"
-	next "from moves such"
-
-	bage "as GROWL, SCREECH"
-	next "SMOKESCREEN, etc."
-	next "as well"
+	bage "DRAGON attacks."
+	next "Its stats also"
+	next "can't be lowered."
 	text_jump _HidingFieldText ; Sunsette: out-of-battle repel-like hiding
 
 _WaterGunDexEntry::
@@ -649,9 +631,9 @@ _HydroPumpDexEntry::
 
 
 _SurfDexEntry::
-	text "The whole area"
-	next "is flooded. This"
-	next "can't miss."
+	text "Floods the area."
+	next "Can't miss, and"
+	next "hits DIG users."
 
 	bage "30% chance to"
 	next "lower the foe's"
@@ -675,12 +657,12 @@ _IceBeamDexEntry::
 _BlizzardDexEntry::
 	text "The <user> whips up"
 	next "a powerful winter"
-	next "storm that"
+	next "storm."
 
-	bage "batters the foe"
-	next "and cannot miss.@"
-
-	text_jump _Generic30PercentLowerEvasionText
+	bage "Hits FLY users,"
+	next "with a 30% chance"
+	next "to FREEZE the foe."
+	dex
 
 _PsybeamDexEntry::
 	text "Psychic power"
@@ -711,21 +693,17 @@ _AuroraBeamDexEntry::
 	text_jump _Generic30PercentConfusionText
 
 _HyperBeamDexEntry::
-	text "A powerful beam;"
-	next "the pure essence"
-	next "of destruction"
-
-	bage "is fired mightily"
+	text "A beam of pure"
+	next "destruction fired"
 	next "at the foe."
-	next "Uses SPECIAL."
 
-	bage "After usage,"
-	next "the <user> rests"
+	bage "Uses SPECIAL. The"
+	next "user must rest"
 	next "the next turn."
 
-	bage "If the <opponent>"
-	next "faints, confused"
-	next "instead."
+	bage "If the foe faints,"
+	next "the user is"
+	next "confused instead."
 	dex
 
 _PeckDexEntry::
@@ -819,56 +797,31 @@ _MegaDrainDexEntry::
 	text_jump _GenericAbsorbMoveText
 
 _LeechSeedDexEntry::
-	text "Drops seeds that"
-	next "sprout and slowly"
-	next "drain energy."
+	text "Plants seeds that"
+	next "sap the foe's HP"
+	next "each turn."
 
-	bage "Saps health from"
-	next "the <opponent> each"
-	next "of their turns."
+	bage "Half the loss"
+	next "heals you. Fails"
+	next "on GRASS #MON."
 
-	bage "Restores 50% of"
-	next "inflicted damage"
-	next "to the <user>'s HP."
-
-	bage "The seeds stay"
-	next "until the foe"
-	next "faints/switches."
-
-	bage "Seed damage goes"
-	next "up if the foe is"
-	next "weak to GRASS."
-
-	bage "RESIST: 1/16 HP"
-	next "NORMAL:  1/8 HP"
-	next "WEAK:   3/16 HP"
-
-	bage "Doesn't work on"
-	next "GRASS-type"
-	next "#MON"
+	bage "Affected by the"
+	next "foe's weakness"
+	next "and resistance."
 	dex
 
 _GrowthDexEntry::
-	text "The <user> grows"
-	next "larger or heals"
-	next "its body,"
+	text "The user grows,"
+	next "healing 1/3 of its"
+	next "max HP at once."
 
-	bage "usually with"
-	next "photosynthesis."
-
-	bage "Heals 1/3 of max"
-	next "HP at once, then"
-	next "1/16 each turn"
-
-	bage "until the <user>"
+	bage "Then it heals 1/16"
+	next "each turn until it"
 	next "leaves battle."
 
-	bage "Out of battle,"
-	next "rare #MON are"
-	next "drawn out"
-
-	bage "until you leave"
-	next "the area!"
+	bage "Out of battle, it"
+	next "draws rare #MON"
+	next "out to the area."
 	dex
 
 _RazorLeafDexEntry::
@@ -991,7 +944,8 @@ _ThunderDexEntry::
 	next "drops a titanic"
 	next "lightning bolt"
 
-	bage "on the foe.@"
+	bage "on the foe. Hits"
+	next "FLY users, too.@"
 
 	text_jump _Generic10PercentParalysisText
 
@@ -1002,9 +956,9 @@ _RockThrowDexEntry::
 	text_jump _GenericNoAdditionalEffectText
 
 _EarthquakeDexEntry::
-	text "The <user> sets"
-	next "off a quake that"
-	next "can't miss."
+	text "Sets off a quake"
+	next "that can't miss"
+	next "and hits DIG foes."
 
 	bage "Commonly referred"
 	next "to by trainers as"
@@ -1023,17 +977,13 @@ _FissureDexEntry::
 	text_jump _GenericOHKOText
 
 _DigDexEntry::
-	text "Digs underground"
-	next "for 1 turn, then"
-	next "suddenly emerges"
+	text "Burrows down for a"
+	next "turn, then erupts"
+	next "to strike the foe."
 
-	bage "to strike the foe"
-	next "the next turn."
-
-	bage "Digging down also"
-	next "raises EVASION; the"
-	next "<user> cannot be"
-	next "hit while under."
+	bage "While underground"
+	next "it can't be hit"
+	next "and gains EVASION."
 
 	bage "Usable outside"
 	next "battle to dig out"
@@ -1041,20 +991,16 @@ _DigDexEntry::
 	dex
 
 _ToxicDexEntry::
-	text "Excessive amounts"
-	next "of poison are"
-	next "sprayed all over."
+	text "Sprays a torrent"
+	next "of vicious poison."
 
 	bage "Badly poisons the"
-	next "foe if it hits."
+	next "foe, dealing more"
+	next "damage each turn."
 
-	bage "The damage poison"
-	next "does to the foe"
-	next "grows each turn."
-
-	bage "Accuracy increases"
-	next "to 100% when used"
-	next "by POISON #MON"
+	bage "Always hits when"
+	next "used by a POISON"
+	next "#MON."
 	dex
 
 _ConfusionDexEntry::
@@ -1083,20 +1029,14 @@ _HypnosisDexEntry::
 	text_jump _GenericPutsFoeAsleepText
 
 _MeditateDexEntry::
-	text "Assuming a pose"
-	next "meant for deep"
-	next "contemplation,"
-
-	bage "the <user> steels"
+	text "Steels the user's"
 	next "mind and body."
 
 	bage "Raises a LIGHT"
 	next "SCREEN and ATTACK."
 	next "(+1 ATTACK)"
 
-	bage "This move"
-	next "always goes"
-	next "first."
+	bage "Always goes first."
 	dex
 
 _AgilityDexEntry::
@@ -1114,8 +1054,8 @@ _AgilityDexEntry::
 	dex
 
 _QuickAttackDexEntry::
-	text "A fast lunge that"
-	next "can't miss.@"
+	text "A sudden lunge at"
+	next "blinding speed.@"
 
 	text_jump _GenericAlwaysGoesFirstText
 
@@ -1127,26 +1067,16 @@ _RageDexEntry::
 	text_jump _GenericRaisesAttack1StageText
 
 _TeleportDexEntry::
-	text "The <user> teleports"
-	next "away from battle."
+	text "Flees a wild"
+	next "battle in a flash."
 
-	bage "Wild #MON can"
-	next "run from battle"
-	next "by using it."
+	bage "In trainer fights,"
+	next "the user switches"
+	next "out, healing 25%."
 
-	bage "In trainer battles"
-	next "the <user> switches"
-	next "and heals 25% HP."
-
-	bage "Fails if there are"
-	next "no #MON left to"
-	next "switch with."
-
-	bage "Usable outside of"
-	next "battle to travel"
-	next "back to the last"
-
-	bage "#MON CENTER"
+	bage "Out of battle, it"
+	next "returns you to a"
+	next "#MON CENTER"
 	dex
 
 _NightShadeDexEntry::
@@ -1157,44 +1087,27 @@ _NightShadeDexEntry::
 	text_jump _Generic30PercentParalysisText
 
 _MimicDexEntry::
-	text "The <user> mimics"
-	next "one of the foe's"
-	next "moves."
+	text "Copies one of the"
+	next "foe's moves and"
+	next "uses it at once."
 
-	bage "The move can be"
-	next "chosen, and is"
-	next "learned for the"
-
-	bage "rest of the"
-	next "battle."
-
-	bage "It is used right"
-	next "away after being"
-	next "mimicked"
+	bage "The move is kept"
+	next "for the rest of"
+	next "the battle."
 	dex
 
 _ScreechDexEntry::
-	text "A loud screeching"
-	next "noise is emitted"
-	next "by the <user>."
+	text "Never misses. Cuts"
+	next "the foe's DEFENSE"
+	next "sharply. (-2 DEF)"
 
-	bage "Greatly lowers"
-	next "foe's DEFENSE."
-	next "(-2 DEFENSE)"
+	bage "Echoes all battle,"
+	next "waking any #MON"
+	next "that are asleep."
 
-	bage "This weird screech"
-	next "will echo for the"
-	next "rest of battle."
-
-	bage "These echoes wake"
-	next "all #MON from"
+	bage "Auto-fires if the"
+	next "user is put to"
 	next "sleep."
-
-	bage "This move is auto-"
-	next "used if the <user>"
-	next "is put to sleep."
-
-	bage "Never misses"
 	dex
 
 _DoubleTeamDexEntry::
@@ -1254,16 +1167,11 @@ _SmokescreenDexEntry::
 _ConfuseRayDexEntry::
 	text "Strange rays of"
 	next "light confuse the"
-	next "<opponent>."
+	next "foe."
 
-	bage "Causes confusion"
-
-	bage "Out of battle,"
-	next "lures the next"
-	next "wild #MON here"
-
-	bage "in a strange"
-	next "color!"
+	bage "Out of battle, it"
+	next "lures out an oddly"
+	next "colored #MON!"
 	dex
 
 _WithdrawDexEntry::
@@ -1300,13 +1208,9 @@ _BarrierDexEntry::
 	dex
 
 _LightScreenDexEntry::
-	text "A wondrous wall"
-	next "of light is risen"
-	next "by the <user>."
-
-	bage "Cuts SPECIAL"
-	next "attack damage in"
-	next "half, even crits."
+	text "Halves SPECIAL"
+	next "damage taken, even"
+	next "from crits."
 	; fall through
 _GenericThisEffectOnlyAppliesToOriginalUser::
 	bage "Frees the <user>"
@@ -1321,32 +1225,16 @@ _GenericThisEffectOnlyAppliesToOriginalUser::
 	dex
 
 _HazeDexEntry::
-	text "Black haze that"
-	next "disrupts psychic"
-	next "powers is spread"
+	text "A black haze that"
+	next "resets all stat"
+	next "changes."
 
-	bage "all over."
-	next "The <user> becomes"
-	next "immune to PSYCHIC"
+	bage "Cures most status"
+	next "effects on both"
+	next "#MON, too."
 
-	bage "-type moves until"
-	next "it switches out."
-
-	bage "Resets all stat"
-	next "changes and cures"
-	next "confusion."
-
-	bage "Also resets these"
-	next "effects: MIST,"
-	next "FOCUS ENERGY,"
-	
-	bage "LEECH SEED,"
-	next "DISABLE, DIRE HIT"
-	next "GUARD SPEC"
-
-	bage "Now strikes first"
-	next "with a 30% chance"
-	next "to flinch."
+	bage "Strikes first;"
+	next "30% to flinch."
 	text_jump _HidingFieldText ; Sunsette: out-of-battle repel-like hiding
 
 _ReflectDexEntry::
@@ -1414,29 +1302,16 @@ _SelfdestructDexEntry::
 	next "fulmination."
 	; fall through
 _GenericExplodeDexEntry::
-	bage "Does heavy recoil"
-	next "damage to the"
-	next "<user>;"
+	bage "The user takes"
+	next "recoil: half the"
+	next "damage it deals."
 
-	bage "half the damage"
-	next "inflicted. If it"
-	next "misses, the <user>"
+	bage "A miss still costs"
+	next "1/4 max HP."
 
-	bage "will still take"
-	next "1/4 of it's full"
-	next "HP in damage."
-
-	bage "If the <user> has"
-	next "less than 1/3 of"
-	next "it's HP left,"
-
-	bage "the explosion will"
-	next "become extremely"
-	next "powerful;"
-
-	bage "power increases"
-	next "to 500! But <user>"
-	next "always faints"
+	bage "Below 1/3 HP, its"
+	next "power hits 500;"
+	next "it always faints!"
 	dex
 
 _EggBombDexEntry::
@@ -1568,21 +1443,17 @@ _AmnesiaDexEntry::
 	dex
 
 _KinesisDexEntry::
-	text "A shimmering heat"
-	next "haze bewilders the"
-	next "foe, leaving it"
+	text "A heat haze that"
+	next "confuses the foe."
+	next "Useless on FIRE"
 
-	bage "confused. Has no"
-	next "effect at all on"
-	next "FIRE-types."
+	bage "types. But if the"
+	next "foe is already"
+	next "confused, or the"
 
-	bage "Burns the foe"
-	next "instead if it is"
-	next "already confused,"
-
-	bage "or if the user is"
-	next "a FIRE-type. Deals"
-	next "no damage."
+	bage "user is FIRE-type,"
+	next "it BURNS instead."
+	next "Deals no damage."
 	dex
 
 _SoftboiledDexEntry::
@@ -1720,32 +1591,17 @@ _SporeDexEntry::
 	dex
 
 _FlashDexEntry::
-	text "An instantaneous"
-	next "flash blinds the"
-	next "foe."
+	text "A blinding flash"
+	next "that always"
+	next "strikes first."
 
-	bage "Usually caused"
-	next "by a powerful"
-	next "electric arc."
+	bage "Lights dark caves,"
+	next "and attracts wild"
+	next "#MON elsewhere."
 
-	bage "Out of battle it"
-	next "lights dark"
-	next "caves... and"
-
-	bage "elsewhere, draws"
-	next "out a wild #MON"
-	next "to battle!"
-
-	bage "Always goes"
-	next "first and deals"
-	next "no damage."
-
-	bage "Sharply lowers"
-	next "the foe's"
-	next "EVASION; may"
-
-	bage "flinch the foe"
-	next "30% of the time."
+	bage "Sharply lowers the"
+	next "foe's EVASION, and"
+	next "may flinch it."
 	dex
 
 _PsywaveDexEntry::
@@ -1868,20 +1724,13 @@ _SharpenDexEntry::
 	dex
 
 _ConversionDexEntry::
-	text "The <user> copies"
-	next "one of the foe's"
-	next "moves and uses"
+	text "Copies a foe's"
+	next "move and uses it"
+	next "at once, as MIMIC."
 
-	bage "it at once, just"
-	next "like MIMIC."
-
-	bage "The <user> also"
-	next "takes on that"
-	next "move's type,"
-
-	bage "so the copied"
-	next "move is boosted"
-	next "by STAB."
+	bage "The user becomes"
+	next "that move's type,"
+	next "so it gets STAB."
 	dex
 
 _TriAttackDexEntry::

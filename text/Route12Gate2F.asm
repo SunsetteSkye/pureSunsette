@@ -45,5 +45,6 @@ _Route12Gate2FLeftBinocularsText::
 	done
 
 _Route12Gate2FRightBinocularsText::
-	text "It's #MON TOWER!"
+	text "It's #MON"
+	line "TOWER!"
 	done

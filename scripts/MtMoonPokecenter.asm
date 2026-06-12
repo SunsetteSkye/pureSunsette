@@ -46,7 +46,8 @@ MtMoonPokecenterMagikarpSalesmanText:
 	jr .printText
 .enoughMoney
 	lb bc, MAGIKARP, 5
-	call GivePokemon
+	ld a, BALL_DATA_POKE << 3 | TRUE ; Sunsette: alternate ("golden") palette MAGIKARP
+	call GivePokemonCommon
 	jr nc, .done
 	xor a
 	ld [wPriceTemp], a

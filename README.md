@@ -1,22 +1,44 @@
 # PureSunsette
 
-A graphical edit of PureRGB for my own purposes that grew into a balance pass because I can't control myself.
+A graphical edit of PureRGB that I began for my own private purposes and then, evidently being incapable of leaving well enough alone, allowed to metastasize into something considerably larger.
 
 ![full color roster](screenshots/palettework.png)
 
-There's a full-color roster, reworked palettes, and a front-sprite set cherry-picked from the best of Red/Green/Blue/Spaceworld with some personal edits. A decent amount of effort went into making FWG the actual core of the game, despite the absence of Steel, Dark, and Fairy. The type chart got reworked: Grass and Fire have been improved on both offense and defense, Normal resists Psychic now, and Ghost becomes a little Steely.
+### Now in Color
 
-Early wild tables were tweaked for a bit more variety up front. More of the roster turns up sooner, without cramming the first routes full of rare, high-value catches that feel a little too wish-fulfillment. Several areas have type-dependent zone-wide battle effects to help encourage team variety, and there are several more field moves (none of which are necessary, but multiple of which may prove convenient to you). You can even run into encounters in cities, now! 
+Roster has full color (or what passes for it on a GBC), palettes reworked from the ground up, and a front-sprite set cherry-picked from the best of Red/Green/Blue/Spaceworld 1997 with a handful of personal edits layered on top. 
 
-A small affection system has been added. It's a little less RNG-happy and pervasive than what we get in the modern games, but I hope it helps bring some of that bond feeling to the Game Boy. If you routinely swap your Pokémon out into boxes, you may find the ones left there for long become less affectionate; be warned.
+### Keeping it SPECIAL
 
-(Also... some of the enemies get to use it too. Watch out for fights where the pressure is intense!)
+I wanted to lean into what makes Generation 1 unique, and imagine how the battle system could have evolved if it'd taken a different path. That means no special-split (Gen 2 or Gen 4), no abilities (gen 3), that means base Speed still affects crit rate, and that means no Dark, Steel, or Fairy. However, I wanted to make Fire-Water-Grass the real core of the type dynamic, which really didn't happen in the main series until those types were added.
 
-The Exp. Share got rebuilt into something a lot less broken than gen 6 design, thanks to less generous experience distributions, and the daycare has been overhauled -- it gets a lot better as you get more badges, raising Pokémon's EXP and stats in real time rather than steps.
+The type chart was reworked to suit: Grass and Fire are now respectable on both offense and defense, Psychic is checked by two more types, and Ghost and Bug assume a much more important part in propping up the triangle. The balance passes that followed were aimed at battles that feel less predictable and more dramatically swingy -- without collapsing into the hyperoffense power creep of the modern generations -- and encourage you to use healing items in tough battles.
 
-Finally, as I sincerely doubt anyone's trading on this version of the game, the badge system got heavily reworked—added soft level gates and a little something else so that you appreciate every single badge. And it all works a little differently for legends!
+Every single monster is meant to feel unique, and avoid the situations where two unrelated mons feel like one is a distinct upgrade in every way. A number of types have been changed to achieve this end. Freeze has been revamped, too, and about half of the moves (!) have been heavily reworked.
 
-Vortyne's feature list follows since I'm nowhere near done. Do note that I killed a lot of his options (like palette changes) in order to make room for my changes.
+Finally, on base-Speed-influenced crits: it uses a quadratic formula rather than a linear one, and isn't fully in place until you get the Earth Badge. Legendaries don't follow the system at all. In sum total, it lets a lot of famously weak but fast mons make up for offense elsewhere, while legends have a more steady, overwhelming power.
+
+### Wild Distribution
+
+Early wild encounter tables were tweaked for a little more variety up front -- more of the roster turns up sooner, but without cramming the opening routes full of the rare, high-value catches that always feel a touch too much like wish fulfillment. Beyond that, there's a fresh handful of field moves (none of them strictly necessary, many quite convenient). Also, inspired by Legends ZA, you can now blunder into encounters in the cities themselves. Urban areas keep a pretty low encounter rate so it won't be a nuisance, but some monsters can only be found that way!
+
+### Bonds of Battle
+
+A small affection system has been added; it's less powerful and pervasive than what the modern games do, but I'm hopeful it carries some of that bond feeling back onto the Game Boy. (If you're in the habit of routinely shuffling your Pokémon off into the boxes, mind that the ones left to languish there might grow less affectionate over time -- consider yourself warned.)
+
+And... a few of your opponents have picked up the same trick. Watch out for the fights where the pressure is intense!
+
+Several areas carry type-dependent, zone-wide battle effects meant to nudge you toward a varied team. Overall, I'm pursuing a rhythm of difficulty here, where your average encounter isn't much harder than vanilla, but you really feel pressed when the narrative calls for it.
+
+### Modern Exp, Dialed-Back
+
+The Exp. Share was rebuilt into something far less broken than the Gen 6 design -- owing largely to a much less generous experience distribution -- and the daycare was overhauled wholesale, so that it grows more rewarding the more badges you hold, raising your Pokémon's EXP and stats in real time play rather than per-step. Working the slots, fishing, or spending time talking with the new NPCs now helps your mon grow!
+
+### Shades of Your Journey Await
+
+A few amenities and a bit of hometown narrative have been folded in as well -- I'd make a habit of visiting the named characters in Pallet Town. And finally, since I sincerely doubt anyone is trading on this particular version of the game, the badge system was heavily reworked, with soft level gates and a little something else besides, so that you come to appreciate every single badge you earn. Though some of it behaves rather differently where the legends are concerned...
+
+Vortyne's feature list follows, since I'm nowhere near finished. Do note that I've killed a fair number of his options (palette changes and Super Game Boy compatibility among them) in order to make room for my own.
 
 # Pokémon PureRGB (PureRed, PureGreen, PureBlue)
 

@@ -56,7 +56,7 @@ _ViridianCityGirlWhenIGoShopText::
 	cont "winding trail in"
 	cont "VIRIDIAN FOREST."
 	cont "At least it isn't"
-	cont "dim like MT MOON."
+	cont "dim like MT.MOON."
 	done
 
 _ViridianCityOldManSleepyPrivatePropertyText::
@@ -94,8 +94,8 @@ _ViridianCityFisherGastlyLearnset::
 	text "Hmm?"
 	para "Describe the dream"
 	line "I had in detail?"
-	para "It was about"
-	line "a giant @"
+	para "It was about a"
+	line "giant @"
 	text_ram_namebuffer
 	text "."
 	para "Here goes<...>"
