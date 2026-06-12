@@ -522,6 +522,7 @@ XfadeRunPending::
 	ret z
 	xor a
 	ld [wXfadePending], a
+	call XfadePopExclamation ; Sunsette: pop "!" + ding over the player as the palette transition begins
 	ld hl, wXfadeOldColors ; unpack the (current) old colors -> wBuffer[0..11]
 	ld de, wBuffer
 	call XfadeUnpack4
@@ -547,6 +548,19 @@ XfadeRunPending::
 .done
 	ld d, SET_PAL_OVERWORLD
 	jp RunPaletteCommand
+
+; Sunsette: as an outdoor palette crossfade begins, play the swap "ding" and pop an "!" bubble over the
+; player (sprite 0). Mirrors ExclamationDuringCameraEvent; EmotionBubbleQuick re-enables sprite updates
+; and redraws on its way out, so the player sprite restores cleanly before the fade marches.
+XfadePopExclamation:
+	ld a, SFX_SWAP
+	rst _PlaySound
+	ld a, EXCLAMATION_BUBBLE
+	ld [wWhichEmotionBubble], a
+	xor a
+	ld [wEmotionBubbleSpriteIndex], a ; sprite 0 = player
+	callfar EmotionBubbleQuick
+	ret
 
 ; march each of the 12 channels in wBuffer[0..11] one step toward wBuffer[12..23]. a (z) = none changed.
 XfadeMarchChannels:
@@ -710,7 +724,7 @@ MapPalettesJumpTable:
 	db SAFARI_ZONE_CENTER, PAL_SAFFRON
 ;;;;;;;;;; Sunsette: environment palette overhaul
 	; Forest palette
-	db ROUTE_2, PAL_FOREST
+	db ROUTE_2, PAL_VIRIDIAN ; Sunsette: Route 2 shares VIRIDIAN CITY's palette (no crossfade at the Viridian/Route 2 seam)
 	db VIRIDIAN_FOREST, PAL_FOREST
 	db CELADON_GYM, PAL_FOREST
 	; Highland palette
