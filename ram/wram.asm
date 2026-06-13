@@ -901,8 +901,10 @@ NEXTU
 	; Sunsette: connection-crossfade scratch. Overlays the Jigglypuff/Cut overworld-animation union
 	; members; none of those can be active while crossing a map connection, so reusing the space is safe.
 wXfadeParity:: db ; Sunsette: frame-divider countdown - the crossfade advances one step every XFADE_FRAME_DIVIDER frames
-wXfadeProgress:: db ; Sunsette: HSV crossfade progress, 0..XFADE_HUE_STEPS
-wXfadeStartHSV:: ds 12 ; Sunsette: slot-0's 4 colours' HSV (H,C,V each) captured at fade start, for the hue lerp
+wXfadeLastPal:: db ; Sunsette: the overworld PAL last applied (stamped by SetPal_Overworld) = the map being LEFT, to key the tween lookup
+wXfadeTweenColors:: ds 8 ; Sunsette: the precomputed midpoint palette for this crossing's pair (phase-1 target); 0 if no tween
+wXfadePhase:: db ; Sunsette: 1 = marching toward the tween (phase 1), 0 = toward the real target (phase 2 / no tween)
+	ds 3 ; (was the rest of the old 12-byte wXfadeStartHSV; keeps the region 16 bytes so wCutTile's offset is unchanged)
 wXfadeTargetPal:: db   ; the NEW map's overworld PAL (its colors are re-read from SuperPalettes during the fade)
 wXfadePending:: db     ; 1 = a crossfade is queued (set at the cross, consumed once the new map is drawn)
 ; $3d = tree tile, $52 = grass tile

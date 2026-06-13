@@ -17,4 +17,9 @@ FieldMoveDisplayData:
 	db MIST,        13, $0E ; Sunsette: ADDED: hides you from wild encounters like a Repel (ETHEREAL)
 	db HAZE,        14, $0E ; Sunsette: ADDED: hides you from wild encounters like a Repel (BLACK HAZE)
 	db SMOKESCREEN, 15, $07 ; Sunsette: ADDED: hides you from wild encounters like a Repel
+	db POISONPOWDER, 16, $06 ; Sunsette: ADDED: hides you from wild encounters like a Repel
+	db SLEEP_POWDER, 17, $06 ; Sunsette: ADDED: hides you from wild encounters like a Repel
+	db STUN_SPORE,   18, $08 ; Sunsette: ADDED: hides you from wild encounters like a Repel
+	db SPORE,        19, $0D ; Sunsette: ADDED: hides you from wild encounters like a Repel
+	db SMOG,         20, $0E ; Sunsette: ADDED: hides you from wild encounters like a Repel
 	db -1 ; end

@@ -134,6 +134,11 @@ StartMenu_Pokemon::
 	dw .mist ; Sunsette: ADDED
 	dw .haze ; Sunsette: ADDED
 	dw .smokescreen ; Sunsette: ADDED
+	dw .poisonPowder ; Sunsette: ADDED
+	dw .sleepPowder ; Sunsette: ADDED
+	dw .stunSpore ; Sunsette: ADDED
+	dw .spore ; Sunsette: ADDED
+	dw .smog ; Sunsette: ADDED
 .fly
 	bit BIT_THUNDERBADGE, a
 	jp z, .newBadgeRequired
@@ -352,7 +357,8 @@ StartMenu_Pokemon::
 	jp z, .newBadgeRequired
 	callfar UsedFlamethrower
 	jp CloseTextDisplay
-; Sunsette: ADDED: SAND ATTACK / MIST / HAZE / SMOKESCREEN kick up cover that hides you from wild (BLACK HAZE, ETHEREAL)
+; Sunsette: ADDED: SAND ATTACK / MIST / HAZE / SMOKESCREEN / POISONPOWDER / SLEEP POWDER / STUN SPORE / (BLACK HAZE, ETHEREAL)
+; SPORE / SMOG kick up cover that hides you from wild
 ; encounters exactly like a Repel (100 steps). wHidingMoveID records which move so the wear-off can
 ; offer to "keep hiding?" if a party member can still use it. No badge required.
 .sandAttack
@@ -366,6 +372,21 @@ StartMenu_Pokemon::
 	jr .startHiding
 .smokescreen
 	ld a, SMOKESCREEN
+	jr .startHiding
+.poisonPowder
+	ld a, POISONPOWDER
+	jr .startHiding
+.sleepPowder
+	ld a, SLEEP_POWDER
+	jr .startHiding
+.stunSpore
+	ld a, STUN_SPORE
+	jr .startHiding
+.spore
+	ld a, SPORE
+	jr .startHiding
+.smog
+	ld a, SMOG
 .startHiding
 	ld [wHidingMoveID], a
 	ld a, 100

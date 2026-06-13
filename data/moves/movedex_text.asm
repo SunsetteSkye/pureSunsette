@@ -856,7 +856,7 @@ _PoisonPowderDexEntry::
 	bage "Doesn't work on"
 	next "POISON-type"
 	next "#MON"
-	dex
+	text_jump _HidingFieldText ; Sunsette: out-of-battle repel-like hiding
 
 _StunSporeDexEntry::
 	text "A numbing powder"
@@ -865,14 +865,17 @@ _StunSporeDexEntry::
 
 	bage "Paralyzes the foe"
 	next "if it works"
-	dex
+	text_jump _HidingFieldText ; Sunsette: out-of-battle repel-like hiding
 
 _SleepPowderDexEntry::
 	text "A big cloud of"
 	next "sleep-inducing"
-	next "dust is spread.@"
+	next "dust is spread."
 
-	text_jump _GenericPutsFoeAsleepText
+	bage "Puts the foe to"
+	next "sleep if it"
+	next "works."
+	text_jump _HidingFieldText ; Sunsette: out-of-battle repel-like hiding
 
 
 _PetalDanceDexEntry::
@@ -1335,9 +1338,12 @@ _LickDexEntry::
 _SmogDexEntry::
 	text "A puff of thick"
 	next "toxic smog wafts"
-	next "toward the foe.@"
+	next "toward the foe."
 
-	text_jump _Generic40PercentPoisonText
+	bage "40% chance of"
+	next "poisoning the"
+	next "foe."
+	text_jump _HidingFieldText ; Sunsette: out-of-battle repel-like hiding
 
 _SludgeDexEntry::
 	text "Corrosive toxic"
@@ -1588,7 +1594,7 @@ _SporeDexEntry::
 
 	bage "Causes the foe"
 	next "to fall asleep"
-	dex
+	text_jump _HidingFieldText ; Sunsette: out-of-battle repel-like hiding
 
 _FlashDexEntry::
 	text "A blinding flash"

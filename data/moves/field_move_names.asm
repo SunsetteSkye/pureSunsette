@@ -15,3 +15,8 @@ FieldMoveNames:
 	db "MIST@" ; ETHEREAL
 	db "HAZE@" ; BLACK HAZE
 	db "SMOKESCREEN@"
+	db "POISONPOWDER@"
+	db "SLEEP POWDER@"
+	db "STUN SPORE@"
+	db "SPORE@"
+	db "SMOG@"
