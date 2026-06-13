@@ -160,7 +160,7 @@ Moves:
 	move BUBBLE,       CONFUSION_BIG_SIDE_EFFECT,   20, WATER,        100, 30 ; low confusion chance
 	move DIZZY_PUNCH,  CONFUSION_BIG_SIDE_EFFECT,   90, FIGHTING,     100, 10
 	move SPORE,        SLEEP_EFFECT,                 0, GRASS,         90, 15
-	move FLASH,        FLASH_EFFECT,                 0, ELECTRIC,     100, 15 ; priority move; no damage, +3 user ACCURACY, 30% flinch
+	move FLASH,        FLASH_EFFECT,                 0, ELECTRIC,     100,  5 ; priority move; no damage, +3 user ACCURACY, 30% flinch
 	move PSYWAVE,      MINDWIPE_EFFECT,              0, PSYCHIC_TYPE, 100, 20 ; SKITTERMIND: no damage; retype target to BUG (gray palette) + -1 ACCURACY
 	move SPLASH,       SPLASH_EFFECT,                0, NORMAL,       100, 40
 	move ACID_ARMOR,   ACID_ARMOR_EFFECT,            0, POISON,       100, 20 ; combined reflect and light screen effects in one move (ACID CLOAK)

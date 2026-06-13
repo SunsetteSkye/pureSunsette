@@ -484,6 +484,16 @@ GetOverworldPalette:
 ; colors in slot 0; XfadeTick - driven once per frame from OverworldLoop - marches slot 0 toward the new
 ; palette WHILE the player keeps walking (non-blocking, no pause). LoadGBPal skips its per-frame BGP
 ; rebuild while rBGP is unchanged, so the marched slot isn't clobbered mid-fade.
+; Sunsette: stamp wXfadeLastPal = the CURRENT overworld map's palette index, so the seam crossfade compare
+; (XfadeStartToCurrentPalette) has the correct "leaving" palette to test against. Called every step from
+; CheckMapConnections, where wCurMap is still the map being LEFT. SetPal_Overworld only stamps this on a full
+; map load, so after a battle/menu it could go stale - and a stale value made a same-palette seam (Route 3
+; <-> Route 4, both PAL_HIGHLAND) wrongly fade in one direction. Re-stamping each step keeps it accurate.
+StampOverworldPaletteForXfade::
+	call GetOverworldPalette
+	ld [wXfadeLastPal], a
+	ret
+
 XfadeConnectionPalettePrep::
 	; Sunsette: seam crossings always fade now - the only thing that disables it is the GBC FADE option
 	; (checked inside XfadeStartToCurrentPalette). The bike/run "snap at speed" guard is commented out

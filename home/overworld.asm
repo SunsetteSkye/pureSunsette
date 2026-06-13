@@ -683,8 +683,9 @@ ContinueCheckWarpsNoCollisionLoop::
 
 ; if no matching warp was found
 CheckMapConnections::
+	callfar StampOverworldPaletteForXfade ; Sunsette: keep wXfadeLastPal = the map being left, so a same-palette seam (e.g. Route 3<->4) snaps instead of fading
 	; shinpokerednote: MOVED: check map connections in another bank to save space, do all 4 if necessary from that bank without returning until done
-	farcall CheckWestMap 
+	farcall CheckWestMap
 	jr nz, .didNotEnterConnectedMap
 .loadNewMap ; load the connected map that was entered
 	ld hl, wCurrentMapScriptFlags
