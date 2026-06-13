@@ -28,6 +28,14 @@ EnterMap::
 
 OverworldLoop::
 	rst _DelayFrame
+	; Sunsette: advance the outdoor palette crossfade one step here - DelayFrame just returned, so we're in
+	; VBlank and XfadeTick can write slot 0 straight to rBGPD with no busy-wait. (LessDelay entries skip a
+	; frame; harmless - they loop back through here next frame.)
+	ld a, [wXfadePending]
+	and a
+	jr z, .noXfadeTick
+	callfar XfadeTick
+.noXfadeTick
 OverworldLoopLessDelay::
 	;rst _DelayFrame ; shinpokerednote: ADDED: 60fps mode enabled by commenting this (but needs additional tweaks to run correctly)
 	callfar GBCSetCPU2xSpeed	; shinpokerednote: ADDED: set 2x cpu speed when on gbc
@@ -690,7 +698,8 @@ CheckMapConnections::
 ; x#SPRITESTATEDATA2_IMAGEBASEOFFSET without loading any tile patterns.
 	farcall InitMapSprites
 	call LoadTileBlockMap
-	callfar XfadeRunPending ; Sunsette: new map is drawn (still in the old colors) - run the queued crossfade
+	; Sunsette: the queued crossfade is no longer run here (it blocked). OverworldLoop ticks it one step
+	; per frame instead, so the world eases to the new palette while the player keeps moving.
 	jp OverworldLoopLessDelay
 
 .didNotEnterConnectedMap

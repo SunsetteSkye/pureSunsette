@@ -36,3 +36,6 @@
 # scratch/playtest tooling (build-critical sources in tools/ stay tracked;
 # git never un-tracks already-committed files, so this only ignores untracked scratch)
 tools/
+
+# shelved experiments kept for reference (not part of the build)
+_attempts/

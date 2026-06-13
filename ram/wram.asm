@@ -900,10 +900,11 @@ wJigglypuffFacingDirections:: ds 4
 NEXTU
 	; Sunsette: connection-crossfade scratch. Overlays the Jigglypuff/Cut overworld-animation union
 	; members; none of those can be active while crossing a map connection, so reusing the space is safe.
-wXfadeOldColors:: ds 8 ; snapshot of the OLD map's BG slot-0 colors (4 x 15-bit), captured at the cross
+wXfadeParity:: db ; Sunsette: frame-divider countdown - the crossfade advances one step every XFADE_FRAME_DIVIDER frames
+wXfadeProgress:: db ; Sunsette: HSV crossfade progress, 0..XFADE_HUE_STEPS
+wXfadeStartHSV:: ds 12 ; Sunsette: slot-0's 4 colours' HSV (H,C,V each) captured at fade start, for the hue lerp
 wXfadeTargetPal:: db   ; the NEW map's overworld PAL (its colors are re-read from SuperPalettes during the fade)
 wXfadePending:: db     ; 1 = a crossfade is queued (set at the cross, consumed once the new map is drawn)
-	ds 6
 ; $3d = tree tile, $52 = grass tile
 wCutTile:: db
 	ds 2
@@ -1070,6 +1071,7 @@ wEvoOldSpecies:: db
 wEvoNewSpecies:: db
 wEvoMonTileOffset:: db
 wEvoCancelled:: db
+wEvoMorphPalIndex:: db ; Sunsette: current step in the bright-palette morph rotation (EvolutionMorphCyclePalette)
 
 NEXTU
 wNamingScreenNameLength:: db

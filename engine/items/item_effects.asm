@@ -783,6 +783,7 @@ ItemUseBicycle:
 	call ItemUseReloadOverworldData
 	xor a
 	ld [wWalkBikeSurfState], a ; change player state to walking
+;	callfar XfadeStartToCurrentPalette ; Sunsette: (disabled with the bike palette tricks) fade back to the real area palette
 ;;;;;;;;;; PureRGBnote: ADDED: bike music can be turned off via the options.
 	ld a, [wOptions2]
 	bit BIT_BIKE_MUSIC, a
@@ -808,6 +809,7 @@ ItemUseBicycle:
 	ldh [hJoyHeld], a ; current joypad state
 	inc a
 	ld [wWalkBikeSurfState], a ; change player state to bicycling
+;	callfar XfadeStartToCurrentPalette ; Sunsette: (disabled with the bike palette tricks) fade to the PAL_ROUTE bike palette
 ;;;;;;;;;; PureRGBnote: ADDED: bike music can be turned off via the options.
 	ld a, [wOptions2]
 	bit BIT_BIKE_MUSIC, a

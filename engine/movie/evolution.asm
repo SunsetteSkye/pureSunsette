@@ -45,16 +45,18 @@ EvolveMon:
 	call PlayMusic
 	ld c, 80
 	rst _DelayFrames
-; Sunsette: back-loaded progression - base form at normal brightness early, first lightness ~a third in,
-; switch to PAL_SHADOW ~halfway, stronger lightness near the end. The brief white-out flash + reveal are
-; done at .done (NOT held in the loop).
+; Sunsette: hold normal brightness for the whole morph (no gradual lighten / PAL_SHADOW any more) and
+; sync wLastBGP so the .done white-out flash still fires. The morph itself rapidly rotates slot 0 (the
+; mon area) through a few bright palettes for a "superstar invincibility" strobe - see
+; Evolution_BackAndForthAnim / EvolutionMorphCyclePalette. The brief white-out + reveal stay at .done.
+	ld a, %11100100 ; normal BG palette mapping (full brightness)
+	ldh [rBGP], a
+	call UpdateGBCPal_BGP
+	xor a
+	ld [wEvoMorphPalIndex], a
 	lb bc, $1, $10
 .animLoop
 	push bc
-	ld a, b
-	cp 5
-	call z, EvolutionSwitchToShadowPalette ; base form palette -> PAL_SHADOW about halfway through
-	call EvolutionRampLighten              ; ramp the whole-screen lighten by morph progress
 	call Evolution_CheckForCancel
 	jr c, .evolutionCancelled
 	call Evolution_BackAndForthAnim
@@ -116,39 +118,6 @@ EvolutionSetWholeScreenPalette:
 	farcall _SetPalEvolutionSplit
 	ret
 
-; Sunsette: switch the morph's whole-screen base to PAL_SHADOW (called once, partway through the morph).
-EvolutionSwitchToShadowPalette:
-	push bc
-	ld e, $FE ; PAL_SHADOW
-	call EvolutionSetWholeScreenPalette
-	pop bc
-	ret
-
-; Sunsette: back-loaded lighten by morph progress (b = 1..8): normal -> first lightness (~1/3 in) ->
-; stronger lightness (near the end). The full white-out is NOT here - it's a brief flash at .done.
-; UpdateGBCPal_BGP only does real work when rBGP actually changes.
-EvolutionRampLighten:
-	push bc
-	push hl
-	ld a, b
-	cp 7
-	jr nc, .second
-	cp 4
-	jr nc, .first
-	ld a, %11100100 ; early (first ~third): normal brightness, base form's own colours
-	jr .apply
-.first
-	ld a, %10010000 ; ~a third in: first lightness
-	jr .apply
-.second
-	ld a, %01000000 ; near the end: stronger lightness
-.apply
-	ldh [rBGP], a
-	call UpdateGBCPal_BGP
-	pop hl
-	pop bc
-	ret
-
 Evolution_LoadPic:
 	call GetMonHeader
 	hlcoord 7, 2
@@ -156,9 +125,19 @@ Evolution_LoadPic:
 
 Evolution_BackAndForthAnim:
 ; show the mon change back and forth between the new and old species b times
+; Sunsette: advance the bright-palette strobe on each silhouette flip (~one step per ChangeMonPic, the
+; fastest in-loop cadence available) so the morph cycles colours rapidly while it flips. NOTE: `farcall`
+; does `ld b, BANK(...)`, which clobbers our loop counter b - so bc must be pushed around each farcall or
+; the dec b / jr nz below never terminates (the morph would run forever).
+	push bc
+	farcall EvolutionMorphCyclePalette
+	pop bc
 	ld a, $31
 	ld [wEvoMonTileOffset], a
 	call Evolution_ChangeMonPic
+	push bc
+	farcall EvolutionMorphCyclePalette
+	pop bc
 	ld a, -$31
 	ld [wEvoMonTileOffset], a
 	call Evolution_ChangeMonPic

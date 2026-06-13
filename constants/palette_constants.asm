@@ -123,4 +123,5 @@ DEF SET_PAL_DEFAULT EQU $ff
 	const PAL_VERMILIONGOLD ; Sunsette: Vermilion palette with the orange swapped for Saffron's gold (Routes 12-15)
 	const PAL_MINDWIPE ; Sunsette: SKITTERMIND all-gray mon palette (true grayscale, no purple tint like PAL_GRAYMON)
 	const PAL_ROCKETSISTER ; Sunsette: ROCKET SISTER trainer front sprite (white / f7b58c / 953a58 / black)
+	const PAL_EVOTEXTBOX ; Sunsette: evolution textbox split slot - white bg + pure black lines (PAL_BLACK's mid shade is gray)
 DEF NUM_SGB_PALS EQU const_value

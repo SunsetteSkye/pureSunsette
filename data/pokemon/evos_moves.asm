@@ -2449,7 +2449,11 @@ MagnemiteEvosMoves:
 
 CharmanderEvosMoves:
 ; Evolutions
+IF DEF(_DEBUG)
+	db EVOLVE_LEVEL, 6, CHARMELEON ; Sunsette: debug-only - evolve early to test the evolution morph
+ELSE
 	db EVOLVE_LEVEL, 16, CHARMELEON
+ENDC
 	db 0
 ; Learnset
 	db 6, SMOKESCREEN

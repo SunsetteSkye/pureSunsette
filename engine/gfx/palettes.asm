@@ -418,6 +418,23 @@ NoRainbowCeladonMaps:
 ; PureRGBnote: CHANGED: abstracted into its own function, removed some redundant code
 ; stores the palette used for the current map in a
 GetOverworldPalette:
+	; Sunsette: while on the bike outdoors, the whole overworld uses PAL_ROUTE (uniform - no per-area tint
+	; and no transitions while you're zipping around). Getting off the bike reasserts the real area palette.
+	; Sunsette: "bike outdoors -> PAL_ROUTE" is disabled (commented out); the world keeps its real
+	; per-area palette on the bike. Re-enable this block (and the bike-toggle fade in item_effects, and
+	; the bike/run snap in XfadeConnectionPalettePrep) to bring the bike palette behavior back.
+;	ld a, [wWalkBikeSurfState]
+;	cp BIKING
+;	jr nz, .notBiking
+;	ld a, [wStatusFlags6]
+;	bit BIT_ALWAYS_ON_BIKE, a
+;	jr nz, .notBiking ; forced-bike maps (Cycling Road) keep their own palette, not PAL_ROUTE
+;	ld a, [wCurMap]
+;	cp FIRST_INDOOR_MAP
+;	jr nc, .notBiking ; indoors -> normal lookup
+;	ld a, PAL_ROUTE
+;	ret
+.notBiking
 	; first check if the current map has a custom palette
 	ld a, [wCurMap]
 	ld hl, MapPalettesJumpTable
@@ -461,27 +478,39 @@ GetOverworldPalette:
 	ret
 
 ;;;;;;;;;; Sunsette: connection-crossing palette CROSSFADE
-; Replaces the SET_PAL_OVERWORLD snap in CheckMapConnections (home). At the cross, wCurMap is already the
-; NEW map. We snapshot the OLD (still-displayed) slot-0 colors; if the new map's overworld palette differs
-; we DON'T snap - we leave the old colors in slot 0 (so the freshly-drawn map shows the old colors, no
-; flash) and queue a crossfade. XfadeRunPending (called after the new map is drawn) then marches slot 0
-; from the old colors to the new ones, one step per channel per frame-batch, for a smooth fade. Same
-; palette (or back-to-back identical) -> normal snap. Runtime, so it works for any connection.
-DEF XFADE_FRAMES_PER_STEP EQU 5 ; Sunsette: was 10 - halved to speed up the outdoor palette crossfade
-
+; Sunsette: outdoor palette crossfade. At a connection cross, wCurMap is already the NEW map and slot 0
+; still shows the OLD colors. Instead of snapping, we queue a fade (wXfadePending) and leave the old
+; colors in slot 0; XfadeTick - driven once per frame from OverworldLoop - marches slot 0 toward the new
+; palette WHILE the player keeps walking (non-blocking, no pause). LoadGBPal skips its per-frame BGP
+; rebuild while rBGP is unchanged, so the marched slot isn't clobbered mid-fade.
 XfadeConnectionPalettePrep::
-	; Sunsette: respect the GBC FADE option - if it's off, skip the crossfade and snap to the new palette
+	; Sunsette: seam crossings always fade now - the only thing that disables it is the GBC FADE option
+	; (checked inside XfadeStartToCurrentPalette). The bike/run "snap at speed" guard is commented out
+	; below; re-enable it if the non-blocking fade reads as a stutter while moving fast.
+	jp XfadeStartToCurrentPalette
+;	ld a, [wWalkBikeSurfState]
+;	cp BIKING
+;	jr z, .forceSnap
+;	ldh a, [hJoyHeld]
+;	and PAD_B
+;	jr z, XfadeStartToCurrentPalette ; not running -> normal fade-or-snap
+;.forceSnap
+;	xor a
+;	ld [wXfadePending], a
+;	ld d, SET_PAL_OVERWORLD
+;	jp RunPaletteCommand
+
+; Sunsette: queue a crossfade of slot 0 from its current colors to the CURRENT map's overworld palette
+; (GetOverworldPalette). Snaps instead if the GBC FADE option is off or the palette is unchanged. Also
+; called by the bike on/off toggle, so mounting/dismounting eases between the area palette and PAL_ROUTE.
+XfadeStartToCurrentPalette::
 	ld a, [wOptions2]
 	bit BIT_GBC_FADE, a
 	jr z, .snap
-	ld hl, wBGPPalsBuffer ; slot 0 = the currently-displayed (old map) colors
-	ld de, wXfadeOldColors
-	ld bc, 8
-	rst _CopyData
-	call GetOverworldPalette ; new map's PAL
+	call GetOverworldPalette
 	ld [wXfadeTargetPal], a
-	call XfadeTargetColorsPtr ; hl = the new map's 4 colors
-	ld de, wXfadeOldColors
+	call XfadeTargetColorsPtr ; hl = target colors
+	ld de, wBGPPalsBuffer ; current slot 0 (live)
 	ld b, 8
 .cmp
 	ld a, [de]
@@ -491,7 +520,7 @@ XfadeConnectionPalettePrep::
 	inc hl
 	dec b
 	jr nz, .cmp
-	; identical palette (or fade disabled) -> normal snap, no fade
+	; identical palette (or fade disabled) -> snap, no fade
 .snap
 	xor a
 	ld [wXfadePending], a
@@ -499,7 +528,9 @@ XfadeConnectionPalettePrep::
 	jp RunPaletteCommand
 .differ
 	ld a, 1
-	ld [wXfadePending], a ; leave the old colors in slot 0; the fade happens after the map draws
+	ld [wXfadePending], a ; leave current colors in slot 0; XfadeTick marches them
+	xor a
+	ld [wXfadeParity], a   ; divider countdown 0 -> first tick marches immediately
 	ret
 
 ; hl = &SuperPalettes[wXfadeTargetPal] (the new map's 4 colors, 8 bytes)
@@ -514,52 +545,486 @@ XfadeTargetColorsPtr:
 	add hl, de
 	ret
 
-; Called after the new map is drawn (still showing the old colors). If a crossfade is queued, fade slot 0
-; from the snapshotted old colors to the new map's colors, then apply the new palette to all slots.
-XfadeRunPending::
-	ld a, [wXfadePending]
+; Sunsette: advance the queued crossfade by ONE step (LINEAR RGB channel march), called from OverworldLoop
+; right after DelayFrame - i.e. in VBlank, so the direct slot-0 write needs no busy-wait. Marches each of
+; slot 0's 12 colour channels one notch toward the target's, repacks, writes slot 0 straight to rBGPD;
+; converges (ends the fade + full repaint) when no channel changed. (The HSV hue-blend variant is shelved
+; in _attempts/overworld-crossfade-rgb-fallback.md and the HSV helpers below are now unused.)
+DEF XFADE_FRAME_DIVIDER EQU 6 ; advance one step every N overworld frames (higher = slower)
+XfadeTick::
+	ld a, [wXfadeParity] ; frame-divider countdown
 	and a
-	ret z
-	xor a
-	ld [wXfadePending], a
-	call XfadePopExclamation ; Sunsette: pop "!" + ding over the player as the palette transition begins
-	ld hl, wXfadeOldColors ; unpack the (current) old colors -> wBuffer[0..11]
+	jr z, .march
+	dec a
+	ld [wXfadeParity], a
+	ret ; skip this frame
+.march
+	ld a, XFADE_FRAME_DIVIDER - 1
+	ld [wXfadeParity], a
+	ld hl, wBGPPalsBuffer ; current slot 0 -> wBuffer[0..11]
 	ld de, wBuffer
 	call XfadeUnpack4
-	call XfadeTargetColorsPtr ; unpack the target colors -> wBuffer[12..23]
+	call XfadeTargetColorsPtr ; target -> wBuffer[12..23]
 	ld de, wBuffer + 12
 	call XfadeUnpack4
-	ld b, 32 ; safety cap on the number of fade steps
-.step
-	push bc
-	call XfadeMarchChannels ; nudge wBuffer[0..11] one step toward [12..23]; a=0 if nothing moved
+	call XfadeMarchChannels ; one notch per channel; a (z) = converged
 	push af
-	ld hl, wBuffer ; repack the marched colors back into BG slot 0
+	ld hl, wBuffer
 	ld de, wBGPPalsBuffer
-	call XfadeRepack4
-	call TransferBGPPals
-	ld c, XFADE_FRAMES_PER_STEP
-	rst _DelayFrames
+	call XfadeRepack4 ; update slot 0 in the buffer so it persists between frames
+	xor a
+	or $80 ; auto-increment, BG palette index 0
+	ldh [rBGPI], a
+	ld hl, wBGPPalsBuffer
+	ld c, PAL_SIZE
+.write
+	ld a, [hli]
+	ldh [rBGPD], a
+	dec c
+	jr nz, .write
 	pop af
-	pop bc
-	jr z, .done ; reached the target colors
-	dec b
-	jr nz, .step
-.done
+	and a
+	ret nz ; not converged - next frame continues the march
+	; converged: end the fade and snap every slot to the real new palette
+	xor a
+	ld [wXfadePending], a
 	ld d, SET_PAL_OVERWORLD
 	jp RunPaletteCommand
 
-; Sunsette: as an outdoor palette crossfade begins, play the swap "ding" and pop an "!" bubble over the
-; player (sprite 0). Mirrors ExclamationDuringCameraEvent; EmotionBubbleQuick re-enables sprite updates
-; and redraws on its way out, so the player sprite restores cleanly before the fade marches.
-XfadePopExclamation:
-	ld a, SFX_SWAP
-	rst _PlaySound
-	ld a, EXCLAMATION_BUBBLE
-	ld [wWhichEmotionBubble], a
+; --- HSV helpers (Sunsette) ---
+; Colours are RGB555 0..31/channel. HSV here: H 0..191 (6 sectors x 32), C (chroma = max-min) 0..31,
+; V (value = max) 0..31. Scratch is wBuffer + 20.. (clear of the [0..14] HSV buffers used by XfadeTick).
+
+; in: hl -> colour (2 bytes), de -> dest [H,C,V] (3 bytes). out: hl += 2, de += 3.
+XfadeRGBtoHSV:
+	push de
+	ld de, wBuffer + 20    ; unpack R,G,B -> wBuffer+20,21,22
+	call XfadeUnpackColor  ; hl += 2
+	push hl                ; save advanced source pointer (computation clobbers hl)
+	; V = max(R,G,B)
+	ld a, [wBuffer + 20]
+	ld hl, wBuffer + 21
+	cp [hl]
+	jr nc, .v1
+	ld a, [hl]
+.v1
+	ld hl, wBuffer + 22
+	cp [hl]
+	jr nc, .v2
+	ld a, [hl]
+.v2
+	ld [wBuffer + 23], a   ; V
+	; min(R,G,B)
+	ld a, [wBuffer + 20]
+	ld hl, wBuffer + 21
+	cp [hl]
+	jr c, .n1
+	ld a, [hl]
+.n1
+	ld hl, wBuffer + 22
+	cp [hl]
+	jr c, .n2
+	ld a, [hl]
+.n2
+	ld b, a                ; min
+	ld a, [wBuffer + 23]   ; V
+	sub b                  ; C = V - min
+	ld [wBuffer + 24], a   ; C
+	and a
+	jr nz, .chroma
+	xor a                  ; achromatic -> H = 0
+	ld [wBuffer + 27], a
+	jr .store
+.chroma
+	ld a, [wBuffer + 23]   ; V
+	ld hl, wBuffer + 20
+	cp [hl]
+	jr z, .vR
+	ld hl, wBuffer + 21
+	cp [hl]
+	jr z, .vG
+	ld a, 128              ; V == B
+	ld [wBuffer + 25], a   ; base
+	ld a, [wBuffer + 20]
+	ld hl, wBuffer + 21
+	sub [hl]               ; R - G
+	jr .num
+.vR
 	xor a
-	ld [wEmotionBubbleSpriteIndex], a ; sprite 0 = player
-	callfar EmotionBubbleQuick
+	ld [wBuffer + 25], a   ; base 0
+	ld a, [wBuffer + 21]
+	ld hl, wBuffer + 22
+	sub [hl]               ; G - B
+	jr .num
+.vG
+	ld a, 64
+	ld [wBuffer + 25], a   ; base 64
+	ld a, [wBuffer + 22]
+	ld hl, wBuffer + 20
+	sub [hl]               ; B - R
+.num
+	ld b, 0                ; sign
+	bit 7, a
+	jr z, .npos
+	cpl
+	inc a                  ; |num|
+	ld b, 1
+.npos
+	push af
+	ld a, b
+	ld [wBuffer + 26], a   ; sign
+	pop af
+	ld l, a                ; hl = |num| * 32
+	ld h, 0
+	add hl, hl
+	add hl, hl
+	add hl, hl
+	add hl, hl
+	add hl, hl
+	ld a, [wBuffer + 24]   ; C
+	ld c, a
+	call XfadeDivHLbyC     ; a = frac (0..32)
+	ld c, a                ; frac
+	ld a, [wBuffer + 26]   ; sign
+	and a
+	ld a, [wBuffer + 25]   ; base
+	jr z, .addFrac
+	sub c                  ; base - frac
+	jr .wrapH
+.addFrac
+	add c                  ; base + frac
+.wrapH
+	bit 7, a
+	jr z, .hOk
+	add 192                ; wrap negative into 0..191
+.hOk
+	ld [wBuffer + 27], a   ; H
+.store
+	pop bc                 ; bc = advanced source pointer
+	pop de                 ; de = HSV dest
+	ld a, [wBuffer + 27]
+	ld [de], a             ; H
+	inc de
+	ld a, [wBuffer + 24]
+	ld [de], a             ; C
+	inc de
+	ld a, [wBuffer + 23]
+	ld [de], a             ; V
+	inc de                 ; de += 3
+	ld h, b
+	ld l, c                ; hl = advanced source
+	ret
+
+; reads lerped HSV from wBuffer+12 (H), +13 (C), +14 (V); writes RGB555 to (de), de += 2.
+XfadeHSVtoRGB:
+	ld a, [wBuffer + 12]
+	ld [wBuffer + 20], a   ; H
+	ld a, [wBuffer + 13]
+	ld [wBuffer + 21], a   ; C
+	ld a, [wBuffer + 14]
+	ld [wBuffer + 22], a   ; V
+	; m = V - C
+	ld b, a                ; V
+	ld a, [wBuffer + 21]   ; C
+	ld c, a
+	ld a, b
+	sub c
+	ld [wBuffer + 23], a   ; m
+	; frac = H & 31, sector = H >> 5
+	ld a, [wBuffer + 20]
+	and 31
+	ld [wBuffer + 24], a   ; frac
+	ld a, [wBuffer + 20]
+	srl a
+	srl a
+	srl a
+	srl a
+	srl a
+	ld [wBuffer + 25], a   ; sector (0..5)
+	; up = (C * frac) >> 5
+	ld a, [wBuffer + 21]   ; C
+	ld e, a
+	ld a, [wBuffer + 24]   ; frac
+	call XfadeMul8         ; hl = C * frac
+	srl h
+	rr l
+	srl h
+	rr l
+	srl h
+	rr l
+	srl h
+	rr l
+	srl h
+	rr l
+	ld a, l
+	ld [wBuffer + 26], a   ; up
+	; down = C - up
+	ld a, [wBuffer + 21]
+	ld b, a
+	ld a, [wBuffer + 26]
+	ld c, a
+	ld a, b
+	sub c
+	ld [wBuffer + 27], a   ; down
+	; MU = m + up, MD = m + down
+	ld a, [wBuffer + 23]   ; m
+	ld hl, wBuffer + 26    ; up
+	add [hl]
+	ld [wBuffer + 28], a   ; MU
+	ld a, [wBuffer + 23]
+	ld hl, wBuffer + 27    ; down
+	add [hl]
+	ld [wBuffer + 29], a   ; MD
+	; load V, m, MU, MD into b, c, d, e
+	ld a, [wBuffer + 22]
+	ld b, a                ; V (lit max)
+	ld a, [wBuffer + 23]
+	ld c, a                ; m (low)
+	ld a, [wBuffer + 28]
+	ld d, a                ; MU
+	ld a, [wBuffer + 29]
+	ld e, a                ; MD
+	ld a, [wBuffer + 25]   ; sector
+	and a
+	jr nz, .s1
+	ld a, b                ; R=V
+	ld [wBuffer + 16], a
+	ld a, d                ; G=MU
+	ld [wBuffer + 17], a
+	ld a, c                ; B=m
+	ld [wBuffer + 18], a
+	jr .pack
+.s1
+	dec a
+	jr nz, .s2
+	ld a, e                ; R=MD
+	ld [wBuffer + 16], a
+	ld a, b                ; G=V
+	ld [wBuffer + 17], a
+	ld a, c                ; B=m
+	ld [wBuffer + 18], a
+	jr .pack
+.s2
+	dec a
+	jr nz, .s3
+	ld a, c                ; R=m
+	ld [wBuffer + 16], a
+	ld a, b                ; G=V
+	ld [wBuffer + 17], a
+	ld a, d                ; B=MU
+	ld [wBuffer + 18], a
+	jr .pack
+.s3
+	dec a
+	jr nz, .s4
+	ld a, c                ; R=m
+	ld [wBuffer + 16], a
+	ld a, e                ; G=MD
+	ld [wBuffer + 17], a
+	ld a, b                ; B=V
+	ld [wBuffer + 18], a
+	jr .pack
+.s4
+	dec a
+	jr nz, .s5
+	ld a, d                ; R=MU
+	ld [wBuffer + 16], a
+	ld a, c                ; G=m
+	ld [wBuffer + 17], a
+	ld a, b                ; B=V
+	ld [wBuffer + 18], a
+	jr .pack
+.s5
+	ld a, b                ; R=V
+	ld [wBuffer + 16], a
+	ld a, c                ; G=m
+	ld [wBuffer + 17], a
+	ld a, e                ; B=MD
+	ld [wBuffer + 18], a
+.pack
+	ld hl, wBuffer + 16    ; R,G,B
+	jp XfadeRepackColor    ; writes (de), de += 2
+
+; in: hl -> startHSV (3), de -> endHSV (3). writes lerped HSV to wBuffer+12,13,14.
+XfadeLerpHSV:
+	ld a, [hli]
+	ld [wBuffer + 16], a   ; sH
+	ld a, [hli]
+	ld [wBuffer + 17], a   ; sC
+	ld a, [hl]
+	ld [wBuffer + 18], a   ; sV
+	ld a, [de]
+	ld [wBuffer + 19], a   ; eH
+	inc de
+	ld a, [de]
+	ld [wBuffer + 20], a   ; eC
+	inc de
+	ld a, [de]
+	ld [wBuffer + 21], a   ; eV
+	; achromatic fix: a gray endpoint has no hue, so borrow the other endpoint's hue (no rotation, just S/V)
+	ld a, [wBuffer + 17]   ; sC
+	and a
+	jr nz, .checkEnd
+	ld a, [wBuffer + 19]   ; eH
+	ld [wBuffer + 16], a   ; sH = eH
+.checkEnd
+	ld a, [wBuffer + 20]   ; eC
+	and a
+	jr nz, .lerp
+	ld a, [wBuffer + 16]   ; sH
+	ld [wBuffer + 19], a   ; eH = sH
+.lerp
+	; V
+	ld a, [wBuffer + 18]
+	ld b, a
+	ld a, [wBuffer + 21]
+	call XfadeLerp8
+	ld [wBuffer + 14], a
+	; C
+	ld a, [wBuffer + 17]
+	ld b, a
+	ld a, [wBuffer + 20]
+	call XfadeLerp8
+	ld [wBuffer + 13], a
+	; H (shortest arc)
+	ld a, [wBuffer + 16]
+	ld b, a
+	ld a, [wBuffer + 19]
+	call XfadeLerpHue
+	ld [wBuffer + 12], a
+	ret
+
+; in: b = start, a = end. out: a = start + (end-start) * progress / XFADE_HUE_STEPS. uses wBuffer+22.
+XfadeLerp8:
+	push af
+	ld a, b
+	ld [wBuffer + 22], a   ; start
+	pop af
+	sub b                  ; diff (signed)
+	ld c, 0                ; sign
+	bit 7, a
+	jr z, .pos
+	cpl
+	inc a
+	ld c, 1
+.pos
+	ld e, a                ; |diff|
+	ld a, [wXfadeProgress]
+	call XfadeMul8         ; hl = progress * |diff| (c preserved)
+	srl h
+	rr l
+	srl h
+	rr l
+	srl h
+	rr l
+	srl h
+	rr l
+	ld a, l
+	ld b, a                ; magnitude
+	ld a, c
+	and a
+	ld a, [wBuffer + 22]   ; start
+	jr z, .add
+	sub b
+	ret
+.add
+	add b
+	ret
+
+; in: b = startH, a = endH (0..191). out: a = lerped hue along the shortest arc, wrapped to 0..191.
+XfadeLerpHue:
+	cp b
+	jr nc, .fwd
+	sub b
+	add 192                ; forward arc when end < start
+	jr .haveF
+.fwd
+	sub b                  ; forward arc (0..191)
+.haveF
+	cp 97
+	jr c, .short
+	sub 192                ; > halfway -> go backwards (negative delta)
+.short
+	ld c, 0                ; sign
+	bit 7, a
+	jr z, .dpos
+	cpl
+	inc a
+	ld c, 1
+.dpos
+	ld e, a                ; |delta|
+	ld a, b
+	ld [wBuffer + 22], a   ; startH
+	ld a, [wXfadeProgress]
+	call XfadeMul8         ; hl = progress * |delta| (c preserved)
+	srl h
+	rr l
+	srl h
+	rr l
+	srl h
+	rr l
+	srl h
+	rr l
+	ld a, l
+	ld b, a                ; magnitude
+	ld a, c
+	and a
+	ld a, [wBuffer + 22]   ; startH
+	jr z, .addMag
+	sub b
+	jr .wrap
+.addMag
+	add b
+.wrap
+	bit 7, a
+	jr z, .notNeg
+	add 192
+	ret
+.notNeg
+	cp 192
+	ret c
+	sub 192
+	ret
+
+; hl = a * e (a, e are small; result fits 16 bits). preserves c. clobbers a, b, d, e, hl.
+XfadeMul8:
+	ld hl, 0
+	ld d, 0
+	and a
+	ret z
+	ld b, a
+.loop
+	ld a, l
+	add e
+	ld l, a
+	ld a, h
+	adc d
+	ld h, a
+	dec b
+	jr nz, .loop
+	ret
+
+; hl / c -> a (quotient). c = 1..31, hl small. clobbers a, b, hl.
+XfadeDivHLbyC:
+	ld b, 0
+.loop
+	ld a, h
+	or a
+	jr nz, .sub ; hl >= 256 > c, safe to subtract
+	ld a, l
+	cp c
+	jr c, .done ; hl < c
+.sub
+	ld a, l
+	sub c
+	ld l, a
+	jr nc, .nb
+	dec h
+.nb
+	inc b
+	jr .loop
+.done
+	ld a, b
 	ret
 
 ; march each of the 12 channels in wBuffer[0..11] one step toward wBuffer[12..23]. a (z) = none changed.
@@ -838,8 +1303,9 @@ SetPal_PokemonWholeScreenTrade:
 	ret
 
 ; Sunsette: like SetPal_PokemonWholeScreen, but only the TOP of the screen gets the mon palette (slot 0,
-; selector in e: species / $FF=PAL_BLACK / $FE=PAL_SHADOW). The bottom textbox rows get a fixed PAL_BLACK
-; (slot 1) via BlkPacket_EvolutionSplit, so the textbox never palette-jumps as the morph swaps slot 0.
+; selector in e: species / $FF=PAL_BLACK / $FE=PAL_SHADOW). The bottom textbox rows get a fixed
+; PAL_EVOTEXTBOX (slot 1, white bg + black lines) via BlkPacket_EvolutionSplit, so the textbox never
+; palette-jumps as the morph swaps slot 0. (PAL_BLACK's mid shade is gray, which made the box frame gray.)
 ; Self-contained (farcall-safe, arg in e survives the bankswitch).
 _SetPalEvolutionSplit::
 	ld a, [wOnSGB]
@@ -863,11 +1329,59 @@ _SetPalEvolutionSplit::
 	call DeterminePaletteIDOutOfBattle
 .gotMonPal
 	ld [wPalPacket + 1], a ; slot 0 = mon (top)
-	ld a, PAL_BLACK
+	ld a, PAL_EVOTEXTBOX ; Sunsette: white bg + black lines (PAL_BLACK's mid shade is gray, which made the box frame gray)
 	ld [wPalPacket + 3], a ; slot 1 = fixed textbox palette (bottom)
 	ld hl, wPalPacket
 	ld de, BlkPacket_EvolutionSplit
 	jp SendSGBPackets
+
+; Sunsette: evolution morph palette cycle - recolour ONLY slot 0 (the mon area; the textbox keeps its
+; PAL_BLACK slot 1) through a short list of bright palettes for a "superstar invincibility" strobe while
+; the silhouette flips. Cheap: no full packet resend, no rBGP/brightness change - just overwrite the 8
+; bytes of slot 0 in wBGPPalsBuffer and push them V-blank-safe via TransferBGPPals. The step index lives
+; in wEvoMorphPalIndex (advanced + wrapped each call). The morph's region/attribute map was already set by
+; the initial EvolutionSetWholeScreenPalette, so the colours land on the morphing mon.
+DEF EVOLUTION_MORPH_NUM_PALS EQU 4
+EvolutionMorphCyclePalette::
+	ld a, [wEvoMorphPalIndex]
+	inc a
+	cp EVOLUTION_MORPH_NUM_PALS
+	jr c, .store
+	xor a
+.store
+	ld [wEvoMorphPalIndex], a
+	; hl = EvolutionMorphPalettes + index -> PAL_* for this step
+	ld e, a
+	ld d, 0
+	ld hl, EvolutionMorphPalettes
+	add hl, de
+	ld a, [hl]
+	; hl = SuperPalettes + a * PAL_SIZE
+	ld l, a
+	ld h, 0
+	add hl, hl
+	add hl, hl
+	add hl, hl ; * 8 (PAL_SIZE)
+	ld de, SuperPalettes
+	add hl, de
+	; copy the 8 bytes into slot 0 of the live BG buffer
+	ld de, wBGPPalsBuffer
+	ld c, PAL_SIZE
+.copy
+	ld a, [hli]
+	ld [de], a
+	inc de
+	dec c
+	jr nz, .copy
+	jp TransferBGPPals ; V-blank-safe flush of all 4 slots (only slot 0 changed)
+
+; bright palettes the morph rotates through (rainbow-ish, superstar feel); colour index 0 of each is
+; white so the .done white-out flash still reads as white.
+EvolutionMorphPalettes:
+	db PAL_YELLOWMON
+	db PAL_PINKMON
+	db PAL_CYANMON
+	db PAL_GREENMON
 
 SetPal_TrainerCard:
 	ld hl, BlkPacket_TrainerCard

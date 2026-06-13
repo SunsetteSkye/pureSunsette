@@ -125,4 +125,5 @@ ENDC
 	RGB 31,31,31, 31,25,02, 20,26,31, 00,00,00 ; PAL_VERMILIONGOLD ; Sunsette: Vermilion w/ Saffron's gold (31,25,02) in place of the orange
 	RGB 31,31,31, 21,21,21, 11,11,11, 00,00,00 ; PAL_MINDWIPE ; Sunsette: true grayscale (r=g=b, no purple tint) for the SKITTERMIND'd target
 	RGB 31,31,31, 30,22,17, 18,07,11, 00,00,00 ; PAL_ROCKETSISTER ; Sunsette: white / f7b58c / 953a58 / black (ROCKET SISTER front sprite)
+	RGB 31,31,31, 00,00,00, 00,00,00, 00,00,00 ; PAL_EVOTEXTBOX ; Sunsette: white bg + pure black for all line/text shades (evolution textbox)
 	assert_table_length NUM_SGB_PALS

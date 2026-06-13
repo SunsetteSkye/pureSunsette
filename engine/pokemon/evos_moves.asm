@@ -170,8 +170,9 @@ Evolution_PartyMonLoop: ; loop over party mons
 	ld a, SFX_GET_ITEM_2
 	call PlaySoundWaitForCurrent
 	call WaitForSoundToFinish
-	ld c, 40
-	rst _DelayFrames
+	; Sunsette: pause on "<mon> evolved into <NEW>!" until the player presses A, instead of auto-advancing
+	; after a fixed delay, so the evolution result can be read before returning.
+	call WaitForTextScrollButtonPress
 	call ClearScreen
 	call RenameEvolvedMon
 	ld a, [wPokedexNum]
