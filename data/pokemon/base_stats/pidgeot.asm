@@ -39,7 +39,7 @@
 	SUBSTITUTE,\
 	CUT,\
 	FLY,\
-	STRENGTH
+	FLASH
 	; end
 
 

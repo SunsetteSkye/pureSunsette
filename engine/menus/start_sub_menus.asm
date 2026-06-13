@@ -212,6 +212,11 @@ StartMenu_Pokemon::
 	jr nc, .alreadyBrightMsg ; no wild table here -> nothing to draw out
 	ld hl, .flashEncounterText
 	rst _PrintText
+	; Sunsette: white out before handing back to the overworld (which immediately starts the battle, since
+	; wCurOpponent is set). Without this, the party-menu->map teardown flashes on screen for a moment right
+	; before the battle-transition wipe (the wipe captures the live screen). The sibling field moves below all
+	; GBPalWhiteOut for the same reason - and a blinding white flash into the encounter suits FLASH anyway.
+	call GBPalWhiteOutWithDelay3
 	jp .goBackToMap ; overworld launches the battle (wCurOpponent is set)
 .alreadyBrightMsg
 	ld hl, .alreadyBright

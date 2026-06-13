@@ -41,8 +41,8 @@
 	GLARE,\
 	SUBSTITUTE,\
 	CUT,\
-	STRENGTH,\
-	FLASH
+	SURF,\
+	STRENGTH
 	; end
 
 	db BANK(ArbokPicFront)

@@ -510,6 +510,16 @@ XfadeStartToCurrentPalette::
 	jr z, .snap
 	call GetOverworldPalette
 	ld [wXfadeTargetPal], a
+	; Sunsette: if the map we're entering uses the SAME palette index as the one we're leaving (e.g. Route 3
+	; <-> Route 4, both PAL_HIGHLAND), there's nothing to fade - snap. This index check is the reliable test:
+	; the colour compare below pits the RAW SuperPalettes entry against the LIVE slot-0 buffer, but slot 0 is
+	; the GBC-processed palette and never byte-matches the raw table, so same-palette seams would otherwise
+	; "fade" by marching between two representations of identical colours (a visible flicker). wXfadeLastPal is
+	; the palette of the map being left (stamped by SetPal_Overworld; the new map's hasn't run yet here).
+	ld b, a
+	ld a, [wXfadeLastPal]
+	cp b
+	jr z, .snap
 	call XfadeTargetColorsPtr ; hl = target colors
 	ld de, wBGPPalsBuffer ; current slot 0 (live)
 	ld b, 8
@@ -878,6 +888,7 @@ MapPalettesJumpTable:
 	db CELADON_GYM, PAL_FOREST
 	; Highland palette
 	db ROUTE_3, PAL_HIGHLAND
+	db ROUTE_4, PAL_HIGHLAND ; Sunsette: Mt. Moon sits in the MIDDLE of Route 4, so Route 4 is highland too
 	db ROUTE_9, PAL_HIGHLAND
 	db ROUTE_10, PAL_HIGHLAND
 	db ROUTE_22, PAL_HIGHLAND

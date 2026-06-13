@@ -79,7 +79,7 @@ Moves:
 	move PECK,         NO_ADDITIONAL_EFFECT,        40, FLYING,       100, 35
 	move DRILL_PECK,   CUT_DISABLE_EFFECT,          80, FLYING,       100, 20
 	move SUBMISSION,   CUT_DISABLE_EFFECT,          70, FIGHTING,     100, 10 ; Sunsette: damage + DISABLE (FULL NELSON)
-	move LOW_KICK,     FLINCH_SIDE_EFFECT2,         60, FIGHTING,     100, 20 ; Sunsette: power set live from the target's weight (LowKickModifier); base 60 = fallback for non-dex foes
+	move LOW_KICK,     NO_ADDITIONAL_EFFECT,        60, FIGHTING,     100, 20 ; Sunsette: power set live from the target's weight (LowKickModifier); base 60 = fallback for non-dex foes. No flinch - it's a pure weight-based hit.
 	move COUNTER,      DRAIN_HP_EFFECT,             75, GHOST,   	  100, 10 ; SHADOW BOX
 	move SEISMIC_TOSS, SPECIAL_DAMAGE_EFFECT,        1, FIGHTING,     100, 20
 	move STRENGTH,     ATTACK_UP_SIDE_EFFECT,       70, ROCK,  	       90, 15

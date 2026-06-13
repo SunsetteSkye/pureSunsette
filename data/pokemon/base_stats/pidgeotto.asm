@@ -38,7 +38,7 @@
 	SUBSTITUTE,\
 	CUT,\
 	FLY,\
-	STRENGTH
+	FLASH
 	; end
 
 	db BANK(PidgeottoPicFront)

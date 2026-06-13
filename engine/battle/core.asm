@@ -6082,9 +6082,11 @@ EnemyCheckIfMirrorMoveEffect:
 	call c, JumpMoveEffect
 	ld hl, wBattleMonHP
 	ld a, [hli]
-	or [hl] ; Sunsette FIX: was `or b` (b is garbage here from callfar DisplayEffectiveness/JumpMoveEffect),
-	; which let a 0-HP player mon count as "still standing" and act (degenerate if the move self-heals).
-	; The symmetric enemy-faint check at .notDone does `ld b,[hl]; or b`; here we just OR the HP low byte.
+	ld b, [hl] ; Sunsette FIX: mirror the symmetric enemy-faint check at .notDone (`ld a,[hli]; ld b,[hl]; or b`).
+	or b ; was `or [hl]`, which fixed the LOCAL branch but left b garbage - and MainInBattleLoop's player-faint
+	; check after ExecuteEnemyMove reads `b` (`ld a,b; and a; jp z, HandlePlayerMonFainted`). With b garbage a
+	; 0-HP player mon wasn't detected as fainted, so it still got its turn (acted at 0 HP, then both fainted).
+	; Setting b = HP low byte (0 on a faint) makes the caller's check fire correctly.
 	jr nz, .playerStillStanding
 ; PureRGB: a KO skips Hyper Beam's recharge (Gen 1 bug), so confuse the user instead
 	ld a, [wEnemyMoveEffect]

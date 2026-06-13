@@ -41,8 +41,7 @@
 	GLARE,\
 	SUBSTITUTE,\
 	CUT,\
-	FLY,\
-	FLASH
+	FLY
 	; end
 
 

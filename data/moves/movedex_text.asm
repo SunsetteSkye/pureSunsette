@@ -742,7 +742,7 @@ _LowKickDexEntry::
 	next "hits harder the"
 	next "heavier the foe.@"
 
-	text_jump _Generic30PercentFlinchText
+	text_jump _GenericNoAdditionalEffectText
 
 _CounterDexEntry::
 	text "A secret fighting"

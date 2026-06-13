@@ -54,8 +54,7 @@
 	SUBSTITUTE,\
 	CUT,\
 	SURF,\
-	STRENGTH,\
-	FLASH
+	STRENGTH
 	; end
 
 	db BANK(NidoqueenPicFront)

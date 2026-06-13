@@ -37,8 +37,7 @@
 	SLAM,\ ; WASTEMAKER
 	GLARE,\
 	SUBSTITUTE,\
-	CUT,\
-	FLASH
+	CUT
 	; end
 
 

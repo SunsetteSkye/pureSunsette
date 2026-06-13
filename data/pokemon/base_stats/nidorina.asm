@@ -41,8 +41,7 @@
 	GLARE,\
 	SUBSTITUTE,\
 	CUT,\
-	STRENGTH,\
-	FLASH
+	STRENGTH
 	; end
 
 	db BANK(NidorinaPicFront)

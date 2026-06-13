@@ -45,8 +45,7 @@
 	SUBSTITUTE,\
 	CUT,\
 	SURF,\
-	STRENGTH,\
-	FLASH
+	STRENGTH
 	; end
 
 

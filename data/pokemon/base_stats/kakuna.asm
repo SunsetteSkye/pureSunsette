@@ -28,8 +28,7 @@
 	SLUDGE,\ ; SLUDGE BOMB
 	GLARE,\
 	SUBSTITUTE,\
-	CUT,\
-	FLASH
+	CUT
 	; end
 
 	db BANK(KakunaPicFront)
