@@ -1965,6 +1965,10 @@ ItemUsePocketAbra:
 .done
 	rst _PrintText
 	call StopMusic
+	; Sunsette: remember the music was silenced for the cry, so the morale lockout can restart it if it
+	; blocks this teleport (a completed teleport restarts music via the destination map load).
+	ld a, 1
+	ld [wRestartMusicOnExitAbort], a
 	ld a, ABRA
 	jp PlayCry
 .flavor1

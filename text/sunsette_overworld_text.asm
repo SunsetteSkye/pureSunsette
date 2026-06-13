@@ -16,6 +16,24 @@ _LockedAreaExitText::
 	para "Leave anyway?"
 	done
 
+; Sunsette: same lockout confirmation, but for the menu escapes (Dig / Teleport / Fly / Escape Rope /
+; Pocket Abra) - framed as the escape itself being interrupted rather than walking out a door.
+_LockedAreaExitEscapeText::
+	text "...but the escape"
+	line "won't take!"
+
+	para "@"
+	text_ram_namebuffer
+	text " holds"
+	line "fast!"
+
+	para "Slip away now and"
+	line "your team will"
+	cont "be unhappy."
+
+	para "Leave anyway?"
+	done
+
 ; Mt. Moon 1F sign - warns the cave is dark (was the "Beware ZUBAT" sign)
 _MtMoon1FBewareZubatSign::
 	text "Beware! MT.MOON"

@@ -454,7 +454,6 @@ INCLUDE "engine/overworld/flamethrower_field.asm" ; Sunsette: ADDED: FLAMETHROWE
 INCLUDE "engine/battle/play_side_anim.asm" ; Sunsette: ADDED: affection/Pressure overlay cues (moved out of full Battle Core)
 INCLUDE "engine/battle/move_effects/waterify.asm" ; Sunsette: ADDED: WATERIFY_EFFECT (Water Gun / Hydro Pump retype target to WATER)
 INCLUDE "engine/battle/freeze_penalty.asm" ; Sunsette: ADDED: FREEZE halves Special + Speed instead of skipping the turn
-INCLUDE "engine/events/locked_area_lockout.asm" ; Sunsette: ADDED: morale lockout - confirm before leaving a gym/Silph 2F+/Rocket Hideout pre-boss
 INCLUDE "engine/overworld/daycare_exp.asm" ; Sunsette: moved out of full bank3 - time-based daycare reward (callfar'd, bank-agnostic)
 
 SECTION "newCode2", ROMX
@@ -490,6 +489,7 @@ INCLUDE "engine/events/museum_exhibit_bonus.asm" ; Sunsette: ADDED: Pewter Museu
 INCLUDE "engine/events/family_badge_comments.asm" ; Sunsette: MOM/DAISY non-item badge acknowledgments (callfar'd from their full map banks)
 INCLUDE "engine/events/oak_legendary_comments.asm" ; Sunsette: OAK's one-time legendary remarks (callfar'd from OaksLab)
 INCLUDE "engine/battle/arbok_signature.asm" ; Sunsette: ARBOK FOCUS ENERGY (+2 SPEED) / WRAP (+2 trap turns) bonuses (callfar'd; Battle Core + newCode are full)
+INCLUDE "engine/events/locked_area_lockout.asm" ; Sunsette: morale lockout - confirm before leaving a gym/Silph 2F+/Rocket pre-boss (callfar'd; moved out of full newCode)
 
 SECTION "Silph Card Key Scripts", ROMX
 

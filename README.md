@@ -1,6 +1,8 @@
 # PureSunsette
 
-A graphical edit of PureRGB that I began for my own private purposes and then, evidently being incapable of leaving well enough alone, allowed to metastasize into something considerably larger.
+I am nowhere near done bug-testing this yet and I haven't mentioned it to anyone so I don't know how you got here anyway, but I figure I should write warnings just in case.
+
+A graphical edit of PureRGB that I began for my own private purposes and then, evidently being incapable of leaving well enough alone, allowed to metastasize into something considerably larger. A warning that I'm not really a coder; this is heavily vibe-coded with an LLM. 
 
 ![full color roster](screenshots/palettework.png)
 

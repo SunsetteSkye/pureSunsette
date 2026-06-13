@@ -135,6 +135,13 @@ DisplayRepelWoreOffText::
 	callfar RepelOrHidingWoreOff
 	jr CloseTextDisplay
 
+DisplayLockedAreaExitText::
+	; Sunsette: morale lockout. Routing the "leave anyway?" prompt through DisplayTextID (rather than a raw
+	; PrintText from the warp handler) is what makes it actually render + take input. PromptLockedExitChoice
+	; runs the message + YES/NO and records the answer in wLockedExitLeaveChosen for the warp hook to read.
+	callfar PromptLockedExitChoice
+	jr CloseTextDisplay
+
 CloseTextDisplayPart1:
 	ld a, [wCurMap]
 	call SwitchToMapRomBank
@@ -186,6 +193,7 @@ GenericTextScriptJumpTable:
 	dw DisplayPlayerBlackedOutText ; TEXT_BLACKED_OUT
 	dw DisplayRepelWoreOffText ; TEXT_REPEL_WORE_OFF
 	dw DisplaySafariGameOverText ; TEXT_SAFARI_GAME_OVER
+	dw DisplayLockedAreaExitText ; TEXT_LOCKED_AREA_EXIT
 
 GenericTextScriptJumpTable2:
 	dw TextScript_Trainer ; TX_SCRIPT_TRAINER

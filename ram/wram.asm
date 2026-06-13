@@ -1811,11 +1811,23 @@ wMonHeaderEnd::
 ; saved at the start of a battle and then written back at the end of the battle
 wSavedTileAnimations:: db
 
-	ds 2 ; unused 2 bytes
+; Sunsette: 1 if Pocket Abra silenced the music for its teleport cry; if that escape is then blocked by
+; the morale lockout, the decline path restarts the map music (a normal teleport restarts it via the
+; destination map load, but a blocked one never gets there). Set in ItemUsePocketAbra, consumed/cleared
+; in CheckLockedMenuExit_.
+wRestartMusicOnExitAbort:: db
+
+; Sunsette: 1 if the locked-area exit prompt was triggered by a menu escape (Dig / Teleport / Fly /
+; Escape Rope / Pocket Abra) rather than walking out a door, which selects the "interrupted escape"
+; wording. Set by the warp hook just before the prompt; read by PromptLockedExitChoice.
+wLockedExitMenuEscape:: db
 
 wDamage:: dw
 
-	ds 1 ; unused
+; Sunsette: morale lockout choice carried across the DisplayTextID/CloseTextDisplay round-trip:
+; 1 = player chose to leave the locked area (affection already drained), 0 = stay. Set by
+; PromptLockedExitChoice (the TEXT_LOCKED_AREA_EXIT handler), read by the two warp hooks afterward.
+wLockedExitLeaveChosen:: db
 
 ; Sunsette: 0 = the active repel is a normal Repel item; otherwise the field move
 ; (SAND_ATTACK / MIST / HAZE / SMOKESCREEN) that is currently keeping you hidden.

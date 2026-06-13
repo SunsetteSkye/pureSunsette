@@ -14,29 +14,68 @@ CheckLockedWalkExit_::
 	ldh a, [hWarpDestinationMap]
 	call IsMapInLockedSet ; destination still inside the locked area (floor-to-floor) -> not leaving
 	jr c, .allow
-	call PromptLockedExit
-	ret c ; chose to leave (affection already drained)
+	xor a
+	ld [wLockedExitMenuEscape], a ; walking out a door -> walking-perspective wording
+	call ShowLockedExitPrompt
+	ld a, [wLockedExitLeaveChosen]
+	and a
+	jr nz, .leave ; chose to leave (affection already drained)
 	call QueueWalkBack
 	and a ; clear carry = abort
+	ret
+.leave
+	scf
 	ret
 .allow
 	scf
 	ret
+
+; Show the "leave anyway?" prompt via the standard overworld text path. We are deep inside a warp handler
+; where the overworld keeps hAutoBGTransferEnabled=0 and paints the map with its own row/column transfers,
+; so a raw PrintText here is invisible (it lands in wTileMap but never reaches VRAM). DisplayTextID does the
+; full open (DisplayTextIDInit: font/box tiles, window, continuous transfer) and the TEXT_LOCKED_AREA_EXIT
+; handler closes it again with CloseTextDisplay, leaving the bank/stack balanced. This is exactly how the
+; repel-wore-off prompt renders. The answer comes back in wLockedExitLeaveChosen.
+ShowLockedExitPrompt:
+	ld a, TEXT_LOCKED_AREA_EXIT
+	ldh [hTextID], a
+	call EnableAutoTextBoxDrawing
+	jp DisplayTextID ; returns to our caller after the handler runs CloseTextDisplay
 
 ; ---- entry from HandleFlyWarpOrDungeonWarp (menu escapes) ----
 ; carry SET = allow; carry CLEAR = declined (we've cleared the pending fly/escape warp flags).
 CheckLockedMenuExit_::
 	call LockedGateActive
 	jr nc, .allow
-	call PromptLockedExit
-	ret c
+	ld a, 1
+	ld [wLockedExitMenuEscape], a ; Dig/Teleport/Fly/Escape Rope/Pocket Abra -> "interrupted escape" wording
+	call ShowLockedExitPrompt
+	ld a, [wLockedExitLeaveChosen]
+	and a
+	jr nz, .leave
+; STAY: cancel the escape and undo what it disturbed. The prompt's font load clobbered the player sprite
+; tiles and CloseTextDisplay skipped reloading them (BIT_FLY_WARP was still set then), so reload them; and
+; if Pocket Abra silenced the music for its cry, restart it (a completed teleport would have via map load).
 	ld hl, wStatusFlags6
 	res BIT_FLY_WARP, [hl]
 	res BIT_ESCAPE_WARP, [hl]
 	res BIT_DUNGEON_WARP, [hl]
+	call LoadPlayerSpriteGraphics
+	ld a, [wRestartMusicOnExitAbort]
 	and a
+	call nz, PlayDefaultMusic ; WaitForSoundToFinish inside lets the ABRA cry finish first
+	xor a
+	ld [wRestartMusicOnExitAbort], a
+	and a ; carry clear = abort the warp
+	ret
+.leave
+	xor a
+	ld [wRestartMusicOnExitAbort], a ; leaving -> the destination map load restarts music
+	scf
 	ret
 .allow
+	xor a
+	ld [wRestartMusicOnExitAbort], a
 	scf
 	ret
 
@@ -143,13 +182,22 @@ IsMapInLockedSet:
 
 ; Names the top-affection unfainted mon, prints the warning, shows a default-NO yes/no.
 ; carry SET = leave (and 16 affection drained from every unfainted mon); carry CLEAR = stay.
-PromptLockedExit:
-	call SaveScreenTilesToBuffer2 ; snapshot the overworld so a "stay" restores it
+; The TEXT_LOCKED_AREA_EXIT handler (DisplayLockedAreaExitText) callfars here from inside the DisplayTextID
+; flow, so the text box is already open/visible and CloseTextDisplay will tear it down afterward - we only
+; print the message, run the YES/NO, and record the answer in wLockedExitLeaveChosen for the warp hook.
+PromptLockedExitChoice::
 	call FindTopAffectionMon
 	ld [wWhichPokemon], a
 	ld hl, wPartyMonNicks
 	call GetPartyMonName ; -> wNameBuffer
+	; walking out a door reads differently from a warp/teleport being yanked back, so the menu escapes
+	; (Dig/Teleport/Fly/Escape Rope/Pocket Abra) get an "interrupted escape" variant of the warning.
 	ld hl, LockedAreaExitText
+	ld a, [wLockedExitMenuEscape]
+	and a
+	jr z, .gotText
+	ld hl, LockedAreaExitEscapeText
+.gotText
 	call PrintText
 	; standard YES/NO box, but cursor defaults to NO and B = NO (the engine maps B to the 2nd option)
 	call SaveScreenTilesToBuffer1
@@ -165,12 +213,12 @@ PromptLockedExit:
 	and a ; 0 = YES (leave), 1 = NO (stay)
 	jr nz, .stay
 	call DrainAffection16
-	call LoadScreenTilesFromBuffer2
-	scf
+	ld a, 1
+	ld [wLockedExitLeaveChosen], a ; leave (affection drained)
 	ret
 .stay
-	call LoadScreenTilesFromBuffer2
-	and a
+	xor a
+	ld [wLockedExitLeaveChosen], a ; stay
 	ret
 
 ; returns a = party slot (0-based) of the highest-affection UNFAINTED mon; ties -> highest slot.
@@ -267,4 +315,8 @@ QueueWalkBack:
 
 LockedAreaExitText:
 	text_far _LockedAreaExitText
+	text_end
+
+LockedAreaExitEscapeText:
+	text_far _LockedAreaExitEscapeText
 	text_end
