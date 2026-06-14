@@ -22,8 +22,8 @@ _PalletTownGirlText::
 	line "can run in those,"
 	cont "right?"
 
-	para "Though I hear that"
-	line "if you run in tall"
+	para "Though I hear if"
+	line "you run in tall"
 	cont "grass, many more"
 	cont "wild #MON will"
 	cont "attack you."

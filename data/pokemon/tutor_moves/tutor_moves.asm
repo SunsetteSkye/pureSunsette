@@ -1,6 +1,6 @@
 TutorMoveLearnsets::
-; Old TM01
-INCLUDE "data/pokemon/tutor_moves/mega_punch.asm"
+; Old TM01 (was MEGA_PUNCH/SHORYUKEN; the Saffron tutor now teaches DIZZY_PUNCH with this learnset)
+INCLUDE "data/pokemon/tutor_moves/dizzy_punch.asm"
 ; Old TM04
 INCLUDE "data/pokemon/tutor_moves/whirlwind.asm"
 ; Old TM05

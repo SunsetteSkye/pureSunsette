@@ -1601,9 +1601,10 @@ _BubbleDexEntry::
 	text_jump _Generic30PercentConfusionText
 
 _DizzyPunchDexEntry::
-	text "A rhythmic punch"
-	next "that leaves the"
-	next "foe reeling.@"
+	text "A dizzying flurry"
+	next "of rhythmic jabs"
+	next "that rattle the"
+	next "foe's senses.@"
 
 	text_jump _Generic30PercentConfusionText
 

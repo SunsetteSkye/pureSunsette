@@ -242,6 +242,12 @@ _MoveMysticSnorlaxText::
 	cont "boost!"
 	done
 
+; Sunsette: KANGASKHAN's DIZZY PUNCH signature (90 BP, up from 70) - uses the generic power-increase info path
+_KangaskhanMoveMysticText::
+	text_start
+	line "maternal mauler."
+	prompt
+
 _MoveMysticArbokText::
 	text "When it uses FOCUS"
 	line "ENERGY, its SPEED"

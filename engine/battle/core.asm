@@ -5698,14 +5698,13 @@ MoveHitTest::
 	jp z, .moveMissed
 .checkForDigOrFlyStatus
 ; Sunsette: a semi-invulnerable (Fly/Dig) target is missed unless this move can reach it - Thunder/Blizzard/
-; Hurricane reach Fly users, Surf/Earthquake reach Dig users (CheckSemiInvulnBypass returns carry = reachable;
-; a non-invuln target is always reachable). SWIFT_EFFECT then never misses a reachable target; every other
-; move rolls its normal accuracy. One shared callfar keeps this Battle-Core path small.
-	callfar CheckSemiInvulnBypass ; preserves carry
+; Hurricane reach Fly users, Surf/Earthquake reach Dig users (a non-invuln target is always reachable).
+; CheckReachAndAutoHit returns carry = reachable and Z = never-miss; a reachable target is auto-hit for
+; SWIFT_EFFECT moves and for PIDGEOT's signature HURRICANE (still dodged by Dig, since Hurricane only
+; reaches Fly). Everything else rolls normal accuracy. One shared callfar keeps this Battle-Core path small.
+	callfar CheckReachAndAutoHit ; carry = reachable; Z = never-miss (Bankswitch preserves both flags)
 	jp nc, .moveMissed
-	ld a, [de]
-	cp SWIFT_EFFECT
-	ret z ; SWIFT_EFFECT (Swift/Surf/Earthquake/Blizzard) never misses a reachable target
+	ret z ; never-miss: SWIFT_EFFECT, or PIDGEOT's signature HURRICANE (a Dig target already dodged above)
 	ldh a, [hWhoseTurn]
 	and a
 	jr nz, .enemyTurn

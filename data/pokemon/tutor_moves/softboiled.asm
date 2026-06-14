@@ -6,4 +6,5 @@ SoftboiledLearnset:
 	db EXEGGCUTE
 	db CHANSEY
 	db MEW
+	db MOLTRES
 	db -1

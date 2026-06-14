@@ -565,11 +565,14 @@ GyaradosEvosMoves:
 	db 0
 ; Learnset
 	db 20, BITE
-	db 25, THRASH ; OUTRAGE
-	db 32, JUMP_KICK ; LEAP ATTACK
-	db 41, HYDRO_PUMP
-	db 52, HYPER_BEAM
-	db 60, WHIRLWIND ; HURRICANE
+	db 22, ROAR ; BELLOW
+	db 25, GUST
+	db 29, WATERFALL
+	db 33, RAGE ; MAD RUSH
+	db 37, THRASH ; OUTRAGE
+	db 41, JUMP_KICK ; LEAP ATTACK
+	db 52, HYDRO_PUMP
+	db 60, HYPER_BEAM
 	db 0
 
 ShellderEvosMoves:
@@ -1987,6 +1990,7 @@ SnorlaxEvosMoves:
 MagikarpEvosMoves:
 ; Evolutions
 	db EVOLVE_LEVEL, 20, GYARADOS
+	db 15, TACKLE
 	db 0
 ; Learnset
 	db 0

@@ -122,6 +122,7 @@ RemappableMoves::
 	; Sunsette: BLASTOISE's HYDRO_PUMP / SKULL_BASH (METEOR DRIVE) signatures removed (no longer a MOVE MYSTIC mon).
 	db PSYBEAM, GOLDUCK, 105, 0
 	db CONSTRICT, TANGELA, 90, 0 ; STRANGLEVINE: 75 BP normally, 90 BP for TANGELA (signature)
+	db DIZZY_PUNCH, KANGASKHAN, 90, 0 ; Sunsette: 70 BP normally, 90 BP for KANGASKHAN (signature)
 	db LOW_KICK, -1, -2, 8 ; Sunsette: power scales with the TARGET's weight (LowKickModifier)
 	db CRABHAMMER, -1, -2, 9 ; Sunsette: signature power by user - 75 KRABBY / 100 KINGLER (CrabhammerModifier)
 	; Sunsette: STRENGTH no longer remaps its power (flat 100 BP); its weight-class recoil + 30% +ATK are all in StrengthRagePostHit.

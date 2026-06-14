@@ -188,54 +188,9 @@ FightingBrosRightBroText:
 	jr nz, .printDone
 	ld hl, .which
 	rst _PrintText
-	; draw the move selection menu on screen
-	hlcoord 5, 8
-	lb bc, 3, 13
-	call TextBoxBorderUpdateSprites
-	call DisableTextDelay
-	hlcoord 7, 9
-	ld de, FightingBrosAlakazamPunchMoves
-.loopPrintNames
-	ld a, [de]
-	cp $FF
-	jr z, .donePrintNames
-	ld [wNamedObjectIndex], a
-	inc de
-	push de
-	call GetMoveName
-	call PlaceString
-	pop de
-	ld bc, SCREEN_WIDTH
-	add hl, bc
-	jr .loopPrintNames
-.donePrintNames
-	call EnableTextDelay
-	; now trigger the move selection code
-	ld a, 6
-	ld [wTopMenuItemX], a
-	ld a, 9
-	ld [wTopMenuItemY], a
-	ld a, 2
-	ld [wMaxMenuItem], a
-	xor a
-	ld [wCurrentMenuItem], a
-	ld [wLastMenuItem], a
-	ld [wMenuWatchMovingOutOfBounds], a
-	ld a, PAD_A
-	ld [wMenuWatchedKeys], a
-	ld hl, hUILayoutFlags
-	set BIT_DOUBLE_SPACED_MENU, [hl]
-	push hl
-	call HandleMenuInput
-	pop hl
-	res BIT_DOUBLE_SPACED_MENU, [hl]
-	ld a, [wCurrentMenuItem]
-	ld hl, FightingBrosAlakazamPunchMoves
-	ld d, 0
-	ld e, a
-	add hl, de
-	ld a, [hl]
-	push af
+	; Sunsette: this tutor now teaches SHORYUKEN (MEGA_PUNCH) directly - it used to offer a
+	; 3-way choice of the elemental punches, which ALAKAZAM can now learn via TM access anyway.
+	ld a, MEGA_PUNCH ; SHORYUKEN
 	ld [wNamedObjectIndex], a
 	call GetMoveName
 	ld hl, wPartyMonNicks
@@ -255,8 +210,7 @@ FightingBrosRightBroText:
 	ld hl, .convene2
 	rst _PrintText
 	; trigger learning the move
-	pop af
-	ld d, a
+	ld d, MEGA_PUNCH ; SHORYUKEN
 	callfar FarLearnArbitraryMove
 	dec d
 	jp nz, TextScriptEndNoButtonPress
@@ -288,13 +242,6 @@ FightingBrosRightBroText:
 .after
 	text_far _FightingBrosRightBroAfter
 	text_end
-
-FightingBrosAlakazamPunchMoves:
-	db FIRE_PUNCH ; BLAZE HAMMER
-	db ICE_PUNCH ; FROST FIST
-	db THUNDERPUNCH ; ZAPPERCUT
-	db -1
-
 
 DoFightingBrosWelcome:
 	CheckAndSetEvent EVENT_MET_FIGHTING_BROS

@@ -10,13 +10,13 @@ CeladonMoveTutorMoves::
 	db -1
 
 SaffronMoveTutorMoves::
-	dbw MEGA_PUNCH, MegaPunchLearnset ; SHORYUKEN
+	dbw DIZZY_PUNCH, DizzyPunchLearnset ; Sunsette: was MEGA_PUNCH (now SHORYUKEN, tutored by the Fighting Bros Right Bro)
 	dbw MEGA_KICK,  MegaKickLearnset ; PISTON KICK
 	dbw WHIRLWIND,  WhirlwindLearnset ; HURRICANE
 	dbw SKULL_BASH, SkullBashLearnset ; METEOR DRIVE
 	dbw SWIFT,      SwiftLearnset
 	dbw EGG_BOMB,   EggBombLearnset
-	dbw RAGE,       -1 ; MAD RUSH
+	dbw DOUBLE_TEAM, -1 ; Sunsette: was RAGE (MAD RUSH); everyone-but-Ditto criteria
 	dbw SCREECH,    ScreechLearnset
 	db -1
 
@@ -57,7 +57,7 @@ MoveTutorScript::
 	jr z, .doneCheckingMoveList
 	cp SOFTBOILED
 	jr z, .onlyPokemonList
-	cp RAGE ; MAD RUSH
+	cp DOUBLE_TEAM ; Sunsette: was RAGE; everyone-but-Ditto can learn it
 	jr z, .onlyDittoCant
 	cp REST
 	jr z, .onlyDittoCant

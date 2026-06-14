@@ -158,7 +158,7 @@ Moves:
 	move SKY_ATTACK,   RECOIL_EFFECT,          	   120, FLYING,       100, 10 ; BRAVE BIRD (120 FLYING + recoil already matches the name)
 	move TRANSFORM,    TRANSFORM_EFFECT,             0, NORMAL,       100, 10 ; priority move
 	move BUBBLE,       CONFUSION_BIG_SIDE_EFFECT,   20, WATER,        100, 20 ; low confusion chance
-	move DIZZY_PUNCH,  CONFUSION_BIG_SIDE_EFFECT,   90, FIGHTING,     100, 10
+	move DIZZY_PUNCH,  CONFUSION_BIG_SIDE_EFFECT,   70, FIGHTING,     100, 10
 	move SPORE,        SLEEP_EFFECT,                 0, GRASS,         90, 15
 	move FLASH,        FLASH_EFFECT,                 0, ELECTRIC,     100,  10 ; priority move; no damage; -1 target EVASION + -1 target ACCURACY, then 30% flinch
 	move PSYWAVE,      MINDWIPE_EFFECT,              0, PSYCHIC_TYPE, 100, 20 ; SKITTERMIND: no damage; retype target to BUG (gray palette) + -1 ACCURACY

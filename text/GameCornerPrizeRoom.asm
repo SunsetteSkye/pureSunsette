@@ -62,8 +62,8 @@ _ElectabuzzPrizeKingText::
 	line "dish out both"
 	cont "strong PHYSICAL"
 	cont "or SPECIAL moves!"
-	para "It can heal up"
-	line "with DRAIN PUNCH!"
+	para "It can heal with"
+	line "SHADOW BOX!"
 	done
 
 _TangelaPrizeKingText::

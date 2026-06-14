@@ -713,6 +713,7 @@ MoveMysticMonsList:
 	db KRABBY, DEX_KRABBY ; Sunsette: CRABHAMMER -> 75 BP (signature)
 	db KINGLER, DEX_KINGLER ; Sunsette: CRABHAMMER -> 100 BP (signature)
 	db SNORLAX, DEX_SNORLAX ; Sunsette: REST -> FLOURISH (GROWING) + SPEED +1
+	db KANGASKHAN, DEX_KANGASKHAN ; Sunsette: DIZZY PUNCH -> 90 BP (signature); generic power-increase path
 	db -1
 
 MoveMysticMonTextEntries:
@@ -771,4 +772,7 @@ KinglerMoveMysticText::
 	text_end
 SnorlaxMoveMysticText::
 	text_far _SnorlaxMoveMysticText
+	text_end
+KangaskhanMoveMysticText:: ; Sunsette: index-parallel with KANGASKHAN in MoveMysticMonsList
+	text_far _KangaskhanMoveMysticText
 	text_end

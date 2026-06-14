@@ -1,5 +1,5 @@
-MegaPunchLearnset:
-	bit_array MegaPunchLearnset
+DizzyPunchLearnset: ; Sunsette: was MegaPunchLearnset (MEGA_PUNCH is now SHORYUKEN, tutored elsewhere)
+	bit_array DizzyPunchLearnset
 	dbit TRUE  ; MISSINGNO  ; 0
 	dbit FALSE ; BULBASAUR  ; 1
 	dbit FALSE ; IVYSAUR    ; 2

@@ -1535,6 +1535,52 @@ CheckSemiInvulnBypass::
 	scf
 	ret
 
+; Sunsette: MoveHitTest helper (callfar'd from the full Battle Core). Combines the semi-invuln reach
+; test with the "never-miss" decision so Battle Core needs only one callfar. Returns:
+;   carry CLEAR           -> target dodged (semi-invulnerable & this move can't reach it)
+;   carry SET + Z SET     -> reachable AND auto-hits (SWIFT_EFFECT, or PIDGEOT's signature HURRICANE)
+;   carry SET + Z CLEAR   -> reachable, roll accuracy normally
+; rst _Bankswitch pops the saved bank into bc (not af), so the returned carry AND Z both survive back
+; to MoveHitTest. PIDGEOT's HURRICANE auto-hits like Swift, but since CheckSemiInvulnBypass only lets it
+; reach FLY (not DIG), a DIGging target still dodges it.
+CheckReachAndAutoHit::
+	call CheckSemiInvulnBypass ; carry = reachable
+	ret nc                     ; dodged -> return with carry clear (Z unused on this path)
+	ldh a, [hWhoseTurn]
+	and a
+	ld a, [wPlayerMoveEffect]
+	jr z, .gotEffect
+	ld a, [wEnemyMoveEffect]
+.gotEffect
+	cp SWIFT_EFFECT
+	jr z, .neverMiss
+	CheckEvent FLAG_SIGNATURE_MOVES_TURNED_OFF
+	jr nz, .rollAccuracy ; signatures off -> no Pidgeot bonus
+	ldh a, [hWhoseTurn]
+	and a
+	ld a, [wBattleMonSpecies]
+	ld b, a
+	ld a, [wPlayerMoveNum]
+	jr z, .gotMon
+	ld a, [wEnemyMonSpecies]
+	ld b, a
+	ld a, [wEnemyMoveNum]
+.gotMon
+	cp WHIRLWIND ; HURRICANE
+	jr nz, .rollAccuracy
+	ld a, b
+	cp PIDGEOT
+	jr nz, .rollAccuracy
+	; PIDGEOT + HURRICANE -> auto-hit
+.neverMiss
+	xor a  ; Z set, carry clear
+	scf    ; carry set; scf leaves Z untouched -> carry SET + Z SET
+	ret
+.rollAccuracy
+	or 1   ; a nonzero -> Z clear, carry clear
+	scf    ; carry set; Z untouched -> carry SET + Z CLEAR
+	ret
+
 ; Sunsette: stores the SecondWind heal (de = new HP, passed through the callfar from SecondWindHeal in
 ; bank3 - Bankswitch preserves de) and animates the player's in-battle HP bar filling like a Potion,
 ; instead of snapping it. On entry wBattleMonHP still holds the OLD HP, which we capture as wHPBarOldHP.
