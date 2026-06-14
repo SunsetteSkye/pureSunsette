@@ -41,7 +41,7 @@ _SilphCo8FScientistAfterBattleText::
 	done
 
 _SilphCo8FRocket2EndBattleText::
-	text "Whoo!"
+	text "Oof!"
 	line "Oh sisters!"
 	prompt
 

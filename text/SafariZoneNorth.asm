@@ -135,8 +135,9 @@ _SafariZoneNorthSuperNerdText::
 	done
 
 _SafariZoneNorthSuperNerdEndBattleText::
-	text "The real treasure"
-	line "was the cute boy"
+	text "Aw..."
+	line "The real treasure"
+	cont "was the cute boy"
 	cont "in front of me!"
 	prompt
 

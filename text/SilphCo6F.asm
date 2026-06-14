@@ -64,8 +64,8 @@ _SilphCo6FRocket1BattleText::
 	done
 
 _SilphCo6FRocket1EndBattleText::
-	text "Flame"
-	line "out!"
+	text "Gah!"
+	line "Flamed out!"
 	prompt
 
 _SilphCo6FRocket1AfterBattleText::

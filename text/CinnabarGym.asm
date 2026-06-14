@@ -121,7 +121,7 @@ _CinnabarGymSuperNerd2BattleText::
 	done
 
 _CinnabarGymSuperNerd2EndBattleText::
-	text "Wha...?!"
+	text "Wha?!"
 	line "Impossible!"
 	prompt
 

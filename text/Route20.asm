@@ -97,9 +97,9 @@ _Route20CooltrainerMBattleText::
 	done
 
 _Route20CooltrainerMEndBattleText::
-	text "Well, clearly"
-	line "they need more"
-	cont "training!"
+	text "Tch!"
+	line "Clearly they need"
+	cont "more training!"
 	prompt
 
 _Route20CooltrainerMAfterBattleText::

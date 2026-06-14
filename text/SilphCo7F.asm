@@ -120,7 +120,7 @@ _SilphCo7FScientistAfterBattleText::
 	done
 
 _SilphCo7FRocket2EndBattleText::
-	text "Aack!"
+	text "Ack!"
 	line "Sisters, I lost!"
 	prompt
 

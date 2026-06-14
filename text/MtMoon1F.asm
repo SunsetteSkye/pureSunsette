@@ -38,8 +38,8 @@ _MtMoon1FCooltrainerF1BattleText::
 	done
 
 _MtMoon1FCooltrainerF1EndBattleText::
-	text "How do you get"
-	line "out of here?"
+	text "How do you"
+	line "get out of here?"
 	prompt
 
 _MtMoon1FCooltrainerF1AfterBattleText::
@@ -56,8 +56,9 @@ _MtMoon1FSuperNerdBattleText::
 	done
 
 _MtMoon1FSuperNerdEndBattleText::
-	text "My #MON had no"
-	line "chemistry!"
+	text "Kyaa!"
+	line "My #MON had no"
+	cont "chemistry!"
 	prompt
 
 _MtMoon1FSuperNerdAfterBattleText::

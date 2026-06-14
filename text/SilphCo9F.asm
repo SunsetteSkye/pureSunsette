@@ -47,7 +47,7 @@ _SilphCo9FScientistAfterBattleText::
 	done
 
 _SilphCo9FRocket2EndBattleText::
-	text "Warg!"
+	text "Urk!"
 	line "Sisters, I lost!"
 	prompt
 
