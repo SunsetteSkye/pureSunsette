@@ -1838,8 +1838,10 @@ wRepelRemainingSteps:: db
 
 ; Sunsette: FLASH-in-cave run-out. While FLASH lights a dim/dark cave, wFlashSavedDarkOffset holds the
 ; darkness level (3 dim / 6 dark) to restore when it runs out, and wFlashStepsRemaining counts down from 200
-; steps. At 0 the cave re-darkens and a "use FLASH again?" prompt fires. Both clear on map change
-; (ClearVariablesOnEnterMap). Like wRepelRemainingSteps these survive battles but reset per map.
+; steps. At 0 the cave re-darkens and a "use FLASH again?" prompt fires. Like wRepelRemainingSteps, these
+; survive battles AND persist across internal cave-floor warps (so one FLASH lasts ~200 steps through the
+; whole cave); they are NOT cleared by ClearVariablesOnEnterMap. They reset only on entry from an outside
+; map (warp handler .outsideMaps / .goBackOutside) = a fresh cave visit or return to the overworld.
 wFlashStepsRemaining:: db
 wFlashSavedDarkOffset:: db ; 0 = FLASH not lighting a cave right now
 

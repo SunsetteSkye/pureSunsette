@@ -12,8 +12,11 @@ ClearVariablesOnEnterMap::
 	ld [wMuteAudioAndPauseMusic], a
 	ld [wActionResultOrTookBattleTurn], a
 	ld [wUnusedMapVariable], a ; Sunsette: also clears the CONFUSE RAY (bit 0) + GROWTH-invert (bit 1) field-move flags on map change (FLOURISH)
-	ld [wFlashStepsRemaining], a ; Sunsette: FLASH-in-cave run-out timer is per-visit; reset it (and the saved darkness) on map change
-	ld [wFlashSavedDarkOffset], a
+	; Sunsette: the FLASH-in-cave run-out timer (wFlashStepsRemaining/wFlashSavedDarkOffset) is NOT cleared
+	; here anymore - it must PERSIST across internal cave-floor warps so one FLASH lasts ~200 steps through
+	; the WHOLE cave (the dark offset is already inherited across internal warps, keeping floors lit). It is
+	; instead cleared only on entry FROM an outside map (in the warp handler: .outsideMaps / .goBackOutside),
+	; i.e. a fresh cave visit or returning to the overworld.
 	ld [wIsAltPalettePkmn], a
 	ld [wIsAltPalettePkmnData], a
 	ld [wOverworldAnimationCounter], a

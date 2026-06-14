@@ -582,6 +582,13 @@ WarpFound2::
 	; offset; returning to an outside map clears it). The offset value also drives FLASH + the
 	; battle warning + the accuracy debuff.
 	ld b, a ; b = destination map
+	; Sunsette: warping in FROM an outside map = a fresh cave visit (or back to the overworld), so end any
+	; active FLASH here. Internal cave-to-cave warps (the .indoorMaps path below) do NOT clear it, so one
+	; FLASH persists and keeps ticking across all floors of a single cave, then runs out mid-cave. b (dest
+	; map) is preserved; the DarkMaps loop reloads a, so clobbering a here is fine.
+	xor a
+	ld [wFlashStepsRemaining], a
+	ld [wFlashSavedDarkOffset], a
 	ld hl, DarkMaps
 .darkMapLoop
 	ld a, [hli]
@@ -653,6 +660,8 @@ WarpFound2::
 	call PlayMapChangeSound
 	xor a
 	ld [wMapPalOffset], a
+	ld [wFlashStepsRemaining], a ; Sunsette: leaving the cave to the overworld ends FLASH (a is still 0)
+	ld [wFlashSavedDarkOffset], a
 .done
 	ld hl, wMovementFlags
 	set BIT_STANDING_ON_DOOR, [hl] ; have the player's sprite step out from the door (if there is one)

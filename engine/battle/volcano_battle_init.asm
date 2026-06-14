@@ -444,6 +444,7 @@ ApplyStatDownToTarget:
 ; one stage. Reached via `callfar MockingbirdEffect_` from Battle Core (player + enemy move paths).
 ; hWhoseTurn = the MOCKINGBIRD user; the foe is the opposite side.
 MockingbirdEffect_:
+	callfar PlayCurrentMoveAnimation2 ; Sunsette: MOCKINGBIRD is 0-BP; nothing else plays its animation (it copies the foe's stat stages silently, then -1 foe SPECIAL via the silent ApplyStatDownToTarget)
 	ldh a, [hWhoseTurn]
 	and a
 	ld hl, wEnemyMonStatMods ; player's turn -> foe = enemy (source of the stages to copy)
@@ -812,6 +813,11 @@ SetUserGrowing:
 ; Sunsette: FLOURISH's +1 SPECIAL. GrowthEffect (Battle Core) jpfar's here after setting the GROWING regen;
 ; the raise lives in this roomier bank since Battle Core is full.
 FlourishSpecialUp::
+	; Sunsette: GROWTH(FLOURISH) and AMNESIA(CALM MIND) are 0-BP, so the main flow never plays their move
+	; animation, and RaiseUserStatViaSwap's +1 SPECIAL is silent (FLAG_SKIP_STAT_ANIMATION). Play it here.
+	; Only these two 0-BP moves call FlourishSpecialUp; STRENGTH (+ATK) and SNORLAX REST (+SPEED) use
+	; RaiseUserStatViaSwap directly and already animate via the main damage / heal flow.
+	callfar PlayCurrentMoveAnimation2
 	ld a, SPECIAL_UP1_EFFECT
 	jr RaiseUserStatViaSwap
 
@@ -945,6 +951,10 @@ CalmMindCalmedText:
 ; hWhoseTurn is the FLASH user, so the TARGET is the opposite side; FlinchSideEffect reads the move effect
 ; to pick its chance, and FLASH_EFFECT (not FLINCH_SIDE_EFFECT1) yields 30%, so we restore it before flinch.
 FlashEffect_::
+	; Sunsette: FLASH is a 0-BP move, so the main flow never plays its animation, and the stat drops below
+	; use FLAG_SKIP_STAT_ANIMATION (which also suppresses the move anim StatModifierDownEffect would normally
+	; play). So play FLASH's own animation once here, before the silent drops.
+	callfar PlayCurrentMoveAnimation2
 	; -1 EVASION on the target
 	ldh a, [hWhoseTurn]
 	and a
@@ -1553,6 +1563,8 @@ CheckReachAndAutoHit::
 	ld a, [wEnemyMoveEffect]
 .gotEffect
 	cp SWIFT_EFFECT
+	jr z, .neverMiss
+	cp DISABLE_EFFECT ; Sunsette: DISABLE proper auto-hits; a Fly/Dig target already dodged above (CheckSemiInvulnBypass). NOT CUT_DISABLE_EFFECT (those are damaging, accuracy handled in the main flow).
 	jr z, .neverMiss
 	CheckEvent FLAG_SIGNATURE_MOVES_TURNED_OFF
 	jr nz, .rollAccuracy ; signatures off -> no Pidgeot bonus
