@@ -10,7 +10,7 @@
 	INCBIN "gfx/pokemon/front/kangaskhan.pic", 0, 1 ; sprite dimensions
 	dw KangaskhanPicFront, KangaskhanPicBackSW
 
-	db POUND, RAGE, NO_MOVE, NO_MOVE ; level 1 learnset (JOLT BOLT) (MAD RUSH)
+	db SCRATCH, GROWL, NO_MOVE, NO_MOVE ; level 1 learnset (JOLT BOLT) (MAD RUSH)
 	db GROWTH_MEDIUM_FAST ; growth rate
 
 	; tm/hm learnset

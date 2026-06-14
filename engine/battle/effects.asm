@@ -1531,8 +1531,7 @@ LeechSeedEffect:
 	jpfar LeechSeedEffect_
 
 SplashEffect:
-	call PlayCurrentMoveAnimation
-	jp PrintNoEffectText
+	jpfar SplashEffect_ ; Sunsette: SPLASH is now a user-weight attack; only MAGIKARP's signature is a no-op (+ random comedy line), handled in a floating bank
 
 ;;;;;;;;;; PureRGBnote: CHANGED: this function was updated to disable the previous move used by the opponent
 ;;;;;;;;;;                       or a random one if they haven't used any move yet. 

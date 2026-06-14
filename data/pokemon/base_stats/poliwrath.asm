@@ -10,7 +10,7 @@
 	INCBIN "gfx/pokemon/front/poliwrath.pic", 0, 1 ; sprite dimensions
 	dw PoliwrathPicFront, PoliwrathPicBackSW
 
-	db BUBBLE, POUND, NO_MOVE, NO_MOVE ; level 1 learnset (JOLT BOLT)
+	db BUBBLE, SPLASH, NO_MOVE, NO_MOVE ; level 1 learnset (JOLT BOLT)
 	db GROWTH_MEDIUM_SLOW ; growth rate
 
 	; tm/hm learnset

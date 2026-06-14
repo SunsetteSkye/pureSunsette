@@ -10,7 +10,7 @@
 	INCBIN "gfx/pokemon/front/primeape.pic", 0, 1 ; sprite dimensions
 	dw PrimeapePicFront, PrimeapePicBackSW
 
-	db SCRATCH, LEER, POUND, NO_MOVE ; level 1 learnset (JOLT BOLT)
+	db SCRATCH, LEER, NO_MOVE, NO_MOVE ; level 1 learnset (JOLT BOLT)
 	db GROWTH_MEDIUM_FAST ; growth rate
 
 	; tm/hm learnset

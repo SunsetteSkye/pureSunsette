@@ -1654,11 +1654,13 @@ _Generic33PercentLowerSpecialText::
 	dex
 
 _SplashDexEntry::
-	text "The <user> flops"
-	next "around"
-	next "pointlessly."
+	text "Well, it might"
+	next "help if you were"
+	next "very, very heavy."
 
-	bage "No effect at all"
+	bage "...like a kaiju"
+	next "splashing around."
+	next "THAT would hurt!"
 	dex
 
 _AcidArmorDexEntry::

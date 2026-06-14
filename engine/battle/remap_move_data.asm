@@ -133,6 +133,7 @@ RemappableMoves::
 	db REST, SNORLAX, -1, 0          ; SNORLAX: REST also grants GROWING + SPEED +1 (SnorlaxRestBonus)
 	db FOCUS_ENERGY, ARBOK, -1, 0    ; ARBOK: FOCUS ENERGY also raises SPEED (ArbokFocusEnergyBonus)
 	db WRAP, ARBOK, -1, 0            ; ARBOK: WRAP traps 2 rounds longer (ArbokWrapBonus)
+	db SPLASH, -1, -2, 11            ; Sunsette: power scales with the USER's weight (SplashWeightModifier); MAGIKARP -> 0 (signature comedy)
 	db -1
 
 ModifierFuncs:
@@ -147,6 +148,7 @@ ModifierFuncs:
 	dw LowKickModifier
 	dw CrabhammerModifier
 	dw UnleashRageModifier
+	dw SplashWeightModifier
 
 ; Sunsette: SolarBeam's power is decided live, before damage calc, from the user's state:
 ;   FIRE-type user           -> 90  (one-shot recoil+burn variant, never primes)
@@ -237,6 +239,70 @@ LowKickModifier:
 	ld a, b
 	sbc d                    ; bc - de: carry set if bc < de (weight > threshold)
 	ccf                      ; invert: carry set if de <= bc
+	ret
+
+; Sunsette: SPLASH now deals damage scaled by the USER's own weight (Low Kick style, but the heavier the
+; USER, the harder the splash - think Gyarados, or a kaiju), at HALF Low Kick's power per bracket. MAGIKARP
+; is the comedic exception: its SPLASH is a no-effect signature (power 0; the random "still nothing" line is
+; printed by SplashEffect_). Weight (GetMetricMeasurements) is 1/10 kg:
+;   <=10kg:10  <=25kg:20  <=50kg:30  <=100kg:40  <=200kg:50  else:60  (non-dex user -> 30 fallback)
+SplashWeightModifier:
+	call GetMoveRemapData2 ; bc = wXxxMovePower (user side); de = accuracy (unused)
+	push bc                ; save the power pointer across the lookups
+	ldh a, [hWhoseTurn]
+	and a
+	ld a, [wBattleMonSpecies] ; user's turn -> user = player
+	jr z, .gotSpecies
+	ld a, [wEnemyMonSpecies]
+.gotSpecies
+	cp MAGIKARP
+	jr z, .magikarp
+	ld [wPokedexNum], a
+	call IndexToPokedex      ; internal index -> dex number
+	ld a, [wPokedexNum]
+	and a
+	jr z, .fallback          ; index 0 / non-dex
+	cp 151 + 1
+	jr nc, .fallback         ; > 151 (MISSINGNO / spirits)
+	farcall GetMetricMeasurements ; de = weight in 1/10 kg (survives the bankswitch)
+	ld bc, 100
+	call LowKickModifier.weightLE
+	ld a, 10
+	jr c, .store
+	ld bc, 250
+	call LowKickModifier.weightLE
+	ld a, 20
+	jr c, .store
+	ld bc, 500
+	call LowKickModifier.weightLE
+	ld a, 30
+	jr c, .store
+	ld bc, 1000
+	call LowKickModifier.weightLE
+	ld a, 40
+	jr c, .store
+	ld bc, 2000
+	call LowKickModifier.weightLE
+	ld a, 50
+	jr c, .store
+	ld a, 60
+.store
+	pop hl                   ; recover the power pointer
+	ld [hl], a
+	ret
+.fallback
+	ld a, 30
+	pop hl
+	ld [hl], a
+	ret
+.magikarp
+	pop hl                   ; hl = power pointer
+	xor a
+	ld [hl], a               ; 0 power -> MAGIKARP's SPLASH does no damage (signature comedy)
+	CheckEvent FLAG_SIGNATURE_MOVES_TURNED_OFF
+	ret nz
+	ld a, 1
+	ld [wSignatureMoveActive], a ; "Signature Move!" then SplashEffect_'s comedy line
 	ret
 
 ; Sunsette: CRABHAMMER is the KRABBY line's signature move - 75 BP for KRABBY, 100 BP for KINGLER.

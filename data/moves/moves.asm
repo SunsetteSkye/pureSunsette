@@ -162,7 +162,7 @@ Moves:
 	move SPORE,        SLEEP_EFFECT,                 0, GRASS,         90, 15
 	move FLASH,        FLASH_EFFECT,                 0, ELECTRIC,     100,  10 ; priority move; no damage; -1 target EVASION + -1 target ACCURACY, then 30% flinch
 	move PSYWAVE,      MINDWIPE_EFFECT,              0, PSYCHIC_TYPE, 100, 20 ; SKITTERMIND: no damage; retype target to BUG (gray palette) + -1 ACCURACY
-	move SPLASH,       SPLASH_EFFECT,                0, NORMAL,       100, 20
+	move SPLASH,       SPLASH_EFFECT,               30, FLYING,       100, 20 ; Sunsette: damage scales with the USER's weight (SplashWeightModifier, half Low Kick's brackets); 30 is just the non-dex fallback. MAGIKARP signature = no effect + a random comedy line (SplashEffect_).
 	move ACID_ARMOR,   ACID_ARMOR_EFFECT,            0, POISON,       100, 20 ; combined reflect and light screen effects in one move (ACID CLOAK)
 	move CRABHAMMER,   NO_ADDITIONAL_EFFECT,        50, WATER,         95, 10 ; high critical hit ratio
 	move EXPLOSION,    EXPLODE_RECOIL_EFFECT,      140, ROCK,         100,  5

@@ -14,7 +14,9 @@ ResidualEffects1:
 	db PARALYZE_EFFECT
 	db SUBSTITUTE_EFFECT
 	db LEECH_SEED_EFFECT
-	db SPLASH_EFFECT
+	; Sunsette: SPLASH_EFFECT removed - SPLASH is now a user-weight DAMAGING move, so it must go through
+	; damage calc/accuracy instead of skipping them. (MAGIKARP's no-damage signature comes from the modifier
+	; forcing 0 power; SplashEffect_ prints its comedy line.)
 	db MIRAGE_EFFECT ; PureRGBnote: no-damage status move; runs its own accuracy test + animation
 	db MINDWIPE_EFFECT ; Sunsette: no-damage status move (PSYWAVE); MindwipeEffect_ runs its own accuracy test
 	db ROOST_EFFECT ; Sunsette: ROOST (RAZOR_WIND) - heal + type/palette refresh; handled by RoostEffect_
