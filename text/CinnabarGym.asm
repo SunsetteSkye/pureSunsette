@@ -77,8 +77,8 @@ _CinnabarGymBlaineTM38NoRoomText::
 
 _CinnabarGymSuperNerd1BattleText::
 	text "Do you know how"
-	line "hot #MON fire"
-	cont "breath can get?"
+	line "hot a slow burn"
+	cont "can get?"
 	done
 
 _CinnabarGymSuperNerd1EndBattleText::
@@ -87,12 +87,13 @@ _CinnabarGymSuperNerd1EndBattleText::
 	prompt
 
 _CinnabarGymSuperNerd1AfterBattleText::
-	text "Fire, or to be"
-	line "more precise,"
-	cont "combustion<...>"
+	text "It's all in the"
+	line "buildup, the"
+	cont "smoldering"
+	cont "tension, the..."
 
-	para "Blah, blah, blah,"
-	line "blah<...>"
+	para "...ahem."
+	line "Forget I said it."
 	done
 
 _CinnabarGymBurglar1BattleText::
@@ -114,20 +115,22 @@ _CinnabarGymBurglar1AfterBattleText::
 	done
 
 _CinnabarGymSuperNerd2BattleText::
-	text "You can't win!"
-	line "I have studied"
-	cont "#MON totally!"
+	text "Cute, but cute"
+	line "won't beat my"
+	cont "years of study!"
 	done
 
 _CinnabarGymSuperNerd2EndBattleText::
-	text "Waah!"
-	line "My studies!"
+	text "Wha...?!"
+	line "Impossible!"
 	prompt
 
 _CinnabarGymSuperNerd2AfterBattleText::
-	text "My theories are"
-	line "too complicated"
-	cont "for you!"
+	text "I lost to a"
+	line "babyface?!"
+
+	para "I'll never live"
+	line "this down..."
 	done
 
 _CinnabarGymBurglar2BattleText::

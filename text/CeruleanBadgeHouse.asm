@@ -61,9 +61,9 @@ _CeruleanBadgeHouseSoulBadgeText::
 
 _CeruleanBadgeHouseMarshBadgeText::
 	text "Lets #MON use"
-	line "TELEPORT like FLY-"
-	cont "even indoors or"
-	cont "on the water!"
+	line "TELEPORT, like"
+	cont "FLY, even indoors"
+	cont "or on the water!"
 	prompt
 
 _CeruleanBadgeHouseVolcanoBadgeText::

@@ -6,8 +6,8 @@ _FossilGuyGreeting::
 	text "You found me!"
 	line "This is great!"
 
-	para "I'm the guy from"
-	line "MT.MOON!"
+	para "I'm that girl"
+	line "from MT.MOON!"
 
 	para "We found those"
 	line "two fossils."
@@ -233,12 +233,17 @@ _FossilGuysComputer1::
 
 	para "What's this?"
 
-	para "His desktop"
+	para "Her desktop"
 	line "background<...>"
 
-	para "It's a picture"
-	line "of SABRINA in a"
-	cont "swimsuit!"
+	para "It's fan art of"
+	line "BROCK and SURGE"
+	cont "gazing into each"
+	cont "other's eyes!"
+
+	para "They look more"
+	line "handsome than you"
+	cont "remember."
 	prompt
 
 _FossilGuysComputer2::

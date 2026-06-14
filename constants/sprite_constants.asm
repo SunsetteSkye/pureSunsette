@@ -14,7 +14,7 @@
 	const SPRITE_BIRD                      ; $09
 	const SPRITE_MIDDLE_AGED_MAN           ; $0a
 	const SPRITE_GAMBLER                   ; $0b
-	const SPRITE_SUPER_NERD                ; $0c
+	const SPRITE_SCRUFFY_GUY                ; $0c
 	const SPRITE_GIRL                      ; $0d
 	const SPRITE_HIKER                     ; $0e
 	const SPRITE_BEAUTY                    ; $0f
@@ -44,7 +44,7 @@
 	const SPRITE_FISHING_GURU              ; $27
 	const SPRITE_GRANNY                    ; $28
 	const SPRITE_NURSE                     ; $29
-	const SPRITE_LINK_RECEPTIONIST         ; $2a
+	const SPRITE_SUPERNEET         ; $2a
 	const SPRITE_SILPH_PRESIDENT           ; $2b
 	const SPRITE_SILPH_WORKER_M            ; $2c
 	const SPRITE_WARDEN                    ; $2d

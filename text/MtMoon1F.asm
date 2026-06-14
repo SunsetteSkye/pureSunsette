@@ -33,7 +33,7 @@ _MtMoon1FYoungster1AfterBattleText::
 
 _MtMoon1FCooltrainerF1BattleText::
 	text "Wow! It's way"
-	line "bigger in here"
+	line "darker in here"
 	cont "than I thought!"
 	done
 
@@ -44,24 +44,26 @@ _MtMoon1FCooltrainerF1EndBattleText::
 
 _MtMoon1FCooltrainerF1AfterBattleText::
 	text "My girlfriend has"
-	line "an HM to light the"
-	cont "dark but, she's in"
+	line "an HM for the"
+	cont "dark, but she's"
+	cont "still in"
 	cont "VIRIDIAN FOREST!"
 	done
 
 _MtMoon1FSuperNerdBattleText::
-	text "What! Don't sneak"
-	line "up on me!"
+	text "Kyaa! Don't sneak"
+	line "up on my sketches!"
 	done
 
 _MtMoon1FSuperNerdEndBattleText::
-	text "My"
-	line "#MON won't do!"
+	text "My #MON had no"
+	line "chemistry!"
 	prompt
 
 _MtMoon1FSuperNerdAfterBattleText::
-	text "I have to find"
-	line "stronger #MON."
+	text "I need #MON"
+	line "with better"
+	cont "dynamics..."
 	done
 
 _MtMoon1FCooltrainerF2BattleText::

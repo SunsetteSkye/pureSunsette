@@ -66,7 +66,7 @@ _CeladonMartRoofLittleGirlImNotThirstyText::
 _CeladonMartRoofSuperNerdText::
 	text "My sister chugs a"
 	line "drink mid-battle"
-	cont "to clear confusion"
+	cont "to cure confusion"
 	cont "and reset stats!"
 
 	para "Show-off<...>"

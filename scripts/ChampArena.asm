@@ -611,7 +611,7 @@ OpponentSpriteArray:
 	sprite_data LoreleiSprite,        SPRITE_LORELEI
 	sprite_data -1,                   -1
 	sprite_data BrockSprite,          SPRITE_BROCK
-	sprite_data SuperNerdSprite,      SPRITE_SUPER_NERD
+	sprite_data ScruffyGuySprite,      SPRITE_SCRUFFY_GUY
 	sprite_data AgathaSprite,         SPRITE_AGATHA
 	sprite_data -1,                   -1
 	sprite_data GymGuideSprite,       SPRITE_GYM_GUIDE

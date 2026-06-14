@@ -115,8 +115,9 @@ _LegendaryBirdLearnset::
 	done
 
 _Route14CooltrainerM6BattleText::
-	text "I'm not into it,"
-	line "but OK! Let's go!"
+	text "Ugh, fine."
+	line "Let's just get"
+	cont "this over with!"
 	done
 
 _Route14CooltrainerM6EndBattleText::

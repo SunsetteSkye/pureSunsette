@@ -26,7 +26,7 @@ SpriteSheetPointerTable:
 	overworld_sprite BirdSprite, 12                   ; SPRITE_BIRD
 	overworld_sprite MiddleAgedManSprite, 12          ; SPRITE_MIDDLE_AGED_MAN
 	overworld_sprite GamblerSprite, 12                ; SPRITE_GAMBLER
-	overworld_sprite SuperNerdSprite, 12              ; SPRITE_SUPER_NERD
+	overworld_sprite ScruffyGuySprite, 12              ; SPRITE_SCRUFFY_GUY
 	overworld_sprite GirlSprite, 12                   ; SPRITE_GIRL
 	overworld_sprite HikerSprite, 12                  ; SPRITE_HIKER
 	overworld_sprite BeautySprite, 12                 ; SPRITE_BEAUTY
@@ -56,7 +56,7 @@ SpriteSheetPointerTable:
 	overworld_sprite FishingGuruSprite, 12            ; SPRITE_FISHING_GURU
 	overworld_sprite GrannySprite, 12                 ; SPRITE_GRANNY
 	overworld_sprite NurseSprite, 12                  ; SPRITE_NURSE
-	overworld_sprite LinkReceptionistSprite, 12       ; SPRITE_LINK_RECEPTIONIST
+	overworld_sprite SuperneetSprite, 12       ; SPRITE_SUPERNEET
 	overworld_sprite SilphPresidentSprite, 12         ; SPRITE_SILPH_PRESIDENT
 	overworld_sprite SilphWorkerMSprite, 12           ; SPRITE_SILPH_WORKER_M
 	overworld_sprite WardenSprite, 12                 ; SPRITE_WARDEN

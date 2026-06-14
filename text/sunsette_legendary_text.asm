@@ -9,7 +9,7 @@ _OakMoltresText::
 
 	para "The fire bird! Its"
 	line "flame is said to"
-	cont "be the very spirit"
+	cont "be the spirit"
 	cont "of victory."
 
 	para "Bound to the sun"
@@ -74,14 +74,14 @@ _OakMewText::
 	line "I'd see it! There"
 	cont "were hardly any"
 	cont "pictures, even in"
-	cont "the journals after"
+	cont "the diaries after"
 	cont "it was found."
 
 	para "A cheerful little"
 	line "thing, isn't it?"
 
 	para "Makes you wonder"
-	line "how long they were"
+	line "how long they hid"
 	cont "out there, and we"
 	cont "never knew."
 	prompt

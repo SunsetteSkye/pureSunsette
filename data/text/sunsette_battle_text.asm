@@ -154,7 +154,7 @@ _CalmMindCalmedText::
 ; Sunsette: UNLEASH RAGE burns off the user's own status/confusion on a damaging hit
 _UnleashRageClearText::
 	text "The fury burned"
-	line "its ailments away!"
+	line "away its ailments!"
 	prompt
 
 ; Sunsette: STRENGTH recoil when a lighter user heaves a heavier foe
@@ -237,7 +237,7 @@ _MoveMysticSnorlaxText::
 	line "is restorative!"
 
 	para "After a REST it"
-	line "feeds on leftovers"
+	line "munches leftovers"
 	cont "and gets a SPEED"
 	cont "boost!"
 	done

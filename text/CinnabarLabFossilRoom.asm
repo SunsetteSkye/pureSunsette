@@ -83,5 +83,5 @@ _CinnabarLabFossilRoomDeskPapersText::
 	para "Perform a deep"
 	line "study on how"
 	cont "PONYTA survives"
-	cont "with flaming mane."
+	cont "with fiery mane."
 	done

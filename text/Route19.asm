@@ -145,7 +145,7 @@ _Route19Swimmer8EndBattleText::
 _Route19Swimmer8AfterBattleText::
 	text "Swimming fast will"
 	line "tire #mon too."
-	cont "Be careful holding"
+	cont "Careful holding"
 	cont "down the B BUTTON!"
 	done
 

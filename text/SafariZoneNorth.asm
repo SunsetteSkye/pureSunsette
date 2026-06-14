@@ -135,23 +135,24 @@ _SafariZoneNorthSuperNerdText::
 	done
 
 _SafariZoneNorthSuperNerdEndBattleText::
-	text "Must"
-	line "find items!"
-	para "Must find items!"
+	text "The real treasure"
+	line "was the cute boy"
+	cont "in front of me!"
 	prompt
 
 _SafariZoneNorthSuperNerdAfterBattleText::
-	text "You wouldn't"
+	text "But seriously..."
+
+	para "You wouldn't"
 	line "believe the pure"
 	cont "treasure I found"
 	cont "with this thing!"
 
 	para "NUGGETs, PROTEIN,"
 	line "even once a pair"
-	cont "of undies!"
+	cont "of... Heehee."
 
-	para "Hyuck hyuck"
-	line "hyuck hyuck!"
+	para "Nevermind!"
 
 	para "(What a weirdo!)"
 	done

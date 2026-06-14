@@ -153,7 +153,7 @@ _FanClubBondReadLowText::
 
 	para "Spend more days"
 	line "together! True"
-	cont "fans never give up"
+	cont "fans never quit"
 	cont "on a friendship."
 	done
 
@@ -188,7 +188,7 @@ _FanClubBondReadDevotedText::
 
 	para "This #MON would"
 	line "follow you to the"
-	cont "ends of the earth."
+	cont "end of time."
 
 	para "Treasure it--you"
 	line "two are the very"
@@ -217,7 +217,7 @@ _PokemonFanClubRocketGirlText::
 	cont "in battle."
 
 	para "They say a hurt"
-	line "#MON that loves"
+	line "#MON who loves"
 	cont "its trainer digs"
 	cont "deep<...>"
 

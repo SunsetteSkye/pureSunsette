@@ -100,8 +100,8 @@ _MomCommentCascadeText::
 
 _MomCommentRainbowText::
 	text "The RAINBOW BADGE!"
-	line "Such a pretty one."
-	cont "Keep it up!"
+	line "Such a pretty"
+	cont "one. Keep it up!"
 	prompt
 
 _MomCommentSoulText::

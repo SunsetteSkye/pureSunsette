@@ -150,14 +150,14 @@ _ExplodeRocksExplosionText::
 	text_ram_namebuffer
 	text " used"
 	line "EXPLOSION to"
-	cont "blow up the rocks!"
+	cont "blow up rock!"
 	done
 
 _ExplodeRocksSelfdestructText::
 	text_ram_namebuffer
 	text " used"
 	line "SELFDESTRUCT to"
-	cont "blow up the rocks!"
+	cont "blow up rock!"
 	done
 
 _ShatteredRocksSkullBashText::

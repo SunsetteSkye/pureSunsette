@@ -21,11 +21,11 @@ _MtMoonB2FYouHaveNoRoomText::
 	text_end
 
 _MtMoonB2FSuperNerdTheyreBothMineText::
-	text "Hey, stop!"
+	text "Hey, hands off!"
 
 	para "I found these"
-	line "fossils! They're"
-	cont "both mine!"
+	line "fossils, and"
+	cont "they're a pair!"
 	done
 
 _MtMoonB2FSuperNerdOkIllShareText::
@@ -76,19 +76,19 @@ _MtMoon3TextSuperNerdNoFossil::
 _MtMoon3TextSuperNerdGaveHelix::
 	text "<PLAYER> gave the"
 	line "HELIX FOSSIL to"
-	cont "the SUPER NERD!"
+	cont "the SUPER NEET!"
 	done
 
 _MtMoon3TextSuperNerdGaveDome::
 	text "<PLAYER> gave the"
 	line "DOME FOSSIL to"
-	cont "the SUPER NERD!"
+	cont "the SUPER NEET!"
 	done
 
 _MtMoon3TextSuperNerdGaveFossil::
-	text "Great! I'll try"
-	line "reviving both"
-	cont "fossils."
+	text "Eee, perfect!"
+	line "I'll revive them"
+	cont "as a pair!"
 	prompt
 
 _MtMoon3TextSuperNerdKeptFossil::
@@ -106,11 +106,11 @@ _MtMoon3TextSuperNerdGaveFossilEnd::
 	done
 
 _MtMoon3TextSuperNerdLookingForMoreFossils::
-	text "Hey! I'm looking"
+	text "Hey! I'm hunting"
 	line "for more fossils."
 
-	para "Haven't found any"
-	line "yet! Oh well."
+	para "No luck yet..."
+	line "oh well."
 
 	para "I live for the"
 	line "hunt!"

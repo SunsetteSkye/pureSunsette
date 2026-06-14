@@ -29,7 +29,7 @@ _PewterMartTMKid::
 	cont "some competition!"
 
 	para "When me and dad"
-	line "hit the next city,"
+	line "hit next city,"
 	cont "my plan starts<...>"
 
 	para "I'll need a cool"

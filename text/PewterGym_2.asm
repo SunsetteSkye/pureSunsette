@@ -158,8 +158,8 @@ _PewterGymGuidePostBattleText::
 	cont "champ material!"
 
 	para "A BADGE lets you"
-	line "raise #MON to a"
-	cont "higher level"
+	line "raise #MON to"
+	cont "a higher level"
 	cont "before they slow."
 
 	para "Right now, that's"

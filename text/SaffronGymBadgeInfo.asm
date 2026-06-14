@@ -7,7 +7,7 @@ _SaffronGymSabrinaMarshBadgeInfoText::
 	cont "with #MON!"
 
 	para "It lets #MON"
-	line "TELEPORT like FLY-"
+	line "TELEPORT like FLY"
 	cont "from anywhere,"
 	cont "even indoors!"
 	text_asm

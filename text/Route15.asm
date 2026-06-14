@@ -50,8 +50,9 @@ _Route15CooltrainerM1EndBattleText::
 	prompt
 
 _Route15CooltrainerM1AfterBattleText::
-	text "Maybe I'm not cut"
-	line "out for battles."
+	text "Tch. Maybe I'm"
+	line "built for flying,"
+	cont "not fighting."
 	done
 
 _Route15CooltrainerM2BattleText::

@@ -10,7 +10,6 @@ ClerkSprite::            INCBIN "gfx/sprites/clerk.2bpp"
 FishingGuruSprite::      INCBIN "gfx/sprites/fishing_guru.2bpp"
 GrannySprite::           INCBIN "gfx/sprites/granny.2bpp"
 NurseSprite::            INCBIN "gfx/sprites/nurse.2bpp"
-LinkReceptionistSprite:: INCBIN "gfx/sprites/link_receptionist.2bpp"
 SilphPresidentSprite::   INCBIN "gfx/sprites/silph_president.2bpp"
 SilphWorkerMSprite::     INCBIN "gfx/sprites/silph_worker_m.2bpp"
 WardenSprite::           INCBIN "gfx/sprites/warden.2bpp"
@@ -46,7 +45,7 @@ LittleGirlSprite::       INCBIN "gfx/sprites/little_girl.2bpp"
 BirdSprite::             INCBIN "gfx/sprites/bird.2bpp"
 MiddleAgedManSprite::    INCBIN "gfx/sprites/middle_aged_man.2bpp"
 GamblerSprite::          INCBIN "gfx/sprites/gambler.2bpp"
-SuperNerdSprite::        INCBIN "gfx/sprites/super_nerd.2bpp"
+ScruffyGuySprite::        INCBIN "gfx/sprites/scruffy_guy.2bpp"
 GirlSprite::             INCBIN "gfx/sprites/girl.2bpp"
 HikerSprite::            INCBIN "gfx/sprites/hiker.2bpp"
 BeautySprite::           INCBIN "gfx/sprites/beauty.2bpp"
@@ -72,7 +71,6 @@ FairySprite::            INCBIN "gfx/sprites/fairy.2bpp"
 AgathaSprite::           INCBIN "gfx/sprites/agatha.2bpp"
 BrunoSprite::            INCBIN "gfx/sprites/bruno.2bpp"
 LoreleiSprite::          INCBIN "gfx/sprites/lorelei.2bpp"
-SeelSprite::             INCBIN "gfx/sprites/seel.2bpp"
 
 SECTION "NPC Sprites 3", ROMX
 
@@ -146,3 +144,12 @@ QuadrupedSprite:: INCBIN "gfx/sprites/quadruped.2bpp"
 CouchGuySprite:: INCBIN "gfx/sprites/couchguy.2bpp"
 CouchGuy2Sprite:: INCBIN "gfx/sprites/couchguy2.2bpp"
 RedTakingPictureSprite:: INCBIN "gfx/sprites/red_taking_picture.2bpp"
+
+SECTION "Sunsette Sprites", ROMX
+; Sunsette: super_neet is a 24-tile (6-frame) walking sprite that took over the 12-tile receptionist
+; slot (+192 bytes). Floated to its own section so the linker repacks it into a bank with room -
+; leaving it in "NPC Sprites 1" overflowed that bank into "Battle Engine 1".
+SuperneetSprite:: INCBIN "gfx/sprites/super_neet.2bpp"
+; Sunsette: moved here from "NPC Sprites 2" to free 192 bytes in bank $5 after the
+; SPRITESET_NERD_ROUTES table (+11 bytes) overflowed "Battle Engine 2" by 6 bytes.
+SeelSprite::             INCBIN "gfx/sprites/seel.2bpp"

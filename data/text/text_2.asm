@@ -715,7 +715,7 @@ _ViridianBlackboardFrozenText::
 
 	para "In battle, using a"
 	line "burning or absorb"
-	cont "move thaws it out!"
+	cont "move thaws it!"
 	cont "FIRE and ICE are"
 	cont "immune."
 	prompt

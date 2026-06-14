@@ -48,8 +48,8 @@ _OakErikaText::
 
 _OakKogaText::
 	text "I'm surprised"
-	line "neither KOGA nor I"
-	cont "have balded any"
+	line "neither KOGA nor"
+	cont "I have balded any"
 
 	para "in all the years"
 	line "we've known each"

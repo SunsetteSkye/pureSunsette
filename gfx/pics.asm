@@ -276,7 +276,7 @@ SailorPic::        INCBIN "gfx/trainers/sailor.pic"
 JrTrainerMPic::    INCBIN "gfx/trainers/jr.trainerm.pic"
 JrTrainerFPic::    INCBIN "gfx/trainers/jr.trainerf.pic"
 PokemaniacPic::    INCBIN "gfx/trainers/pokemaniac.pic"
-SuperNerdPic::     INCBIN "gfx/trainers/supernerd.pic"
+SuperNerdPic::     INCBIN "gfx/trainers/superneet.pic" ; Sunsette: SUPER NERD class front (was supernerd.pic)
 HikerPic::         INCBIN "gfx/trainers/hiker.pic"
 BikerPic::         INCBIN "gfx/trainers/biker.pic"
 BurglarPic::       INCBIN "gfx/trainers/burglar.pic"

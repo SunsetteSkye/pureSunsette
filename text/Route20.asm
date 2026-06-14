@@ -88,18 +88,28 @@ _Route20Swimmer6AfterBattleText::
 	done
 
 _Route20CooltrainerMBattleText::
-	text "I rode my bird"
-	line "#MON here!"
+	text "Some people say"
+	line "you need SURF..."
+
+	para "But I trained my"
+	line "birds to fly"
+	cont "low and slow!"
 	done
 
 _Route20CooltrainerMEndBattleText::
-	text "Oh"
-	line "no!"
+	text "Well, clearly"
+	line "they need more"
+	cont "training!"
 	prompt
 
 _Route20CooltrainerMAfterBattleText::
-	text "My birds can't"
-	line "FLY me back!"
+	text "Hmph! Now they're"
+	line "too mad to fly..."
+
+	para "...and I never"
+	line "learned SURF."
+
+	para "This is fine."
 	done
 
 _Route20Swimmer7BattleText::

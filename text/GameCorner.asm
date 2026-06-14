@@ -97,7 +97,7 @@ _GameCornerGymGuideChampInMakingText::
 	cont "here at the slots!"
 
 	para "ERIKA uses grass-"
-	line "types. The perfume"
+	line "types. Perfume"
 	cont "in there is"
 	cont "intense!"
 	done

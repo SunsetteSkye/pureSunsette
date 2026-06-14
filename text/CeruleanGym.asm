@@ -102,7 +102,7 @@ _CeruleanGymGymGuideChampInMakingText::
 
 	para "MISTY bends this"
 	line "GYM's pool to her"
-	cont "will-- her #MON"
+	cont "will. Her #MON"
 	cont "mend their wounds"
 	cont "as you fight!"
 	done

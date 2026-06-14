@@ -63,7 +63,7 @@ _MukLearnset2::
 	text_start
 	line "revealed their"
 	cont "battle strategy"
-	cont "in detail-"
+	cont "in detail..."
 	para "Saying it out"
 	line "loud so everyone"
 	cont "here knows it."

@@ -123,11 +123,11 @@ _Route10EndBattleText7::
 
 _Route10AfterBattleText7::
 	text "What if there"
-	line "was a derelict"
-	cont "sunken ship down"
-	cont "this river?"
-	para "That'd be so"
-	line "cool! Right?"
+	line "was a sunken ship"
+	cont "down this river?"
+	para "The best ships"
+	line "always go down..."
+	cont "tee hee!"
 	done
 
 _Route10RockTunnelSignText::

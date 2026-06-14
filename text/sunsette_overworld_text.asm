@@ -36,22 +36,19 @@ _LockedAreaExitEscapeText::
 
 ; Mt. Moon 1F sign - warns the cave is dark (was the "Beware ZUBAT" sign)
 _MtMoon1FBewareZubatSign::
-	text "Beware! MT.MOON"
-	line "is pitch black"
-	cont "inside!"
+	text "Tread slowly!"
+	line "MT.MOON is dim"
+	cont "and dangerous!"
 
-	para "Don't press on"
-	line "without a #MON"
-	cont "that can light"
-	cont "the way, or you"
-	cont "may lose your"
-	cont "footing!"
+	para "Even if lit up, "
+	line "running makes you"
+	cont "easier for wild"
+	cont "#MON to find!"
 
-	para "And mind the"
-	line "dark, for it is"
-	cont "where the"
-	cont "bloodsucker"
-	cont "ZUBAT hunts..."
+	para "These caves are"
+	line "filled with the"
+	cont "bloodsucking"
+	cont "ZUBAT<...>"
 	done
 
 ; Viridian Forest South Gate - Oak's Aide
@@ -80,8 +77,8 @@ _ViridianForestSouthGateOaksAideHasDexText::
 ; ViridianNicknameHouse text bank was full)
 _ViridianNicknameHouseOfficialText::
 	text "Did you know they"
-	line "have OFFICIAL name"
-	cont "raters?"
+	line "have OFFICIAL"
+	cont "name raters?"
 
 	para "I got in a lot of"
 	line "trouble for being"

@@ -7,7 +7,7 @@ TrainerNames::
 	li "JR.TRAINER♂"
 	li "JR.TRAINER♀"
 	li "POKéMANIAC"
-	li "SUPER NERD"
+	li "SUPER NEET"
 	li "HIKER"
 	li "BIKER"
 	li "BURGLAR"

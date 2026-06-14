@@ -14,6 +14,7 @@
 	const SPRITESET_FUCHSIA         ; 0a
 	const SPRITESET_FUCHSIA2        ; 0b
 	const SPRITESET_PEWTER          ; 0c
+	const SPRITESET_NERD_ROUTES     ; 0d ; Route 8 east / Route 10 north / Route 12 north — superneet super-nerd trainers
 DEF NUM_SPRITE_SETS EQU const_value - 1
 
 ; split sprite set ids
