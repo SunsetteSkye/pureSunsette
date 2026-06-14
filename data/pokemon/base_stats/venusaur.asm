@@ -15,9 +15,9 @@
 
 	; tm/hm learnset
 	tmhm \
+	FURY_ATTACK,\ ; MUD BOMB
 	LOW_KICK,\
 	SONICBOOM,\ ; ILL WIND
-	LEECH_SEED,\
 	PIN_MISSILE,\
 	TOXIC,\
 	BODY_SLAM,\

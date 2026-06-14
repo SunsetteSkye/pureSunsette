@@ -15,8 +15,9 @@
 
 	; tm/hm learnset
 	tmhm \
-	ICE_PUNCH,\
-	FIRE_PUNCH,\
+	FURY_ATTACK,\ ; MUD BOMB
+	ICE_PUNCH,\ ; FROST FIST
+	FIRE_PUNCH,\ ; BLAZE HAMMER
 	TOXIC,\
 	BODY_SLAM,\
 	DISABLE,\

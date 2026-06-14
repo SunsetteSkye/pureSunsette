@@ -3,7 +3,7 @@
 	db  85,  95,  57,  93,  95
 	;   hp  atk  def  spd  spc
 
-	db FIRE, FIRE ; type
+	db FIRE, POISON ; type
 	db 85 ; catch rate
 	db 167 ; base exp
 
@@ -15,8 +15,8 @@
 
 	; tm/hm learnset
 	tmhm \
-	ICE_PUNCH,\
-	FIRE_PUNCH,\
+	ICE_PUNCH,\ ; FROST FIST
+	FIRE_PUNCH,\ ; BLAZE HAMMER
 	TOXIC,\
 	BODY_SLAM,\
 	DISABLE,\
@@ -24,7 +24,7 @@
 	HYPER_BEAM,\
 	AMNESIA,\ ; CALM MIND
 	LOW_KICK,\
-	THUNDERPUNCH,\
+	THUNDERPUNCH,\ ; ZAPPERCUT
 	ROLLING_KICK,\ ; METEOR SWEEP
 	BARRIER,\
 	SOLARBEAM,\ ; SOLAR CANNON

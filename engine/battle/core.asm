@@ -4356,11 +4356,11 @@ GetDamageVarsForPlayerAttack:
 	ld a, [wPlayerMoveNum] ; Sunsette: Egg Bomb is Normal-typed but attacks special
 	cp EGG_BOMB
 	jr z, .specialAttack
-	cp FIRE_PUNCH ; Sunsette: the elemental punches use whichever of the user's Attack/Special is higher (GHOST-style dynamic category), keeping their FIRE/ICE/ELECTRIC type
+	cp FIRE_PUNCH ; Sunsette: the elemental punches use whichever of the user's Attack/Special is higher (GHOST-style dynamic category), keeping their FIRE/ICE/ELECTRIC type (BLAZE HAMMER)
 	jr z, DynamicTypeCheckPlayer
-	cp ICE_PUNCH
+	cp ICE_PUNCH ; FROST FIST
 	jr z, DynamicTypeCheckPlayer
-	cp THUNDERPUNCH
+	cp THUNDERPUNCH ; ZAPPERCUT
 	jr z, DynamicTypeCheckPlayer
 	ld a, [hl] ; a = [wPlayerMoveType]
 	cp GHOST
@@ -4504,11 +4504,11 @@ GetDamageVarsForEnemyAttack:
 	ld a, [wEnemyMoveNum] ; Sunsette: Egg Bomb is Normal-typed but attacks special
 	cp EGG_BOMB
 	jr z, .specialAttack
-	cp FIRE_PUNCH ; Sunsette: the elemental punches use whichever of the user's Attack/Special is higher (GHOST-style dynamic category), keeping their FIRE/ICE/ELECTRIC type
+	cp FIRE_PUNCH ; Sunsette: the elemental punches use whichever of the user's Attack/Special is higher (GHOST-style dynamic category), keeping their FIRE/ICE/ELECTRIC type (BLAZE HAMMER)
 	jr z, DynamicTypeCheckEnemy
-	cp ICE_PUNCH
+	cp ICE_PUNCH ; FROST FIST
 	jr z, DynamicTypeCheckEnemy
-	cp THUNDERPUNCH
+	cp THUNDERPUNCH ; ZAPPERCUT
 	jr z, DynamicTypeCheckEnemy
 	ld a, [hl] ; a = [wEnemyMoveType]
 	cp GHOST
@@ -7107,8 +7107,8 @@ HandleExplodingAnimation:
 	ret nz
 	ld a, ANIMATIONTYPE_SHAKE_SCREEN_HORIZONTALLY_LIGHT
 	ld [wAnimationType], a
-	ASSERT ANIMATIONTYPE_SHAKE_SCREEN_HORIZONTALLY_LIGHT == MEGA_PUNCH ; HAYMAKER
-	; ld a, MEGA_PUNCH (HAYMAKER)
+	ASSERT ANIMATIONTYPE_SHAKE_SCREEN_HORIZONTALLY_LIGHT == MEGA_PUNCH ; SHORYUKEN
+	; ld a, MEGA_PUNCH (SHORYUKEN)
 ; fallthrough
 PlayMoveAnimation:
 	ld [wAnimationID], a

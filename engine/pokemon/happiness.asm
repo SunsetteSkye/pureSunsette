@@ -680,6 +680,7 @@ SecondWindHeal::
 	; snapping). The store/animation lives in a roomier bank (this bank is nearly full in the debug build);
 	; de survives the callfar bankswitch, and wBattleMonHP still holds the OLD HP for the helper to capture.
 	callfar SecondWindHealApply
+	callfar SecondWindRestorePP ; Sunsette: also silently restore 1 PP to the lowest non-full-PP move
 	ld a, [wBattleMonSpecies]
 	call CheckLegendaryAffectionSpecies
 	ld hl, SecondWindText

@@ -9,6 +9,7 @@ PokemonFanClub_TextPointers:
 	dw_const PokemonFanClubSeelText,         TEXT_POKEMONFANCLUB_SEEL
 	dw_const PokemonFanClubChairmanText,     TEXT_POKEMONFANCLUB_CHAIRMAN
 	dw_const PokemonFanClubReceptionistText, TEXT_POKEMONFANCLUB_RECEPTIONIST
+	dw_const PokemonFanClubRocketGirlText,   TEXT_POKEMONFANCLUB_ROCKET_GIRL
 	dw_const PokemonFanClubSign1Text,        TEXT_POKEMONFANCLUB_SIGN_1
 	dw_const PokemonFanClubSign2Text,        TEXT_POKEMONFANCLUB_SIGN_2
 
@@ -219,8 +220,56 @@ PokemonFanClubChairmanText:
 ChairName::
 	db "CLUB CHAIR@"
 
+; Sunsette: the receptionist gushes over the lead party mon's bond. She reads
+; wPartyMonHappiness (slot 0) and reacts in tiers, but in warm fan-club voice rather
+; than a clinical readout. 128 = HAPPINESS_SURVIVE_FLOOR (the second-wind / bond band).
 PokemonFanClubReceptionistText:
-	text_far _PokemonFanClubReceptionistText
+	text_asm
+	ld a, [wPartyCount]
+	and a
+	jr z, .noMon
+	ld hl, .introText
+	rst _PrintText
+	ld a, [wPartyMonHappiness] ; lead mon (slot 0)
+	ld hl, .devotedText
+	cp 200
+	jr nc, .print
+	ld hl, .bondedText
+	cp 128 ; HAPPINESS_SURVIVE_FLOOR - second-wind / bond-survival floor
+	jr nc, .print
+	ld hl, .trustText
+	cp 70 ; HAPPINESS_DEFAULT - neutral
+	jr nc, .print
+	ld hl, .wantsText
+.print
+	rst _PrintText
+	rst TextScriptEnd
+.noMon
+	ld hl, .noMonText
+	rst _PrintText
+	rst TextScriptEnd
+
+.introText
+	text_far _FanClubBondReadIntroText
+	text_end
+.wantsText
+	text_far _FanClubBondReadLowText
+	text_end
+.trustText
+	text_far _FanClubBondReadTrustText
+	text_end
+.bondedText
+	text_far _FanClubBondReadBondedText
+	text_end
+.devotedText
+	text_far _FanClubBondReadDevotedText
+	text_end
+.noMonText
+	text_far _FanClubBondReadNoMonText
+	text_end
+
+PokemonFanClubRocketGirlText:
+	text_far _PokemonFanClubRocketGirlText
 	text_end
 
 PokemonFanClubSign1Text:

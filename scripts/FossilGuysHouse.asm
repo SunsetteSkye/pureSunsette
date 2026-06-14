@@ -477,18 +477,8 @@ MoveMysticCrystalBallText:
 	cp PIDGEOT
 	ld hl, .pidgeotInfoText
 	jp z, .printDone
-	cp BLASTOISE
-	ld hl, .blastoiseInfoText
-	jp z, .printDone
-	cp MOLTRES ; Sunsette: legendary-bird move adjustments get custom info text
-	ld hl, .moltresInfoText
-	jp z, .printDone
-	cp ZAPDOS
-	ld hl, .zapdosInfoText
-	jp z, .printDone
-	cp ARTICUNO
-	ld hl, .articunoInfoText
-	jp z, .printDone
+	; Sunsette: BLASTOISE / DRAGONITE / MOLTRES / ZAPDOS / ARTICUNO are no longer MOVE MYSTIC
+	; signature mons (the birds' effects moved onto their own dedicated moves).
 	cp KRABBY ; Sunsette: KRABBY/KINGLER use the CrabhammerModifier (byte2=-1, not species-searchable), so custom text
 	ld hl, .krabbyInfoText
 	jp z, .printDone
@@ -597,9 +587,6 @@ MoveMysticCrystalBallText:
 .pidgeotInfoText
 	text_far _MoveMysticPidgeotText
 	text_end
-.blastoiseInfoText
-	text_far _MoveMysticBlastoiseText
-	text_end
 .krabbyInfoText
 	text_far _MoveMysticKrabbyText
 	text_end
@@ -608,15 +595,6 @@ MoveMysticCrystalBallText:
 	text_end
 .snorlaxInfoText
 	text_far _MoveMysticSnorlaxText
-	text_end
-.moltresInfoText
-	text_far _MoveMysticMoltresText
-	text_end
-.zapdosInfoText
-	text_far _MoveMysticZapdosText
-	text_end
-.articunoInfoText
-	text_far _MoveMysticArticunoText
 	text_end
 .masterOfMove
 	text_far _MoveMysticMasterOfMoveText
@@ -729,12 +707,8 @@ MoveMysticMonsList:
 	db ELECTABUZZ, DEX_ELECTABUZZ
 	db MAGMAR, DEX_MAGMAR
 	db OMASTAR, DEX_OMASTAR
-	db DRAGONITE, DEX_DRAGONITE
+	; Sunsette: DRAGONITE / BLASTOISE / MOLTRES / ZAPDOS / ARTICUNO removed - no longer signature mons.
 	db PIDGEOT, DEX_PIDGEOT
-	db BLASTOISE, DEX_BLASTOISE
-	db MOLTRES, DEX_MOLTRES
-	db ZAPDOS, DEX_ZAPDOS
-	db ARTICUNO, DEX_ARTICUNO
 	db TANGELA, DEX_TANGELA ; Sunsette: STRANGLEVINE -> 90 BP (signature); uses the generic power-increase path
 	db KRABBY, DEX_KRABBY ; Sunsette: CRABHAMMER -> 75 BP (signature)
 	db KINGLER, DEX_KINGLER ; Sunsette: CRABHAMMER -> 100 BP (signature)
@@ -781,24 +755,11 @@ MagmarMoveMysticText::
 OmastarMoveMysticText::
 	text_far _OmastarMoveMysticText
 	text_end
-DragoniteMoveMysticText::
-	text_far _DragoniteMoveMysticText
-	text_end
+	; Sunsette: DRAGONITE entry removed here to stay index-parallel with MoveMysticMonsList.
 PidgeotMoveMysticText::
 	text_far _PidgeotMoveMysticText
 	text_end
-BlastoiseMoveMysticText::
-	text_far _BlastoiseMoveMysticText
-	text_end
-MoltresMoveMysticText::
-	text_far _MoltresMoveMysticText
-	text_end
-ZapdosMoveMysticText::
-	text_far _ZapdosMoveMysticText
-	text_end
-ArticunoMoveMysticText::
-	text_far _ArticunoMoveMysticText
-	text_end
+	; Sunsette: BLASTOISE / MOLTRES / ZAPDOS / ARTICUNO entries removed here (index-parallel removal).
 TangelaMoveMysticText::
 	text_far _TangelaMoveMysticText
 	text_end

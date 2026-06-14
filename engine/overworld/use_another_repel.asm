@@ -74,3 +74,28 @@ StoppedHidingText:
 KeepHidingText:
 	text_far _KeepHidingText
 	text_end
+
+; Sunsette: FLASH ran out in a cave - FlashRanOut already blacked the screen out and restored the darkness;
+; here (via the TEXT_FLASH_WORE_OFF DisplayTextID handler) we offer to re-light if a party mon still knows
+; FLASH. On yes, re-arm through the FLASH field-move event so CheckUsedFlash relights next map-script frame
+; (re-saving the dark level + the 200-step timer). Mirrors RepelOrHidingWoreOff's "keep hiding?" flow.
+FlashWoreOffPrompt::
+	ld hl, FlashFadedText
+	rst _PrintText
+	ld d, FLASH
+	call IsMoveInParty ; d = move -> match count, z if no party mon knows FLASH (z survives the direct call)
+	ret z ; nobody can re-light -> stay dark (the "flickered out" line already played)
+	ld hl, FlashUseAgainText
+	rst _PrintText
+	call YesNoChoice
+	ret nz ; chose No -> stay dark
+	SetEvent EVENT_USED_FLASH_FROM_PARTY_MENU ; re-light next CheckUsedFlash frame
+	ret
+
+FlashFadedText:
+	text_far _FlashFadedText
+	text_end
+
+FlashUseAgainText:
+	text_far _FlashUseAgainText
+	text_end

@@ -10,13 +10,13 @@
 	INCBIN "gfx/battle/spirit_chunky.pic", 0, 1 ; sprite dimensions
 	dw ChunkyPicFront, RaichuPicBackSW
 
-	db SOFTBOILED, REST, BODY_SLAM, WITHDRAW ; level 1 learnset
+	db SOFTBOILED, REST, BODY_SLAM, WITHDRAW ; level 1 learnset (SUBMERGE)
 	db GROWTH_MEDIUM_FAST ; growth rate
 
 	; tm/hm learnset
 	tmhm \
-	ICE_PUNCH,\
-	FIRE_PUNCH,\
+	ICE_PUNCH,\ ; FROST FIST
+	FIRE_PUNCH,\ ; BLAZE HAMMER
 	TOXIC,\
 	BODY_SLAM,\
 	DISABLE,\
@@ -24,7 +24,7 @@
 	HYPER_BEAM,\
 	AMNESIA,\ ; CALM MIND
 	LOW_KICK,\
-	THUNDERPUNCH,\
+	THUNDERPUNCH,\ ; ZAPPERCUT
 	ROLLING_KICK,\ ; METEOR SWEEP
 	BARRIER,\
 	THUNDERBOLT,\

@@ -99,7 +99,7 @@ HealEffectCommon:
 ; Recover and Softboiled only heal for half the mon's max HP
 	srl b
 	rr c
-	cp WITHDRAW
+	cp WITHDRAW ; SUBMERGE
 	jr z, .oneThird
 	cp GROWTH ; FLOURISH
 	jr z, .oneThird

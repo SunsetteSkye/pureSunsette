@@ -14,6 +14,7 @@
 	db GROWTH_MEDIUM_SLOW ; growth rate
 
 	tmhm \
+	FURY_ATTACK,\ ; MUD BOMB
 	SONICBOOM,\ ; ILL WIND
 	PIN_MISSILE,\
 	TOXIC,\

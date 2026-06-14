@@ -27,8 +27,13 @@ _BikeShopClerkOhThatsAVoucherText::
 _BikeShopExchangedVoucherText::
 	text "<PLAYER> exchanged"
 	line "the BIKE VOUCHER"
-	cont "for a BICYCLE.@"
-	text_end
+	cont "for a BICYCLE."
+
+	para "Wild #MON can"
+	line "hardly catch you"
+	cont "while you ride a"
+	cont "bike!"
+	done
 
 _BikeShopComeAgainText::
 	text "Come back again"
@@ -42,6 +47,10 @@ _BikeShopClerkHowDoYouLikeYourBicycleText::
 	para "You can take it"
 	line "on CYCLING ROAD"
 	cont "and in caves!"
+
+	para "Wild #MON can"
+	line "hardly catch you"
+	cont "while you ride!"
 	done
 
 _CeruleanGymMistyTM11NoRoomText::

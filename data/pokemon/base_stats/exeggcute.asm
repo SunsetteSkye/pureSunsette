@@ -15,8 +15,8 @@
 
 	; tm/hm learnset
 	tmhm \
+	FURY_ATTACK,\ ; MUD BOMB
 	DISABLE,\
-	LEECH_SEED,\
 	TOXIC,\
 	BODY_SLAM,\
 	DOUBLE_EDGE,\

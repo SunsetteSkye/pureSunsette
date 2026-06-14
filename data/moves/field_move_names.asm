@@ -9,9 +9,9 @@ FieldMoveNames:
 	db "TELEPORT@"
 	db "SOFTBOILED@"
 	db "CONFUSE RAY@"
-	db "GROWTH@" ; FLOURISH
+	db "GROWTH@" ; FLOURISH - DEAD (field move removed; left to keep index alignment)
 	db "FLAMETHROWER@"
-	db "SAND-ATTACK@"
+	db "SAND-ATTACK@" ; DEAD (field move removed; left to keep index alignment)
 	db "MIST@" ; ETHEREAL
 	db "HAZE@" ; BLACK HAZE
 	db "SMOKESCREEN@"
@@ -20,3 +20,6 @@ FieldMoveNames:
 	db "STUN SPORE@"
 	db "SPORE@"
 	db "SMOG@"
+	db "METRONOME@" ; 21 - Sunsette: invert wild-encounter rarity (FLOURISH's old effect)
+	db "SING@"      ; 22
+	db "HYPNOSIS@"  ; 23

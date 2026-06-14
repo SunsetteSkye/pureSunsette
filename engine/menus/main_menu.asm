@@ -173,7 +173,9 @@ InitOptions:
 	ld [wLetterPrintingDelayFlags], a
 	ld a, TEXT_DELAY_MEDIUM
 	ld [wOptions], a
-	ld a, PALETTES_SGB ; Sunsette: palette set is locked to SGB1 (the option was removed)
+	; Sunsette: palette set is locked to SGB1 (the option was removed); default the alt-#MON palettes,
+	; GBC fade, and OG+ music options ON.
+	ld a, PALETTES_SGB | (1 << BIT_ALT_PKMN_PALETTES) | (1 << BIT_GBC_FADE) | (1 << BIT_MUSIC)
 	ld [wOptions2], a
 	ret
 

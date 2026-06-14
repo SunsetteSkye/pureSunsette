@@ -3,18 +3,19 @@
 	db  50,  85,  55,  90,  65
 	;   hp  atk  def  spd  spc
 
-	db FIRE, FIGHTING ; type
+	db FIRE, PSYCHIC_TYPE ; type
 	db 190 ; catch rate
 	db 152 ; base exp
 
 	INCBIN "gfx/pokemon/front/ponyta.pic", 0, 1 ; sprite dimensions
 	dw PonytaPicFront, PonytaPicBackSW
 
-	db EMBER, LOW_KICK, NO_MOVE, NO_MOVE ; level 1 learnset
+	db EMBER, FLASH, NO_MOVE, NO_MOVE ; level 1 learnset
 	db GROWTH_MEDIUM_FAST ; growth rate
 
 	; tm/hm learnset
 	tmhm \
+	FURY_ATTACK,\ ; MUD BOMB
 	DISABLE,\
 	TOXIC,\
 	HORN_DRILL,\ ; VENOM DRILL

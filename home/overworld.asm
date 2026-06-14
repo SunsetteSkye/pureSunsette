@@ -36,6 +36,12 @@ OverworldLoop::
 	jr z, .noXfadeTick
 	callfar XfadeTick
 .noXfadeTick
+	; Sunsette: advance the surf HP-drain blue pulse (non-blocking, eased) - same post-DelayFrame window.
+	ld a, [wSurfPulseTimer]
+	and a
+	jr z, .noSurfPulse
+	callfar SurfPulseTick
+.noSurfPulse
 OverworldLoopLessDelay::
 	;rst _DelayFrame ; shinpokerednote: ADDED: 60fps mode enabled by commenting this (but needs additional tweaks to run correctly)
 	callfar GBCSetCPU2xSpeed	; shinpokerednote: ADDED: set 2x cpu speed when on gbc
@@ -354,9 +360,10 @@ OverworldLoopLessDelay::
 	and a
 	jp nz, CheckWarpsNoCollision
 	homecall ApplyOutOfBattlePoisonDamage ; also increment daycare mon exp
+	farcall HandleSurfExhaustion ; Sunsette: surf drains 1 HP/12 steps from the carrier (can faint); runs AFTER poison so its blackout flag isn't clobbered
 	ld a, [wOutOfBattleBlackout]
 	and a
-	jp nz, HandleBlackOut ; if all pokemon fainted
+	jp nz, HandleBlackOut ; if all pokemon fainted (poison OR surf attrition)
 .newBattle
 	call NewBattle
 	ld hl, wMovementFlags
@@ -1950,6 +1957,12 @@ CollisionCheckOnWater::
 ;;;;;
 	ld [wWalkBikeSurfState], a
 	call nz, PlayDefaultMusicWithExtraCheck ; play default music if walking but not if lava suit
+	; Sunsette: clear surf-exhaustion state on dismount (after the flag-sensitive call nz above)
+	xor a
+	ld [wSurfStepCounter], a
+	ld [wSurfPulseTimer], a
+	dec a
+	ld [wSurfCarrier], a ; $FF = no carrier
 	call LoadPlayerSpriteGraphics
 	call RunDefaultPaletteCommand ; Sunsette: refresh the player OW palette so the surfing blue (PAL_BLUEMON_OW) clears on land
 	jr .noCollision

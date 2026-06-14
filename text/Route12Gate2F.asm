@@ -1,22 +1,24 @@
 _Route12Gate2FBrunetteGirlYouCanHaveThisText::
 	text "My #MON's"
-	line "ashes are stored"
-	cont "in #MON TOWER."
+	line "ashes rest now in"
+	cont "#MON TOWER."
 
-	para "You can have this"
-	line "<TM>. I don't need"
-	cont "it any more<...>"
+	para "Take this <TM>."
+	line "I've had time"
+	cont "to think<...>and I"
+	cont "won't need it."
 	prompt
 
 _Route12Gate2FBrunetteGirlTM39ExplanationText::
-	text "<TM>39 is"
-	line "WASTEMAKER."
+	text "<TM>33 is REFLECT."
 
-	para "It's a strong"
-	line "POISON type move."
-	para "Use it in battles"
-	line "you can't afford"
-	cont "to lose."
+	para "It softens the"
+	line "blows that are"
+	cont "yet to come<...>"
+
+	para "Lately I find I"
+	line "look back far"
+	cont "more than ahead."
 	done
 
 _ArbokLearnset::

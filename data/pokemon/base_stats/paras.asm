@@ -15,7 +15,6 @@
 
 	; tm/hm learnset
 	tmhm \
-	LEECH_SEED,\
 	PIN_MISSILE,\
 	TOXIC,\
 	BODY_SLAM,\

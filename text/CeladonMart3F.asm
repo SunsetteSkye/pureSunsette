@@ -8,18 +8,23 @@ _CeladonMart3FClerkTM18PreReceiveText::
 	prompt
 
 _CeladonMart3FClerkTM18ExplanationText::
-	text "<TM>35 is AGILITY!"
-	para "Use speed to your"
-	line "advantage!"
-	para "If you go first,"
-	line "you can control"
-	cont "what happens in"
-	cont "battle easily!"
-	para "Trust me, I know"
-	line "how things work!"
-	para "That's why I'm"
-	line "the one behind"
-	cont "this counter!"
+	text "<TM>39 is"
+	line "WASTEMAKER!"
+
+	para "Trust me, I've"
+	line "been here for 30"
+	cont "years, and I know"
+	cont "all about"
+	cont "countering tough"
+	cont "opponents!"
+
+	para "If there's a move"
+	line "you can't stand"
+	cont "facing, just"
+	cont "DISABLE it."
+
+	para "It's the perfect"
+	line "counter!"
 	done
 
 _CeladonMart3FClerkTM18NoRoomText::

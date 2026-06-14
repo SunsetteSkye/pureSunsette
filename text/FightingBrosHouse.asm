@@ -55,7 +55,7 @@ _FightingBrosSabrinaText::
 	done
 
 _FightingBrosGotMarshBadge::
-	text "The golden glare"
+	text "The cruel pink"
 	line "of the SOULBADGE"
 	cont "is unmissable!"
 	para "So you beat"
@@ -73,10 +73,10 @@ _FightingBrosRightBro::
 	para "I use reason"
 	line "before violence,"
 	cont "meditating daily."
-	para "Do you know the"
-	line "moves FIRE PUNCH,"
-	cont "ICE PUNCH, and"
-	cont "THUNDERPUNCH?"
+	para "Do you know"
+	line "BLAZE HAMMER,"
+	cont "FROST FIST, and"
+	cont "ZAPPERCUT?"
 	para "You may have seen"
 	line "ALAKAZAM cannot"
 	cont "learn them."

@@ -277,7 +277,7 @@ INCLUDE "data/text/text_6.asm"
 
 INCLUDE "text/CinnabarLabColorChanger.asm"
 INCLUDE "text/CeladonLaprasGuy.asm"
-INCLUDE "text/SafariZoneNewRestHouseText.asm"
+; Sunsette: SafariZoneNewRestHouseText relocated to "Text 15" - this bank overflowed.
 
 
 SECTION "Text 11", ROMX
@@ -313,6 +313,7 @@ INCLUDE "text/FightingBrosHouse.asm"
 
 SECTION "Text 15", ROMX
 INCLUDE "text/CeruleanBadgeHouse.asm"
+INCLUDE "text/SafariZoneNewRestHouseText.asm" ; Sunsette: relocated from "Text 10" (overflow)
 
 SECTION "Sunsette Battle Text", ROMX
 INCLUDE "data/text/sunsette_battle_text.asm"

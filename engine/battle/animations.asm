@@ -191,11 +191,35 @@ DrawFrameBlock:
 	ld [wFBDestAddr], a
 	ret
 
+; Sunsette: when SEISMIC TOSS is being animated by a PSYCHIC-type user, swap the played animation to
+; PSISMIC_TOSS_ANIM. hWhoseTurn = the attacker, so we read its battle type. Any other animation is untouched.
+MaybeSeismicTossPsychicAnim:
+	ld a, [wAnimationID]
+	cp SEISMIC_TOSS
+	ret nz
+	ldh a, [hWhoseTurn]
+	and a
+	ld hl, wBattleMonType1
+	jr z, .gotType
+	ld hl, wEnemyMonType1
+.gotType
+	ld a, [hli]
+	cp PSYCHIC_TYPE
+	jr z, .psychic
+	ld a, [hl]
+	cp PSYCHIC_TYPE
+	ret nz
+.psychic
+	ld a, PSISMIC_TOSS_ANIM
+	ld [wAnimationID], a
+	ret
+
 PlayAnimation:
 	xor a
 	ldh [hROMBankTemp], a ; it looks like nothing reads this
 	ld [wSubAnimTransform], a
 	ld [wSubAnimStepCounter], a
+	call MaybeSeismicTossPsychicAnim ; Sunsette: Psychic users get the PSISMIC TOSS variant
 	ld a, [wAnimationID] ; get animation number
 	dec a
 	ld l, a

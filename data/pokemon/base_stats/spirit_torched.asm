@@ -17,7 +17,6 @@
 	tmhm \
 	LOW_KICK,\
 	DISABLE,\
-	LEECH_SEED,\
 	TOXIC,\
 	BODY_SLAM,\
 	DOUBLE_EDGE,\

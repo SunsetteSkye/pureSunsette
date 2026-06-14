@@ -159,11 +159,14 @@ AIMoveChoiceModification1:
 	cp MIRROR_MOVE ; MOCKINGBIRD
 	call z, EncourageMockingbird ; Sunsette: encourage MOCKINGBIRD when it's worth the stat-steal / Special drop
 	ld a, [wEnemyMoveNum]
-	cp SOLARBEAM
+	cp SOLARBEAM ; SOLAR CANNON
 	call z, EncourageSolarBeam ; Sunsette: once charged, prefer firing the SolarBeam release
 	ld a, [wEnemyMoveNum]
 	cp PSYWAVE ; SKITTERMIND
 	call z, ScoreMindwipe ; Sunsette: SKITTERMIND - avoid vs Bug/Poison/Fighting, prefer vs Ghost/Normal
+	ld a, [wEnemyMoveNum]
+	cp RAGE ; UNLEASH RAGE (MAD RUSH)
+	call z, EncourageUnleashRage ; Sunsette: prefer UNLEASH RAGE while its triple-power conditions are active (MAD RUSH)
 	ld a, [wPlayerBattleStatus1]
 	bit INVULNERABLE, a
 	jp nz, .playerSemiInvulnerable
@@ -346,7 +349,8 @@ PotentiallyPointlessMoveEffectsJumpTable:
 	dbw CONFUSION_EFFECT, CheckConfused
 	dbw HEAL_EFFECT, CheckFullHealth
 	dbw WITHDRAW_EFFECT, CheckFullHealth
-	dbw GROWTH_EFFECT, CheckFullHealth
+	; Sunsette: GROWTH_EFFECT (FLOURISH) no longer heals on use (it's +1 SPECIAL + the GROWING regen), so it's
+	; useful at full HP - dropped its CheckFullHealth discouragement.
 	dbw DEFENSE_CURL_EFFECT, CheckDefenseCurlUp
 	dbw ACID_ARMOR_EFFECT, CheckBothReflectLightScreenUp
 	dbw ACCURACY_DOWN1_EFFECT, CheckAccuracyDownWorks
@@ -447,6 +451,25 @@ EncourageSolarBeam:
 	ret z
 	ld a, [hl]
 	sub 3 ; encourage
+	ld [hl], a
+	ret
+
+; Sunsette: UNLEASH RAGE (MAD RUSH) triples to 120 BP when the AI's own mon is hurt (HP bar not green), confused, or has
+; a non-sleep status (PSN/BRN/FRZ/PAR). The AI mon is the ENEMY side. When any of those is active, encourage
+; the move (-3 score = more likely); otherwise leave it (40 BP, scored normally). hl = the move's score slot.
+EncourageUnleashRage:
+	ld a, [wEnemyHPBarColor]
+	and a
+	jr nz, .encourage ; HP bar not green -> hurt
+	ld a, [wEnemyMonStatus]
+	and $78 ; PSN/BRN/FRZ/PAR (non-sleep)
+	jr nz, .encourage
+	ld a, [wEnemyBattleStatus1]
+	bit CONFUSED, a
+	ret z ; no triple condition active -> leave the score as-is
+.encourage
+	ld a, [hl]
+	sub 3
 	ld [hl], a
 	ret
 
@@ -1114,8 +1137,7 @@ AIMoveChoiceModification4:
 	jr z, .checkWorthHealing
 	cp WITHDRAW_EFFECT
 	jr z, .checkWorthHealing
-	cp GROWTH_EFFECT
-	jr z, .checkWorthHealing
+	; Sunsette: GROWTH_EFFECT (FLOURISH) is no longer a heal -> not gated by "worth healing"
 	cp TELEPORT_EFFECT
 	jr z, .checkWorthTeleporting
 	push hl

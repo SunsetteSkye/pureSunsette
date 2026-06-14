@@ -1,26 +1,31 @@
 _Route16FlyHouseBrunetteGirlText::
-	text "Oh, you found my"
-	line "secret retreat!"
+	text "My<...>you found my"
+	line "little retreat."
+	cont "Popopo<...>"
 
-	para "Please don't tell"
-	line "anyone I'm here."
-	cont "I'll make it up"
-	cont "to you with this!"
+	para "Don't tell a soul"
+	line "I'm here, hm?"
+
+	para "Be a dear<...>and I"
+	line "might let you"
+	cont "leave. Po."
 	prompt
 
 _Route16FlyHouseBrunetteGirlReceivedTMText::
 	text "<PLAYER> received"
-	line "the LEECH SEED TM!"
+	line "the ILL WIND TM!"
 	done
 
 _Route16FlyHouseBrunetteGirlTMExplanationText::
-	text "LEECH SEED saps"
-	line "the foe's HP each"
-	cont "turn to heal your"
-	cont "own #MON!"
+	text "ILL WIND<...>a foul"
+	line "gust my POLLY"
+	cont "stirs up. Popopo."
 
-	para "Put it to good"
-	line "use!"
+	para "They call me the"
+	line "eight-foot lady<...>"
+
+	para "Do come back and"
+	line "see me<...>won't you?"
 	done
 
 _Route16FlyHouseBrunetteGirlNoRoomText::

@@ -6,6 +6,7 @@ ResidualEffects2:
 	db DEFENSE_UP1_EFFECT
 	db SPEED_UP1_EFFECT
 	db SPECIAL_UP1_EFFECT
+	db CALM_MIND_EFFECT ; Sunsette: CALM MIND (AMNESIA) - +1 SPECIAL self-buff (+ clears the user's confusion)
 	db ACCURACY_UP1_EFFECT
 	db EVASION_UP1_EFFECT
 	db ATTACK_DOWN1_EFFECT

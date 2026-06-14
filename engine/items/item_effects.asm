@@ -3092,7 +3092,7 @@ AddBonusPP:
 ; [wCurrentMenuItem] = move index
 ; OUTPUT:
 ; [wMaxPP] = max PP
-GetMaxPP:
+GetMaxPP:: ; Sunsette: exported so SecondWindRestorePP (newCode bank) can callfar it
 	ld a, [wMonDataLocation]
 	and a
 	ld hl, wPartyMon1Moves

@@ -10,7 +10,7 @@
 	INCBIN "gfx/pokemon/front/moltres.pic", 0, 1 ; sprite dimensions
 	dw MoltresPicFront, MoltresPicBackSW
 
-	db FURY_ATTACK, FIRE_SPIN, FLAMETHROWER, NO_MOVE ; level 1 learnset (DUAL SPEAR)
+	db WING_ATTACK, FIRE_SPIN, FLAMETHROWER, NO_MOVE ; level 1 learnset
 	db GROWTH_SLOW ; growth rate
 
 	; tm/hm learnset
@@ -34,7 +34,7 @@
 	BARRAGE,\ ; SHADOW BALL
 	FIRE_BLAST,\
 	FLAMETHROWER,\
-	SKY_ATTACK,\
+	SKY_ATTACK,\ ; BRAVE BIRD
 	LIGHT_SCREEN,\
 	PSYWAVE,\ ; SKITTERMIND
 	GLARE,\

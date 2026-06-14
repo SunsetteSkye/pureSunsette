@@ -10,7 +10,7 @@
 	INCBIN "gfx/pokemon/front/zapdos.pic", 0, 1 ; sprite dimensions
 	dw ZapdosPicFront, ZapdosPicBackSW
 
-	db THUNDERBOLT, DRILL_PECK, LIGHT_SCREEN, NO_MOVE ; level 1 learnset
+	db THUNDERBOLT, FLY, LIGHT_SCREEN, NO_MOVE ; level 1 learnset
 	db GROWTH_SLOW ; growth rate
 
 	; tm/hm learnset
@@ -31,7 +31,7 @@
 	REFLECT,\
 	BIDE,\ ; BULK UP
 	BARRAGE,\ ; SHADOW BALL
-	SKY_ATTACK,\
+	SKY_ATTACK,\ ; BRAVE BIRD
 	LIGHT_SCREEN,\
 	THUNDER_WAVE,\
 	PSYWAVE,\ ; SKITTERMIND

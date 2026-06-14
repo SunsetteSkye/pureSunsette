@@ -46,6 +46,12 @@ _MtMoon1FBewareZubatSign::
 	cont "the way, or you"
 	cont "may lose your"
 	cont "footing!"
+
+	para "And mind the"
+	line "dark, for it is"
+	cont "where the"
+	cont "bloodsucker"
+	cont "ZUBAT hunts..."
 	done
 
 ; Viridian Forest South Gate - Oak's Aide

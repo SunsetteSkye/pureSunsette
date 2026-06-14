@@ -108,4 +108,8 @@ MoveEffectPointerTable:
 	dw HazeEffect                ; ROOST_EFFECT ; Sunsette: also shares the Haze trampoline; HazeFlinchEffect_ dispatches it to RoostEffect_ (heal + natural-type/palette refresh + strip FLYING/FLOATING)
 	dw HazeEffect                ; JOLT_BOLT_EFFECT ; Sunsette: also shares the Haze trampoline; HazeFlinchEffect_ dispatches it to JoltBoltEffect_ (50% chance +1 user EVASION, post-damage)
 	dw HazeEffect                ; HOBBLE_EFFECT ; Sunsette: also shares the Haze trampoline; HazeFlinchEffect_ dispatches it to HobbleEffect_ (guaranteed -1 SPEED and -1 EVASION to the target, post-damage)
+	dw HazeEffect                ; CALM_MIND_EFFECT ; Sunsette: also shares the Haze trampoline; HazeFlinchEffect_ dispatches it to CalmMindEffect_ (+1 user SPECIAL + clear the user's own CONFUSION)
+	dw HazeEffect                ; STRENGTH_EFFECT ; Sunsette: shares the Haze trampoline; dispatched there to a no-op (ret) - the effect just needs to be nonzero so SpeciesMoveBonus runs for STRENGTH
+	dw HazeEffect                ; BLOSSOM_BLITZ_EFFECT ; Sunsette: shares the Haze trampoline; HazeFlinchEffect_ dispatches it to BlossomBlitzEffect_ (50% chance +1 user SPEED, post-damage)
+	dw HazeEffect                ; SHORYUKEN_EFFECT ; Sunsette: shares the Haze trampoline; dispatched there to a no-op (ret) - nonzero only so SpeciesMoveBonus runs the FLYING/FLOATING strip for SHORYUKEN
 	assert_table_length NUM_MOVE_EFFECTS

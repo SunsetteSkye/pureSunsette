@@ -166,6 +166,9 @@ AttackAnimationPointers:
 	dw SuperFangAnim
 	dw SlashAnim
 	dw SubstituteAnim
+	dw WinterGaleAnim  ; ARTICUNO
+	dw StormDrillAnim  ; ZAPDOS
+	dw PhoenixDiveAnim ; MOLTRES
 	dw StruggleAnim
 	assert_table_length NUM_ATTACKS
 	dw ShowPicAnim
@@ -217,6 +220,7 @@ AttackAnimationPointers:
 	dw HappinessHeartAnim ; Sunsette
 	dw HappinessSparkleAnim ; Sunsette
 	dw HappinessSparkleAnimEnemy ; Sunsette
+	dw PsismicTossAnim ; Sunsette: PSISMIC_TOSS_ANIM - Psychic-user SEISMIC TOSS variant
 	assert_table_length NUM_ATTACK_ANIMS
 	dw ZigZagScreenAnim
 
@@ -252,6 +256,41 @@ PoundAnim:
 	battle_anim NO_MOVE, SE_SHOW_MON_PIC
 	db -1 ; end
 
+; Sunsette: legendary-bird signature anims, cloned verbatim from WhirlwindAnim / DrillPeckAnim /
+; SkyAttackAnim. Kept identical so WINTER GALE / STORM DRILL / PHOENIX DIVE play the source effects
+; until the animations are hand-edited.
+WinterGaleAnim:
+	battle_anim NO_MOVE, SE_PETALS_FALLING
+	battle_anim WHIRLWIND, SUBANIM_1_TORNADO, 1, 6
+	battle_anim THUNDER, SE_FLASH_SCREEN_LONG
+	battle_anim NO_MOVE, SE_SLIDE_ENEMY_MON_OFF
+	battle_anim NO_MOVE, SE_SHAKE_SCREEN
+	battle_anim NO_MOVE, SE_SHOW_ENEMY_MON_PIC
+	battle_anim ROCK_THROW, SUBANIM_0_ICE_RISE, 0, 16
+	db -1 ; end
+
+StormDrillAnim:
+	battle_anim NO_MOVE, SE_DARK_SCREEN_PALETTE
+	battle_anim NO_MOVE, SE_MOVE_MON_HORIZONTALLY
+	battle_anim NO_MOVE, SE_SPIRAL_BALLS_INWARD_FAST
+	battle_anim DRILL_PECK, SUBANIM_1_STAR_BIG_MOVING, 1, 6
+	battle_anim THUNDER_WAVE, SUBANIM_1_LIGHTNING_BALL, 1, 2
+	battle_anim NO_MOVE, SE_RESET_MON_POSITION
+	battle_anim NO_MOVE, SE_RESET_SCREEN_PALETTE
+	db -1 ; end
+
+PhoenixDiveAnim:
+	battle_anim NO_MOVE, SE_LIGHT_SCREEN_PALETTE
+	battle_anim SKY_ATTACK, SE_SQUISH_MON_PIC
+	battle_anim NO_MOVE, SE_SHOOT_BALLS_UPWARD
+	battle_anim GLARE, SUBANIM_1_EXPLOSION_SMALL_ENEMY, 0, 6
+	battle_anim FIRE_SPIN, SUBANIM_1_FLAME_COLUMN_1, 1, 6
+	battle_anim NO_MOVE, SUBANIM_1_FLAME_COLUMN_2, 1, 6
+	battle_anim NO_MOVE, SUBANIM_1_FLAME_COLUMN_3, 1, 6
+	battle_anim BARRIER, SE_SHOW_MON_PIC
+	battle_anim NO_MOVE, SE_RESET_SCREEN_PALETTE
+	db -1 ; end
+
 StruggleAnim:
 	battle_anim POUND, SUBANIM_0_STAR_TWICE, 0, 8
 	db -1 ; end
@@ -275,9 +314,12 @@ CometPunchAnim:
 	db -1 ; end
 
 MegaPunchAnim:
-	battle_anim NO_MOVE, SE_SLIDE_MON_OFF
+	battle_anim TELEPORT, SE_SQUISH_MON_PIC
+	battle_anim NO_MOVE, SE_SHOOT_BALLS_UPWARD
 	battle_anim MEGA_PUNCH, SUBANIM_1_STAR_BIG_MOVING, 1, 6 
+	battle_anim HAZE, SE_FIRE_EVERYWHERE
 	battle_anim NO_MOVE, SE_SHAKE_SCREEN
+	battle_anim FLY, SE_SHOW_MON_PIC
 	db -1 ; end
 
 PayDayAnim:
@@ -429,8 +471,9 @@ HornAttackAnim:
 	db -1 ; end
 
 FuryAttackAnim:
-	battle_anim FURY_ATTACK, SUBANIM_0_HORN_JAB_THRICE, 0, 2
-	battle_anim NO_MOVE, SUBANIM_0_HORN_JAB_THRICE, 0, 2
+	battle_anim SLUDGE, SUBANIM_1_BLOB_TOSS, 1, 6
+	battle_anim SLUDGE, SUBANIM_1_BLOB_DRIP_ENEMY, 1, 6
+	battle_anim SAND_ATTACK, SE_SMOKE_EVERYWHERE
 	db -1 ; end
 
 HornDrillAnim:
@@ -731,12 +774,31 @@ SeismicTossAnim:
 	battle_anim NO_MOVE, SE_SHAKE_SCREEN
 	db -1 ; end
 
+; Sunsette: PSISMIC TOSS - the variant played when a PSYCHIC-type uses SEISMIC TOSS (PlayAnimation swaps the
+; animation ID to PSISMIC_TOSS_ANIM via MaybeSeismicTossPsychicAnim). 
+PsismicTossAnim:
+	battle_anim NO_MOVE, SE_BLINK_ENEMY_MON
+	battle_anim BARRAGE, SUBANIM_1_SPHERE_BIG, 1, 1
+	battle_anim NO_MOVE, SE_HIDE_ENEMY_MON_PIC
+	battle_anim NO_MOVE, SE_WAVY_SCREEN
+	battle_anim SEISMIC_TOSS, SUBANIM_1_SPHERE_BIG_RISE, 1, 2
+	battle_anim NO_MOVE, SE_DELAY_ANIMATION_10
+	battle_anim NO_MOVE, SE_DELAY_ANIMATION_10
+	battle_anim SEISMIC_TOSS, SUBANIM_1_SPHERE_BIG_FALL, 1, 1
+	battle_anim NO_MOVE, SE_SHOW_ENEMY_MON_PIC
+	battle_anim NO_MOVE, SE_SHAKE_SCREEN
+	db -1 ; end
+
 StrengthAnim:
 	battle_anim LEECH_SEED, SE_MOVE_MON_HORIZONTALLY
 	battle_anim NO_MOVE, SE_RESET_MON_POSITION
-	battle_anim ROCK_SLIDE, SUBANIM_0_ROCKS_LIFT, 0, 4
-	battle_anim ROCK_SLIDE, SUBANIM_0_ROCKS_TOSS, 0, 3
+	battle_anim NO_MOVE, SE_BLINK_ENEMY_MON
+	battle_anim BARRAGE, SUBANIM_1_SPHERE_BIG, 1, 1
+	battle_anim NO_MOVE, SE_HIDE_ENEMY_MON_PIC
 	battle_anim FIRE_PUNCH, SUBANIM_1_STAR_BIG_MOVING, 1, 6
+	battle_anim NO_MOVE, SE_SHOW_ENEMY_MON_PIC
+	battle_anim NO_MOVE, SE_SHAKE_SCREEN
+
 	db -1 ; end
 
 AbsorbAnim:

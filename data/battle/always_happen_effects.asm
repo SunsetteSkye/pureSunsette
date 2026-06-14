@@ -17,4 +17,5 @@ AlwaysHappenSideEffects:
 	db HEAT_RUSH_EFFECT ; PureRGBnote: ADDED:
 	db SOLARBEAM_EFFECT ; Sunsette: drain/recoil must land even on a KO (also in SpecialEffects so it fires here ONCE, not again post-damage)
 	db JOLT_BOLT_EFFECT ; Sunsette: user EVASION-up side effect should land even on a KO (also in SpecialEffects -> fires once)
+	db BLOSSOM_BLITZ_EFFECT ; Sunsette: user SPEED-up (50%) should land even on a KO (also in SpecialEffects -> fires once)
 	db -1 ; end

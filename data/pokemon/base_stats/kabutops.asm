@@ -15,7 +15,7 @@
 
 	; tm/hm learnset
 	tmhm \
-	LEECH_SEED,\
+	FURY_ATTACK,\ ; MUD BOMB
 	PIN_MISSILE,\
 	TOXIC,\
 	BODY_SLAM,\

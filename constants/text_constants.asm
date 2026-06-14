@@ -25,5 +25,6 @@ DEF GENERIC_TEXT_IDS_START EQU const_value
 	const TEXT_REPEL_WORE_OFF   ; $d2
 	const TEXT_SAFARI_GAME_OVER ; $d3
 	const TEXT_LOCKED_AREA_EXIT ; $d4 ; Sunsette: morale-lockout "leave anyway?" prompt
+	const TEXT_FLASH_WORE_OFF   ; $d5 ; Sunsette: FLASH ran out in a cave -> "use it again?" prompt
 
 DEF TEXT_START_MENU EQU $00

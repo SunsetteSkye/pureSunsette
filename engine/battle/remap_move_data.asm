@@ -1,7 +1,20 @@
 ; PureRGBnote: ADDED: Certain moves get better accuracy, power, or other effects when used by specific pokemon
 ; Also this list can be used to modify a move's data such as power/accuracy after selecting it based on the current state of battle.
 ; TODO: make multiple pokemon able to receive remap for the same move
+; Sunsette: wrapper - clear the signature-message flag, run the remap, then announce "Signature Move!"
+; if a species-specific bonus on a NORMAL move (Beedrill/Golem/Wigglytuff/etc.) actually applied this
+; turn. Called right after "X used Y!" (DisplayUsedMoveText) and before damage, so the alert reads
+; "X used Y! Signature Move!" then proceeds as normal. .doRemap's many ret/jp-hl exits all return here.
 CheckRemapMoveData::
+	xor a
+	ld [wSignatureMoveActive], a
+	call .doRemap
+	ld a, [wSignatureMoveActive]
+	and a
+	ret z
+	ld hl, SignatureMoveText
+	jp PrintText
+.doRemap:
 	call GetMoveRemapData
 	push de
 	ld hl, RemappableMoves
@@ -23,6 +36,10 @@ CheckRemapMoveData::
 .notVolcanicMagmar
 	cp [hl]
 	ret nz
+	; Sunsette: a species-specific signature matched (and signatures are ON) -> flag the message.
+	; a is reloaded immediately below, so clobbering it here is fine.
+	ld a, 1
+	ld [wSignatureMoveActive], a
 .donePokemonCheck
 	inc hl
 	ld a, [hl]
@@ -45,6 +62,10 @@ CheckRemapMoveData::
 	ld hl, ModifierFuncs
 	call GetAddressFromPointerArray
 	jp hl
+
+SignatureMoveText: ; Sunsette: "Signature Move!" - shown after a species-specific signature on a normal move
+	text_far _SignatureMoveText
+	text_end
 
 GetMoveRemapData:
 	ldh a, [hWhoseTurn]
@@ -84,26 +105,33 @@ RemappableMoves::
 	db TOXIC, -1, -2, 4
 	db SKULL_BASH, -1, -2, 5 ; METEOR DRIVE
 	db SLAM, -1, -2, 6 ; WASTEMAKER
-	db SOLARBEAM, -1, -2, 7 ; Sunsette: live power - 60 (charge) / 120 (release, primed) / 90 (FIRE user)
+	db SOLARBEAM, -1, -2, 7 ; Sunsette: live power - 60 (charge) / 120 (release, primed) / 90 (FIRE user) (SOLAR CANNON)
 	; signature moves start here
 	db POISON_STING, BEEDRILL, 45, 0
 	db TWINEEDLE, BEEDRILL, 65, 0
 	db ROCK_SLIDE, GOLEM, 110, 0
-	db THUNDERPUNCH, ELECTABUZZ, 90, 0
-	db FIRE_PUNCH, MAGMAR, 90, 0
-	db ICE_PUNCH, JYNX, 90, 0
+	db THUNDERPUNCH, ELECTABUZZ, 90, 0 ; ZAPPERCUT
+	db FIRE_PUNCH, MAGMAR, 90, 0 ; BLAZE HAMMER
+	db ICE_PUNCH, JYNX, 90, 0 ; FROST FIST
 	db HYPNOSIS, HYPNO, -1, 85 percent
-	db DRAGON_RAGE, DRAGONITE, 110, 0 ; WYRM WRATH
+	; Sunsette: DRAGONITE's DRAGON_RAGE signature removed (no longer a MOVE MYSTIC signature mon).
 	db WATERFALL, SEAKING, 110, 0
 	db LICK, LICKITUNG, 70, 0
 	db SPIKE_CANNON, OMASTAR, 70, 0
 	db WHIRLWIND, PIDGEOT, -1, 100 percent ; HURRICANE
-	db HYDRO_PUMP, BLASTOISE, -1, 100 percent
+	; Sunsette: BLASTOISE's HYDRO_PUMP / SKULL_BASH (METEOR DRIVE) signatures removed (no longer a MOVE MYSTIC mon).
 	db PSYBEAM, GOLDUCK, 105, 0
 	db CONSTRICT, TANGELA, 90, 0 ; STRANGLEVINE: 75 BP normally, 90 BP for TANGELA (signature)
 	db LOW_KICK, -1, -2, 8 ; Sunsette: power scales with the TARGET's weight (LowKickModifier)
 	db CRABHAMMER, -1, -2, 9 ; Sunsette: signature power by user - 75 KRABBY / 100 KINGLER (CrabhammerModifier)
-	; SKULL_BASH for BLASTOISE is handled in SkullBashModifier (SKULL_BASH already has a modifier entry above) (METEOR DRIVE)
+	; Sunsette: STRENGTH no longer remaps its power (flat 100 BP); its weight-class recoil + 30% +ATK are all in StrengthRagePostHit.
+	db RAGE, -1, -2, 10 ; Sunsette: UNLEASH RAGE - 40 BP, tripled to 120 when the user is hurt/confused/statused (UnleashRageModifier) (MAD RUSH)
+	; Sunsette: no-op (power/accuracy unchanged) species entries whose REAL signature bonus is an EFFECT
+	; applied elsewhere (SnorlaxRestBonus / ArbokFocusEnergyBonus / ArbokWrapBonus). They live here only
+	; so the species-match path flags the "Signature Move!" message right after the move is announced.
+	db REST, SNORLAX, -1, 0          ; SNORLAX: REST also grants GROWING + SPEED +1 (SnorlaxRestBonus)
+	db FOCUS_ENERGY, ARBOK, -1, 0    ; ARBOK: FOCUS ENERGY also raises SPEED (ArbokFocusEnergyBonus)
+	db WRAP, ARBOK, -1, 0            ; ARBOK: WRAP traps 2 rounds longer (ArbokWrapBonus)
 	db -1
 
 ModifierFuncs:
@@ -117,6 +145,7 @@ ModifierFuncs:
 	dw SolarBeamPowerModifier
 	dw LowKickModifier
 	dw CrabhammerModifier
+	dw UnleashRageModifier
 
 ; Sunsette: SolarBeam's power is decided live, before damage calc, from the user's state:
 ;   FIRE-type user           -> 90  (one-shot recoil+burn variant, never primes)
@@ -224,10 +253,45 @@ CrabhammerModifier:
 	call GetMoveRemapData2 ; bc = wXxxMovePower (clobbers a)
 	ld a, 100
 	ld [bc], a
-	ret
+	jr .flagSignature
 .krabby
 	call GetMoveRemapData2
 	ld a, 75
+	ld [bc], a
+.flagSignature
+	; Sunsette: KRABBY/KINGLER signature applied -> drive the "Signature Move!" message
+	ld a, 1
+	ld [wSignatureMoveActive], a
+	ret
+
+; Sunsette: UNLEASH RAGE / MAD RUSH (RAGE). Base 40 BP, TRIPLED to 120 if the user is hurt (HP bar not green) OR
+; confused OR has a non-sleep status (PSN/BRN/FRZ/PAR). The matching on-hit status/confusion clear + recalc
+; is in SpeciesMoveBonus.
+UnleashRageModifier:
+	call GetMoveRemapData2 ; bc = power ptr
+	ldh a, [hWhoseTurn]
+	and a
+	ld a, [wPlayerHPBarColor]
+	ld hl, wBattleMonStatus
+	ld de, wPlayerBattleStatus1
+	jr z, .gotPtrs
+	ld a, [wEnemyHPBarColor]
+	ld hl, wEnemyMonStatus
+	ld de, wEnemyBattleStatus1
+.gotPtrs
+	and a
+	jr nz, .triple         ; HP bar not green -> hurt
+	ld a, [hl]
+	and $78                ; PSN/BRN/FRZ/PAR (non-sleep statuses)
+	jr nz, .triple
+	ld a, [de]
+	bit CONFUSED, a
+	jr nz, .triple
+	ld a, 40
+	jr .rstore
+.triple
+	ld a, 120
+.rstore
 	ld [bc], a
 	ret
 
@@ -279,6 +343,9 @@ SingModifier::
 	call GetMoveRemapData2
 	ld a, 85 percent
 	ld [de], a ; sing gets 85% accuracy for jigglypuff/wigglytuff if they're past level 20
+	; Sunsette: JIGGLYPUFF/WIGGLYTUFF SING signature applied -> drive the "Signature Move!" message
+	ld a, 1
+	ld [wSignatureMoveActive], a
 	ret
 
 ExplosionSelfdestructModifier:
@@ -383,16 +450,10 @@ Modifier100Accuracy:
 	ld [de], a
 	ret
 
+; Sunsette: METEOR DRIVE (SKULL_BASH) gets 100% accuracy for ROCK/CRYSTAL-type users (a type bonus,
+; not a species signature, so it does NOT trigger the "Signature Move!" message). BLASTOISE's old
+; species-specific 100%-accuracy signature was removed (no longer a MOVE MYSTIC mon).
 SkullBashModifier:
-	call GetMoveRemapData
-	ld a, d
-	cp BLASTOISE
-	jr nz, .checkType
-	; BLASTOISE gets 100% accuracy SKULL BASH as a signature move (toggleable)
-	CheckEvent FLAG_SIGNATURE_MOVES_TURNED_OFF
-	jr nz, .checkType ; if signature moves are off, no bonus for blastoise
-	jp Modifier100Accuracy
-.checkType
 	call GetUserType
 	ld a, [hli]
 	cp ROCK

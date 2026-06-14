@@ -142,6 +142,12 @@ DisplayLockedAreaExitText::
 	callfar PromptLockedExitChoice
 	jr CloseTextDisplay
 
+DisplayFlashWoreOffText::
+	; Sunsette: FLASH ran out in a cave (FlashRanOut already re-darkened the screen). FlashWoreOffPrompt
+	; offers to re-use FLASH if a party mon still knows it (re-lights via EVENT_USED_FLASH_FROM_PARTY_MENU).
+	callfar FlashWoreOffPrompt
+	jr CloseTextDisplay
+
 CloseTextDisplayPart1:
 	ld a, [wCurMap]
 	call SwitchToMapRomBank
@@ -194,6 +200,7 @@ GenericTextScriptJumpTable:
 	dw DisplayRepelWoreOffText ; TEXT_REPEL_WORE_OFF
 	dw DisplaySafariGameOverText ; TEXT_SAFARI_GAME_OVER
 	dw DisplayLockedAreaExitText ; TEXT_LOCKED_AREA_EXIT
+	dw DisplayFlashWoreOffText ; TEXT_FLASH_WORE_OFF
 
 GenericTextScriptJumpTable2:
 	dw TextScript_Trainer ; TX_SCRIPT_TRAINER

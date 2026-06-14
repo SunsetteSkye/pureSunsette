@@ -15,6 +15,7 @@
 
 	; tm/hm learnset
 	tmhm \
+	FURY_ATTACK,\ ; MUD BOMB
 	DISABLE,\
 	PIN_MISSILE,\
 	TOXIC,\

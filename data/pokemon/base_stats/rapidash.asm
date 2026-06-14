@@ -10,11 +10,12 @@
 	INCBIN "gfx/pokemon/front/rapidash.pic", 0, 1 ; sprite dimensions
 	dw RapidashPicFront, RapidashPicBackSW
 
-	db EMBER, LOW_KICK, NO_MOVE, NO_MOVE ; level 1 learnset
+	db EMBER, FLASH, NO_MOVE, NO_MOVE ; level 1 learnset
 	db GROWTH_MEDIUM_FAST ; growth rate
 
 	; tm/hm learnset
 	tmhm \
+	FURY_ATTACK,\ ; MUD BOMB
 	DISABLE,\
 	TOXIC,\
 	HORN_DRILL,\ ; VENOM DRILL

@@ -24,6 +24,7 @@ SpecialEffects:
 	db HEAT_RUSH_EFFECT ; PureRGBnote: ADDED:
 	db SOLARBEAM_EFFECT ; Sunsette: kept out of the post-damage executeOtherEffects pass; it runs once via AlwaysHappenSideEffects
 	db JOLT_BOLT_EFFECT ; Sunsette: ditto - runs once via AlwaysHappenSideEffects, not again post-damage
+	db BLOSSOM_BLITZ_EFFECT ; Sunsette: ditto - BLOSSOM BLITZ's 50% user SPEED-up runs once via AlwaysHappenSideEffects
 	; fallthrough
 SpecialEffectsCont:
 ; damaging moves whose effect is executed prior to damage calculation

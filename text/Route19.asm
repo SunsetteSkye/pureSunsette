@@ -143,9 +143,10 @@ _Route19Swimmer8EndBattleText::
 	prompt
 
 _Route19Swimmer8AfterBattleText::
-	text "LAPRAS is so big,"
-	line "it keeps you dry"
-	cont "on water."
+	text "Swimming fast will"
+	line "tire #mon too."
+	cont "Be careful holding"
+	cont "down the B BUTTON!"
 	done
 
 _Route19SignText::

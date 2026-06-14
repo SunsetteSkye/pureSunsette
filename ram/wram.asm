@@ -1836,6 +1836,13 @@ wHidingMoveID:: db
 
 wRepelRemainingSteps:: db
 
+; Sunsette: FLASH-in-cave run-out. While FLASH lights a dim/dark cave, wFlashSavedDarkOffset holds the
+; darkness level (3 dim / 6 dark) to restore when it runs out, and wFlashStepsRemaining counts down from 200
+; steps. At 0 the cave re-darkens and a "use FLASH again?" prompt fires. Both clear on map change
+; (ClearVariablesOnEnterMap). Like wRepelRemainingSteps these survive battles but reset per map.
+wFlashStepsRemaining:: db
+wFlashSavedDarkOffset:: db ; 0 = FLASH not lighting a cave right now
+
 ; list of moves for FormatMovesString
 wMoves:: ds NUM_MOVES
 
@@ -1943,7 +1950,13 @@ wSavedSpriteScreenX:: db
 wSavedSpriteMapY:: db
 wSavedSpriteMapX:: db
 
-	ds 3 ; unused 3 bytes
+; Sunsette: surf-exhaustion system (claimed from these 3 unused bytes; not in the SRAM-saved block, reset
+; fine on boot). wSurfStepCounter ticks 1/step while surfing; every 12 steps it drains 1 HP from the surf
+; carrier + fires the blue pulse. wSurfCarrier = party index of the mon that started surfing ($FF = none).
+; wSurfPulseTimer = remaining frames of the non-blocking blue HP-drain pulse (0 = inactive).
+wSurfStepCounter:: db
+wSurfCarrier:: db
+wSurfPulseTimer:: db
 
 ;;; PureRGBnote: ADDED: new properties in this previously empty space
 wTownMapAreaState:: ; view which state is which in map_pokemon_areas.asm
@@ -1991,7 +2004,10 @@ wLearnsetPage::
 wPrize2:: db
 wPrize3:: db
 
-	ds 1 ; unused lone byte
+; Sunsette: set during CheckRemapMoveData when a species-specific signature bonus applies to a
+; NORMAL move (Beedrill/Golem/Wigglytuff/etc.) - drives the "Signature Move!" battle message.
+; Cleared at the start of every CheckRemapMoveData call; read immediately after, so it needn't persist.
+wSignatureMoveActive:: db
 
 UNION
 wSerialRandomNumberListBlock:: ds $11

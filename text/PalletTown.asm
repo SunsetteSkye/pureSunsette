@@ -18,12 +18,15 @@ _PalletTownOakItsUnsafeText::
 	done
 
 _PalletTownGirlText::
-	text "I'm raising"
-	line "#MON too!"
+	text "Nice shoes! You"
+	line "can run in those,"
+	cont "right?"
 
-	para "When they get"
-	line "strong, they can"
-	cont "protect me!"
+	para "Though I hear that"
+	line "if you run in tall"
+	cont "grass, many more"
+	cont "wild #MON will"
+	cont "attack you."
 	done
 
 _PalletTownFisherText::

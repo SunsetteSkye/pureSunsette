@@ -62,13 +62,13 @@ _GenericAlwaysGoesFirstText::
 	dex
 
 _MegaPunchDexEntry::
-	text "A titanic punch"
-	next "that can stun"
-	next "the <opponent>.@"
-	text_call _Generic10PercentFlinchText
-	bage "Flinch chance goes"
-	next "up to 30% if used"
-	next "by FIGHTING-types"
+	text "A rising uppercut"
+	next "that strikes even"
+	next "airborne foes."
+
+	bage "It knocks away the"
+	next "foe's FLYING or"
+	next "FLOATING type."
 	dex
 
 _PayDayDexEntry::
@@ -309,9 +309,9 @@ _MegaKickDexEntry::
 	text_jump _Generic30PercentParalysisText
 
 _JumpKickDexEntry::
-	text "Jumps through the"
-	next "air to deliver a"
-	next "big kick."
+	text "Soars up high then"
+	next "dives at the foe"
+	next "with great force."
 	; fall through
 _GenericKeptGoingCrashedText::
 	bage "Does damage to"
@@ -342,7 +342,7 @@ _SandAttackDexEntry::
 	bage "FLYING #MON's"
 	next "keen eyes are"
 	next "unaffected."
-	text_jump _HidingFieldText ; Sunsette: out-of-battle repel-like hiding
+	dex ; Sunsette: SAND-ATTACK no longer has a field move
 _GenericLowerAccuracyText::
 	bage "Lowers the foe's"
 	next "ACCURACY."
@@ -363,11 +363,15 @@ _HornAttackDexEntry::
 	text_jump _GenericNoAdditionalEffectText
 
 _FuryAttackDexEntry::
-	text "Angrily jabs the"
-	next "foe with beak or"
-	next "horn twice.@"
+	text "Hurls a ball of"
+	next "mud at the foe."
 
-	_Generic33PercentLowerSpeedText::
+	bage "May cut the foe's"
+	next "ACCURACY with the"
+	next "splattering muck."
+	dex
+
+_Generic33PercentLowerSpeedText::
 	bage "33% chance to"
 	next "lower foe's SPEED."
 	next "(-1 SPEED)"
@@ -530,12 +534,21 @@ _Generic33PercentLowerAttackText::
 _SingDexEntry::
 	text "A soothing song"
 	next "lulls the foe"
-	next "into deep sleep."
-	; fall through
-_GenericPutsFoeAsleepText::
+	next "into deep sleep.@"
+	text_jump _SleepAndDrawRareTail
+
+; Sunsette: shared tail for SING / HYPNOSIS - "puts foe to sleep" then the invert-rarity field line.
+_SleepAndDrawRareTail::
 	bage "Puts the foe to"
 	next "sleep if it"
-	next "works"
+	next "works."
+	; fall through
+; Sunsette: shared invert-wild-encounter-rarity field line for METRONOME / SING / HYPNOSIS
+; (the effect formerly on GROWTH/FLOURISH).
+_DrawRareFieldText::
+	bage "Out of battle, it"
+	next "draws rare #MON"
+	next "out to the area."
 	dex
 
 _SupersonicDexEntry::
@@ -714,9 +727,12 @@ _PeckDexEntry::
 	text_jump _GenericNoAdditionalEffectText
 
 _DrillPeckDexEntry::
-	text "A spinning drill"
-	next "pecking attack"
-	next "with a beak/horn.@"
+	text "Strikes from the"
+	next "air with vicious"
+	next "precision, using"
+
+	bage "a wicked, sharp"
+	next "weapon."
 
 	bage "Also DISABLEs the"
 	next "foe's last move!"
@@ -773,14 +789,20 @@ _SeismicTossDexEntry::
 	dex
 
 _StrengthDexEntry::
-	text "Slugs the foe"
-	next "with a massive"
-	next "built up power.@"
-	text_call _GenericRaisesAttack1StageText
+	text "Hurls the foe with"
+	next "raw power."
+
+	page "30% chance to"
+	next "raise the user's"
+	next "ATTACK. (+1)"
+
+	page "A lighter user"
+	next "recoils off a"
+	next "heavier foe.@"
 
 	bage "Usable outside of"
 	next "battle to push"
-	next "heavy objects"
+	next "heavy objects."
 	dex
 
 _AbsorbDexEntry::
@@ -812,16 +834,12 @@ _LeechSeedDexEntry::
 
 _GrowthDexEntry::
 	text "The user grows,"
-	next "healing 1/3 of its"
-	next "max HP at once."
+	next "raising its"
+	next "SPECIAL by 1."
 
 	bage "Then it heals 1/16"
 	next "each turn until it"
 	next "leaves battle."
-
-	bage "Out of battle, it"
-	next "draws rare #MON"
-	next "out to the area."
 	dex
 
 _RazorLeafDexEntry::
@@ -880,14 +898,13 @@ _SleepPowderDexEntry::
 
 _PetalDanceDexEntry::
 	text "The <user> attacks"
-	next "by spreading"
-	next "petals all over."
+	next "in a frenzy of"
+	next "blossoms."
 
-	bage "Foes become"
-	next "fixated on this"
-	next "flowery dance.@"
-
-	text_jump _Generic30PercentConfusionText
+	bage "The wild rush may"
+	next "raise the user's"
+	next "SPEED. (50%)"
+	dex
 
 _StringShotDexEntry::
 	text "Fires thick"
@@ -1029,7 +1046,7 @@ _HypnosisDexEntry::
 	next "tized into a deep"
 	next "sleep.@"
 
-	text_jump _GenericPutsFoeAsleepText
+	text_jump _SleepAndDrawRareTail ; Sunsette: asleep tail + invert-rarity field line
 
 _MeditateDexEntry::
 	text "Steels the user's"
@@ -1063,11 +1080,17 @@ _QuickAttackDexEntry::
 	text_jump _GenericAlwaysGoesFirstText
 
 _RageDexEntry::
-	text "The <user> releases"
-	next "pent up anger on"
-	next "the foe.@"
+	text "The <user> vents"
+	next "pent-up fury.@"
 
-	text_jump _GenericRaisesAttack1StageText
+	page "Raises ATTACK, and"
+	next "hits 3x as hard"
+	next "when afflicted."
+
+	page "A hit then clears"
+	next "the user's own"
+	next "afflictions."
+	dex
 
 _TeleportDexEntry::
 	text "Flees a wild"
@@ -1178,8 +1201,8 @@ _ConfuseRayDexEntry::
 	dex
 
 _WithdrawDexEntry::
-	text "The <user> hides in"
-	next "its shell/cover"
+	text "The <user> hunkers"
+	next "down behind cover"
 	next "of any kind."
 
 	bage "Heals 33% of max"
@@ -1282,7 +1305,7 @@ _MetronomeDexEntry::
 	bage "magic causes a"
 	next "random attack to"
 	next "suddenly occur"
-	dex
+	text_jump _DrawRareFieldText ; Sunsette: invert-rarity field line
 
 _MirrorMoveDexEntry::
 	text "The <user> mimics"
@@ -1443,9 +1466,9 @@ _AmnesiaDexEntry::
 	next "its mind to"
 	next "forget concerns."
 
-	bage "Raises the"
-	next "<user>'s SPECIAL."
-	next "(+1 SPECIAL)"
+	bage "Raises SPECIAL by"
+	next "1, and ends the"
+	next "user's CONFUSION."
 	dex
 
 _KinesisDexEntry::
@@ -1605,9 +1628,10 @@ _FlashDexEntry::
 	next "and attracts wild"
 	next "#MON elsewhere."
 
-	bage "Sharply lowers the"
-	next "foe's EVASION, and"
-	next "may flinch it."
+	bage "Lowers the foe's"
+	next "ACCURACY and"
+	next "EVASION, and may"
+	next "flinch it."
 	dex
 
 _PsywaveDexEntry::
@@ -1782,6 +1806,38 @@ _SubstituteDexEntry::
 	bage "that takes damage"
 	next "instead of the"
 	next "<user>"
+	dex
+
+; Sunsette: legendary-bird signature moves (ARTICUNO / ZAPDOS / MOLTRES). Effects mirror the moves
+; they were cloned from, plus each bird's species bonus (SpeciesMoveBonus): freeze / paralyze / burn.
+_WinterGaleDexEntry::
+	text "A howling icy"
+	next "cyclone tears"
+	next "into the foe."
+
+	bage "May confuse, and"
+	next "ARTICUNO's gale"
+	next "can FREEZE solid!"
+	dex
+
+_StormDrillDexEntry::
+	text "A spinning bolt"
+	next "drills the foe"
+	next "at close range."
+
+	bage "DISABLEs the last"
+	next "move, and ZAPDOS'"
+	next "drill can PARALYZE!"
+	dex
+
+_PhoenixDiveDexEntry::
+	text "A blazing dive"
+	next "from on high that"
+	next "recoils the <user>."
+
+	bage "MOLTRES' flames"
+	next "may BURN the foe"
+	next "and renew itself!"
 	dex
 
 _StruggleDexEntry::

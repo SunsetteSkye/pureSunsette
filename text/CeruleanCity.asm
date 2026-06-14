@@ -169,7 +169,7 @@ _CeruleanCityCooltrainerF1SlowbroPunchText::
 	done
 
 _CeruleanCityCooltrainerF1SlowbroWithdrawText::
-	text "SLOWBRO, WITHDRAW!"
+	text "SLOWBRO, SUBMERGE!"
 	line "No! That's wrong!"
 
 	para "It's so hard to"

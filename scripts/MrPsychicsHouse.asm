@@ -290,9 +290,9 @@ FightingBrosRightBroText:
 	text_end
 
 FightingBrosAlakazamPunchMoves:
-	db FIRE_PUNCH
-	db ICE_PUNCH
-	db THUNDERPUNCH
+	db FIRE_PUNCH ; BLAZE HAMMER
+	db ICE_PUNCH ; FROST FIST
+	db THUNDERPUNCH ; ZAPPERCUT
 	db -1
 
 

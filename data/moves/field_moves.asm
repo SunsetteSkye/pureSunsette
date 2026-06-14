@@ -11,9 +11,11 @@ FieldMoveDisplayData:
 	db TELEPORT,   7, $0A
 	db SOFTBOILED, 8, $08
 	db CONFUSE_RAY, 9, $07 ; Sunsette: ADDED: arms next wild encounter to use its alt palette
-	db GROWTH,      10, $0C ; Sunsette: ADDED: inverts wild-encounter rarity until you change maps (FLOURISH)
+	; Sunsette: GROWTH (FLOURISH) + SAND_ATTACK lost their field-move status; the invert-rarity effect moved
+	; to METRONOME/SING/HYPNOSIS (below), and grass already covers the Repel-hiding effect via the powders.
+	; (FieldMoveNames index 10 = "GROWTH@" and 12 = "SAND-ATTACK@" are now dead - left in place so the other
+	;  indices stay aligned with .outOfBattleMovePointers.)
 	db FLAMETHROWER, 11, $06 ; Sunsette: ADDED: burns down all on-screen grass and trees (Cascade Badge)
-	db SAND_ATTACK, 12, $07 ; Sunsette: ADDED: hides you from wild encounters like a Repel
 	db MIST,        13, $0E ; Sunsette: ADDED: hides you from wild encounters like a Repel (ETHEREAL)
 	db HAZE,        14, $0E ; Sunsette: ADDED: hides you from wild encounters like a Repel (BLACK HAZE)
 	db SMOKESCREEN, 15, $07 ; Sunsette: ADDED: hides you from wild encounters like a Repel
@@ -22,4 +24,9 @@ FieldMoveDisplayData:
 	db STUN_SPORE,   18, $08 ; Sunsette: ADDED: hides you from wild encounters like a Repel
 	db SPORE,        19, $0D ; Sunsette: ADDED: hides you from wild encounters like a Repel
 	db SMOG,         20, $0E ; Sunsette: ADDED: hides you from wild encounters like a Repel
+	; Sunsette: ADDED: METRONOME / SING / HYPNOSIS all invert wild-encounter rarity until you change maps
+	; (rare<->common), the effect formerly on GROWTH. All three route to the shared .growth handler.
+	db METRONOME,   21, $09
+	db SING,        22, $0E
+	db HYPNOSIS,    23, $0A
 	db -1 ; end

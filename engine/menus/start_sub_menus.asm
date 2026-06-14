@@ -139,6 +139,9 @@ StartMenu_Pokemon::
 	dw .stunSpore ; Sunsette: ADDED
 	dw .spore ; Sunsette: ADDED
 	dw .smog ; Sunsette: ADDED
+	dw .growth ; 21 METRONOME - Sunsette: invert wild-encounter rarity (FLOURISH's old effect, shared handler)
+	dw .growth ; 22 SING
+	dw .growth ; 23 HYPNOSIS
 .fly
 	bit BIT_THUNDERBADGE, a
 	jp z, .newBadgeRequired
@@ -180,6 +183,10 @@ StartMenu_Pokemon::
 	bit BIT_SURF_ALLOWED, [hl]
 	res BIT_SURF_ALLOWED, [hl]
 	jp z, .loop
+	; Sunsette: record the surf carrier (the mon you picked to SURF) for the surf-exhaustion HP drain.
+	; (Auto-surf/forced-surf don't pass through here -> carrier stays $FF -> drain falls back to highest HP.)
+	ld a, [wWhichPokemon]
+	ld [wSurfCarrier], a
 	ld a, SURFBOARD
 	ld [wCurItem], a
 	ld [wPseudoItemID], a
@@ -341,7 +348,8 @@ StartMenu_Pokemon::
 .confuseRayText
 	text_far _ConfuseRayFieldText
 	text_end
-; Sunsette: ADDED: GROWTH inverts wild-encounter rarity (rare<->common) until you change maps. (FLOURISH)
+; Sunsette: METRONOME / SING / HYPNOSIS invert wild-encounter rarity (rare<->common) until you change maps.
+; (This was GROWTH/FLOURISH's field move; relocated here, all three share this handler. Label kept as .growth.)
 ; Arms wUnusedMapVariable bit 1 (cleared on map change by ClearVariablesOnEnterMap); TryDoWildEncounter
 ; flips the rolled encounter slot while it's set. No badge required.
 .growth

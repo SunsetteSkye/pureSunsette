@@ -449,8 +449,13 @@ BluesHouseDaisyUseMapText:
 	text_end
 
 BluesHouseDaisyWalkingText:
-	text_far _BluesHouseDaisyWalkingText
-	text_end
+; Sunsette: once Daisy starts walking (PalletTownDaisyScript hides the sitting sprite + shows this one after
+; the Town Map + first Blue's-house visit), she's the LONG-TERM Daisy - so her badge-milestone gifts/comments
+; have to live here too, not only on the now-hidden sitting sprite (that was the bug: post-Boulder etc. she
+; never acknowledged badges). She's always past the Town Map here, so reuse the sitting flow's .got_town_map
+; entry (champion gift -> Cascade/Rainbow/Soul/Earth PP UP -> DaisyBadgeComment -> tea/use-map).
+	text_asm
+	jp BluesHouseDaisySittingText.got_town_map
 
 BluesHouseTownMapText:
 	text_far _BluesHouseTownMapText

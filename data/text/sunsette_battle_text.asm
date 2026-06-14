@@ -107,6 +107,19 @@ _KeepHidingText::
 	text "Keep hiding?"
 	done
 
+; Sunsette: FLASH-in-cave run-out (FlashWoreOffPrompt). The fade line always shows; "use again?" follows
+; only if a party mon still knows FLASH.
+_FlashFadedText::
+	text "Your FLASH"
+	line "flickered out,"
+	cont "and the dark"
+	cont "swallowed you!"
+	prompt
+
+_FlashUseAgainText::
+	text "Use FLASH again?"
+	done
+
 ; Sunsette: WATERIFY_EFFECT (Water Gun / Hydro Pump retype the target to WATER)
 _WaterifiedText::
 	text "Drenched! It is"
@@ -132,6 +145,30 @@ _MockingbirdText::
 	line "stat changes!"
 	prompt
 
+; Sunsette: CALM MIND (AMNESIA) snaps the user out of its own confusion
+_CalmMindCalmedText::
+	text "A calm focus"
+	line "cleared its mind!"
+	prompt
+
+; Sunsette: UNLEASH RAGE burns off the user's own status/confusion on a damaging hit
+_UnleashRageClearText::
+	text "The fury burned"
+	line "its ailments away!"
+	prompt
+
+; Sunsette: STRENGTH recoil when a lighter user heaves a heavier foe
+_StrengthTooHeavyText::
+	text "But the foe was"
+	line "too heavy!"
+	prompt
+
+; Sunsette: SHORYUKEN strips a FLYING/FLOATING target's air type (grounds it)
+_ShoryukenGroundText::
+	text "The foe crashed"
+	line "down to earth!"
+	prompt
+
 ; Sunsette: a frozen mon thaws itself by using a burn-inflicting (heat) move
 _SelfThawedText::
 	text "The heat melted"
@@ -144,21 +181,11 @@ _SolarBeamChargeText::
 	line "energy!"
 	prompt
 
-; Sunsette: Move Mystic entries for the legendary-bird move adjustments (relocated here
-; out of the full "Text 3" bank). Epithets + mechanic descriptions.
-_MoltresMoveMysticText::
-	text_start
-	line "blazing phoenix."
-	prompt
-
-_ZapdosMoveMysticText::
-	text_start
-	line "thunder tyrant."
-	prompt
-
-_ArticunoMoveMysticText::
-	text_start
-	line "glacial gale."
+; Sunsette: "Signature Move!" - flashed right after "X used Y!" when Y is a species-specific
+; signature on a NORMAL move for the user X (Beedrill/Golem/Wigglytuff/etc.). Driven by
+; wSignatureMoveActive set in CheckRemapMoveData; printed by that routine's wrapper.
+_SignatureMoveText::
+	text "Signature Move!"
 	prompt
 
 ; Sunsette: TANGELA's STRANGLEVINE signature (90 BP) - uses the generic power-increase info path
@@ -167,32 +194,9 @@ _TangelaMoveMysticText::
 	line "tangled terror."
 	prompt
 
-_MoveMysticMoltresText::
-	text "Its wings burn"
-	line "with living"
-	cont "fire!"
-	para "SKY ATTACK gains a"
-	line "30% BURN, plus"
-	cont "FLOURISH's regen!"
-	done
-
-_MoveMysticZapdosText::
-	text "Static crackles"
-	line "in its"
-	cont "feathers!"
-	para "DRILL PECK gains a"
-	line "30% PARALYZE"
-	cont "chance!"
-	done
-
-_MoveMysticArticunoText::
-	text "Its gusts carry"
-	line "a deathly"
-	cont "chill!"
-	para "HURRICANE gains a"
-	line "30% FREEZE"
-	cont "chance!"
-	done
+; Sunsette: the legendary-bird MOVE MYSTIC info/flavor texts were removed - the birds' effects now
+; live on their own dedicated moves (PHOENIX DIVE / STORM DRILL / WINTER GALE), so they're no longer
+; MOVE MYSTIC signature mons.
 
 ; Sunsette: KRABBY/KINGLER MOVE MYSTIC flavor + CRABHAMMER info (moved here; MoveMystic.asm's Text 3 bank was full)
 _KrabbyMoveMysticText::

@@ -10,7 +10,7 @@ FuchsiaMartClerkText::
 FuchsiaTMKidShop::
 	script_mart \
 	TM_DISABLE, \
-	TM_LEECH_SEED, \
+	TM_FURY_ATTACK, \ ; MUD BOMB
 	TM_PIN_MISSILE, \
 	TM_SONICBOOM
 	

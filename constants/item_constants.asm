@@ -139,11 +139,11 @@ ENDM
 
 ;;;;; PureRGBnote: CHANGED: TMs were reassigned better moves
 DEF TM01 EQU const_value
-	add_tm ICE_PUNCH   	; $C9
+	add_tm ICE_PUNCH   	; $C9 (FROST FIST)
 	add_tm RAZOR_WIND   ; $CA ROOST
-	add_tm LEECH_SEED 	; $CB
+	add_tm FURY_ATTACK 	; $CB (MUD BOMB) ; was LEECH_SEED
 	add_tm PIN_MISSILE  ; $CC
-	add_tm FIRE_PUNCH   ; $CD
+	add_tm FIRE_PUNCH   ; $CD (BLAZE HAMMER)
 	add_tm TOXIC        ; $CE
 	add_tm HORN_DRILL   ; $CF (VENOM DRILL)
 	add_tm BODY_SLAM    ; $D0
@@ -156,7 +156,7 @@ DEF TM01 EQU const_value
 	add_tm HYPER_BEAM   ; $D7
 	add_tm AMNESIA      ; $D8 (CALM MIND)
 	add_tm LOW_KICK     ; $D9 ; Sunsette: was HI_JUMP_KICK; now the weight-based LOW KICK TM (TM_HI_JUMP_KICK -> TM_LOW_KICK), taught to all but a set of exclusions
-	add_tm THUNDERPUNCH ; $DA
+	add_tm THUNDERPUNCH ; $DA (ZAPPERCUT)
 	add_tm ROLLING_KICK ; $DB (METEOR SWEEP)
 	add_tm BARRIER      ; $DC
 	add_tm RAZOR_LEAF   ; $DD
@@ -181,7 +181,7 @@ DEF TM01 EQU const_value
 	add_tm KARATE_CHOP  ; $F0
 	add_tm MEDITATE   	; $F1  (VOID MIND)
 	add_tm LOVELY_KISS  ; $F2
-	add_tm SKY_ATTACK   ; $F3
+	add_tm SKY_ATTACK   ; $F3 (BRAVE BIRD)
 	add_tm LIGHT_SCREEN ; $F4
 	add_tm THUNDER_WAVE ; $F5
 	add_tm PSYWAVE      ; $F6 ; SKITTERMIND (was PSYBEAM's TM; now teaches PSYWAVE/SKITTERMIND)

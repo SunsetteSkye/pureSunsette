@@ -10,11 +10,11 @@
 	const KARATE_CHOP  ; 02
 	const DOUBLESLAP   ; 03
 	const COMET_PUNCH  ; 04 (MACH PUNCH)
-	const MEGA_PUNCH   ; 05 (HAYMAKER)
+	const MEGA_PUNCH   ; 05 (SHORYUKEN)
 	const PAY_DAY      ; 06
-	const FIRE_PUNCH   ; 07
-	const ICE_PUNCH    ; 08
-	const THUNDERPUNCH ; 09
+	const FIRE_PUNCH   ; 07 (BLAZE HAMMER)
+	const ICE_PUNCH    ; 08 (FROST FIST)
+	const THUNDERPUNCH ; 09 (ZAPPERCUT)
 	const SCRATCH      ; 0a
 	const VICEGRIP     ; 0b (LOCKJAW)
 	const GUILLOTINE   ; 0c (EXTERMINATE)
@@ -31,12 +31,12 @@
 	const STOMP        ; 17
 	const DOUBLE_KICK  ; 18
 	const MEGA_KICK    ; 19 (PISTON KICK)
-	const JUMP_KICK    ; 1a
+	const JUMP_KICK    ; 1a (LEAP ATTACK)
 	const ROLLING_KICK ; 1b (METEOR SWEEP)
 	const SAND_ATTACK  ; 1c
 	const HEADBUTT     ; 1d
 	const HORN_ATTACK  ; 1e (METEOR HORN)
-	const FURY_ATTACK  ; 1f (DUAL SPEAR)
+	const FURY_ATTACK  ; 1f (MUD BOMB)
 	const HORN_DRILL   ; 20 (VENOM DRILL)
 	const TACKLE       ; 21
 	const BODY_SLAM    ; 22
@@ -70,7 +70,7 @@
 	const AURORA_BEAM  ; 3e
 	const HYPER_BEAM   ; 3f
 	const PECK         ; 40
-	const DRILL_PECK   ; 41
+	const DRILL_PECK   ; 41 (AIR DRILL)
 	const SUBMISSION   ; 42 (FULL NELSON)
 	const LOW_KICK     ; 43
 	const COUNTER      ; 44 (SHADOW BOX)
@@ -81,11 +81,11 @@
 	const LEECH_SEED   ; 49
 	const GROWTH       ; 4a (FLOURISH)
 	const RAZOR_LEAF   ; 4b
-	const SOLARBEAM    ; 4c
+	const SOLARBEAM    ; 4c (SOLAR CANNON)
 	const POISONPOWDER ; 4d
 	const STUN_SPORE   ; 4e
 	const SLEEP_POWDER ; 4f
-	const PETAL_DANCE  ; 50
+	const PETAL_DANCE  ; 50 (BLOSSOMBLITZ)
 	const STRING_SHOT  ; 51
 	const DRAGON_RAGE  ; 52 (WYRM WRATH)
 	const FIRE_SPIN    ; 53
@@ -104,7 +104,7 @@
 	const MEDITATE     ; 60 (VOID MIND)
 	const AGILITY      ; 61
 	const QUICK_ATTACK ; 62
-	const RAGE         ; 63
+	const RAGE         ; 63 (MAD RUSH)
 	const TELEPORT     ; 64
 	const NIGHT_SHADE  ; 65 (PHANTASM)
 	const MIMIC        ; 66
@@ -115,7 +115,7 @@
 	const MINIMIZE     ; 6b
 	const SMOKESCREEN  ; 6c
 	const CONFUSE_RAY  ; 6d
-	const WITHDRAW     ; 6e
+	const WITHDRAW     ; 6e (SUBMERGE)
 	const DEFENSE_CURL ; 6f (BUNKER DOWN)
 	const BARRIER      ; 70
 	const LIGHT_SCREEN ; 71
@@ -148,7 +148,7 @@
 	const BARRAGE      ; 8c (SHADOW BALL)
 	const LEECH_LIFE   ; 8d
 	const LOVELY_KISS  ; 8e
-	const SKY_ATTACK   ; 8f
+	const SKY_ATTACK   ; 8f (BRAVE BIRD)
 	const TRANSFORM    ; 90
 	const BUBBLE       ; 91
 	const DIZZY_PUNCH  ; 92
@@ -170,7 +170,13 @@
 	const SUPER_FANG   ; a2
 	const SLASH        ; a3
 	const SUBSTITUTE   ; a4
-	const STRUGGLE     ; a5
+	; Sunsette: dedicated legendary-bird signature moves, cloned from Whirlwind / Drill Peck / Sky Attack.
+	; Placed just before STRUGGLE so every other move ID is unchanged (only STRUGGLE shifts, and
+	; NUM_ATTACKS == STRUGGLE still holds). Effects mirror the bird signatures (SpeciesMoveBonus).
+	const WINTER_GALE  ; a5 - ARTICUNO (clone of WHIRLWIND)
+	const STORM_DRILL  ; a6 - ZAPDOS   (clone of Drill Peck)
+	const PHOENIX_DIVE ; a7 - MOLTRES  (clone of SKY_ATTACK)
+	const STRUGGLE     ; a8
 DEF NUM_ATTACKS EQU const_value - 1
 
 DEF CANNOT_MOVE EQU $ff
@@ -229,6 +235,7 @@ DEF CANNOT_MOVE EQU $ff
 	const HAPPINESS_HEART_ANIM ; Sunsette: affection heart cue
 	const HAPPINESS_SPARKLE_ANIM ; Sunsette: legendary sparkle cue (over the PLAYER's mon)
 	const HAPPINESS_SPARKLE_ENEMY_ANIM ; Sunsette: legendary sparkle cue (over the ENEMY's mon)
+	const PSISMIC_TOSS_ANIM ; Sunsette: PSISMIC TOSS - Psychic-user variant of SEISMIC TOSS's animation (PlayAnimation swaps to it via MaybeSeismicTossPsychicAnim)
 ;;;;;
 
 	; 45 non-move anims + 166 move anims = 201 anims

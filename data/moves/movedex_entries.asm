@@ -166,6 +166,9 @@ MovedexEntryPointers:
 	dw SuperFangDexEntry
 	dw SlashDexEntry
 	dw SubstituteDexEntry
+	dw WinterGaleDexEntry  ; ARTICUNO
+	dw StormDrillDexEntry  ; ZAPDOS
+	dw PhoenixDiveDexEntry ; MOLTRES
 	dw StruggleDexEntry
 	assert_table_length NUM_ATTACKS
 
@@ -823,6 +826,18 @@ SlashDexEntry:
 
 SubstituteDexEntry:
 	text_far _SubstituteDexEntry
+	text_end
+
+WinterGaleDexEntry:
+	text_far _WinterGaleDexEntry
+	text_end
+
+StormDrillDexEntry:
+	text_far _StormDrillDexEntry
+	text_end
+
+PhoenixDiveDexEntry:
+	text_far _PhoenixDiveDexEntry
 	text_end
 
 StruggleDexEntry:

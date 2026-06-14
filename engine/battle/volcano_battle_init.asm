@@ -706,11 +706,12 @@ ChargeMoveEvasionBoost::
 	ld [hl], a ; restore move effect
 	ret
 
-; Sunsette: species-specific bonus applied AFTER certain damaging moves HIT (post-damage, target
-; alive). callfar'd from Battle Core's player & enemy SpecialEffects tail; hWhoseTurn = the user.
-;   MOLTRES  + SKY_ATTACK -> the GROWING regen state (like FLOURISH) + a 30% burn chance
-;   ZAPDOS   + DRILL_PECK -> a 30% paralyze chance
-;   ARTICUNO + WHIRLWIND  -> a 30% freeze chance
+; Sunsette: move-keyed bonus applied AFTER certain damaging moves HIT (post-damage, target alive).
+; callfar'd from Battle Core's player & enemy SpecialEffects tail; hWhoseTurn = the user. These fire
+; for ANY user of the move (the legendary birds' dedicated signature moves - no species gate):
+;   PHOENIX DIVE -> the GROWING regen state (like FLOURISH) + a 30% burn chance
+;   STORM DRILL  -> a 30% paralyze chance
+;   WINTER GALE  -> a 30% freeze chance
 ; The status reuses Battle Core's FreezeBurnParalyzeEffect by temporarily setting the user's move
 ; EFFECT to the matching *_SIDE_EFFECT2 (= 30%) and its move TYPE so the routine's same-type
 ; immunity check is right (burn<-FIRE so fire-types are immune, freeze<-ICE so ice-types are
@@ -729,32 +730,36 @@ SpeciesMoveBonus::
 	ld a, [wEnemyMoveNum]
 .gotBoth
 	; a = move number, b = user species
-	cp SKY_ATTACK
+	; Sunsette: the legendary-bird effects now live on their OWN dedicated moves (PHOENIX DIVE / STORM
+	; DRILL / WINTER GALE) and apply to ANY user - they are no longer a species-gated "signature" on the
+	; generic WHIRLWIND/DRILL_PECK/SKY_ATTACK. (So e.g. PHOENIX DIVE burns+regens for whoever uses it.)
+	cp PHOENIX_DIVE
 	jr z, .sky
-	cp DRILL_PECK
+	cp STORM_DRILL
 	jr z, .drill
-	cp WHIRLWIND
+	cp WINTER_GALE
 	jr z, .whirl
+	cp RAGE
+	jr z, .strengthRage
+	cp STRENGTH
+	jr z, .strengthRage
 	ret
-.sky
-	ld a, b
-	cp MOLTRES
-	ret nz
-	call SetUserGrowing            ; Moltres always gains GROWING when Sky Attack lands
+.strengthRage
+	; Sunsette: STRENGTH's capped +1 ATK (80-BP branch) and UNLEASH RAGE's on-hit status/confusion clear both
+	; live in newCode3 (this bank is full); dispatched there by move number. Reached only post-damage with the
+	; target alive (= "able to damage").
+	callfar StrengthRagePostHit
+	ret
+.sky ; PHOENIX DIVE - burn + GROWING regen for the user (any species)
+	call SetUserGrowing            ; the user always gains GROWING when PHOENIX DIVE lands
 	ld d, BURN_SIDE_EFFECT2
 	ld e, FIRE
 	jr .applyStatus
-.drill
-	ld a, b
-	cp ZAPDOS
-	ret nz
+.drill ; STORM DRILL - paralyze (any species)
 	ld d, PARALYZE_SIDE_EFFECT2
 	ld e, NORMAL
 	jr .applyStatus
-.whirl
-	ld a, b
-	cp ARTICUNO
-	ret nz
+.whirl ; WINTER GALE - freeze (any species)
 	ld d, FREEZE_SIDE_EFFECT2
 	ld e, ICE
 .applyStatus
@@ -804,36 +809,41 @@ SetUserGrowing:
 ; HealEffect_ (heal.asm) on the successful-REST branch; hWhoseTurn = the REST user. Honors the MOVE
 ; MYSTIC signature-move toggle. The SPEED boost borrows StatModifierUpEffect via JoltBoltEffect_'s
 ; temp-swap (set the effect to SPEED_UP1, zero the move num to dodge the Minimize/substitute path).
-SnorlaxRestBonus::
-	CheckEvent FLAG_SIGNATURE_MOVES_TURNED_OFF
-	ret nz
-	ldh a, [hWhoseTurn]
-	and a
-	ld a, [wBattleMonSpecies]
-	jr z, .gotSpecies
-	ld a, [wEnemyMonSpecies]
-.gotSpecies
-	cp SNORLAX
-	ret nz
-	call SetUserGrowing ; FLOURISH regen (GROWING) on the user
+; Sunsette: FLOURISH's +1 SPECIAL. GrowthEffect (Battle Core) jpfar's here after setting the GROWING regen;
+; the raise lives in this roomier bank since Battle Core is full.
+FlourishSpecialUp::
+	ld a, SPECIAL_UP1_EFFECT
+	jr RaiseUserStatViaSwap
+
+; Sunsette: +1 ATK wrapper (callfar-safe - callfar clobbers a, so the param is set HERE). Used by STRENGTH's
+; 80-BP branch (StrengthRagePostHit, newCode3, callfar's this).
+RaiseUserAttackUp1::
+	ld a, ATTACK_UP1_EFFECT
+	jr RaiseUserStatViaSwap
+
+; Sunsette: raise the user's stat +1 via StatModifierUpEffect's temp-swap. a = the *_UP1 effect const. Saves
+; the move effect+num, sets effect = a and zeroes the move num (dodging the Minimize/substitute path),
+; callfar StatModifierUpEffect, then restores both. Shared by FLOURISH (+SPECIAL), SNORLAX's REST (+SPEED).
+RaiseUserStatViaSwap:
+	ld b, a
 	ldh a, [hWhoseTurn]
 	and a
 	ld hl, wPlayerMoveEffect
 	ld de, wPlayerMoveNum
-	jr z, .gotPtrs
+	jr z, .ptrs
 	ld hl, wEnemyMoveEffect
 	ld de, wEnemyMoveNum
-.gotPtrs
+.ptrs
 	ld a, [hl]
-	push af ; save the real move effect (HEAL_EFFECT)
+	push af ; save real move effect
 	ld a, [de]
-	push af ; save the real move num (REST)
-	ld a, SPEED_UP1_EFFECT
+	push af ; save real move num
+	ld a, b
 	ld [hl], a
 	xor a
-	ld [de], a ; zero move num -> dodge the Minimize/substitute path
+	ld [de], a
 	SetFlag FLAG_SKIP_STAT_ANIMATION
-	callfar StatModifierUpEffect ; +1 SPEED to the user
+	callfar StatModifierUpEffect
 	ResetFlag FLAG_SKIP_STAT_ANIMATION
 	ldh a, [hWhoseTurn]
 	and a
@@ -848,6 +858,21 @@ SnorlaxRestBonus::
 	pop af
 	ld [hl], a ; restore move effect
 	ret
+
+SnorlaxRestBonus::
+	CheckEvent FLAG_SIGNATURE_MOVES_TURNED_OFF
+	ret nz
+	ldh a, [hWhoseTurn]
+	and a
+	ld a, [wBattleMonSpecies]
+	jr z, .gotSpecies
+	ld a, [wEnemyMonSpecies]
+.gotSpecies
+	cp SNORLAX
+	ret nz
+	call SetUserGrowing ; FLOURISH regen (GROWING) on the user
+	ld a, SPEED_UP1_EFFECT
+	jp RaiseUserStatViaSwap ; +1 SPEED (shared temp-swap helper)
 
 ; Sunsette: shared body for HAZE_EFFECT and FLASH_EFFECT - both point at Battle Core's HazeEffect
 ; trampoline (Battle Core is full, so we can't afford a second one), which jpfar's here. We dispatch on
@@ -878,43 +903,81 @@ HazeFlinchEffect_::
 	jp z, JoltBoltEffect_
 	cp HOBBLE_EFFECT
 	jp z, HobbleEffect_
+	cp CALM_MIND_EFFECT
+	jp z, CalmMindEffect_
+	cp STRENGTH_EFFECT
+	ret z ; Sunsette: STRENGTH's effect is a no-op here; it exists only so SpeciesMoveBonus runs (the +1 ATK)
+	cp SHORYUKEN_EFFECT
+	jp z, ShoryukenGround ; Sunsette: SHORYUKEN strips the target's FLYING/FLOATING here (effect-dispatch path, post-damage, target alive - same path as HOBBLE/WATERIFY, which persists; SpeciesMoveBonus was too late and got reverted)
+	cp BLOSSOM_BLITZ_EFFECT
+	jp z, BlossomBlitzEffect_
 	callfar HazeEffect_
 	jpfar FlinchSideEffect
 
+; Sunsette: CALM MIND (AMNESIA, CALM_MIND_EFFECT) - reached here via the Haze trampoline. Raises the user's
+; SPECIAL by 1 (FlourishSpecialUp's temp-swap) AND, if the user is currently CONFUSED, snaps it out of
+; confusion. The pre-move confusion self-hit check is upstream and NOT bypassed: if it fires the user hurts
+; itself and this never runs; if the move executes, the confusion is cleared here.
+CalmMindEffect_::
+	call FlourishSpecialUp ; +1 SPECIAL to the user (restores the move effect afterward)
+	ldh a, [hWhoseTurn]
+	and a
+	ld hl, wPlayerBattleStatus1
+	jr z, .gotStatus
+	ld hl, wEnemyBattleStatus1
+.gotStatus
+	bit CONFUSED, [hl]
+	ret z ; not confused -> just the SPECIAL boost
+	res CONFUSED, [hl]
+	ld hl, CalmMindCalmedText
+	rst _PrintText
+	ret
+
+CalmMindCalmedText:
+	text_far _CalmMindCalmedText
+	text_end
+
 ; FLASH's effect body (reached from HazeFlinchEffect_ above). FLASH deals no damage; the burst of light
-; lowers the TARGET's EVASION by 3 stages - a visible -2 ("sharply fell!") through the engine's
-; StatModifierDownEffect (with FLAG_SKIP_STAT_ANIMATION so it's guaranteed + skips the anim/accuracy test),
-; then a silent -1 poked straight into the target's evasion stat-mod byte (floored at MIN). The 30% flinch
-; that follows simulates being momentarily blinded. hWhoseTurn is the FLASH user, so the TARGET is the
-; opposite side; FlinchSideEffect reads the move effect to pick its chance, and FLASH_EFFECT (not
-; FLINCH_SIDE_EFFECT1) yields 30%, so we restore the real effect before tail-jumping into it.
+; dazzles the TARGET, dropping its EVASION by 1 and its ACCURACY by 1 (both guaranteed via
+; FLAG_SKIP_STAT_ANIMATION, which skips the stat anim + the accuracy test), then a 30% flinch to simulate
+; being momentarily blinded. Each drop borrows StatModifierDownEffect by temporarily pointing the user's
+; move effect at EVASION_DOWN1 / ACCURACY_DOWN1 (same trick as SwiftEffect_/GustAccuracyEffect_ below).
+; hWhoseTurn is the FLASH user, so the TARGET is the opposite side; FlinchSideEffect reads the move effect
+; to pick its chance, and FLASH_EFFECT (not FLINCH_SIDE_EFFECT1) yields 30%, so we restore it before flinch.
 FlashEffect_::
+	; -1 EVASION on the target
 	ldh a, [hWhoseTurn]
 	and a
 	ld hl, wPlayerMoveEffect
-	jr z, .gotEffectPtr
+	jr z, .evaPtr
 	ld hl, wEnemyMoveEffect
-.gotEffectPtr
-	ld a, EVASION_DOWN2_EFFECT
+.evaPtr
+	ld a, EVASION_DOWN1_EFFECT
 	ld [hl], a
-	SetFlagHL FLAG_SKIP_STAT_ANIMATION ; hl-form (cheaper); hl is free here - the effect was just written, and we re-derive it after the callfar
-	callfar StatModifierDownEffect ; -2 EVASION on the target ("sharply fell!" line, no anim, no accuracy check)
-	ResetEvent FLAG_SKIP_STAT_ANIMATION
-	ldh a, [hWhoseTurn] ; callfar clobbered hl/de - re-derive: effect ptr (user side, in de) + target's evasion mod (in hl)
+	SetFlag FLAG_SKIP_STAT_ANIMATION
+	callfar StatModifierDownEffect ; -1 EVASION on the target ("fell" line, no anim, no accuracy check)
+	ResetFlag FLAG_SKIP_STAT_ANIMATION
+	; -1 ACCURACY on the target
+	ldh a, [hWhoseTurn]
 	and a
-	ld de, wPlayerMoveEffect
-	ld hl, wEnemyMonEvasionMod ; player's turn -> target is the enemy
+	ld hl, wPlayerMoveEffect
+	jr z, .accPtr
+	ld hl, wEnemyMoveEffect
+.accPtr
+	ld a, ACCURACY_DOWN1_EFFECT
+	ld [hl], a
+	SetFlag FLAG_SKIP_STAT_ANIMATION
+	callfar StatModifierDownEffect ; -1 ACCURACY on the target ("fell" line, no anim, no accuracy check)
+	ResetFlag FLAG_SKIP_STAT_ANIMATION
+	; restore FLASH_EFFECT so FlinchSideEffect rolls 30% (not the 10% of FLINCH_SIDE_EFFECT1)
+	ldh a, [hWhoseTurn]
+	and a
+	ld hl, wPlayerMoveEffect
 	jr z, .restoreEffect
-	ld de, wEnemyMoveEffect
-	ld hl, wPlayerMonEvasionMod
+	ld hl, wEnemyMoveEffect
 .restoreEffect
-	ld a, FLASH_EFFECT ; restore so FlinchSideEffect rolls 30% (not the 10% of FLINCH_SIDE_EFFECT1)
-	ld [de], a
-	ld a, [hl] ; silent -1 EVASION to reach -3 total, floored at MIN_STAT_LEVEL (1)
-	cp 2
-	jr c, .evasionMinned ; already at 1 - can't go lower
-	dec [hl]
-.evasionMinned
+	ld a, FLASH_EFFECT
+	ld [hl], a
 	jpfar FlinchSideEffect
 
 ; Sunsette: SWIFT_EFFECT auto-hit moves (Surf/Earthquake/Blizzard/Swift) also get a 30% chance to drop the
@@ -1184,6 +1247,12 @@ MindwipedText:
 RoostEffect_::
 	farcall HealEffect_          ; heal 1/2 + move animation + "regained health" (RAZOR_WIND move num -> 1/2)
 	call RefreshUserNaturalTypes ; restore base types + clear the WATERIFY/CONVERSION/SKITTERMIND palette flags
+	ldh a, [hWhoseTurn]          ; point hl at the ROOST USER's type1 for StripFlyingFloating
+	and a
+	ld hl, wBattleMonType1
+	jr z, .roostStrip
+	ld hl, wEnemyMonType1
+.roostStrip
 	call StripFlyingFloating     ; ground the user (remove FLYING/FLOATING; NORMAL fallback)
 	ldh a, [hWhoseTurn]
 	and a
@@ -1245,16 +1314,12 @@ RefreshUserNaturalTypes:
 	res 3, [hl]                 ; SKITTERMIND gray
 	jp RunDefaultPaletteCommand ; repaint to the natural palette (home; tail-call)
 
-; Sunsette: remove FLYING ($02) and FLOATING ($12) from the user's two type bytes. If both are an air
-; type (e.g. a CONVERSION'd pure-Flyer/Floater) the user would be left typeless, so it becomes NORMAL;
-; if only one is, the surviving type fills both slots (a clean mono-type). hWhoseTurn = user.
+; Sunsette: remove FLYING ($02) and FLOATING ($12) from the TWO type bytes at hl (hl -> type1). If both are
+; an air type (e.g. a CONVERSION'd pure-Flyer/Floater) the mon would be left typeless, so it becomes NORMAL;
+; if only one is, the surviving type fills both slots (a clean mono-type). The CALLER sets hl to the side it
+; wants: ROOST -> the user's type1, SHORYUKEN -> the target's type1. Returns carry SET if it changed
+; something (there was an air type), carry CLEAR if neither byte was air (no change).
 StripFlyingFloating:
-	ldh a, [hWhoseTurn]
-	and a
-	ld hl, wBattleMonType1
-	jr z, .gotType
-	ld hl, wEnemyMonType1
-.gotType
 	ld a, [hl]
 	ld b, a                     ; b = type1
 	inc hl
@@ -1267,7 +1332,7 @@ StripFlyingFloating:
 	; type1 is a real type
 	ld a, c
 	call .isAir
-	ret nc                      ; neither is air -> no change (not a normal ROOST user)
+	ret nc                      ; neither is air -> no change (carry clear)
 	; only type2 is air -> mono type1
 	ld a, b
 	jr .setBoth
@@ -1283,6 +1348,7 @@ StripFlyingFloating:
 .setBoth
 	ld [hli], a                 ; type1
 	ld [hl], a                  ; type2
+	scf                         ; changed
 	ret
 .isAir
 	cp FLYING
@@ -1294,6 +1360,28 @@ StripFlyingFloating:
 .yesAir
 	scf
 	ret
+
+; Sunsette: SHORYUKEN (MEGA_PUNCH) grounds the TARGET on a damaging hit - strips its FLYING ($02) / FLOATING
+; ($12) type until it switches out or ROOSTs (RefreshUserNaturalTypes reloads natural types). Points hl at
+; the TARGET's type1 (opponent of hWhoseTurn) and runs StripFlyingFloating directly on it. Only prints if a
+; type was actually stripped. Reached from SpeciesMoveBonus (post-damage, target alive); the Fly-invuln reach
+; is handled separately in CheckSemiInvulnBypass.
+ShoryukenGround:
+	ldh a, [hWhoseTurn]
+	and a
+	ld hl, wEnemyMonType1   ; player attacking -> target = enemy
+	jr z, .gotType
+	ld hl, wBattleMonType1
+.gotType
+	call StripFlyingFloating
+	ret nc                  ; target had no FLYING/FLOATING -> nothing stripped, no message
+	ld hl, ShoryukenGroundText
+	rst _PrintText
+	ret
+
+ShoryukenGroundText:
+	text_far _ShoryukenGroundText
+	text_end
 
 ; Sunsette: JOLT BOLT (POUND) post-damage side effect - a 50% chance to raise the USER's EVASION by 1.
 ; Reached via the Haze trampoline -> HazeFlinchEffect_. = SwiftEffect_'s 50% roll + ChargeMoveEvasionBoost's
@@ -1337,6 +1425,17 @@ JoltBoltEffect_:
 	pop af
 	ld [hl], a ; restore move effect
 	ret
+
+; Sunsette: BLOSSOM BLITZ (PETAL_DANCE) - 50% chance to raise the USER's SPEED by 1 (replaces the old confuse
+; chance). Reached from the shared HazeEffect trampoline; in AlwaysHappen + SpecialEffects so it fires once,
+; even on a KO (like JOLT BOLT). Reuses RaiseUserStatViaSwap (same bank) for the +1 SPEED.
+BlossomBlitzEffect_:
+	callfar FarBattleRandom ; d = random byte (de survives the bankswitch)
+	ld a, d
+	cp 50 percent + 1
+	ret nc ; 50%: no SPEED boost
+	ld a, SPEED_UP1_EFFECT
+	jp RaiseUserStatViaSwap ; +1 SPEED to the user
 
 ; Sunsette: LOCKJAW (Vicegrip) / METEOR SWEEP (Rolling Kick) signature - guaranteed -1 SPEED and -1
 ; EVASION to the TARGET on hit (post-damage; HOBBLE_EFFECT is kept out of SpecialEffects so it runs via
@@ -1416,6 +1515,8 @@ CheckSemiInvulnBypass::
 	jr z, .flyOnly
 	cp WHIRLWIND ; HURRICANE
 	jr z, .flyOnly
+	cp MEGA_PUNCH ; SHORYUKEN - an anti-air uppercut, reaches FLY users
+	jr z, .flyOnly
 	and a ; no bypass -> clear carry (dodged)
 	ret
 .digOnly
@@ -1458,6 +1559,74 @@ SecondWindHealApply::
 	ld a, 1
 	ld [wHPBarType], a
 	predef UpdateHPBar
+	ret
+
+; Sunsette: SECOND WIND also silently tops up technique - restore 1 PP to the active player mon's LOWEST
+; non-full-PP move (ties -> lowest slot). No text. Called from SecondWindHeal right after the HP heal.
+; GetMaxPP (wMonDataLocation = 4 -> in-battle mon, keyed by wCurrentMenuItem) gives each slot's true max PP
+; (PP Ups included). curPP/best are kept across the GetMaxPP callfar on the stack (it clobbers a/bc/de/hl).
+; Writes both wBattleMonPP and the party copy (skipping the party write when Transformed, like DecrementPP).
+SecondWindRestorePP::
+	ld d, $ff ; bestPP so far ($ff sentinel - any real current PP is lower)
+	ld e, $ff ; bestSlot ($ff = none found yet)
+	ld c, 0   ; slot index
+.loop
+	ld b, 0
+	ld hl, wBattleMonMoves
+	add hl, bc
+	ld a, [hl]
+	and a
+	jr z, .next ; empty move slot
+	ld hl, wBattleMonPP
+	add hl, bc
+	ld a, [hl]
+	and PP_MASK ; a = this slot's current PP (drop the PP Up count bits)
+	push de     ; save best (d=bestPP, e=bestSlot)
+	push af     ; save curPP
+	push bc     ; save slot
+	ld a, c
+	ld [wCurrentMenuItem], a
+	ld a, 4 ; player's in-battle pokemon
+	ld [wMonDataLocation], a
+	callfar GetMaxPP ; -> wMaxPP (true max, PP Ups included)
+	pop bc ; c = slot
+	pop af ; a = curPP
+	pop de ; d = bestPP, e = bestSlot
+	ld b, a ; b = curPP
+	ld a, [wMaxPP]
+	cp b
+	jr z, .next ; curPP == maxPP -> full, skip
+	jr c, .next ; maxPP < curPP (shouldn't happen) -> skip
+	ld a, d ; bestPP
+	cp b
+	jr c, .next ; bestPP < curPP -> not lower, keep current best
+	jr z, .next ; tie -> keep the earlier slot
+	ld d, b ; new lowest non-full PP
+	ld e, c ; new best slot
+.next
+	inc c
+	ld a, c
+	cp NUM_MOVES
+	jr c, .loop
+	ld a, e
+	cp $ff
+	ret z ; every move full (or none) -> nothing to restore
+	ld c, e ; +1 PP in the in-battle struct (curPP < max, so no carry into the PP Up bits)
+	ld b, 0
+	ld hl, wBattleMonPP
+	add hl, bc
+	inc [hl]
+	ld a, [wPlayerBattleStatus3]
+	bit TRANSFORMED, a
+	ret nz ; transformed mons keep separate copied PP (see DecrementPP) - don't touch the party copy
+	ld hl, wPartyMon1PP
+	ld a, [wPlayerMonNumber]
+	ld bc, PARTYMON_STRUCT_LENGTH
+	call AddNTimes
+	ld c, e
+	ld b, 0
+	add hl, bc
+	inc [hl]
 	ret
 
 ; Sunsette: shared failure message for Disable / Cut / Submission (DISABLE family). Battle Core's

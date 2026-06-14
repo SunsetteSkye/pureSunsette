@@ -142,7 +142,7 @@ FreezeBurnParalyzeEffect:
 ;;;;;;;;;; PureRGBnote: CHANGED: ADDED: tweak how some moves behave when applying burn/freeze/paralyze status
 
 	ld a, [wPlayerMoveNum]
-	cp SOLARBEAM
+	cp SOLARBEAM ; SOLAR CANNON
 	ld b, FIRE ; NEW: solarbeam can't burn fire types
 	jr z, .doComparison1
 
@@ -210,7 +210,7 @@ FreezeBurnParalyzeEffect:
 
 ;;;;;;;;;; PureRGBnote: CHANGED: ADDED: tweak how some moves behave when applying burn/freeze/paralyze status
 	ld a, [wEnemyMoveNum]
-	cp SOLARBEAM
+	cp SOLARBEAM ; SOLAR CANNON
 	ld b, FIRE ; NEW: solarbeam can't burn fire types
 	jr z, .doComparison2
 	
@@ -700,7 +700,7 @@ PrintNothingHappenedText:
 .playerTurn
 	cp SUBMISSION ; FULL NELSON
 	ret z ; if the move is a side effect, skip writing "nothing happened"
-	cp RAGE
+	cp RAGE ; MAD RUSH
 	ret z ; if the move is a side effect, skip writing "nothing happened"
 ;;;;;;;;;;
 	ld hl, NothingHappenedText
@@ -1205,13 +1205,13 @@ ChargeMoveEffectText:
 	;cp RAZOR_WIND
 	;ld hl, MadeWhirlwindText
 	;ret z
-	;cp SOLARBEAM
+	;cp SOLAR CANNON
 	;ld hl, TookInSunlightText
 	;ret z
 	;cp SKULL_BASH (METEOR DRIVE)
 	;ld hl, LoweredItsHeadText
 	;ret z
-	;cp SKY_ATTACK
+	;cp SKY_ATTACK (BRAVE BIRD)
 	;ld hl, SkyAttackGlowingText
 	;ret z
 	cp FLY
@@ -1664,10 +1664,10 @@ HazeEffect:
 	jpfar HazeFlinchEffect_
 
 
-; PureRGBnote: ADDED: growth raises special by 1 and heals around 1/3rd health. Does nothing at all if you're at full health.
+; Sunsette: FLOURISH grants the GROWING (1/16-per-turn) regen AND raises the user's SPECIAL by 1 (the old
+; instant 1/3 heal was swapped to the +1 SPECIAL; the heal-OVER-TIME from GROWING stays). The SPECIAL raise
+; itself lives in a roomier bank (FlourishSpecialUp) since this Battle Core bank is full in the debug build.
 GrowthEffect:
-; PureRGBnote: CHANGED: Growth still heals ~1/3 of max HP, now also grants a leftovers-like
-; 1/16-per-turn regen (the GROWING flag), and no longer raises Special.
 	ld hl, wPlayerBattleStatus3
 	ldh a, [hWhoseTurn]
 	and a
@@ -1675,14 +1675,7 @@ GrowthEffect:
 	ld hl, wEnemyBattleStatus3
 .gotStatus
 	set GROWING, [hl]
-	ld a, [wHPBarType]
-	push af
-	ld a, 3
-	ld [wHPBarType], a
-	callfar HealEffect_
-	pop af
-	ld [wHPBarType], a
-	ret
+	jpfar FlourishSpecialUp
 
 ; PureRGBnote: ADDED: withdraw raises defense by 1 and heals around 1/3rd health. Does nothing at all if you're at full health.
 WithdrawEffect:

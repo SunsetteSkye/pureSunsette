@@ -10,9 +10,12 @@ _MomMilestoneBoulderText::
 	cont "to MT.MOON next?"
 
 	para "Hmm... I think"
-	line "SARAH's daughter"
-	cont "went to the FOREST"
-	cont "with a FLASH HM."
+	line "LUCY's daughter"
+	cont "had a FLASH HM."
+	
+	para "But she went to"
+	line "the FOREST a bit"
+	cont "ago already."
 
 	para "Here, take this"
 	line "for the road!"

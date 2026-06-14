@@ -12,6 +12,8 @@ ClearVariablesOnEnterMap::
 	ld [wMuteAudioAndPauseMusic], a
 	ld [wActionResultOrTookBattleTurn], a
 	ld [wUnusedMapVariable], a ; Sunsette: also clears the CONFUSE RAY (bit 0) + GROWTH-invert (bit 1) field-move flags on map change (FLOURISH)
+	ld [wFlashStepsRemaining], a ; Sunsette: FLASH-in-cave run-out timer is per-visit; reset it (and the saved darkness) on map change
+	ld [wFlashSavedDarkOffset], a
 	ld [wIsAltPalettePkmn], a
 	ld [wIsAltPalettePkmnData], a
 	ld [wOverworldAnimationCounter], a

@@ -10,13 +10,13 @@ CeladonMoveTutorMoves::
 	db -1
 
 SaffronMoveTutorMoves::
-	dbw MEGA_PUNCH, MegaPunchLearnset ; HAYMAKER
+	dbw MEGA_PUNCH, MegaPunchLearnset ; SHORYUKEN
 	dbw MEGA_KICK,  MegaKickLearnset ; PISTON KICK
 	dbw WHIRLWIND,  WhirlwindLearnset ; HURRICANE
 	dbw SKULL_BASH, SkullBashLearnset ; METEOR DRIVE
 	dbw SWIFT,      SwiftLearnset
 	dbw EGG_BOMB,   EggBombLearnset
-	dbw RAGE,       -1
+	dbw RAGE,       -1 ; MAD RUSH
 	dbw SCREECH,    ScreechLearnset
 	db -1
 
@@ -57,7 +57,7 @@ MoveTutorScript::
 	jr z, .doneCheckingMoveList
 	cp SOFTBOILED
 	jr z, .onlyPokemonList
-	cp RAGE
+	cp RAGE ; MAD RUSH
 	jr z, .onlyDittoCant
 	cp REST
 	jr z, .onlyDittoCant

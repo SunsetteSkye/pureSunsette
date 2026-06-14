@@ -451,6 +451,7 @@ INCLUDE "engine/battle/remap_move_data.asm"
 INCLUDE "engine/battle/move_effects/conversion.asm"
 INCLUDE "engine/overworld/overworld_animation.asm"
 INCLUDE "engine/overworld/flamethrower_field.asm" ; Sunsette: ADDED: FLAMETHROWER field move (burn grass + trees)
+INCLUDE "engine/overworld/surf_exhaustion.asm" ; Sunsette: ADDED: surf HP-drain (every 12 steps) + eased blue pulse
 INCLUDE "engine/battle/play_side_anim.asm" ; Sunsette: ADDED: affection/Pressure overlay cues (moved out of full Battle Core)
 INCLUDE "engine/battle/move_effects/waterify.asm" ; Sunsette: ADDED: WATERIFY_EFFECT (Water Gun / Hydro Pump retype target to WATER)
 INCLUDE "engine/battle/freeze_penalty.asm" ; Sunsette: ADDED: FREEZE halves Special + Speed instead of skipping the turn
@@ -489,6 +490,7 @@ INCLUDE "engine/events/museum_exhibit_bonus.asm" ; Sunsette: ADDED: Pewter Museu
 INCLUDE "engine/events/family_badge_comments.asm" ; Sunsette: MOM/DAISY non-item badge acknowledgments (callfar'd from their full map banks)
 INCLUDE "engine/events/oak_legendary_comments.asm" ; Sunsette: OAK's one-time legendary remarks (callfar'd from OaksLab)
 INCLUDE "engine/battle/arbok_signature.asm" ; Sunsette: ARBOK FOCUS ENERGY (+2 SPEED) / WRAP (+2 trap turns) bonuses (callfar'd; Battle Core + newCode are full)
+INCLUDE "engine/battle/strength_rage_moves.asm" ; Sunsette: STRENGTH weight/Fighting power + UNLEASH RAGE post-hit (callfar'd; newCode is full)
 INCLUDE "engine/events/locked_area_lockout.asm" ; Sunsette: morale lockout - confirm before leaving a gym/Silph 2F+/Rocket pre-boss (callfar'd; moved out of full newCode)
 
 SECTION "Silph Card Key Scripts", ROMX

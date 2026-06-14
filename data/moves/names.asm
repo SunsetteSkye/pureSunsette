@@ -164,6 +164,9 @@ MoveNameJumpTable::
 	dw SUPERFANGName
 	dw SLASHName
 	dw SUBSTITUTEName
+	dw WINTERGALEName  ; ARTICUNO
+	dw STORMDRILLName  ; ZAPDOS
+	dw PHOENIXDIVEName ; MOLTRES
 	dw STRUGGLEName
 	assert_table_length NUM_ATTACKS
 
@@ -178,15 +181,15 @@ DOUBLESLAPName:
 COMETPUNCHName:
 	db "MACH PUNCH@" ; visible name; internal const COMET_PUNCH (was COMET PUNCH)
 MEGAPUNCHName:
-	db "HAYMAKER@" ; visible name; internal const MEGA_PUNCH (was MEGA PUNCH)
+	db "SHORYUKEN@" ; visible name; internal const MEGA_PUNCH (was HAYMAKER/MEGA PUNCH); hits through FLY's invuln turn + strips the target's FLYING/FLOATING type (restored by ROOST)
 PAYDAYName:
 	db "PAY DAY@"
 FIREPUNCHName:
-	db "FIRE PUNCH@"
+	db "BLAZE HAMMER@" ; visible name; internal const FIRE_PUNCH (no status; dynamic ATK/SPC category)
 ICEPUNCHName:
-	db "ICE PUNCH@"
+	db "FROST FIST@" ; visible name; internal const ICE_PUNCH (no status; dynamic ATK/SPC category)
 THUNDERPUNCHName:
-	db "THUNDERPUNCH@"
+	db "ZAPPERCUT@" ; visible name; internal const THUNDERPUNCH (no status; dynamic ATK/SPC category)
 SCRATCHName:
 	db "SCRATCH@"
 VICEGRIPName:
@@ -220,7 +223,7 @@ DOUBLEKICKName:
 MEGAKICKName:
 	db "PISTON KICK@" ; visible name; internal const MEGA_KICK (was MEGA KICK)
 JUMPKICKName:
-	db "JUMP KICK@"
+	db "LEAP ATTACK@" ; visible name; internal const JUMP_KICK
 ROLLINGKICKName:
 	db "METEOR SWEEP@" ; visible name; internal const ROLLING_KICK (was ROLLING KICK)
 SANDATTACKName:
@@ -230,7 +233,7 @@ HEADBUTTName:
 HORNATTACKName:
 	db "METEOR HORN@" ; visible name; internal const HORN_ATTACK (was HORN ATTACK)
 FURYATTACKName:
-	db "DUAL SPEAR@"
+	db "MUD BOMB@" ; visible name; internal const FURY_ATTACK (was DUAL SPEAR)
 HORNDRILLName:
 	db "VENOM DRILL@"
 TACKLEName:
@@ -298,7 +301,7 @@ HYPERBEAMName:
 PECKName:
 	db "PECK@"
 DRILLPECKName:
-	db "DRILL PECK@"
+	db "AIR DRILL@" ; visible name; internal const DRILL_PECK
 SUBMISSIONName:
 	db "FULL NELSON@"
 LOWKICKName:
@@ -328,7 +331,7 @@ STUNSPOREName:
 SLEEPPOWDERName:
 	db "SLEEP POWDER@"
 PETALDANCEName:
-	db "PETAL DANCE@"
+	db "BLOSSOMBLITZ@" ; visible name; internal const PETAL_DANCE (one word -> 12 chars, fits the in-battle line)
 STRINGSHOTName:
 	db "STRING SHOT@"
 DRAGONRAGEName:
@@ -366,7 +369,7 @@ AGILITYName:
 QUICKATTACKName:
 	db "QUICK ATTACK@"
 RAGEName:
-	db "RAGE@"
+	db "MAD RUSH@" ; visible name; internal const RAGE (was UNLEASH RAGE)
 TELEPORTName:
 	db "TELEPORT@"
 NIGHTSHADEName:
@@ -388,7 +391,7 @@ SMOKESCREENName:
 CONFUSERAYName:
 	db "CONFUSE RAY@"
 WITHDRAWName:
-	db "WITHDRAW@"
+	db "SUBMERGE@" ; visible name; internal const WITHDRAW
 DEFENSECURLName:
 	db "BUNKER DOWN@"
 BARRIERName:
@@ -454,7 +457,7 @@ LEECHLIFEName:
 LOVELYKISSName:
 	db "LOVELY KISS@"
 SKYATTACKName:
-	db "SKY ATTACK@"
+	db "BRAVE BIRD@" ; visible name; internal const SKY_ATTACK
 TRANSFORMName:
 	db "TRANSFORM@"
 BUBBLEName:
@@ -497,5 +500,11 @@ SLASHName:
 	db "SLASH@"
 SUBSTITUTEName:
 	db "SUBSTITUTE@"
+WINTERGALEName:
+	db "WINTER GALE@"
+STORMDRILLName:
+	db "STORM DRILL@"
+PHOENIXDIVEName:
+	db "PHOENIX DIVE@"
 STRUGGLEName:
 	db "STRUGGLE@"

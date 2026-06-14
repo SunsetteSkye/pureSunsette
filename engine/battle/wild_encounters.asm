@@ -16,6 +16,29 @@ TryDoWildEncounter:
 .notStandingOnDoorOrWarpTile
 	callfar IsPlayerJustOutsideMap
 	jr z, .CantEncounter
+	; Sunsette: tick the FLASH-in-cave run-out timer each real step (placed before the repel block so a
+	; repel of 0 doesn't skip it). CheckUsedFlash handles the 0 transition (re-darken + "use again?").
+	; DE-COLLISION: this timer and the repel/hiding timer (wRepelRemainingSteps) both tick down 1/step, so
+	; if they're ever equal they'd hit 0 on the SAME step and stack two "wore off" prompts. The moment they
+	; match (both active), nudge FLASH +10 so they diverge for good. Self-clearing (once unequal it won't
+	; fire again) and arming-path-agnostic, so no per-set-point checks are needed.
+	ld a, [wFlashStepsRemaining]
+	and a
+	jr z, .flashTimerDone ; FLASH inactive -> no tick, no collision
+	ld b, a ; b = current FLASH steps (nonzero)
+	ld a, [wRepelRemainingSteps]
+	and a
+	jr z, .flashTick ; repel/hiding inactive -> no collision
+	cp b
+	jr nz, .flashTick ; already diverged
+	ld a, b
+	add 10
+	ld b, a ; collide -> FLASH ends 10 steps after repel/hiding
+.flashTick
+	dec b
+	ld a, b
+	ld [wFlashStepsRemaining], a
+.flashTimerDone
 	ld a, [wRepelRemainingSteps]
 	and a
 	jr z, .next
@@ -55,6 +78,7 @@ TryDoWildEncounter:
 	jr z, .CantEncounter2
 	ld a, [wGrassRate]
 .CanEncounter
+	call ModifyEncounterRateForMovement ; Sunsette: run(B on foot)=x2, bike=half (bike+B=zero), surf=half
 ; compare encounter chance with a random number to determine if there will be an encounter
 	ld b, a
 	ldh a, [hRandomAdd]
@@ -135,6 +159,43 @@ TryDoWildEncounter:
 .willEncounter
 	callfar CheckWildPokemonPalettes ; PureRGBnote: ADDED: checks if the pokemon should use an alt palette and if so stores 1 in wIsAltPalettePkmn
 	xor a
+	ret
+
+; Sunsette: per-movement-mode wild-encounter rate modifier. in: a = base rate; out: a = adjusted rate.
+; foot + B (running) -> double (kick up more wild mons); bike -> half, bike + B -> zero (the bike is
+; evasive); surf -> half (calmer with a Pokemon carrying you, and it also costs HP - see the surf HP drain).
+; Reads wWalkBikeSurfState (0=foot,1=bike,2=surf) + hJoyHeld B. Preserves bc.
+ModifyEncounterRateForMovement:
+	push bc
+	ld c, a                  ; c = base rate
+	ld a, [wWalkBikeSurfState]
+	and a
+	jr z, .foot
+	cp 1
+	jr z, .bike
+	; surfing -> half
+	srl c
+	jr .done
+.foot
+	ldh a, [hJoyHeld]
+	and PAD_B
+	jr z, .done              ; walking -> unchanged
+	; running -> double, clamped at 255
+	sla c
+	jr nc, .done
+	ld c, $FF
+	jr .done
+.bike
+	ldh a, [hJoyHeld]
+	and PAD_B
+	jr z, .bikeHalf
+	ld c, 0                  ; bike + B -> no encounters
+	jr .done
+.bikeHalf
+	srl c                    ; bike (no B) -> half
+.done
+	ld a, c
+	pop bc
 	ret
 
 ; Sunsette: ADDED: force a wild encounter from the current map's table (used by the FLASH field move

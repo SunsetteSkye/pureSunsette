@@ -15,6 +15,7 @@
 
 	; tm/hm learnset
 	tmhm \
+	FURY_ATTACK,\ ; MUD BOMB
 	LOW_KICK,\
 	DISABLE,\
 	PIN_MISSILE,\

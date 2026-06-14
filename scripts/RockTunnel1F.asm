@@ -10,7 +10,7 @@ RockTunnel1F_Script:
 
 CheckUsedFlash::
 	CheckAndResetEvent EVENT_USED_FLASH_FROM_PARTY_MENU
-	ret z
+	jr z, .notJustUsed
 	ld a, 4 ; fade out music first
 	call StopMusic
 	; have to switch sound bank to the battle one to play the flash sound effect
@@ -25,10 +25,39 @@ CheckUsedFlash::
 	rst _PlaySound
 	call GBPalWhiteOut
 	call WaitForSoundToFinish
+	; Sunsette: remember the cave's darkness level (FLASH only fires here from offset >= 3, per .useFlash)
+	; so the run-out can restore it, and arm the 200-step timer. Then undo the darkness.
+	ld a, [wMapPalOffset]
+	ld [wFlashSavedDarkOffset], a
+	ld a, 200
+	ld [wFlashStepsRemaining], a
 	xor a
 	ld [wMapPalOffset], a ; undo darkness
 	call GBFadeInFromWhite
 	jp PlayDefaultMusic
+.notJustUsed
+	; Sunsette: FLASH is lighting this cave (saved offset != 0) and its 200 steps are spent -> it runs out.
+	ld a, [wFlashSavedDarkOffset]
+	and a
+	ret z
+	ld a, [wFlashStepsRemaining]
+	and a
+	ret nz
+	; fall through to FlashRanOut
+
+; Sunsette: the FLASH light has run out. Black the screen out, restore the cave's darkness, fade back in,
+; then offer to re-use FLASH (the TEXT_FLASH_WORE_OFF handler asks, and re-arms via the FLASH event on yes).
+FlashRanOut:
+	call GBFadeOutToBlack
+	ld a, [wFlashSavedDarkOffset]
+	ld [wMapPalOffset], a ; the cave is dark again
+	xor a
+	ld [wFlashSavedDarkOffset], a ; FLASH no longer lighting the cave
+	call GBFadeInFromBlack
+	ld a, TEXT_FLASH_WORE_OFF
+	ldh [hTextID], a
+	call EnableAutoTextBoxDrawing
+	jp DisplayTextID ; -> DisplayFlashWoreOffText -> FlashWoreOffPrompt (offer re-use) -> CloseTextDisplay
 
 
 RockTunnel1F_ScriptPointers:
