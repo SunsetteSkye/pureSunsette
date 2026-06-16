@@ -175,10 +175,40 @@ _SelfThawedText::
 	line "the ice away!"
 	prompt
 
+; Sunsette: a WATER move washes the burn off whoever used it or got hit by it
+_WaterWashedBurnText::
+	text "The water washed"
+	line "the burn away!"
+	prompt
+
 ; Sunsette: SolarBeam's non-fire charge turn (Mega-Drain-like; arms the release)
 _SolarBeamChargeText::
 	text "It took in"
 	line "energy!"
+	prompt
+
+; Sunsette: SolarBeam's reworked charge turn (no damage; +1 SPECIAL + FLOURISH; classic charge anim)
+_SolarBeamSunlightText::
+	text "It took in"
+	line "sunlight!"
+	prompt
+
+; Sunsette: SHELL GAME (WITHDRAW) - the player's Switch? Yes/No question
+_ShellGameSwitchPromptText::
+	text "Slip away and"
+	line "switch out?"
+	done
+
+; Sunsette: SHELL GAME - the "No" branch: the user takes REFLECT instead of switching
+_ShellGameReflectText::
+	text "It tucked into"
+	line "its shell!"
+	prompt
+
+; Sunsette: SHELL GAME - the player fled a wild battle
+_ShellGameFledText::
+	text "Got away in the"
+	line "shuffle!"
 	prompt
 
 ; Sunsette: "Signature Move!" - flashed right after "X used Y!" when Y is a species-specific

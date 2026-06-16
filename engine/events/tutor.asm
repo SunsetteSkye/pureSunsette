@@ -57,7 +57,7 @@ MoveTutorScript::
 	jr z, .doneCheckingMoveList
 	cp SOFTBOILED
 	jr z, .onlyPokemonList
-	cp DOUBLE_TEAM ; Sunsette: was RAGE; everyone-but-Ditto can learn it
+	cp DOUBLE_TEAM ; Sunsette: was RAGE; everyone-but-Ditto can learn it (MAD RUSH)
 	jr z, .onlyDittoCant
 	cp REST
 	jr z, .onlyDittoCant

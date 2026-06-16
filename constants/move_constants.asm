@@ -25,7 +25,7 @@
 	const WING_ATTACK  ; 11
 	const WHIRLWIND    ; 12 (HURRICANE)
 	const FLY          ; 13
-	const BIND         ; 14 (STONEBOUND)
+	const BIND         ; 14 (POWER BIND)
 	const SLAM         ; 15 (WASTEMAKER)
 	const VINE_WHIP    ; 16
 	const STOMP        ; 17
@@ -60,7 +60,7 @@
 	const EMBER        ; 34
 	const FLAMETHROWER ; 35
 	const MIST         ; 36 (ETHEREAL)
-	const WATER_GUN    ; 37
+	const WATER_GUN    ; 37 (SUPER SOAK)
 	const HYDRO_PUMP   ; 38
 	const SURF         ; 39
 	const ICE_BEAM     ; 3a
@@ -79,9 +79,9 @@
 	const ABSORB       ; 47
 	const MEGA_DRAIN   ; 48
 	const LEECH_SEED   ; 49
-	const GROWTH       ; 4a (FLOURISH)
+	const GROWTH       ; 4a (ADAPTATION)
 	const RAZOR_LEAF   ; 4b
-	const SOLARBEAM    ; 4c (SOLAR CANNON)
+	const SOLARBEAM    ; 4c (SOLARBEAM)
 	const POISONPOWDER ; 4d
 	const STUN_SPORE   ; 4e
 	const SLEEP_POWDER ; 4f
@@ -115,7 +115,7 @@
 	const MINIMIZE     ; 6b
 	const SMOKESCREEN  ; 6c
 	const CONFUSE_RAY  ; 6d
-	const WITHDRAW     ; 6e (SUBMERGE)
+	const WITHDRAW     ; 6e (SHELL GAME)
 	const DEFENSE_CURL ; 6f (BUNKER DOWN)
 	const BARRIER      ; 70
 	const LIGHT_SCREEN ; 71
@@ -137,7 +137,7 @@
 	const SWIFT        ; 81
 	const SKULL_BASH   ; 82 (METEOR DRIVE)
 	const SPIKE_CANNON ; 83
-	const CONSTRICT    ; 84
+	const CONSTRICT    ; 84 (VENOM LASH)
 	const AMNESIA      ; 85 (CALM MIND)
 	const KINESIS      ; 86
 	const SOFTBOILED   ; 87

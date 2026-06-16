@@ -10,7 +10,7 @@
 	INCBIN "gfx/pokemon/front/omanyte.pic", 0, 1 ; sprite dimensions
 	dw OmanytePicFront, OmanytePicBackSW
 
-	db WATER_GUN, HORN_ATTACK, NO_MOVE, NO_MOVE ; level 1 learnset (METEOR HORN)
+	db WATER_GUN, HORN_ATTACK, NO_MOVE, NO_MOVE ; level 1 learnset (METEOR HORN) (SUPER SOAK)
 	db GROWTH_MEDIUM_FAST ; growth rate
 
 	; tm/hm learnset

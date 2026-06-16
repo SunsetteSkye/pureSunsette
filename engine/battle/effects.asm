@@ -142,7 +142,7 @@ FreezeBurnParalyzeEffect:
 ;;;;;;;;;; PureRGBnote: CHANGED: ADDED: tweak how some moves behave when applying burn/freeze/paralyze status
 
 	ld a, [wPlayerMoveNum]
-	cp SOLARBEAM ; SOLAR CANNON
+	cp SOLARBEAM ; SOLARBEAM
 	ld b, FIRE ; NEW: solarbeam can't burn fire types
 	jr z, .doComparison1
 
@@ -210,7 +210,7 @@ FreezeBurnParalyzeEffect:
 
 ;;;;;;;;;; PureRGBnote: CHANGED: ADDED: tweak how some moves behave when applying burn/freeze/paralyze status
 	ld a, [wEnemyMoveNum]
-	cp SOLARBEAM ; SOLAR CANNON
+	cp SOLARBEAM ; SOLARBEAM
 	ld b, FIRE ; NEW: solarbeam can't burn fire types
 	jr z, .doComparison2
 	
@@ -1205,7 +1205,7 @@ ChargeMoveEffectText:
 	;cp RAZOR_WIND
 	;ld hl, MadeWhirlwindText
 	;ret z
-	;cp SOLAR CANNON
+	;cp SOLARBEAM
 	;ld hl, TookInSunlightText
 	;ret z
 	;cp SKULL_BASH (METEOR DRIVE)
@@ -1287,8 +1287,7 @@ TrappingEffect:
 	dec a
 	ld [de], a
 ;;;;;;;;;;;;;;;;;
-	callfar ArbokWrapBonus ; Sunsette: ARBOK's WRAP keeps the foe trapped 2 rounds longer (self-contained; honors the signature toggle)
-	ret
+	ret ; Sunsette: TrappingEffect is now dead code (no move uses TRAPPING_EFFECT) and ARBOK lost its signatures
 
 MistEffect:
 	jpfar MistEffect_
@@ -1663,9 +1662,9 @@ HazeEffect:
 	jpfar HazeFlinchEffect_
 
 
-; Sunsette: FLOURISH grants the GROWING (1/16-per-turn) regen AND raises the user's SPECIAL by 1 (the old
-; instant 1/3 heal was swapped to the +1 SPECIAL; the heal-OVER-TIME from GROWING stays). The SPECIAL raise
-; itself lives in a roomier bank (FlourishSpecialUp) since this Battle Core bank is full in the debug build.
+; Sunsette: ADAPTATION (visible name; internal const GROWTH). Grants the FLOURISH (1/16-per-turn) regen
+; state here, then jpfar's to AdaptationEffect (roomier bank) to cure the user's status and raise its ATTACK
+; by 1. (Was the old FLOURISH move = +1 SPECIAL + regen; now +1 ATTACK + status cure + regen.)
 GrowthEffect:
 	ld hl, wPlayerBattleStatus3
 	ldh a, [hWhoseTurn]
@@ -1673,13 +1672,12 @@ GrowthEffect:
 	jr z, .gotStatus
 	ld hl, wEnemyBattleStatus3
 .gotStatus
-	set GROWING, [hl]
-	jpfar FlourishSpecialUp
+	set FLOURISH, [hl]
+	jpfar AdaptationEffect
 
 ; PureRGBnote: ADDED: withdraw raises defense by 1 and heals around 1/3rd health. Does nothing at all if you're at full health.
 WithdrawEffect:
-	lb bc, DEFENSE_UP1_EFFECT, WITHDRAW_EFFECT
-	call GetDefensePointers
+	jpfar ShellGameEffect_ ; Sunsette: SUBMERGE -> SHELL GAME (waterify the opponent, then switch out / take Reflect). WithdrawGrowthEffect below is now dead code (nothing falls into it).
 
 WithdrawGrowthEffect:
 	push bc

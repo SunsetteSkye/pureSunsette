@@ -10,7 +10,7 @@
 	INCBIN "gfx/battle/spirit_chunky.pic", 0, 1 ; sprite dimensions
 	dw ChunkyPicFront, RaichuPicBackSW
 
-	db SOFTBOILED, REST, BODY_SLAM, WITHDRAW ; level 1 learnset (SUBMERGE)
+	db SOFTBOILED, REST, BODY_SLAM, WITHDRAW ; level 1 learnset (SHELL GAME)
 	db GROWTH_MEDIUM_FAST ; growth rate
 
 	; tm/hm learnset

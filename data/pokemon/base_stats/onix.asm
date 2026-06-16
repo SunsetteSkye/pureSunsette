@@ -10,7 +10,7 @@
 	INCBIN "gfx/pokemon/front/onix.pic", 0, 1 ; sprite dimensions
 	dw OnixPicFront, OnixPicBackSW
 
-	db TACKLE, SCREECH, HARDEN, BIND ; level 1 learnset (STONEBOUND)
+	db TACKLE, SCREECH, HARDEN, BIND ; level 1 learnset (POWER BIND)
 	db GROWTH_FAST ; growth rate
 
 	; tm/hm learnset

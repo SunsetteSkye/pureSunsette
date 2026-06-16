@@ -11,7 +11,7 @@ FocusEnergyEffect_:
 	callfar PlayCurrentMoveAnimation
 	ld hl, GettingPumpedText
 	call PrintText
-	jpfar ArbokFocusEnergyBonus ; Sunsette: ARBOK signature - also +2 SPEED (no-op for any other user). Only on a fresh use, so the "already active -> fails" rule still prevents stacking the boost.
+	jpfar FocusEnergyDefenseBonus ; Sunsette: FOCUS ENERGY also raises the user's DEFENSE by 1 (for EVERYONE now). Only on a fresh use, so the "already active -> fails" rule still prevents stacking the boost.
 .alreadyUsing
 	ld c, 50
 	rst _DelayFrames

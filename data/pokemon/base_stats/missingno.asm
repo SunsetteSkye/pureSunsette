@@ -10,7 +10,7 @@
 	INCBIN "gfx/pokemon/front/missingno.pic", 0, 1 ; sprite dimensions
 	dw MissingnoPicFront, MissingnoPicBackSW
 
-	db SKY_ATTACK, WATER_GUN, WATER_GUN, NO_MOVE ; level 1 learnset (BRAVE BIRD)
+	db SKY_ATTACK, WATER_GUN, WATER_GUN, NO_MOVE ; level 1 learnset (BRAVE BIRD) (SUPER SOAK)
 	db GROWTH_SLOW ; growth rate
 
 	; tm/hm learnset
@@ -37,7 +37,7 @@
 	ROLLING_KICK,\ ; METEOR SWEEP
 	BARRIER,\
 	RAZOR_LEAF,\
-	SOLARBEAM,\ ; SOLAR CANNON
+	SOLARBEAM,\ ; SOLARBEAM
 	DRAGON_RAGE,\ ; WYRM WRATH
 	THUNDERBOLT,\
 	THUNDER,\

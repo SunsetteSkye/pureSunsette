@@ -9,6 +9,9 @@
 # image editor source files
 *.psd
 
+# Polished Map per-map palette files (generated from sgb_palettes.asm; not part of the build)
+gfx/tilesets/*.pal
+
 # compiled roms
 *.gbc
 *.gb

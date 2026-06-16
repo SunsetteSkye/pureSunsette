@@ -95,14 +95,14 @@ ChampArenaErikaMoveset:
 	db PSYCHIC_M
 	db THUNDER_WAVE
 	; venusaur
-	db GROWTH ; FLOURISH
-	db CONSTRICT ; SIPHON_SNAG
-	db SOLARBEAM ; SOLAR CANNON
+	db GROWTH ; ADAPTATION
+	db CONSTRICT ; SIPHON_SNAG (VENOM LASH)
+	db SOLARBEAM ; SOLARBEAM
 	db EARTHQUAKE
 	; vileplume
 	db PETAL_DANCE ; BLOSSOMBLITZ
 	db POISON_GAS ; MIASMA
-	db GROWTH ; FLOURISH
+	db GROWTH ; ADAPTATION
 	db PSYCHIC_M
 
 ChampArenaBlaineMoveset:
@@ -130,7 +130,7 @@ ChampArenaBlaineMoveset:
 	db BONEMERANG
 	db FIRE_BLAST
 	db SLASH
-	db SOLARBEAM ; SOLAR CANNON
+	db SOLARBEAM ; SOLARBEAM
 	; moltres
 	db FIRE_SPIN
 	db SKY_ATTACK ; BRAVE BIRD
@@ -159,7 +159,7 @@ ChampArenaSurgeMoveset:
 	db TAKE_DOWN ; HEAT RUSH
 	db THUNDER_WAVE
 	; raichu
-	db WITHDRAW ; SUBMERGE
+	db WITHDRAW ; SHELL GAME
 	db SURF
 	db THUNDER
 	db SWIFT
@@ -213,7 +213,7 @@ ChampArenaBrunoMoveset:
 	db EARTHQUAKE
 	db SUBMISSION ; FULL NELSON
 	; onix
-	db WITHDRAW ; SUBMERGE
+	db WITHDRAW ; SHELL GAME
 	db CRABHAMMER
 	db EARTHQUAKE
 	db ROCK_SLIDE
@@ -243,7 +243,7 @@ ChampArenaMistyMoveset:
 	db WATERFALL
 	db HYPER_BEAM
 	db TWINEEDLE
-	db WITHDRAW ; SUBMERGE
+	db WITHDRAW ; SHELL GAME
 	; seadra
 	db LOVELY_KISS
 	db DRAGON_RAGE ; WYRM WRATH
@@ -300,7 +300,7 @@ ChampArenaLanceMoveset:
 ChampArenaKogaMoveset:
 	; tentacruel
 	db MEGA_DRAIN
-	db CONSTRICT ; SIPHON_SNAG
+	db CONSTRICT ; SIPHON_SNAG (VENOM LASH)
 	db TOXIC
 	db SURF
 	; scyther
@@ -309,14 +309,14 @@ ChampArenaKogaMoveset:
 	db SLASH
 	db RAZOR_WIND ; ROOST
 	; muk
-	db GROWTH ; FLOURISH
+	db GROWTH ; ADAPTATION
 	db POISON_GAS ; MIASMA
 	db COUNTER ; SHADOW BOX
 	db EXPLOSION 
 	; parasect
 	db SPORE
 	db TWINEEDLE
-	db GROWTH ; FLOURISH
+	db GROWTH ; ADAPTATION
 	db CRABHAMMER
 	; venomoth
 	db SLEEP_POWDER
@@ -326,17 +326,17 @@ ChampArenaKogaMoveset:
 	; weezing
 	db EGG_BOMB
 	db POISON_GAS ; MIASMA
-	db GROWTH ; FLOURISH
+	db GROWTH ; ADAPTATION
 	db FIRE_BLAST
 
 ChampArenaLoreleiMoveset:
 	; dewgong
-	db WITHDRAW ; SUBMERGE
+	db WITHDRAW ; SHELL GAME
 	db BLIZZARD
 	db SURF
-	db CONSTRICT ; SIPHON_SNAG
+	db CONSTRICT ; SIPHON_SNAG (VENOM LASH)
 	; slowbro
-	db WITHDRAW ; SUBMERGE
+	db WITHDRAW ; SHELL GAME
 	db PSYCHIC_M
 	db SURF
 	db FIRE_PUNCH ; BLAZE HAMMER
@@ -353,7 +353,7 @@ ChampArenaLoreleiMoveset:
 	; lapras
 	db BLIZZARD
 	db HYDRO_PUMP
-	db SOLARBEAM ; SOLAR CANNON
+	db SOLARBEAM ; SOLARBEAM
 	db FLASH
 	; articuno
 	db RAZOR_WIND ; ROOST
@@ -378,7 +378,7 @@ ChampArenaBrockMoveset:
 	db LEECH_LIFE
 	db SWORDS_DANCE
 	; omastar
-	db WITHDRAW ; SUBMERGE
+	db WITHDRAW ; SHELL GAME
 	db DEFENSE_CURL ; BUNKER DOWN
 	db CRABHAMMER
 	db MEGA_DRAIN 
@@ -388,7 +388,7 @@ ChampArenaBrockMoveset:
 	db WHIRLWIND ; HURRICANE
 	db SLASH
 	; onix
-	db WITHDRAW ; SUBMERGE
+	db WITHDRAW ; SHELL GAME
 	db SELFDESTRUCT
 	db EARTHQUAKE
 	db SPIKE_CANNON
@@ -408,9 +408,9 @@ ChampArenaAgathaMoveset:
 	db FLAMETHROWER
 	db SONICBOOM
 	db CONFUSE_RAY
-	db SOLARBEAM ; SOLAR CANNON
+	db SOLARBEAM ; SOLARBEAM
 	; arbok
-	db WITHDRAW ; SUBMERGE
+	db WITHDRAW ; SHELL GAME
 	db LEECH_LIFE
 	db SUPER_FANG
 	db ACID
@@ -439,7 +439,7 @@ ChampArenaGymGuideMoveset:
 	; cloyster
 	db CRABHAMMER
 	db BLIZZARD
-	db WITHDRAW ; SUBMERGE
+	db WITHDRAW ; SHELL GAME
 	db GLARE
 	; alakazam
 	db PSYCHIC_M
@@ -475,7 +475,7 @@ ChampArenaRivalMoveset1:
 	db MEGA_KICK ; PISTON KICK
 	; exeggutor
 	db PSYCHIC_M
-	db SOLARBEAM ; SOLAR CANNON
+	db SOLARBEAM ; SOLARBEAM
 	db SLEEP_POWDER
 	db EGG_BOMB
 	; snorlax
@@ -494,7 +494,7 @@ ChampArenaRivalMoveset2:
 	db FLAMETHROWER
 	db RAZOR_WIND ; ROOST
 	db SKY_ATTACK ; BRAVE BIRD
-	db SOLARBEAM ; SOLAR CANNON
+	db SOLARBEAM ; SOLARBEAM
 	; alakazam
 	db PSYCHIC_M
 	db AURORA_BEAM
@@ -517,7 +517,7 @@ ChampArenaRivalMoveset2:
 	db MEGA_DRAIN
 	; blastoise
 	db HYDRO_PUMP
-	db WITHDRAW ; SUBMERGE
+	db WITHDRAW ; SHELL GAME
 	db COUNTER ; SHADOW BOX
 	db ICE_BEAM
 
@@ -604,7 +604,7 @@ EliteFourRivalMoveset1:
 	; exeggutor
 	db PSYCHIC_M
 	db SLEEP_POWDER
-	db SOLARBEAM ; SOLAR CANNON
+	db SOLARBEAM ; SOLARBEAM
 	db EGG_BOMB
 	; snorlax
 	db POISON_GAS ; MIASMA
@@ -644,7 +644,7 @@ EliteFourRivalMoveset2:
 	db ICE_PUNCH ; FROST FIST
 	db LOVELY_KISS
 	; blastoise
-	db WITHDRAW ; SUBMERGE
+	db WITHDRAW ; SHELL GAME
 	db COUNTER ; SHADOW BOX
 	db ICE_BEAM
 	db HYDRO_PUMP
@@ -678,7 +678,7 @@ EliteFourRivalMoveset3:
 	; venusaur
 	db RAZOR_LEAF
 	db SLEEP_POWDER
-	db GROWTH ; FLOURISH
+	db GROWTH ; ADAPTATION
 	db SLAM ; SIPHON SNAG (WASTEMAKER)
 
 MetronomeGamblerMoveset:

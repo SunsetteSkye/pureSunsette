@@ -159,7 +159,7 @@ AIMoveChoiceModification1:
 	cp MIRROR_MOVE ; MOCKINGBIRD
 	call z, EncourageMockingbird ; Sunsette: encourage MOCKINGBIRD when it's worth the stat-steal / Special drop
 	ld a, [wEnemyMoveNum]
-	cp SOLARBEAM ; SOLAR CANNON
+	cp SOLARBEAM ; SOLARBEAM
 	call z, EncourageSolarBeam ; Sunsette: once charged, prefer firing the SolarBeam release
 	ld a, [wEnemyMoveNum]
 	cp PSYWAVE ; SKITTERMIND
@@ -349,7 +349,7 @@ PotentiallyPointlessMoveEffectsJumpTable:
 	dbw CONFUSION_EFFECT, CheckConfused
 	dbw HEAL_EFFECT, CheckFullHealth
 	dbw WITHDRAW_EFFECT, CheckFullHealth
-	; Sunsette: GROWTH_EFFECT (FLOURISH) no longer heals on use (it's +1 SPECIAL + the GROWING regen), so it's
+	; Sunsette: GROWTH_EFFECT (FLOURISH) no longer heals on use (it's +1 SPECIAL + the FLOURISH regen), so it's
 	; useful at full HP - dropped its CheckFullHealth discouragement.
 	dbw DEFENSE_CURL_EFFECT, CheckDefenseCurlUp
 	dbw ACID_ARMOR_EFFECT, CheckBothReflectLightScreenUp

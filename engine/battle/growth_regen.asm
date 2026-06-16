@@ -1,5 +1,5 @@
 ; PureRGBnote: ADDED: Growth's leftovers-like regen. Heals 1/16 of max HP each turn while the
-; user has the GROWING flag set. Lives in its own bank so the Battle Core bank doesn't overflow.
+; user has the FLOURISH flag set. Lives in its own bank so the Battle Core bank doesn't overflow.
 ; Self-derives the current mon's HP pointer from hWhoseTurn; skips fainted mons; caps at max HP.
 SECTION "Growth Regen", ROMX
 
@@ -13,7 +13,7 @@ HandleGrowthRegen::
 	ld de, wEnemyBattleStatus3
 .gotPointers
 	ld a, [de]
-	bit GROWING, a
+	bit FLOURISH, a
 	ret z
 	ld a, [hl]      ; don't regen a fainted mon
 	inc hl

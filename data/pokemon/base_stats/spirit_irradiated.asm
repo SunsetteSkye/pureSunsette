@@ -10,7 +10,7 @@
 	INCBIN "gfx/battle/spirit_irradiated.pic", 0, 1 ; sprite dimensions
 	dw IrradiatedPicFront, HitmonchanPicBackSW
 
-	db GROWTH, SLUDGE, STRUGGLE, DRAGON_RAGE ; level 1 learnset (WYRM WRATH, FLOURISH) (SLUDGE BOMB)
+	db GROWTH, SLUDGE, STRUGGLE, DRAGON_RAGE ; level 1 learnset (WYRM WRATH, ADAPTATION) (SLUDGE BOMB)
 	db GROWTH_MEDIUM_FAST ; growth rate
 
 	; tm/hm learnset

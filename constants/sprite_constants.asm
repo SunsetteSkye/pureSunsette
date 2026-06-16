@@ -99,6 +99,9 @@
 	const SPRITE_HOOLIGAN                  ; $5e
 	const SPRITE_BALL_DESIGNER             ; $5f
 	const SPRITE_CAT2                      ; $60
+	const SPRITE_CUEBALL                   ; $61 ; Sunsette: CUE BALL trainer overworld sprite (was reusing SPRITE_BIKER)
+; Sunsette: the walking SPRITE_CUEBALL added above pushes FIRST_STILL_SPRITE (and every still-sprite
+; id below) up by 1. The ; $xx comments past this point are auto-computed by const_value; build-safe.
 DEF FIRST_STILL_SPRITE EQU const_value
 	const SPRITE_POKE_BALL                 ; $61
 	const SPRITE_FOSSIL                    ; $62

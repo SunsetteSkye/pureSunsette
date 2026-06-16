@@ -10,7 +10,7 @@
 	INCBIN "gfx/pokemon/front/goldeen.pic", 0, 1 ; sprite dimensions
 	dw GoldeenPicFront, GoldeenPicBackSW
 
-	db SPLASH, WATER_GUN, SUPERSONIC, NO_MOVE ; level 1 learnset
+	db SPLASH, WATER_GUN, SUPERSONIC, NO_MOVE ; level 1 learnset (SUPER SOAK)
 	db GROWTH_MEDIUM_FAST ; growth rate
 
 	; tm/hm learnset

@@ -149,7 +149,7 @@ CheckPerTurnSpecialBattleEffect::
 
 ; PureRGBnote: ADDED: when battle starts in special battles something can happen, for example moltres in the volcano gets powered up by magma.
 CheckInitSpecialBattleEffect::
-	call CheckWildGrowthHealingMap ; Sunsette: ADDED: growth-healing maps give wild mons the GROWING regen
+	call CheckWildGrowthHealingMap ; Sunsette: ADDED: growth-healing maps give wild mons the FLOURISH regen
 	call CheckWildConfuseRayPalette ; Sunsette: ADDED: CONFUSE RAY makes the next wild mon use its alt palette
 	call CheckWildSurfSpeedDebuff ; Sunsette: ADDED: SURF -1 SPEED on the wild mon (non-Water/Flying)
 	call CheckWildDarknessAccuracyDebuff ; Sunsette: ADDED: dark-cave (Flash off) -2 ACCURACY on the wild mon
@@ -224,7 +224,7 @@ CheckInitSpecialBattleEffect::
 	text_far _PainlessBattleInitText
 	text_end
 
-; Sunsette: ADDED: on "growth-healing" maps, wild Pokemon enter battle with the GROWING
+; Sunsette: ADDED: on "growth-healing" maps, wild Pokemon enter battle with the FLOURISH
 ; status (Growth's leftovers-like 1/16-per-turn regen) and announce "It's full of energy!".
 ; Active on the 4 outdoor Safari Zone maps ($D9-$DC). Wild battles only (trainers unaffected).
 CheckWildGrowthHealingMap:
@@ -238,10 +238,10 @@ CheckWildGrowthHealingMap:
 	ret nc
 .arm
 	ld hl, wEnemyBattleStatus3
-	set GROWING, [hl]
+	set FLOURISH, [hl]
 	; Sunsette: announce it here (after the flag is set). This runs in CheckInitSpecialBattleEffect,
 	; which fires AFTER "Wild X appeared!" but before the battle menu - same slot as the volcano/tower
-	; effect texts. (The earlier attempt in PrintBeginningBattleText ran before GROWING was set.)
+	; effect texts. (The earlier attempt in PrintBeginningBattleText ran before FLOURISH was set.)
 	ld hl, .fullOfEnergyText
 	rst _PrintText
 	ret
@@ -710,7 +710,7 @@ ChargeMoveEvasionBoost::
 ; Sunsette: move-keyed bonus applied AFTER certain damaging moves HIT (post-damage, target alive).
 ; callfar'd from Battle Core's player & enemy SpecialEffects tail; hWhoseTurn = the user. These fire
 ; for ANY user of the move (the legendary birds' dedicated signature moves - no species gate):
-;   PHOENIX DIVE -> the GROWING regen state (like FLOURISH) + a 30% burn chance
+;   PHOENIX DIVE -> the FLOURISH regen state (like FLOURISH) + a 30% burn chance
 ;   STORM DRILL  -> a 30% paralyze chance
 ;   WINTER GALE  -> a 30% freeze chance
 ; The status reuses Battle Core's FreezeBurnParalyzeEffect by temporarily setting the user's move
@@ -718,6 +718,7 @@ ChargeMoveEvasionBoost::
 ; immunity check is right (burn<-FIRE so fire-types are immune, freeze<-ICE so ice-types are
 ; immune, paralyze<-NORMAL which that routine treats as "affects any type"), then restores both.
 SpeciesMoveBonus::
+	callfar WaterMoveCleansesTargetBurn ; Sunsette: a WATER move that connects (post-damage, target alive) washes the target's burn off
 	ldh a, [hWhoseTurn]
 	and a
 	jr nz, .enemy
@@ -744,15 +745,43 @@ SpeciesMoveBonus::
 	jr z, .strengthRage
 	cp STRENGTH
 	jr z, .strengthRage
+	cp FIRE_SPIN
+	jr z, .fireSpinBurn
+	cp WRAP
+	jr z, .trapSpeedDrop
+	cp BIND ; POWER BIND
+	jr z, .trapSpeedDrop
+	cp CLAMP
+	jr z, .clampDefUp
 	ret
+.fireSpinBurn ; Sunsette: FIRE SPIN - 30% burn on the target (any user); reuses .applyStatus (BURN_SIDE_EFFECT2 = 30% roll). No FLOURISH (unlike PHOENIX DIVE's .sky).
+	ld d, BURN_SIDE_EFFECT2
+	ld e, FIRE
+	jr .applyStatus
+.trapSpeedDrop ; Sunsette: WRAP / POWER BIND - guaranteed -1 SPEED on the target (b = target side = hWhoseTurn)
+	ldh a, [hWhoseTurn]
+	ld b, a
+	ld c, SPEED_DOWN1_EFFECT
+	call ApplyStatDownToTarget
+	ldh a, [hWhoseTurn] ; ApplyStatDownToTarget leaves the move effect as SPEED_DOWN1 (doesn't restore); put FLINCH_SIDE_EFFECT2 back
+	and a
+	ld hl, wPlayerMoveEffect
+	jr z, .restoreFlinch
+	ld hl, wEnemyMoveEffect
+.restoreFlinch
+	ld [hl], FLINCH_SIDE_EFFECT2
+	ret
+.clampDefUp ; Sunsette: CLAMP - guaranteed +1 DEFENSE on the user (RaiseUserStatViaSwap self-restores the move effect/num)
+	ld a, DEFENSE_UP1_EFFECT
+	jp RaiseUserStatViaSwap
 .strengthRage
 	; Sunsette: STRENGTH's capped +1 ATK (80-BP branch) and UNLEASH RAGE's on-hit status/confusion clear both
 	; live in newCode3 (this bank is full); dispatched there by move number. Reached only post-damage with the
 	; target alive (= "able to damage").
 	callfar StrengthRagePostHit
 	ret
-.sky ; PHOENIX DIVE - burn + GROWING regen for the user (any species)
-	call SetUserGrowing            ; the user always gains GROWING when PHOENIX DIVE lands
+.sky ; PHOENIX DIVE - burn + FLOURISH regen for the user (any species)
+	call SetUserFlourish            ; the user always gains FLOURISH when PHOENIX DIVE lands
 	ld d, BURN_SIDE_EFFECT2
 	ld e, FIRE
 	jr .applyStatus
@@ -796,21 +825,21 @@ SpeciesMoveBonus::
 	ld [de], a                     ; restore move effect
 	ret
 
-SetUserGrowing:
+SetUserFlourish:
 	ld hl, wPlayerBattleStatus3
 	ldh a, [hWhoseTurn]
 	and a
 	jr z, .got
 	ld hl, wEnemyBattleStatus3
 .got
-	set GROWING, [hl]
+	set FLOURISH, [hl]
 	ret
 
-; Sunsette: SNORLAX's REST also grants the FLOURISH/GROWING regen state and +1 SPEED. Called from
+; Sunsette: SNORLAX's REST also grants the FLOURISH/FLOURISH regen state and +1 SPEED. Called from
 ; HealEffect_ (heal.asm) on the successful-REST branch; hWhoseTurn = the REST user. Honors the MOVE
 ; MYSTIC signature-move toggle. The SPEED boost borrows StatModifierUpEffect via JoltBoltEffect_'s
 ; temp-swap (set the effect to SPEED_UP1, zero the move num to dodge the Minimize/substitute path).
-; Sunsette: FLOURISH's +1 SPECIAL. GrowthEffect (Battle Core) jpfar's here after setting the GROWING regen;
+; Sunsette: FLOURISH's +1 SPECIAL. GrowthEffect (Battle Core) jpfar's here after setting the FLOURISH regen;
 ; the raise lives in this roomier bank since Battle Core is full.
 FlourishSpecialUp::
 	; Sunsette: GROWTH(FLOURISH) and AMNESIA(CALM MIND) are 0-BP, so the main flow never plays their move
@@ -865,6 +894,45 @@ RaiseUserStatViaSwap:
 	ld [hl], a ; restore move effect
 	ret
 
+; Sunsette: ADAPTATION (was the FLOURISH move; internal const GROWTH). 0-BP. GrowthEffect (Battle Core) sets
+; the FLOURISH regen bit then jpfar's here: play the animation, CURE the user's major status (+recompute
+; stats), then raise ATTACK by 1 via RaiseUserStatViaSwap (which self-restores the move effect/num).
+AdaptationEffect::
+	callfar PlayCurrentMoveAnimation2
+	call CureUserStatus
+	ld a, ATTACK_UP1_EFFECT
+	jp RaiseUserStatViaSwap
+
+; Sunsette: clear the USER's (hWhoseTurn side) major status condition - both the in-battle copy AND the
+; party copy - then recompute its modified stats so any burn/paralysis/freeze penalty is undone. No-op (and
+; skips the recompute) if the user has no status. Volatile statuses (confusion) are NOT touched here.
+CureUserStatus:
+	ldh a, [hWhoseTurn]
+	and a
+	ld hl, wBattleMonStatus
+	jr z, .gotInBattle
+	ld hl, wEnemyMonStatus
+.gotInBattle
+	ld a, [hl]
+	and a
+	ret z ; no status -> nothing to cure
+	ld [hl], 0 ; clear the in-battle status
+	ldh a, [hWhoseTurn]
+	and a
+	ld hl, wPartyMon1Status
+	ld a, [wPlayerMonNumber]
+	jr z, .gotParty
+	ld hl, wEnemyMon1Status
+	ld a, [wEnemyMonPartyPos]
+.gotParty
+	ld bc, PARTYMON_STRUCT_LENGTH
+	call AddNTimes
+	ld [hl], 0 ; clear the party copy too (full cure)
+	ldh a, [hWhoseTurn]
+	ld [wCalculateWhoseStats], a
+	callfar CalculateModifiedStats
+	ret
+
 SnorlaxRestBonus::
 	CheckEvent FLAG_SIGNATURE_MOVES_TURNED_OFF
 	ret nz
@@ -876,7 +944,7 @@ SnorlaxRestBonus::
 .gotSpecies
 	cp SNORLAX
 	ret nz
-	call SetUserGrowing ; FLOURISH regen (GROWING) on the user
+	call SetUserFlourish ; FLOURISH regen (FLOURISH) on the user
 	ld a, SPEED_UP1_EFFECT
 	jp RaiseUserStatViaSwap ; +1 SPEED (shared temp-swap helper)
 
@@ -1077,16 +1145,23 @@ SolarBeamEffect_::
 .gotStatus
 	bit SOLARBEAM_PRIMED, [hl]
 	jr nz, .release
-	; charge turn: arm, then drain 1/2 (DrainHPEffect_ prints the "took in energy!" line via the move-num check)
+	; Sunsette CHARGE turn (power was 0 -> reached via ResidualEffects2, no damage): arm the release, grant
+	; the FLOURISH regen state, print "took in sunlight!", and raise the user's SPECIAL by 1. The classic
+	; charge-up animation already played (Battle Core's FLY/CHARGE anim path). hl -> this side's status3.
 	set SOLARBEAM_PRIMED, [hl]
-	farcall DrainHPEffect_
-	ret
+	set FLOURISH, [hl]
+	ld hl, SolarBeamSunlightText
+	rst _PrintText
+	ld a, SPECIAL_UP1_EFFECT
+	jp RaiseUserStatViaSwap ; +1 SPECIAL (self-restores the move effect/num)
 .release
 	res SOLARBEAM_PRIMED, [hl] ; the charge is spent
-	jr .burn
+	call .burn
+	jp .lowerUserSpecial
 .fire
 	farcall DefaultRecoilEffect_ ; 1/3 recoil to the FIRE user
-	; fall through to .burn
+	call .burn
+	jp .lowerUserSpecial
 .burn:
 	; 30% burn, but only if the target is still standing (this runs even on a KO)
 	call .targetAlive
@@ -1110,6 +1185,22 @@ SolarBeamEffect_::
 .restoreEff
 	pop af
 	ld [hl], a ; restore SOLARBEAM_EFFECT
+	ret
+; Sunsette: after firing, drop the USER's own SPECIAL by 1. ApplyStatDownToTarget b = NOT hWhoseTurn (the
+; acting side). It leaves the move effect as SPECIAL_DOWN1, so restore SOLARBEAM_EFFECT afterward.
+.lowerUserSpecial:
+	ldh a, [hWhoseTurn]
+	xor 1
+	ld b, a
+	ld c, SPECIAL_DOWN1_EFFECT
+	call ApplyStatDownToTarget
+	ldh a, [hWhoseTurn]
+	and a
+	ld hl, wPlayerMoveEffect
+	jr z, .restoreSB
+	ld hl, wEnemyMoveEffect
+.restoreSB
+	ld [hl], SOLARBEAM_EFFECT
 	ret
 ; carry set if the SolarBeam user is FIRE-type
 .userIsFire
@@ -1142,52 +1233,73 @@ SolarBeamEffect_::
 	or [hl]
 	ret
 
-; Sunsette: when the SolarBeam MOVE animation is about to play, a non-fire user that hasn't yet
-; "charged" (SOLARBEAM_PRIMED clear) shows the MEGA DRAIN animation instead - so the charge turn reads
-; as gathering energy and the release shows the real beam. FIRE users (one-shot) and the primed release
-; keep the SOLARBEAM animation. Called via callfar from PlayMoveAnimation right after it stores
-; wAnimationID; hWhoseTurn = the acting mon. The primed bit is read here at PRE-effect time (same as
-; SolarBeamPowerModifier), so the anim matches the power: charge=MegaDrain/60, release=SolarBeam/120.
-; Because the animation engine's SetMoveDexSeen keys off wAnimationID, when we repoint the ID we first
-; mark SOLARBEAM seen ourselves and consume the seen-flag so SetMoveDexSeen won't credit MEGA DRAIN.
-SolarBeamAnimSwap::
-	ld a, [wAnimationID]
-	cp SOLARBEAM
-	ret nz ; not the SolarBeam move animation - leave it alone (covers non-move anim IDs too)
+SolarBeamSunlightText: ; Sunsette: SolarBeam's charge turn
+	text_far _SolarBeamSunlightText
+	text_end
+
+; Sunsette: SolarBeamAnimSwap (the Mega-Drain charge-turn anim hack) was removed - the reworked SolarBeam
+; charge turn plays the classic charge-up animation (Battle Core FLY/CHARGE path), not the beam.
+
+; Sunsette: SHELL GAME (the WITHDRAW move; WITHDRAW_EFFECT repurposed - jpfar'd here from WithdrawEffect).
+; Always WATERIFIES the opponent (retype to WATER), then shuffles: the PLAYER gets a "Switch?" Yes/No - YES
+; switches out (flees in a wild battle), NO hunkers behind REFLECT. The enemy AI switches if it has a healthy
+; benchwarmer, else takes REFLECT. 0-BP status move. Switch/flee flows mirror _TeleportEffect (teleport.asm).
+ShellGameEffect_::
+	callfar PlayCurrentMoveAnimation2 ; 0-BP move: play its animation here
+	farcall WaterifyEffect_           ; retype the opponent to pure WATER (always, both branches)
 	ldh a, [hWhoseTurn]
 	and a
-	ld hl, wBattleMonType1
-	jr z, .gotType
-	ld hl, wEnemyMonType1
-.gotType
-	ld a, [hli]
-	cp FIRE
-	ret z ; FIRE user fires the beam in one shot - keep SOLARBEAM
-	ld a, [hl]
-	cp FIRE
-	ret z
+	jp nz, .enemy
+; --- PLAYER: Switch? Yes/No ---
+	ld hl, ShellGameSwitchPromptText
+	rst _PrintText
+	call YesNoChoice                  ; z = YES (switch/flee), nz = NO (Reflect)
+	jr nz, .reflect
+	ld a, [wIsInBattle]
+	dec a
+	jr z, .playerFlee                 ; wIsInBattle == 1 -> wild battle: flee
+	; trainer battle: switch out (needs a healthy benchwarmer; else fall back to Reflect)
+	callfar CheckCanForceSwitch       ; nz if there is a mon to switch to
+	jr z, .reflect
+	call SaveScreenTilesToBuffer1
+	callfar ChooseNextMon
+	xor a
+	ld [wPlayerMoveNum], a
+	ret
+.playerFlee
+	callfar ReadPlayerMonCurHPAndStatus
+	xor a
+	ld [wAnimationType], a
+	inc a
+	ld [wEscapedFromBattle], a        ; the main loop ends the battle after the move (fled)
+	ld hl, ShellGameFledText
+	rst _PrintText
+	ret
+.enemy
+	callfar CheckCanForceSwitch       ; CheckCanForceSwitch derives the side from hWhoseTurn (enemy here)
+	jr z, .reflect                    ; no healthy benchwarmer -> Reflect
+	jpfar SwitchEnemyMonNoText
+.reflect
 	ldh a, [hWhoseTurn]
 	and a
 	ld hl, wPlayerBattleStatus3
-	jr z, .gotStatus
+	jr z, .gotRef
 	ld hl, wEnemyBattleStatus3
-.gotStatus
-	bit SOLARBEAM_PRIMED, [hl]
-	ret nz ; primed -> this is the release -> keep the SOLARBEAM beam
-	; charge turn: mark SOLARBEAM seen now + consume the flag so SetMoveDexSeen won't mark MEGA DRAIN
-	ld a, [wBattleFunctionalFlags]
-	bit 0, a
-	jr z, .swap
-	res 0, a
-	ld [wBattleFunctionalFlags], a
-	ld c, SOLARBEAM - 1
-	ld b, FLAG_SET
-	ld hl, wMovedexSeen
-	call FlagAction
-.swap
-	ld a, MEGA_DRAIN
-	ld [wAnimationID], a
+.gotRef
+	set HAS_REFLECT_UP, [hl]           ; hunker behind Reflect
+	ld hl, ShellGameReflectText
+	rst _PrintText
 	ret
+
+ShellGameSwitchPromptText:
+	text_far _ShellGameSwitchPromptText
+	text_end
+ShellGameReflectText:
+	text_far _ShellGameReflectText
+	text_end
+ShellGameFledText:
+	text_far _ShellGameFledText
+	text_end
 
 ; Sunsette: SKITTERMIND (PSYWAVE). No-damage PSYCHIC status move, reached via the Haze trampoline ->
 ; HazeFlinchEffect_ (it's in ResidualEffects1, so it's dispatched before damage and runs its own
@@ -1742,14 +1854,14 @@ EnemyOnSendOut::
 ; a flavor line. Two effect types (table-driven, add a row to extend):
 ;   ENEMYBUFF_STATUP  - +1 stat stage (param = the *_UP1_EFFECT). The line replaces the default
 ;                       "ENEMY X's STAT rose!" via the wRegionalStatRiseTextID skip.
-;   ENEMYBUFF_GROWING - set the GROWING regen flag (param unused).
+;   ENEMYBUFF_FLOURISH - set the FLOURISH regen flag (param unused).
 ; Enemy stat mods reset to neutral per send-out (LoadEnemyMonData), so +1 is per-mon, no stacking.
 ; Runs for trainer battles only (wild mons aren't sent via EnemySendOutFirstMon). NOTE: the
 ; environmental POISON hazards (Celadon "spores", Lavender Tower "black mist") poison the PLAYER's
 ; mon, not the enemy (the enemy mons there are mostly Poison/Ghost = immune) - see
 ; ApplyPlayerSendOutMapEffects.
 DEF ENEMYBUFF_STATUP  EQU 0
-DEF ENEMYBUFF_GROWING EQU 1
+DEF ENEMYBUFF_FLOURISH EQU 1
 
 ApplyEnemySendOutMapEffects:
 	ld a, [wCurMap]
@@ -1776,9 +1888,9 @@ ApplyEnemySendOutMapEffects:
 	pop af      ; effect type
 	and a
 	jr z, .statUp
-.growing ; ENEMYBUFF_GROWING
+.growing ; ENEMYBUFF_FLOURISH
 	ld hl, wEnemyBattleStatus3
-	set GROWING, [hl]
+	set FLOURISH, [hl]
 	ld h, b
 	ld l, c
 	rst _PrintText
@@ -1820,7 +1932,7 @@ EnemySendOutBuffTable:
 	dw .cinnabarText
 	db VIRIDIAN_GYM,  ENEMYBUFF_STATUP, ACCURACY_UP1_EFFECT
 	dw .viridianText
-	db CERULEAN_GYM,  ENEMYBUFF_GROWING, 0
+	db CERULEAN_GYM,  ENEMYBUFF_FLOURISH, 0
 	dw .ceruleanText
 	db $FF
 .pewterText

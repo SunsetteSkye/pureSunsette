@@ -211,7 +211,7 @@ WHIRLWINDName:
 FLYName:
 	db "FLY@"
 BINDName:
-	db "STONEBOUND@" ; visible name; internal const BIND (was BIND)
+	db "POWER BIND@" ; visible name; internal const BIND (was STONEBOUND -> POWER BIND)
 SLAMName:
 	db "WASTEMAKER@"
 VINEWHIPName:
@@ -280,8 +280,8 @@ FLAMETHROWERName:
 	db "FLAMETHROWER@"
 MISTName:
 	db "ETHEREAL@"
-WATERGUNName:
-	db "WATER GUN@"
+WATERGUNName: ; SUPER SOAK
+	db "SUPER SOAK@"
 HYDROPUMPName:
 	db "HYDRO PUMP@"
 SURFName:
@@ -318,12 +318,12 @@ MEGADRAINName:
 	db "MEGA DRAIN@"
 LEECHSEEDName:
 	db "LEECH SEED@"
-GROWTHName:
-	db "FLOURISH@"
+GROWTHName: ; ADAPTATION (the FLOURISH name moved to the regen STATE)
+	db "ADAPTATION@"
 RAZORLEAFName:
 	db "RAZOR LEAF@"
 SOLARBEAMName:
-	db "SOLAR CANNON@"
+	db "SOLARBEAM@"
 POISONPOWDERName:
 	db "POISONPOWDER@"
 STUNSPOREName:
@@ -391,7 +391,7 @@ SMOKESCREENName:
 CONFUSERAYName:
 	db "CONFUSE RAY@"
 WITHDRAWName:
-	db "SUBMERGE@" ; visible name; internal const WITHDRAW
+	db "SHELL GAME@" ; visible name; internal const WITHDRAW (was SUBMERGE -> SHELL GAME)
 DEFENSECURLName:
 	db "BUNKER DOWN@"
 BARRIERName:
@@ -435,7 +435,7 @@ SKULLBASHName:
 SPIKECANNONName:
 	db "SPIKE CANNON@"
 CONSTRICTName:
-	db "STRANGLEVINE@" ; changed from CONSTRICT
+	db "VENOM LASH@" ; visible name; internal const CONSTRICT (was STRANGLEVINE -> VENOM LASH)
 AMNESIAName:
 	db "CALM MIND@" ; visible name; internal const AMNESIA (was AMNESIA)
 KINESISName:

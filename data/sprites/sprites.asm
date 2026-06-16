@@ -111,6 +111,7 @@ SpriteSheetPointerTable:
 	overworld_sprite HooliganSprite, 12               ; SPRITE_HOOLIGAN
 	overworld_sprite CeruleanBallDesignerSprite, 12   ; SPRITE_BALL_DESIGNER
 	overworld_sprite CatSprite, 12                    ; SPRITE_CAT2
+	overworld_sprite CueballSprite, 12                ; SPRITE_CUEBALL
 	overworld_sprite PokeBallSprite, 4                ; SPRITE_POKE_BALL
 	overworld_sprite FossilSprite, 4                  ; SPRITE_FOSSIL
 	overworld_sprite BoulderSprite, 4                 ; SPRITE_BOULDER

@@ -105,7 +105,7 @@ RemappableMoves::
 	db TOXIC, -1, -2, 4
 	db SKULL_BASH, -1, -2, 5 ; METEOR DRIVE
 	db SLAM, -1, -2, 6 ; WASTEMAKER
-	db SOLARBEAM, -1, -2, 7 ; Sunsette: live power - 60 (charge) / 120 (release, primed) / 90 (FIRE user) (SOLAR CANNON)
+	db SOLARBEAM, -1, -2, 7 ; Sunsette: live power - 60 (charge) / 120 (release, primed) / 90 (FIRE user) (SOLARBEAM)
 	; signature moves start here
 	db POISON_STING, BEEDRILL, 45, 0
 	db TWINEEDLE, BEEDRILL, 65, 0
@@ -121,7 +121,7 @@ RemappableMoves::
 	db WHIRLWIND, PIDGEOT, -1, 100 percent ; HURRICANE
 	; Sunsette: BLASTOISE's HYDRO_PUMP / SKULL_BASH (METEOR DRIVE) signatures removed (no longer a MOVE MYSTIC mon).
 	db PSYBEAM, GOLDUCK, 105, 0
-	db CONSTRICT, TANGELA, 90, 0 ; STRANGLEVINE: 75 BP normally, 90 BP for TANGELA (signature)
+	db CONSTRICT, TANGELA, 90, 0 ; VENOM LASH: 75 BP normally, 90 BP for TANGELA (signature)
 	db DIZZY_PUNCH, KANGASKHAN, 90, 0 ; Sunsette: 70 BP normally, 90 BP for KANGASKHAN (signature)
 	db LOW_KICK, -1, -2, 8 ; Sunsette: power scales with the TARGET's weight (LowKickModifier)
 	db CRABHAMMER, -1, -2, 9 ; Sunsette: signature power by user - 75 KRABBY / 100 KINGLER (CrabhammerModifier)
@@ -130,9 +130,9 @@ RemappableMoves::
 	; Sunsette: no-op (power/accuracy unchanged) species entries whose REAL signature bonus is an EFFECT
 	; applied elsewhere (SnorlaxRestBonus / ArbokFocusEnergyBonus / ArbokWrapBonus). They live here only
 	; so the species-match path flags the "Signature Move!" message right after the move is announced.
-	db REST, SNORLAX, -1, 0          ; SNORLAX: REST also grants GROWING + SPEED +1 (SnorlaxRestBonus)
-	db FOCUS_ENERGY, ARBOK, -1, 0    ; ARBOK: FOCUS ENERGY also raises SPEED (ArbokFocusEnergyBonus)
-	db WRAP, ARBOK, -1, 0            ; ARBOK: WRAP traps 2 rounds longer (ArbokWrapBonus)
+	db REST, SNORLAX, -1, 0          ; SNORLAX: REST also grants FLOURISH + SPEED +1 (SnorlaxRestBonus)
+	; Sunsette: ARBOK's FOCUS ENERGY (+SPEED) and WRAP (+2 trap rounds) signatures were removed (Focus Energy
+	; now gives everyone +1 DEF; WRAP no longer traps). No "Signature Move!" flag for ARBOK anymore.
 	db SPLASH, -1, -2, 11            ; Sunsette: power scales with the USER's weight (SplashWeightModifier); MAGIKARP -> 0 (signature comedy)
 	db -1
 
@@ -151,10 +151,10 @@ ModifierFuncs:
 	dw SplashWeightModifier
 
 ; Sunsette: SolarBeam's power is decided live, before damage calc, from the user's state:
-;   FIRE-type user           -> 90  (one-shot recoil+burn variant, never primes)
-;   non-fire, SOLARBEAM_PRIMED set -> 120 (the release of a charged beam)
-;   non-fire, not primed     -> 60  (the Mega-Drain-like charge turn that primes it)
-; The matching post-damage behavior (drain / recoil / burn / arm / disarm) is SolarBeamEffect_.
+;   FIRE-type user           -> 120 (one-shot full power; recoil + 30% burn + -1 SPC, never charges)
+;   non-fire, SOLARBEAM_PRIMED set -> 120 (the release of a charged beam; 30% burn + -1 SPC)
+;   non-fire, not primed     -> 0   (the NON-DAMAGING charge turn: +1 SPC + FLOURISH; primes the release)
+; The matching behavior (charge buffs / recoil / burn / -1 SPC / arm / disarm) is SolarBeamEffect_.
 SolarBeamPowerModifier:
 	call GetMoveRemapData2 ; bc = wXxxMovePower for the active side (de = accuracy, unused)
 	call GetUserType       ; hl -> user's type1
@@ -171,12 +171,12 @@ SolarBeamPowerModifier:
 	ld hl, wEnemyBattleStatus3
 .gotStatus
 	bit SOLARBEAM_PRIMED, [hl]
-	ld a, 60  ; not primed -> charge turn
+	ld a, 0   ; Sunsette: not primed -> charge turn is now NON-DAMAGING (+1 SPC + FLOURISH instead); SolarBeamEffect_ runs via ResidualEffects2 on this 0-power turn
 	jr z, .store
-	ld a, 120 ; primed -> release
+	ld a, 120 ; primed -> release (full power)
 	jr .store
 .fire
-	ld a, 90
+	ld a, 120 ; Sunsette: FIRE users skip the charge and fire at full power (with recoil + the -1 SPC)
 .store
 	ld [bc], a
 	ret

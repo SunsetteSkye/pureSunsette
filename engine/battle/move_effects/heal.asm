@@ -99,10 +99,10 @@ HealEffectCommon:
 ; Recover and Softboiled only heal for half the mon's max HP
 	srl b
 	rr c
-	cp WITHDRAW ; SUBMERGE
-	jr z, .oneThird
-	cp GROWTH ; FLOURISH
-	jr z, .oneThird
+	cp WITHDRAW ; SHELL GAME
+	jp z, .oneThird ; Sunsette: jp (not jr) - the RECOVER FLOURISH hook pushed .oneThird out of jr range
+	cp GROWTH ; ADAPTATION
+	jp z, .oneThird ; Sunsette: jp (not jr) - the RECOVER FLOURISH hook pushed .oneThird out of jr range
 	cp TELEPORT
 	jr nz, .gotHPAmountToHeal
 ; Teleport heals 1/4 HP
@@ -159,9 +159,14 @@ HealEffectCommon:
 	ld hl, RegainedHealthText
 	rst _PrintText
 	call GetMoveNumber
+	cp RECOVER
+	jr nz, .notRecover
+	callfar SetUserFlourish ; Sunsette: RECOVER also grants the FLOURISH regen state (on top of its normal heal)
+	ret
+.notRecover
 	cp REST
 	ret nz
-	callfar SnorlaxRestBonus ; Sunsette: SNORLAX's REST also grants FLOURISH (GROWING) + SPEED +1
+	callfar SnorlaxRestBonus ; Sunsette: SNORLAX's REST also grants the FLOURISH regen state + SPEED +1
 	jr .checkScreech
 .failed
 	call GetMoveNumber

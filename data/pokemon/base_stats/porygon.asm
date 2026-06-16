@@ -3,7 +3,7 @@
 	db  65,  80,  70,  40, 120
 	;   hp  atk  def  spd  spc
 
-	db NORMAL, NORMAL ; type
+	db NORMAL, GHOST ; type
 	db 45 ; catch rate
 	db 130 ; base exp
 
@@ -24,14 +24,14 @@
 	BLIZZARD,\
 	HYPER_BEAM,\
 	BARRIER,\
-	SOLARBEAM,\ ; SOLAR CANNON
+	SOLARBEAM,\ ; SOLARBEAM
 	THUNDERBOLT,\
 	THUNDER,\
 	PSYCHIC_M,\
 	MEGA_DRAIN,\
 	KINESIS,\ ; MIRAGE
 	REFLECT,\
-	BIDE,\ ; BULK UP
+	SONICBOOM,\ ; ILL WIND
 	BARRAGE,\ ; SHADOW BALL
 	FIRE_BLAST,\
 	FLAMETHROWER,\

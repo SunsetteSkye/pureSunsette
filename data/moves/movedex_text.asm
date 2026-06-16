@@ -248,11 +248,14 @@ _FlyDexEntry::
 	dex
 
 _BindDexEntry::
-	text "Entraps the foe"
-	next "in a rock-hard"
-	next "grip.@"
+	text "A relentless,"
+	next "crushing hold on"
+	next "the foe."
 
-	text_jump _GenericTrappingMoveText
+	bage "30% to FLINCH,"
+	next "and always cuts"
+	next "the foe's SPEED."
+	dex
 
 _SlamDexEntry::
 	text "Wastes the foe"
@@ -407,7 +410,13 @@ _WrapDexEntry::
 	text "Wraps around foe"
 	next "with a long"
 	next "appendage/body."
-	; fall through
+
+	bage "30% to FLINCH,"
+	next "and always cuts"
+	next "the foe's SPEED."
+	dex
+
+; Sunsette: unused now (trapping replaced by flinch + riders); kept so text-bank offsets don't shift
 _GenericTrappingMoveText::
 	bage "The foe can't"
 	next "move for 2-3"
@@ -640,7 +649,7 @@ _HydroPumpDexEntry::
 
 	bage "at the <opponent>.@"
 
-	text_jump _WaterifyDexText
+	text_jump _GenericNoAdditionalEffectText
 
 
 _SurfDexEntry::
@@ -772,6 +781,10 @@ _GenericAbsorbMoveText::
 	bage "Restores 50% of"
 	next "inflicted damage"
 	next "to the <user>'s HP"
+
+	bage "Always crits a"
+	next "foe that has a"
+	next "status problem."
 	dex
 
 _SeismicTossDexEntry::
@@ -833,9 +846,9 @@ _LeechSeedDexEntry::
 	dex
 
 _GrowthDexEntry::
-	text "The user grows,"
-	next "raising its"
-	next "SPECIAL by 1."
+	text "The user adapts,"
+	next "curing its status"
+	next "and raising ATK."
 
 	bage "Then it heals 1/16"
 	next "each turn until it"
@@ -850,17 +863,17 @@ _RazorLeafDexEntry::
 	text_jump _GenericOftenLandsCriticalHitsText
 
 _SolarbeamDexEntry::
-	text "Soaks up light,"
-	next "then fires it as"
-	next "a searing beam."
+	text "1st turn gathers"
+	next "light, raising"
+	next "SPECIAL. (+1)"
 
-	bage "The 2nd use in a"
-	next "row hits double"
-	next "and may BURN."
+	bage "2nd turn fires a"
+	next "searing beam, may"
+	next "BURN, drops SPC."
 
-	bage "FIRE types fire"
-	next "now: weaker, and"
-	next "it recoils."
+	bage "FIRE types skip"
+	next "the charge: full"
+	next "power + recoil."
 	dex
 
 _PoisonPowderDexEntry::
@@ -926,9 +939,12 @@ _DragonRageDexEntry::
 _FireSpinDexEntry::
 	text "A swirling pillar"
 	next "of fire surrounds"
-	next "the <opponent>.@"
+	next "the <opponent>."
 
-	text_jump _GenericTrappingMoveText
+	bage "30% to FLINCH,"
+	next "and a 30% chance"
+	next "to BURN the foe."
+	dex
 
 _ThundershockDexEntry::
 	text "A basic electric"
@@ -1201,16 +1217,16 @@ _ConfuseRayDexEntry::
 	dex
 
 _WithdrawDexEntry::
-	text "The <user> hunkers"
-	next "down behind cover"
-	next "of any kind."
+	text "A shell shuffle:"
+	next "soaks the foe to"
+	next "WATER type,"
 
-	bage "Heals 33% of max"
-	next "HP and raises"
-	next "DEFENSE. (+1)"
+	bage "then you pick:"
+	next "switch out (flee"
+	next "if wild),"
 
-	bage "Does nothing if"
-	next "at full HP"
+	bage "or stay and gain"
+	next "REFLECT instead."
 	dex
 
 _DefenseCurlDexEntry::
@@ -1284,7 +1300,11 @@ _FocusEnergyDexEntry::
 
 	bage "Raises chance of"
 	next "landing critical"
-	next "hits by 4×"
+	next "hits by 4×."
+
+	bage "Also raises the"
+	next "user's DEFENSE."
+	next "(+1)"
 	dex
 
 _BideDexEntry::
@@ -1413,9 +1433,12 @@ _ClampDexEntry::
 	next "shell, jaws,"
 
 	bage "or powerful"
-	next "magnetism.@"
+	next "magnetism."
 
-	text_jump _GenericTrappingMoveText
+	bage "30% to FLINCH;"
+	next "raises the"
+	next "user's DEFENSE."
+	dex
 
 
 _SwiftDexEntry::
@@ -1455,11 +1478,16 @@ _SpikeCannonDexEntry::
 	dex
 
 _ConstrictDexEntry::
-	text "The foe is snared"
-	next "and crushed by a"
-	next "choking vine.@"
+	text "A venom-soaked"
+	next "lash snares the"
+	next "foe."
 
-	text_jump _Generic30PercentParalysisText
+	bage "30% to PARALYZE."
+
+	bage "Always crits a"
+	next "foe that has a"
+	next "status problem."
+	dex
 
 _AmnesiaDexEntry::
 	text "The <user> empties"
@@ -1863,7 +1891,7 @@ _HidingFieldText::
 	next "fades away!"
 	dex
 
-; Sunsette: shared tail for WATER GUN / HYDRO PUMP (their WATERIFY_EFFECT retype).
+; Sunsette: shared tail for SUPER SOAK (WATER GUN) - its WATERIFY_EFFECT retype.
 _WaterifyDexText::
 	bage "It also drenches"
 	next "the foe, making"

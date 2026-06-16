@@ -458,6 +458,7 @@ INCLUDE "engine/battle/freeze_penalty.asm" ; Sunsette: ADDED: FREEZE halves Spec
 INCLUDE "engine/overworld/daycare_exp.asm" ; Sunsette: moved out of full bank3 - time-based daycare reward (callfar'd, bank-agnostic)
 
 INCLUDE "engine/battle/splash.asm" ; Sunsette: SPLASH MAGIKARP-signature comedy handler + its own message bank (self-contained SECTION)
+INCLUDE "engine/battle/critical_hit.asm" ; Sunsette: CriticalHitTest + helpers + high-crit table, floated out of the full Battle Core bank (self-contained SECTION); adds auto-crit-vs-status
 
 SECTION "newCode2", ROMX
 

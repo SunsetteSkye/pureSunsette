@@ -106,6 +106,6 @@ DEF EFFECTIVENESS_MASK EQU %01111111
 	const HAS_REFLECT_UP      ; 2
 	const TRANSFORMED         ; 3
 	const ALREADY_ACTED		  ; 4 ; PureRGBnote: ADDED: marker for whether an opponent used an item or switched pokemon at the start of a turn
-	const GROWING             ; 5 ; PureRGBnote: ADDED: Growth's leftovers-like 1/16-per-turn regen
+	const FLOURISH             ; 5 ; PureRGBnote: ADDED: Growth's leftovers-like 1/16-per-turn regen
 	const SOLARBEAM_PRIMED    ; 6 ; Sunsette: ADDED: a non-fire SolarBeam was "charged" and the next SolarBeam is its release. Cleared on send-out.
 	const ROOSTED             ; 7 ; Sunsette: ADDED: ROOST stripped the user's FLYING/FLOATING this turn; restored at the start of its next turn (RestoreRoostedTypes).

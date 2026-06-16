@@ -10,7 +10,7 @@
 	INCBIN "gfx/pokemon/front/slowpoke.pic", 0, 1 ; sprite dimensions
 	dw SlowpokePicFront, SlowpokePicBackSW
 
-	db CONFUSION, WATER_GUN, NO_MOVE, NO_MOVE ; level 1 learnset
+	db CONFUSION, WATER_GUN, NO_MOVE, NO_MOVE ; level 1 learnset (SUPER SOAK)
 	db GROWTH_MEDIUM_FAST ; growth rate
 
 	; tm/hm learnset

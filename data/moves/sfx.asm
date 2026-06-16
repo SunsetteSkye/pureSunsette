@@ -55,7 +55,7 @@ MoveSoundTable:
 	db SFX_BATTLE_19,          $10, $a0 ; EMBER
 	db SFX_BATTLE_19,          $21, $e0 ; FLAMETHROWER
 	db SFX_BATTLE_25,          $28, $ff ; MIST ; but actually used for thrash/petal dance charging animation (ETHEREAL)
-	db SFX_BATTLE_24,          $20, $60 ; WATER_GUN
+	db SFX_BATTLE_24,          $20, $60 ; WATER_GUN (SUPER SOAK)
 	db SFX_BATTLE_2A,          $00, $80 ; HYDRO_PUMP
 	db SFX_BATTLE_2C,          $00, $80 ; SURF
 	db SFX_BATTLE_28,          $40, $80 ; ICE_BEAM
@@ -74,9 +74,9 @@ MoveSoundTable:
 	db SFX_BATTLE_24,          $00, $80 ; ABSORB
 	db SFX_BATTLE_24,          $40, $c0 ; MEGA_DRAIN
 	db SFX_BATTLE_1B,          $03, $60 ; LEECH_SEED
-	db SFX_BATTLE_25,          $11, $e0 ; GROWTH (FLOURISH)
+	db SFX_BATTLE_25,          $11, $e0 ; GROWTH (ADAPTATION)
 	db SFX_BATTLE_12,          $20, $e0 ; RAZOR_LEAF
-	db SFX_BATTLE_2E,          $00, $80 ; SOLAR CANNON
+	db SFX_BATTLE_2E,          $00, $80 ; SOLARBEAM
 	db SFX_NOT_VERY_EFFECTIVE, $30, $ff ; POISONPOWDER
 	db SFX_BATTLE_13,          $f5, $ff ; STUN_SPORE
 	db SFX_BATTLE_1C,          $01, $c0 ; SLEEP_POWDER
@@ -110,7 +110,7 @@ MoveSoundTable:
 	db SFX_BATTLE_14,          $22, $10 ; MINIMIZE
 	db SFX_BATTLE_1B,          $f1, $ff ; SMOKESCREEN
 	db SFX_BATTLE_13,          $f1, $ff ; CONFUSE_RAY
-	db SFX_BATTLE_14,          $33, $30 ; WITHDRAW (SUBMERGE)
+	db SFX_BATTLE_14,          $33, $30 ; WITHDRAW (SHELL GAME)
 	db SFX_BATTLE_32,          $40, $c0 ; DEFENSE_CURL (BUNKER DOWN)
 	db SFX_BATTLE_0E,          $20, $20 ; BARRIER
 	db SFX_BATTLE_0E,          $f0, $10 ; LIGHT_SCREEN
@@ -132,7 +132,7 @@ MoveSoundTable:
 	db SFX_BATTLE_2B,          $1f, $60 ; SWIFT
 	db SFX_BATTLE_26,          $1e, $20 ; SKULL_BASH (METEOR DRIVE)
 	db SFX_BATTLE_26,          $1f, $18 ; SPIKE_CANNON
-	db SFX_BATTLE_14,          $0f, $80 ; CONSTRICT
+	db SFX_BATTLE_14,          $0f, $80 ; CONSTRICT (VENOM LASH)
 	db SFX_BATTLE_09,          $f8, $10 ; CALM MIND
 	db SFX_FAINT_FALL,         $18, $20 ; KINESIS
 	db SFX_BATTLE_32,          $08, $40 ; SOFTBOILED

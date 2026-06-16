@@ -10,7 +10,7 @@
 	INCBIN "gfx/pokemon/front/dewgong.pic", 0, 1 ; sprite dimensions
 	dw DewgongPicFront, DewgongPicBackSW
 
-	db TACKLE, WATER_GUN, NO_MOVE, NO_MOVE ; level 1 learnset
+	db TACKLE, WATER_GUN, NO_MOVE, NO_MOVE ; level 1 learnset (SUPER SOAK)
 	db GROWTH_MEDIUM_FAST ; growth rate
 
 	; tm/hm learnset

@@ -106,14 +106,14 @@ DrainHPEffect_:
 	cp DREAM_EATER_EFFECT
 	jr z, .dreamEater
 	; Sunsette: SolarBeam's charge turn drains like Mega Drain but prints its own "took in energy!" line.
-	; (The effect is temporarily SOLAR CANNON-ish here, so we key off the move NUMBER, not the effect.)
+	; (The effect is temporarily SOLARBEAM-ish here, so we key off the move NUMBER, not the effect.)
 	ldh a, [hWhoseTurn]
 	and a
 	ld a, [wPlayerMoveNum]
 	jr z, .checkSolar
 	ld a, [wEnemyMoveNum]
 .checkSolar
-	cp SOLARBEAM ; SOLAR CANNON
+	cp SOLARBEAM ; SOLARBEAM
 	jr nz, .printText
 	ld hl, SolarBeamEnergyText
 	jr .printText
