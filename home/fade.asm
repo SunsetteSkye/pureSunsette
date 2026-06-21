@@ -3,7 +3,7 @@
 LoadGBPal::
 ;;;;;;;;;; PureRGBnote: ADDED: an optimization for certain maps where we can skip showing the map from being faded to black until later.
 	ld a, [wCurMapConnections]
-	;;;;;; new bit in the map header that can mark a map as staying black visually until the map script changes it 
+	;;;;;; new bit in the map header that can mark a map as staying black visually until the map script changes it
 	;;;;;; (used for situations in which we may need to replace tile blocks)
 	bit BIT_DEFER_SHOWING_MAP, a
 	jr nz, .checkFirstLoad ; map starts by being black until map script changes this

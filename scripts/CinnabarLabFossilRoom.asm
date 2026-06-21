@@ -252,7 +252,7 @@ DoColorSwap:
 	ld hl, wPartyMon1Flags
 	ld bc, wPartyMon2 - wPartyMon1
 	call AddNTimes ; we are jumping to the index of the chosen pokemon by incrementing N times where N = a
-	ld a, [hl] ; hl points to the flags data of the chosen pokemon now 
+	ld a, [hl] ; hl points to the flags data of the chosen pokemon now
 	xor 1 ; toggle the lowest bit
 	ld [hl], a ; store the modified value
 	call GBFadeOutToBlack

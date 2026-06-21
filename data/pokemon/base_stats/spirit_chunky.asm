@@ -1,3 +1,4 @@
+; Sunsette POKEMON TOWER B1F SPIRIT: Spirit (Chunky). Borrows RAICHU's dex slot for its base data (db DEX_RAICHU). See base_stats/raichu.asm.
 	db DEX_RAICHU ; pokedex id
 
 	db  225,  85,  65, 25, 100
@@ -10,35 +11,36 @@
 	INCBIN "gfx/battle/spirit_chunky.pic", 0, 1 ; sprite dimensions
 	dw ChunkyPicFront, RaichuPicBackSW
 
-	db SOFTBOILED, REST, BODY_SLAM, WITHDRAW ; level 1 learnset (SHELL GAME)
+	db SOFTBOILED, REST, BODY_SLAM, SHELL_GAME ; level 1 learnset
 	db GROWTH_MEDIUM_FAST ; growth rate
 
 	; tm/hm learnset
 	tmhm \
-	ICE_PUNCH,\ ; FROST FIST
-	FIRE_PUNCH,\ ; BLAZE HAMMER
+	FROST_FIST,\
+	BLAZE_HAMMER,\
 	TOXIC,\
 	BODY_SLAM,\
 	DISABLE,\
 	DOUBLE_EDGE,\
+	AURORA_MIST,\
 	HYPER_BEAM,\
-	AMNESIA,\ ; CALM MIND
+	CALM_MIND,\
 	LOW_KICK,\
-	THUNDERPUNCH,\ ; ZAPPERCUT
-	ROLLING_KICK,\ ; METEOR SWEEP
+	ZAPPERCUT,\
+	METEOR_SWEEP,\
 	BARRIER,\
 	THUNDERBOLT,\
 	THUNDER,\
+	RIPTIDE,\
 	DIG,\
 	REFLECT,\
-	BIDE,\ ; BULK UP
-	BARRAGE,\ ; SHADOW BALL
-	SLAM,\ ; WASTEMAKER
-	KARATE_CHOP,\
-	MEDITATE,\ ; VOID MIND
+	BULK_UP,\
+	SHADOW_BALL,\
+	DEMOLISH,\
+	VOID_MIND,\
 	LIGHT_SCREEN,\
 	THUNDER_WAVE,\
-	GLARE,\
+	SHADOW_GAME,\
 	SUBSTITUTE,\
 	CUT,\
 	SURF,\

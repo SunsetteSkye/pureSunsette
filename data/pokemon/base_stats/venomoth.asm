@@ -15,29 +15,31 @@
 
 	; tm/hm learnset
 	tmhm \
-	DISABLE,\
-	SONICBOOM,\ ; ILL WIND
-	RAZOR_WIND,\ ; ROOST
+	ROCK_ON,\
+	ADAPTATION,\
+	ROOST,\
 	PIN_MISSILE,\
 	TOXIC,\
+	HONE_EDGE,\
+	DISABLE,\
 	DOUBLE_EDGE,\
-	AURORA_BEAM,\
 	HYPER_BEAM,\
-	AMNESIA,\ ; CALM MIND
+	CALM_MIND,\
 	BARRIER,\
-	SOLARBEAM,\ ; SOLARBEAM
+	SOLARBEAM,\ 
 	PSYCHIC_M,\
 	MEGA_DRAIN,\
-	KINESIS,\ ; MIRAGE
+	MIRAGE,\
 	SWORDS_DANCE,\
 	REFLECT,\
-	BIDE,\ ; BULK UP
-	BARRAGE,\ ; SHADOW BALL
-	SKY_ATTACK,\ ; BRAVE BIRD
+	BULK_UP,\
+	ILL_WIND,\
+	SHADOW_BALL,\
 	LIGHT_SCREEN,\
-	PSYWAVE,\ ; SKITTERMIND
-	SLUDGE,\ ; SLUDGE BOMB
+	SKITTERMIND,\
+	SHADOW_GAME,\
 	SUBSTITUTE,\
+	CLAY_ARMOR,\
 	CUT,\
 	FLY,\
 	FLASH
@@ -50,3 +52,28 @@
 
 	dw 0, VenomothPicBack
 
+; --- Sunsette SSOT directives (parsed by tools/gen_pokemon_data.py) ---
+;@ nature       NATURE_DITZ NATURE_CRUEL
+;@ pal_battle   PAL_GRAYMON
+;@ pal_altbattle PAL_SOFTVIOSCAR
+;@ pal_icon     $FF
+;@ pal_alticon  $FF
+;@ evo_move    NO_MOVE
+;@ evo_react   "It beats its wings" "scattering dust!"
+;@ evo_react   "It flutters up" "in a dusty cloud!"
+;@ evo_react   "Its wings shimmer" "with toxic powder!"
+;@ evo_react   "It circles once," "scales drift down!"
+;@ learn       7, ABSORB
+;@ learn       10, POISONPOWDER
+;@ learn       13, PIN_MISSILE
+;@ learn       15, STUN_SPORE
+;@ learn       16, SLEEP_POWDER
+;@ learn       18, LEECH_LIFE
+;@ learn       22, PSYBEAM
+;@ learn       27, WING_ATTACK
+;@ learn       30, AGILITY
+;@ learn       33, SLUDGE_BOMB
+;@ learn       37, SOULSTEALER
+;@ learn       37, SLEEP_POWDER
+;@ learn       42, PSYCHIC_M
+;@ learn       53, HURRICANE

@@ -1,3 +1,4 @@
+; Sunsette: FUCHSIA CITY MART stock. INCLUDEd by scripts/FuchsiaMart.asm (mart data is read from the caller's bank).
 FuchsiaMartClerkText::
 	script_mart \
 	ULTRA_BALL, \
@@ -7,11 +8,5 @@ FuchsiaMartClerkText::
 	FULL_HEAL, \
 	SUPER_REPEL
 	
-FuchsiaTMKidShop::
-	script_mart \
-	TM_DISABLE, \
-	TM_FURY_ATTACK, \ ; MUD BOMB
-	TM_PIN_MISSILE, \
-	TM_SONICBOOM
 	
 

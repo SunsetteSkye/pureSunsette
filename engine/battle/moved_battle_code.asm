@@ -158,7 +158,7 @@ ShouldMoveGetStabBoost::
 	const LAVA_SUIT_BACK_PIC
 	const SCUBA_SUIT_BACK_PIC
 
-; PureRGBnote: MOVED: CHANGED: Moved out of core battle engine bank and simplified the code with a jump table. 
+; PureRGBnote: MOVED: CHANGED: Moved out of core battle engine bank and simplified the code with a jump table.
 ; loads either red back pic or old man back pic
 ; also writes OAM data and loads tile patterns for the Red or Old Man back sprite's head
 ; (for use when scrolling the player sprite and enemy's silhouettes on screen)

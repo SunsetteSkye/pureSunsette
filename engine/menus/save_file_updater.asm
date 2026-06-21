@@ -180,7 +180,7 @@ ResetMonFlagsFully:
 	add hl, de
 	dec b
 	jr nz, .loop
-	; step 14: Update all boxed pokemon to have their flags set to 0 (used to be catch rate, now it's for alt palette pokemon and pokeball type) 
+	; step 14: Update all boxed pokemon to have their flags set to 0 (used to be catch rate, now it's for alt palette pokemon and pokeball type)
 	; this step should come last because it updates the save file itself in SRAM
 	ld d, NUM_BOXES
 .loopThroughBoxes

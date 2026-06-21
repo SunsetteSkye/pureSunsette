@@ -89,7 +89,7 @@ UpdatePlayerSprite:
 	; 60fps fix - only update every other tick
 	call sprite60fps
 	sub b
-	;
+
 	ld [hl], a
 	push bc
 	ld c, 4
@@ -379,7 +379,7 @@ UpdateSpriteInWalkingAnimation:
 	call sprite60fps	
 	push bc
 	sub b
-;
+
 	ld [hl], a                       ; [x#SPRITESTATEDATA1_INTRAANIMFRAMECOUNTER]++
 	cp $4
 	jr nz, .noNextAnimationFrame
@@ -401,7 +401,7 @@ UpdateSpriteInWalkingAnimation:
 	ld a, b
 	and a 
 	jr nz, .xydone
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;	
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 	ld a, [hli]                      ; x#SPRITESTATEDATA1_YSTEPVECTOR
 	ld b, a
 	ld a, [hl]                       ; x#SPRITESTATEDATA1_YPIXELS
@@ -418,7 +418,7 @@ UpdateSpriteInWalkingAnimation:
 	inc h
 	ld a, [hl]                       ; x#SPRITESTATEDATA2_WALKANIMATIONCOUNTER
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;shinpokerednote: 60fps - make the delay decounter update every other tick	
+;shinpokerednote: 60fps - make the delay decounter update every other tick
 	pop bc
 	add b	;60fps
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -862,9 +862,9 @@ GetTileSpriteStandsOn:
 ; PureRGBnote: OPTIMIZED
 	;srl a
 	;srl a
-	;srl a       
+	;srl a
 	srl_a_3x
-	; a =  screen X tile     
+	; a =  screen X tile
 	add SCREEN_WIDTH ; screen X tile + 20
 	ld d, $0
 	ld e, a

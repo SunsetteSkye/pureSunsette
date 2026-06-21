@@ -84,8 +84,50 @@ ViridianMartClerkYouCameFromPalletTownText:
 	text_end
 
 ViridianMartClerkParcelQuestText:
+; Sunsette: clerk hands the parcel, then (if you have a starter) the starter gives a brief
+; cry and a curious line keyed to which starter it is. No sprite cut-in.
+	text_asm
+	ld hl, .clerk
+	rst _PrintText
+	ld a, [wPartyCount]
+	and a
+	jr z, .done                  ; no starter somehow -> no reaction, no harm
+	ld a, [wPartySpecies]        ; slot 1 species
+	push af
+	call PlayCry
+	xor a                        ; slot 1 -> nickname into wNameBuffer for the line
+	ld hl, wPartyMonNicks
+	call GetPartyMonName
+	pop af
+	cp CHARMANDER
+	jr z, .char
+	cp SQUIRTLE
+	jr z, .squir
+	ld hl, .bulbaReact           ; default to Bulbasaur's line (only a starter is here)
+	jr .react
+.char
+	ld hl, .charReact
+	jr .react
+.squir
+	ld hl, .squirReact
+.react
+	rst _PrintText
+.done
+	rst TextScriptEnd
+
+.clerk
 	text_far _ViridianMartClerkParcelQuestText
 	sound_get_key_item
+	text_end
+
+.charReact
+	text_far _ParcelCharReactText
+	text_end
+.squirReact
+	text_far _ParcelSquirReactText
+	text_end
+.bulbaReact
+	text_far _ParcelBulbaReactText
 	text_end
 
 ViridianMartYoungsterText:
@@ -96,40 +138,13 @@ ViridianMartCooltrainerMText:
 	text_far _ViridianMartCooltrainerMText
 	text_end
 
-ViridianMartTMKid: ; PureRGBnote: ADDED: new NPC who will talk about TMs
+ViridianMartTMKid: ; Sunsette: was the TM Kid; now just a kid lamenting that MARTs don't stock TMs/HMs (an oblique hint at what they are). Never sells anything.
 	text_asm
-	; if we haven't beat misty yet, tm kid is yet to start selling anything
-	CheckEvent EVENT_BEAT_MISTY
-	ld hl, ViridianMartTMKidBefore
-	jr z, .printDone
-	; if we have, they will greet the player as the tm kid
-	ld hl, TMKidGreet8
-	rst _PrintText
-	ld hl, TMKidStockingUp
-	; if we haven't beat blaine yet, or have encountered the tm kid at indigo plateau, he'll say a generic line about restocking tms
-	CheckEvent EVENT_MET_GYM_GUIDE_SON
-	jr nz, .printDone
-	CheckEvent EVENT_BEAT_BLAINE
-	jr z, .printDone
-	; if we beat blaine and haven't met the tm kid at indigo plateau yet, the tm kid will say he's stocking up for indigo plateau
-	ld hl, TMKidBigStockIndigo
-.printDone
+	ld hl, ViridianMartTMHintText
 	rst _PrintText
 	rst TextScriptEnd
 
-TMKidGreet8:
-	text_far _TMKidGreet
-	text_end
-
-TMKidStockingUp:
-	text_far _TMKidStockingUp
-	text_end
-
-TMKidBigStockIndigo:
-	text_far _TMKidBigStockIndigo
-	text_end
-
-ViridianMartTMKidBefore:
+ViridianMartTMHintText:
 	text_far _ViridianMartTMKid
 	text_end
 

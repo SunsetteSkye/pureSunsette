@@ -339,7 +339,7 @@ TMPlusHMText:
 
 TMLearnsetListPrint:
 	push hl
-	; get the item ID into 
+	; get the item ID into
 	ld hl, wLearnsetList
 	ld d, 0
 	dec a

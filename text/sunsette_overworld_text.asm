@@ -1,6 +1,19 @@
 ; Sunsette: overworld texts relocated into a floating section because the numbered "Text N" banks are
 ; near-full. text_far is bank-agnostic, so these resolve fine from their maps' script banks.
 
+; Sunsette: relocated from text/PokemonTower1F.asm (Text 7 overflowed). The tower gift shop's open pitch.
+_PokemonTower1FReceptionistOpenText::
+	text "Welcome to #MON"
+	line "TOWER's gift shop!"
+
+	para "All proceeds keep"
+	line "the tower going."
+
+	para "They also help"
+	line "#MON in need"
+	cont "of care."
+	prompt
+
 ; Sunsette: morale-lockout confirmation when trying to leave a gym/Silph 2F+/Rocket Hideout pre-boss.
 ; The name is the top-affection unfainted party mon (loaded into wNameBuffer by the caller).
 _LockedAreaExitText::
@@ -128,3 +141,39 @@ _ViridianForestPikaGirlHMExplanationText::
 	line "teach its move as"
 	cont "often as you like!"
 	done
+
+; Sunsette: Oak's Parcel starter reactions (Viridian Mart). <NAME> = wNameBuffer (the starter's
+; nickname); per-starter closing line. Played with the starter's cry, no sprite cut-in.
+_ParcelCharReactText::
+	text_ram_namebuffer
+	text " looks"
+	line "curious about the"
+	cont "package! Be"
+	cont "careful it doesn't"
+	cont "burn it!"
+	prompt
+
+_ParcelSquirReactText::
+	text_ram_namebuffer
+	text " looks"
+	line "curious about the"
+	cont "package! Be"
+	cont "careful it doesn't"
+	cont "do any mischief!"
+	prompt
+
+_ParcelBulbaReactText::
+	text_ram_namebuffer
+	text " looks"
+	line "curious about the"
+	cont "package! Be"
+	cont "careful it doesn't"
+	cont "get jealous!"
+	prompt
+
+_ParcelGenericReactText::
+	text_ram_namebuffer
+	text " seems"
+	line "curious about the"
+	cont "package!"
+	prompt

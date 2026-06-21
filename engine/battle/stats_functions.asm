@@ -33,7 +33,7 @@ DoubleSelectedStats:
 	;Note that if a < $E7 then the carry bit 'c' in the flag register gets set due to overflowing with a negative result.
 	ld a, b ;now let's work on the high byte
 	sbc 999 / $100 ;a = a - ($03E7 / $100 + c_flag). Gives a = a - ($03 + c_flag). A byte / $100 always gives the greater nibble.
-	;Note again that if a < $03 then the carry bit remains set. 
+	;Note again that if a < $03 then the carry bit remains set.
 	;If the bit is already set from the lesser nibble, then its addition here can still make it remain set if a is low enough.
 	jr c, .donecapping ;jump to next marker if the c_flag is set. This only remains set if BC <  the cap of $03E7.
 	;else let's continue and set the 999 cap
@@ -83,7 +83,7 @@ DoubleSelectedStats:
 ;	ret
 
 ;shinpokerednote: ADDED: doubles attack if burned or quadruples speed if paralyzed.
-;It's meant to be run right before healing paralysis or burn so as to 
+;It's meant to be run right before healing paralysis or burn so as to
 ;undo the stat changes.
 UndoBurnParStats:
 	ld hl, wBattleMonStatus
@@ -95,7 +95,7 @@ UndoBurnParStats:
 	ld de, wEnemyStatsToDouble
 .checkburn
 	ld a, [hl]		;load statuses
-	and 1 << BRN	;test for burn 
+	and 1 << BRN	;test for burn
 	jr z, .checkpar
 	ld a, $01
 	ld [de], a	;set attack to be doubled to undo the stat change of BRN
@@ -103,7 +103,7 @@ UndoBurnParStats:
 	jr .return
 .checkpar
 	ld a, [hl]		;load statuses
-	and 1 << PAR	;test for paralyze 
+	and 1 << PAR	;test for paralyze
 	jr z, .return
 	ld a, $04
 	ld [de], a	;set speed to be doubled (done twice) to undo the stat change of BRN

@@ -1,15 +1,17 @@
 _PewterGymBrockPostBattleAdviceText::
-	text "There are all"
-	line "kinds of trainers"
-	cont "in the world!"
+	text "<...>"
 
-	para "You appear to be"
-	line "very gifted as a"
-	cont "#MON trainer!"
+	para "ROCK ON is how"
+	line "rock endures."
 
-	para "Go to the GYM in"
-	line "CERULEAN and test"
-	cont "your abilities!"
+	para "Raise your guard,"
+	line "steady your aim,"
+	cont "then turn what"
+	cont "struck you aside."
+
+	para "(<...>He's still"
+	line "staring. Is he"
+	cont "blushing?)"
 	done
 
 _PewterGymBrockWaitTakeThisText::
@@ -34,13 +36,29 @@ _TM34ExplanationText::
 
 	para "@"
 	text_ram_stringbuffer
-	text " contains"
-	line "BULK UP!"
+	text " is ROCK ON!"
 
-	para "Your #MON will"
-	line "steel itself,"
-	cont "raising ATTACK"
-	cont "and DEFENSE!"
+	para "It makes #MON"
+	line "steady as a rock."
+
+	para "In dire straits,"
+	line "it unleashes"
+	cont "their hardcore"
+	cont "defensive power."
+
+	para "It works different"
+	line "for #MON with"
+	cont "a Special type,"
+	cont "like your starter."
+
+	para "I'm no good at"
+	line "explanations..."
+
+	para "The headmaster at"
+	line "the VIRIDIAN"
+	cont "TRAINERS' SCHOOL"
+	cont "could help if"
+	cont "you're confused."
 	done
 
 _GenericNoRoomText::
@@ -167,10 +185,10 @@ _PewterGymGuidePostBattleText::
 	text_decimal wExpGrowthThreshold, 1, 2
 	text "!"
 
-	para "But that's not"
-	line "what I called"
-	cont "you over for!"
-	prompt
+	para "Keep climbing,"
+	line "champ in the"
+	cont "making!"
+	done
 
 _PewterGymGuideApexChipText::
 	text "I want you"

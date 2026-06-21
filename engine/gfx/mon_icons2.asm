@@ -69,14 +69,83 @@ FarLoadPartyMonSpriteIntoVRAMScreenOn::
 	pop bc
 	jp CopyVideoData
 
+; Sunsette: load the FLY carrier's menu icon into the bird-sprite VRAM slots so the overworld
+; FLY animation flaps that species instead of the generic bird. The fly animation only ever
+; shows the LEFT-facing frames: image index $08 (StandingLeft = vNPCSprites tiles 8-11) and
+; $09 (WalkingLeft = vNPCSprites2 tiles 8-11), so the icon's two 16x16 frames become the two
+; flap frames. Icon blob tile order f0={0,1,4,5} f1={2,3,6,7} laid out TL,TR,BL,BR; overworld
+; frame order is also TL,TR,BL,BR (cf. the menu copy in FarLoadPartyMonSpriteIntoVRAMScreenOn).
+; Reads wFlyCarrierMon (a valid party index is guaranteed by the caller). VBlank-safe copies.
+LoadFlyIconIntoBirdVRAM::
+	ld a, [wFlyCarrierMon]
+	ld c, a
+	ld b, 0
+	ld hl, wPartySpecies
+	add hl, bc
+	ld a, [hl] ; a = carrier species index
+	ld de, 0
+	call PreparePartyMonSpriteCopy ; a = bank, hl = icon src base
+	ld b, a ; b = bank (CopyVideoData input)
+	ld c, 2 ; tiles per copy
+; frame0 top row (icon tiles 0,1) -> vNPCSprites tile 8
+	push bc
+	push hl
+	ld d, h
+	ld e, l
+	ld hl, vNPCSprites tile 8
+	call CopyVideoData
+	pop hl
+	pop bc
+; frame0 bottom row (icon tiles 4,5) -> vNPCSprites tile 10
+	push bc
+	push hl
+	ld de, 4 tiles
+	add hl, de
+	ld d, h
+	ld e, l
+	ld hl, vNPCSprites tile 10
+	call CopyVideoData
+	pop hl
+	pop bc
+; frame1 top row (icon tiles 2,3) -> vNPCSprites2 tile 8
+	push bc
+	push hl
+	ld de, 2 tiles
+	add hl, de
+	ld d, h
+	ld e, l
+	ld hl, vNPCSprites2 tile 8
+	call CopyVideoData
+	pop hl
+	pop bc
+; frame1 bottom row (icon tiles 6,7) -> vNPCSprites2 tile 10
+	push hl
+	ld de, 6 tiles
+	add hl, de
+	ld d, h
+	ld e, l
+	ld hl, vNPCSprites2 tile 10
+	call CopyVideoData
+	pop hl
+	ret
+
 PreparePartyMonSpriteCopy:
 	push de
-	call GetPartyMonSpriteID
-	ld b, a
+	call GetPartyMonSpriteID ; a = per-species icon slot, 0..151 (dex order)
+; Sunsette: CHANGED: slots span two banks. 0..127 in DexPartyIcons1, 128..151 in
+; DexPartyIcons2 (each blob starts at $4000, so the +$40 high-byte base holds for
+; both). b carries the bank across Multiply (Multiply preserves bc).
+	ld b, BANK(DexPartyIcons1)
+	bit 7, a
+	jr z, .gotBank
+	res 7, a ; 128..151 -> 0..23 within the second blob
+	ld b, BANK(DexPartyIcons2)
+.gotBank
+	ld c, a
 	xor a
 	ldh [hMultiplicand], a
 	ldh [hMultiplicand + 1], a
-	ld a, b
+	ld a, c
 	ldh [hMultiplicand + 2], a
 	ld a, $80
 	ldh [hMultiplier], a
@@ -84,16 +153,34 @@ PreparePartyMonSpriteCopy:
 	ldh a, [hProduct + 2]
 	ld h, a
 	ldh a, [hProduct + 3]
-	ld l, a	
+	ld l, a
 	ld a, h
 	add $40
 	ld h, a
-	ld a, BANK(PartyMonSprites1)
+	ld a, b
 	pop de
 	ld bc, $0080
 	ret
 
 GetPartyMonSpriteID:
+; Sunsette: variant species with a dedicated icon (e.g. Armored Mewtwo) return
+; their own appended slot instead of collapsing to the base dex icon. The slot
+; numbers match the VARIANTS list in tools/build_dex_menu_icons.py (152 = first).
+	ld b, a ; b = species index
+	ld hl, VariantIconSlots
+.varLoop
+	ld a, [hli]
+	cp -1
+	jr z, .notVariant
+	cp b
+	jr z, .gotVariant
+	inc hl ; skip the slot byte
+	jr .varLoop
+.gotVariant
+	ld a, [hl]
+	ret
+.notVariant
+	ld a, b
 	ld [wPokedexNum], a
 	call IndexToPokedex
 	ld a, [wPokedexNum]
@@ -101,14 +188,18 @@ GetPartyMonSpriteID:
 	ld b, a
 ; Sunsette: icons are always OG+ (enhanced)
 	ld hl, MonPartyDataNew
-.next
 	ld a, b
 	ld e, a
 	ld d, 0
 	add hl, de
 	ld a, [hl]
 	ret
-	  
+
+VariantIconSlots:
+; species index, appended icon slot ; terminated by -1
+	db ARMORED_MEWTWO, 152
+	db -1
+
 FillPartyMonOAM:
 	push hl
 	push de
@@ -135,7 +226,7 @@ ShowPartyMonSprite:
 	add a
 	add a
 	add a ;x16. a is $0 - $50 now.
-	ld c, a ; store H_SPRITEINDEX * 8 for later.	
+	ld c, a ; store H_SPRITEINDEX * 8 for later.
 	ld hl, wShadowOAM
 	ld b, 0
 	add hl, bc

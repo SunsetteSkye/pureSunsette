@@ -204,10 +204,10 @@ GenericTextScriptJumpTable:
 
 GenericTextScriptJumpTable2:
 	dw TextScript_Trainer ; TX_SCRIPT_TRAINER
-	dw TextScript_CableClubNPC ; TX_SCRIPT_CABLE_CLUB_RECEPTIONIST 
+	dw TextScript_CableClubNPC ; TX_SCRIPT_CABLE_CLUB_RECEPTIONIST
 	dw TextScript_PokemonCenterPC ; TX_SCRIPT_POKECENTER_PC
-	dw DisplayPokemartDialogue ; TX_SCRIPT_MART 
-	dw DisplayPokemonCenterDialogue ; TX_SCRIPT_POKECENTER_NURSE    
+	dw DisplayPokemartDialogue ; TX_SCRIPT_MART
+	dw DisplayPokemonCenterDialogue ; TX_SCRIPT_POKECENTER_NURSE
 
 DisplayPokemartDialogue::
 	push hl

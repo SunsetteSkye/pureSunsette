@@ -15,8 +15,11 @@ _SilphCo11FSilphPresidentText::
 	line "I can give you"
 	cont "anything!"
 
-	para "Here, maybe this"
-	line "will do!"
+	para "But SILPH's rarest"
+	line "work, no fortune"
+	cont "can buy."
+
+	para "Here. Take these."
 	prompt
 
 _SilphCo11FSilphPresidentReceivedMasterBallText::
@@ -42,7 +45,64 @@ _SilphCo11FSilphPresidentMasterBallDescriptionText::
 	para "You should be"
 	line "quiet about using"
 	cont "it, though."
-	done
+	prompt
+
+_SilphCo11FSilphPresidentReceivedApexChipsText::
+	text "<PLAYER> received"
+	line "3 APEX CHIPs!@"
+	text_end
+
+_SilphCo11FSilphPresidentApexExplanationText::
+	text_start
+
+	para "And these are"
+	line "APEX CHIPs."
+
+	para "SILPH's finest"
+	line "work, if I do say"
+	cont "so myself."
+
+	para "Install one onto"
+	line "a #MON's"
+	cont "# Ball."
+
+	para "It draws out the"
+	line "very limit of"
+	cont "that #MON's"
+	cont "hidden potential!"
+
+	para "Save them for the"
+	line "partners you"
+	cont "treasure most."
+	prompt
+
+_SilphCo11FSilphPresidentApexApprovedText::
+	text "PRESIDENT:"
+	line "<PLAYER>! Perfect"
+	cont "timing!"
+
+	para "The APEX CHIP has"
+	line "cleared product"
+	cont "approval at last!"
+
+	para "Before it reaches"
+	line "a single shelf, I"
+	cont "want YOU to have"
+	cont "first pick."
+
+	para "Name your"
+	line "quantity!"
+	prompt
+
+_SilphCo11FSilphPresidentChampionGreetingText::
+	text "PRESIDENT:"
+	line "<PLAYER>! Always"
+	cont "a pleasure."
+
+	para "Help yourself to"
+	line "as many APEX"
+	cont "CHIPs as you like."
+	prompt
 
 _SilphCo11FSilphPresidentNoRoomText::
 	text "You have no"

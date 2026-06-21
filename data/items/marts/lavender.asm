@@ -1,3 +1,4 @@
+; Sunsette: LAVENDER TOWN MART stock. INCLUDEd by scripts/LavenderMart.asm (mart data is read from the caller's bank).
 LavenderMartClerkText::
 	script_mart \
 	GREAT_BALL, \
@@ -11,8 +12,3 @@ LavenderMartClerkText::
 	ICE_HEAL, \
 	PARLYZ_HEAL
 	
-LavenderTMKidShop::
-	script_mart \
-	TM_BUBBLEBEAM, \
-	TM_AURORA_BEAM, \
-	TM_THUNDER_WAVE

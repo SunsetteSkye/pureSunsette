@@ -10,35 +10,36 @@
 	INCBIN "gfx/pokemon/front/dragonite.pic", 0, 1 ; sprite dimensions
 	dw DragonitePicFront, DragonitePicBackSW
 
-	db WRAP, LEER, ROAR, NO_MOVE ; level 1 learnset (BELLOW)
+	db WRAP, LEER, BELLOW, NO_MOVE ; level 1 learnset
 	db GROWTH_SLOW ; growth rate
 
 	; tm/hm learnset
 	tmhm \
-	DISABLE,\
-	SONICBOOM,\ ; ILL WIND
-	RAZOR_WIND,\ ; ROOST
-	FIRE_PUNCH,\ ; BLAZE HAMMER
+	ADAPTATION,\
+	ROOST,\
+	BLAZE_HAMMER,\
 	TOXIC,\
 	BODY_SLAM,\
+	DISABLE,\
 	DOUBLE_EDGE,\
-	BUBBLEBEAM,\
-	AURORA_BEAM,\
+	AURORA_MIST,\
 	ICE_BEAM,\
 	BLIZZARD,\
 	HYPER_BEAM,\
-	SOLARBEAM,\ ; SOLARBEAM
-	DRAGON_RAGE,\ ; WYRM WRATH
+	SOLARBEAM,\ 
+	WYRM_WRATH,\
 	THUNDERBOLT,\
 	THUNDER,\
-	KINESIS,\ ; MIRAGE
+	RIPTIDE,\
+	MIRAGE,\
 	REFLECT,\
-	BIDE,\ ; BULK UP
-	BARRAGE,\ ; SHADOW BALL
+	BULK_UP,\
+	ILL_WIND,\
+	SHADOW_BALL,\
 	FIRE_BLAST,\
-	FLAMETHROWER,\
-	SLAM,\ ; WASTEMAKER
-	KARATE_CHOP,\
+	TWISTER,\
+	DEMOLISH,\
+	BRAVE_BIRD,\
 	LIGHT_SCREEN,\
 	THUNDER_WAVE,\
 	SUBSTITUTE,\
@@ -56,3 +57,22 @@
 
 	dw 0, DragonitePicBack
 
+; --- Sunsette SSOT directives (parsed by tools/gen_pokemon_data.py) ---
+;@ nature       NATURE_CONSIDERATE NATURE_WISE
+;@ pal_battle   PAL_SAFFRON
+;@ pal_altbattle PAL_LEAFMON
+;@ pal_icon     $FF
+;@ pal_alticon  $FF
+;@ evo_move    NO_MOVE
+;@ evo_react   "It spreads broad" "wings, eyes warm."
+;@ evo_react   "It soars up, then" "circles back soft."
+;@ evo_react   "It nods to you" "with a kind hum."
+;@ evo_react   "It beats its wings" "and rises high!"
+;@ learn       25, RIPTIDE
+;@ learn       29, AURORA_MIST
+;@ learn       33, TWISTER
+;@ learn       38, BLITZ_STRIKE
+;@ learn       46, AGILITY
+;@ learn       47, HURRICANE
+;@ learn       52, HYPER_BEAM
+;@ learn       60, OUTRAGE

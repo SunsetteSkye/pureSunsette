@@ -200,20 +200,26 @@ FightingDojoKarateMasterText:
 	call StartSimulatingJoypadStates
 .noDownWalk
 	rst TextScriptEnd
-.stay
-	ld hl, .StayAndTrainWithUsText
 .printDone
 	rst _PrintText
 	rst TextScriptEnd
+.sellTMs ; Sunsette: post-dojo, the KARATE MASTER sells fighting/punch TMs
+	ld hl, .tmShopOfferText
+	rst _PrintText
+	ld hl, FightingDojoMasterTMShop
+	call DisplayPokemartNoGreeting
+	rst TextScriptEnd
+.tmShopOfferText
+	text_far _FightingDojoMasterTMShopText
+	text_end
 .beatEveryone
 	CheckEvent FLAG_CATCHUP_CLUBS_TURNED_OFF
-	jr nz, .stay
+	jr nz, .sellTMs
 	ld a, [wObtainedBadges]
 	bit BIT_POISONBADGE, a
-	ld hl, KarateMasterGoFightKogaText
-	jr z, .printDone
+	jr z, .sellTMs
 	CheckAndSetEvent EVENT_OPENED_DOJO_INTERIOR
-	jr nz, .stay
+	jr nz, .sellTMs
 	ld hl, .gotSoulBadge
 	rst _PrintText
 	ld a, FIGHTINGDOJO_KARATE_MASTER
@@ -262,6 +268,8 @@ FightingDojoKarateMasterText:
 .openUp
 	text_far _FightingDojoMasterOpenUp
 	text_end
+
+INCLUDE "data/items/marts/fighting_dojo.asm"
 
 FightingDojoBlackbelt1Text:
 	script_trainer FightingDojoTrainerHeader0
@@ -416,7 +424,7 @@ FightingDojoText::
 	text_end
 
 FightingDojoEnemiesScrollText:
-	text_far _EnemiesOnEverySideText
+	text_far _FightingDojoCritFightingText ; Sunsette: repurposed - FIGHTING types crit twice as often
 	text_end
 
 FightingDojoHitmonleeScrollText::
@@ -440,7 +448,7 @@ FightingDojoHitmonchanScrollText::
 	rst TextScriptEnd
 
 FightingDojoGoesAroundScrollText::
-	text_far _WhatGoesAroundComesAroundText
+	text_far _FightingDojoCritSpeedText ; Sunsette: repurposed - crit = +50% damage, rate from natural Speed
 	text_end
 
 FightingDojoKarateMasterPostBallText::

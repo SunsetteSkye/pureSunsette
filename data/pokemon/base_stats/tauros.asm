@@ -10,33 +10,32 @@
 	INCBIN "gfx/pokemon/front/tauros.pic", 0, 1 ; sprite dimensions
 	dw TaurosPicFront, TaurosPicBackSW
 
-	db TACKLE, HORN_ATTACK, NO_MOVE, NO_MOVE ; level 1 learnset (METEOR HORN)
+	db TACKLE, METEOR_HORN, NO_MOVE, NO_MOVE ; level 1 learnset
 	db GROWTH_MEDIUM_SLOW ; growth rate
 
 	; tm/hm learnset
 	tmhm \
-	FURY_ATTACK,\ ; MUD BOMB
-	DISABLE,\
+	MUD_BOMB,\
 	PIN_MISSILE,\
 	TOXIC,\
-	HORN_DRILL,\ ; VENOM DRILL
+	HONE_EDGE,\
 	BODY_SLAM,\
+	DISABLE,\
 	DOUBLE_EDGE,\
-	AURORA_BEAM,\
+	AURORA_MIST,\
 	ICE_BEAM,\
 	BLIZZARD,\
 	HYPER_BEAM,\
 	THUNDERBOLT,\
 	THUNDER,\
 	EARTHQUAKE,\
+	RIPTIDE,\
 	SWORDS_DANCE,\
-	BIDE,\ ; BULK UP
-	BARRAGE,\ ; SHADOW BALL
+	BULK_UP,\
+	SHADOW_BALL,\
 	FIRE_BLAST,\
-	FLAMETHROWER,\
-	SLAM,\ ; WASTEMAKER
 	ROCK_SLIDE,\
-	GLARE,\
+	ROCK_ON,\
 	SUBSTITUTE,\
 	CUT,\
 	SURF,\
@@ -50,3 +49,19 @@
 
 	dw 0, TaurosPicBack
 
+; --- Sunsette SSOT directives (parsed by tools/gen_pokemon_data.py) ---
+;@ nature       NATURE_RAGE NATURE_STOLID
+;@ pal_battle   PAL_BROWNMON2
+;@ pal_altbattle PAL_MOCHAMON
+;@ pal_icon     PAL_ICON_64
+;@ pal_alticon  PAL_ICON_66
+;@ evo_move    NO_MOVE
+;@ evo_react   NONE
+;@ learn       19, STOMP
+;@ learn       24, BLOOD_RUSH
+;@ learn       29, MUD_BOMB
+;@ learn       33, BODY_SLAM
+;@ learn       37, SWORDS_DANCE
+;@ learn       42, METEOR_DRIVE
+;@ learn       48, PISTON_KICK
+;@ learn       53, HYPER_BEAM

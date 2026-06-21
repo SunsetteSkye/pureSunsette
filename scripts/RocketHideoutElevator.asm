@@ -63,7 +63,7 @@ RocketHideoutElevator_TextPointers:
 
 RocketHideoutElevatorText:
 	text_asm
-;;;;;;;;;; PureRGBnote: CHANGED: lift key is consumed upon unlocking the elevator, making it usable permanently 
+;;;;;;;;;; PureRGBnote: CHANGED: lift key is consumed upon unlocking the elevator, making it usable permanently
 	CheckEvent EVENT_USED_LIFT_KEY 
 	jr nz, .startLift
 	ld b, LIFT_KEY

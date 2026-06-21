@@ -52,7 +52,7 @@ CinnabarVolcano_Object:
 	object_event 22, 13, SPRITE_BLAINE, STAY, RIGHT, TEXT_CINNABAR_VOLCANO_BLAINE
 	object_event 21, 13, SPRITE_CAT, STAY, RIGHT, 3
 	object_event  4, 14, SPRITE_BIRD2, STAY, DOWN, TEXT_CINNABAR_VOLCANO_MOLTRES, MOLTRES, 50 ; moltres
-	object_event 15, 23, SPRITE_OLD_AMBER, STAY, DOWN, TEXT_CINNABAR_VOLCANO_RUBY1 ; ruby 1 
+	object_event 15, 23, SPRITE_OLD_AMBER, STAY, DOWN, TEXT_CINNABAR_VOLCANO_RUBY1 ; ruby 1
 	object_event 28, 23, SPRITE_OLD_AMBER, STAY, DOWN, TEXT_CINNABAR_VOLCANO_RUBY2 ; ruby 2 / rock salts
 	object_event 35, 22, SPRITE_OLD_AMBER, STAY, DOWN, TEXT_CINNABAR_VOLCANO_RUBY3 ; ruby 3 / limestone
 	object_event  0,  0, SPRITE_OLD_AMBER, STAY, DOWN, 8 ; animation proxy sprite, hidden by default

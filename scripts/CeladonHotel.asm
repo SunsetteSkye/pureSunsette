@@ -1,5 +1,11 @@
 CeladonHotel_Script:
 	call EnableAutoTextBoxDrawing
+	CheckEvent EVENT_REACTED_CROWDED
+	jr nz, .skipReaction
+	SetEvent EVENT_REACTED_CROWDED
+	ld a, NROW_CROWDED
+	farcall ShowOverworldNature
+.skipReaction
 	ld hl, CeladonHotelTrainerHeaders
 	ld de, CeladonHotel_ScriptPointers
 	ld a, [wCeladonHotelCurScript]
@@ -93,7 +99,7 @@ CeladonHotelSuperNerdText:
 	text_end
 
 ; PureRGBnote: ADDED: NPC who will give you lapras earlier once you beat rocket hideout.
-; He's supposed to be the same guy who gives you lapras in silph co. but he's on a business trip 
+; He's supposed to be the same guy who gives you lapras in silph co. but he's on a business trip
 ; and goes back to silph co just in time for it to be occupied by team rocket.
 CeladonLaprasGuyText:
 	text_asm

@@ -15,34 +15,34 @@
 
 	; tm/hm learnset
 	tmhm \
-	FURY_ATTACK,\ ; MUD BOMB
-	LOW_KICK,\
-	ICE_PUNCH,\ ; FROST FIST
-	FIRE_PUNCH,\ ; BLAZE HAMMER
+	ADAPTATION,\
+	FROST_FIST,\
+	MUD_BOMB,\
+	BLAZE_HAMMER,\
 	TOXIC,\
 	BODY_SLAM,\
 	DISABLE,\
 	DOUBLE_EDGE,\
-	AURORA_BEAM,\
+	AURORA_MIST,\
 	HYPER_BEAM,\
-	AMNESIA,\ ; CALM MIND
-	THUNDERPUNCH,\ ; ZAPPERCUT
-	ROLLING_KICK,\ ; METEOR SWEEP
+	CALM_MIND,\
+	LOW_KICK,\
+	ZAPPERCUT,\
+	METEOR_SWEEP,\
 	BARRIER,\
 	PSYCHIC_M,\
-	KINESIS,\ ; MIRAGE
+	MIRAGE,\
 	REFLECT,\
-	BIDE,\ ; BULK UP
-	BARRAGE,\ ; SHADOW BALL
-	SLAM,\ ; WASTEMAKER
-	KARATE_CHOP,\
-	MEDITATE,\ ; VOID MIND
+	BULK_UP,\
+	SHADOW_BALL,\
+	DEMOLISH,\
+	VOID_MIND,\
 	LOVELY_KISS,\
 	LIGHT_SCREEN,\
-	PSYWAVE,\ ; SKITTERMIND
-	SLUDGE,\ ; SLUDGE BOMB
-	GLARE,\
+	SKITTERMIND,\
+	SHADOW_GAME,\
 	SUBSTITUTE,\
+	CLAY_ARMOR,\
 	CUT,\
 	STRENGTH,\
 	FLASH
@@ -55,3 +55,23 @@
 
 	dw 0, HypnoPicBack
 
+; --- Sunsette SSOT directives (parsed by tools/gen_pokemon_data.py) ---
+;@ nature       NATURE_CALCULATING NATURE_LAZY
+;@ pal_battle   PAL_LEMONMON
+;@ pal_altbattle PAL_0F
+;@ pal_icon     $FF
+;@ pal_alticon  $FF
+;@ evo_move    NO_MOVE
+;@ evo_react   "Its pendulum" "sways. Eyes lock."
+;@ evo_react   "It twirls its" "pendulum slowly."
+;@ evo_react   "Its eyes flash," "air goes still."
+;@ evo_react   "It taps its head" "and yawns at you."
+;@ learn       12, DISABLE
+;@ learn       17, CONFUSION
+;@ learn       24, HEADBUTT
+;@ learn       29, SMOG
+;@ learn       33, PHANTASM
+;@ learn       37, PSYCHIC_M
+;@ learn       43, TOXIC
+;@ learn       48, EMETIC_PURGE
+;@ learn       54, SOULSTEALER

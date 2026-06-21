@@ -1,5 +1,6 @@
 CeladonCity_Script:
 	call EnableAutoTextBoxDrawing
+	farcall TryTallBuildingReaction
 	; fall through
 	
 ; PureRGBnote: ADDED: code that keeps the cut tree cut down if we're in its alcove. Prevents getting softlocked if you delete cut.

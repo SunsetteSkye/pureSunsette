@@ -177,33 +177,10 @@ IsSSAnneBowWarpTileInFrontOfPlayer:
 	and a
 	jr IsWarpTileInFrontOfPlayer.done
 
-IsPlayerStandingOnDoorTileOrWarpTile::
-	push hl
-	push de
-	push bc
-	farcall IsPlayerStandingOnDoorTile
-	jr c, .done
-	ld a, [wCurMapTileset]
-	add a
-	ld c, a
-	ld b, $0
-	ld hl, WarpTileIDPointers
-	add hl, bc
-	ld a, [hli]
-	ld h, [hl]
-	ld l, a
-	lda_coord 8, 9
-	call IsInSingleByteArray
-	jr nc, .done
-	ld hl, wMovementFlags
-	res BIT_STANDING_ON_WARP, [hl]
-.done
-	pop bc
-	pop de
-	pop hl
-	ret
-
-INCLUDE "data/tilesets/warp_tile_ids.asm"
+; Sunsette: IsPlayerStandingOnDoorTileOrWarpTile + the WarpTileIDPointers table were MOVED out of
+; this (full) bank3 file into a floating section to free room (the BEACH_HOUSE tileset header pushed
+; the _DEBUG build's bank3 8 bytes over). See engine/overworld/standing_on_warp_tile.asm. Both
+; callers already callfar/farcall it, so its bank is irrelevant.
 
 PrintSafariZoneSteps::
 	ld a, [wCurMap]

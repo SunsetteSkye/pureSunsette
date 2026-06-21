@@ -194,7 +194,11 @@ RedrawPartyMenu_::
 	ld a, 1
 	ldh [hAutoBGTransferEnabled], a
 	call Delay3
-	jp GBPalNormal
+	call GBPalNormal
+	; Sunsette: ADDED (pass 2): per-species icon colors. Runs AFTER GBPalNormal so
+	; its OBJ slot 0/1 refresh can't clobber us; icons use OBJ slots 2..7.
+	callfar LoadPartyIconPalettes
+	ret
 .printItemUseMessage
 	and $0F
 	ld hl, PartyMenuItemUseMessagePointers

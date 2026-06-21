@@ -171,7 +171,7 @@ TypeGuysHouseLeftTallBookcaseText:
 
 
 
-TypeGuysHouseTypeGuyText:
+TypeGuysHouseTypeGuyText: ; Sunsette: type-remap service removed; he now sells a stash of TMs
 	text_asm
 	call CheckLightsTurnedOn
 	jr nz, .typeGuyTalks
@@ -188,62 +188,8 @@ TypeGuysHouseTypeGuyText:
 .skip
 	ld hl, .awake2
 	rst _PrintText
-	call SaveScreenTilesToBuffer2
-	ld a, [wListScrollOffset]
-	push af ; save list scroll offset to preserve item list index
-	xor a
-	ld [wCurrentMenuItem], a
-	ld [wListScrollOffset], a
-.loop
-	ld hl, PokemonTypeGuyList
-	call LoadItemList
-	ld hl, wItemList
-	ld a, l
-	ld [wListPointer], a
-	ld a, h
-	ld [wListPointer + 1], a
-	xor a
-	ld [wPrintItemPrices], a
-	ld [wMenuItemToSwap], a
-	ld [wListMenuCustomType], a
-	ld a, 2
-	ld [wListMenuHoverTextType], a
-	ld a, CUSTOMLISTMENU
-	ld [wListMenuID], a
-	call DisplayListMenuID
-	jr c, .done
-	ld a, [wCurrentMenuItem]
-	ld b, a
-	ld a, [wListScrollOffset]
-	add b
-	ld c, a
-	ld b, FLAG_TEST
-	push bc
-	ld hl, wPkmnTypeRemapFlags
-	call FlagAction
-	pop bc
-	ld b, FLAG_RESET
-	jr nz, .reset
-	ld b, FLAG_SET
-.reset
-	call FlagAction ; set or reset the flag
-	call LoadScreenTilesFromBuffer2 ; restore screen tiles from before displaying list
-	jr .loop
-.done
-	xor a
-	ld [wListMenuHoverTextType], a
-	ld [wCurrentMenuItem], a
-	ld hl, wPkmnTypeRemapFlags
-	ld b, 3
-	call CountSetBits
-	and a ; is the number of set bits non-zero
-	ld hl, .doneText
-	jr nz, .print
-	ld hl, .beThatWay
-.print
-	rst _PrintText
-	pop af
-	ld [wListScrollOffset], a ; restore list scroll offset to preserve item list index
+	ld hl, TypeGuyTMShop
+	call DisplayPokemartNoGreeting
 	rst TextScriptEnd
 .sleeping
 	text_far _TypeGuysHouseTypeGuySleepingText
@@ -254,36 +200,5 @@ TypeGuysHouseTypeGuyText:
 .awake2
 	text_far _TypeGuysHouseTypeGuyAwakeText2
 	text_end
-.doneText
-	text_far _TypeGuysHouseTypeGuyDoneText
-	text_end
-.beThatWay
-	text_far _TypeGuysHouseTypeGuyFineText
-	text_end
 
-PokemonTypeGuyList::
-	db 23
-	db BUTTERFREE
-	db FEAROW
-	db SANDSHREW
-	db SANDSLASH
-	db NINETALES
-	db GOLDUCK
-	db VICTREEBEL
-	db PONYTA
-	db RAPIDASH
-	db DODUO
-	db DODRIO
-	db KINGLER
-	db VOLTORB
-	db ELECTRODE
-	db MAROWAK
-	db SEADRA
-	db GOLDEEN
-	db SEAKING
-	db MR_MIME
-	db ELECTABUZZ
-	db PINSIR
-	db KABUTO
-	db KABUTOPS
-	db -1
+INCLUDE "data/items/marts/type_guy.asm"

@@ -440,7 +440,7 @@ BillsPCMenuText:
 ;	ld b, NUM_MOVES
 ;.loop
 ;	ld a, [hli]
-	;push hl 
+	;push hl
 	;push bc
 	;ld hl, HMMoveArray
 	;call IsInSingleByteArray

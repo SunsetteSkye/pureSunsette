@@ -1,10 +1,10 @@
-;
+
 ;;	Digda01
-;
+
 ;;	Converting on Fri Jul 28 15:35:04 1995
-;
+
 ;;				by ver 1.02
-;
+
 
 
 

@@ -1,28 +1,24 @@
 _CinnabarLabMetronomeRoomScientist1Text::
-	text "Tch-tch-tch!"
-	line "I made a cool <TM>!"
+	text "I'm a hydrologist!"
+	line "I read the sea's"
+	cont "wild currents."
 
-	para "It can cause all"
-	line "kinds of fun!"
+	para "I even bottled a"
+	line "RIPTIDE into this"
+	cont "<TM> for you!"
 	prompt
 
 _CinnabarLabMetronomeRoomScientist1TM35ExplanationText::
-	text "Tch-tch-tch!"
-	line "That's the sound"
-	cont "a KINGLER makes!"
+	text "A RIPTIDE is the"
+	line "sea's hungry pull!"
 
-	para "CRABHAMMER is"
-	line "its signature"
-	cont "move!"
+	para "It drags prey down"
+	line "to the cold deep!"
 
-	para "I love that move"
-	line "so much, I made a"
-	cont "<TM> to teach it to"
-	cont "other #MON!"
+	para "Bottled, it hits"
+	line "fast and sure!"
 
-	para "When in doubt:"
-	para "Drop a HAMMER on"
-	line "'em!"
+	para "Respect the ocean."
 	done
 
 _CinnabarLabMetronomeRoomScientist1TM35NoRoomText::
@@ -64,11 +60,14 @@ _CinnabarLabMetronomeRoomAmberPipeText::
 	text "An amber pipe!"
 	done
 
-_CinnabarLabKinglerLearnset::
-	text "I think I'll HAMMER"
-	line "some awesome"
-	cont "@"
+_CinnabarLabHydrologistLearnset::
 	text_ram_namebuffer
-	text " facts"
-	cont "into your skull!"
+	line "and other"
+	cont "crustaceans are"
+	cont "surprisingly"
+	cont "quick swimmers in"
+	cont "a pinch, ha ha!"
+
+	para "Don't sleep on a"
+	line "crab in a RIPTIDE!"
 	prompt

@@ -90,6 +90,7 @@ CeladonGymReceiveTM21:
 .gymVictory
 	ld hl, wObtainedBadges
 	set BIT_RAINBOWBADGE, [hl]
+	call BadgeMonCry ; Sunsette: lead mon cries when the badge is earned
 
 	; deactivate gym trainers
 	SetEventRange EVENT_BEAT_CELADON_GYM_TRAINER_0, EVENT_BEAT_CELADON_GYM_TRAINER_6
@@ -159,6 +160,7 @@ CeladonGymErikaText:
 	call InitBattleEnemyParameters
 	ld a, $4
 	ld [wGymLeaderNo], a
+	call ApplyGymLeaderBadgeTier ; Sunsette: badge count picks the leader's party tier
 	ld a, SCRIPT_CELADONGYM_ERIKA_POST_BATTLE
 	ld [wCeladonGymCurScript], a
 	ld [wCurMapScript], a

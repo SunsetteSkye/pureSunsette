@@ -28,10 +28,10 @@ CinnabarLabMetronomeRoomScientist1Text:
 .got_item
 	ld hl, .TM35ExplanationText
 	rst _PrintText
-	ld c, DEX_KINGLER - 1
+	ld c, DEX_KINGLER - 1 ; Sunsette: hydrologist shows KINGLER. It does NOT get RIPTIDE's +SPEED bonus (that's the GYARADOS/SEAKING/GOLDEEN line) - and that's the joke: he points out crustaceans are surprisingly quick swimmers in a pinch. No other learnset NPC owns KINGLER.
 	callfar SetMonSeen
 	lb hl, DEX_KINGLER, SCIENTIST
-	ld de, LearnsetKinglerGuy
+	ld de, LearnsetHydrologist
 	ld bc, LearnsetFadeOutInDetails
 	predef_jump LearnsetTrainerScriptMain
 

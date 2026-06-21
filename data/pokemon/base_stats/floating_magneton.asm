@@ -1,3 +1,4 @@
+; Sunsette VARIANT FORM: Floating Magneton, an alternate form of MAGNETON. Its base data reuses MAGNETON's dex slot (db DEX_MAGNETON). See base_stats/magneton.asm.
 	db DEX_MAGNETON ; pokedex id
 
 	db  65,  60,  95,  70, 120
@@ -7,38 +8,38 @@
 	db 60 ; catch rate
 	db 161 ; base exp
 
-	INCBIN "gfx/pokemon/front/magneton.pic", 0, 1 ; sprite dimensions
-	dw MagnetonPicFront, MagnetonPicBackSW
+	INCBIN "gfx/pokemon/front/floating_magneton.pic", 0, 1 ; sprite dimensions
+	dw FloatingMagnetonPicFront, MagnetonPicBackSW
 
 	db TACKLE, SCREECH, NO_MOVE, NO_MOVE ; level 1 learnset
 	db GROWTH_MEDIUM_FAST ; growth rate
 
 	; tm/hm learnset
 	tmhm \
-	DISABLE,\
-	SONICBOOM,\ ; ILL WIND
 	TOXIC,\
 	BODY_SLAM,\
+	DISABLE,\
 	DOUBLE_EDGE,\
-	AURORA_BEAM,\
+	AURORA_MIST,\
 	HYPER_BEAM,\
 	BARRIER,\
 	THUNDERBOLT,\
 	THUNDER,\
-	CRABHAMMER,\
-	KINESIS,\ ; MIRAGE
+	MIRAGE,\
 	REFLECT,\
-	BIDE,\ ; BULK UP
-	BARRAGE,\ ; SHADOW BALL
-	MEDITATE,\ ; VOID MIND
+	BULK_UP,\
+	ILL_WIND,\
+	SHADOW_BALL,\
+	VOID_MIND,\
 	LIGHT_SCREEN,\
 	THUNDER_WAVE,\
-	PSYWAVE,\ ; SKITTERMIND
+	SKITTERMIND,\
+	SHADOW_GAME,\
 	SUBSTITUTE,\
 	FLASH
 	; end
 
-	db BANK(MagnetonPicFront)
+	db BANK(FloatingMagnetonPicFront)
 	db 0
 	db BANK(MagnetonPicBack)
 	db BANK(MagnetonPicBackSW)

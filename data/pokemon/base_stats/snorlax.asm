@@ -10,41 +10,40 @@
 	INCBIN "gfx/pokemon/front/snorlax.pic", 0, 1 ; sprite dimensions
 	dw SnorlaxPicFront, SnorlaxPicBackSW
 
-	db ROAR, AMNESIA, REST, HEADBUTT  ; level 1 learnset (BELLOW) (CALM MIND)
+	db BELLOW, CALM_MIND, REST, HEADBUTT  ; level 1 learnset
 	db GROWTH_MEDIUM_SLOW ; growth rate
 
 	; tm/hm learnset
 	tmhm \
-	FURY_ATTACK,\ ; MUD BOMB
-	LOW_KICK,\
-	DISABLE,\
-	ICE_PUNCH,\ ; FROST FIST
-	FIRE_PUNCH,\ ; BLAZE HAMMER
+	ROCK_ON,\
+	FROST_FIST,\
+	MUD_BOMB,\
+	BLAZE_HAMMER,\
 	TOXIC,\
 	BODY_SLAM,\
+	DISABLE,\
 	DOUBLE_EDGE,\
-	BUBBLEBEAM,\
-	AURORA_BEAM,\
+	AURORA_MIST,\
 	ICE_BEAM,\
 	BLIZZARD,\
 	HYPER_BEAM,\
-	AMNESIA,\ ; CALM MIND
-	THUNDERPUNCH,\ ; ZAPPERCUT
-	ROLLING_KICK,\ ; METEOR SWEEP
-	SOLARBEAM,\ ; SOLARBEAM
+	CALM_MIND,\
+	LOW_KICK,\
+	ZAPPERCUT,\
+	METEOR_SWEEP,\
+	SOLARBEAM,\ 
 	THUNDERBOLT,\
 	THUNDER,\
 	EARTHQUAKE,\
+	RIPTIDE,\
 	PSYCHIC_M,\
 	REFLECT,\
-	BIDE,\ ; BULK UP
-	BARRAGE,\ ; SHADOW BALL
+	BULK_UP,\
+	SHADOW_BALL,\
 	FIRE_BLAST,\
-	FLAMETHROWER,\
-	SLAM,\ ; WASTEMAKER
-	KARATE_CHOP,\
-	MEDITATE,\ ; VOID MIND
-	PSYWAVE,\ ; SKITTERMIND
+	DEMOLISH,\
+	VOID_MIND,\
+	SKITTERMIND,\
 	ROCK_SLIDE,\
 	SUBSTITUTE,\
 	CUT,\
@@ -60,3 +59,17 @@
 
 	dw 0, SnorlaxPicBack
 
+; --- Sunsette SSOT directives (parsed by tools/gen_pokemon_data.py) ---
+;@ nature       NATURE_LAZY NATURE_GLUTTON
+;@ pal_battle   PAL_GAMEFREAK
+;@ pal_altbattle PAL_BROWNMON2
+;@ pal_icon     PAL_ICON_75
+;@ pal_alticon  PAL_ICON_10
+;@ evo_move    NO_MOVE
+;@ evo_react   NONE
+;@ learn       35, BODY_SLAM
+;@ learn       41, EMETIC_PURGE
+;@ learn       46, ROCK_SLIDE
+;@ learn       51, DOUBLE_EDGE
+;@ learn       55, PISTON_KICK
+;@ learn       59, EXPLOSION

@@ -15,30 +15,33 @@
 
 	; tm/hm learnset
 	tmhm \
-	FURY_ATTACK,\ ; MUD BOMB
-	DISABLE,\
-	ICE_PUNCH,\ ; FROST FIST
-	FIRE_PUNCH,\ ; BLAZE HAMMER
+	ADAPTATION,\
+	FROST_FIST,\
+	MUD_BOMB,\
+	BLAZE_HAMMER,\
 	TOXIC,\
 	BODY_SLAM,\
+	DISABLE,\
 	DOUBLE_EDGE,\
-	AMNESIA,\ ; CALM MIND
+	AURORA_MIST,\
+	CALM_MIND,\
 	LOW_KICK,\
-	THUNDERPUNCH,\ ; ZAPPERCUT
-	ROLLING_KICK,\ ; METEOR SWEEP
+	ZAPPERCUT,\
+	METEOR_SWEEP,\
 	BARRIER,\
 	THUNDERBOLT,\
 	THUNDER,\
+	RIPTIDE,\
 	DIG,\
 	REFLECT,\
-	BIDE,\ ; BULK UP
-	BARRAGE,\ ; SHADOW BALL
-	SLAM,\ ; WASTEMAKER
-	KARATE_CHOP,\
-	MEDITATE,\ ; VOID MIND
+	BULK_UP,\
+	SHADOW_BALL,\
+	DEMOLISH,\
+	VOID_MIND,\
 	LIGHT_SCREEN,\
 	THUNDER_WAVE,\
-	GLARE,\
+	SHADOW_GAME,\
+	ROCK_ON,\
 	SUBSTITUTE,\
 	CUT,\
 	SURF,\
@@ -53,3 +56,22 @@
 
 	dw 0, PikachuPicBack
 
+; --- Sunsette SSOT directives (parsed by tools/gen_pokemon_data.py) ---
+;@ nature       NATURE_PLAYFUL NATURE_HYPER
+;@ pal_battle   PAL_REDBAR
+;@ pal_altbattle PAL_THUNDERMON
+;@ pal_icon     $FF
+;@ pal_alticon  $FF
+;@ evo         EVOLVE_ITEM, THUNDER_STONE, 1, RAICHU
+;@ evo_move    NO_MOVE
+;@ evo_react   NONE
+;@ learn       6, TACKLE
+;@ learn       9, THUNDER_WAVE
+;@ learn       12, SPARK
+;@ learn       16, AGILITY
+;@ learn       22, SWIFT
+;@ learn       26, THUNDERBOLT
+;@ learn       31, FOCUS_ENERGY
+;@ learn       36, BLITZ_STRIKE
+;@ learn       45, THUNDER
+;@ learn       52, HYPER_BEAM

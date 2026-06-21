@@ -167,6 +167,13 @@ _Route3CooltrainerF3AfterBattleText2::
 	cont "on ROUTE 3!"
 	para "What a sweet"
 	line "memory."
+	para "Did you know it"
+	line "floats high to"
+	cont "dodge ground"
+	cont "attacks?"
+	para "Though that leaves"
+	line "it in trouble"
+	cont "with birds..."
 	para "@"
 	text_end
 

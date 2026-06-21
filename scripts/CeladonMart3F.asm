@@ -8,7 +8,6 @@ CeladonMart3F_TextPointers:
 	dw_const CeladonMart3FGameBoyKid2Text,      TEXT_CELADONMART3F_GAMEBOY_KID2
 	dw_const CeladonMart3FGameBoyKid3Text,      TEXT_CELADONMART3F_GAMEBOY_KID3
 	dw_const CeladonMart3FLittleBoyText,        TEXT_CELADONMART3F_LITTLE_BOY
-	dw_const CeladonMartTMKid,                  TEXT_CELADONMART3F_TM_KID ; PureRGbnote: ADDED: new NPC, it's the TM kid from other pokemarts, he doesn't sell anything though this time
 	dw_const CeladonMart3FSNESText,             TEXT_CELADONMART3F_SNES1
 	dw_const CeladonMart3FRPGText,              TEXT_CELADONMART3F_RPG
 	dw_const CeladonMart3FSNESText,             TEXT_CELADONMART3F_SNES2
@@ -100,22 +99,6 @@ CeladonMart3FCurrentFloorSignText:
 
 CeladonMart3FPokemonPosterText:
 	text_far _CeladonMart3FPokemonPosterText
-	text_end
-
-CeladonMartTMKid:
-	text_asm
-	ld hl, TMKidGreet4
-	rst _PrintText
-	ld hl, CeladonMartTMKidFlavor
-	rst _PrintText
-	rst TextScriptEnd
-	
-TMKidGreet4::
-	text_far _TMKidGreet
-	text_end
-
-CeladonMartTMKidFlavor:
-	text_far _CeladonMartTMKidFlavor
 	text_end
 
 ; PureRGBnote: ADDED: some flavour text for one block that was changed to have more TVs

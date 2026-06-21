@@ -1,3 +1,4 @@
+; Sunsette: SAFFRON CITY MART stock. INCLUDEd by scripts/SaffronMart.asm (mart data is read from the caller's bank).
 SaffronMartClerkText::
 	script_mart \
 	GREAT_BALL, \
@@ -8,10 +9,4 @@ SaffronMartClerkText::
 	FULL_HEAL, \
 	REVIVE
 	
-SaffronTMKidShop::
-	script_mart \
-	TM_KARATE_CHOP, \
-	TM_ICE_PUNCH, \ ; FROST FIST
-	TM_FIRE_PUNCH, \ ; BLAZE HAMMER
-	TM_THUNDERPUNCH ; ZAPPERCUT
 	

@@ -1,5 +1,5 @@
 ;PureRGBnote: FIXED: check if the move the game thinks should be used after being defrosted is one of the battling pokemon's moves
-; if the move was 0 or a move the pokemon didn't know, it won't do anything. 
+; if the move was 0 or a move the pokemon didn't know, it won't do anything.
 ; In the original game, it would use a move it didn't know, or if it was 0, it would use a glitch move.
 CheckDefrostMove::
 	ldh a, [hWhoseTurn]

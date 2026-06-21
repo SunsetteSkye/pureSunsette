@@ -283,6 +283,9 @@ ApplyPlayerSendOutMapEffects::
 	call CheckSilphDebuff ; Sunsette: SILPH CO. -1 SPECIAL (Water/Grass) / -1 SPEED (Flying)
 	ld a, 1 ; target = player
 	call CheckDarknessAccuracyDebuff ; Sunsette: dark-cave (Flash off) -2 ACCURACY on your mon
+	ld a, 1 ; target = player
+	call CheckCeruleanWaterSpeed ; Sunsette: CERULEAN pool +1 SPEED on your WATER mon
+	call CheckArenaFirstMonStatus ; Sunsette: LORELEI freeze / FUCHSIA confuse on your FIRST mon only
 	ld a, [wCurMap]
 	cp VIRIDIAN_FOREST
 	jr z, .viridianGrassDefense
@@ -440,11 +443,11 @@ ApplyStatDownToTarget:
 
 ; Sunsette: MOCKINGBIRD (was MIRROR MOVE). Instead of copying the foe's last move, it now copies ALL
 ; of the foe's stat-stage changes onto the user (overwriting the user's stages), recomputes the user's
-; battle stats from its OWN base stats with those stages, announces it, then drops the foe's SPECIAL by
-; one stage. Reached via `callfar MockingbirdEffect_` from Battle Core (player + enemy move paths).
+; battle stats from its OWN base stats with those stages, announces it, then CONFUSES the foe. It is NOT
+; a priority move. Reached via `callfar MockingbirdEffect_` from Battle Core (player + enemy move paths).
 ; hWhoseTurn = the MOCKINGBIRD user; the foe is the opposite side.
 MockingbirdEffect_:
-	callfar PlayCurrentMoveAnimation2 ; Sunsette: MOCKINGBIRD is 0-BP; nothing else plays its animation (it copies the foe's stat stages silently, then -1 foe SPECIAL via the silent ApplyStatDownToTarget)
+	callfar PlayCurrentMoveAnimation2 ; Sunsette: MOCKINGBIRD is 0-BP; nothing else plays its animation (it copies the foe's stat stages silently, then confuses the foe)
 	ldh a, [hWhoseTurn]
 	and a
 	ld hl, wEnemyMonStatMods ; player's turn -> foe = enemy (source of the stages to copy)
@@ -467,22 +470,28 @@ MockingbirdEffect_:
 	callfar CalculateModifiedStats
 	ld hl, MockingbirdCopiedText
 	rst _PrintText
-; then drop the FOE's SPECIAL by 1 (guaranteed, recomputes its stats, prints "fell!"). b = the foe
-; side for ApplyStatDownToTarget (0 = enemy, 1 = player): on player's turn the foe is the enemy (0).
+; then CONFUSE the foe (guaranteed, 2-5 turns). We reuse the engine's ConfusionSideEffectSuccess, which
+; confuses the side opposite hWhoseTurn (the foe) and prints "became confused". It reads the in-flight move
+; effect only to decide whether to replay the move animation, so we temporarily set the user's move effect
+; to CONFUSION_SIDE_EFFECT (suppresses that replay - we already played MOCKINGBIRD's anim above), then
+; restore MIRROR_MOVE_EFFECT. If the foe is already confused it no-ops silently.
 	ldh a, [hWhoseTurn]
-	and 1 ; 0 on player's turn -> foe = enemy; 1 on enemy's turn -> foe = player
-	ld b, a
-	ld c, SPECIAL_DOWN1_EFFECT
-	call ApplyStatDownToTarget
-; ApplyStatDownToTarget left the in-flight move effect as SPECIAL_DOWN1; restore MIRROR_MOVE_EFFECT
-; (MOCKINGBIRD) so any post-move bookkeeping sees the real effect.
+	and a
+	ld hl, wPlayerMoveEffect
+	jr z, .gotEffPtr
+	ld hl, wEnemyMoveEffect
+.gotEffPtr
+	ld a, CONFUSION_SIDE_EFFECT
+	ld [hl], a
+	callfar ConfusionSideEffectSuccess ; set CONFUSED on the foe + a 2-5 turn counter
+; restore MIRROR_MOVE_EFFECT so any post-move bookkeeping sees the real effect.
 	ldh a, [hWhoseTurn]
 	and a
 	ld hl, wPlayerMoveEffect
 	jr z, .restoreEff
 	ld hl, wEnemyMoveEffect
 .restoreEff
-	ld a, MIRROR_MOVE_EFFECT ; MOCKINGBIRD
+	ld a, MIRROR_MOVE_EFFECT
 	ld [hl], a
 	ret
 
@@ -667,12 +676,49 @@ ABitDarkText:
 	text_far _ABitDarkToSeeText
 	text_end
 
-; Sunsette: FLY and DIG raise the USER's EVASION by 1 on the charge turn (callfar'd from ChargeEffect
-; in Battle Core, after "flew up!" / "dug a hole!"). We reuse the engine's own StatModifierUpEffect by
-; temporarily pointing the user's move effect at EVASION_UP1_EFFECT (and zeroing the move number, which
-; dodges StatModifierUpEffect's Minimize/substitute path), with the stat-rise animation suppressed - then
-; restore both so turn 2's charged attack still fires normally. hWhoseTurn is already the charging mon.
+; Sunsette: FLY and DIG charge turn (callfar'd from ChargeEffect in Battle Core, after "flew up!" /
+; "dug a hole!"). First wipe the USER's OWN stat mods back to neutral (recomputing its battle stats from
+; the unmodified copy, the same reset SENBONZAKURA uses), THEN raise EVASION: +2 for FLY (paired with its
+; 90% accuracy, so the bigger dodge is bought with an unreliable dive), +1 for DIG (reliable 100%, smaller
+; cushion). The reset is what keeps the per-cycle boost from climbing toward +6 (the old degenerate
+; dodge-tank): evasion pins at exactly its move's value no matter how many Fly/Dig cycles, and any prior
+; self-setup is spent on the dive. The boost reuses the engine's own StatModifierUpEffect by temporarily
+; pointing the user's move effect at EVASION_UP2/1_EFFECT (and zeroing the move number, which dodges
+; StatModifierUpEffect's Minimize/substitute path), with the stat-rise animation suppressed - then restores
+; both so turn 2's charged attack still fires normally. hWhoseTurn is already the charging mon.
 ChargeMoveEvasionBoost::
+	ldh a, [hWhoseTurn]
+	and a
+	ld hl, wPlayerMonAttackMod         ; player's turn -> user = player
+	ld de, wPlayerMonUnmodifiedAttack
+	ld bc, wBattleMonAttack
+	jr z, .gotUser
+	ld hl, wEnemyMonAttackMod
+	ld de, wEnemyMonUnmodifiedAttack
+	ld bc, wEnemyMonAttack
+.gotUser
+	push de                            ; unmodified-stat source
+	push bc                            ; battle-stat dest
+	ld a, $7
+	ld b, NUM_STAT_MODS
+.resetModsLoop
+	ld [hli], a
+	dec b
+	jr nz, .resetModsLoop
+	pop hl                             ; hl = battle-stat dest
+	pop de                             ; de = unmodified-stat source
+	ld b, (NUM_STATS - 1) * 2
+.resetStatsLoop
+	ld a, [de]
+	inc de
+	ld [hli], a
+	dec b
+	jr nz, .resetStatsLoop
+	; --- now raise the USER's EVASION (no anim), AFTER the reset so it pins at exactly the move's value ---
+	; Sunsette: ChooseFlyEvasionEffect (floated bank) returns e = the EVASION_UP* effect - FLY by an already
+	; FLYING/FLOATING user -> +2; a grounded FLY user -> +1 (the type-keep popup is the trade-off); DIG -> +1.
+	callfar ChooseFlyEvasionEffect ; e = boost effect; read it into c BEFORE loading the move ptrs (which need de/hl)
+	ld c, e
 	ldh a, [hWhoseTurn]
 	and a
 	ld hl, wPlayerMoveEffect
@@ -685,12 +731,12 @@ ChargeMoveEvasionBoost::
 	push af ; save the real move effect (FLY_EFFECT / CHARGE_EFFECT)
 	ld a, [de]
 	push af ; save the real move number
-	ld a, EVASION_UP1_EFFECT
+	ld a, c ; the chosen EVASION boost effect (UP1/UP2)
 	ld [hl], a
 	xor a
 	ld [de], a
 	SetFlag FLAG_SKIP_STAT_ANIMATION
-	callfar StatModifierUpEffect ; +1 EVASION to the user, prints the standard "rose!" line
+	callfar StatModifierUpEffect ; raise the user's EVASION (+2 FLY / +1 DIG), prints the standard "rose!" line
 	ResetFlag FLAG_SKIP_STAT_ANIMATION
 	; callfar clobbered hl/de - re-derive the same pointers to restore the saved values
 	ldh a, [hWhoseTurn]
@@ -707,6 +753,7 @@ ChargeMoveEvasionBoost::
 	ld [hl], a ; restore move effect
 	ret
 
+; Sunsette: carry set if the user (side = hWhoseTurn) is already FLYING or FLOATING in either type slot.
 ; Sunsette: move-keyed bonus applied AFTER certain damaging moves HIT (post-damage, target alive).
 ; callfar'd from Battle Core's player & enemy SpecialEffects tail; hWhoseTurn = the user. These fire
 ; for ANY user of the move (the legendary birds' dedicated signature moves - no species gate):
@@ -741,7 +788,7 @@ SpeciesMoveBonus::
 	jr z, .drill
 	cp WINTER_GALE
 	jr z, .whirl
-	cp RAGE
+	cp BLOOD_RUSH
 	jr z, .strengthRage
 	cp STRENGTH
 	jr z, .strengthRage
@@ -749,11 +796,31 @@ SpeciesMoveBonus::
 	jr z, .fireSpinBurn
 	cp WRAP
 	jr z, .trapSpeedDrop
-	cp BIND ; POWER BIND
+	cp POWER_BIND
 	jr z, .trapSpeedDrop
 	cp CLAMP
 	jr z, .clampDefUp
+	cp SURF
+	jr z, .surf
+	cp UNDERBUG
+	jr z, .underbugConfuse ; Sunsette: comeback - stage-scaled confuse (0/30/100/100)
 	ret
+.underbugConfuse
+	jpfar UnderBugConfuse_
+.surf ; Sunsette: SURF is a PIKACHU/RAICHU signature once the player has surfed at the Summer Beach
+	; House (EVENT_SURFED_WITH_DUDE) - it WATERIFIES the target (post-damage, target alive, so it
+	; matches WaterifyEffect_'s own assumptions). WaterifyEffect_ is in this same bank (a near jp).
+	ld a, b ; user species (set at .gotBoth)
+	cp PIKACHU
+	jr z, .surfWaterify
+	cp RAICHU
+	ret nz
+.surfWaterify
+	CheckEvent EVENT_SURFED_WITH_DUDE
+	ret z
+	CheckEvent FLAG_SIGNATURE_MOVES_TURNED_OFF ; honor the world-option signature toggle (like the announcement)
+	ret nz
+	jp WaterifyEffect_
 .fireSpinBurn ; Sunsette: FIRE SPIN - 30% burn on the target (any user); reuses .applyStatus (BURN_SIDE_EFFECT2 = 30% roll). No FLOURISH (unlike PHOENIX DIVE's .sky).
 	ld d, BURN_SIDE_EFFECT2
 	ld e, FIRE
@@ -842,7 +909,7 @@ SetUserFlourish:
 ; Sunsette: FLOURISH's +1 SPECIAL. GrowthEffect (Battle Core) jpfar's here after setting the FLOURISH regen;
 ; the raise lives in this roomier bank since Battle Core is full.
 FlourishSpecialUp::
-	; Sunsette: GROWTH(FLOURISH) and AMNESIA(CALM MIND) are 0-BP, so the main flow never plays their move
+	; Sunsette: GROWTH(FLOURISH) and AMNESIA are 0-BP, so the main flow never plays their move
 	; animation, and RaiseUserStatViaSwap's +1 SPECIAL is silent (FLAG_SKIP_STAT_ANIMATION). Play it here.
 	; Only these two 0-BP moves call FlourishSpecialUp; STRENGTH (+ATK) and SNORLAX REST (+SPEED) use
 	; RaiseUserStatViaSwap directly and already animate via the main damage / heal flow.
@@ -897,11 +964,9 @@ RaiseUserStatViaSwap:
 ; Sunsette: ADAPTATION (was the FLOURISH move; internal const GROWTH). 0-BP. GrowthEffect (Battle Core) sets
 ; the FLOURISH regen bit then jpfar's here: play the animation, CURE the user's major status (+recompute
 ; stats), then raise ATTACK by 1 via RaiseUserStatViaSwap (which self-restores the move effect/num).
-AdaptationEffect::
-	callfar PlayCurrentMoveAnimation2
-	call CureUserStatus
-	ld a, ATTACK_UP1_EFFECT
-	jp RaiseUserStatViaSwap
+; Sunsette: ADAPTATION (AdaptationEffect) moved to the floated "Sunsette Sleep Hit Reduction" section
+; (newCode was full); it's co-located there with its damage-halving helper. CureUserStatus stays here and is
+; reached from it via callfar.
 
 ; Sunsette: clear the USER's (hWhoseTurn side) major status condition - both the in-battle copy AND the
 ; party copy - then recompute its modified stats so any burn/paralysis/freeze penalty is undone. No-op (and
@@ -951,9 +1016,10 @@ SnorlaxRestBonus::
 ; Sunsette: shared body for HAZE_EFFECT and FLASH_EFFECT - both point at Battle Core's HazeEffect
 ; trampoline (Battle Core is full, so we can't afford a second one), which jpfar's here. We dispatch on
 ; the active move effect: FLASH_EFFECT branches to the Flash body below; otherwise it's Haze.
-; HAZE: clear all stat changes/statuses via the engine's own HazeEffect_, then roll a 30% flinch. (BLACK HAZE)
-; FlinchSideEffect reads the move effect to choose its chance and picks 30% for anything that isn't
-; FLINCH_SIDE_EFFECT1 (HAZE_EFFECT qualifies). Tail-jumps, so the final ret returns to HazeEffect's caller.
+; HAZE: reset stat stages + clear VOLATILE statuses via the engine's own HazeEffect_ (the
+; non-volatile status bytes are saved/restored around it so permanent status survives), then drop the toxic
+; fog via BlackHazeFieldEffect (badly poison + EVASION +2 both sides). Both callfar's, then ret returns to
+; HazeEffect's caller. No flinch, no priority anymore.
 HazeFlinchEffect_::
 	ldh a, [hWhoseTurn]
 	and a
@@ -962,7 +1028,7 @@ HazeFlinchEffect_::
 	ld a, [wEnemyMoveEffect]
 .gotEffect
 	cp FLASH_EFFECT
-	jr z, FlashEffect_
+	jp z, FlashEffect_
 	cp SWIFT_EFFECT
 	jp z, SwiftEffect_
 	cp ACCURACY_DOWN_SIDE_EFFECT
@@ -973,7 +1039,7 @@ HazeFlinchEffect_::
 	jp z, MindwipeEffect_
 	cp ROOST_EFFECT
 	jp z, RoostEffect_
-	cp JOLT_BOLT_EFFECT
+	cp JOLT_BOLT_EFFECT ; Sunsette: RETIRED - dead branch (POUND is now SPARK / PARALYZE_SIDE_EFFECT2); no move carries JOLT_BOLT_EFFECT
 	jp z, JoltBoltEffect_
 	cp HOBBLE_EFFECT
 	jp z, HobbleEffect_
@@ -985,8 +1051,56 @@ HazeFlinchEffect_::
 	jp z, ShoryukenGround ; Sunsette: SHORYUKEN strips the target's FLYING/FLOATING here (effect-dispatch path, post-damage, target alive - same path as HOBBLE/WATERIFY, which persists; SpeciesMoveBonus was too late and got reverted)
 	cp BLOSSOM_BLITZ_EFFECT
 	jp z, BlossomBlitzEffect_
-	callfar HazeEffect_
-	jpfar FlinchSideEffect
+	cp AQUA_RING_EFFECT
+	jr nz, .notAquaRing
+	callfar AquaRingEffect_       ; Sunsette: AQUA RING (ACID_ARMOR) - FLOURISH + DOUBLE_FLOURISH (own floating section)
+	ret
+.notAquaRing
+	cp CLAY_ARMOR_EFFECT
+	jr nz, .notClayArmor
+	callfar ClayArmorEffect_      ; Sunsette: CLAY ARMOR (FISSURE) - type-gated dual screens + Ground heal (own floating section)
+	ret
+.notClayArmor
+	cp MIST_EFFECT
+	jr nz, .notAuroraMist
+	callfar AuroraMistEffect_     ; Sunsette: AURORA MIST (ETHEREAL) - Mist immunity + clear both statuses; Ice raises screens, non-Ice retypes to ICE (own floating section)
+	ret
+.notAuroraMist
+	cp METAMORPHIC_EFFECT
+	jr nz, .notMetamorphic
+	callfar MetamorphicEffect_    ; Sunsette: METAMORPHIC (EXPLOSION) - post-damage recoil + ROCK user sheds ROCK/+6 SPEED/glow (own floating section)
+	ret
+.notMetamorphic
+	cp SUPERNOVA_EFFECT
+	jr nz, .notSupernova
+	callfar SupernovaEffect_      ; Sunsette: SUPERNOVA (SELFDESTRUCT) - FIRE user no-recoil/shed-FIRE/gray, non-FIRE recoil+self-burn (own floating section)
+	ret
+.notSupernova
+	cp SENBONZAKURA_EFFECT
+	jr nz, .notSenbonzakura
+	callfar SenbonzakuraEffect_   ; Sunsette: SENBONZAKURA (PETAL_DANCE) - reset user stats + FLOURISH + EVASION +1 (own floating section)
+	ret
+.notSenbonzakura
+	cp MIASMA_EFFECT
+	jr nz, .haze
+	callfar MiasmaEffect_         ; Sunsette: MIASMA (POISON_GAS) - one-sided stat clear + poison (own floating section)
+	ret
+.haze
+	; Sunsette: SHADOW GAME must NOT wipe permanent (non-volatile) status. HazeEffect_ zeroes the TARGET's
+	; status byte, so save BOTH mons' status bytes across the call and restore them afterward. Stat stages and
+	; volatile statuses are still reset; only sleep/poison/burn/freeze/paralysis survive. (An already-statused
+	; mon is then left alone by BlackHazeBadlyPoisonSide's already-statused guard.)
+	ld a, [wBattleMonStatus]
+	push af
+	ld a, [wEnemyMonStatus]
+	push af
+	callfar HazeEffect_           ; stat-stage reset + volatile-status cleanup on BOTH sides
+	pop af
+	ld [wEnemyMonStatus], a
+	pop af
+	ld [wBattleMonStatus], a
+	callfar BlackHazeFieldEffect  ; Sunsette: then drop the toxic fog (own floating section; no flinch, no priority)
+	ret
 
 ; Sunsette: CALM MIND (AMNESIA, CALM_MIND_EFFECT) - reached here via the Haze trampoline. Raises the user's
 ; SPECIAL by 1 (FlourishSpecialUp's temp-swap) AND, if the user is currently CONFUSED, snaps it out of
@@ -1011,43 +1125,59 @@ CalmMindCalmedText:
 	text_far _CalmMindCalmedText
 	text_end
 
-; FLASH's effect body (reached from HazeFlinchEffect_ above). FLASH deals no damage; the burst of light
-; dazzles the TARGET, dropping its EVASION by 1 and its ACCURACY by 1 (both guaranteed via
-; FLAG_SKIP_STAT_ANIMATION, which skips the stat anim + the accuracy test), then a 30% flinch to simulate
-; being momentarily blinded. Each drop borrows StatModifierDownEffect by temporarily pointing the user's
-; move effect at EVASION_DOWN1 / ACCURACY_DOWN1 (same trick as SwiftEffect_/GustAccuracyEffect_ below).
-; hWhoseTurn is the FLASH user, so the TARGET is the opposite side; FlinchSideEffect reads the move effect
-; to pick its chance, and FLASH_EFFECT (not FLINCH_SIDE_EFFECT1) yields 30%, so we restore it before flinch.
+; FLASH's effect body (reached from HazeFlinchEffect_ above). Sunsette redesign: FLASH deals no damage and
+; is NOT a priority move. The burst of light wipes the TARGET's stat stages back to neutral (a one-shot
+; anti-setup, undoing any boosts it set up) and then drops the TARGET's ACCURACY by 2. No flinch - the
+; value is the single, noticeable disruption, so it isn't worth spamming. hWhoseTurn is the FLASH user, so
+; the TARGET is the opposite side. The stat reset mirrors HazeEffect_ but for one side only (stat mods ->
+; neutral 7 + recompute the battle stats from the unmodified copy; statuses are left alone). The -2 ACCURACY
+; borrows StatModifierDownEffect via ACCURACY_DOWN2_EFFECT + FLAG_SKIP_STAT_ANIMATION (guaranteed, no anim).
 FlashEffect_::
-	; Sunsette: FLASH is a 0-BP move, so the main flow never plays its animation, and the stat drops below
-	; use FLAG_SKIP_STAT_ANIMATION (which also suppresses the move anim StatModifierDownEffect would normally
-	; play). So play FLASH's own animation once here, before the silent drops.
+	; Sunsette: FLASH is a 0-BP move, so the main flow never plays its animation. Play it once here.
 	callfar PlayCurrentMoveAnimation2
-	; -1 EVASION on the target
+	; pick the TARGET's stat-mod block, its unmodified-stat source, and its battle-stat dest
 	ldh a, [hWhoseTurn]
 	and a
-	ld hl, wPlayerMoveEffect
-	jr z, .evaPtr
-	ld hl, wEnemyMoveEffect
-.evaPtr
-	ld a, EVASION_DOWN1_EFFECT
-	ld [hl], a
-	SetFlag FLAG_SKIP_STAT_ANIMATION
-	callfar StatModifierDownEffect ; -1 EVASION on the target ("fell" line, no anim, no accuracy check)
-	ResetFlag FLAG_SKIP_STAT_ANIMATION
-	; -1 ACCURACY on the target
+	ld hl, wEnemyMonAttackMod        ; player's turn -> target = enemy
+	ld de, wEnemyMonUnmodifiedAttack
+	ld bc, wEnemyMonAttack
+	jr z, .gotTarget
+	ld hl, wPlayerMonAttackMod
+	ld de, wPlayerMonUnmodifiedAttack
+	ld bc, wBattleMonAttack
+.gotTarget
+	push de                          ; save unmodified-stat source
+	push bc                          ; save battle-stat dest
+	; reset the target's stat mods to neutral (7)
+	ld a, $7
+	ld b, NUM_STAT_MODS
+.resetModsLoop
+	ld [hli], a
+	dec b
+	jr nz, .resetModsLoop
+	; recompute the target's battle stats from the unmodified copy (skips HP, like HazeEffect_'s ResetStats)
+	pop hl                           ; hl = battle-stat dest
+	pop de                           ; de = unmodified-stat source
+	ld b, (NUM_STATS - 1) * 2
+.resetStatsLoop
+	ld a, [de]
+	inc de
+	ld [hli], a
+	dec b
+	jr nz, .resetStatsLoop
+	; -2 ACCURACY on the target
 	ldh a, [hWhoseTurn]
 	and a
 	ld hl, wPlayerMoveEffect
 	jr z, .accPtr
 	ld hl, wEnemyMoveEffect
 .accPtr
-	ld a, ACCURACY_DOWN1_EFFECT
+	ld a, ACCURACY_DOWN2_EFFECT
 	ld [hl], a
 	SetFlag FLAG_SKIP_STAT_ANIMATION
-	callfar StatModifierDownEffect ; -1 ACCURACY on the target ("fell" line, no anim, no accuracy check)
+	callfar StatModifierDownEffect ; -2 ACCURACY on the target ("fell" line, no anim, no accuracy check)
 	ResetFlag FLAG_SKIP_STAT_ANIMATION
-	; restore FLASH_EFFECT so FlinchSideEffect rolls 30% (not the 10% of FLINCH_SIDE_EFFECT1)
+	; restore FLASH_EFFECT so nothing downstream misreads the borrowed effect byte
 	ldh a, [hWhoseTurn]
 	and a
 	ld hl, wPlayerMoveEffect
@@ -1056,7 +1186,7 @@ FlashEffect_::
 .restoreEffect
 	ld a, FLASH_EFFECT
 	ld [hl], a
-	jpfar FlinchSideEffect
+	ret
 
 ; Sunsette: SWIFT_EFFECT auto-hit moves (Surf/Earthquake/Blizzard/Swift) also get a 30% chance to drop the
 ; TARGET's EVASION by 1. Reached from the shared HazeEffect trampoline via the HazeFlinchEffect_ dispatcher;
@@ -1335,14 +1465,22 @@ MindwipeEffect_::
 	call RunDefaultPaletteCommand ; re-apply SET_PAL_BATTLE so the gray shows immediately
 	ld hl, MindwipedText
 	rst _PrintText
-	; -1 ACCURACY to the target (ApplyStatDownToTarget b: 0 = enemy, 1 = player = hWhoseTurn for "the foe").
-	; (Tuned down from the original confuse + -1 SPECIAL: the retype alone is already strong.)
+	; Sunsette: then CONFUSE the target - the mind-scramble (the name/gray palette read as confusion, not
+	; blurry vision). This restores the move's ORIGINAL confuse, but WITHOUT the old -1 SPECIAL rider that
+	; made it overtuned: retype + confuse only. We reuse the engine's ConfusionSideEffectSuccess (confuses
+	; the side opposite hWhoseTurn = the target, prints "became confused", 2-5 turn counter; no-ops if the
+	; target is already confused). It reads the in-flight move effect only to decide whether to replay the
+	; move animation, so temporarily set CONFUSION_SIDE_EFFECT (we already played SKITTERMIND's anim above),
+	; then restore MINDWIPE_EFFECT for any post-move bookkeeping.
 	ldh a, [hWhoseTurn]
-	and 1
-	ld b, a
-	ld c, ACCURACY_DOWN1_EFFECT
-	call ApplyStatDownToTarget
-	; ApplyStatDownToTarget left the in-flight effect as ACCURACY_DOWN1; restore MINDWIPE_EFFECT
+	and a
+	ld hl, wPlayerMoveEffect
+	jr z, .gotEffPtr
+	ld hl, wEnemyMoveEffect
+.gotEffPtr
+	ld a, CONFUSION_SIDE_EFFECT
+	ld [hl], a
+	callfar ConfusionSideEffectSuccess ; set CONFUSED on the target + a 2-5 turn counter
 	ldh a, [hWhoseTurn]
 	and a
 	ld hl, wPlayerMoveEffect
@@ -1505,7 +1643,8 @@ ShoryukenGroundText:
 	text_far _ShoryukenGroundText
 	text_end
 
-; Sunsette: JOLT BOLT (POUND) post-damage side effect - a 50% chance to raise the USER's EVASION by 1.
+; Sunsette: RETIRED (POUND is now SPARK / PARALYZE_SIDE_EFFECT2; this is dead, unreferenced by any move).
+; Was JOLT BOLT (POUND) post-damage side effect - a 50% chance to raise the USER's EVASION by 1.
 ; Reached via the Haze trampoline -> HazeFlinchEffect_. = SwiftEffect_'s 50% roll + ChargeMoveEvasionBoost's
 ; evasion-up: temp-swap the user's move effect to EVASION_UP1_EFFECT and zero its move num (dodges
 ; StatModifierUpEffect's Minimize/substitute path), SetFlag FLAG_SKIP_STAT_ANIMATION, callfar
@@ -1551,15 +1690,41 @@ JoltBoltEffect_:
 ; Sunsette: BLOSSOM BLITZ (PETAL_DANCE) - 50% chance to raise the USER's SPEED by 1 (replaces the old confuse
 ; chance). Reached from the shared HazeEffect trampoline; in AlwaysHappen + SpecialEffects so it fires once,
 ; even on a KO (like JOLT BOLT). Reuses RaiseUserStatViaSwap (same bank) for the +1 SPEED.
+; Sunsette: shared by BLOSSOM BLITZ (PETAL_DANCE) and RIPTIDE (WATERFALL): a 50% chance to raise the user's
+; SPEED by 1. RIPTIDE is a guaranteed +1 SPEED when used by its signature species (GYARADOS / SEAKING /
+; GOLDEEN) and signatures are ON; everyone else (and BLOSSOM BLITZ) rolls the 50%.
 BlossomBlitzEffect_:
+	ldh a, [hWhoseTurn]
+	and a
+	ld a, [wPlayerMoveNum]
+	ld hl, wBattleMonSpecies
+	jr z, .gotMove
+	ld a, [wEnemyMoveNum]
+	ld hl, wEnemyMonSpecies
+.gotMove
+	cp RIPTIDE ; RIPTIDE (internal const WATERFALL)?
+	jr nz, .roll ; BLOSSOM BLITZ / any other user -> plain 50%
+	ld a, [hl] ; user species
+	cp GYARADOS
+	jr z, .signature
+	cp SEAKING
+	jr z, .signature
+	cp GOLDEEN
+	jr nz, .roll
+.signature
+	CheckEvent FLAG_SIGNATURE_MOVES_TURNED_OFF
+	jr z, .raise ; signatures ON -> guaranteed +1 SPEED
+	; signatures OFF -> fall through to the 50% roll
+.roll
 	callfar FarBattleRandom ; d = random byte (de survives the bankswitch)
 	ld a, d
 	cp 50 percent + 1
 	ret nc ; 50%: no SPEED boost
+.raise
 	ld a, SPEED_UP1_EFFECT
 	jp RaiseUserStatViaSwap ; +1 SPEED to the user
 
-; Sunsette: LOCKJAW (Vicegrip) / METEOR SWEEP (Rolling Kick) signature - guaranteed -1 SPEED and -1
+; Sunsette: UNDERBUG (Vicegrip) / METEOR SWEEP (Rolling Kick) signature - guaranteed -1 SPEED and -1
 ; EVASION to the TARGET on hit (post-damage; HOBBLE_EFFECT is kept out of SpecialEffects so it runs via
 ; .executeOtherEffects, i.e. only when the move connected and the target survived). Reached from the
 ; shared HazeEffect trampoline via HazeFlinchEffect_. We borrow StatModifierDownEffect twice by
@@ -1602,6 +1767,83 @@ HobbleEffect_:
 	callfar StatModifierDownEffect
 	ret
 
+; Sunsette: MAXIMIZE (MAXIMIZE_EFFECT, repurposed from the unused ACID_SIDE_EFFECT). A 0-BP self-buff in
+; ResidualEffects2, reached via effects.asm's MaximizeEffect trampoline (jpfar). It maxes the user's
+; ATTACK to +6 (Belly-Drum style: slam the stage straight to MAX_STAT_LEVEL and recompute), then drops the
+; user's EVASION and SPEED by 2 each. A slowed copy of the user's own cry plays over the outward spiral.
+; hWhoseTurn = the MAXIMIZE user throughout. MaximizeEffect_ ends in ret -> back to JumpMoveEffect's caller.
+MaximizeEffect_::
+	callfar PlayCurrentMoveAnimation2 ; 0-BP move: nothing else plays the outward spiral, so do it here
+	call PlayMaximizeUserCry
+	; --- ATTACK -> +6 ---
+	ldh a, [hWhoseTurn]
+	and a
+	ld hl, wPlayerMonStatMods
+	jr z, .gotMods
+	ld hl, wEnemyMonStatMods
+.gotMods
+	ld a, MAX_STAT_LEVEL
+	ld [hl], a ; MOD_ATTACK is offset 0 in the stat-mod array (Attack, Defense, Speed, Special, Acc, Eva)
+	; recompute the user's modified Atk/Def/Spd/Spc from its unmodified stats + the new stages
+	ldh a, [hWhoseTurn]
+	ld [wCalculateWhoseStats], a ; 0 = player, nonzero = enemy (same sense as hWhoseTurn)
+	callfar CalculateModifiedStats
+	; CalculateModifiedStats ignores the burn penalty, so reapply it to the now-maxed ATTACK.
+	; HalveAttackDueToBurn acts on the OPPONENT of hWhoseTurn, so flip the turn around the call.
+	ldh a, [hWhoseTurn]
+	push af
+	xor 1
+	ldh [hWhoseTurn], a
+	callfar HalveAttackDueToBurn
+	pop af
+	ldh [hWhoseTurn], a
+	; player-only: reapply the badge ATTACK boost on top (parity with the normal stat-up moves)
+	ldh a, [hWhoseTurn]
+	and a
+	jr nz, .announce
+	ld a, MOD_ATTACK
+	ld [wWhatStat], a
+	callfar ApplyBadgeBoostsForSpecificStat
+	ld a, $ff
+	ld [wWhatStat], a ; no longer modifying a stat
+.announce
+	ld hl, MaximizeText
+	rst _PrintText
+	; --- SPEED -2 then EVASION -2 on the USER (b = the user's side: 0=enemy,1=player, i.e. NOT hWhoseTurn) ---
+	ldh a, [hWhoseTurn]
+	xor 1
+	ld b, a
+	ld c, SPEED_DOWN2_EFFECT
+	call ApplyStatDownToTarget   ; "<user>'s SPEED sharply fell!"
+	ldh a, [hWhoseTurn]
+	xor 1
+	ld b, a
+	ld c, EVASION_DOWN2_EFFECT
+	jp ApplyStatDownToTarget     ; "<user>'s EVASION sharply fell!" (tail call -> ret)
+
+; Sunsette: play the MAXIMIZE user's own cry, but slowed (lower tempo) for a deep, swelling sound. GetCryData
+; (home) returns the cry's sound id in a and seeds wFrequencyModifier/wTempoModifier from the mon's base cry;
+; we override the tempo to drag it out. (A true pitch-DOWN isn't cleanly possible - the cry frequency
+; modifier only ADDS to the channel period - so the slow tempo carries the "powering up" effect.)
+PlayMaximizeUserCry:
+	ldh a, [hWhoseTurn]
+	and a
+	ld a, [wBattleMonSpecies]
+	jr z, .gotSpecies
+	ld a, [wEnemyMonSpecies]
+.gotSpecies
+	call GetCryData      ; a = cry sound id; seeds wFrequencyModifier / wTempoModifier from the base
+	ld b, a              ; stash the sound id
+	ld a, $28
+	ld [wTempoModifier], a ; low tempo = slow, drawn-out cry (tunable; $28 noticeably slower than typical)
+	ld a, b
+	rst _PlaySound
+	jp WaitForSoundToFinish
+
+MaximizeText:
+	text_far _MaximizeText
+	text_end
+
 ; Sunsette: decide whether the move being used can reach the target through a semi-invulnerable (Fly/Dig)
 ; state. Self-contained (derives target + move from hWhoseTurn) so it's safe to callfar from MoveHitTest
 ; (Battle Core is full); callfar preserves carry, so the caller branches on the result directly.
@@ -1609,7 +1851,7 @@ HobbleEffect_:
 ; Returns carry CLEAR = the target dodges (semi-invulnerable in a state this move can't reach).
 ; The INVULNERABLE bit is shared by Fly and Dig; wChargeMoveNum (set by ChargeEffect on the most recent
 ; charger - the target mid-charge) tells which one. SWIFT bypasses both; SURF/EARTHQUAKE bypass DIG only;
-; BLIZZARD/THUNDER/WHIRLWIND (HURRICANE) bypass FLY only; anything else can't reach a semi-invuln target.
+; BLIZZARD/THUNDER/WHIRLWIND bypass FLY only; anything else can't reach a semi-invuln target.
 CheckSemiInvulnBypass::
 	ldh a, [hWhoseTurn]
 	and a
@@ -1635,9 +1877,11 @@ CheckSemiInvulnBypass::
 	jr z, .flyOnly
 	cp THUNDER
 	jr z, .flyOnly
-	cp WHIRLWIND ; HURRICANE
+	cp HURRICANE
 	jr z, .flyOnly
-	cp MEGA_PUNCH ; SHORYUKEN - an anti-air uppercut, reaches FLY users
+	cp SHORYUKEN ; SHORYUKEN - an anti-air uppercut, reaches FLY users
+	jr z, .flyOnly
+	cp TWISTER ; TWISTER - a tornado that reaches FLY users
 	jr z, .flyOnly
 	and a ; no bypass -> clear carry (dodged)
 	ret
@@ -1678,6 +1922,10 @@ CheckReachAndAutoHit::
 	jr z, .neverMiss
 	cp DISABLE_EFFECT ; Sunsette: DISABLE proper auto-hits; a Fly/Dig target already dodged above (CheckSemiInvulnBypass). NOT CUT_DISABLE_EFFECT (those are damaging, accuracy handled in the main flow).
 	jr z, .neverMiss
+	callfar ComebackCantMiss ; Sunsette: BLITZ STRIKE / QUICK ATTACK auto-hit at desperation stage 2-3
+	ld a, e
+	and a
+	jr nz, .neverMiss
 	CheckEvent FLAG_SIGNATURE_MOVES_TURNED_OFF
 	jr nz, .rollAccuracy ; signatures off -> no Pidgeot bonus
 	ldh a, [hWhoseTurn]
@@ -1690,7 +1938,7 @@ CheckReachAndAutoHit::
 	ld b, a
 	ld a, [wEnemyMoveNum]
 .gotMon
-	cp WHIRLWIND ; HURRICANE
+	cp HURRICANE
 	jr nz, .rollAccuracy
 	ld a, b
 	cp PIDGEOT
@@ -1848,6 +2096,8 @@ EnemyOnSendOut::
 	call CheckSilphDebuff ; Sunsette: SILPH CO. -1 SPECIAL (Water/Grass) / -1 SPEED (Flying)
 	xor a ; target = enemy
 	call CheckDarknessAccuracyDebuff ; Sunsette: dark-cave (Flash off) -2 ACCURACY for a trainer's mon
+	xor a ; target = enemy
+	call CheckCeruleanWaterSpeed ; Sunsette: CERULEAN pool +1 SPEED for a trainer's WATER mon
 	ret
 
 ; Sunsette: ADDED: certain maps apply an effect to the ENEMY trainer's just-sent-out mon and print
@@ -1860,53 +2110,99 @@ EnemyOnSendOut::
 ; environmental POISON hazards (Celadon "spores", Lavender Tower "black mist") poison the PLAYER's
 ; mon, not the enemy (the enemy mons there are mostly Poison/Ghost = immune) - see
 ; ApplyPlayerSendOutMapEffects.
-DEF ENEMYBUFF_STATUP  EQU 0
+DEF ENEMYBUFF_STATUP   EQU 0
 DEF ENEMYBUFF_FLOURISH EQU 1
+DEF ENEMYBUFF_MESSAGE  EQU 2 ; Sunsette: print a flavor line only, no stat change (e.g. Bruno/Viridian/rival crit telegraphs)
 
 ApplyEnemySendOutMapEffects:
-	ld a, [wCurMap]
-	ld b, a
 	ld hl, EnemySendOutBuffTable
 .search
 	ld a, [hl]
 	cp $FF
-	ret z ; no buff for this map
+	ret z ; no (more) buff rows for this map
+	ld b, a
+	ld a, [wCurMap]
 	cp b
 	jr z, .found
 	ld de, 5 ; entry size: db map, db type, db param, dw text
 	add hl, de
 	jr .search
 .found
+	push hl ; keep scanning after this row so one map can stack rows (LANCE = +SPEED then a silent +ACCURACY)
 	inc hl
 	ld a, [hli] ; effect type
-	push af
-	ld a, [hli] ; param (stat-up effect for STATUP; ignored otherwise)
-	ld [wEnemyMoveEffect], a
-	ld a, [hli] ; text ptr lo
-	ld c, a
-	ld b, [hl]  ; text ptr hi
-	pop af      ; effect type
-	and a
-	jr z, .statUp
+	ld d, a
+	ld a, [hli] ; param (the *_UP1 stat-up effect; ignored for non-STATUP rows)
+	ld e, a
+	ld c, [hl]
+	inc hl
+	ld b, [hl]  ; bc = flavor text pointer (0 = silent)
+	ld a, d
+	cp ENEMYBUFF_FLOURISH
+	jr z, .growing
+	cp ENEMYBUFF_MESSAGE
+	jr z, .message
+	; ENEMYBUFF_STATUP: e = the *_UP1 effect, bc = flavor text (0 = none, e.g. Lance's 2nd stat)
+	call DoEnemyStatUp
+	jr .next
+.message
+	ld h, b
+	ld l, c
+	rst _PrintText
+	jr .next
 .growing ; ENEMYBUFF_FLOURISH
 	ld hl, wEnemyBattleStatus3
 	set FLOURISH, [hl]
 	ld h, b
 	ld l, c
 	rst _PrintText
-	ret
-.statUp ; ENEMYBUFF_STATUP
-	ldh a, [hWhoseTurn]
-	push af
-	ld a, 1
-	ldh [hWhoseTurn], a    ; enemy's turn
-	xor a
-	ld [wEnemyMoveNum], a  ; avoid the MINIMIZE substitute path inside StatModifierUpEffect
-	inc a                  ; a = 1
-	ld [wRegionalStatRiseTextID], a ; tell StatModifierUpEffect to skip its default rose line
+.next
+	pop hl
+	ld de, 5
+	add hl, de
+	jr .search
+
+; Sunsette: raise the enemy mon's stat +1 (e = the *_UP1_EFFECT), default "rose!" line suppressed; print
+; the flavor line in bc first unless bc == 0 (Lance's silent 2nd stat). Preserves nothing.
+DoEnemyStatUp:
+	ld a, b
+	or c
+	jr z, .silent
 	ld h, b
 	ld l, c
-	rst _PrintText         ; print our flavor line in its place
+	push de
+	rst _PrintText
+	pop de
+.silent
+	ld b, 0 ; target = enemy
+	ld c, e ; the *_UP1 effect
+	jp ApplyStatUpToTarget
+
+; Sunsette: raise +1 stat (c = a *_UP1_EFFECT) on one mon (b: 0 = enemy, 1 = player), no animation, the
+; default "rose!" line suppressed via wRegionalStatRiseTextID. StatModifierUpEffect raises hWhoseTurn's
+; OWN mon, so raise the ENEMY as the enemy's turn and the PLAYER as the player's turn. hWhoseTurn saved.
+ApplyStatUpToTarget:
+	ldh a, [hWhoseTurn]
+	push af
+	ld a, b
+	and a
+	jr nz, .playerTarget
+	ld a, 1
+	ldh [hWhoseTurn], a
+	xor a
+	ld [wEnemyMoveNum], a ; avoid the MINIMIZE substitute path inside StatModifierUpEffect
+	ld a, c
+	ld [wEnemyMoveEffect], a
+	jr .apply
+.playerTarget
+	xor a
+	ldh [hWhoseTurn], a
+	ld [wPlayerMoveNum], a
+	ld a, c
+	ld [wPlayerMoveEffect], a
+.apply
+	ld a, 1
+	ld [wRegionalStatRiseTextID], a
 	SetFlag FLAG_SKIP_STAT_ANIMATION
 	callfar StatModifierUpEffect
 	xor a
@@ -1916,24 +2212,37 @@ ApplyEnemySendOutMapEffects:
 	ldh [hWhoseTurn], a
 	ret
 
-; map, effect type, param, dw flavor text. Terminated by $FF.
+; Sunsette: print a themed line (hl), then +1 stat (c) on target b. Mirror of ApplyStatDownWithText.
+ApplyStatUpWithText:
+	push bc
+	rst _PrintText
+	pop bc
+	jp ApplyStatUpToTarget
+
+; map, effect type, param, dw flavor text. Terminated by $FF. A map may appear on multiple rows (all of
+; them apply, in order) - LANCE uses +1 SPEED then a silent +1 ACCURACY. Cerulean/Fuchsia/Saffron/Lorelei
+; are NOT here (handled by CheckCeruleanWaterSpeed / CheckArenaFirstMonStatus / the Saffron item block).
 EnemySendOutBuffTable:
-	db PEWTER_GYM,    ENEMYBUFF_STATUP, SPECIAL_UP1_EFFECT
+	db PEWTER_GYM,     ENEMYBUFF_STATUP,  SPECIAL_UP1_EFFECT
 	dw .pewterText
-	db VERMILION_GYM, ENEMYBUFF_STATUP, SPEED_UP1_EFFECT
+	db VERMILION_GYM,  ENEMYBUFF_STATUP,  ATTACK_UP1_EFFECT
 	dw .vermilionText
-	db FUCHSIA_GYM,   ENEMYBUFF_STATUP, EVASION_UP1_EFFECT
-	dw .fuchsiaText
-	db FIGHTING_DOJO, ENEMYBUFF_STATUP, DEFENSE_UP1_EFFECT
+	db FIGHTING_DOJO,  ENEMYBUFF_STATUP,  DEFENSE_UP1_EFFECT
 	dw .dojoText
-	db SAFFRON_GYM,   ENEMYBUFF_STATUP, SPEED_UP1_EFFECT
-	dw .saffronText
-	db CINNABAR_GYM,  ENEMYBUFF_STATUP, SPECIAL_UP1_EFFECT
+	db CINNABAR_GYM,   ENEMYBUFF_STATUP,  SPECIAL_UP1_EFFECT
 	dw .cinnabarText
-	db VIRIDIAN_GYM,  ENEMYBUFF_STATUP, ACCURACY_UP1_EFFECT
+	db VIRIDIAN_GYM,   ENEMYBUFF_MESSAGE, 0 ; double crit (critical_hit.asm); this row just telegraphs it
 	dw .viridianText
-	db CERULEAN_GYM,  ENEMYBUFF_FLOURISH, 0
-	dw .ceruleanText
+	db AGATHAS_ROOM,   ENEMYBUFF_STATUP,  SPECIAL_UP1_EFFECT
+	dw .agathaText
+	db LANCES_ROOM,    ENEMYBUFF_STATUP,  SPEED_UP1_EFFECT
+	dw .lanceText
+	db LANCES_ROOM,    ENEMYBUFF_STATUP,  ACCURACY_UP1_EFFECT
+	dw 0 ; silent: the +1 SPEED row above already printed Lance's line
+	db BRUNOS_ROOM,    ENEMYBUFF_MESSAGE, 0 ; cannot be crit (critical_hit.asm); this row telegraphs it
+	dw .brunoText
+	db CHAMPIONS_ROOM, ENEMYBUFF_MESSAGE, 0 ; final rival double crit (critical_hit.asm); telegraph
+	dw .rivalText
 	db $FF
 .pewterText
 	text_far _PewterGymBuffText
@@ -1941,14 +2250,8 @@ EnemySendOutBuffTable:
 .vermilionText
 	text_far _VermilionGymBuffText
 	text_end
-.fuchsiaText
-	text_far _FuchsiaGymBuffText
-	text_end
 .dojoText
 	text_far _FightingDojoBuffText
-	text_end
-.saffronText
-	text_far _SaffronGymBuffText
 	text_end
 .cinnabarText
 	text_far _CinnabarGymBuffText
@@ -1956,8 +2259,89 @@ EnemySendOutBuffTable:
 .viridianText
 	text_far _ViridianGymBuffText
 	text_end
-.ceruleanText
+.agathaText
+	text_far _AgathaRoomBuffText
+	text_end
+.lanceText
+	text_far _LanceRoomBuffText
+	text_end
+.brunoText
+	text_far _BrunoRoomBuffText
+	text_end
+.rivalText
+	text_far _ChampionRivalBuffText
+	text_end
+
+; Sunsette: ARENA EFFECT - CERULEAN GYM (swimming pool): a WATER-type mon entering battle gains +1 SPEED.
+; BOTH sides (called from the player hook with a=1 and EnemyOnSendOut with a=0). a: 0 = enemy, 1 = player.
+CheckCeruleanWaterSpeed:
+	ld b, a
+	ld a, [wCurMap]
+	cp CERULEAN_GYM
+	ret nz
+	ld a, b
+	and a
+	ld hl, wEnemyMonType1
+	jr z, .gotTypes
+	ld hl, wBattleMonType1
+.gotTypes
+	ld a, [hli]
+	cp WATER
+	jr z, .buff
+	ld a, [hl]
+	cp WATER
+	ret nz
+.buff
+	ld c, SPEED_UP1_EFFECT
+	ld hl, CeruleanPoolText
+	jp ApplyStatUpWithText
+CeruleanPoolText:
 	text_far _CeruleanGymBuffText
+	text_end
+
+; Sunsette: ARENA EFFECT - LORELEI freeze / FUCHSIA confuse, applied to the player's FIRST mon of a
+; trainer battle ONLY (not switch-ins). wArenaFirstPlayerMonSent is cleared at battle start; we set it
+; on the first player send-out (even on non-arena maps) so later switch-ins never trigger.
+CheckArenaFirstMonStatus:
+	ld a, [wArenaFirstPlayerMonSent]
+	and a
+	ret nz
+	ld a, 1
+	ld [wArenaFirstPlayerMonSent], a
+	ld a, [wIsInBattle]
+	cp 2
+	ret nz ; trainer battles only
+	ld a, [wCurMap]
+	cp LORELEIS_ROOM
+	jr z, .freeze
+	cp FUCHSIA_GYM
+	ret nz
+.confuse
+	ld hl, wPlayerBattleStatus1
+	bit CONFUSED, [hl]
+	ret nz
+	set CONFUSED, [hl]
+	call Random
+	and %11
+	add 2 ; 2-5 turns
+	ld [wPlayerConfusedCounter], a
+	ld hl, FuchsiaConfuseText
+	rst _PrintText
+	ret
+.freeze
+	ld hl, wBattleMonStatus
+	ld a, [hl]
+	and a
+	ret nz ; don't overwrite an existing status
+	set FRZ, [hl]
+	ld hl, LoreleiFreezeText
+	rst _PrintText
+	ret
+FuchsiaConfuseText:
+	text_far _FuchsiaGymBuffText
+	text_end
+LoreleiFreezeText:
+	text_far _LoreleiRoomFreezeText
 	text_end
 
 ; a = which animation
@@ -2219,7 +2603,7 @@ TheMawChooseMove::
 	ld de, wEnemyMonPP + 3
 	call .checkPPNotZero
 	ret z
-	ld a, POISON_GAS ; MIASMA
+	ld a, EMETIC_PURGE ; MIASMA
 	ld b, 3
 	scf
 	ret

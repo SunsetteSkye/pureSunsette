@@ -15,27 +15,27 @@
 
 	; tm/hm learnset
 	tmhm \
-	FURY_ATTACK,\ ; MUD BOMB
-	DISABLE,\
-	SONICBOOM,\ ; ILL WIND
+	ADAPTATION,\
+	MUD_BOMB,\
 	PIN_MISSILE,\
 	TOXIC,\
 	BODY_SLAM,\
+	DISABLE,\
 	DOUBLE_EDGE,\
-	AMNESIA,\ ; CALM MIND
+	CALM_MIND,\
 	BARRIER,\
 	THUNDERBOLT,\
 	THUNDER,\
-	KINESIS,\ ; MIRAGE
+	MIRAGE,\
 	REFLECT,\
-	BIDE,\ ; BULK UP
-	BARRAGE,\ ; SHADOW BALL
+	BULK_UP,\
+	ILL_WIND,\
+	SHADOW_BALL,\
 	FIRE_BLAST,\
-	FLAMETHROWER,\
-	SLAM,\ ; WASTEMAKER
 	LIGHT_SCREEN,\
-	SLUDGE,\ ; SLUDGE BOMB
+	SHADOW_GAME,\
 	SUBSTITUTE,\
+	CLAY_ARMOR,\
 	FLASH
 	; end
 
@@ -47,3 +47,23 @@
 
 	dw KoffingPicFrontAlt, KoffingPicBack
 
+; --- Sunsette SSOT directives (parsed by tools/gen_pokemon_data.py) ---
+;@ nature       NATURE_LAZY NATURE_PLAYFUL
+;@ pal_battle   PAL_SMOGMON
+;@ pal_altbattle PAL_OLIVEMON_REV
+;@ pal_icon     PAL_ICON_53
+;@ pal_alticon  PAL_ICON_54
+;@ evo         EVOLVE_LEVEL, 27, WEEZING
+;@ evo_move    NO_MOVE
+;@ evo_react   NONE
+;@ learn       10, HEADBUTT
+;@ learn       14, SMOKESCREEN
+;@ learn       18, ACID
+;@ learn       21, DISABLE
+;@ learn       25, BODY_SLAM
+;@ learn       29, EMETIC_PURGE
+;@ learn       33, TOXIC
+;@ learn       38, EGG_BOMB
+;@ learn       43, ADAPTATION
+;@ learn       47, SLUDGE_BOMB
+;@ learn       52, EXPLOSION

@@ -1166,7 +1166,7 @@ PokemonTowerB1FMarowakBlockedHyperBeamText:
 	call ClearTextBox
 	call SaveScreenTilesToBuffer2
 	; try to learn sonic boom immediately
-	ld a, SONICBOOM
+	ld a, ILL_WIND
 	call LearnArbitraryMove
 	call .markCuboneSeenCaught
 	call LoadScreenTilesFromBuffer2

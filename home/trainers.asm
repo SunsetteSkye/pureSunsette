@@ -179,9 +179,9 @@ EndTrainerBattle::
 	jr z, ResetButtonPressedAndMapScript
 	ld b, FLAG_SET
 	call TrainerFlagAction   ; flag trainer as fought
-	ld a, [wEnemyMonOrTrainerClass]
-	cp OPP_ID_OFFSET
-	jr nc, .skipRemoveSprite    ; test if trainer was fought (in that case skip removing the corresponding sprite)
+	ld a, [wWasTrainerBattle] ; Sunsette: trainer-vs-wild from the latch (survives end_of_battle), not the packed class range
+	and a
+	jr nz, .skipRemoveSprite    ; trainer was fought -> skip removing the corresponding sprite
 	; code that removes overworld pokemon like articuno, mewtwo, snorlax, etc. when defeated
 	; TODO: hide extra object if in extra map???
 	ld hl, wToggleableObjectList
@@ -215,13 +215,32 @@ InitBattleEnemyParameters::
 	ld a, [wEngagedTrainerClass]
 	ld [wCurOpponent], a
 	ld [wEnemyMonOrTrainerClass], a
-	cp OPP_ID_OFFSET
+	ld a, [wIsTrainerBattle] ; Sunsette: trainer (EngageMapTrainer set the latch) vs static pokemon (latch 0)
+	and a
+	jr z, .noTrainer
 	ld a, [wEngagedTrainerSet]
-	jr c, .noTrainer
 	ld [wTrainerNo], a
 	ret
 .noTrainer
+	ld a, [wEngagedTrainerSet]
 	ld [wCurEnemyLevel], a
+	ret
+
+; Sunsette: pick a first-seven gym leader's party set from the player's badge count, so the leader
+; scales to your progress instead of their fixed slot. tier = min(badgeCount, 6) + 1  (sets 1-7).
+; Called by each of the 7 leader gym scripts right after InitBattleEnemyParameters, overriding the
+; map-object set. (Champ-Arena rematch teams live at sets 8-9 and are selected separately.)
+ApplyGymLeaderBadgeTier::
+	ld hl, wObtainedBadges
+	ld b, 1
+	call CountSetBits ; -> [wNumSetBits]
+	ld a, [wNumSetBits]
+	cp 7
+	jr c, .noClamp
+	ld a, 6
+.noClamp
+	inc a ; tier = badges + 1
+	ld [wTrainerNo], a
 	ret
 
 GetSpritePosition1::
@@ -313,6 +332,8 @@ EngageMapTrainer::
 	ld [wEngagedTrainerClass], a
 	ld a, [hl]     ; load trainer mon set
 	ld [wEngagedTrainerSet], a
+	ld a, 1 ; Sunsette: every real trainer engages through here (sight/talk/gym/special); static overworld
+	ld [wIsTrainerBattle], a ; pokemon (Mewtwo, the birds, ...) bypass EngageMapTrainer, so they stay wild (latch 0)
 	jpfar PlayTrainerMusic ; PureRGBnote: MOVED: playtrainermusic was moved to another bank
 
 PrintEndBattleText::

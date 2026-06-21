@@ -61,6 +61,7 @@ ViridianGymReceiveTM27:
 .gym_victory
 	ld hl, wObtainedBadges
 	set BIT_EARTHBADGE, [hl]
+	call BadgeMonCry ; Sunsette: lead mon cries when the badge is earned
 
 	; deactivate gym trainers
 	SetEventRange EVENT_BEAT_VIRIDIAN_GYM_TRAINER_0, EVENT_BEAT_VIRIDIAN_GYM_TRAINER_7
@@ -349,57 +350,32 @@ ViridianGymCooltrainerM3AfterBattleText:
 	text_far _ViridianGymCooltrainerM3AfterBattleText
 	text_end
 
-ViridianGymGymGuideText: ; PureRGBnote: ADDED: gym guide gives you apex chips after beating the leader
+ViridianGymGymGuideText: ; Sunsette: post-badge, the gym guide sells a spare copy of GIOVANNI's TM at the normal MART price; the guide persists after GIOVANNI vanishes, so this is the post-game CLAY ARMOR source
 	text_asm
 	CheckEvent EVENT_BEAT_VIRIDIAN_GYM_GIOVANNI
+	jr nz, .afterBeat
 	ld hl, ViridianGymGuidePreBattleText
-	jr z, .printDone
-.afterBeat
-	CheckEvent EVENT_GOT_PEWTER_APEX_CHIPS ; have to hear about apex chips to receive them after that
-	ld hl, ViridianGymGuidePostBattleText
-	jr z, .printDone
-	rst _PrintText
-	call DisplayTextPromptButton
-	CheckEvent EVENT_GOT_VIRIDIAN_APEX_CHIPS
-	jr nz, .alreadyApexChips
-.giveApexChips
-	ld hl, GymGuideMoreApexChipText8
-	rst _PrintText
-	lb bc, APEX_CHIP, 2
-	call GiveItem
-	ld hl, ApexNoRoomText8
-	jr nc, .printDone
-	ld hl, ReceivedApexChipsText8
-	rst _PrintText
-	ld hl, ViridianGymGuideApexChipGroundText
-	rst _PrintText
-	SetEvent EVENT_GOT_VIRIDIAN_APEX_CHIPS
-.alreadyApexChips
-	ld hl, AlreadyReceivedApexChipsText8
-.printDone
 	rst _PrintText
 	rst TextScriptEnd
+.afterBeat
+	ld hl, ViridianGymGuidePostBattleText
+	rst _PrintText
+	ld hl, wObtainedBadges ; Sunsette: badge-count-gated extra TMs (3 badges, then 6)
+	ld b, 1
+	call CountSetBits
+	ld a, [wNumSetBits]
+	cp 6
+	ld hl, ViridianGymGuideTMShop6
+	jr nc, .tmShopReady
+	cp 3
+	ld hl, ViridianGymGuideTMShop3
+	jr nc, .tmShopReady
+	ld hl, ViridianGymGuideTMShop1
+.tmShopReady
+	call DisplayPokemartNoGreeting
+	rst TextScriptEnd
 
-ReceivedApexChipsText8:
-	text_far _ReceivedApexChipsText
-	sound_get_item_1
-	text_end
-
-ApexNoRoomText8:
-	text_far _PewterGymTM34NoRoomText
-	text_end
-
-GymGuideMoreApexChipText8:
-	text_far _GymGuideMoreApexChipText
-	text_end
-
-AlreadyReceivedApexChipsText8:
-	text_far _ViridianGymGuideSeeAtPokemonLeagueText
-	text_end
-
-ViridianGymGuideApexChipGroundText:
-	text_far _ViridianGymGuideApexChipGroundText
-	text_end
+INCLUDE "data/items/marts/viridian_gym_guide.asm"
 
 ViridianGymGuidePreBattleText:
 	text_far _GymGuideChampInMakingText

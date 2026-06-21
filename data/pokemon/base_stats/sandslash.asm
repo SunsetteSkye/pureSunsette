@@ -10,37 +10,39 @@
 	INCBIN "gfx/pokemon/front/sandslash.pic", 0, 1 ; sprite dimensions
 	dw SandslashPicFront, SandslashPicBackSW
 
-	db FURY_SWIPES, SCRATCH, NO_MOVE, NO_MOVE ; level 1 learnset (MUD CLAW)
+	db POISON_STING, SCRATCH, NO_MOVE, NO_MOVE ; level 1 learnset
 	db GROWTH_MEDIUM_FAST ; growth rate
 
 	; tm/hm learnset
 	tmhm \
-	FURY_ATTACK,\ ; MUD BOMB
-	ICE_PUNCH,\ ; FROST FIST
+	ADAPTATION,\
+	FROST_FIST,\
+	MUD_BOMB,\
 	PIN_MISSILE,\
-	FIRE_PUNCH,\ ; BLAZE HAMMER
+	BLAZE_HAMMER,\
 	TOXIC,\
+	HONE_EDGE,\
 	BODY_SLAM,\
 	DISABLE,\
 	DOUBLE_EDGE,\
 	HYPER_BEAM,\
 	LOW_KICK,\
-	THUNDERPUNCH,\ ; ZAPPERCUT
-	ROLLING_KICK,\ ; METEOR SWEEP
+	ZAPPERCUT,\
+	METEOR_SWEEP,\
 	BARRIER,\
 	EARTHQUAKE,\
-	CRABHAMMER,\
 	DIG,\
 	MEGA_DRAIN,\
 	SWORDS_DANCE,\
-	BIDE,\ ; BULK UP
-	BARRAGE,\ ; SHADOW BALL
-	SLAM,\ ; WASTEMAKER
-	KARATE_CHOP,\
-	MEDITATE,\ ; VOID MIND
+	BULK_UP,\
+	SHADOW_BALL,\
+	DEMOLISH,\
+	VOID_MIND,\
+	SHADOW_GAME,\
 	ROCK_SLIDE,\
-	GLARE,\
+	ROCK_ON,\
 	SUBSTITUTE,\
+	CLAY_ARMOR,\
 	CUT,\
 	STRENGTH
 	; end
@@ -52,3 +54,24 @@
 
 	dw 0, SandslashPicBack
 
+; --- Sunsette SSOT directives (parsed by tools/gen_pokemon_data.py) ---
+;@ nature       NATURE_CAUTIOUS NATURE_STOLID
+;@ pal_battle   PAL_YELLOWMON
+;@ pal_altbattle PAL_SANDMON
+;@ pal_icon     PAL_ICON_16
+;@ pal_alticon  PAL_ICON_17
+;@ evo_move    NO_MOVE
+;@ evo_react   "It stares coolly" "at its new claws."
+;@ evo_react   "It curls up tight," "spikes bristling!"
+;@ evo_react   "It rakes the dirt," "claws gleaming!"
+;@ evo_react   "Spines snap up" "along its back!"
+;@ learn       10, MUD_CLAW
+;@ learn       12, SAND_ATTACK
+;@ learn       14, PIN_MISSILE
+;@ learn       17, ROCK_ON
+;@ learn       20, DIG
+;@ learn       24, SWIFT
+;@ learn       29, TWINEEDLE
+;@ learn       35, AGILITY
+;@ learn       43, EARTHQUAKE
+;@ learn       51, SLASH

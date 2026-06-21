@@ -218,7 +218,7 @@ MapSongBanks::
 	db MUSIC_CINNABAR_MANSION, BANK(Music_CinnabarMansion) ; POKEMON_MANSION_3F
 	db MUSIC_CINNABAR_MANSION, BANK(Music_CinnabarMansion) ; POKEMON_MANSION_B1F
 	; pureRGBnote: safari zone doesn't use cinnabar mansion music, it just uses the song to remap to the evolution or safari zone expanded music afterwards
-	db MUSIC_CINNABAR_MANSION, BANK(Music_CinnabarMansion) ; SAFARI_ZONE_EAST 
+	db MUSIC_CINNABAR_MANSION, BANK(Music_CinnabarMansion) ; SAFARI_ZONE_EAST
 	db MUSIC_CINNABAR_MANSION, BANK(Music_CinnabarMansion) ; SAFARI_ZONE_NORTH
 	db MUSIC_CINNABAR_MANSION, BANK(Music_CinnabarMansion) ; SAFARI_ZONE_WEST
 	db MUSIC_CINNABAR_MANSION, BANK(Music_CinnabarMansion) ; SAFARI_ZONE_CENTER
@@ -243,7 +243,7 @@ MapSongBanks::
 	db MUSIC_CELADON, BANK(Music_Celadon) ; TRADE_CENTER
 	db MUSIC_CELADON, BANK(Music_Celadon) ; COLOSSEUM
 	db MUSIC_SILPH_CO, BANK(Music_SilphCo) ; UNUSED_MAP_F1
-	db MUSIC_SILPH_CO, BANK(Music_SilphCo) ; UNUSED_MAP_F2
+	db MUSIC_ROUTES3, BANK(Music_Routes3) ; SUMMER_BEACH_HOUSE
 	db MUSIC_SILPH_CO, BANK(Music_SilphCo) ; UNUSED_MAP_F3
 	db MUSIC_SILPH_CO, BANK(Music_SilphCo) ; UNUSED_MAP_F4
 	db MUSIC_GYM, BANK(Music_Gym) ; LORELEIS_ROOM

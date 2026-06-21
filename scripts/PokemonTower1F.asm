@@ -20,9 +20,27 @@ PokemonTower1F_TextPointers:
 	dw_const PokemonTower1FChannelerText,       TEXT_POKEMONTOWER1F_CHANNELER
 	dw_const PokemonTower1FRocketText,          TEXT_POKEMONTOWER1F_ROCKET
 
-PokemonTower1FReceptionistText:
+PokemonTower1FReceptionistText: ; Sunsette: after MR.FUJI is rescued she runs the tower gift shop (TMs)
+	text_asm
+	CheckEvent EVENT_RESCUED_MR_FUJI
+	jr nz, .open
+	ld hl, .closed
+	rst _PrintText
+	rst TextScriptEnd
+.open
+	ld hl, .openText
+	rst _PrintText
+	ld hl, LavenderTowerGiftShop
+	call DisplayPokemartNoGreeting
+	rst TextScriptEnd
+.closed
 	text_far _PokemonTower1FReceptionistText
 	text_end
+.openText
+	text_far _PokemonTower1FReceptionistOpenText
+	text_end
+
+INCLUDE "data/items/marts/lavender_tower.asm"
 
 PokemonTower1FMiddleAgedWomanText:
 	text_far _PokemonTower1FMiddleAgedWomanText

@@ -30,6 +30,32 @@ AIEnemyTrainerChooseMoves:
 	add hl, bc    ; advance pointer to forbidden move
 	ld [hl], $50  ; forbid (highly discourage) disabled move
 .noMoveDisabled
+;;;;;;;;;; Sunsette: also forbid the enemy's own DISABLE this turn if it would just FAIL - the player is
+;;;;;;;;;; already disabled, or has no last move to lock (DISABLE no longer randomly picks). Never blindly
+;;;;;;;;;; burn a turn on a guaranteed-fail DISABLE. (The softer "doesn't worry us" cases are in CheckDisabled.)
+	ld a, [wPlayerDisabledMove]
+	and a
+	jr nz, .forbidUselessDisable ; player already disabled -> DISABLE would fail
+	ld a, [wPlayerLastSelectedMoveDisable]
+	and a
+	jr nz, .disableCanWork ; there IS a last move to lock -> DISABLE might work, leave it
+.forbidUselessDisable
+	ld hl, wEnemyMonMoves
+	ld de, wBuffer
+	ld b, NUM_MOVES
+.findDisableSlot
+	ld a, [hli]
+	cp DISABLE
+	jr z, .forbidDisableSlot ; de now points at DISABLE's score slot
+	inc de
+	dec b
+	jr nz, .findDisableSlot
+	jr .disableCanWork ; enemy doesn't know DISABLE
+.forbidDisableSlot
+	ld a, $50
+	ld [de], a ; forbid (highly discourage), like the disabled-move forbid above
+.disableCanWork
+;;;;;;;;;;
 ;;;;;;;;;; PureRGBnote: ADDED: champ arena always uses 1, 2, 3, 4 move choice modifier functions for all opponents.
 	ld a, [wCurMap]
 	cp CHAMP_ARENA
@@ -156,17 +182,25 @@ AIMoveChoiceModification1:
 	inc de
 	call ReadMove
 	ld a, [wEnemyMoveNum]
-	cp MIRROR_MOVE ; MOCKINGBIRD
+	cp MOCKINGBIRD
 	call z, EncourageMockingbird ; Sunsette: encourage MOCKINGBIRD when it's worth the stat-steal / Special drop
 	ld a, [wEnemyMoveNum]
 	cp SOLARBEAM ; SOLARBEAM
 	call z, EncourageSolarBeam ; Sunsette: once charged, prefer firing the SolarBeam release
 	ld a, [wEnemyMoveNum]
-	cp PSYWAVE ; SKITTERMIND
+	cp SKITTERMIND
 	call z, ScoreMindwipe ; Sunsette: SKITTERMIND - avoid vs Bug/Poison/Fighting, prefer vs Ghost/Normal
 	ld a, [wEnemyMoveNum]
-	cp RAGE ; UNLEASH RAGE (MAD RUSH)
-	call z, EncourageUnleashRage ; Sunsette: prefer UNLEASH RAGE while its triple-power conditions are active (MAD RUSH)
+	cp BLOOD_RUSH ; UNLEASH RAGE
+	call z, EncourageUnleashRage ; Sunsette: prefer UNLEASH RAGE while its triple-power conditions are active
+	ld a, [wEnemyMoveNum]
+	cp SUPERNOVA
+	call z, ScoreSupernova ; Sunsette: prioritize for a FIRE user vs Water/Ground/Rock; avoid for a non-FIRE user vs a target not weak to FIRE
+	ld a, [wEnemyMoveNum]
+	cp METAMORPHIC
+	call z, ScoreMetamorphic ; Sunsette: prioritize for a ROCK user vs Water/Ground/Grass/Fighting
+	ld a, [wEnemyMoveNum]
+	call ScoreComebackMove ; Sunsette: comeback family - discourage the weak floors at desperation stage 0, encourage all at 2-3
 	ld a, [wPlayerBattleStatus1]
 	bit INVULNERABLE, a
 	jp nz, .playerSemiInvulnerable
@@ -180,7 +214,7 @@ AIMoveChoiceModification1:
 	jp z, .firewall
 	ld a, [wEnemyMovePower]
 	and a
-	jr nz, .nextMove
+	jp nz, .nextMove ; Sunsette: jr->jp (the ScoreComebackMove call pushed this past the jr range)
 	push hl
 	push de
 	push bc
@@ -198,7 +232,7 @@ AIMoveChoiceModification1:
 	pop de
 	pop hl
 	jr c, .discourage
-	jr .nextMove
+	jp .nextMove ; Sunsette: jr->jp (ScoreComebackMove call pushed this past the jr range)
 .notInArray
 	ld a, [wEnemyMoveEffect]
 	ld hl, StatusAilmentMoveEffects
@@ -213,7 +247,7 @@ AIMoveChoiceModification1:
 .notImmune
 	ld a, [wAITargetMonStatus] ; set to the pokemon's current status before it gets healed or before it switches out
 	and a
-	jr nz, .discourage ; if the AI thinks the player has a status, they should avoid using status moves 
+	jr nz, .discourage ; if the AI thinks the player has a status, they should avoid using status moves
 					   ; even if the player heals the status or switches out that turn
 	ld a, [wAIMoveSpamAvoider] ; set if we switched or healed this turn
 	cp 2 ; set to 2 if we switched
@@ -245,7 +279,7 @@ AIMoveChoiceModification1:
 	jr c, .sleepDiscourage
 	ld a, [wAITargetMonStatus]
 	and SLP_MASK
-	jp nz, .sleepNextMove ; if we just healed sleep or switched out a sleeping pokemon, 
+	jp nz, .sleepNextMove ; if we just healed sleep or switched out a sleeping pokemon,
 	       ; the AI shouldn't predict this perfectly when deciding whether to use dream eater
 	ld a, [wBattleMonStatus]
 	and SLP_MASK
@@ -260,21 +294,28 @@ AIMoveChoiceModification1:
 	pop hl
 	jp .nextMove
 .firewall
-	; discourage firewall if opponent has a status that isn't burned since it will stay at 20 power in that case
+	; Sunsette: Mirage burns through any status AND drops the target's Special (unless already burned).
+	; Wasted on FIRE-types (immune to all of it) and largely wasted on an already-burned target.
+	ld a, [wBattleMonType1]
+	cp FIRE
+	jr z, .discourage
+	ld a, [wBattleMonType2]
+	cp FIRE
+	jr z, .discourage
 	ld a, [wAITargetMonStatus]
 	and a
 	jr nz, .aiThinksStatus
 	; ai doesn't think opponent has status on switching/healing
 	ld a, [wAIMoveSpamAvoider] ; set if we switched or healed this turn
 	cp 2 ; set to 2 if we switched
-	jr z, .firewallNext ; if we switched and opponent thinks no status, don't discourage firewall 
+	jr z, .firewallNext ; just switched, assume no status -> good move
 	ld a, [wBattleMonStatus]
 	and a
-	jr z, .firewallNext ; if no status, don't discourage
+	jr z, .firewallNext ; no status -> good (burn + Special drop)
 .aiThinksStatus
 	bit BRN, a
-	jr z, .discourage
-	; fall through
+	jr nz, .discourage ; already burned -> no Special drop, redundant burn
+	; non-burn status: Mirage burns through it AND still drops Special -> good move
 .firewallNext
 	jp .nextMove
 .discourageStatBoostingMoveWhenMaxedOut
@@ -289,6 +330,8 @@ AIMoveChoiceModification1:
 	jr z, .sharpenCheck
 	cp ATTACK_DEFENSE_UP1_EFFECT
 	jr z, .bideCheck
+	cp MAXIMIZE_EFFECT
+	jr z, .maximizeCheck
 	ld d, a
 	callfar FarMapEffectToStat
 	ld hl, wEnemyMonStatMods
@@ -337,6 +380,11 @@ AIMoveChoiceModification1:
 	cp MAX_STAT_LEVEL
 	jr nz, .notMaxedOut
 	jr .discourageStatBoostMove
+.maximizeCheck ; Sunsette: MAXIMIZE maxes ATTACK in one use - once ATTACK is maxed, re-using it only re-tanks SPEED/EVASION
+	ld a, [wEnemyMonAttackMod]
+	cp MAX_STAT_LEVEL
+	jr nz, .notMaxedOut
+	jr .discourageStatBoostMove
 
 PotentiallyPointlessMoveEffectsJumpTable:
 	dbw TELEPORT_EFFECT, CheckTeleportUsable
@@ -349,8 +397,8 @@ PotentiallyPointlessMoveEffectsJumpTable:
 	dbw CONFUSION_EFFECT, CheckConfused
 	dbw HEAL_EFFECT, CheckFullHealth
 	dbw WITHDRAW_EFFECT, CheckFullHealth
-	; Sunsette: GROWTH_EFFECT (FLOURISH) no longer heals on use (it's +1 SPECIAL + the FLOURISH regen), so it's
-	; useful at full HP - dropped its CheckFullHealth discouragement.
+	; Sunsette: ADAPTATION (GROWTH_EFFECT) fails if the AI mon has never been hit (no type to adapt to).
+	dbw GROWTH_EFFECT, CheckAdaptationFail
 	dbw DEFENSE_CURL_EFFECT, CheckDefenseCurlUp
 	dbw ACID_ARMOR_EFFECT, CheckBothReflectLightScreenUp
 	dbw ACCURACY_DOWN1_EFFECT, CheckAccuracyDownWorks
@@ -371,10 +419,26 @@ CheckTeleportUsable:
 	ret
 
 CheckDisabled:
-	ld a, [wPlayerDisabledMove] ; non-zero if the player has a disabled move
+	ld a, [wPlayerDisabledMove] ; non-zero if the player already has a move disabled
 	and a
-	ret z ; don't discourage
-	scf ; otherwise discourage using disable while opponent is disabled already
+	jr nz, .discourage ; DISABLE would just fail while they're already disabled
+;;;;;;;;;; Sunsette: DISABLE no longer randomly picks a move when there's nothing to disable (it fails), and
+;;;;;;;;;; it's now a priority move - so teach the AI not to waste it blindly or on a harmless move.
+	ld a, [wPlayerLastSelectedMoveDisable] ; the move DISABLE would target (player's last selected move)
+	and a
+	jr z, .discourage ; no last move to lock (turn 1 / couldn't act) -> it would fail
+	call ReadMove ; load that move's data (clobbers wEnemyMove*, but the AI loop re-reads each move)
+	ld a, [wEnemyMovePower]
+	and a
+	jr z, .discourage ; the player's last move was a 0-power status move -> doesn't threaten us, skip
+	callfar AIGetTypeEffectivenessVsSelf ; how hard would that move hit OUR mon? (result in wTypeEffectiveness) - callfar: target is in Battle Core bank $F, this AI code runs in bank $E
+	ld a, [wTypeEffectiveness]
+	cp EFFECTIVE ; < neutral = immune OR resisted -> doesn't really threaten us, not worth locking
+	jr c, .discourage
+	ret ; neutral or super-effective last move -> a real threat; worth locking, allow DISABLE
+.discourage
+;;;;;;;;;;
+	scf
 	ret
 
 CheckPumpedUp:
@@ -383,6 +447,13 @@ CheckPumpedUp:
 	bit GETTING_PUMPED, a
 	ret z
 	scf ; discourage
+	ret
+
+CheckAdaptationFail: ; Sunsette: ADAPTATION fails (nothing to adapt to) if the player has not used a move yet
+	ld a, [wPlayerUsedMove]
+	and a
+	ret nz ; player has moved -> there's a type to adapt to -> usable (carry clear)
+	scf ; no foe move on record -> would fail -> discourage
 	ret
 
 CheckLightScreenUp:
@@ -454,7 +525,7 @@ EncourageSolarBeam:
 	ld [hl], a
 	ret
 
-; Sunsette: UNLEASH RAGE (MAD RUSH) triples to 120 BP when the AI's own mon is hurt (HP bar not green), confused, or has
+; Sunsette: UNLEASH RAGE triples to 120 BP when the AI's own mon is hurt (HP bar not green), confused, or has
 ; a non-sleep status (PSN/BRN/FRZ/PAR). The AI mon is the ENEMY side. When any of those is active, encourage
 ; the move (-3 score = more likely); otherwise leave it (40 BP, scored normally). hl = the move's score slot.
 EncourageUnleashRage:
@@ -472,6 +543,83 @@ EncourageUnleashRage:
 	sub 3
 	ld [hl], a
 	ret
+
+; Sunsette: comeback family AI. a = the move id, hl = its score slot. Comeback moves get stronger as the AI's
+; mon gets more desperate, so encourage them (-3) at stage 2-3, and discourage (+3) the WEAK-floor ones (flag
+; byte = 1: SENBONZAKURA / QUICK ATTACK / COMBOBREAKER) at stage 0 so the AI doesn't fire a feeble version
+; while healthy. The strong-floor moves (HYPER BEAM 120, BLITZ STRIKE priority, UNDERBUG) and ROCK ON (its
+; brace is worth using healthy) carry flag 0 = encourage only. (BLOOD RUSH is handled by EncourageUnleashRage.)
+; The score delta is kept in `a` across the register restores. The enemy side is read directly, like the other
+; AI scorers. Preserves hl/de/bc for the AIMoveChoiceModification1 loop.
+ScoreComebackMove:
+	push hl
+	push de
+	push bc
+	ld c, a                ; c = move id
+	ld hl, ComebackAIMoves
+.search
+	ld a, [hli]
+	cp -1
+	jr z, .restore         ; not a comeback move
+	cp c
+	jr z, .found
+	inc hl                 ; skip the flag byte
+	jr .search
+.found
+	ld b, [hl]             ; b = discourage-at-stage-0 flag
+	ld a, [wEnemyHPBarColor] ; 0 green / 1 yellow / 2 red
+	ld d, a
+	ld a, [wEnemyMonStatus]
+	and $78                ; PSN/BRN/FRZ/PAR (non-sleep)
+	jr z, .noStatus
+	inc d
+.noStatus
+	ld a, [wEnemyBattleStatus1]
+	bit CONFUSED, a
+	jr z, .noConfuse
+	inc d
+.noConfuse
+	ld a, d
+	cp 4
+	jr c, .haveStage
+	ld a, 3                ; clamp the raw 0..4 to 0..3
+.haveStage
+	cp 2
+	jr nc, .encourage      ; stage 2-3
+	and a
+	jr nz, .neutral        ; stage 1
+	ld a, b
+	and a
+	jr z, .neutral         ; stage 0, flag 0 -> leave it
+	ld a, 3                ; stage 0, flag 1 -> discourage
+	jr .apply
+.encourage
+	ld a, -3               ; stage 2-3 -> encourage (lower score)
+	jr .apply
+.neutral
+	xor a
+.apply
+	pop bc
+	pop de
+	pop hl
+	add [hl]               ; a = delta + current score
+	ld [hl], a
+	ret
+.restore
+	pop bc
+	pop de
+	pop hl
+	ret
+
+ComebackAIMoves: ; move id, then 1 if it should also be discouraged at stage 0 (weak floor), else 0
+	db SENBONZAKURA, 1
+	db BLITZ_STRIKE, 0
+	db QUICK_ATTACK, 1
+	db HYPER_BEAM,   0
+	db UNDERBUG,     0
+	db COMBOBREAKER, 1
+	db ROCK_ON,      0
+	db -1
 
 ; Sunsette: SKITTERMIND (PSYWAVE) retypes the target to BUG. Pointless/bad vs a target that's already
 ; BUG/POISON/FIGHTING (discourage, +5), great vs GHOST or NORMAL (encourage, -3 = lower score = more
@@ -529,6 +677,119 @@ ScoreMindwipe:
 	and a
 	ret
 .yesType
+	scf
+	ret
+
+; Sunsette: SUPERNOVA (SELFDESTRUCT) scoring. The acting mon is the AI's own (wEnemyMon). For a FIRE user it's
+; a no-recoil 140-BP nuke, so prioritize it against Water/Ground/Rock targets even when resisted. For a
+; NON-FIRE user it costs heavy recoil + a self-burn, so discourage it unless the target is actually weak to
+; FIRE (the current move is FIRE-typed, so AIGetTypeEffectiveness measures exactly that). hl = score slot.
+ScoreSupernova:
+	push bc
+	push de
+	ld a, [wEnemyMonType1]
+	cp FIRE
+	jr z, .fireUser
+	ld a, [wEnemyMonType2]
+	cp FIRE
+	jr z, .fireUser
+	; --- NON-FIRE user: discourage unless the target is weak to FIRE ---
+	push hl
+	ld a, [wAIMoveSpamAvoider]
+	cp 2 ; 2 = we switched; don't perfectly predict the new mon's types (mirrors Mod3)
+	call nz, StoreBattleMonTypes
+	callfar AIGetTypeEffectiveness ; current move SUPERNOVA is FIRE -> wTypeEffectiveness vs the target
+	pop hl
+	ld a, [wTypeEffectiveness]
+	cp SUPER_EFFECTIVE
+	jr nc, .done ; target is weak to FIRE -> the recoil is worth it, leave it alone
+	ld a, [hl]
+	add 5 ; discourage: recoil + self-burn for a hit that isn't even weak
+	ld [hl], a
+	jr .done
+.fireUser:
+	push hl ; GetTargetTypeFromMod1 clobbers hl
+	call GetTargetTypeFromMod1
+	ld a, [hli]
+	ld d, a ; target type1
+	ld a, [hl]
+	ld e, a ; target type2
+	pop hl
+	ld a, d
+	call .isWaterGroundRock
+	jr c, .prioritize
+	ld a, e
+	call .isWaterGroundRock
+	jr c, .prioritize
+	jr .done ; FIRE user vs a non-WGR target -> let normal type scoring decide
+.prioritize:
+	ld a, [hl]
+	sub 3 ; prioritize even if resisted
+	ld [hl], a
+.done:
+	pop de
+	pop bc
+	ret
+.isWaterGroundRock:
+	cp WATER
+	jr z, .yes
+	cp GROUND
+	jr z, .yes
+	cp ROCK
+	jr z, .yes
+	and a
+	ret
+.yes:
+	scf
+	ret
+
+; Sunsette: METAMORPHIC (EXPLOSION) scoring. Only a ROCK user gains the type-shed/+6-SPEED payoff, so this only
+; fires for a ROCK acting mon: prioritize the 140-BP nuke against the types that threaten Rock
+; (Water/Ground/Grass/Fighting) even when resisted. hl = score slot.
+ScoreMetamorphic:
+	ld a, [wEnemyMonType1]
+	cp ROCK
+	jr z, .rockUser
+	ld a, [wEnemyMonType2]
+	cp ROCK
+	ret nz ; non-ROCK user: no special handling (it wouldn't shed type anyway)
+.rockUser:
+	push bc
+	push de
+	push hl
+	call GetTargetTypeFromMod1
+	ld a, [hli]
+	ld d, a
+	ld a, [hl]
+	ld e, a
+	pop hl
+	ld a, d
+	call .isThreatType
+	jr c, .prioritize
+	ld a, e
+	call .isThreatType
+	jr c, .prioritize
+	jr .done
+.prioritize:
+	ld a, [hl]
+	sub 3 ; prioritize even if resisted
+	ld [hl], a
+.done:
+	pop de
+	pop bc
+	ret
+.isThreatType:
+	cp WATER
+	jr z, .yes
+	cp GROUND
+	jr z, .yes
+	cp GRASS
+	jr z, .yes
+	cp FIGHTING
+	jr z, .yes
+	and a
+	ret
+.yes:
 	scf
 	ret
 
@@ -609,12 +870,14 @@ StatSpecialOverAttack:
 	and a
 	ret
 
-CheckDefenseCurlUp:
-	ld a, [wEnemyBattleStatus1]
-	and a
-	bit DEFENSE_CURLED, a
-	ret z
-	scf ; if the enemy has a defense curl up dont use the move again
+CheckDefenseCurlUp: ; Sunsette: BUNKER DOWN no longer sets a flag; discourage once DEFENSE is already well boosted
+	ld a, [wEnemyMonDefenseMod]
+	cp 10 ; +3 (neutral is 7)
+	jr nc, .alreadyHigh
+	and a ; carry clear -> fine to use
+	ret
+.alreadyHigh
+	scf ; DEFENSE already high -> stop boosting
 	ret
 
 CheckBothReflectLightScreenUp:
@@ -726,7 +989,7 @@ AIMoveChoiceModification2:
 	call IsPlayerPokemonDangerous
 	ret c ; player pokemon is dangerous so don't encourage moves that boost your stats on the first turn
 .continue
-	; otherwise see if we should use a boosting move first turn 
+	; otherwise see if we should use a boosting move first turn
 	ld hl, wBuffer - 1 ; temp move selection array (-1 byte offset)
 	ld de, wEnemyMonMoves ; enemy moves
 	ld b, NUM_MOVES + 1
@@ -814,6 +1077,7 @@ StatBoostingEffectList:
 	db ATTACK_ACCURACY_UP1_EFFECT
 	db ATTACK_DEFENSE_UP1_EFFECT
 	db MEDITATE_EFFECT
+	db MAXIMIZE_EFFECT ; Sunsette: recognize MAXIMIZE as setup, so the AI anti-spams it once ATTACK is maxed
 	db -1
 
 ; PureRGBnote: ADDED: function that does a couple of comparisons before deciding whether the player is "dangerous" or not
@@ -881,7 +1145,7 @@ IsPlayerPokemonDangerous::
 	ld a, [wPlayerMonBaseSpeed]
 	sub b
 	pop bc
-	jr nc, .dangerous ; if player is likely faster than opponent, consider them dangerous (using a non damaging move will result in the enemy getting hit twice due to slower speed) 
+	jr nc, .dangerous ; if player is likely faster than opponent, consider them dangerous (using a non damaging move will result in the enemy getting hit twice due to slower speed)
 .skipSpeedComparison
 
 	ld a, 2
@@ -915,12 +1179,12 @@ IsPlayerPokemonDangerous::
 	ret
 
 ; PureRGBnote: CHANGED: AKA the "Use Effective damaging moves offensively" subroutine
-; encourages moves that are effective against the player's mon if they do damage. 
+; encourages moves that are effective against the player's mon if they do damage.
 ; discourage damaging moves that are ineffective or not very effective against the player's mon,
 ; unless there's no damaging move that deals at least neutral damage
 ; encourage effective or super effective priority moves if the pokemon is slower than the player's pokemon (but only after obtaining 5 badges)
 ; encourage effective or super effective draining moves to be used at low health
-; PureRGBnote: FIXED: this subroutine won't cause the AI to prefer status moves 
+; PureRGBnote: FIXED: this subroutine won't cause the AI to prefer status moves
 ;                     just because their type is super effective against the opponent. Like spamming agility on a poison pokemon.
 AIMoveChoiceModification3:
 	ld hl, wBuffer - 1 ; temp move selection array (-1 byte offset)
@@ -1110,7 +1374,7 @@ EncourageOHKOMoveIfXAccuracy:
 	ret
 
 ; PureRGBnote: ADDED: AKA the "Apply Status and Heal when needed" subroutine
-; slightly encourage moves with specific effects. 
+; slightly encourage moves with specific effects.
 ; This one will make the opponent want to use status applying moves when you don't have one.
 ; It also makes them want to use dream eater if you're asleep, and want to use a recovery move at low health.
 AIMoveChoiceModification4:
@@ -1858,7 +2122,7 @@ AIBattleUseItemText:
 	text_far _AIBattleUseItemText
 	text_end
 
-;;;;;;;;;; PureRGBnote: ADDED: these wram properties are used to make sure the 
+;;;;;;;;;; PureRGBnote: ADDED: these wram properties are used to make sure the
 ;;;;;;;;;;                     AI doesn't instantly read the player's current pokemon type after a player switches.
 ;;;;;;;;;;                     makes sure the AI doesn't appear to predict all your switch-outs of pokemon.
 StoreBattleMonTypes:

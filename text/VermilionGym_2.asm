@@ -1,13 +1,13 @@
 _VermilionGymLTSurgePostBattleAdviceText::
-	text "A little word of"
-	line "advice, kid!"
+	text "Haven't had a"
+	line "fight that good"
+	cont "in ages, kid!"
 
-	para "Electricity is"
-	line "sure powerful!"
+	para "Next time we're"
+	line "both in CELADON,"
 
-	para "But, it's useless"
-	line "against ground-"
-	cont "type #MON!"
+	para "grab a slice with"
+	line "me at the DINER!"
 	done
 
 _VermilionGymLTSurgeThunderBadgeInfoText::
@@ -114,9 +114,10 @@ _VermilionGymGymGuideChampInMakingText::
 	cont "the Lightning"
 	cont "American!"
 
-	para "The wired floor"
-	line "jolts his #MON"
-	cont "to shocking SPEED!"
+	para "SURGE drills his"
+	line "#MON in close"
+	cont "combat. They hit"
+	cont "harder here!"
 
 	para "LT.SURGE is very"
 	line "cautious!"

@@ -173,6 +173,7 @@ Evolution_PartyMonLoop: ; loop over party mons
 	; Sunsette: pause on "<mon> evolved into <NEW>!" until the player presses A, instead of auto-advancing
 	; after a fixed delay, so the evolution result can be read before returning.
 	call WaitForTextScrollButtonPress
+	farcall ShowEvolutionReaction ; Sunsette: per-species nature reaction (sprite already on screen)
 	call ClearScreen
 	call RenameEvolvedMon
 	ld a, [wPokedexNum]
@@ -231,7 +232,7 @@ Evolution_PartyMonLoop: ; loop over party mons
 	ld [wPokedexNum], a
 	xor a
 	ld [wMonDataLocation], a
-	call EeveelutionForceLearnMove ; PureRGBnote: ADDED: Force eeveelutions to learn a move on evolution
+	call EvolutionForceLearnMove ; Sunsette: force the on-evolution move (;@ evo_move) for any species
 ;;;;;;;;;; shinpokerednote: FIXED: fixing skip move-learn on level-up evolution
 	ld a, [wIsInBattle]
 	and a
@@ -243,7 +244,7 @@ Evolution_PartyMonLoop: ; loop over party mons
 	ld a, [wTempLevelStore]	; load the evolution level into a
 	ld b, a	; load the evolution level over to b
 	dec b
-.inc_level	; marker for looping back 
+.inc_level	; marker for looping back
 	inc b	;increment 	the current evolution level
 	ld a, b	;put the evolution level in a
 	ld [wCurEnemyLevel], a	;and reset the final level to the evolution level
@@ -280,6 +281,16 @@ Evolution_PartyMonLoop: ; loop over party mons
 	and a
 	call z, Evolution_ReloadTilesetTilePatterns
 	call IndexToPokedex
+;;;;;;;;;; Sunsette: ADDED: note whether this species is already owned BEFORE we register it,
+;;;;;;;;;; so we can pop up its Pokedex page afterward (like catching a species you don't have).
+	ld a, [wPokedexNum]
+	dec a
+	ld c, a
+	ld b, FLAG_TEST
+	ld hl, wPokedexOwned
+	call FlagAction
+	push af ; nonzero = was already owned
+;;;;;;;;;;
 	ld a, [wPokedexNum]
 	; missingno or mew can't evolve so this is never reached for them and their base stats aren't important here
 	dec a
@@ -291,6 +302,22 @@ Evolution_PartyMonLoop: ; loop over party mons
 	pop bc
 	ld hl, wPokedexSeen
 	call FlagAction
+;;;;;;;;;; Sunsette: ADDED: if the evolved form was new to the Pokedex, announce + show its dex page
+	pop af
+	jr nz, .alreadyInPokedex
+	ld a, [wCurSpecies] ; the evolved species index (wd11e currently holds its dex number)
+	ld [wNamedObjectIndex], a
+	call GetMonName ; load the evolved form's name into wNameBuffer for the announcement
+	ld hl, NewDexDataEvolvedText
+	rst _PrintText
+	call WaitForSoundToFinish
+	ld hl, NewDexDataEvolvedSound
+	call TextCommandProcessor
+	ld a, [wCurSpecies]
+	ld [wPokedexNum], a
+	callfar ShowPokedexData
+.alreadyInPokedex:
+;;;;;;;;;;
 	pop de
 	pop hl
 	ld a, [wLoadedMonSpecies]
@@ -369,6 +396,17 @@ CancelledEvolution:
 
 EvolvedText:
 	text_far _EvolvedText
+	text_end
+
+; Sunsette: ADDED: "New #DEX data will be added for <NEW>!" + the dex-page jingle, shown when an
+; evolution registers a species the player didn't already own (mirrors the catch-a-new-mon flow).
+NewDexDataEvolvedText:
+	text_far _NewDexDataEvolvedText
+	text_end
+
+NewDexDataEvolvedSound:
+	sound_dex_page_added
+	text_promptbutton
 	text_end
 
 IntoText:
@@ -476,7 +514,7 @@ LearnMoveFromLevelUp:
 	callfar IsPokemonLearnsetUnlockedDirect
 	jr nz, .done ; already unlocked
 	call AreLearnsetsEnabled
-	jr z, .done ; don't print any text if movedex not unlocked, just mark learnset unlocked in case they get the movedex later	
+	jr z, .done ; don't print any text if movedex not unlocked, just mark learnset unlocked in case they get the movedex later
 	callfar SetPokemonLearnsetUnlocked
 	call .done
 	call GetMonName
@@ -501,34 +539,48 @@ NoLearnsetMons:
 	db ABRA
 	db -1
 
-; PureRGBnote: ADDED: used to force the eeveelutions to learn a specific move on evolution so this move cannot be missed
-EeveelutionForceLearnMove:
+; Sunsette: GENERIC on-evolution move (generalized from the old hardcoded eeveelution check). Scans the
+; freshly-evolved species' level-up learnset for the EVO_MOVE_LEVEL ($FF) sentinel entry (authored on the
+; base-stats page via `;@ evo_move <MOVE>`, emitted as the LAST learnset line) and force-learns that move so
+; it can't be missed. Any species can now declare an on-evolution move. wPokedexNum = the evolved species
+; (internal id) here, as set by the caller. No sentinel -> no-op.
+EvolutionForceLearnMove:
 	push bc
-	ld a, [wPokedexNum] ; species
-	cp FLAREON
-	ld b, EMBER
-	jr z, .forceLearnMove
-	cp JOLTEON
-	ld b, THUNDERSHOCK
-	jr z, .forceLearnMove
-	cp VAPOREON
-	ld b, WATER_GUN
-	jr nz, .done
-.forceLearnMove
-	push af ; put species number on the stack
-	ld a, b
-	push hl	
 	push de
+	push hl
+	ld a, [wPokedexNum]
+	dec a
+	ld bc, 0
+	ld hl, EvosMovesPointerTable
+	add a
+	rl b
+	ld c, a
+	add hl, bc
+	ld a, [hli]
+	ld h, [hl]
+	ld l, a               ; hl = this species' evos+moves blob
+.skipEvos
+	ld a, [hli]
+	and a
+	jr nz, .skipEvos      ; skip the evolution data (terminated by db 0)
+.scan
+	ld a, [hli]           ; learnset entry level
+	and a
+	jr z, .done           ; db 0 = end of learnset, no on-evolution move
+	cp EVO_MOVE_LEVEL
+	jr z, .found
+	inc hl                ; skip this entry's move byte, advance to the next [level, move]
+	jr .scan
+.found
+	ld a, [hl]            ; the on-evolution move id
 	ld [wMoveNum], a
 	ld [wNamedObjectIndex], a
 	call GetMoveName
 	call CopyToStringBuffer
 	predef LearnMove
-	pop de
-	pop hl
-	pop af ; retrieve species number from the stack
-	ld [wPokedexNum], a
 .done
+	pop hl
+	pop de
 	pop bc
 	ret
 

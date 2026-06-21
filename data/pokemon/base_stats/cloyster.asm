@@ -10,35 +10,32 @@
 	INCBIN "gfx/pokemon/front/cloyster.pic", 0, 1 ; sprite dimensions
 	dw CloysterPicFront, CloysterPicBackSW
 
-	db TACKLE, WATER_GUN, NO_MOVE, NO_MOVE ; level 1 learnset (SUPER SOAK)
+	db TACKLE, SUPER_SOAK, NO_MOVE, NO_MOVE ; level 1 learnset
 	db GROWTH_MEDIUM_SLOW ; growth rate
 
 	; tm/hm learnset
 	tmhm \
-	FURY_ATTACK,\ ; MUD BOMB
-	DISABLE,\
+	MUD_BOMB,\
 	TOXIC,\
-	HORN_DRILL,\ ; VENOM DRILL
+	HONE_EDGE,\
 	BODY_SLAM,\
+	DISABLE,\
 	DOUBLE_EDGE,\
-	BUBBLEBEAM,\
-	AURORA_BEAM,\
+	AQUA_RING,\
 	ICE_BEAM,\
 	BLIZZARD,\
 	HYPER_BEAM,\
-	AMNESIA,\ ; CALM MIND
+	CALM_MIND,\
 	BARRIER,\
 	EARTHQUAKE,\
-	CRABHAMMER,\
+	RIPTIDE,\
 	DIG,\
 	REFLECT,\
-	BIDE,\ ; BULK UP
-	BARRAGE,\ ; SHADOW BALL
-	SLAM,\ ; WASTEMAKER
+	BULK_UP,\
+	SHADOW_BALL,\
+	TWISTER,\
 	LIGHT_SCREEN,\
-	SLUDGE,\ ; SLUDGE BOMB
 	ROCK_SLIDE,\
-	GLARE,\
 	SUBSTITUTE,\
 	SURF,\
 	STRENGTH,\
@@ -52,3 +49,22 @@
 
 	dw CloysterPicFrontAlt, CloysterPicBack
 
+; --- Sunsette SSOT directives (parsed by tools/gen_pokemon_data.py) ---
+;@ nature       NATURE_CAUTIOUS NATURE_CRUEL
+;@ pal_battle   PAL_GRAYMON
+;@ pal_altbattle PAL_PEWTER
+;@ pal_icon     $FF
+;@ pal_alticon  $FF
+;@ evo_move    NO_MOVE
+;@ evo_react   "Its shell clamps" "shut with a slam!"
+;@ evo_react   "It fires a spike" "with a clack!"
+;@ evo_react   "Its shell gleams," "hard as steel!"
+;@ evo_react   "It spins, spikes" "bristling out!"
+;@ learn       18, POWER_BIND
+;@ learn       23, SHELL_GAME
+;@ learn       28, AURORA_BEAM
+;@ learn       32, CLAMP
+;@ learn       36, UNDERBUG
+;@ learn       45, ICE_BEAM
+;@ learn       52, VENOM_DRILL
+;@ learn       56, SPIKE_CANNON

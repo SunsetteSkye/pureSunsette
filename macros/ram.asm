@@ -12,7 +12,7 @@ MACRO box_struct
 \1Type::
 \1Type1::      db
 \1Type2::      db
-; PureRGBnote: CHANGED: various flags (used to be CatchRate but this was unused) 
+; PureRGBnote: CHANGED: various flags (used to be CatchRate but this was unused)
 ; bit 0 = flag to use alternate color palette
 ; bit 1 = unused
 ; bit 2 = unused
@@ -50,7 +50,7 @@ MACRO battle_struct
 \1Type::
 \1Type1::      db
 \1Type2::      db
-; PureRGBnote: CHANGED: flags (used to be CatchRate but this was unused) 
+; PureRGBnote: CHANGED: flags (used to be CatchRate but this was unused)
 ; bit 0 = flag to use alternate color palette
 \1Flags::      db
 \1Moves::      ds NUM_MOVES
@@ -117,4 +117,26 @@ MACRO map_connection_struct
 \1ConnectedMapYAlignment::  db
 \1ConnectedMapXAlignment::  db
 \1ConnectedMapViewPointer:: dw
+ENDM
+
+; PureRGBnote: ADDED: ported from pokeyellow for the Surfing Pikachu minigame's
+; animated-object (OAM sprite animation) engine. See engine/gfx/animated_objects.asm.
+MACRO animated_object
+\1Index::          db
+\1FramesetID::     db
+\1AnimSeqID::      db
+\1TileID::         db
+\1XCoord::         db
+\1YCoord::         db
+\1XOffset::        db
+\1YOffset::        db
+\1Duration::       db
+\1DurationOffset:: db
+\1FrameIndex::     db
+\1FieldB::         db
+\1FieldC::         db
+\1FieldD::         db
+\1FieldE::         db
+\1FieldF::         db
+\1End::
 ENDM

@@ -220,6 +220,7 @@ PlayAnimation:
 	ld [wSubAnimTransform], a
 	ld [wSubAnimStepCounter], a
 	call MaybeSeismicTossPsychicAnim ; Sunsette: Psychic users get the PSISMIC TOSS variant
+	callfar MaybeDesperateAnim ; Sunsette: comeback moves at desperation stage 2-3 swap to their DesperateXXXXAnim
 	ld a, [wAnimationID] ; get animation number
 	dec a
 	ld l, a
@@ -510,7 +511,7 @@ MoveAnimationContent:
 	vc_hook_blue Stop_reducing_move_anim_flashing_Rock_Slide_Dream_Eater
 	call PlayApplyingAttackAnimation ; shake the screen or flash the pic in and out (to show damage)
 .animationFinished
-	pop af ; a = whether the animation should wait for the sound to finish 
+	pop af ; a = whether the animation should wait for the sound to finish
 	and a
 	call z, WaitForSoundToFinish
 .noWaiting
@@ -536,10 +537,10 @@ ShareMoveAnimations:
 
 	ld a, [wAnimationID]
 
-	cp AMNESIA
+	cp CALM_MIND
 	ld b, AMNESIA_ENEMY_ANIM ; PureRGBnote: CHANGED: amnesia has its own new animation
 	jr z, .replaceAnim
-	cp RAGE
+	cp BLOOD_RUSH
 	ld b, RAGE_ENEMY_ANIM ; PureRGBnote: CHANGED: rage needs to have a unique animation for player vs opponent due to visual changes in it.
 	jr z, .replaceAnim
 	cp REST
@@ -1317,7 +1318,7 @@ AnimationFlashScreenCommon:
 AnimationFlashScreenCommonLessDarkFlashing:
 	ldh a, [rBGP]
 	cp %11100100 ; default palettes
-	call z, AnimationDarkenMonPalette ; play a less intense sprite flicker instead of full screen flash if in default palettes 
+	call z, AnimationDarkenMonPalette ; play a less intense sprite flicker instead of full screen flash if in default palettes
 	; otherwise it will not flash
 	ld c, 4
 	rst _DelayFrames
@@ -1388,7 +1389,7 @@ AnimationShakeScreen:
 AnimationShakeScreenHorizontallyFast:
 	jpfar PredefShakeScreenHorizontally
 
-;AnimationPoisonEverywhere: 
+;AnimationPoisonEverywhere:
 ;	ld a, 1
 ;	ld d, 32
 ;	ld e, $76
@@ -1461,7 +1462,7 @@ _AnimationWaterDroplets:
 ;;;;;;;;;; shinpokerednote: gbcnote: oam updates from pokemon yellow
 	ld a, $1
 	ld [wdef5], a
-;;;;;;;;;; 
+;;;;;;;;;;
 	ld a, [wBaseCoordY]
 	ld [hli], a ; Y
 ;;;;;;;;;; shinpokerednote: gbcnote: oam updates from pokemon yellow
@@ -1925,6 +1926,15 @@ AnimationSpiralBallsInwardFastDefault:
 	jr AnimationSpiralBallsInward
 ;;;;;;;;;;
 
+; Sunsette: MAXIMIZE - the same spiral, but walked from the CENTRE OUTWARD (the reversed coordinate
+; table), so the energy balls burst outward instead of converging. Sets up exactly like the inward
+; default, then drops in past the default-table set so .storePtr stashes the reversed table instead.
+AnimationSpiralBallsOutward:
+	lb de, $7a, 5 ; tile number, delay
+	ld c, 0
+	ld hl, SpiralBallAnimationCoordinatesReversed
+	jr AnimationSpiralBallsInward.gotTable
+
 AnimationSpiralBallsInwardDefault:
 	lb de, $7a, 5 ; tile number, delay
 	ld c, 0
@@ -1933,7 +1943,11 @@ AnimationSpiralBallsInwardDefault:
 ; PureRGBnote: CHANGED: modified this function so the delay is customizable, and it can repeatedly play a sound effect while the animation is happening.
 ;                       now used in Drill Peck, Horn Drill, and the animation for using a Master Ball.
 AnimationSpiralBallsInward:
+	ld hl, SpiralBallAnimationCoordinates
+.gotTable ; Sunsette: hl = coord table (inward default, or MAXIMIZE's reversed). Stash it on the stack so it
+          ; survives the InitMultipleObjectsOAM call below (which clobbers hl); we pop it back just before .loop.
 	push de
+	push hl
 	ld a, e
 	cp 2
 	jr z, .fastCheck
@@ -1963,7 +1977,7 @@ AnimationSpiralBallsInward:
 	; d still has the tile number stored
 	ld c, 3 ; number of balls
 	call InitMultipleObjectsOAM
-	ld hl, SpiralBallAnimationCoordinates
+	pop hl ; Sunsette: retrieve the coord table stashed at .gotTable (inward default vs MAXIMIZE reversed)
 .loop
 	push hl
 	ld c, 3
@@ -2062,6 +2076,32 @@ SpiralBallAnimationCoordinates:
 	db $58, $28
 	db $50, $30
 	db $50, $28
+	db -1 ; end
+
+; Sunsette: SpiralBallAnimationCoordinates in reverse order (centre -> outer ring) so AnimationSpiralBallsOutward
+; walks it forward and the balls spiral OUTWARD. Used by MAXIMIZE (SE_SPIRAL_BALLS_OUTWARD).
+SpiralBallAnimationCoordinatesReversed:
+	db $50, $28
+	db $50, $30
+	db $58, $28
+	db $50, $20
+	db $48, $28
+	db $46, $32
+	db $50, $38
+	db $5B, $32
+	db $60, $28
+	db $5B, $1E
+	db $50, $18
+	db $46, $1E
+	db $40, $28
+	db $40, $38
+	db $50, $40
+	db $60, $38
+	db $68, $28
+	db $60, $18
+	db $50, $10
+	db $40, $18
+	db $38, $28
 	db -1 ; end
 
 AnimationSquishMonPic:
@@ -2190,7 +2230,7 @@ _AnimationShootBallsUpward:
 	jr nz, .loop
 	ret
 
-;;;;;;;;;;;;;;;;;;;;;; 
+;;;;;;;;;;;;;;;;;;;;;;
 ; PureRGBnote: ADDED: Shoot many balls upward has been slightly modified to look nicer, and is used in-game now instead of being unused.
 AnimationShootManyBallsUpward:
 ; Shoots several pillars of "energy" balls upward.
@@ -2358,7 +2398,7 @@ _AnimationSlideMonOff:
 	add 7
 ; This is a bug. The lower right corner tile of the mon back pic is blanked
 ; while the mon is sliding off the screen. It should compare with the max tile
-; plus one instead. 
+; plus one instead.
 	cp $62 ; PureRGBnote: CHANGED: now it's plus one as the above comment indicates
 	ret c
 	ld a, ' '
@@ -2784,7 +2824,7 @@ IsCryMove:
 	ld a, [wAnimationID]
 	cp GROWL
 	jr z, .CryMove
-	cp ROAR ; BELLOW
+	cp BELLOW
 	jr z, .CryMove
 	and a ; clear carry
 	ret

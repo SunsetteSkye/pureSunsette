@@ -284,6 +284,8 @@ StartFitnessClubBattle::
 	add hl, de
 	ld a, [hli]
 	ld [wCurOpponent], a
+	ld a, 1 ; Sunsette: trainer-battle latch
+	ld [wIsTrainerBattle], a
 	ld a, 1
 	ld [wTrainerNo], a ; doesn't matter which
 	ld a, [wFitnessClubChallenger]
@@ -387,7 +389,7 @@ VermilionFitnessClubBeautyOpponentText:
 
 GetRandomClubOpponentText:
 	ld a, [wFitnessClubChallenger]
-	ld [hTextID], a ; makes the battle transition show the correct 
+	ld [hTextID], a ; makes the battle transition show the correct
 	call Random
 	and %11
 	ld d, 0

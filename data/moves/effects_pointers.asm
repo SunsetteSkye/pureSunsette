@@ -9,7 +9,7 @@ MoveEffectPointerTable:
 	dw FreezeBurnParalyzeEffect  ; PARALYZE_SIDE_EFFECT1
 	dw DoRet                     ; EXPLODE_EFFECT
 	dw DrainHPEffect             ; DREAM_EATER_EFFECT
-	dw NULL                      ; MIRROR_MOVE_EFFECT (MOCKINGBIRD)
+	dw NULL                      ; MIRROR_MOVE_EFFECT
 	dw StatModifierUpEffect      ; ATTACK_UP1_EFFECT
 	dw StatModifierUpEffect      ; DEFENSE_UP1_EFFECT
 	dw StatModifierUpEffect      ; SPEED_UP1_EFFECT
@@ -46,7 +46,7 @@ MoveEffectPointerTable:
 	dw ChargeEffect              ; FLY_EFFECT
 	dw TwoToFiveAttacksEffect    ; ATTACK_TWICE_EFFECT
 	dw NULL                      ; JUMP_KICK_EFFECT
-	dw MistEffect                ; MIST_EFFECT
+	dw HazeEffect                ; MIST_EFFECT ; Sunsette: AURORA MIST - shares the Haze trampoline; HazeFlinchEffect_ dispatches it to AuroraMistEffect_ (Mist stat-immunity + clear both statuses; Ice user raises both screens, non-Ice retypes to ICE + CYANMON)
 	dw FocusEnergyEffect         ; FOCUS_ENERGY_EFFECT
 	dw RecoilEffect              ; RECOIL_EFFECT
 	dw ConfusionEffect           ; CONFUSION_EFFECT
@@ -93,7 +93,7 @@ MoveEffectPointerTable:
 	dw ReflectLightScreenEffect  ; ACID_ARMOR_EFFECT
 	dw ExplodeRecoilEffect       ; EXPLODE_RECOIL_EFFECT
 	dw ConversionEffect          ; CONVERSION_EFFECT
-	dw AcidEffect                ; ACID_EFFECT
+	dw MaximizeEffect            ; MAXIMIZE_EFFECT ; Sunsette: was ACID_SIDE_EFFECT (AcidEffect, unused). MaximizeEffect is a trampoline -> jpfar MaximizeEffect_
 	dw SiphonSnagEffect          ; SIPHON_SNAG_EFFECT
 	dw HeatRushEffect            ; HEAT_RUSH_EFFECT
 	dw MegaPunchEffect           ; MEGA_PUNCH_EFFECT
@@ -106,10 +106,16 @@ MoveEffectPointerTable:
 	dw HazeEffect                ; SOLARBEAM_EFFECT ; Sunsette: also shares the Haze trampoline; HazeFlinchEffect_ dispatches it to SolarBeamEffect_ (drain+prime / release-burn / fire recoil+burn)
 	dw HazeEffect                ; MINDWIPE_EFFECT ; Sunsette: also shares the Haze trampoline; HazeFlinchEffect_ dispatches it to MindwipeEffect_ (retype BUG + gray + -1 ACC, no damage)
 	dw HazeEffect                ; ROOST_EFFECT ; Sunsette: also shares the Haze trampoline; HazeFlinchEffect_ dispatches it to RoostEffect_ (heal + natural-type/palette refresh + strip FLYING/FLOATING)
-	dw HazeEffect                ; JOLT_BOLT_EFFECT ; Sunsette: also shares the Haze trampoline; HazeFlinchEffect_ dispatches it to JoltBoltEffect_ (50% chance +1 user EVASION, post-damage)
+	dw HazeEffect                ; JOLT_BOLT_EFFECT ; Sunsette: RETIRED (POUND is now SPARK / PARALYZE_SIDE_EFFECT2). Dead row kept for index stability; no move uses this effect.
 	dw HazeEffect                ; HOBBLE_EFFECT ; Sunsette: also shares the Haze trampoline; HazeFlinchEffect_ dispatches it to HobbleEffect_ (guaranteed -1 SPEED and -1 EVASION to the target, post-damage)
 	dw HazeEffect                ; CALM_MIND_EFFECT ; Sunsette: also shares the Haze trampoline; HazeFlinchEffect_ dispatches it to CalmMindEffect_ (+1 user SPECIAL + clear the user's own CONFUSION)
 	dw HazeEffect                ; STRENGTH_EFFECT ; Sunsette: shares the Haze trampoline; dispatched there to a no-op (ret) - the effect just needs to be nonzero so SpeciesMoveBonus runs for STRENGTH
 	dw HazeEffect                ; BLOSSOM_BLITZ_EFFECT ; Sunsette: shares the Haze trampoline; HazeFlinchEffect_ dispatches it to BlossomBlitzEffect_ (50% chance +1 user SPEED, post-damage)
 	dw HazeEffect                ; SHORYUKEN_EFFECT ; Sunsette: shares the Haze trampoline; dispatched there to a no-op (ret) - nonzero only so SpeciesMoveBonus runs the FLYING/FLOATING strip for SHORYUKEN
+	dw HazeEffect                ; MIASMA_EFFECT ; Sunsette: also shares the Haze trampoline; HazeFlinchEffect_ dispatches it to MiasmaEffect_ (one-sided stat clear + regular poison, no damage)
+	dw HazeEffect                ; AQUA_RING_EFFECT ; Sunsette: also shares the Haze trampoline; HazeFlinchEffect_ dispatches it to AquaRingEffect_ (FLOURISH + DOUBLE_FLOURISH, no damage)
+	dw HazeEffect                ; CLAY_ARMOR_EFFECT ; Sunsette: also shares the Haze trampoline; HazeFlinchEffect_ dispatches it to ClayArmorEffect_ (type-gated dual screens + Ground heal, no damage)
+	dw HazeEffect                ; METAMORPHIC_EFFECT ; Sunsette: damaging move; the Haze trampoline runs post-damage (hit only) -> MetamorphicEffect_ (heavy recoil; ROCK user sheds ROCK + +6 SPEED + PAL_GAMEFREAK glow)
+	dw HazeEffect                ; SUPERNOVA_EFFECT ; Sunsette: damaging move; the Haze trampoline runs post-damage (hit only) -> SupernovaEffect_ (FIRE user: no recoil + shed FIRE + gray; non-FIRE: heavy recoil + self-burn)
+	dw HazeEffect                ; SENBONZAKURA_EFFECT ; Sunsette: damaging move; shares the Haze trampoline; HazeFlinchEffect_ dispatches it to SenbonzakuraEffect_ (reset user stats + FLOURISH + EVASION +1; runs even on a KO)
 	assert_table_length NUM_MOVE_EFFECTS

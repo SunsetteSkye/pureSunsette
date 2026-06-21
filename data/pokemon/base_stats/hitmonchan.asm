@@ -1,3 +1,4 @@
+; Sunsette: a Pokemon Tower B1F spirit borrows this dex slot -> base_stats/spirit_irradiated.asm (Spirit (Irradiated)).
 	db DEX_HITMONCHAN ; pokedex id
 
 	db  50, 115,  79,  76,  90
@@ -15,24 +16,26 @@
 
 	; tm/hm learnset
 	tmhm \
-	FURY_ATTACK,\ ; MUD BOMB
-	ICE_PUNCH,\ ; FROST FIST
-	FIRE_PUNCH,\ ; BLAZE HAMMER
+	FROST_FIST,\
+	MUD_BOMB,\
+	BLAZE_HAMMER,\
 	TOXIC,\
+	HONE_EDGE,\
 	BODY_SLAM,\
 	DISABLE,\
 	DOUBLE_EDGE,\
 	HYPER_BEAM,\
 	LOW_KICK,\
-	THUNDERPUNCH,\ ; ZAPPERCUT
+	ZAPPERCUT,\
 	BARRIER,\
 	SWORDS_DANCE,\
-	BIDE,\ ; BULK UP
-	SLAM,\ ; WASTEMAKER
-	KARATE_CHOP,\
-	MEDITATE,\ ; VOID MIND
-	GLARE,\
+	BULK_UP,\
+	DEMOLISH,\
+	VOID_MIND,\
+	SHADOW_GAME,\
+	ROCK_ON,\
 	SUBSTITUTE,\
+	CLAY_ARMOR,\
 	CUT,\
 	STRENGTH,\
 	FLASH
@@ -45,3 +48,20 @@
 
 	dw 0, HitmonchanPicBack
 
+; --- Sunsette SSOT directives (parsed by tools/gen_pokemon_data.py) ---
+;@ nature       NATURE_STOLID NATURE_CALCULATING
+;@ pal_battle   PAL_ROSEGOLDMON
+;@ pal_altbattle PAL_BRICKMON
+;@ pal_icon     $FF
+;@ pal_alticon  $FF
+;@ evo_move    NO_MOVE
+;@ evo_react   NONE
+;@ learn       19, DOUBLE_TEAM
+;@ learn       22, MACH_PUNCH
+;@ learn       24, BLAZE_HAMMER
+;@ learn       25, FROST_FIST
+;@ learn       26, ZAPPERCUT
+;@ learn       32, DIZZY_PUNCH
+;@ learn       37, SHADOW_BOX
+;@ learn       43, MIMIC
+;@ learn       49, SHORYUKEN

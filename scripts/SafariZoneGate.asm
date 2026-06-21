@@ -524,7 +524,7 @@ HideShowTrainers:
 	db TOGGLE_SAFARI_ZONE_CENTER_TRAINER_1    
 	db TOGGLE_SAFARI_ZONE_CENTER_TRAINER_2    
 	db TOGGLE_SAFARI_ZONE_CENTER_TRAINER_3
-	db -1 ; end 
+	db -1 ; end
 
 ShowAllTrainers:
 	ld hl, HideShowTrainers         ; table items to hide

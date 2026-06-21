@@ -10,38 +10,40 @@
 	INCBIN "gfx/pokemon/front/primeape.pic", 0, 1 ; sprite dimensions
 	dw PrimeapePicFront, PrimeapePicBackSW
 
-	db SCRATCH, LEER, NO_MOVE, NO_MOVE ; level 1 learnset (JOLT BOLT)
+	db SCRATCH, LEER, NO_MOVE, NO_MOVE ; level 1 learnset
 	db GROWTH_MEDIUM_FAST ; growth rate
 
 	; tm/hm learnset
 	tmhm \
-	FURY_ATTACK,\ ; MUD BOMB
-	SONICBOOM,\ ; ILL WIND
-	ICE_PUNCH,\ ; FROST FIST
-	FIRE_PUNCH,\ ; BLAZE HAMMER
+	ADAPTATION,\
+	FROST_FIST,\
+	MUD_BOMB,\
+	BLAZE_HAMMER,\
 	TOXIC,\
+	HONE_EDGE,\
 	BODY_SLAM,\
 	DISABLE,\
 	DOUBLE_EDGE,\
 	HYPER_BEAM,\
 	LOW_KICK,\
-	THUNDERPUNCH,\ ; ZAPPERCUT
-	ROLLING_KICK,\ ; METEOR SWEEP
-	DRAGON_RAGE,\ ; WYRM WRATH
+	ZAPPERCUT,\
+	METEOR_SWEEP,\
+	WYRM_WRATH,\
 	THUNDERBOLT,\
 	THUNDER,\
 	EARTHQUAKE,\
-	CRABHAMMER,\
 	DIG,\
 	SWORDS_DANCE,\
-	BIDE,\ ; BULK UP
-	BARRAGE,\ ; SHADOW BALL
-	SLAM,\ ; WASTEMAKER
-	KARATE_CHOP,\
-	MEDITATE,\ ; VOID MIND
+	BULK_UP,\
+	ILL_WIND,\
+	SHADOW_BALL,\
+	DEMOLISH,\
+	VOID_MIND,\
+	SHADOW_GAME,\
 	ROCK_SLIDE,\
-	GLARE,\
+	ROCK_ON,\
 	SUBSTITUTE,\
+	CLAY_ARMOR,\
 	CUT,\
 	STRENGTH
 	; end
@@ -53,3 +55,27 @@
 
 	dw 0, PrimeapePicBack
 
+; --- Sunsette SSOT directives (parsed by tools/gen_pokemon_data.py) ---
+;@ nature       NATURE_RAGE NATURE_HYPER
+;@ pal_battle   PAL_MOCHAMON
+;@ pal_altbattle PAL_REDBAR
+;@ pal_icon     $FF
+;@ pal_alticon  $FF
+;@ evo_move    NO_MOVE
+;@ evo_react   "It pounds the" "ground in a fury!"
+;@ evo_react   "It throws a flurry" "of wild punches!"
+;@ evo_react   "It shrieks, fuming" "with pure rage!"
+;@ evo_react   "It stomps around," "seeing red!"
+;@ learn       9, DEMOLISH
+;@ learn       12, MUD_CLAW
+;@ learn       15, SCREECH
+;@ learn       18, FOCUS_ENERGY
+;@ learn       20, LOW_KICK
+;@ learn       23, SEISMIC_TOSS
+;@ learn       25, BLOOD_RUSH
+;@ learn       27, ILL_WIND
+;@ learn       35, UNDERBUG
+;@ learn       39, MACH_PUNCH
+;@ learn       45, SHADOW_BOX
+;@ learn       51, OUTRAGE
+;@ learn       54, COMBOBREAKER

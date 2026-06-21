@@ -1,3 +1,4 @@
+; Sunsette VARIANT FORM: Hardened Onix, an alternate form of ONIX. Its base data reuses ONIX's dex slot (db DEX_ONIX). See base_stats/onix.asm.
 ; PureRGBnote: ADDED: powered up version of onix with better stats and less weaknesses.
 	db DEX_ONIX ; pokedex id
 
@@ -11,33 +12,32 @@
 	INCBIN "gfx/pokemon/front/onix.pic", 0, 1 ; sprite dimensions
 	dw OnixPicFront, OnixPicBackSW
 
-	db TACKLE, HARDEN, GROWL, BIND ; level 1 learnset (POWER BIND)
+	db TACKLE, SCREECH, HARDEN, ROCK_THROW ; level 1 learnset
 	db GROWTH_FAST ; growth rate
 
 	; tm/hm learnset
 	tmhm \
+	ADAPTATION,\
 	TOXIC,\
+	HONE_EDGE,\
 	BODY_SLAM,\
 	DISABLE,\
 	DOUBLE_EDGE,\
 	HYPER_BEAM,\
 	BARRIER,\
-	DRAGON_RAGE,\ ; WYRM WRATH
+	WYRM_WRATH,\
 	EARTHQUAKE,\
-	CRABHAMMER,\
 	DIG,\
-	KINESIS,\ ; MIRAGE
+	MIRAGE,\
 	SWORDS_DANCE,\
-	BIDE,\ ; BULK UP
-	BARRAGE,\ ; SHADOW BALL
+	BULK_UP,\
+	SHADOW_BALL,\
 	FIRE_BLAST,\
-	FLAMETHROWER,\
-	SLAM,\ ; WASTEMAKER
 	LIGHT_SCREEN,\
-	SLUDGE,\ ; SLUDGE BOMB
 	ROCK_SLIDE,\
-	GLARE,\
+	ROCK_ON,\
 	SUBSTITUTE,\
+	CLAY_ARMOR,\
 	CUT,\
 	SURF,\
 	STRENGTH

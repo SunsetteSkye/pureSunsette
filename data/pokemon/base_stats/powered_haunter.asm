@@ -1,3 +1,4 @@
+; Sunsette VARIANT FORM: Powered Haunter, an alternate form of HAUNTER. Its base data reuses HAUNTER's dex slot (db DEX_HAUNTER). See base_stats/haunter.asm.
 	db DEX_HAUNTER ; pokedex id
 
 	db  60,  65,  60, 110, 130
@@ -10,34 +11,32 @@
 	INCBIN "gfx/pokemon/front/haunter.pic", 0, 1 ; sprite dimensions
 	dw HaunterPicFront, HaunterPicBackSW
 
-	db LICK, CONFUSE_RAY, NIGHT_SHADE, NO_MOVE ; level 1 learnset (PHANTASM)
+	db LICK, CONFUSE_RAY, PHANTASM, NO_MOVE ; level 1 learnset
 	db GROWTH_MEDIUM_SLOW ; growth rate
 
 	; tm/hm learnset
 	tmhm \
-	DISABLE,\
-	SONICBOOM,\ ; ILL WIND
-	ICE_PUNCH,\ ; FROST FIST
+	FROST_FIST,\
 	TOXIC,\
 	BODY_SLAM,\
+	DISABLE,\
 	DOUBLE_EDGE,\
-	AURORA_BEAM,\
+	AURORA_MIST,\
 	HYPER_BEAM,\
-	THUNDERPUNCH,\ ; ZAPPERCUT
-	ROLLING_KICK,\ ; METEOR SWEEP
+	ZAPPERCUT,\
+	METEOR_SWEEP,\
 	THUNDERBOLT,\
 	THUNDER,\
 	PSYCHIC_M,\
 	MEGA_DRAIN,\
-	KINESIS,\ ; MIRAGE
-	BIDE,\ ; BULK UP
-	BARRAGE,\ ; SHADOW BALL
-	SLAM,\ ; WASTEMAKER
-	KARATE_CHOP,\
+	MIRAGE,\
+	BULK_UP,\
+	ILL_WIND,\
+	SHADOW_BALL,\
+	DEMOLISH,\
 	LOVELY_KISS,\
-	PSYWAVE,\ ; SKITTERMIND
-	SLUDGE,\ ; SLUDGE BOMB
-	GLARE,\
+	SKITTERMIND,\
+	SHADOW_GAME,\
 	SUBSTITUTE,\
 	CUT,\
 	STRENGTH,\

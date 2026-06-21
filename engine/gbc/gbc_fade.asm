@@ -1,7 +1,7 @@
 ; PureRGBnote: ADDED: code for smooth fades on the gbc (optional)
 ;get the RGB values out of color in de into a spot pointed to by hRGB
 GetRGB:
-;GetRed:	
+;GetRed:
 	;red bits in e are %00011111
 	ld a, e
 	and %00011111	;mask to get just the color value
@@ -51,13 +51,13 @@ WriteRGB:
 	rrca
 	rrca
 	ld b, a
-	;bits in b are 11100011	
+	;bits in b are 11100011
 	;now load into d
 	xor d
 	and %00000011
 	xor d
 	ld d, a
-	;bits in b are still 11100011	
+	;bits in b are still 11100011
 	;now load into e
 	ld a, b
 	xor e
@@ -187,7 +187,7 @@ MixColorMatrix:
 ;calculate blue row and store it
 ;while the formula is (r * 0 + g * 2 + b * 14) / 16, this instead does (r * 0 + g * 1 + b * 7) / 8
 ;which will not require a 16-bit register and will have the same result
-	;while the math is for 8 bit 
+	;while the math is for 8 bit
 	;multiply blue value by 7 and add to c
 	ldh a, [hRGB + 2]
 	ld c, a	; c = b * 1
@@ -215,7 +215,7 @@ MixColorMatrix:
 
 ;This sets the GBC palette index for read/writes directly from the hardware
 ;Uses A, HL, and B
-;Accepts settings which determine the color to work with using the value in wGBCColorControl	
+;Accepts settings which determine the color to work with using the value in wGBCColorControl
 	;bits 0 & 1 --> a value from 0 to 3 to select color 0 through 3
 	;bits 2, 3, & 4 --> a value from 0 to 7 to select BGP/OBP 0 through 7
 	;bit 5 --> 0 = BGP | 1 = OBP
@@ -818,7 +818,7 @@ SetFadeDoubleCPUSpeedIfNecessary:
 	
 	
 	
-;This function uses DE as a passthrough to buffer all the BGP 0-7 and OBP 0-7 colors at wGBCFullPalBuffer	
+;This function uses DE as a passthrough to buffer all the BGP 0-7 and OBP 0-7 colors at wGBCFullPalBuffer
 ; BufferAllColorsGBC:
 	; ld hl, wGBCFullPalBuffer
 	; xor a	;load zero to start with the very first color of BGP 0 so we can loop through everything
@@ -858,7 +858,7 @@ ReadBufferColorGBC:
 	
 	
 	
-;Alternate version of this function that is more specific	
+;Alternate version of this function that is more specific
 ; BufferAllColorsGBC:
 	; push de
 	
@@ -869,7 +869,7 @@ ReadBufferColorGBC:
 	; call .OBP4to7Loop
 
 	; pop de
-	; ret	
+	; ret
 	
 ; .BGP0to3Loop
 	; ld hl, wGBCFullPalBuffer
@@ -906,10 +906,10 @@ ReadBufferColorGBC:
 	; ld a, d
 	; ld [hli], a		;buffer high byte
 	; ld a, e
-	; ld [hli], a		;buffer low byte	
+	; ld [hli], a		;buffer low byte
 	; ld a, [wGBCColorControl]
 	; inc a
-	; ret	
+	; ret
 	
 	
 

@@ -212,11 +212,23 @@ PokemonTower2FRivalText:
 	call SaveEndBattleTextPointers
 	ld a, OPP_RIVAL2
 	ld [wCurOpponent], a
+	ld a, 1 ; Sunsette: trainer-battle latch
+	ld [wIsTrainerBattle], a
 
 	; select which team to use during the encounter
 	ld a, [wRivalStarter]
 	call StarterToPartyID
-	add 3 ; second set of rival parties
+	ld b, a
+	; Sunsette: if you took down Giovanni at the Rocket Hideout first, the rival shows up here with
+	; a higher-level team (RIVAL2 parties 13-15) instead of the standard Tower set (4-6).
+	CheckEvent EVENT_BEAT_ROCKET_HIDEOUT_GIOVANNI
+	ld a, b
+	jr z, .standardTowerTeam
+	add 12 ; tough Tower set
+	jr .gotTowerTeam
+.standardTowerTeam
+	add 3 ; standard Tower set
+.gotTowerTeam
 	ld [wTrainerNo], a
 
 	ld a, SCRIPT_POKEMONTOWER2F_DEFEATED_RIVAL

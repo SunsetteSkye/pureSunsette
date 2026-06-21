@@ -8,7 +8,7 @@ DrainHPEffect_:
 	jr z, .checkSoulstealer
 	ld a, [wEnemyMoveNum]
 .checkSoulstealer
-	cp DREAM_EATER ; SOULSTEALER
+	cp SOULSTEALER
 	jr nz, .drain
 	call SoulstealerFoeAfflicted
 	ret z ; foe has no status and isn't confused -> damage only, no heal

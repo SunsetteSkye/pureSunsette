@@ -402,7 +402,7 @@ CheckNoteButtons:
 
 CheckPasswordCorrect:
 	cp 5
-	ret nz ; if they didn't press the 5th button from the left to trigger this function they won't be finishing the password anyway so return 
+	ret nz ; if they didn't press the 5th button from the left to trigger this function they won't be finishing the password anyway so return
 	ld b, 0
 	ld hl, wSecretLabPasswordTracker
 	ld de, NotePassword

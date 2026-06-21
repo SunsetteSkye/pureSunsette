@@ -23,6 +23,23 @@ _SleepEffect::
 	ld de, wBattleMonStatus
 	ld hl, wBattleMonMoves
 .sleepEffect
+	; Sunsette: GRASS-type targets can't be put to sleep by a foe's move - this one spot covers every
+	; sleep-inducing move (SING / SLEEP POWDER / HYPNOSIS / LOVELY KISS / SPORE). REST is HEAL_EFFECT,
+	; not this handler, so a GRASS mon can still put ITSELF to sleep with REST.
+	push hl
+	ldh a, [hWhoseTurn]
+	and a
+	ld hl, wEnemyMonType1 ; player attacking -> the target is the enemy
+	jr z, .checkGrassImmune
+	ld hl, wBattleMonType1 ; enemy attacking -> the target is the player
+.checkGrassImmune
+	ld a, [hli]
+	cp GRASS
+	jr z, .grassImmuneToSleep
+	ld a, [hl]
+	cp GRASS
+	jr z, .grassImmuneToSleep
+	pop hl
 	; are screeches echoing? If so prevent sleep status.
 	ld a, [wBattleFunctionalFlags]
 	bit 2, a
@@ -77,6 +94,8 @@ _SleepEffect::
 	ld hl, FellAsleepText
 	rst _PrintText
 	jpfar DrawTargetHPBar
+.grassImmuneToSleep
+	pop hl ; balance the push from the GRASS-immunity check; fall through to "didn't affect"
 .didntAffect
 	jpfar PrintDidntAffectText
 .opponentHasScreech

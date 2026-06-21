@@ -1,3 +1,4 @@
+; Sunsette: CELADON DEPT. STORE 2F clerk stock. INCLUDEd by scripts/CeladonMart2F.asm (mart data is read from the caller's bank).
 ; PureRGBnote: CHANGED: many of the marts in these mart files were modified versus the original game.
 
 CeladonMart2FClerk1Text::
@@ -15,9 +16,12 @@ CeladonMart2FClerk1Text::
 
 CeladonMart2FClerk2Text::
 	script_mart \
-	TM_RAZOR_WIND, \ ; ROOST
-	TM_HORN_DRILL, \ ; VENOM DRILL
-	TM_ROLLING_KICK, \ ; METEOR SWEEP
+	TM_ROOST, \
+	TM_MUD_BOMB, \
+	TM_PIN_MISSILE, \
+	TM_TOXIC, \
+	TM_HONE_EDGE, \
+	TM_METEOR_SWEEP, \
 	TM_DIG, \
 	TM_REFLECT, \
 	TM_LIGHT_SCREEN

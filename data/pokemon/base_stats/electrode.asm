@@ -15,26 +15,27 @@
 
 	; tm/hm learnset
 	tmhm \
-	DISABLE,\
-	SONICBOOM,\ ; ILL WIND
 	TOXIC,\
+	HONE_EDGE,\
 	BODY_SLAM,\
+	DISABLE,\
 	DOUBLE_EDGE,\
-	AURORA_BEAM,\
+	AURORA_MIST,\
 	HYPER_BEAM,\
-	AMNESIA,\ ; CALM MIND
+	CALM_MIND,\
 	BARRIER,\
 	THUNDERBOLT,\
 	THUNDER,\
 	MEGA_DRAIN,\
-	KINESIS,\ ; MIRAGE
+	MIRAGE,\
 	SWORDS_DANCE,\
 	REFLECT,\
-	BIDE,\ ; BULK UP
-	BARRAGE,\ ; SHADOW BALL
+	BULK_UP,\
+	ILL_WIND,\
+	SHADOW_BALL,\
 	LIGHT_SCREEN,\
 	THUNDER_WAVE,\
-	GLARE,\
+	SHADOW_GAME,\
 	SUBSTITUTE,\
 	FLASH
 	; end
@@ -46,3 +47,24 @@
 
 	dw 0, ElectrodePicBack
 
+; --- Sunsette SSOT directives (parsed by tools/gen_pokemon_data.py) ---
+;@ nature       NATURE_HYPER NATURE_RAGE
+;@ pal_battle   PAL_VOLTORBMON
+;@ pal_altbattle PAL_GREENBAR
+;@ pal_icon     PAL_ICON_04
+;@ pal_alticon  PAL_ICON_48
+;@ evo_move    NO_MOVE
+;@ evo_react   "It buzzes, set" "to blow, grinning!"
+;@ evo_react   "It rolls in fast," "sparks flying!"
+;@ evo_react   "It hums louder" "and louder still!"
+;@ evo_react   "It bounces once," "ready to pop!"
+;@ learn       15, THUNDER_WAVE
+;@ learn       18, SPARK
+;@ learn       22, SWIFT
+;@ learn       24, HEAT_RUSH
+;@ learn       28, SCREECH
+;@ learn       31, THUNDERBOLT
+;@ learn       35, EGG_BOMB
+;@ learn       39, SUPERNOVA
+;@ learn       42, EXPLOSION
+;@ learn       48, THUNDER

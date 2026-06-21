@@ -15,39 +15,40 @@
 
 	; tm/hm learnset
 	tmhm \
-	FURY_ATTACK,\ ; MUD BOMB
-	ICE_PUNCH,\ ; FROST FIST
-	FIRE_PUNCH,\ ; BLAZE HAMMER
+	FROST_FIST,\
+	MUD_BOMB,\
+	BLAZE_HAMMER,\
 	TOXIC,\
+	HONE_EDGE,\
 	BODY_SLAM,\
 	DISABLE,\
 	DOUBLE_EDGE,\
-	BUBBLEBEAM,\
-	AURORA_BEAM,\
+	AQUA_RING,\
 	ICE_BEAM,\
 	BLIZZARD,\
 	HYPER_BEAM,\
-	AMNESIA,\ ; CALM MIND
+	CALM_MIND,\
 	LOW_KICK,\
-	THUNDERPUNCH,\ ; ZAPPERCUT
-	ROLLING_KICK,\ ; METEOR SWEEP
+	ZAPPERCUT,\
+	METEOR_SWEEP,\
 	BARRIER,\
-	CRABHAMMER,\
+	RIPTIDE,\
 	DIG,\
 	PSYCHIC_M,\
 	MEGA_DRAIN,\
 	SWORDS_DANCE,\
 	REFLECT,\
-	BIDE,\ ; BULK UP
-	BARRAGE,\ ; SHADOW BALL
-	SLAM,\ ; WASTEMAKER
-	KARATE_CHOP,\
-	MEDITATE,\ ; VOID MIND
+	BULK_UP,\
+	SHADOW_BALL,\
+	TWISTER,\
+	DEMOLISH,\
+	VOID_MIND,\
 	LOVELY_KISS,\
+	BRAVE_BIRD,\
 	LIGHT_SCREEN,\
 	THUNDER_WAVE,\
-	PSYWAVE,\ ; SKITTERMIND
-	GLARE,\
+	SKITTERMIND,\
+	SHADOW_GAME,\
 	SUBSTITUTE,\
 	CUT,\
 	SURF,\
@@ -62,3 +63,27 @@
 
 	dw GolduckPicFrontAlt, GolduckPicBack
 
+; --- Sunsette SSOT directives (parsed by tools/gen_pokemon_data.py) ---
+;@ nature       NATURE_PLAYFUL NATURE_CALCULATING
+;@ pal_battle   PAL_CERULEAN
+;@ pal_altbattle PAL_KELPMON
+;@ pal_icon     PAL_ICON_30
+;@ pal_alticon  PAL_ICON_31
+;@ evo_move    NO_MOVE
+;@ evo_react   "It shakes its head" "clear and dives!"
+;@ evo_react   "It slices water" "with a clean dive!"
+;@ evo_react   "Eyes flare red," "mind sharpening!"
+;@ evo_react   "It glides ahead," "webbed feet kick!"
+;@ learn       10, CONFUSION
+;@ learn       13, SUPER_SOAK
+;@ learn       17, DISABLE
+;@ learn       20, DOUBLESLAP
+;@ learn       23, LOW_KICK
+;@ learn       27, RIPTIDE
+;@ learn       32, METRONOME
+;@ learn       34, SWIFT
+;@ learn       38, CALM_MIND
+;@ learn       44, PSYCHIC_M
+;@ learn       50, TELEPORT
+;@ learn       56, MOCKINGBIRD
+;@ learn       60, HYDRO_PUMP

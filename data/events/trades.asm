@@ -15,10 +15,10 @@ TradeMons:
 	npctrade ALAKAZAM,   MAGNETON,  TRADE_DIALOGSET_SPROCKET, "SPROCKET" ; cerulean city rocket house basement
 	npctrade PONYTA,     MACHOP,    TRADE_DIALOGSET_CASUAL_COLOR, "HulkSmash" ; cinnabar lab
 	npctrade ONIX,       GASTLY,    TRADE_DIALOGSET_HAPPY,  "Nebula" ; vermilion city
-	npctrade TAUROS,     LICKITUNG, TRADE_DIALOGSET_CASUAL_COLOR, "Saliva" ; route 18 
+	npctrade TAUROS,     LICKITUNG, TRADE_DIALOGSET_CASUAL_COLOR, "Saliva" ; route 18
 	npctrade PIDGEOTTO,  SEEL,      TRADE_DIALOGSET_EVOLUTION, "Slappy" ; cerulean city
 	npctrade KRABBY,     ZUBAT,     TRADE_DIALOGSET_EVOLUTION_COLOR, "EmeraldSDB" ; cinnabar lab
-	npctrade LAPRAS,     SNORLAX,   TRADE_DIALOGSET_HAPPY_COLOR,  "Fatso" ; cinnabar lab 
+	npctrade LAPRAS,     SNORLAX,   TRADE_DIALOGSET_HAPPY_COLOR,  "Fatso" ; cinnabar lab
 	npctrade VOLTORB,    TANGELA,   TRADE_DIALOGSET_HAPPY,  "Discombob" ; route 5
 	assert_table_length NUM_NPC_TRADES
 

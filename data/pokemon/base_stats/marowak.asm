@@ -15,39 +15,38 @@
 
 	; tm/hm learnset
 	tmhm \
-	FURY_ATTACK,\ ; MUD BOMB
-	SONICBOOM,\ ; ILL WIND
-	ICE_PUNCH,\ ; FROST FIST
+	ADAPTATION,\
+	FROST_FIST,\
+	MUD_BOMB,\
 	PIN_MISSILE,\
-	FIRE_PUNCH,\ ; BLAZE HAMMER
+	BLAZE_HAMMER,\
 	TOXIC,\
+	HONE_EDGE,\
 	BODY_SLAM,\
 	DISABLE,\
 	DOUBLE_EDGE,\
-	BUBBLEBEAM,\
-	AURORA_BEAM,\
 	ICE_BEAM,\
 	BLIZZARD,\
 	HYPER_BEAM,\
 	LOW_KICK,\
-	THUNDERPUNCH,\ ; ZAPPERCUT
-	ROLLING_KICK,\ ; METEOR SWEEP
+	ZAPPERCUT,\
+	METEOR_SWEEP,\
 	EARTHQUAKE,\
-	CRABHAMMER,\
 	DIG,\
-	KINESIS,\ ; MIRAGE
+	MIRAGE,\
 	SWORDS_DANCE,\
-	BIDE,\ ; BULK UP
-	BARRAGE,\ ; SHADOW BALL
+	BULK_UP,\
+	ILL_WIND,\
+	SHADOW_BALL,\
 	FIRE_BLAST,\
-	FLAMETHROWER,\
-	SLAM,\ ; WASTEMAKER
-	KARATE_CHOP,\
-	MEDITATE,\ ; VOID MIND
+	DEMOLISH,\
+	VOID_MIND,\
 	LIGHT_SCREEN,\
+	SHADOW_GAME,\
 	ROCK_SLIDE,\
-	GLARE,\
+	ROCK_ON,\
 	SUBSTITUTE,\
+	CLAY_ARMOR,\
 	CUT,\
 	STRENGTH
 	; end
@@ -59,3 +58,25 @@
 
 	dw 0, MarowakPicBack
 
+; --- Sunsette SSOT directives (parsed by tools/gen_pokemon_data.py) ---
+;@ nature       NATURE_MOROSE NATURE_RAGE
+;@ pal_battle   PAL_CLAYMON
+;@ pal_altbattle PAL_GHOSTMON
+;@ pal_icon     PAL_ICON_49
+;@ pal_alticon  PAL_ICON_50
+;@ evo_move    NO_MOVE
+;@ evo_react   "It raises its bone" "with a low wail."
+;@ evo_react   "It twirls its bone" "then strikes down!"
+;@ evo_react   "It taps its skull" "helm with a clack!"
+;@ evo_react   "It hurls the bone" "and snatches it!"
+;@ learn       14, FOCUS_ENERGY
+;@ learn       18, SCREECH
+;@ learn       22, LIGHT_SCREEN
+;@ learn       25, PHANTASM
+;@ learn       27, HEADBUTT
+;@ learn       30, DIG
+;@ learn       33, MACH_PUNCH
+;@ learn       36, SHADOW_BOX
+;@ learn       40, BONEMERANG
+;@ learn       45, METEOR_DRIVE
+;@ learn       50, COMBOBREAKER

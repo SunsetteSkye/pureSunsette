@@ -16,24 +16,23 @@ _PewterMartSuperNerdText::
 	cont "the weak ones!"
 	done
 
-_PewterMartTMKid::
-	text "Yo! There aren't"
-	line "any <TM>s here"
-	cont "either! Why are"
-	cont "MARTs so lame?"
+_PewterMartFreshWaterText::
+	text "Psst! FRESH WATER"
+	line "here, ¥200 a pop!"
 
-	para "I have to do"
-	line "something about"
-	cont "this. I hope they"
-	cont "don't mind having"
-	cont "some competition!"
+	para "How can you beat"
+	line "a ROCK gym LEADER"
+	cont "without FRESH"
+	cont "WATER?"
+	done
 
-	para "When me and dad"
-	line "hit next city,"
-	cont "my plan starts<...>"
+_PewterMartFreshWaterSoldOutText::
+	text "All sold out!"
 
-	para "I'll need a cool"
-	line "name too! Let's"
-	cont "see<...>the <TM> Kid?"
-	cont "No<...>not that<...>"
+	para "You've got the"
+	line "THUNDERBADGE now."
+
+	para "You don't need my"
+	line "FRESH WATER to"
+	cont "get by anymore!"
 	done

@@ -10,35 +10,33 @@
 	INCBIN "gfx/pokemon/front/shellder.pic", 0, 1 ; sprite dimensions
 	dw ShellderPicFront, ShellderPicBackSW
 
-	db TACKLE, WATER_GUN, NO_MOVE, NO_MOVE ; level 1 learnset (SUPER SOAK)
+	db TACKLE, SUPER_SOAK, NO_MOVE, NO_MOVE ; level 1 learnset
 	db GROWTH_MEDIUM_SLOW ; growth rate
 
 	; tm/hm learnset
 	tmhm \
-	FURY_ATTACK,\ ; MUD BOMB
-	DISABLE,\
+	MUD_BOMB,\
 	TOXIC,\
-	HORN_DRILL,\ ; VENOM DRILL
+	HONE_EDGE,\
 	BODY_SLAM,\
+	DISABLE,\
 	DOUBLE_EDGE,\
-	BUBBLEBEAM,\
-	AURORA_BEAM,\
+	AQUA_RING,\
 	ICE_BEAM,\
 	BLIZZARD,\
 	HYPER_BEAM,\
-	AMNESIA,\ ; CALM MIND
+	CALM_MIND,\
 	BARRIER,\
 	EARTHQUAKE,\
-	CRABHAMMER,\
+	RIPTIDE,\
 	DIG,\
 	REFLECT,\
-	BIDE,\ ; BULK UP
-	BARRAGE,\ ; SHADOW BALL
-	SLAM,\ ; WASTEMAKER
+	BULK_UP,\
+	SHADOW_BALL,\
+	TWISTER,\
 	LIGHT_SCREEN,\
-	SLUDGE,\ ; SLUDGE BOMB
+	SHADOW_GAME,\
 	ROCK_SLIDE,\
-	GLARE,\
 	SUBSTITUTE,\
 	SURF,\
 	STRENGTH,\
@@ -53,3 +51,20 @@
 
 	dw 0, ShellderPicBack
 
+; --- Sunsette SSOT directives (parsed by tools/gen_pokemon_data.py) ---
+;@ nature       NATURE_CAUTIOUS NATURE_CRUEL
+;@ pal_battle   PAL_LAVENDERMON
+;@ pal_altbattle PAL_IVORYMON
+;@ pal_icon     $FF
+;@ pal_alticon  $FF
+;@ evo         EVOLVE_ITEM, WATER_STONE, 1, CLOYSTER
+;@ evo_move    NO_MOVE
+;@ evo_react   NONE
+;@ learn       18, POWER_BIND
+;@ learn       23, SHELL_GAME
+;@ learn       28, AURORA_BEAM
+;@ learn       32, CLAMP
+;@ learn       36, UNDERBUG
+;@ learn       45, ICE_BEAM
+;@ learn       52, VENOM_DRILL
+;@ learn       56, SPIKE_CANNON

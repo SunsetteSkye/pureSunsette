@@ -1,6 +1,6 @@
-; PureRGBnote: ADDED: function that changed a pokemon in the party to a different pokemon. 
+; PureRGBnote: ADDED: function that changed a pokemon in the party to a different pokemon.
 ; Used with Armored Mewtwo, "Cursed" Haunter, and "Hardened" Onix
-; input: 
+; input:
 ; [wCurPartySpecies] = target pokemon species
 ; [wWhichPokemon] = which party pokemon to change
 

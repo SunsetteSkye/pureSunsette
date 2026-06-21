@@ -246,6 +246,11 @@ PalPacket_Black:          PAL_SET PAL_BLACK, PAL_BLACK, PAL_BLACK, PAL_BLACK
 PalPacket_TownMap:        PAL_SET PAL_TOWNMAP, 0, 0, 0
 PalPacket_Pokedex:        PAL_SET PAL_FUCHSIA, 0, 0, 0
 PalPacket_Slots:          PAL_SET PAL_SLOTS1, PAL_SLOTS2, PAL_SLOTS3, PAL_SLOTS4
+; Sunsette: Surfing Pikachu minigame ("Pikachu's Beach"). The minigame draws its BG with rBGP
+; on slot 0 only, so slot 0 = ocean blue (PAL_BLUEMON: white/blue/deep-blue/black). The Pikachu
+; sprite's OBJ palettes pull from slots 1-3: yellow body (PAL_YELLOWMON) + a light-cyan board/foam
+; accent (PAL_CYANMON). Paired with BlkPacket_WholeScreen so the whole sea is slot 0.
+PalPacket_SurfingPikachu: PAL_SET PAL_BLUEMON, PAL_YELLOWMON, PAL_YELLOWMON, PAL_CYANMON
 PalPacket_Titlescreen:    PAL_SET PAL_TITLELOGO, PAL_LOGO1, PAL_MEWMON, PAL_PLAYER ; Sunsette: brighter LOGO2 slot, keep LOGO1, player (slot 3) = PAL_PLAYER
 IF DEF(_RED)
 PalPacket_PureTitlescreen_SGB:    PAL_SET PAL_LOGO2, PAL_LOGO1, PAL_REDMON, PAL_MEWMON

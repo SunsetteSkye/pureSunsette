@@ -1,6 +1,6 @@
 	db DEX_BEEDRILL ; pokedex id
 
-	db  70,  92,  75,  95,  50
+	db  60,  80,  40, 135,  60
 	;   hp  atk  def  spd  spc
 
 	db BUG, POISON ; type
@@ -14,32 +14,31 @@
 	db GROWTH_MEDIUM_FAST ; growth rate
 
 	tmhm \
-	FURY_ATTACK,\ ; MUD BOMB
-	SONICBOOM,\ ; ILL WIND
-	RAZOR_WIND,\ ; ROOST
+	ADAPTATION,\
+	ROOST,\
+	MUD_BOMB,\
 	PIN_MISSILE,\
 	TOXIC,\
-	HORN_DRILL,\ ; VENOM DRILL
+	HONE_EDGE,\
 	DISABLE,\
 	DOUBLE_EDGE,\
 	HYPER_BEAM,\
-	AMNESIA,\ ; CALM MIND
+	CALM_MIND,\
 	BARRIER,\
-	SOLARBEAM,\ ; SOLARBEAM
-	CRABHAMMER,\
+	SOLARBEAM,\ 
 	MEGA_DRAIN,\
 	SWORDS_DANCE,\
 	REFLECT,\
-	BIDE,\ ; BULK UP
-	BARRAGE,\ ; SHADOW BALL
-	SLAM,\ ; WASTEMAKER
-	KARATE_CHOP,\
-	SKY_ATTACK,\ ; BRAVE BIRD
+	BULK_UP,\
+	ILL_WIND,\
+	SHADOW_BALL,\
+	DEMOLISH,\
 	LIGHT_SCREEN,\
 	THUNDER_WAVE,\
-	SLUDGE,\ ; SLUDGE BOMB
-	GLARE,\
+	SHADOW_GAME,\
+	ROCK_ON,\
 	SUBSTITUTE,\
+	CLAY_ARMOR,\
 	CUT,\
 	FLY
 	; end
@@ -51,3 +50,26 @@
 	db BANK(BeedrillPicBackSW)
 
 	dw 0, BeedrillPicBack
+
+; --- Sunsette SSOT directives (parsed by tools/gen_pokemon_data.py) ---
+;@ nature       NATURE_RAGE NATURE_SCRAPPY
+;@ pal_battle   PAL_SAFFRON
+;@ pal_altbattle PAL_GREENBAR
+;@ pal_icon     $FF
+;@ pal_alticon  $FF
+;@ evo_move    NO_MOVE
+;@ evo_react   "Wow, and it's" "already out of" "sight! Let's go!"
+;@ evo_react   "Stingers gleam," "sharp and ready!"
+;@ evo_react   "Wings buzz fast" "in an angry blur!"
+;@ evo_react   "It darts in," "lances flashing!"
+;@ learn       10, PIN_MISSILE
+;@ learn       10, SUPERSONIC
+;@ learn       14, FOCUS_ENERGY
+;@ learn       17, ILL_WIND
+;@ learn       22, BLOOD_RUSH
+;@ learn       25, OUTRAGE
+;@ learn       30, AGILITY
+;@ learn       35, TWINEEDLE
+;@ learn       40, AIR_DRILL
+;@ learn       47, VENOM_DRILL
+;@ learn       50, CRYSTALLIZE

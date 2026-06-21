@@ -70,6 +70,7 @@ VermilionGymLTSurgeReceiveTM24Script:
 .gym_victory
 	ld hl, wObtainedBadges
 	set BIT_THUNDERBADGE, [hl]
+	call BadgeMonCry ; Sunsette: lead mon cries when the badge is earned
 
 	; deactivate gym trainers
 	SetEventRange EVENT_BEAT_VERMILION_GYM_TRAINER_0, EVENT_BEAT_VERMILION_GYM_TRAINER_2
@@ -133,6 +134,7 @@ VermilionGymLTSurgeText:
 	call InitBattleEnemyParameters
 	ld a, $3
 	ld [wGymLeaderNo], a
+	call ApplyGymLeaderBadgeTier ; Sunsette: badge count picks the leader's party tier
 	xor a
 	ldh [hJoyHeld], a
 	ld a, SCRIPT_VERMILIONGYM_LT_SURGE_AFTER_BATTLE
@@ -261,54 +263,33 @@ VermilionGymSuperNerdEndBattleText:
 	text_far _VermilionGymSuperNerdEndBattleText
 	text_end
 
-VermilionGymGymGuideText: ; PureRGBnote: ADDED: gym guide gives you apex chips after beating the leader
+VermilionGymGymGuideText: ; Sunsette: post-badge, the gym guide sells a spare copy of SURGE's TM (THUNDERBOLT) at the normal MART price
 	text_asm
 	ld a, [wObtainedBadges]
 	bit BIT_THUNDERBADGE, a
+	jr nz, .afterBeat
 	ld hl, VermilionGymGuideChampInMakingText
-	jr z, .printDone
-.afterBeat
-	CheckEvent EVENT_GOT_PEWTER_APEX_CHIPS ; have to hear about apex chips to receive them after that
-	ld hl, VermilionGymGuidePostBattleText
-	jr z, .printDone
-	rst _PrintText
-	call DisplayTextPromptButton
-	CheckEvent EVENT_GOT_VERMILION_APEX_CHIPS
-	jr nz, .alreadyApexChips
-.giveApexChips
-	ld hl, GymGuideMoreApexChipText3
-	rst _PrintText
-	lb bc, APEX_CHIP, 2
-	call GiveItem
-	ld hl, ApexNoRoomText3
-	jr nc, .printDone
-	ld hl, ReceivedApexChipsText3
-	rst _PrintText
-	ld hl, VermilionGymGuideApexChipElectricText
-	rst _PrintText
-	SetEvent EVENT_GOT_VERMILION_APEX_CHIPS
-.alreadyApexChips
-	ld hl, AlreadyReceivedApexChipsText3
-.printDone
 	rst _PrintText
 	rst TextScriptEnd
+.afterBeat
+	ld hl, VermilionGymGuidePostBattleText
+	rst _PrintText
+	ld hl, wObtainedBadges ; Sunsette: badge-count-gated extra TMs (3 badges, then 6)
+	ld b, 1
+	call CountSetBits
+	ld a, [wNumSetBits]
+	cp 6
+	ld hl, VermilionGymGuideTMShop6
+	jr nc, .tmShopReady
+	cp 3
+	ld hl, VermilionGymGuideTMShop3
+	jr nc, .tmShopReady
+	ld hl, VermilionGymGuideTMShop1
+.tmShopReady
+	call DisplayPokemartNoGreeting
+	rst TextScriptEnd
 
-ReceivedApexChipsText3:
-	text_far _ReceivedApexChipsText
-	sound_get_item_1
-	text_end
-
-ApexNoRoomText3:
-	text_far _PewterGymTM34NoRoomText
-	text_end
-
-GymGuideMoreApexChipText3:
-	text_far _GymGuideMoreApexChipText
-	text_end
-
-AlreadyReceivedApexChipsText3:
-	text_far _AlreadyReceivedApexChipsText
-	text_end
+INCLUDE "data/items/marts/vermilion_gym_guide.asm"
 
 VermilionGymGuideChampInMakingText:
 	text_far _GymGuideChampInMakingText
@@ -317,10 +298,6 @@ VermilionGymGuideChampInMakingText:
 
 VermilionGymGuidePostBattleText:
 	text_far _VermilionGymGymGuideBeatLTSurgeText
-	text_end
-
-VermilionGymGuideApexChipElectricText:
-	text_far _VermilionGymGuideApexChipElectricText
 	text_end
 
 ; PureRGBnote: ADDED: text entries for the garbage can and bookcase near surge for some flavour

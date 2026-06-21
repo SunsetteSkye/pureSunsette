@@ -10,28 +10,30 @@
 	INCBIN "gfx/pokemon/front/growlithe.pic", 0, 1 ; sprite dimensions
 	dw GrowlithePicFront, GrowlithePicBackSW
 
-	db BITE, ROAR, NO_MOVE, NO_MOVE ; level 1 learnset (BELLOW)
+	db BITE, BELLOW, NO_MOVE, NO_MOVE ; level 1 learnset
 	db GROWTH_MEDIUM_SLOW ; growth rate
 
 	; tm/hm learnset
 	tmhm \
-	FURY_ATTACK,\ ; MUD BOMB
+	ADAPTATION,\
+	MUD_BOMB,\
 	TOXIC,\
 	BODY_SLAM,\
 	DISABLE,\
 	DOUBLE_EDGE,\
-	ROLLING_KICK,\ ; METEOR SWEEP
-	SOLARBEAM,\ ; SOLARBEAM
-	DRAGON_RAGE,\ ; WYRM WRATH
+	METEOR_SWEEP,\
+	SOLARBEAM,\ 
+	WYRM_WRATH,\
 	DIG,\
-	KINESIS,\ ; MIRAGE
+	MIRAGE,\
 	REFLECT,\
-	BIDE,\ ; BULK UP
-	BARRAGE,\ ; SHADOW BALL
+	BULK_UP,\
+	SHADOW_BALL,\
+	SUPERNOVA,\
 	FIRE_BLAST,\
-	FLAMETHROWER,\
+	TWISTER,\
 	LIGHT_SCREEN,\
-	GLARE,\
+	ROCK_ON,\
 	SUBSTITUTE,\
 	CUT,\
 	STRENGTH,\
@@ -46,3 +48,23 @@
 
 	dw 0, GrowlithePicBack
 
+; --- Sunsette SSOT directives (parsed by tools/gen_pokemon_data.py) ---
+;@ nature       NATURE_CONSIDERATE NATURE_ARROGANT
+;@ pal_battle   PAL_GOLDMON
+;@ pal_altbattle PAL_REDBAR
+;@ pal_icon     PAL_ICON_32
+;@ pal_alticon  PAL_ICON_33
+;@ evo         EVOLVE_ITEM, FIRE_STONE, 1, ARCANINE
+;@ evo_move    NO_MOVE
+;@ evo_react   NONE
+;@ learn       7, BITE
+;@ learn       10, LICK
+;@ learn       15, EMBER
+;@ learn       19, BELLOW
+;@ learn       23, BLITZ_STRIKE
+;@ learn       28, HEAT_RUSH
+;@ learn       31, AGILITY
+;@ learn       36, FLAMETHROWER
+;@ learn       45, DOUBLE_EDGE
+;@ learn       52, BONEMERANG
+;@ learn       59, FIRE_BLAST

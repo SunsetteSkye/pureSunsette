@@ -13,7 +13,7 @@ FieldMoveNames:
 	db "FLAMETHROWER@"
 	db "SAND-ATTACK@" ; DEAD (field move removed; left to keep index alignment)
 	db "MIST@" ; ETHEREAL
-	db "HAZE@" ; BLACK HAZE
+	db "SHADOW GAME@"
 	db "SMOKESCREEN@"
 	db "POISONPOWDER@"
 	db "SLEEP POWDER@"

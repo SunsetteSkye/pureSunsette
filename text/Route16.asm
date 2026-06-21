@@ -44,20 +44,20 @@ _Route16Biker3AfterBattleText::
 	done
 
 _Route16biker4BattleText::
-	text "Hey, you just"
-	line "bumped me!"
+	text "Watch the boots,"
+	line "brat. They cost"
+	cont "more than you."
 	done
 
 _Route16Biker4EndBattleText::
-	text "Kaboom!"
+	text "Hiss!"
+	line "My nails!"
 	prompt
 
 _Route16Biker4AfterBattleText::
-	text "You can also get"
-	line "to FUCHSIA from"
-	cont "VERMILION using"
-	cont "the coastal road"
-	cont "east of ROUTE 11."
+	text "My PERSIAN only"
+	line "scratches up"
+	cont "trash like you."
 	done
 
 _Route16Biker5BattleText::

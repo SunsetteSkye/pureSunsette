@@ -235,19 +235,45 @@ SilphCo11TrainerHeader1:
 	trainer EVENT_BEAT_SILPH_CO_11F_TRAINER_1, 3, SilphCo11FRocket2BattleText, SilphCo11FRocket2EndBattleText, SilphCo11FRocket2AfterBattleText
 	db -1 ; end
 
-SilphCo11FSilphPresidentText:
+SilphCo11FSilphPresidentText: ; Sunsette: gives MASTER BALL + 3 APEX CHIPs; post-E4 he sells APEX CHIPs
 	text_asm
 	CheckEvent EVENT_GOT_MASTER_BALL
-	ld hl, .MasterBallDescriptionText
-	jp nz, .printDone
+	jp nz, .afterGift
+; first meeting: hand over the MASTER BALL and three APEX CHIPs, explaining both
 	ld hl, .Text
 	rst _PrintText
 	lb bc, ITEM_SILPH_CO_PRESIDENT_REWARD, 1
 	call GiveItem
 	ld hl, .NoRoomText
-	jr nc, .printDone
+	jp nc, .printDone
 	SetEvent EVENT_GOT_MASTER_BALL
-	ld hl, .ReceivedMasterBallText
+	ld hl, .ReceivedMasterBallText ; got MB + fanfare + MASTER BALL description
+	rst _PrintText
+	lb bc, APEX_CHIP, 3
+	call GiveItem
+	ld hl, .NoRoomText
+	jp nc, .printDone
+	ld hl, .ReceivedApexChipsText ; got 3 chips + fanfare + APEX CHIP explanation
+	jp .printDone
+.afterGift
+	CheckEvent EVENT_BECAME_CHAMP
+	jr z, .notChamp
+; after the Elite Four: one-time approval line, then always open the APEX CHIP shop
+	CheckEvent EVENT_PRESIDENT_SHOWED_APEX_CHIPS
+	jr nz, .championGreet
+	SetEvent EVENT_PRESIDENT_SHOWED_APEX_CHIPS
+	ld hl, .ApexApprovedText
+	rst _PrintText
+	jr .openShop
+.championGreet
+	ld hl, .ChampionGreetingText
+	rst _PrintText
+.openShop
+	ld hl, SilphCo11FPresidentApexShop
+	call DisplayPokemartNoGreeting
+	rst TextScriptEnd
+.notChamp
+	ld hl, .MasterBallDescriptionText
 .printDone
 	rst _PrintText
 	rst TextScriptEnd
@@ -259,15 +285,32 @@ SilphCo11FSilphPresidentText:
 .ReceivedMasterBallText:
 	text_far _SilphCo11FSilphPresidentReceivedMasterBallText
 	sound_get_key_item
+	text_far _SilphCo11FSilphPresidentMasterBallDescriptionText
 	text_end
 
 .MasterBallDescriptionText:
 	text_far _SilphCo11FSilphPresidentMasterBallDescriptionText
 	text_end
 
+.ReceivedApexChipsText:
+	text_far _SilphCo11FSilphPresidentReceivedApexChipsText
+	sound_get_item_1
+	text_far _SilphCo11FSilphPresidentApexExplanationText
+	text_end
+
+.ApexApprovedText:
+	text_far _SilphCo11FSilphPresidentApexApprovedText
+	text_end
+
+.ChampionGreetingText:
+	text_far _SilphCo11FSilphPresidentChampionGreetingText
+	text_end
+
 .NoRoomText:
 	text_far _SilphCo11FSilphPresidentNoRoomText
 	text_end
+
+INCLUDE "data/items/marts/silph_president.asm"
 
 SilphCo11FBeautyText:
 	text_far _SilphCo11FBeautyText

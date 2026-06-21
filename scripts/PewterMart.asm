@@ -18,30 +18,30 @@ PewterMartYoungsterText:
 	text_far _PewterMartYoungsterText
 	text_end
 	
-PewterMartTMKid: ; PureRGBnote: ADDED: new NPC who will talk about selling TMs
+PewterMartTMKid: ; Sunsette: was the TM Kid; now a kid selling FRESH WATER as a leg up vs BROCK, until you earn the THUNDERBADGE (then "sold out")
 	text_asm
-	CheckEvent EVENT_BEAT_MISTY
-	ld hl, .Text
-	jr z, .printDone
-.afterMisty
-	ld hl, .Text3
+	ld a, [wObtainedBadges]
+	bit BIT_THUNDERBADGE, a
+	jr nz, .soldOut
+	ld hl, .FreshWaterText
 	rst _PrintText
-	ld hl, .Text2
-.printDone
+	ld hl, PewterMartFreshWaterShop
+	call DisplayPokemartNoGreeting
+	rst TextScriptEnd
+.soldOut
+	ld hl, .SoldOutText
 	rst _PrintText
 	rst TextScriptEnd
 
-.Text
-	text_far _PewterMartTMKid
+.FreshWaterText
+	text_far _PewterMartFreshWaterText
 	text_end
 
-.Text2
-	text_far _TMKidStockingUp
+.SoldOutText
+	text_far _PewterMartFreshWaterSoldOutText
 	text_end
 
-.Text3
-	text_far _TMKidGreet
-	text_end
+INCLUDE "data/items/marts/pewter_fresh_water.asm"
 
 PewterMartSuperNerdText:
 	text_asm

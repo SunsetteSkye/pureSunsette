@@ -141,6 +141,8 @@ MewtwoPostBattle:
 	SetEvent EVENT_BEAT_MEWTWO
 	ld c, TOGGLE_MEWTWO
 	call HideObject
+	ld a, NRLEG_MEWTWO ; Sunsette: legendary reaction (defeat or capture)
+	farcall ShowLegendaryReaction
 CeruleanCaveB1FResetScript:
 	ld a, SCRIPT_CERULEANCAVEB1F_DEFAULT
 	ld [wCeruleanCaveB1FCurScript], a

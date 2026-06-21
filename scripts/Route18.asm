@@ -2,6 +2,7 @@
 
 Route18_Script:
 	call EnableAutoTextBoxDrawing
+	farcall TryCyclingFlyReaction
 	ld hl, Route18TrainerHeaders
 	ld de, Route18_ScriptPointers
 	ld a, [wRoute18CurScript]

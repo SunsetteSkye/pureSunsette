@@ -66,7 +66,7 @@ CheckForceTalkToEntranceRocket:
 	ld [wPlayerMovingDirection], a
 	ld a, TEXT_SILPHCO1F_ROCKET1
 	ldh [hTextID], a
-	; force talking to 
+	; force talking to
 	jp DisplayTextID
 
 

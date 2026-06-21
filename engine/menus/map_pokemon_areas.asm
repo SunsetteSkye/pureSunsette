@@ -140,7 +140,7 @@ DrawMonAreaButtonPrompt:
 	ld [hl], $D1 ; right prompt
 	ret
 
-; draw prompt of tile length b starting at tile a at coord hl 
+; draw prompt of tile length b starting at tile a at coord hl
 DrawPrompt:
 .loop
 	ld [hli], a

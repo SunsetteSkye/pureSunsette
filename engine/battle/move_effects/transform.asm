@@ -74,7 +74,7 @@ TransformEffect_:
 	ld a, [hli]
 	ld [de], a
 	inc de
-; skip catch rate as it's now a flag marker for the pokemon and should stay the same (potentially affects palette color)	
+; skip catch rate as it's now a flag marker for the pokemon and should stay the same (potentially affects palette color)
 	inc hl 
 	inc de
 ; moves - copy bc (4) bytes from hl to de

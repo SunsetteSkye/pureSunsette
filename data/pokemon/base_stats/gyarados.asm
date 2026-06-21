@@ -15,28 +15,26 @@
 
 	; tm/hm learnset
 	tmhm \
-	DISABLE,\
-	SONICBOOM,\ ; ILL WIND
 	TOXIC,\
 	BODY_SLAM,\
+	DISABLE,\
 	DOUBLE_EDGE,\
-	BUBBLEBEAM,\
-	AURORA_BEAM,\
+	AQUA_RING,\
 	ICE_BEAM,\
 	BLIZZARD,\
 	HYPER_BEAM,\
-	DRAGON_RAGE,\ ; WYRM WRATH
+	WYRM_WRATH,\
 	THUNDERBOLT,\
 	THUNDER,\
 	EARTHQUAKE,\
-	KINESIS,\ ; MIRAGE
+	RIPTIDE,\
+	MIRAGE,\
 	REFLECT,\
-	BIDE,\ ; BULK UP
-	BARRAGE,\ ; SHADOW BALL
+	BULK_UP,\
+	ILL_WIND,\
+	SHADOW_BALL,\
 	FIRE_BLAST,\
-	FLAMETHROWER,\
-	SLAM,\ ; WASTEMAKER
-	GLARE,\
+	TWISTER,\
 	SUBSTITUTE,\
 	SURF,\
 	STRENGTH,\
@@ -51,3 +49,26 @@
 
 	dw 0, GyaradosPicBack
 
+; --- Sunsette SSOT directives (parsed by tools/gen_pokemon_data.py) ---
+;@ nature       NATURE_RAGE NATURE_CRUEL
+;@ pal_battle   PAL_CERULEAN
+;@ pal_altbattle PAL_EMBERMON
+;@ pal_icon     PAL_ICON_68
+;@ pal_alticon  PAL_ICON_04
+;@ evo_move    NO_MOVE
+;@ evo_react   "Its eyes glint" "wildly at yours."
+;@ evo_react   "It rears up with" "a deafening roar!"
+;@ evo_react   "It coils high," "jaws snapping!"
+;@ evo_react   "It thrashes, waves" "crashing wild!"
+;@ learn       EVOLVE_LEVEL, 30, GYARADOS
+;@ learn       15, TACKLE
+;@ learn       20, BITE
+;@ learn       25, LEER
+;@ learn       30, BELLOW
+;@ learn       35, BLOOD_RUSH
+;@ learn       40, RIPTIDE
+;@ learn       45, LEAP_ATTACK
+;@ learn       50, OUTRAGE
+;@ learn       55, DOUBLE_EDGE
+;@ learn       60, HYDRO_PUMP
+;@ learn       65, HYPER_BEAM

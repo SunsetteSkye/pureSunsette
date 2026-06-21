@@ -19,6 +19,7 @@ PCCharText::      db "PC@"
 
 SECTION "Home", ROM0
 
+INCLUDE "home/lcdc.asm" ; PureRGBnote: ADDED: Surfing Pikachu wave HBlank handler + relocated BoulderText
 INCLUDE "home/start.asm"
 INCLUDE "home/joypad.asm"
 

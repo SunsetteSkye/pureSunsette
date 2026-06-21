@@ -99,3 +99,7 @@ Volcano_Coll::
 
 Reactor_Coll::
 	coll_tiles $01, $10, $13, $2F, $30, $3D, $42, $43, $52, $55, $56, $59, $5A
+
+; Sunsette: Summer Beach House interior (ported from pokeyellow). Walkable tiles.
+BeachHouse_Coll::
+	coll_tiles $01, $11, $12, $14

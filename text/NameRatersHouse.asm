@@ -52,7 +52,7 @@ _NameRatersHouseNameRaterComeAnyTimeYouLikeText::
 ;	text ", is it?"
 ;	line "That is a truly"
 ;	cont "impeccable name!"
-;
+
 ;	para "Take good care of"
 ;	line "@"
 ;	text_ram_namebuffer

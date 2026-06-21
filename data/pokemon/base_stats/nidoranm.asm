@@ -15,30 +15,30 @@
 
 	; tm/hm learnset
 	tmhm \
-	FURY_ATTACK,\ ; MUD BOMB
-	SONICBOOM,\ ; ILL WIND
+	ADAPTATION,\
+	MUD_BOMB,\
 	PIN_MISSILE,\
 	TOXIC,\
-	HORN_DRILL,\ ; VENOM DRILL
+	HONE_EDGE,\
 	BODY_SLAM,\
 	DISABLE,\
 	DOUBLE_EDGE,\
 	ICE_BEAM,\
 	BLIZZARD,\
-	ROLLING_KICK,\ ; METEOR SWEEP
+	METEOR_SWEEP,\
 	BARRIER,\
 	THUNDERBOLT,\
 	THUNDER,\
 	DIG,\
 	REFLECT,\
-	BIDE,\ ; BULK UP
-	BARRAGE,\ ; SHADOW BALL
-	SLAM,\ ; WASTEMAKER
-	KARATE_CHOP,\
+	BULK_UP,\
+	ILL_WIND,\
+	SHADOW_BALL,\
+	DEMOLISH,\
 	LIGHT_SCREEN,\
-	SLUDGE,\ ; SLUDGE BOMB
-	GLARE,\
+	SHADOW_GAME,\
 	SUBSTITUTE,\
+	CLAY_ARMOR,\
 	CUT
 	; end
 
@@ -50,3 +50,23 @@
 
 	dw 0, NidoranMPicBack
 
+; --- Sunsette SSOT directives (parsed by tools/gen_pokemon_data.py) ---
+;@ nature       NATURE_SCRAPPY NATURE_RAGE
+;@ pal_battle   PAL_NIDOMASC
+;@ pal_altbattle PAL_GREENBAR
+;@ pal_icon     PAL_ICON_21
+;@ pal_alticon  PAL_ICON_22
+;@ evo         EVOLVE_LEVEL, 16, NIDORINO
+;@ evo_move    NO_MOVE
+;@ evo_react   NONE
+;@ learn       8, POISON_STING
+;@ learn       12, DOUBLE_KICK
+;@ learn       16, SAND_ATTACK
+;@ learn       20, MUD_BOMB
+;@ learn       25, METEOR_HORN
+;@ learn       30, STOMP
+;@ learn       35, FOCUS_ENERGY
+;@ learn       40, EARTHQUAKE
+;@ learn       46, REST
+;@ learn       52, VENOM_DRILL
+;@ learn       58, PISTON_KICK

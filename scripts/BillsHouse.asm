@@ -4,6 +4,11 @@
 BillsHouse_Script:
 	call BillsHouseAddDoors
 	call EnableAutoTextBoxDrawing
+	CheckEvent EVENT_REACTED_BILLS_COTTAGE
+	jr nz, .skipReaction
+	SetEvent EVENT_REACTED_BILLS_COTTAGE ; consumed on first entry, psychic or not
+	farcall ShowBillPsychicReaction
+.skipReaction
 	ld a, [wBillsHouseCurScript]
 	ld hl, BillsHouse_ScriptPointers
 	jp CallFunctionInTable
@@ -16,7 +21,7 @@ BillsHouseAddDoors:
 	ret z
 	ld de, BillsHouseTileBlockReplacements
 	callfar ReplaceMultipleTileBlocks
-	; if the player's standing on y-coordinate 0 on loading the map, it means they entered from the top. 
+	; if the player's standing on y-coordinate 0 on loading the map, it means they entered from the top.
 	; They need to be forced to walk out from the doorway. It doesn't work the normal way because of the tile blocks still needing to be replaced.
 	ld a, [wYCoord] 
 	and a

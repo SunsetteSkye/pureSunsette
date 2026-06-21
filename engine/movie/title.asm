@@ -201,7 +201,7 @@ IF DEF(_BLUE)
 	ld a, BLASTOISE
 .gotFirstMon
 ENDC
-IF DEF(_GREEN) ; PureRGBnote: GREENBUILD: 
+IF DEF(_GREEN) ; PureRGBnote: GREENBUILD:
 	ld a, STARTER3
 	jr z, .gotFirstMon
 	ld a, VENUSAUR
@@ -223,7 +223,7 @@ ENDC
 	call GBPalNormal
 	ld a, %11100100
 	ldh [rOBP0], a
-	call UpdateGBCPal_OBP0 ; shinpokerednote: gbcnote: gbc color code from yellow 
+	call UpdateGBCPal_OBP0 ; shinpokerednote: gbcnote: gbc color code from yellow
 
 	push de
 	lb de, CONVERT_BGP, 2
@@ -392,7 +392,7 @@ ENDC
 	ld a, HIGH(vBGMap1)
 	call TitleScreenCopyTileMapToVRAM
 	call Delay3
-;;;;;;; PureRGBnote: FIXED: Prevents colors in the main menu from getting dark if player saved in a dark area 
+;;;;;;; PureRGBnote: FIXED: Prevents colors in the main menu from getting dark if player saved in a dark area
 ;;;;;;; (rock tunnel) and went from title to continue screen twice
 	call GBPalNormal
 ;;;;;;;
@@ -439,7 +439,7 @@ TitleScreenScrollInMon:
 ; shinpokerednote: gbcnote: The window normally covers the whole screen when picking a new title screen mon.
 ;This is not desired since it applies BG pal 2 to the whole screen when on a gbc.
 ;Instead, shift the window downwards by 40 tiles to just cover the version text and below.
-;This makes it so the map attributes for BGMap1 (address $9c00) are covering the bottom half 
+;This makes it so the map attributes for BGMap1 (address $9c00) are covering the bottom half
 ;of the screen.
 	ld a, $40
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

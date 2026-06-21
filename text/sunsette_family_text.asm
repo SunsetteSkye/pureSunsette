@@ -89,6 +89,14 @@ _MomChampionGiftText::
 	para "We thought it'd"
 	line "make a nice gift"
 	cont "for the occasion!"
+
+	para "By the way, I"
+	line "heard the Company"
+	cont "PRESIDENT wants"
+	cont "to see you."
+
+	para "I wonder what"
+	line "that's about?"
 	done
 
 ; MOM's one-time acknowledgments for the badges she doesn't gift for (no item)

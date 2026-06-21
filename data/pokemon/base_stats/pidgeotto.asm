@@ -15,27 +15,30 @@
 
 	; tm/hm learnset
 	tmhm \
-	FURY_ATTACK,\ ; MUD BOMB
-	DISABLE,\
-	SONICBOOM,\ ; ILL WIND
-	RAZOR_WIND,\ ; ROOST
+	ROOST,\
+	MUD_BOMB,\
 	PIN_MISSILE,\
 	TOXIC,\
+	HONE_EDGE,\
+	DISABLE,\
 	DOUBLE_EDGE,\
-	DRAGON_RAGE,\ ; WYRM WRATH
+	AURORA_MIST,\
 	BARRIER,\
-	RAZOR_LEAF,\
+	ADAPTATION,\
+	WYRM_WRATH,\
 	THUNDERBOLT,\
 	THUNDER,\
+	MIRAGE,\
 	SWORDS_DANCE,\
-	KINESIS,\ ; MIRAGE
 	REFLECT,\
-	BIDE,\ ; BULK UP
-	BARRAGE,\ ; SHADOW BALL
-	SLAM,\ ; WASTEMAKER
-	SKY_ATTACK,\ ; BRAVE BIRD
+	BULK_UP,\
+	ILL_WIND,\
+	SHADOW_BALL,\
+	TWISTER,\
+	DEMOLISH,\
+	BRAVE_BIRD,\
 	LIGHT_SCREEN,\
-	GLARE,\
+	SHADOW_GAME,\
 	SUBSTITUTE,\
 	CUT,\
 	FLY,\
@@ -49,3 +52,27 @@
 
 	dw PidgeottoPicFrontAlt, PidgeottoPicBack
 
+; --- Sunsette SSOT directives (parsed by tools/gen_pokemon_data.py) ---
+;@ nature       NATURE_SCRAPPY NATURE_ARROGANT
+;@ pal_battle   PAL_BROWNMON2
+;@ pal_altbattle PAL_BROWNGOLDMON
+;@ pal_icon     PAL_ICON_10
+;@ pal_alticon  PAL_ICON_11
+;@ evo         EVOLVE_LEVEL, 48, PIDGEOT
+;@ evo_move    NO_MOVE
+;@ evo_react   "It flares its" "wings and shrieks!"
+;@ evo_react   "It beats its wings" "into a gale!"
+;@ evo_react   "It tilts its head," "eyes razor sharp!"
+;@ evo_react   "It springs aloft" "with a cry!"
+;@ learn       6, GUST
+;@ learn       9, SAND_ATTACK
+;@ learn       14, AGILITY
+;@ learn       17, SWIFT
+;@ learn       23, WING_ATTACK
+;@ learn       28, RAZOR_LEAF
+;@ learn       32, BLITZ_STRIKE
+;@ learn       35, HONE_EDGE
+;@ learn       41, HURRICANE
+;@ learn       48, SENBONZAKURA
+;@ learn       54, DOUBLE_EDGE
+;@ learn       60, MOCKINGBIRD

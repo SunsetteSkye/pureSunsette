@@ -186,6 +186,9 @@ INCLUDE "text/PokemonTower1F.asm"
 INCLUDE "text/PokemonTower2F.asm"
 INCLUDE "text/PokemonTower3F.asm"
 INCLUDE "text/PokemonTower4F.asm"
+
+; Sunsette: floated the upper Pokemon Tower floors out of "Text 7" (overflowed the full bank).
+SECTION "Sunsette Pokemon Tower Text", ROMX
 INCLUDE "text/PokemonTower5F.asm"
 INCLUDE "text/PokemonTower6F.asm"
 INCLUDE "text/PokemonTower7F.asm"
@@ -341,3 +344,24 @@ INCLUDE "data/moves/names.asm"
 SECTION "Movedex Text", ROMX
 
 INCLUDE "data/moves/movedex_text.asm"
+
+; Sunsette: Summer Beach House (Surfing Pikachu minigame) dialogue. Floating section because the
+; older Text banks are full; text_far pointers are bank-agnostic so it can live anywhere.
+SECTION "Sunsette Summer Beach House Text", ROMX
+
+INCLUDE "text/SummerBeachHouse.asm"
+
+; Sunsette: floating section for gym-leader repeat-visit flavor that overflowed the older Text banks.
+SECTION "Sunsette Gym Repeat Text", ROMX
+
+INCLUDE "text/sunsette_gym_repeat_text.asm"
+
+; Sunsette: floating section for the Viridian blackboard SLEEP entry (its original Text bank was full).
+SECTION "Sunsette Blackboard Text", ROMX
+
+INCLUDE "data/text/sunsette_blackboard_text.asm"
+
+; Sunsette: floating section for the repurposed Fighting Dojo crit-hit scrolls (numbered text banks full).
+SECTION "Sunsette Dojo Text", ROMX
+
+INCLUDE "data/text/sunsette_dojo_text.asm"

@@ -57,10 +57,10 @@ _CopyCatsHouse2FCopycatDittoText::
 
 ;_CopycatsHouse2FCopycatTM31Explanation1Text::
 ;	text_start
-;
+
 ;	para "TM31 contains my"
 ;	line "favorite, MIMIC!"
-;
+
 ;	para "Use it on a good"
 ;	line "#MON!@"
 ;	text_end

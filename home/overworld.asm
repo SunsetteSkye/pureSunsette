@@ -25,6 +25,9 @@ EnterMap::
 	farcall CheckForceBikeOrSurf ; handle currents in SF islands and forced bike riding in cycling road
 	call UpdateSprites
 	call EnableAllJoypad
+	; Sunsette: fire the FLY/DIG/TELEPORT destination nature reaction (no-op unless one was armed).
+	; Placed after the map is fully loaded and joypad re-enabled so the text wait can read input.
+	farcall FireDeferredNatureReaction
 
 OverworldLoop::
 	rst _DelayFrame
@@ -377,7 +380,7 @@ BattleOccurred::
 	ld hl, wCurrentMapScriptFlags
 	set BIT_CUR_MAP_LOADED_1, [hl]
 	set BIT_CUR_MAP_LOADED_2, [hl]
-	set BIT_MAP_LOADED_AFTER_BATTLE, [hl] ; PureRGBnote: ADDED: new bit indicating we reloaded a map from a battle 
+	set BIT_MAP_LOADED_AFTER_BATTLE, [hl] ; PureRGBnote: ADDED: new bit indicating we reloaded a map from a battle
 	xor a
 	ldh [hJoyHeld], a
 ;;;;; PureRGBnote: CHANGED: pointless
@@ -1647,7 +1650,7 @@ AdvancePlayerSprite::
 	ld a, [de]
 	dec a
 	ld [de], a
-;;;; 
+;;;;
 	jr .updateMapView
 .adjustYCoordWithinBlock
 	ld hl, wYBlockCoord
@@ -2321,6 +2324,18 @@ LoadMapHeader::
 	ld [wMapMusicSoundID], a ; music 1
 	ld a, [hl]
 	ld [wMapMusicROMBank], a ; music 2
+; Sunsette: once Giovanni is beaten in Silph Co, the building plays Celadon City's theme.
+; Keyed off the song id so every Silph floor swaps at once.
+	ld a, [wMapMusicSoundID]
+	cp MUSIC_SILPH_CO
+	jr nz, .musicLoaded
+	CheckEvent EVENT_BEAT_SILPH_CO_GIOVANNI
+	jr z, .musicLoaded
+	ld a, MUSIC_CELADON
+	ld [wMapMusicSoundID], a
+	ld a, BANK(Music_Celadon)
+	ld [wMapMusicROMBank], a
+.musicLoaded
 	pop af
 	jp SetCurBank
 ;;;;; PureRGBnote: ADDED: After battle we have to reload original picture IDs since battle data trashes their wram area.

@@ -181,7 +181,7 @@ ReplaceTileBlockCommon:
 	add hl, bc ; add X
 	ld a, [wNewTileBlockID]
 
-	;shinpokerednote: FIXED: No point in wasting time if the new tile block is the same as the old one. 
+	;shinpokerednote: FIXED: No point in wasting time if the new tile block is the same as the old one.
 	cp [hl]
 	ret z
 

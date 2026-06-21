@@ -15,9 +15,9 @@
 
 	; tm/hm learnset
 	tmhm \
-	LOW_KICK,\
-	DISABLE,\
-	 ; end
+	ROCK_ON,\
+	ADAPTATION,\
+	AURORA_MIST
 
 	db BANK(DittoPicFront)
 	db 0
@@ -26,3 +26,10 @@
 
 	dw 0, DittoPicBack
 
+; --- Sunsette SSOT directives (parsed by tools/gen_pokemon_data.py) ---
+;@ nature       NATURE_CALCULATING NATURE_DITZ
+;@ pal_battle   PAL_PINKMON
+;@ pal_altbattle PAL_GREENMON
+;@ pal_icon     $FF
+;@ pal_alticon  $FF
+;@ evo_react   NONE

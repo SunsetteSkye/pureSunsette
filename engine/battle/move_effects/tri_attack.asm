@@ -25,6 +25,9 @@ TriAttackEffect_:
 	ld a, FIRE
 	call CheckTriAttackTypes ; check if the target is immune due to types
 	jr nc, .freeze ; can't burn fire pokemon
+	ld a, ROCK
+	call CheckTriAttackTypes ; Sunsette: ROCK is immune to burn too
+	jr nc, .freeze ; can't burn rock pokemon
 
 	set BRN, [hl]
 	callfar HalveAttackDueToBurn
@@ -55,6 +58,9 @@ TriAttackEffect_:
 	ld a, GROUND
 	call CheckTriAttackTypes ; check if the target is immune due to types
 	ret nc ; can't paralyze ground pokemon
+	ld a, ELECTRIC
+	call CheckTriAttackTypes ; Sunsette: ELECTRIC is immune to paralysis too
+	ret nc ; can't paralyze electric pokemon
 
 	set PAR, [hl]
 	callfar QuarterSpeedDueToParalysis

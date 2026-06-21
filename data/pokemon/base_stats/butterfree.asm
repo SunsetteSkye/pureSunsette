@@ -1,6 +1,6 @@
 	db DEX_BUTTERFREE ; pokedex id
 
-	db  70,  25,  95,  75,  92
+	db  70,  55,  50,  80, 120
 	;   hp  atk  def  spd  spc
 
 	db BUG, PSYCHIC_TYPE ; type
@@ -15,31 +15,32 @@
 
 	; tm/hm learnset
 	tmhm \
-	DISABLE,\
-	RAZOR_WIND,\ ; ROOST
+	ROOST,\
 	TOXIC,\
+	HONE_EDGE,\
+	DISABLE,\
 	DOUBLE_EDGE,\
-	AURORA_BEAM,\
+	AURORA_MIST,\
 	HYPER_BEAM,\
-	AMNESIA,\ ; CALM MIND
+	CALM_MIND,\
 	BARRIER,\
-	RAZOR_LEAF,\
-	SOLARBEAM,\ ; SOLARBEAM
+	ADAPTATION,\
+	SOLARBEAM,\ 
+	RIPTIDE,\
 	PSYCHIC_M,\
 	MEGA_DRAIN,\
 	SWORDS_DANCE,\
 	REFLECT,\
-	BIDE,\ ; BULK UP
-	BARRAGE,\ ; SHADOW BALL
-	SLAM,\ ; WASTEMAKER
-	MEDITATE,\ ; VOID MIND
+	BULK_UP,\
+	SHADOW_BALL,\
+	VOID_MIND,\
 	LOVELY_KISS,\
-	SKY_ATTACK,\ ; BRAVE BIRD
 	LIGHT_SCREEN,\
 	THUNDER_WAVE,\
-	PSYWAVE,\ ; SKITTERMIND
-	GLARE,\
+	SKITTERMIND,\
+	SHADOW_GAME,\
 	SUBSTITUTE,\
+	CLAY_ARMOR,\
 	CUT,\
 	FLY,\
 	SURF,\
@@ -52,3 +53,28 @@
 	db BANK(ButterfreePicBackSW)
 
 	dw ButterfreePicFrontAlt, ButterfreePicBack
+
+; --- Sunsette SSOT directives (parsed by tools/gen_pokemon_data.py) ---
+;@ nature       NATURE_GENTLE NATURE_CONSIDERATE
+;@ pal_battle   PAL_SOFTVIOSCAR
+;@ pal_altbattle PAL_PINKMON
+;@ pal_icon     PAL_ICON_07
+;@ pal_alticon  PAL_ICON_09
+;@ evo_move    NO_MOVE
+;@ evo_react   "Wet wings gleam" "in the light!"
+;@ evo_react   "It flutters up," "light as air!"
+;@ evo_react   "Scales scatter" "in a shimmer!"
+;@ evo_react   "It loops once" "and darts away!"
+;@ learn       10, CONFUSION
+;@ learn       12, GUST
+;@ learn       15, POISONPOWDER
+;@ learn       16, DISABLE
+;@ learn       17, PSYBEAM
+;@ learn       20, CONFUSE_RAY
+;@ learn       24, STUN_SPORE
+;@ learn       27, HURRICANE
+;@ learn       33, PSYCHIC_M
+;@ learn       35, EMETIC_PURGE
+;@ learn       45, SOULSTEALER
+;@ learn       45, SLEEP_POWDER
+;@ learn       50, CRYSTALLIZE

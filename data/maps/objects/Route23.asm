@@ -17,7 +17,7 @@ Route23_Object:
 	warp_event  8, 139, ROUTE_22_GATE, 4
 	warp_event  4, 31, VICTORY_ROAD_1F, 1
 	warp_event 14, 31, VICTORY_ROAD_2F, 2
-	warp_event  2, 131, TYPE_GUYS_HOUSE, 1
+	warp_event 16, 67, TYPE_GUYS_HOUSE, 1
 
 	def_bg_events
 	bg_event  3, 33, TEXT_ROUTE23_VICTORY_ROAD_GATE_SIGN

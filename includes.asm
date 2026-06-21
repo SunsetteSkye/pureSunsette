@@ -12,6 +12,7 @@ INCLUDE "macros/scripts/audio.asm"
 INCLUDE "macros/scripts/maps.asm"
 INCLUDE "macros/scripts/events.asm"
 INCLUDE "macros/scripts/text.asm"
+INCLUDE "macros/scripts/gfx_anims.asm" ; PureRGBnote: ADDED: Surfing Pikachu animated-object frame/oam macros
 
 INCLUDE "constants/charmap.asm"
 INCLUDE "constants/hardware.inc"
@@ -35,9 +36,11 @@ INCLUDE "constants/pokemon_data_constants.asm"
 INCLUDE "constants/pokemon_family_constants.asm"
 INCLUDE "constants/player_constants.asm"
 INCLUDE "constants/trainer_constants.asm"
+INCLUDE "constants/nature_constants.asm" ; Sunsette: ADDED: Pokemon nature reactions
 INCLUDE "constants/icon_constants.asm"
 INCLUDE "constants/sprite_constants.asm"
 INCLUDE "constants/sprite_data_constants.asm"
+INCLUDE "constants/sprite_anim_constants.asm" ; PureRGBnote: ADDED: Surfing Pikachu animated-object struct offsets
 INCLUDE "constants/palette_constants.asm"
 INCLUDE "constants/list_constants.asm"
 INCLUDE "constants/map_constants.asm"

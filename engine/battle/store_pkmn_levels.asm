@@ -1,4 +1,4 @@
-; shinpokerednote: ADDED: Stores the player's pokemon levels into wStartBattleLevels. 
+; shinpokerednote: ADDED: Stores the player's pokemon levels into wStartBattleLevels.
 ; Used to track the levels at the beginning of battle so when evolving pokemon their learnsets can factor in multiple level-ups.
 StorePKMNLevels:
 	push hl

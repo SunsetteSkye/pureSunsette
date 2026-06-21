@@ -14,29 +14,32 @@
 	db GROWTH_MEDIUM_SLOW ; growth rate
 
 	tmhm \
-	FURY_ATTACK,\ ; MUD BOMB
-	DISABLE,\
-	SONICBOOM,\ ; ILL WIND
-	RAZOR_WIND,\ ; ROOST
+	ROOST,\
+	MUD_BOMB,\
 	PIN_MISSILE,\
 	TOXIC,\
+	HONE_EDGE,\
+	DISABLE,\
 	DOUBLE_EDGE,\
+	AURORA_MIST,\
 	HYPER_BEAM,\
-	DRAGON_RAGE,\ ; WYRM WRATH
 	BARRIER,\
-	RAZOR_LEAF,\
+	ADAPTATION,\
+	WYRM_WRATH,\
 	THUNDERBOLT,\
 	THUNDER,\
+	MIRAGE,\
 	SWORDS_DANCE,\
-	KINESIS,\ ; MIRAGE
 	REFLECT,\
-	BIDE,\ ; BULK UP
-	BARRAGE,\ ; SHADOW BALL
-	SLAM,\ ; WASTEMAKER
-	SKY_ATTACK,\ ; BRAVE BIRD
-	MEDITATE,\ ; VOID MIND
+	BULK_UP,\
+	ILL_WIND,\
+	SHADOW_BALL,\
+	TWISTER,\
+	DEMOLISH,\
+	VOID_MIND,\
+	BRAVE_BIRD,\
 	LIGHT_SCREEN,\
-	GLARE,\
+	SHADOW_GAME,\
 	SUBSTITUTE,\
 	CUT,\
 	FLY,\
@@ -51,3 +54,26 @@
 
 	dw PidgeotPicFrontAlt, PidgeotPicBack
 
+; --- Sunsette SSOT directives (parsed by tools/gen_pokemon_data.py) ---
+;@ nature       NATURE_ARROGANT NATURE_WISE
+;@ pal_battle   PAL_BROWNMON2
+;@ pal_altbattle PAL_BROWNGOLDMON
+;@ pal_icon     PAL_ICON_10
+;@ pal_alticon  PAL_ICON_11
+;@ evo_move    NO_MOVE
+;@ evo_react   "A gust of wind" "sends debris up!"
+;@ evo_react   "It soars high," "feathers blazing!"
+;@ evo_react   "Its plume flares" "bright and bold!"
+;@ evo_react   "It dives fast," "talons spread!"
+;@ learn       6, GUST
+;@ learn       9, SAND_ATTACK
+;@ learn       14, AGILITY
+;@ learn       17, SWIFT
+;@ learn       23, WING_ATTACK
+;@ learn       28, RAZOR_LEAF
+;@ learn       32, BLITZ_STRIKE
+;@ learn       35, HONE_EDGE
+;@ learn       41, HURRICANE
+;@ learn       48, SENBONZAKURA
+;@ learn       54, DOUBLE_EDGE
+;@ learn       60, MOCKINGBIRD

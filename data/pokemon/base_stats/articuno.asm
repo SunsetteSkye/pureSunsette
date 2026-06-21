@@ -10,32 +10,31 @@
 	INCBIN "gfx/pokemon/front/articuno.pic", 0, 1 ; sprite dimensions
 	dw ArticunoPicFront, ArticunoPicBackSW
 
-	db WING_ATTACK, ICE_BEAM, MIST, NO_MOVE ; level 1 learnset (ETHEREAL)
+	db WING_ATTACK, ICE_BEAM, AURORA_MIST, NO_MOVE ; level 1 learnset
 	db GROWTH_SLOW ; growth rate
 
 	; tm/hm learnset
 	tmhm \
-	SONICBOOM,\ ; ILL WIND
-	RAZOR_WIND,\ ; ROOST
+	ROOST,\
 	TOXIC,\
 	BODY_SLAM,\
 	DISABLE,\
 	DOUBLE_EDGE,\
-	BUBBLEBEAM,\
-	AURORA_BEAM,\
+	AURORA_MIST,\
 	ICE_BEAM,\
 	BLIZZARD,\
 	HYPER_BEAM,\
-	AMNESIA,\ ; CALM MIND
+	CALM_MIND,\
 	BARRIER,\
 	PSYCHIC_M,\
 	REFLECT,\
-	BIDE,\ ; BULK UP
-	BARRAGE,\ ; SHADOW BALL
-	SKY_ATTACK,\ ; BRAVE BIRD
+	BULK_UP,\
+	ILL_WIND,\
+	SHADOW_BALL,\
+	TWISTER,\
+	BRAVE_BIRD,\
 	LIGHT_SCREEN,\
-	PSYWAVE,\ ; SKITTERMIND
-	GLARE,\
+	SKITTERMIND,\
 	SUBSTITUTE,\
 	CUT,\
 	FLY,\
@@ -50,3 +49,16 @@
 
 	dw ArticunoPicFrontAlt, ArticunoPicBack
 
+; --- Sunsette SSOT directives (parsed by tools/gen_pokemon_data.py) ---
+;@ nature       NATURE_STOLID NATURE_CRUEL
+;@ pal_battle   PAL_BLUEMON
+;@ pal_altbattle PAL_CYANMON
+;@ pal_icon     PAL_ICON_76
+;@ pal_alticon  PAL_ICON_18
+;@ evo_move    NO_MOVE
+;@ evo_react   NONE
+;@ learn       51, HURRICANE
+;@ learn       55, SHELL_GAME
+;@ learn       60, BLIZZARD
+;@ learn       65, AGILITY
+;@ learn       70, WINTER_GALE

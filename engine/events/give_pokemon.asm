@@ -35,7 +35,7 @@ _GivePokemon::
 	ld [hl], '@'
 	ld hl, SentToBoxText
 	rst _PrintText
-	callfar PrintRemainingBoxSpace ; PureRGBnote: ADDED: 
+	callfar PrintRemainingBoxSpace ; PureRGBnote: ADDED:
 	call .clearAltPaletteData 
 	scf
 	ret
@@ -56,7 +56,7 @@ _GivePokemon::
 	ld [wAddedToParty], a
 	scf
 	ret
-	; PureRGBnote: ADDED: if the pokemon being given was an alternate palette pokemon, 
+	; PureRGBnote: ADDED: if the pokemon being given was an alternate palette pokemon,
 	;                     we need to clear the flag to make sure the next pokemon given is not alternate palette.
 .clearAltPaletteData 
 	xor a

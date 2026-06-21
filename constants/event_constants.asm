@@ -218,7 +218,7 @@ DEF CUSTOM_BALL_UNLOCK_FLAGS_START EQU const_value
 
 	; pureRGBnote: ~7 bits of unused event space
 
-; Cinnabar Volcano Events ; PureRGBnote: ADDED: 
+; Cinnabar Volcano Events ; PureRGBnote: ADDED:
 	const_next $130
 	const EVENT_GOT_LAVA_SUIT
 	const EVENT_GOT_DRILL
@@ -477,7 +477,24 @@ DEF CUSTOM_BALL_SNAPPED_FLAGS_START EQU const_value
 	const EVENT_BEAT_SAFFRON_GYM_TRAINER_4
 	const EVENT_BEAT_SAFFRON_GYM_TRAINER_5
 	const EVENT_BEAT_SAFFRON_GYM_TRAINER_6
-	const_skip 47
+	; Sunsette: ADDED: one-time overworld nature-reaction flags (carved from this unused gap; the
+	; remaining skip is reduced so no later event bit shifts).
+	const EVENT_REACTED_LEFT_VIRIDIAN_FOREST
+	const EVENT_REACTED_LEFT_MT_MOON
+	const EVENT_REACTED_LAVENDER_HEAL
+	const EVENT_REACTED_GAME_FREAK
+	const EVENT_REACTED_TALL_BUILDING
+	const EVENT_REACTED_CROWDED
+	const EVENT_REACTED_SAFARI
+	const EVENT_REACTED_CARD_KEY
+	const EVENT_REACTED_ROUTE14
+	const EVENT_REACTED_ROUTE19_BEACH
+	const EVENT_REACTED_DARK_TUNNEL
+	const EVENT_REACTED_BILLS_COTTAGE
+	const EVENT_REACTED_CYCLING_FLY
+	const EVENT_REACTED_MANSION_DREAD
+	const EVENT_REACTED_CERULEAN_CAVE
+	const_skip 32
 	const EVENT_BEAT_SILPH_CO_1F_TRAINER_0
 	const EVENT_BEAT_SILPH_CO_1F_TRAINER_1
 	const EVENT_BEAT_SILPH_CO_1F_TRAINER_2
@@ -1094,7 +1111,8 @@ DEF FLAG_JIGGLE_TOGGLE EQU const_value
 	const EVENT_BEAT_SILPH_CO_11F_TRAINER_1
 	const_skip 2
 	const EVENT_SILPH_CO_11_UNLOCKED_DOOR
-	const_skip 4
+	const_skip 3
+	const EVENT_PRESIDENT_SHOWED_APEX_CHIPS ; Sunsette: one-time post-E4 "Apex Chips approved" message from the Silph president
 	const EVENT_GOT_MASTER_BALL
 	const EVENT_ALL_CARD_KEY_DOORS_OPENED
 	const EVENT_BEAT_SILPH_CO_GIOVANNI
@@ -1210,7 +1228,7 @@ DEF LEARNSET_FLAGS_END EQU const_value
 
 	; pureRGBnote: ~6 bits of unused space
 
-; Safari Zone events 
+; Safari Zone events
 	const_next $880
 	const EVENT_GOT_HM03
 	; everything between here and EVENT_BEAT_SAFARI_ZONE_WEST_TRAINER_4 get reset on entering the safari zone
@@ -1394,7 +1412,12 @@ DEF SPRITE_OPTIONS_FLAGS_FIFTH_BATCH_START EQU const_value
 	const_skip 8
 	const EVENT_BEAT_ARTICUNO
 
-	; pureRGBnote: 37 bits of unused space (large)
+	; Sunsette: set the first time the player completes a ride at the Summer Beach House (Surfing
+	; Pikachu). Persistent (unlike the session-only wd492). Gates the SURFIN' DUDE "remembers you"
+	; flow + the 1000-coin wager, and turns SURF into a WATERIFY signature for PIKACHU/RAICHU.
+	const EVENT_SURFED_WITH_DUDE
+
+	; pureRGBnote: 36 bits of unused space (large)
 
 ; End of events
 	const_next $A00

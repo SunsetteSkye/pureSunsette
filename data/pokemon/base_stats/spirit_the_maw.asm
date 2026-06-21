@@ -1,3 +1,4 @@
+; Sunsette POKEMON TOWER B1F SPIRIT: Spirit (The Maw). Borrows GOLBAT's dex slot for its base data (db DEX_GOLBAT). See base_stats/golbat.asm.
 	db DEX_GOLBAT ; pokedex id
 
 	db  75, 250,  75, 250,  75
@@ -10,29 +11,30 @@
 	INCBIN "gfx/battle/spirit_the_maw.pic", 0, 1 ; sprite dimensions
 	dw TheMawPicFront, GolbatPicBackSW
 
-	db LEECH_LIFE, HYPER_BEAM, MEGA_DRAIN, POISON_GAS ; level 1 learnset (MIASMA)
+	db LEECH_LIFE, HYPER_BEAM, MEGA_DRAIN, EMETIC_PURGE ; level 1 learnset
 	db GROWTH_MEDIUM_FAST ; growth rate
 
 	; tm/hm learnset
 	tmhm \
-	LOW_KICK,\
-	SONICBOOM,\ ; ILL WIND
-	RAZOR_WIND,\ ; ROOST
+	ROOST,\
 	TOXIC,\
+	HONE_EDGE,\
 	BODY_SLAM,\
 	DISABLE,\
 	DOUBLE_EDGE,\
+	AURORA_MIST,\
 	HYPER_BEAM,\
+	LOW_KICK,\
 	BARRIER,\
 	MEGA_DRAIN,\
 	SWORDS_DANCE,\
-	BIDE,\ ; BULK UP
-	BARRAGE,\ ; SHADOW BALL
-	SLAM,\ ; WASTEMAKER
+	BULK_UP,\
+	ILL_WIND,\
+	SHADOW_BALL,\
+	TWISTER,\
 	LOVELY_KISS,\
-	SKY_ATTACK,\ ; BRAVE BIRD
-	SLUDGE,\ ; SLUDGE BOMB
-	GLARE,\
+	BRAVE_BIRD,\
+	SHADOW_GAME,\
 	SUBSTITUTE,\
 	CUT,\
 	FLY,\

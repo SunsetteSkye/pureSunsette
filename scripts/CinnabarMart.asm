@@ -6,36 +6,6 @@ CinnabarMart_TextPointers:
 	dw_const CinnabarMartClerkText,        TEXT_CINNABARMART_CLERK
 	dw_const CinnabarMartSilphWorkerFText, TEXT_CINNABARMART_SILPH_WORKER_F
 	dw_const CinnabarMartScientistText,    TEXT_CINNABARMART_SCIENTIST
-	dw_const CinnabarMartTMKid,            TEXT_CINNABARMART_TM_KID
-
-CinnabarMartTMKid: ; PureRGBnote: ADDED: new NPC who will sell TMs
-	text_asm
-	ld hl, .TMKidGreet
-	rst _PrintText
-	CheckAndSetEvent EVENT_MET_CINNABAR_TM_KID
-	ld hl, .TMKidFlavor
-	jr z, .gotText
-	ld hl, .TMKidQuick
-.gotText
-	rst _PrintText
-	ld hl, CinnabarTMKidShop
-	call DisplayPokemartNoGreeting
-	rst TextScriptEnd
-	
-.TMKidGreet::
-	text_far _TMKidGreet
-	text_end
-
-.TMKidFlavor:
-	text_far _TMKidBringingTMsAnyCost
-	text_far _CinnabarMartTMKidFlavor
-	text_far _TMKidSellingTMsCopiedDadOriginals
-	text_far _TMKidWantSomeText
-	text_end
-
-.TMKidQuick::
-	text_far _TMKidQuick
-	text_end
 
 CinnabarMartSilphWorkerFText:
 	text_far _CinnabarMartSilphWorkerFText

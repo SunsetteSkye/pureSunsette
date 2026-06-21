@@ -25,16 +25,16 @@ Music_GRChallengeCup_Ch2::
 	;note E_, 15
 ;	tie
 	;note E_, 8
-	speed 4 ;
-	note E_, 9 ;
-	speed 1 ;
-	rest 9 ;
+	speed 4
+	note E_, 9
+	speed 1
+	rest 9
 	;note E_, 7
 	note E_, 5
 	;note E_, 3
-	rest 3 ;
+	rest 3
 	note F_, 5
-	rest 2 ;
+	rest 2
 	;note E_, 2
 	note G_, 15
 	note G_, 5
@@ -42,10 +42,10 @@ Music_GRChallengeCup_Ch2::
 	note F_, 5
 	note D_, 15
 	note D_, 5
-	speed 4 ;
-	note E_, 9 ;
-	speed 1 ;
-	rest 9 ;
+	speed 4
+	note E_, 9
+	speed 1
+	rest 9
 ;	note E_, 15
 ;	tie
 ;	note E_, 15
@@ -54,10 +54,10 @@ Music_GRChallengeCup_Ch2::
 ;	note E_, 7
 	note E_, 5
 	;note E_, 3
-	rest 3 ;
+	rest 3
 	note E_, 5
 	;note E_, 2
-	rest 2 ;
+	rest 2
 	note D_, 15
 	note D_, 5
 	dec_octave
@@ -66,21 +66,21 @@ Music_GRChallengeCup_Ch2::
 	inc_octave
 	note D_, 15
 	note D_, 5
-	speed 2 ;
-	note E_, 11 ;
-	speed 1 ;
-	rest 8 ;
+	speed 2
+	note E_, 11
+	speed 1
+	rest 8
 ;	note E_, 15
 ;	tie
 ;	note E_, 8
 ;	note E_, 7
 	note A_, 5
-	rest 5 ;
+	rest 5
 	note E_, 5
-	rest 5 ;
+	rest 5
 	;note E_, 5
 	note A_, 5
-	rest 5 ;
+	rest 5
 	;note A_, 5
 	;note E_, 5
 	note B_, 15
@@ -92,10 +92,10 @@ Music_GRChallengeCup_Ch2::
 ;	musicef -6
 	volume_envelope 1, -6
 ;	musicf3
-	speed 6 ;
-	note A_, 14 ;
-	speed 1 ;
-	rest 1 ;
+	speed 6
+	note A_, 14
+	speed 1
+	rest 1
 ;	note A_, 10
 ;	tie
 ;	speed 1
@@ -106,10 +106,10 @@ Music_GRChallengeCup_Ch2::
 ;	musicf1 54
 	rest 5
 	;note A_, 5
-	speed 2 ;
-	rest 15 ;
+	speed 2
+	rest 15
 	;note A_, 15 ;
-	speed 1 ;
+	speed 1
 ;	tie
 ;   note A_, 15
 ;	preset 8
@@ -124,7 +124,7 @@ Music_GRChallengeCup_Ch2::
 ;	cutoff 8
 	;note E_, 5
 	note E_, 10
-	rest 5 ;
+	rest 5
 	note E_, 5
 	;note E_, 3
 	rest 3
@@ -154,22 +154,22 @@ Music_GRChallengeCup_Ch2::
 ;	cutoff 8
 	;note F_, 5
 	note F_, 10
-	rest 5 ;
+	rest 5
 	note F_, 5
 	;note F_, 3
-	rest 3 ;
+	rest 3
 	note F_, 5
 	;note F_, 2
-	rest 2 ;
+	rest 2
 ;	musicf3
 	note F_, 15
 ;	musicf2
 	note F_, 5
 	;note F_, 3
-	rest 3 ;
+	rest 3
 	note F_, 5
 	;note F_, 2
-	rest 2 ;
+	rest 2
 	sound_loop 2, .Loop2
 .Loop3
 	octave 2
@@ -177,56 +177,56 @@ Music_GRChallengeCup_Ch2::
 ;	cutoff 8
 	;note F#, 5
 	note F#, 10
-	rest 5 ;
+	rest 5
 	note F#, 5
 	;note F#, 3
-	rest 3 ;
+	rest 3
 	note F#, 5
 	;note F#, 2
-	rest 2 ;
+	rest 2
 ;	musicf3
 	note F#, 15
 ;	musicf2
 	note F#, 5
 	;note F#, 3
-	rest 3 ;
+	rest 3
 	note F#, 5
 	;note F#, 2
-	rest 2 ;
+	rest 2
 	sound_loop 2, .Loop3
 	octave 2
 ;	musicf2
 ;	cutoff 8
 	;note F_, 5
 	note F_, 10
-	rest 5 ;
+	rest 5
 	note F_, 5
 	;note F_, 3
-	rest 3 ;
+	rest 3
 	note F_, 5
 	;note F_, 2
-	rest 2 ;
+	rest 2
 ;	musicf3
 	note F_, 15
 ;	musicf2
 	note F_, 5
 	;note F_, 3
-	rest 3 ;
+	rest 3
 	note F_, 5
 	;note F_, 2
-	rest 2 ;
+	rest 2
 	octave 2
 ;	musicf2
 ;	cutoff 8
 	;note F_, 5
 	note F_, 10
-	rest 5 ;
+	rest 5
 	note F_, 5
 	;note F_, 3
-	rest 3 ;
+	rest 3
 	note F_, 5
 	;note F_, 2
-	rest 2 ;
+	rest 2
 ;	musicf3
 ;	preset 0
 	volume_envelope 10, 0
@@ -240,15 +240,15 @@ Music_GRChallengeCup_Ch2::
 ;	musicf1 70
 	note E_, 15
 	;note E_, 8
-	rest 8 ;
+	rest 8
 	note E_, 5
 	;note E_, 2
-	rest 2 ;
+	rest 2
 	inc_octave
 	vibrato 30, 3, 3
-	speed 15 ;
-	note E_, 5 ;
-	speed 1 ;
+	speed 15
+	note E_, 5
+	speed 1
 ;	note E_, 15
 ;	tie
 ;	note E_, 15
@@ -267,9 +267,9 @@ Music_GRChallengeCup_Ch2::
 	note C_, 15
 ;	musicf1 70
 	vibrato 15, 3, 3
-	speed 15 ;
-	note D_, 3 ;
-	speed 1 ;
+	speed 15
+	note D_, 3
+	speed 1
 ;	note D_, 15
 ;	tie
 ;	note D_, 15
@@ -280,9 +280,9 @@ Music_GRChallengeCup_Ch2::
 ;	tie
 ;	note C_, 15
 ;	note C_, 15
-	speed 15 ;
-	note C_, 3 ;
-	speed 1 ;
+	speed 15
+	note C_, 3
+	speed 1
 	dec_octave
 ;	musicf3
 	note A_, 8
@@ -293,9 +293,9 @@ Music_GRChallengeCup_Ch2::
 ;	tie
 ;	note C_, 15
 ;	note C_, 15
-	speed 15 ;
-	note C_, 3 ;
-	speed 1 ;
+	speed 15
+	note C_, 3
+	speed 1
 	vibrato 0, 3, 3
 ;	note C_, 8
 ;	note C_, 7
@@ -311,9 +311,9 @@ Music_GRChallengeCup_Ch2::
 	note B_, 8
 	note G_, 7
 	vibrato 30, 3, 3
-	speed 15 ;
-	note A_, 5 ;
-	speed 1 ;
+	speed 15
+	note A_, 5
+	speed 1
 ;	note A_, 15
 ;	tie
 ;	note A_, 15
@@ -383,9 +383,9 @@ Music_GRChallengeCup_Ch2::
 	note D_, 5
 	vibrato 15, 3, 3
 ;	musicf3
-	speed 15 ;
-	note F_, 3 ;
-	speed 1 ;
+	speed 15
+	note F_, 3
+	speed 1
 ;	note F_, 15
 ;	tie
 ;	note F_, 15
@@ -422,9 +422,9 @@ Music_GRChallengeCup_Ch2::
 	note C_, 5
 	note G_, 2
 	vibrato 0, 3, 3
-	speed 15 ;
-	note C_, 3 ;
-	speed 1 ;
+	speed 15
+	note C_, 3
+	speed 1
 ;	note C_, 15
 ;	tie
 ;	note C_, 15
@@ -453,9 +453,9 @@ Music_GRChallengeCup_Ch2::
 	note E_, 7
 	note F_, 8
 	note D_, 7
-	speed 15 ;
-	note E_, 6 ;
-	speed 1 ;
+	speed 15
+	note E_, 6
+	speed 1
 ;	note E_, 15
 ;	tie
 ;	note E_, 15
@@ -496,9 +496,9 @@ Music_GRChallengeCup_Ch2::
 	note G_, 15
 	inc_octave
 ;	musicf3
-	speed 15 ;
-	note G_, 4 ;
-	speed 1 ; 
+	speed 15
+	note G_, 4
+	speed 1
 ;	note G_, 15
 ;	tie
 ;	note G_, 15
@@ -531,9 +531,9 @@ Music_GRChallengeCup_Ch2::
 	note D_, 15
 	note D_, 5
 ;	musicf3
-	speed 15 ;
-	note C_, 3 ;
-	speed 1 ;
+	speed 15
+	note C_, 3
+	speed 1
 ;	note C_, 15
 ;	tie
 ;	note C_, 15
@@ -557,9 +557,9 @@ Music_GRChallengeCup_Ch2::
 	note D_, 7
 	vibrato 30, 3, 3
 ;	musicef -1
-	speed 15 ;
-	note E_, 8 ;
-	speed 1 ;
+	speed 15
+	note E_, 8
+	speed 1
 ;	note E_, 15
 ;	tie
 ;	note E_, 15
@@ -599,16 +599,16 @@ Music_GRChallengeCup_Ch1::
 ;	note C#, 15
 ;	tie
 ;	note C#, 8
-	speed 4 ;
-	note C#, 9 ;
-	speed 1 ;
-	rest 9 ;
+	speed 4
+	note C#, 9
+	speed 1
+	rest 9
 	;note C#, 7
 	note C#, 5
-	rest 3 ;
+	rest 3
 	;note C#, 3
 	note C#, 5
-	rest 2 ;
+	rest 2
 	;note C#, 2
 	note D_, 15
 	note D_, 5
@@ -623,10 +623,10 @@ Music_GRChallengeCup_Ch1::
 ;	note C#, 15
 ;	tie
 ;	note C#, 8
-	speed 4 ;
-	note C#, 9 ;
-	speed 1 ;
-	rest 9 ;
+	speed 4
+	note C#, 9
+	speed 1
+	rest 9
 	;note C#, 7
 	note C#, 5
 	note C#, 3
@@ -643,20 +643,20 @@ Music_GRChallengeCup_Ch1::
 ;	note C_, 15
 ;	tie
 ;	note C_, 8
-	speed 2 ;
-	note C_, 11 ;
-	speed 1 ;
-	rest 8 ;
+	speed 2
+	note C_, 11
+	speed 1
+	rest 8
 	;note C_, 7
 	note C_, 5
 	;note C_, 5
-	rest 5;
+	rest 5
 	note C_, 5
 	;note C_, 5
-	rest 5;
+	rest 5
 	note C_, 5
 	;note C_, 5
-	rest 5;
+	rest 5
 	note D_, 15
 	note D_, 5
 	dec_octave
@@ -668,10 +668,10 @@ Music_GRChallengeCup_Ch1::
 ;	musicef -6
 	volume_envelope 1, -6
 ;	musicf3
-	speed 6 ;
-	note C#, 14 ;
-	speed 1 ;
-	rest 1 ;
+	speed 6
+	note C#, 14
+	speed 1
+	rest 1
 ;	speed 6
 ;	note C#, 10
 ;	tie
@@ -682,11 +682,11 @@ Music_GRChallengeCup_Ch1::
 	volume_envelope 9, 0
 ;	musicf1 54
 	;note C#, 5
-	rest 5 ;
-	speed 2 ;
-	rest 15 ;
+	rest 5
+	speed 2
+	rest 15
 	;note C#, 15 ;
-	speed 1 ;
+	speed 1
 ;	note C#, 15
 ;	tie
 ;	note C#, 15
@@ -701,13 +701,13 @@ Music_GRChallengeCup_Ch1::
 ;	cutoff 8
 	;note A_, 5
 	note A_, 10
-	rest 5 ;
+	rest 5
 	note A_, 5
 	;note A_, 3
-	rest 3 ;
+	rest 3
 	note A_, 5
 	;note A_, 2
-	rest 2 ;
+	rest 2
 ;	musicf3
 	inc_octave
 	note B_, 15
@@ -715,10 +715,10 @@ Music_GRChallengeCup_Ch1::
 ;	musicf2
 	note A_, 5
 	;note A_, 3
-	rest 3 ;
+	rest 3
 	note A_, 5
 	;note A_, 2
-	rest 2 ;
+	rest 2
 	sound_loop 2, .Loop1
 .MainLoop
 ;	musicf1 67
@@ -728,13 +728,13 @@ Music_GRChallengeCup_Ch1::
 ;	cutoff 8
 	;note A_, 5
 	note A_, 10
-	rest 5 ;
+	rest 5
 	note A_, 5
 	;note A_, 3
-	rest 3 ;
+	rest 3
 	note A_, 5
 	;note A_, 2
-	rest 2 ;
+	rest 2
 ;	musicf3
 	inc_octave
 	note B_, 15
@@ -742,23 +742,23 @@ Music_GRChallengeCup_Ch1::
 ;	musicf2
 	note A_, 5
 	;note A_, 3
-	rest 3 ;
+	rest 3
 	note A_, 5
 	;note A_, 2
-	rest 2 ;
+	rest 2
 	sound_loop 5, .Loop2
 	octave 1
 ;	musicf2
 ;	cutoff 8
 	;note A_, 5
 	note A_, 10
-	rest 5 ;
+	rest 5
 	note A_, 5
 	;note A_, 3
-	rest 3 ;
+	rest 3
 	note A_, 5
 	;note A_, 2
-	rest 2 ;
+	rest 2
 ;	musicf3
 	inc_octave
 	note B_, 15
@@ -774,9 +774,9 @@ Music_GRChallengeCup_Ch1::
 	note A_, 5
 	rest 2
 	inc_octave
-	speed 15 ;
-	note A_, 2 ;
-	speed 1 ;
+	speed 15
+	note A_, 2
+	speed 1
 ;	note A_, 15
 ;	tie
 ;	note A_, 15
@@ -787,9 +787,9 @@ Music_GRChallengeCup_Ch1::
 ;	pitch_offset 3
 	sound_call Branch_1f3140
 	note G_, 15
-	speed 15 ;
-	note F#, 2 ;
-	speed 1 ;
+	speed 15
+	note F#, 2
+	speed 1
 ;	note F#, 15
 ;	tie
 ;	note F#, 15
@@ -797,9 +797,9 @@ Music_GRChallengeCup_Ch1::
 	sound_call Branch_1f3140
 	note F#, 8
 	rest 7
-	speed 15 ;
-	note F#, 2 ;
-	speed 1 ;
+	speed 15
+	note F#, 2
+	speed 1
 ;	note F#, 15
 ;	tie
 ;	note F#, 15
@@ -809,9 +809,9 @@ Music_GRChallengeCup_Ch1::
 	rest 3
 	note F#, 5
 	rest 2
-	speed 15 ;
-	note F_, 2 ;
-	speed 1 ;
+	speed 15
+	note F_, 2
+	speed 1
 ;	note F_, 15
 ;	tie
 ;	note F_, 15
@@ -826,9 +826,9 @@ Music_GRChallengeCup_Ch1::
 	sound_call Branch_1f3140
 	note D_, 8
 	rest 7
-	speed 15 ;
-	note E_, 2 ;
-	speed 1 ;
+	speed 15
+	note E_, 2
+	speed 1
 ;	note E_, 15
 ;	tie
 ;	note E_, 15
@@ -842,9 +842,9 @@ Music_GRChallengeCup_Ch1::
 	rest 8
 	note A_, 7
 	inc_octave
-	speed 15 ;
-	note A_, 2 ;
-	speed 1 ;
+	speed 15
+	note A_, 2
+	speed 1
 ;	note A_, 15
 ;	tie
 ;	note A_, 15
@@ -855,9 +855,9 @@ Music_GRChallengeCup_Ch1::
 ;	pitch_offset 3
 	sound_call Branch_1f3140
 	note G_, 15
-	speed 15 ;
-	note F#, 2 ;
-	speed 1 ;
+	speed 15
+	note F#, 2
+	speed 1
 ;	note F#, 15
 ;	tie
 ;	note F#, 15
@@ -865,9 +865,9 @@ Music_GRChallengeCup_Ch1::
 	sound_call Branch_1f3140
 	note F#, 8
 	rest 7
-	speed 15 ;
-	note F#, 2 ;
-	speed 1 ;
+	speed 15
+	note F#, 2
+	speed 1
 ;	note F#, 15
 ;	tie
 ;	note F#, 15
@@ -892,9 +892,9 @@ Music_GRChallengeCup_Ch1::
 	sound_call Branch_1f3140
 	rest 15
 	inc_octave
-	speed 15 ;
-	note C_, 2 ;
-	speed 1 ;
+	speed 15
+	note C_, 2
+	speed 1
 ;	note C_, 15
 ;	tie
 ;	note C_, 15
@@ -903,9 +903,9 @@ Music_GRChallengeCup_Ch1::
 	octave 3
 	note G_, 8
 	note F_, 7
-	speed 15 ;
-	note G_, 2 ;
-	speed 1 ;
+	speed 15
+	note G_, 2
+	speed 1
 ;	note G_, 15
 ;	tie
 ;	note G_, 15
@@ -914,9 +914,9 @@ Music_GRChallengeCup_Ch1::
 	note A_, 8
 	note A#, 7
 	inc_octave
-	speed 15 ;
-	note C_, 2 ;
-	speed 1 ;
+	speed 15
+	note C_, 2
+	speed 1
 ;	note C_, 15
 ;	tie
 ;	note C_, 15
@@ -939,10 +939,10 @@ Music_GRChallengeCup_Ch1::
 	dec_octave
 	note G_, 5
 	rest 2
-	speed 4 ;
-	note G_, 9 ;
-	speed 1 ;
-	rest 2 ;
+	speed 4
+	note G_, 9
+	speed 1
+	rest 2
 ;	note G_, 15
 ;	tie
 ;	note G_, 15
@@ -956,9 +956,9 @@ Music_GRChallengeCup_Ch1::
 	octave 3
 	note F_, 8
 	note G_, 7
-	speed 15 ;
-	note A_, 2 ;
-	speed 1 ;
+	speed 15
+	note A_, 2
+	speed 1
 ;	note A_, 15
 ;	tie
 ;	note A_, 15
@@ -974,9 +974,9 @@ Music_GRChallengeCup_Ch1::
 	sound_call Branch_1f3140
 	note G#, 8
 	rest 7
-	speed 15 ;
-	note A_, 2 ;
-	speed 1 ;
+	speed 15
+	note A_, 2
+	speed 1
 ;	note A_, 15
 ;	tie
 ;	note A_, 15
@@ -989,9 +989,9 @@ Music_GRChallengeCup_Ch1::
 	sound_call Branch_1f3140
 	note E_, 8
 	note G_, 7
-	speed 15 ;
-	note A_, 2 ;
-	speed 1 ;
+	speed 15
+	note A_, 2
+	speed 1
 ;	note A_, 15
 ;	tie
 ;	note A_, 15
@@ -1006,14 +1006,14 @@ Music_GRChallengeCup_Ch1::
 	sound_call Branch_1f3140
 	note F_, 8
 	rest 7
-	speed 15 ;
-	note E_, 2 ;
+	speed 15
+	note E_, 2
 ;	note E_, 15
 ;	tie
 ;	note E_, 15
 	inc_octave
 	volume_envelope 5, -7
-	note D_, 2 ;
+	note D_, 2
 ;	note D_, 15
 ;	tie
 ;	note D_, 15
@@ -1022,16 +1022,16 @@ Music_GRChallengeCup_Ch1::
 ;	note C#, 15
 ;	tie
 ;	note C#, 15
-	speed 1 ;
+	speed 1
 ;	pitch_offset 3
 	sound_call Branch_1f3140
 	rest 8
 	dec_octave
 	note G_, 5
 	rest 2
-	speed 15 ;
-	note A_, 2 ;
-	speed 1 ;
+	speed 15
+	note A_, 2
+	speed 1
 ;	note A_, 15
 ;	tie
 ;	note A_, 15
@@ -1045,9 +1045,9 @@ Music_GRChallengeCup_Ch1::
 ;	pitch_offset 4
 	sound_call Branch_1f3140
 	rest 15
-	speed 15 ;
-	note G_, 2 ;
-	speed 1 ;
+	speed 15
+	note G_, 2
+	speed 1
 ;	note G_, 15
 ;	tie
 ;	note G_, 15
@@ -1057,18 +1057,18 @@ Music_GRChallengeCup_Ch1::
 	note D_, 4
 	note C_, 4
 	note D_, 3
-	speed 15 ;
-	note D_, 2 ;
-	speed 1 ;
+	speed 15
+	note D_, 2
+	speed 1
 ;	note D_, 15
 ;	tie
 ;	note D_, 15
 	rest 15
 	note G#, 8
 	note B_, 7
-	speed 15 ;
-	note A_, 2 ;
-	speed 1 ;
+	speed 15
+	note A_, 2
+	speed 1
 ;	note A_, 15
 ;	tie
 ;	note A_, 15
@@ -1085,27 +1085,27 @@ Music_GRChallengeCup_Ch1::
 ;	cutoff 8
 	note E_, 5
 	;note E_, 3
-	rest 3 ;
+	rest 3
 	note E_, 5
 	;note E_, 2
-	rest 2 ;
+	rest 2
 	;note E_, 5
 	note E_, 10
-	rest 5 ;
+	rest 5
 	note E_, 5
 	;note E_, 3
-	rest 3 ;
+	rest 3
 	note E_, 5
 	;note E_, 2
-	rest 2 ; 
+	rest 2
 ;	musicf3
 	note B_, 15
 	note E_, 5
 	;note E_, 3
-	rest 3 ;
+	rest 3
 	note E_, 5
 	;note E_, 2
-	rest 2 ;
+	rest 2
 	sound_loop 0, .MainLoop
 
 Branch_1f3140:
@@ -1154,10 +1154,10 @@ Music_GRChallengeCup_Ch3::
 	octave 5
 	rest 16
 	octave 2
-	speed 4 ;
-	note A_, 9 ;
-	speed 1 ;
-	rest 9 ; 
+	speed 4
+	note A_, 9
+	speed 1
+	rest 9
 ;	note A_, 15
 ;	tie
 ;	note A_, 15
@@ -1174,10 +1174,10 @@ Music_GRChallengeCup_Ch3::
 	rest 5
 	note A#, 15
 	rest 5
-	speed 4 ;
-	note A_, 9 ;
-	speed 1 ;
-	rest 9 ; 
+	speed 4
+	note A_, 9
+	speed 1
+	rest 9
 ;	note A_, 15
 ;	tie
 ;	note A_, 15
@@ -1194,10 +1194,10 @@ Music_GRChallengeCup_Ch3::
 	rest 5
 	note G_, 15
 	rest 5
-	speed 4 ;
-	note F_, 9 ;
-	speed 1 ;
-	rest 9 ; 
+	speed 4
+	note F_, 9
+	speed 1
+	rest 9
 ;	note F_, 15
 ;	tie
 ;	note F_, 15
@@ -1214,9 +1214,9 @@ Music_GRChallengeCup_Ch3::
 	rest 5
 	note G_, 15
 	rest 5
-	speed 10 ;
-	note A_, 9 ;
-	speed 1 ;
+	speed 10
+	note A_, 9
+	speed 1
 ;	note A_, 16
 ;	tie
 ;	note A_, 16

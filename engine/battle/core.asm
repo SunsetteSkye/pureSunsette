@@ -410,18 +410,41 @@ MainInBattleLoop:
 .noLinkBattle
 	ld a, [wPlayerSelectedMove]
 	ld c, a
+	ld a, [wBattleMonSpecies] ; Sunsette: user species, for species-gated priority (Arbok's ACID)
+	ld b, a
 	call CheckPriority
 	jr nc, .playerDidNotUsePriority
 	ld a, [wEnemySelectedMove]
 	ld c, a
+	ld a, [wEnemyMonSpecies] ; Sunsette: user species, for species-gated priority (Arbok's ACID)
+	ld b, a
 	call CheckPriority
-	jr c, .compareSpeed  ; if both used priority
+	jr c, .bothPriority  ; both used priority -> BLITZ_STRIKE (+2) tiebreak below
 	jp .playerMovesFirst ; if player used priority and enemy didn't
 .playerDidNotUsePriority
 	ld a, [wEnemySelectedMove]
 	ld c, a
+	ld a, [wEnemyMonSpecies] ; Sunsette: user species, for species-gated priority (Arbok's ACID)
+	ld b, a
 	call CheckPriority
 	jr c, .enemyMovesFirst ; if enemy used priority and player didn't
+;;;;;;;;;;
+;;;;;;;;;; Sunsette: BLITZ_STRIKE (+2 priority, internal QUICK_ATTACK) tiebreak. Reached only when BOTH
+;;;;;;;;;; selected moves are priority. BLITZ_STRIKE strikes before any other (+1) priority move; a mirror
+;;;;;;;;;; match, or two non-BLITZ_STRIKE priority moves, fall through to the normal speed comparison.
+.bothPriority
+	ld a, [wPlayerSelectedMove]
+	cp BLITZ_STRIKE
+	jr z, .playerHasExtremeSpeed
+	ld a, [wEnemySelectedMove]
+	cp BLITZ_STRIKE
+	jp z, .enemyMovesFirst ; only the enemy used BLITZ_STRIKE -> it strikes first
+	jr .compareSpeed ; both are +1 priority moves -> speed decides (original behavior)
+.playerHasExtremeSpeed
+	ld a, [wEnemySelectedMove]
+	cp BLITZ_STRIKE
+	jr z, .compareSpeed ; both used BLITZ_STRIKE -> speed decides
+	jp .playerMovesFirst ; only the player used BLITZ_STRIKE -> it strikes first
 ;;;;;;;;;;
 .compareSpeed
 	ld de, wBattleMonSpeed ; player speed value
@@ -877,6 +900,7 @@ FaintEnemyPokemon:
 	ld [wEnemyDisabledMove], a
 	ld [wEnemyDisabledMoveNumber], a
 	ld [wEnemyMonMinimized], a
+	ld [wEnemyAdaptType], a ; Sunsette: ADAPTATION - a freshly sent-out mon has no adaptation (a = 0)
 	ld hl, wPlayerUsedMove
 	ld [hli], a
 	ld [hl], a
@@ -1086,6 +1110,7 @@ TrainerBattleVictory:
 	call ScrollTrainerPicAfterBattle
 	ld c, 40
 	rst _DelayFrames
+	farcall TryBattleWinReaction ; Sunsette: nature reaction for the active mon (tough trainers + rivals)
 	call PrintEndBattleText
 	CheckEvent EVENT_IN_FITNESS_BATTLE
 	ret nz ; no money earnings in fitness battles
@@ -1184,7 +1209,7 @@ RemoveFaintedPlayerMon:
 .skipWaitForSound
 ; a is 0, so this zeroes the enemy's accumulated damage.
 ;;;;;;;;;; PureRGBnote: CHANGED: bide effect removed from game because the effect was changed
-	;ld hl, wEnemyBideAccumulatedDamage 
+	;ld hl, wEnemyBideAccumulatedDamage
 	;ld [hli], a
 	;ld [hl], a
 ;;;;;;;;;;
@@ -1278,7 +1303,7 @@ ChooseNextMon:
 .monChosen
 	call HasMonFainted
 	jr z, .goBackToPartyMenu ; if mon fainted, you have to choose another
-;;;;;;;;; PureRGBnote: ADDED: Code for TELEPORT - prevents selecting the pokemon that's currently out 
+;;;;;;;;; PureRGBnote: ADDED: Code for TELEPORT - prevents selecting the pokemon that's currently out
 ;;;;;;;;; (will not matter in other scenarios since the current pokemon will be fainted and that will be caught by the previous check)
 	ld hl, wPlayerMonNumber
 	ld a, [wWhichPokemon]
@@ -1473,6 +1498,13 @@ SlideTrainerPicOffScreen:
 	jr nz, .slideStepLoop
 	ret
 
+; Sunsette: no-arg wrapper so the last-mon cut-in (in another bank) can slide the enemy trainer
+; pic off via farcall (which clobbers a/hl, so it can't pass the args itself).
+SlideEnemyTrainerPicOffScreen::
+	hlcoord 18, 0
+	ld a, 8
+	jp SlideTrainerPicOffScreen
+
 ; send out a trainer's mon
 EnemySendOut:
 	ld hl, wPartyGainExpFlags
@@ -1501,6 +1533,7 @@ EnemySendOutFirstMon:
 	ld [wEnemyDisabledMove], a
 	ld [wEnemyDisabledMoveNumber], a
 	ld [wEnemyMonMinimized], a
+	ld [wEnemyAdaptType], a ; Sunsette: ADAPTATION - a freshly sent-out mon has no adaptation (a = 0)
 	ld hl, wPlayerUsedMove
 	ld [hli], a
 	ld [hl], a
@@ -1623,6 +1656,7 @@ EnemySendOutFirstMon:
 	ld d, SET_PAL_BATTLE
 	call RunPaletteCommand
 	call GBPalNormal
+	callfar HandleLastMonCutIn ; Sunsette: last-mon trainer cut-in (pic scrolls in + character line)
 	ld hl, TrainerSentOutText
 	rst _PrintText
 	ld a, [wEnemyMonSpecies2]
@@ -1687,7 +1721,7 @@ HasMonFainted:
 	ld a, [wFirstMonsNotOutYet]
 	and a
 	jr nz, .done
-	callfar EmptyPartyMenuRedraw ; PureRGBnote: FIXED: minor graphical glitch when selecting a fainted pokemon 
+	callfar EmptyPartyMenuRedraw ; PureRGBnote: FIXED: minor graphical glitch when selecting a fainted pokemon
 	ld hl, NoWillText
 	rst _PrintText
 .done
@@ -1974,6 +2008,7 @@ SendOutMon:
 	ld [wPlayerDisabledMove], a
 	ld [wPlayerDisabledMoveNumber], a
 	ld [wPlayerMonMinimized], a
+	ld [wPlayerAdaptType], a ; Sunsette: ADAPTATION - a fresh mon has no adaptation (a = 0)
 	ld hl, wEnemyBattleStatus1
 	res USING_TRAPPING_MOVE, [hl]
 	SetEvent FLAG_SKIP_DELAY_IN_GBC_PALETTE_FUNC
@@ -2412,11 +2447,23 @@ DisplayBattleMenu::
 .throwSafariBallWasSelected
 	ld a, SAFARI_BALL
 	ld [wCurItem], a
-	jr UseBagItem
+	jp UseBagItem
 
 .upperLeftMenuItemWasNotSelected ; a menu item other than the upper left item was selected
 	cp $2
 	jp nz, PartyMenuOrRockOrRun
+
+; Sunsette: SAFFRON GYM arena effect - a psychic barrier blocks item use in trainer battles there.
+	ld a, [wIsInBattle]
+	cp 2
+	jr nz, .itemsAllowed
+	ld a, [wCurMap]
+	cp SAFFRON_GYM
+	jr nz, .itemsAllowed
+	ld hl, SaffronBarrierText
+	rst _PrintText
+	jp DisplayBattleMenu
+.itemsAllowed
 
 ; either the bag (normal battle) or bait (safari battle) was selected
 	ld a, [wLinkState]
@@ -2545,6 +2592,11 @@ ItemsCantBeUsedHereText:
 	text_far _ItemsCantBeUsedHereText
 	text_end
 
+; Sunsette: SAFFRON GYM arena effect - psychic barrier blocks item use
+SaffronBarrierText:
+	text_far _SaffronGymBuffText
+	text_end
+
 ;;;;; PureRGBnote: ADDED: When fighting CLOYSTER with your dragonair in the dragonair event, you cannot change pokemon.
 NoPartyMenuAllowedText:
 	text_far _DragonairEventNoPartyMenuText
@@ -2647,7 +2699,7 @@ PartyMenuOrRockOrRun:
 .notAlreadyOut
 	call HasMonFainted
 	jp z, .partyMonDeselected ; can't switch to fainted mon
-	;;;;;;;;; PureRGBnote: ADDED: set previous type and status indicators so the AI doesn't use super effective moves or status moves cheaply 
+	;;;;;;;;; PureRGBnote: ADDED: set previous type and status indicators so the AI doesn't use super effective moves or status moves cheaply
 	;;;;;;;;;           against the pokemon we just sent out when we switch using a turn up
 	ld a, [wBattleMonType1]
 	ld [wAITargetMonType1], a 
@@ -2915,7 +2967,7 @@ SelectMenuItem:
 	cp c
 	jr z, .disabled
 	;ld a, [wPlayerBattleStatus3]
-	;bit TRANSFORMED, a 
+	;bit TRANSFORMED, a
 	;jr nz, .transformedMoveSelected
 ;.transformedMoveSelected ; pointless
 	; Allow moves copied by Transform to be used.
@@ -3367,6 +3419,7 @@ ENDC
 ExecutePlayerMove:
 	xor a
 	ldh [hWhoseTurn], a ; set player's turn
+	ld [wSleepRoundReduction], a ; Sunsette: start this turn's sleep-reduction tally at 0 (a is still 0 here)
 	ld a, [wPlayerSelectedMove]
 	ASSERT CANNOT_MOVE == $ff
 	inc a
@@ -3449,7 +3502,7 @@ PlayerCalcMoveDamage:
 	jp z, PlayerCheckIfFlyOrChargeEffect ; for moves with 0 BP, skip any further damage calculation and, for now, skip MoveHitTest
 	               ; for these moves, accuracy tests will only occur if they are called as part of the effect itself
 	call AdjustDamageForMoveType
-	call RandomizeDamage
+	callfar RandomizeDamage ; floated out of Battle Core
 .moveHitTest
 	call MoveHitTest
 HandleIfPlayerMoveMissed:
@@ -3511,7 +3564,7 @@ PlayerCheckIfFlyOrChargeEffect:
 	call PlayMoveAnimation
 MirrorMoveCheck:
 	ld a, [wPlayerMoveEffect]
-	cp MIRROR_MOVE_EFFECT ; MOCKINGBIRD
+	cp MIRROR_MOVE_EFFECT
 	jr nz, .metronomeCheck
 	callfar MockingbirdEffect_ ; MOCKINGBIRD: copy the foe's stat-stage changes onto the user, then -1 foe SPECIAL
 	jp ExecutePlayerMoveDone ; status move - no damage step
@@ -3537,6 +3590,8 @@ MirrorMoveCheck:
 	cp EXPLODE_EFFECT ; even if Explosion or Selfdestruct missed, its effect still needs to be activated
 	jr z, .notDone
 	cp EXPLODE_RECOIL_EFFECT
+	jr z, .notDone
+	cp METAMORPHIC_EFFECT ; Sunsette: METAMORPHIC's self-effects (recoil + ROCK shed/+6 SPEED/glow) still apply on a miss
 	jr z, .notDone
 	jp ExecutePlayerMoveDone ; otherwise, we're done if the move missed
 .moveDidNotMiss
@@ -3601,6 +3656,7 @@ MultiHitText:
 	text_end
 
 ExecutePlayerMoveDone:
+	callfar ApplySleepHitTally ; Sunsette: hits this turn shorten a sleeping enemy's nap (no-op if none / not asleep)
 	xor a
 	ld [wActionResultOrTookBattleTurn], a
 	ld b, 1
@@ -3810,7 +3866,7 @@ CheckPlayerStatusConditions:
 .ThrashingAboutCheck
 	bit THRASHING_ABOUT, [hl] ; is mon using thrash or petal dance?
 	jr z, .MultiturnMoveCheck
-	ld a, THRASH ; OUTRAGE
+	ld a, OUTRAGE
 	ld [wPlayerMoveNum], a
 	ld hl, ThrashingAboutText
 	rst _PrintText
@@ -3971,7 +4027,7 @@ HandleSelfConfusionDamage:
 	ld [wAnimationType], a
 	inc a
 	ldh [hWhoseTurn], a
-	ld a, STRUGGLE ; Sunsette: self-hit shows STRUGGLE's plain hit (POUND's slot is now JOLT BOLT's flashy anim)
+	ld a, STRUGGLE ; Sunsette: self-hit shows STRUGGLE's plain hit (POUND's slot is now SPARK's flashy anim)
 	call PlayMoveAnimation
 	call DrawPlayerHUDAndHPBar
 	xor a
@@ -4058,6 +4114,7 @@ PrintMoveFailureText:
 	rst _PrintText
 	ld d, 4
 	callfar PredefShakeScreenHorizontally
+	callfar HalveCrashIfRock ; Sunsette: ROCK users take half crash damage from their own Jump Kick miss
 	ldh a, [hWhoseTurn]
 	and a
 	jp z, ApplyDamageToPlayerPokemon
@@ -4358,11 +4415,11 @@ GetDamageVarsForPlayerAttack:
 	ld a, [wPlayerMoveNum] ; Sunsette: Egg Bomb is Normal-typed but attacks special
 	cp EGG_BOMB
 	jr z, .specialAttack
-	cp FIRE_PUNCH ; Sunsette: the elemental punches use whichever of the user's Attack/Special is higher (GHOST-style dynamic category), keeping their FIRE/ICE/ELECTRIC type (BLAZE HAMMER)
+	cp BLAZE_HAMMER ; Sunsette: the elemental punches use whichever of the user's Attack/Special is higher (GHOST-style dynamic category), keeping their FIRE/ICE/ELECTRIC type
 	jr z, DynamicTypeCheckPlayer
-	cp ICE_PUNCH ; FROST FIST
+	cp FROST_FIST
 	jr z, DynamicTypeCheckPlayer
-	cp THUNDERPUNCH ; ZAPPERCUT
+	cp ZAPPERCUT
 	jr z, DynamicTypeCheckPlayer
 	ld a, [hl] ; a = [wPlayerMoveType]
 	cp GHOST
@@ -4509,11 +4566,11 @@ GetDamageVarsForEnemyAttack:
 	ld a, [wEnemyMoveNum] ; Sunsette: Egg Bomb is Normal-typed but attacks special
 	cp EGG_BOMB
 	jr z, .specialAttack
-	cp FIRE_PUNCH ; Sunsette: the elemental punches use whichever of the user's Attack/Special is higher (GHOST-style dynamic category), keeping their FIRE/ICE/ELECTRIC type (BLAZE HAMMER)
+	cp BLAZE_HAMMER ; Sunsette: the elemental punches use whichever of the user's Attack/Special is higher (GHOST-style dynamic category), keeping their FIRE/ICE/ELECTRIC type
 	jr z, DynamicTypeCheckEnemy
-	cp ICE_PUNCH ; FROST FIST
+	cp FROST_FIST
 	jr z, DynamicTypeCheckEnemy
-	cp THUNDERPUNCH ; ZAPPERCUT
+	cp ZAPPERCUT
 	jr z, DynamicTypeCheckEnemy
 	ld a, [hl] ; a = [wEnemyMoveType]
 	cp GHOST
@@ -4662,7 +4719,7 @@ GetEnemyMonStat:
 	ld [wCurSpecies], a
 	call GetMonHeader
 	;ld hl, wEnemyMonDVs	;shinpokerednote: CHANGED: why load this into speedexp? I don't even know like seriously WTF
-	;ld de, wLoadedMonSpeedExp		
+	;ld de, wLoadedMonSpeedExp
 	;ld a, [hli]
 	;ld [de], a
 	;inc de
@@ -4890,14 +4947,14 @@ ApplyAttackToEnemyPokemon:
 	ld a, [wPlayerMoveNum]
 	cp SEISMIC_TOSS
 	jr z, .storeDamage
-	cp NIGHT_SHADE ; PHANTASM
+	cp PHANTASM
 	jr z, .storeDamage
 	ld b, SONICBOOM_DAMAGE ; 20
-	cp SONICBOOM
+	cp ILL_WIND
 	jr z, .storeDamage
 	; PureRGBnote: CHANGED: dragon rage doesn't do a set 40 damage anymore
 	;ld b, DRAGON_RAGE_DAMAGE ; 40 dragon rage was made a normal move instead of fixed damage
-	; cp DRAGON_RAGE (WYRM WRATH)
+	; cp DRAGON_RAGE
 	;jr z, .storeDamage
 ; Psywave ; PureRGBnote: CHANGED: Psywave is a basic low power psychic move now, don't need this old code for randomizing its damage
 ;	ld a, [hl]
@@ -4930,6 +4987,15 @@ ApplyDamageToEnemyPokemon:
 	ld a, [wEnemyBattleStatus2]
 	bit HAS_SUBSTITUTE_UP, a ; does the enemy have a substitute?
 	jp nz, AttackSubstitute
+; Sunsette: count this strike toward shortening the enemy's sleep, but only for a real player attack -
+; the enemy's own confusion/crash self-hit also lands here (with hWhoseTurn == 1) and must not count.
+	ldh a, [hWhoseTurn]
+	and a
+	jr nz, .skipSleepTally
+	push hl
+	callfar AccumulateSleepHit
+	pop hl
+.skipSleepTally
 ; subtract the damage from the pokemon's current HP
 ; also, save the current HP at wHPBarOldHP
 	ld a, [hld]
@@ -4991,14 +5057,14 @@ ApplyAttackToPlayerPokemon:
 	ld a, [wEnemyMoveNum]
 	cp SEISMIC_TOSS
 	jr z, .storeDamage
-	; cp NIGHT_SHADE (PHANTASM)
+	; cp NIGHT_SHADE
 	; jr z, .storeDamage ; night shade was made a normal move instead of fixed damage
 	ld b, SONICBOOM_DAMAGE
-	cp SONICBOOM
+	cp ILL_WIND
 	jr z, .storeDamage
 	; PureRGBnote: CHANGED: dragon rage doesn't do a set 40 damage anymore
 	;ld b, DRAGON_RAGE_DAMAGE ; dragon rage was made a normal move instead of fixed damage
-	; cp DRAGON_RAGE (WYRM WRATH)
+	; cp DRAGON_RAGE
 	;jr z, .storeDamage
 ; Psywave ;; PureRGBnote: CHANGED: Psywave is now a basic low-power psychic move
 ;	ld a, [hl]
@@ -5031,6 +5097,15 @@ ApplyDamageToPlayerPokemon:
 	ld a, [wPlayerBattleStatus2]
 	bit HAS_SUBSTITUTE_UP, a ; does the player have a substitute?
 	jp nz, AttackSubstitute
+; Sunsette: count this strike toward shortening the player's sleep, but only for a real enemy attack -
+; the player's own confusion/crash self-hit also lands here (with hWhoseTurn == 0) and must not count.
+	ldh a, [hWhoseTurn]
+	and a
+	jr z, .skipSleepTally
+	push hl
+	callfar AccumulateSleepHit
+	pop hl
+.skipSleepTally
 ; subtract the damage from the pokemon's current HP
 ; also, save the current HP at wHPBarOldHP and the new HP at wHPBarNewHP
 	ld a, [hld]
@@ -5281,8 +5356,12 @@ AdjustDamageForMoveType:
 .skipSameTypeAttackBonus
 ;;;;;;;;;; PureRGBnote: ADDED: check if the opponent is immune to the attack being used due to Haze or Mist
 	call CheckHazeMistImmunityGetArgs
-	jr c, ForceTypeImmunity ; if the pokemon is immune to move due to haze or mist, skip ahead
+	jp c, ForceTypeImmunity ; if the pokemon is immune to move due to haze or mist, skip ahead
 ;;;;;;;;;;
+	callfar CheckCoiledElectricImmunity ; Sunsette: coiled PIKACHU/RAICHU (FOCUS ENERGY up) are immune to ELECTRIC; verdict in L (de = defender types is preserved)
+	ld a, l
+	and a
+	jp nz, ForceTypeImmunity
 	ld a, [wMoveType]
 	ld b, a
 	ld hl, TypeEffects
@@ -5307,7 +5386,7 @@ AdjustDamageForMoveType:
 	ld b, a
 	ld a, [hl] ; a = damage multiplier
 	ldh [hMultiplier], a
-;;;; shinpokerednote: FIXED: fixing the wrong effectiveness message 
+;;;; shinpokerednote: FIXED: fixing the wrong effectiveness message
 	and a
 	jr z, .endmulti	;skip to end if the multiplier is zero
 	cp NOT_VERY_EFFECTIVE	;multiplier is still in a, so see if it's half damage
@@ -5416,14 +5495,14 @@ GetPlayerTypeEffectiveness:
 	ld a, [wPlayerMoveType]
 	ld hl, wEnemyBattleStatus2
 	call CheckHazeMistImmunity
-	jr c, AIGetTypeEffectiveness.immunity ; if the pokemon is immune to the move due to haze or mist, skip ahead
+	jp c, AIGetTypeEffectiveness.immunity ; if the pokemon is immune to the move due to haze or mist, skip ahead ; Sunsette: JR->JP, target drifted to 128 bytes (1 over) as Battle Core grew
 	ld a, [wPlayerMoveType]
 	ld d, a                    ; d = type of enemy move
 	ld a, [wEnemyMonType1]
 	ld b, a
 	ld a, [wEnemyMonType2]
 	ld c, a
-	jr AIGetTypeEffectiveness.load
+	jp AIGetTypeEffectiveness.load ; Sunsette: jp (was jr) - target drifted out of range as Battle Core grew
 
 CheckPlayerHazeMistImmunity:
 ;;;;;;;;;; PureRGBnote: ADDED: check if the opponent is immune to the attack being used due to Haze or Mist
@@ -5434,12 +5513,25 @@ CheckPlayerHazeMistImmunity:
 
 AIGetImmediateTypeEffectiveness:
 	call CheckPlayerHazeMistImmunity
-	jr c, AIGetTypeEffectiveness.immunity
+	jp c, AIGetTypeEffectiveness.immunity ; Sunsette: jp (was jr) - the new sibling below pushed .immunity out of jr range
 	ld a, [wEnemyMoveType]
 	ld d, a                    ; d = type of enemy move
 	ld a, [wBattleMonType1]
 	ld b, a
 	ld a, [wBattleMonType2]
+	ld c, a
+	jp AIGetTypeEffectiveness.load ; Sunsette: jp (was jr) - sibling below pushed .load out of jr range
+
+; Sunsette: how effective the move in wEnemyMoveType would be against the ENEMY's OWN (AI) mon - i.e. whether
+; the player's last move even threatens us. Defends with wEnemyMonType1/2; result in wTypeEffectiveness
+; ($00 = immune). Used by CheckDisabled so the AI won't DISABLE a move it's immune to. No Haze/Mist check
+; (that's the player's own immunity, irrelevant when WE are the defender).
+AIGetTypeEffectivenessVsSelf:
+	ld a, [wEnemyMoveType]
+	ld d, a
+	ld a, [wEnemyMonType1]
+	ld b, a
+	ld a, [wEnemyMonType2]
 	ld c, a
 	jr AIGetTypeEffectiveness.load
 
@@ -5711,45 +5803,13 @@ CalcHitChance:
 	ld [hl], a ; store the hit chance in the move accuracy variable
 	ret
 
-; multiplies damage by a random percentage from ~85% to 100%
-RandomizeDamage:
-	ld hl, wDamage
-	ld a, [hli]
-	and a
-	jr nz, .DamageGreaterThanOne
-	ld a, [hl]
-	cp 2
-	ret c ; return if damage is equal to 0 or 1
-.DamageGreaterThanOne
-	xor a
-	ldh [hMultiplicand], a
-	dec hl
-	ld a, [hli]
-	ldh [hMultiplicand + 1], a
-	ld a, [hl]
-	ldh [hMultiplicand + 2], a
-; loop until a random number greater than or equal to 217 is generated
-.loop
-	call BattleRandom
-	rrca
-	cp 85 percent + 1
-	jr c, .loop
-	ldh [hMultiplier], a
-	call Multiply ; multiply damage by the random number, which is in the range [217, 255]
-	ld a, 255
-	ldh [hDivisor], a
-	ld b, $4
-	call Divide ; divide the result by 255
-; store the modified damage
-	ldh a, [hQuotient + 2]
-	ld hl, wDamage
-	ld [hli], a
-	ldh a, [hQuotient + 3]
-	ld [hl], a
-	ret
+; RandomizeDamage (multiplies damage by a random ~85%-100%, plus the Sunsette ADAPTATION halving) was floated
+; out of the near-full Battle Core bank into the "Sunsette Sleep Hit Reduction" section; reached via callfar.
 
 ; for more detailed commentary, see equivalent function for player side (ExecutePlayerMove)
 ExecuteEnemyMove:
+	xor a
+	ld [wSleepRoundReduction], a ; Sunsette: start this turn's sleep-reduction tally at 0
 	ld a, [wEnemySelectedMove]
 	ASSERT CANNOT_MOVE == $ff
 	inc a
@@ -5832,7 +5892,7 @@ EnemyCalcMoveDamage:
 	call CalculateDamage
 	jp z, EnemyCheckIfFlyOrChargeEffect
 	call AdjustDamageForMoveType
-	call RandomizeDamage
+	callfar RandomizeDamage ; floated out of Battle Core
 
 EnemyMoveHitTest:
 	call MoveHitTest
@@ -5901,7 +5961,7 @@ EnemyCheckIfFlyOrChargeEffect:
 	call PlayMoveAnimation
 EnemyCheckIfMirrorMoveEffect:
 	ld a, [wEnemyMoveEffect]
-	cp MIRROR_MOVE_EFFECT ; MOCKINGBIRD
+	cp MIRROR_MOVE_EFFECT
 	jr nz, .notMirrorMoveEffect
 	callfar MockingbirdEffect_ ; MOCKINGBIRD: copy the foe's stat-stage changes onto the user, then -1 foe SPECIAL
 	jp ExecuteEnemyMoveDone
@@ -5927,6 +5987,8 @@ EnemyCheckIfMirrorMoveEffect:
 	cp EXPLODE_EFFECT
 	jr z, .handleExplosionMiss
 	cp EXPLODE_RECOIL_EFFECT
+	jr z, .handleExplosionMiss
+	cp METAMORPHIC_EFFECT ; Sunsette: METAMORPHIC's self-effects (recoil + ROCK shed/+6 SPEED/glow) still apply on a miss
 	jr z, .handleExplosionMiss
 	jp ExecuteEnemyMoveDone
 .moveDidNotMiss
@@ -5991,6 +6053,7 @@ HitXTimesText:
 	text_end
 
 ExecuteEnemyMoveDone:
+	callfar ApplySleepHitTally ; Sunsette: hits this turn shorten a sleeping player's nap (no-op if none / not asleep)
 	ld b, $1
 	ret
 
@@ -6121,7 +6184,7 @@ CheckEnemyStatusConditions:
 	xor a
 	ld [wAnimationType], a
 	ldh [hWhoseTurn], a
-	ld a, STRUGGLE ; Sunsette: self-hit shows STRUGGLE's plain hit (POUND's slot is now JOLT BOLT's flashy anim)
+	ld a, STRUGGLE ; Sunsette: self-hit shows STRUGGLE's plain hit (POUND's slot is now SPARK's flashy anim)
 	call PlayMoveAnimation
 	ld a, $1
 	ldh [hWhoseTurn], a
@@ -6150,7 +6213,7 @@ CheckEnemyStatusConditions:
 .monHurtItselfOrFullyParalysed
 	ld hl, wEnemyBattleStatus1
 	ld a, [hl]
-	; clear thrashing about, charging up, and multi-turn moves such as wrap 
+	; clear thrashing about, charging up, and multi-turn moves such as wrap
 	; PureRGBnote: CHANGED: bide effect changed so don't need that code
 	; PureRGBnote: CHANGED: invulnerability flag cleared so opponents don't get stuck in invulnerable state
 	and ~((1 << THRASHING_ABOUT) | (1 << CHARGING_UP) | (1 << USING_TRAPPING_MOVE) | (1 << INVULNERABLE))
@@ -6174,7 +6237,7 @@ CheckEnemyStatusConditions:
 .checkIfThrashingAbout
 	bit THRASHING_ABOUT, [hl] ; is mon using thrash or petal dance?
 	jr z, .checkIfUsingMultiturnMove
-	ld a, THRASH ; OUTRAGE
+	ld a, OUTRAGE
 	ld [wEnemyMoveNum], a
 	ld hl, ThrashingAboutText
 	rst _PrintText
@@ -6285,7 +6348,7 @@ LoadEnemyMonData:
 	ld hl, wEnemyMonHP
 	push hl
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;shinpokerednote: ADDED: assign calculated stat exp to all stats if this is a trainer ai battle 
+;shinpokerednote: ADDED: assign calculated stat exp to all stats if this is a trainer ai battle
 
 ;is this a trainer battle? Wild pkmn do not have statexp
 	ld a, [wIsInBattle]
@@ -6311,7 +6374,7 @@ LoadEnemyMonData:
 ;the pkmn is out for the first time, so give it some statExp
 	push de	;preserve de
 	push hl
-	farcall CalcEnemyStatEXP	;based on the enemy pkmn level, get a stat exp amount into de 
+	farcall CalcEnemyStatEXP	;based on the enemy pkmn level, get a stat exp amount into de
 	pop hl
 	push hl	;save position for party data wEnemyMon<x>HPExp - 1
 	inc hl ; move hl forward one position to MSB of first stat exp
@@ -6948,9 +7011,9 @@ HandleExplodingAnimation:
 	ld de, wEnemyBattleStatus1
 	ld a, [wEnemyMoveNum]
 .gotTurn
-	cp SELFDESTRUCT
+	cp SUPERNOVA
 	jr z, .isExplodingMove
-	cp EXPLOSION
+	cp METAMORPHIC
 	ret nz
 .isExplodingMove
 	ld a, [de]
@@ -6967,8 +7030,8 @@ HandleExplodingAnimation:
 	ret nz
 	ld a, ANIMATIONTYPE_SHAKE_SCREEN_HORIZONTALLY_LIGHT
 	ld [wAnimationType], a
-	ASSERT ANIMATIONTYPE_SHAKE_SCREEN_HORIZONTALLY_LIGHT == MEGA_PUNCH ; SHORYUKEN
-	; ld a, MEGA_PUNCH (SHORYUKEN)
+	ASSERT ANIMATIONTYPE_SHAKE_SCREEN_HORIZONTALLY_LIGHT == SHORYUKEN
+	; ld a, MEGA_PUNCH
 ; fallthrough
 PlayMoveAnimation:
 	ld [wAnimationID], a
@@ -7010,6 +7073,24 @@ DetermineWildOpponent:
 	callfar TryDoWildEncounter
 	ret nz
 InitBattleCommon:
+; Sunsette (trainer/species decouple): decide the battle TYPE up front - before InitBattleVariables (which plays
+; the battle music) and the battle transition, both of which used to infer trainer-vs-wild from the packed
+; opponent's numeric range. Now it comes from wIsTrainerBattle (set by every trainer-battle queue site), so a
+; wild species can use the whole 1-255 range without being mistaken for a trainer. wIsInBattle: 2 = trainer,
+; 1 = wild; wWasTrainerBattle latches the same for post-battle code.
+	ld a, [wIsTrainerBattle]
+	and a
+	jr z, .wildType
+	ld a, 2 ; trainer
+	ld [wIsInBattle], a
+	ld [wWasTrainerBattle], a
+	jr .gotType
+.wildType
+	ld a, 1 ; wild
+	ld [wIsInBattle], a
+	xor a
+	ld [wWasTrainerBattle], a
+.gotType
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ; shinpokerednote: ADDED: store PKMN Levels at the beginning of the Battle.
 	farcall StorePKMNLevels
@@ -7021,9 +7102,10 @@ InitBattleCommon:
 	push af
 	res BIT_TEXT_DELAY, [hl] ; no delay
 	callfar InitBattleVariables
-	ld a, [wEnemyMonSpecies2]
-	sub OPP_ID_OFFSET
-	jr c, InitWildBattle
+	ld a, [wIsTrainerBattle] ; Sunsette: trainer/wild from the latch; the opponent byte is now a raw class or species
+	and a
+	jr z, InitWildBattle
+	ld a, [wEnemyMonSpecies2] ; trainer: the opponent byte IS the raw trainer class now (no offset)
 	ld [wTrainerClass], a
 	callfar GetTrainerInformation ; PureRGBnote: MOVED: this function was moved out of home bank
 	callfar ReadTrainer
@@ -7302,7 +7384,7 @@ do999StatCap:
 	;Note that if a < $E7 then the carry bit 'c' in the flag register gets set due to overflowing with a negative result.
 	ld a, b ;now let's work on the high byte
 	sbc MAX_STAT_VALUE / $100 ;a = a - ($03E7 / $100 + c_flag). Gives a = a - ($03 + c_flag). A byte / $100 always gives the greater nibble.
-	;Note again that if a < $03 then the carry bit remains set. 
+	;Note again that if a < $03 then the carry bit remains set.
 	;If the bit is already set from the lesser nibble, then its addition here can still make it remain set if a is low enough.
 	ret c ;jump to next marker if the c_flag is set. This only remains set if BC <  the cap of $03E7.
 	;else let's continue and set the 999 cap
@@ -7360,7 +7442,7 @@ CheckHazeMistImmunityGetArgs:
 	ld hl, wPlayerBattleStatus2
 	; fall through
 CheckHazeMistImmunity:
-	; Sunsette: BLACK HAZE's PSYCHIC immunity was removed; only MIST's NORMAL/DRAGON immunity remains
+	; Sunsette: SHADOW GAME's PSYCHIC immunity was removed; only MIST's NORMAL/DRAGON immunity remains
 	cp NORMAL
 	jr z, .mistCheck
 	cp DRAGON

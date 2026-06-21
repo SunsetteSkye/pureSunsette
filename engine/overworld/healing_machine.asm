@@ -69,7 +69,7 @@ AnimateHealingMachine:
 	rst _DelayFrames
 	pop af
 	ldh [rOBP1], a
-	call UpdateGBCPal_OBP1 ; shinpokerednote: gbcnote: gbc color code from yellow 
+	call UpdateGBCPal_OBP1 ; shinpokerednote: gbcnote: gbc color code from yellow
 	pop hl
 	pop af
 	ld [hl], a
@@ -96,7 +96,7 @@ FlashSprite8Times:
 	ldh a, [rOBP1]
 	xor d
 	ldh [rOBP1], a
-	call UpdateGBCPal_OBP1 ; shinpokerednote: gbcnote: gbc color code from yellow 
+	call UpdateGBCPal_OBP1 ; shinpokerednote: gbcnote: gbc color code from yellow
 	ld c, 10
 	rst _DelayFrames
 	dec b

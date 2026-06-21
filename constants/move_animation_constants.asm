@@ -2,7 +2,8 @@
 ; SpecialEffectPointers associates them with effect routines (see data/battle_anims/special_effect_pointers.asm)
 	const_def $C0
 DEF FIRST_SE_ID EQU const_value
-	const_skip $A
+	const_skip $9
+	const SE_SPIRAL_BALLS_OUTWARD       ; $C9 Sunsette: like SE_SPIRAL_BALLS_INWARD but spirals OUTWARD (MAXIMIZE); claimed from the skip so $CA+ are unchanged
 	const SE_SLIDE_MON_OFF_FAST         ; $CA Sunsette: like SE_SLIDE_MON_OFF but a faster slide (Quick Attack); claimed from the skip so $CB+ are unchanged
 ;;;;;;;;;; PureRGBnote: ADDED: new special effects
 	const SE_CUSTOM_MOVE_SFX           ; $CB used for playing new sound effects during moves
@@ -13,10 +14,10 @@ DEF FIRST_SE_ID EQU const_value
 	const SE_LIGHT_SCREEN_FLASH        ; $D0 used in Teleport
 	const SE_SNOWFLAKES_EVERYWHERE     ; $D1 used in Blizzard
 	const SE_SIPHON_SNAG_ATTACK        ; $D2 used in Constrict (Siphon Snag)
-	const SE_SMOKE_EVERYWHERE          ; $D3 used in Poison Gas 
+	const SE_SMOKE_EVERYWHERE          ; $D3 used in Poison Gas
 	const SE_FIRE_EVERYWHERE           ; $D4 used in Take Down (Heat Rush)
-	const SE_SLIDE_ENEMY_MON_DOWN_AND_HIDE   ; $D5 used in Sludge 
-	const SE_SHAKE_ENEMY_BACK_AND_FORTH ; $D6 used in pokedoll animation 
+	const SE_SLIDE_ENEMY_MON_DOWN_AND_HIDE   ; $D5 used in Sludge
+	const SE_SHAKE_ENEMY_BACK_AND_FORTH ; $D6 used in pokedoll animation
 	const SE_SHAKE_BACK_AND_FORTH_SHORT; $D7 used in Rolling Kick
 ;;;;;;;;;;
 	const SE_WAVY_SCREEN               ; $D8 used in Psywave/Night Shade/Psychic etc.

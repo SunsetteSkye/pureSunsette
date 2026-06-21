@@ -3,6 +3,11 @@ _PokemonTower1FReceptionistText::
 	line "erected in the"
 	cont "memory of #MON"
 	cont "that had died."
+
+	para "Our gift shop is"
+	line "closed for now,"
+	cont "owing to some"
+	cont "trouble today."
 	done
 
 _PokemonTower1FMiddleAgedWomanText::

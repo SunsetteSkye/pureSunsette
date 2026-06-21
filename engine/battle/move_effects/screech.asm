@@ -17,7 +17,7 @@ _ScreechEffect::
 	ld a, [de]
 	dec a ; is it 1? (lowest stat mod possible)
 	jr z, .skipStatChange ; can't lower any more
-	; does opponent have 
+	; does opponent have
 	ld [hl], DEFENSE_DOWN2_EFFECT
 	push hl
 	SetFlag FLAG_SKIP_STAT_ANIMATION

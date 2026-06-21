@@ -1,5 +1,5 @@
-; PureRGBnote: ADDED: alternate SGB palettes based on japanese green. 
-; The white color for every palette is a bit different than the other SGB palette set, 
+; PureRGBnote: ADDED: alternate SGB palettes based on japanese green.
+; The white color for every palette is a bit different than the other SGB palette set,
 ; and some of the towns have slightly different palette colors.
 ; Biggest difference is Pallet town which looks purplish instead of light green like the other SGB palette set.
 ; By setting the COLORS option to SGB2, on super gameboy or GBC you can see these palettes.
@@ -10,7 +10,7 @@ SuperPalettes2:
 	RGB 29,31,30, 21,28,11, 20,26,31, 03,02,02 ; PAL_ROUTE
 	RGB 29,31,30, 25,24,29, 20,26,31, 03,02,02 ; PAL_PALLET
 	RGB 29,31,30, 17,26,03, 20,26,31, 03,02,02 ; PAL_VIRIDIAN
-	RGB 29,31,30, 21,20,16, 20,26,31, 03,02,02 ; PAL_PEWTER 
+	RGB 29,31,30, 21,20,16, 20,26,31, 03,02,02 ; PAL_PEWTER
 	RGB 29,31,30, 17,20,30, 20,26,31, 03,02,02 ; PAL_CERULEAN
 	RGB 29,31,30, 25,19,31, 20,26,31, 03,02,02 ; PAL_LAVENDER
 	RGB 29,31,30, 30,18,00, 20,26,31, 03,02,02 ; PAL_VERMILION
@@ -27,7 +27,7 @@ IF DEF(_BLUE)
 	RGB 29,31,30, 14,19,29, 00,08,25, 14,19,29 ; PAL_LOGO1
 ENDC
 IF DEF(_GREEN)
-	RGB 29,31,30, 03,15,05, 00,08,02, 12,23,00 ; PAL_LOGO1 
+	RGB 29,31,30, 03,15,05, 00,08,02, 12,23,00 ; PAL_LOGO1
 ENDC
 	RGB 29,31,30, 30,30,17, 18,18,24, 07,07,16 ; PAL_LOGO2
 	RGB 29,31,30, 24,20,30, 11,20,30, 03,02,02 ; PAL_0F

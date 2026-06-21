@@ -10,33 +10,35 @@
 	INCBIN "gfx/pokemon/front/lapras.pic", 0, 1 ; sprite dimensions
 	dw LaprasPicFront, LaprasPicBackSW
 
-	db SING, AURORA_BEAM, BUBBLEBEAM, NO_MOVE ; level 1 learnset
+	db SING, AURORA_BEAM, WATER_PULSE, NO_MOVE ; level 1 learnset
 	db GROWTH_MEDIUM_SLOW ; growth rate
 
 	; tm/hm learnset
 	tmhm \
-	DISABLE,\
 	TOXIC,\
 	BODY_SLAM,\
+	DISABLE,\
 	DOUBLE_EDGE,\
-	BUBBLEBEAM,\
-	AURORA_BEAM,\
+	AQUA_RING,\
+	AURORA_MIST,\
 	ICE_BEAM,\
 	BLIZZARD,\
 	HYPER_BEAM,\
-	AMNESIA,\ ; CALM MIND
+	CALM_MIND,\
 	BARRIER,\
-	SOLARBEAM,\ ; SOLARBEAM
-	DRAGON_RAGE,\ ; WYRM WRATH
+	SOLARBEAM,\ 
+	WYRM_WRATH,\
 	THUNDERBOLT,\
 	THUNDER,\
+	RIPTIDE,\
 	PSYCHIC_M,\
 	REFLECT,\
-	BIDE,\ ; BULK UP
-	BARRAGE,\ ; SHADOW BALL
+	BULK_UP,\
+	SHADOW_BALL,\
+	TWISTER,\
 	LOVELY_KISS,\
 	LIGHT_SCREEN,\
-	PSYWAVE,\ ; SKITTERMIND
+	SKITTERMIND,\
 	SUBSTITUTE,\
 	SURF,\
 	STRENGTH,\
@@ -51,3 +53,17 @@
 
 	dw 0, LaprasPicBack
 
+; --- Sunsette SSOT directives (parsed by tools/gen_pokemon_data.py) ---
+;@ nature       NATURE_GENTLE NATURE_WISE
+;@ pal_battle   PAL_AQUAMON
+;@ pal_altbattle PAL_PINKMON
+;@ pal_icon     PAL_ICON_68
+;@ pal_alticon  PAL_ICON_79
+;@ evo_move    NO_MOVE
+;@ evo_react   NONE
+;@ learn       30, BODY_SLAM
+;@ learn       33, CONFUSE_RAY
+;@ learn       36, AURORA_MIST
+;@ learn       38, ICE_BEAM
+;@ learn       46, HYDRO_PUMP
+;@ learn       53, BLIZZARD

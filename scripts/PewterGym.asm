@@ -9,7 +9,7 @@ PewterGym_Script:
 	cp 11
 	jr c, .skipCallOverCheck
 	push af
-	SetEvent EVENT_GYM_GUIDE_CALLED_PLAYER_OVER 
+	SetEvent EVENT_GYM_GUIDE_CALLED_PLAYER_OVER
 	pop af
 	ld a, TEXT_PEWTERGYM_GYM_GUIDE_CALL_OVER
 	jp z, PewterGymDisplayTextID
@@ -58,6 +58,7 @@ PewterGymScriptReceiveTM34:
 .gymVictory
 	ld hl, wObtainedBadges
 	set BIT_BOULDERBADGE, [hl]
+	call BadgeMonCry ; Sunsette: lead mon cries when the badge is earned
 
 	ld c, TOGGLE_GYM_GUY
 	call HideObject
@@ -121,6 +122,7 @@ PewterGymBrockText:
 	call InitBattleEnemyParameters
 	ld a, $1
 	ld [wGymLeaderNo], a
+	call ApplyGymLeaderBadgeTier ; Sunsette: badge count picks the leader's party tier
 	xor a
 	ldh [hJoyHeld], a
 	ld a, SCRIPT_PEWTERGYM_BROCK_POST_BATTLE
@@ -185,27 +187,27 @@ PewterGymGuideText: ; PureRGBnote: ADDED: gym guide gives you apex chips after b
 .gotYesNoChoice
 	rst _PrintText
 	ld hl, PewterGymGuideAdviceText
-	jr .printDone
+	rst _PrintText
+	rst TextScriptEnd
 .afterBeat
 	ld hl, PewterGymGuidePostBattleText
 	rst _PrintText
-	CheckEvent EVENT_GOT_PEWTER_APEX_CHIPS
-	jr nz, .alreadyApexChips
-.giveApexChips
-	ld hl, PewterGymGuideApexChipText
-	rst _PrintText
-	lb bc, APEX_CHIP, 2
-	call GiveItem
-	ld hl, PewterGymTM34NoRoomText
-	jr nc, .printDone
-	ld hl, ReceivedApexChipsTextPewter
-	rst _PrintText
-	SetEvent EVENT_GOT_PEWTER_APEX_CHIPS
-.alreadyApexChips
-	ld hl, AlreadyReceivedApexChipsText
-.printDone
-	rst _PrintText
+	ld hl, wObtainedBadges ; Sunsette: badge-count-gated extra TMs (3 badges, then 6)
+	ld b, 1
+	call CountSetBits
+	ld a, [wNumSetBits]
+	cp 6
+	ld hl, PewterGymGuideTMShop6
+	jr nc, .tmShopReady
+	cp 3
+	ld hl, PewterGymGuideTMShop3
+	jr nc, .tmShopReady
+	ld hl, PewterGymGuideTMShop1
+.tmShopReady
+	call DisplayPokemartNoGreeting
 	rst TextScriptEnd
+
+INCLUDE "data/items/marts/pewter_gym_guide.asm"
 
 PewterGymGuidePreAdviceText:
 	text_far _PewterGymGuidePreAdviceText
@@ -225,20 +227,6 @@ PewterGymGuideFreeServiceText:
 
 PewterGymGuidePostBattleText:
 	text_far _PewterGymGuidePostBattleText
-	text_end
-
-PewterGymGuideApexChipText:
-	text_far _PewterGymGuideApexChipText
-	text_end
-
-ReceivedApexChipsTextPewter:
-	text_far _ReceivedApexChipsText
-	sound_get_item_1
-	text_far _ApexChipExplanationText
-	text_end
-
-AlreadyReceivedApexChipsText:
-	text_far _AlreadyReceivedApexChipsText
 	text_end
 
 PewterGymGuideCallOverText:

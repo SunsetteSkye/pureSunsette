@@ -2,6 +2,18 @@
 
 Route4_Script:
 	call EnableAutoTextBoxDrawing
+	CheckEvent EVENT_REACTED_LEFT_MT_MOON
+	jr nz, .skipReaction
+	ld a, [wWarpedFromWhichMap]
+	cp MT_MOON_1F
+	jr z, .fromMtMoon
+	cp MT_MOON_B1F
+	jr nz, .skipReaction
+.fromMtMoon
+	SetEvent EVENT_REACTED_LEFT_MT_MOON
+	ld a, NROW_MT_MOON
+	farcall ShowOverworldNature
+.skipReaction
 	ld hl, Route4TrainerHeaders
 	ld de, Route4_ScriptPointers
 	ld a, [wRoute4CurScript]

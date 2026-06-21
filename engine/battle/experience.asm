@@ -339,6 +339,7 @@ GainExperience:
 	ld e, l
 	ld bc, (MON_HP_EXP - 1) - MON_MAXHP
 	add hl, bc
+	call RandomLevelUpDVBoost ; Sunsette: +1 to one random DV per level-up event (before stats recalc)
 	ld b, $1 ; consider stat exp when calculating stats
 	call CalcStats
 	pop bc ; pop max HP (from before levelling up)
@@ -424,7 +425,7 @@ GainExperience:
 	ld c, a	; load the final level to grow to over to c
 	ld a, [wTempLevelStore]	; load the current level into a
 	ld b, a	; load the current level over to b
-.inc_level	; marker for looping back 
+.inc_level	; marker for looping back
 	inc b	;increment 	the current level
 	ld a, b	;put the current level in a
 	ld [wCurEnemyLevel], a	;and reset the level to advance to as merely 1 higher
@@ -808,4 +809,68 @@ GetArbitraryLevelExp:
 	sbc c
 	ld a, [hl]
 	sbc b
+	ret
+
+; Sunsette: called once per battle-XP level-up EVENT (not per level on multi-level jumps,
+; and not from Rare Candy). Raises one randomly chosen DV (Atk/Def/Spd/Spc) by 1, capped at
+; 15. If the picked DV is already maxed, reroll ONCE for a different random pick; if that one
+; is also maxed, the level grants nothing. The reroll mostly fires late (once some stats cap)
+; and redirects the wasted pick onto whatever's still lagging, so a normally-leveled mon almost
+; always finishes with every DV maxed instead of being doomed by an unlucky roll at capture.
+; Runs just before CalcStats so the gain shows in the level-up stats box.
+; Input:  hl = base ptr passed to CalcStats (points at MON_HP_EXP - 1, same as _CalcStat uses)
+; Preserves hl, de, bc. Clobbers a, f.
+RandomLevelUpDVBoost:
+	push hl
+	push de
+	push bc
+	ld bc, MON_DVS - (MON_HP_EXP - 1)
+	add hl, bc ; hl -> DV byte 0 ([Atk | Def])
+	ld d, h
+	ld e, l ; de = DV base, kept across both attempts
+	call .tryBoost
+	jr c, .done ; carry = a DV was raised; otherwise reroll once
+	call .tryBoost
+.done
+	pop bc
+	pop de
+	pop hl
+	ret
+
+; Pick a random stat and +1 it if it isn't already 15.
+; In: de = DV base ptr. Out: carry SET on success, CLEAR if the picked stat was maxed.
+.tryBoost
+	ld h, d
+	ld l, e ; hl = DV byte 0
+	call Random
+	and %00000011 ; 0 = Atk, 1 = Def, 2 = Spd, 3 = Spc
+	ld b, a
+	bit 1, b
+	jr z, .gotByte
+	inc hl ; Spd/Spc live in DV byte 1 ([Spd | Spc])
+.gotByte
+	bit 0, b
+	jr nz, .lowNibble
+; high nibble (Atk or Spd)
+	ld a, [hl]
+	and $F0
+	cp $F0
+	jr z, .maxed ; already 15
+	ld a, [hl]
+	add $10 ; +1 to high nibble, low nibble untouched
+	ld [hl], a
+	scf
+	ret
+.lowNibble ; Def or Spc
+	ld a, [hl]
+	and $0F
+	cp $0F
+	jr z, .maxed ; already 15
+	ld a, [hl]
+	inc a ; low nibble < 15, so no carry into the high nibble
+	ld [hl], a
+	scf
+	ret
+.maxed
+	or a ; clear carry: this pick was wasted
 	ret

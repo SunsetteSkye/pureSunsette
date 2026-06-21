@@ -1,3 +1,4 @@
+; Sunsette VARIANT FORM: Winter Dragonair, an alternate form of DRAGONAIR. Its base data reuses DRAGONAIR's dex slot (db DEX_DRAGONAIR). See base_stats/dragonair.asm.
 	db DEX_DRAGONAIR ; pokedex id
 
 	db  91,  84,  95,  80,  110
@@ -10,37 +11,37 @@
 	INCBIN "gfx/pokemon/front_alt/dragonair.pic", 0, 1 ; sprite dimensions
 	dw WinterDragonairPicFront, WinterDragonairPicBackSW
 
-	db WRAP, LEER, ROAR, NO_MOVE ; level 1 learnset (BELLOW)
+	db WRAP, LEER, BELLOW, NO_MOVE ; level 1 learnset
 	db GROWTH_SLOW ; growth rate
 
 	; tm/hm learnset
 	tmhm \
-	DISABLE,\
+	ADAPTATION,\
 	TOXIC,\
 	BODY_SLAM,\
+	DISABLE,\
 	DOUBLE_EDGE,\
-	BUBBLEBEAM,\
-	AURORA_BEAM,\
+	AURORA_MIST,\
 	ICE_BEAM,\
 	BLIZZARD,\
 	HYPER_BEAM,\
-	SOLARBEAM,\ ; SOLARBEAM
-	DRAGON_RAGE,\ ; WYRM WRATH
-	MEGA_DRAIN,\
+	SOLARBEAM,\ 
+	WYRM_WRATH,\
 	THUNDERBOLT,\
 	THUNDER,\
+	RIPTIDE,\
 	PSYCHIC_M,\
-	KINESIS,\ ; MIRAGE
+	MEGA_DRAIN,\
+	MIRAGE,\
 	REFLECT,\
-	BIDE,\ ; BULK UP
-	BARRAGE,\ ; SHADOW BALL
+	BULK_UP,\
+	SHADOW_BALL,\
 	FIRE_BLAST,\
-	FLAMETHROWER,\
-	SLAM,\ ; WASTEMAKER
-	LIGHT_SCREEN,\
+	TWISTER,\
 	LOVELY_KISS,\
+	LIGHT_SCREEN,\
 	THUNDER_WAVE,\
-	PSYWAVE,\ ; SKITTERMIND
+	SKITTERMIND,\
 	SUBSTITUTE,\
 	CUT,\
 	SURF,\
@@ -54,3 +55,12 @@
 
 	dw 0, WinterDragonairPicBack
 
+; --- Sunsette SSOT directives (parsed by tools/gen_pokemon_data.py) ---
+;@ learn 20, THUNDER_WAVE
+;@ learn 25, RIPTIDE
+;@ learn 29, AURORA_MIST
+;@ learn 33, TWISTER
+;@ learn 38, BLITZ_STRIKE
+;@ learn 46, AGILITY
+;@ learn 52, HYPER_BEAM
+;@ learn 60, OUTRAGE

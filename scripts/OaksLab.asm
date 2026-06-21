@@ -383,6 +383,8 @@ OaksLabRivalStartBattleScript:
 	; define which team rival uses, and fight it
 	ld a, OPP_RIVAL1
 	ld [wCurOpponent], a
+	ld a, 1 ; Sunsette: trainer-battle latch
+	ld [wIsTrainerBattle], a
 	ld a, [wRivalStarter]
 	call StarterToPartyID
 	ld [wTrainerNo], a

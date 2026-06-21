@@ -3,7 +3,7 @@
 ; blacking out or using Teleport or Dig.
 ; Safari rest houses don't count.
 ; called upon entering pokemon centers
-;
+
 ;	push hl
 ;	ld hl, SafariZoneRestHouses
 ;	ld a, [wCurMap]

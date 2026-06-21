@@ -15,32 +15,35 @@
 
 	; tm/hm learnset
 	tmhm \
-	FURY_ATTACK,\ ; MUD BOMB
-	DISABLE,\
-	SONICBOOM,\ ; ILL WIND
+	ADAPTATION,\
+	MUD_BOMB,\
 	PIN_MISSILE,\
 	TOXIC,\
+	HONE_EDGE,\
 	BODY_SLAM,\
+	DISABLE,\
 	DOUBLE_EDGE,\
 	HYPER_BEAM,\
 	BARRIER,\
-	DRAGON_RAGE,\ ; WYRM WRATH
+	WYRM_WRATH,\
 	EARTHQUAKE,\
+	RIPTIDE,\
 	DIG,\
 	MEGA_DRAIN,\
-	KINESIS,\ ; MIRAGE
+	MIRAGE,\
 	SWORDS_DANCE,\
 	REFLECT,\
-	BIDE,\ ; BULK UP
-	BARRAGE,\ ; SHADOW BALL
-	SLAM,\ ; WASTEMAKER
-	KARATE_CHOP,\
+	BULK_UP,\
+	ILL_WIND,\
+	SHADOW_BALL,\
+	DEMOLISH,\
 	LOVELY_KISS,\
 	LIGHT_SCREEN,\
-	SLUDGE,\ ; SLUDGE BOMB
+	SHADOW_GAME,\
 	ROCK_SLIDE,\
-	GLARE,\
+	ROCK_ON,\
 	SUBSTITUTE,\
+	CLAY_ARMOR,\
 	CUT,\
 	SURF,\
 	STRENGTH
@@ -52,3 +55,25 @@
 	db BANK(ArbokPicBackSW)
 
 	dw 0, ArbokPicBack
+
+; --- Sunsette SSOT directives (parsed by tools/gen_pokemon_data.py) ---
+;@ nature       NATURE_CALCULATING NATURE_CRUEL
+;@ pal_battle   PAL_ORCHIDMON
+;@ pal_altbattle PAL_OLIVEMON
+;@ pal_icon     PAL_ICON_15
+;@ pal_alticon  $FF
+;@ evo_move    NO_MOVE
+;@ evo_react   "Its hood snaps" "wide with a hiss!"
+;@ evo_react   "It coils tight," "then lunges out!"
+;@ evo_react   "Fangs bared," "it tastes the air!"
+;@ evo_react   "Its pattern glows" "with menace!"
+;@ learn       7, ABSORB
+;@ learn       13, BITE
+;@ learn       19, ACID
+;@ learn       23, HYPNOSIS
+;@ learn       29, LEECH_LIFE
+;@ learn       35, BLITZ_STRIKE
+;@ learn       39, FOCUS_ENERGY
+;@ learn       45, SOULSTEALER
+;@ learn       51, VENOM_LASH
+;@ learn       55, POWER_BIND

@@ -38,4 +38,5 @@ Tilesets:
 	tileset ChampCup,     -1, -1, -1, -1, TILEANIM_NONE
 	tileset Volcano,      -1, -1, -1, -1, TILEANIM_WATER_FLOWER
 	tileset Reactor,      -1, -1, -1, -1, TILEANIM_WATER
+	tileset BeachHouse,   -1, -1, -1,  -1, TILEANIM_NONE ; Sunsette: Summer Beach House interior (pokeyellow)
 	assert_table_length NUM_TILESETS

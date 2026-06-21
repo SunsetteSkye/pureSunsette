@@ -15,24 +15,25 @@
 
 	; tm/hm learnset
 	tmhm \
-	FURY_ATTACK,\ ; MUD BOMB
-	DISABLE,\
+	MUD_BOMB,\
 	TOXIC,\
+	DISABLE,\
 	DOUBLE_EDGE,\
-	BUBBLEBEAM,\
-	AURORA_BEAM,\
+	AQUA_RING,\
 	ICE_BEAM,\
 	BLIZZARD,\
-	AMNESIA,\ ; CALM MIND
+	CALM_MIND,\
 	BARRIER,\
-	DRAGON_RAGE,\ ; WYRM WRATH
+	WYRM_WRATH,\
+	RIPTIDE,\
 	MEGA_DRAIN,\
 	REFLECT,\
-	BIDE,\ ; BULK UP
-	BARRAGE,\ ; SHADOW BALL
+	BULK_UP,\
+	SHADOW_BALL,\
+	TWISTER,\
 	LOVELY_KISS,\
 	LIGHT_SCREEN,\
-	SLUDGE,\ ; SLUDGE BOMB
+	SHADOW_GAME,\
 	SUBSTITUTE,\
 	SURF,\
 	FLASH
@@ -46,3 +47,22 @@
 
 	dw 0, HorseaPicBack
 
+; --- Sunsette SSOT directives (parsed by tools/gen_pokemon_data.py) ---
+;@ nature       NATURE_CAUTIOUS NATURE_SCRAPPY
+;@ pal_battle   PAL_CERULEAN
+;@ pal_altbattle PAL_KELPMON
+;@ pal_icon     PAL_ICON_58
+;@ pal_alticon  $FF
+;@ evo         EVOLVE_LEVEL, 27, SEADRA
+;@ evo_move    NO_MOVE
+;@ evo_react   NONE
+;@ learn       14, SUPER_SOAK
+;@ learn       17, SMOKESCREEN
+;@ learn       21, GUST
+;@ learn       24, WATER_PULSE
+;@ learn       26, AGILITY
+;@ learn       31, TWISTER
+;@ learn       35, RIPTIDE
+;@ learn       39, DOUBLE_TEAM
+;@ learn       44, WYRM_WRATH
+;@ learn       49, HYDRO_PUMP

@@ -11,7 +11,7 @@ TryPushingBoulder::
 	ldh a, [hSpriteIndex]
 	and a
 	jr z, .loadThenReset
-	;;;; PureRGBnote: FIXED: there was a bug where if you're facing a different boulder and walk towards another, 
+	;;;; PureRGBnote: FIXED: there was a bug where if you're facing a different boulder and walk towards another,
 	;;;; you'll instantly push it.
 	;;;; this only really can happen in b3f of seafoam islands but it's really annoying when it does happen.
 	ld d, a

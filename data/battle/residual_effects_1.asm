@@ -20,4 +20,7 @@ ResidualEffects1:
 	db MIRAGE_EFFECT ; PureRGBnote: no-damage status move; runs its own accuracy test + animation
 	db MINDWIPE_EFFECT ; Sunsette: no-damage status move (PSYWAVE); MindwipeEffect_ runs its own accuracy test
 	db ROOST_EFFECT ; Sunsette: ROOST (RAZOR_WIND) - heal + type/palette refresh; handled by RoostEffect_
+	db MIASMA_EFFECT ; Sunsette: no-damage status move (POISON_GAS) - one-sided stat clear + poison; MiasmaEffect_ (always lands, like Haze)
+	db AQUA_RING_EFFECT ; Sunsette: no-damage self-buff (ACID_ARMOR) - FLOURISH + DOUBLE_FLOURISH regen; AquaRingEffect_
+	db CLAY_ARMOR_EFFECT ; Sunsette: no-damage (FISSURE) - type-gated dual screens + Ground heal; ClayArmorEffect_
 	db -1 ; end

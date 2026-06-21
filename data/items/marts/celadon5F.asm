@@ -1,3 +1,4 @@
+; Sunsette: CELADON DEPT. STORE 5F clerk stock. INCLUDEd by scripts/CeladonMart5F.asm (mart data is read from the caller's bank).
 CeladonMart5FClerk1Text::
 	script_mart \
 	X_ACCURACY, \

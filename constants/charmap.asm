@@ -168,7 +168,7 @@
 
 	charmap "é",         $ba
 	charmap "'d",        $bb
-	charmap "'l",        $bc
+	charmap "'ll",       $bc ; PureRGBnote: CHANGED: glyph redrawn to 3-char "'ll" in one tile
 	charmap "'s",        $bd
 	charmap "'t",        $be
 	charmap "'v",        $bf

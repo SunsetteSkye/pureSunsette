@@ -93,7 +93,7 @@ DEF EFFECTIVENESS_MASK EQU %01111111
 	const USING_X_ACCURACY         ; 0
 	const STAT_DOWN_IMMUNITY       ; 1 ; Mist and Guard Spec primary effect
 	const GETTING_PUMPED           ; 2 ; Focus Energy
-	const PSYCHIC_IMMUNITY         ; 3 ; Haze secondary effect
+	const DOUBLE_FLOURISH          ; 3 ; Sunsette: AQUA RING - doubles the FLOURISH regen (1/8 instead of 1/16). Reclaimed (was Haze's removed PSYCHIC_IMMUNITY).
 	const HAS_SUBSTITUTE_UP        ; 4
 	const NEEDS_TO_RECHARGE        ; 5 ; Hyper Beam
 	const NORMAL_DRAGON_IMMUNITY   ; 6 ; Mist secondary effect

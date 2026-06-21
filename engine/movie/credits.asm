@@ -20,7 +20,7 @@ HallOfFamePC::
 	call FillFourRowsWithBlack
 	ld a, %11000000
 	ldh [rBGP], a
-	call UpdateGBCPal_BGP ; shinpokerednote: gbcnote: gbc color code from yellow 
+	call UpdateGBCPal_BGP ; shinpokerednote: gbcnote: gbc color code from yellow
 	call EnableLCD
 	ld a, SFX_STOP_ALL_MUSIC
 	call PlaySoundWaitForCurrent
@@ -39,7 +39,7 @@ FadeInCredits:
 .loop
 	ld a, [hli]
 	ldh [rBGP], a
-	call UpdateGBCPal_BGP ; shinpokerednote: gbcnote: gbc color code from yellow 
+	call UpdateGBCPal_BGP ; shinpokerednote: gbcnote: gbc color code from yellow
 	ld c, 5
 	rst _DelayFrames
 	dec b
@@ -79,7 +79,7 @@ DisplayCreditsMon:
 	call FillMiddleOfScreenWithWhite
 	ld a, %11111100 ; make the mon a black silhouette
 	ldh [rBGP], a
-	call UpdateGBCPal_BGP ; shinpokerednote: gbcnote: gbc color code from yellow 
+	call UpdateGBCPal_BGP ; shinpokerednote: gbcnote: gbc color code from yellow
 
 ; scroll the mon left by one tile 7 times
 	ld bc, 7
@@ -104,7 +104,7 @@ DisplayCreditsMon:
 	ldh [hWY], a
 	ld a, %11000000
 	ldh [rBGP], a
-	jp UpdateGBCPal_BGP ; shinpokerednote: gbcnote: gbc color code from yellow 
+	jp UpdateGBCPal_BGP ; shinpokerednote: gbcnote: gbc color code from yellow
 
 INCLUDE "data/credits/credits_mons.asm"
 

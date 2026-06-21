@@ -422,6 +422,12 @@ INCLUDE "audio/sfx/caught_mon.asm"
 INCLUDE "audio/music/defeatedtrainer.asm"
 INCLUDE "audio/music/defeatedwildmon.asm"
 INCLUDE "audio/music/defeatedgymleader.asm"
+; Sunsette: "Pikachu's Beach" track for the Surfing Pikachu minigame. Placed in bank 8 (this
+; "Music 2" section has room; bank 3 alongside Music_Surfing is full). It's not in the song-id
+; table; the minigame plays a 3-channel bank-8 song (Music_TrainerBattle) to claim channels
+; 1-3, then repoints them here via Audio3_RemapChannelN (which just rewrites the WRAM channel
+; pointers, so the data bank just has to match wAudioROMBank = the piggyback song's bank).
+INCLUDE "audio/music/surfingpikachu.asm"
 
 
 SECTION "Music 3", ROMX
@@ -485,3 +491,8 @@ INCLUDE "audio/sfx/volcano_sfx.asm"
 INCLUDE "audio/sfx/unused_fanfare.asm"
 INCLUDE "audio/sfx/static_encounter_sfx.asm"
 INCLUDE "audio/sfx/learnset_fanfare.asm"
+; PureRGBnote: ADDED: Surfing Pikachu minigame SFX data (bank 3).
+INCLUDE "audio/sfx/surfing_jump.asm"
+INCLUDE "audio/sfx/surfing_flip.asm"
+INCLUDE "audio/sfx/surfing_crash.asm"
+INCLUDE "audio/sfx/surfing_land.asm"

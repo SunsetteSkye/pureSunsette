@@ -52,6 +52,7 @@ EndOfBattle:
 	ld [wBattleType], a
 	ld [wMoveMissed], a
 	ld [wCurOpponent], a
+	ld [wIsTrainerBattle], a ; Sunsette: clear the trainer-battle queue latch so the next wild battle reads 0
 	ld [wForcePlayerToChooseMon], a
 	ld [wNumRunAttempts], a
 	ld hl, wPartyAndBillsPCSavedMenuItem

@@ -14,8 +14,8 @@
 	db GROWTH_MEDIUM_SLOW ; growth rate
 
 	tmhm \
-	FURY_ATTACK,\ ; MUD BOMB
-	SONICBOOM,\ ; ILL WIND
+	ADAPTATION,\
+	MUD_BOMB,\
 	PIN_MISSILE,\
 	TOXIC,\
 	BODY_SLAM,\
@@ -23,20 +23,21 @@
 	DOUBLE_EDGE,\
 	ICE_BEAM,\
 	BLIZZARD,\
-	ROLLING_KICK,\ ; METEOR SWEEP
+	METEOR_SWEEP,\
 	THUNDERBOLT,\
 	THUNDER,\
 	DIG,\
 	REFLECT,\
-	BIDE,\ ; BULK UP
-	BARRAGE,\ ; SHADOW BALL
-	SLAM,\ ; WASTEMAKER
-	KARATE_CHOP,\
+	BULK_UP,\
+	ILL_WIND,\
+	SHADOW_BALL,\
+	DEMOLISH,\
 	LOVELY_KISS,\
 	LIGHT_SCREEN,\
-	SLUDGE,\ ; SLUDGE BOMB
-	GLARE,\
+	SHADOW_GAME,\
+	ROCK_ON,\
 	SUBSTITUTE,\
+	CLAY_ARMOR,\
 	CUT
 	; end
 
@@ -48,3 +49,23 @@
 
 	dw 0, NidoranFPicBack
 
+; --- Sunsette SSOT directives (parsed by tools/gen_pokemon_data.py) ---
+;@ nature       NATURE_CAUTIOUS NATURE_GENTLE
+;@ pal_battle   PAL_CYANMON
+;@ pal_altbattle PAL_REDMON
+;@ pal_icon     PAL_ICON_18
+;@ pal_alticon  PAL_ICON_19
+;@ evo         EVOLVE_LEVEL, 16, NIDORINA
+;@ evo_move    NO_MOVE
+;@ evo_react   NONE
+;@ learn       8, POISON_STING
+;@ learn       12, MUD_BOMB
+;@ learn       16, SAND_ATTACK
+;@ learn       20, BULK_UP
+;@ learn       25, BLOOD_RUSH
+;@ learn       30, BODY_SLAM
+;@ learn       35, BARRIER
+;@ learn       40, EARTHQUAKE
+;@ learn       46, REST
+;@ learn       52, SLUDGE_BOMB
+;@ learn       58, METEOR_DRIVE

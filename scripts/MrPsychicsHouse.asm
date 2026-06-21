@@ -190,7 +190,7 @@ FightingBrosRightBroText:
 	rst _PrintText
 	; Sunsette: this tutor now teaches SHORYUKEN (MEGA_PUNCH) directly - it used to offer a
 	; 3-way choice of the elemental punches, which ALAKAZAM can now learn via TM access anyway.
-	ld a, MEGA_PUNCH ; SHORYUKEN
+	ld a, SHORYUKEN
 	ld [wNamedObjectIndex], a
 	call GetMoveName
 	ld hl, wPartyMonNicks
@@ -210,7 +210,7 @@ FightingBrosRightBroText:
 	ld hl, .convene2
 	rst _PrintText
 	; trigger learning the move
-	ld d, MEGA_PUNCH ; SHORYUKEN
+	ld d, SHORYUKEN
 	callfar FarLearnArbitraryMove
 	dec d
 	jp nz, TextScriptEndNoButtonPress

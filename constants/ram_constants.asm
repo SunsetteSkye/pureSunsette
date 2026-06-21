@@ -80,7 +80,7 @@ DEF BOX_NUM_MASK EQU %01111111
 	const_def
 	const BIT_STRENGTH_ACTIVE           ; 0
 	const BIT_SURF_ALLOWED              ; 1
-	const BIT_AUTOSURF                  ; 2 ; PureRGBnote: ADDED: 
+	const BIT_AUTOSURF                  ; 2 ; PureRGBnote: ADDED:
 	const BIT_GOT_OLD_ROD               ; 3
 	const BIT_GOT_GOOD_ROD              ; 4
 	const BIT_GOT_SUPER_ROD             ; 5
@@ -122,7 +122,7 @@ DEF BOX_NUM_MASK EQU %01111111
 	const BIT_UNKNOWN_5_4             ; 4
 	const BIT_DISABLE_JOYPAD          ; 5
 	const BIT_NO_TEXT_DELAY           ; 6
-	const BIT_SCRIPTED_MOVEMENT_STATE ; 7 
+	const BIT_SCRIPTED_MOVEMENT_STATE ; 7
 
 ; wStatusFlags6
 	const_def
@@ -168,13 +168,13 @@ DEF BOX_NUM_MASK EQU %01111111
 	const BIT_PLAYER_LOWER_Y ; 0
 	const BIT_PLAYER_LOWER_X ; 1
 
-;;;;;;;;;; PureRGBnote: ADDED: New constants for all the new options that appear in the new options menus. 
-;;;;;;;;;;                     Controls which bits they use in the options wram variables. 
+;;;;;;;;;; PureRGBnote: ADDED: New constants for all the new options that appear in the new options menus.
+;;;;;;;;;;                     Controls which bits they use in the options wram variables.
 ;;;;;;;;;;                     Some are defined in event constants instead of here.
 
 ; wOptions2
 
-DEF PALETTES_DEFAULT    EQU  %00 ; 0 
+DEF PALETTES_DEFAULT    EQU  %00 ; 0
 DEF PALETTES_SGB        EQU  %01 ; 1
 DEF PALETTES_SGB2       EQU  %01000001
 DEF PALETTES_YELLOW     EQU  %11 ; 3
@@ -216,7 +216,7 @@ DEF PALETTES_YELLOW2    EQU  %01000011
 	const BIT_ELECTABUZZ_SPRITE ; 4
 	const BIT_RATICATE_SPRITE   ; 5
 	const BIT_NEW_TITLE_SCREEN ; 6
-	const BIT_SKIP_INTRO       ; 7 
+	const BIT_SKIP_INTRO       ; 7
 
 ; wSpriteOptions3
 	const_def

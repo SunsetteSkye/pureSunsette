@@ -94,9 +94,9 @@ BattleTransitions:
 	assert_table_length 1 << NUM_BATTLE_TRANSITION_BITS
 
 GetBattleTransitionID_WildOrTrainer:
-	ld a, [wCurOpponent]
-	cp OPP_ID_OFFSET
-	jr nc, .trainer
+	ld a, [wIsInBattle] ; Sunsette: trainer-vs-wild from the type flag (2 = trainer), not the packed opponent range
+	cp 2
+	jr z, .trainer
 	res BIT_TRAINER_BATTLE_TRANSITION, c
 	ret
 .trainer

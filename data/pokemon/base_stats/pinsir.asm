@@ -10,37 +10,38 @@
 	INCBIN "gfx/pokemon/front/pinsir.pic", 0, 1 ; sprite dimensions
 	dw PinsirPicFront, PinsirPicBackSW
 
-	db SEISMIC_TOSS, FURY_SWIPES, NO_MOVE, NO_MOVE ; level 1 learnset (MUD CLAW)
+	db SEISMIC_TOSS, MUD_CLAW, NO_MOVE, NO_MOVE ; level 1 learnset
 	db GROWTH_MEDIUM_SLOW ; growth rate
 
 	; tm/hm learnset
 	tmhm \
-	FURY_ATTACK,\ ; MUD BOMB
-	ICE_PUNCH,\ ; FROST FIST
+	ADAPTATION,\
+	FROST_FIST,\
+	MUD_BOMB,\
 	PIN_MISSILE,\
-	FIRE_PUNCH,\ ; BLAZE HAMMER
+	BLAZE_HAMMER,\
 	TOXIC,\
-	HORN_DRILL,\ ; VENOM DRILL
+	HONE_EDGE,\
 	BODY_SLAM,\
 	DISABLE,\
 	DOUBLE_EDGE,\
 	HYPER_BEAM,\
 	LOW_KICK,\
-	THUNDERPUNCH,\ ; ZAPPERCUT
-	ROLLING_KICK,\ ; METEOR SWEEP
+	ZAPPERCUT,\
+	METEOR_SWEEP,\
 	BARRIER,\
 	EARTHQUAKE,\
-	CRABHAMMER,\
 	DIG,\
 	SWORDS_DANCE,\
-	BIDE,\ ; BULK UP
-	BARRAGE,\ ; SHADOW BALL
-	SLAM,\ ; WASTEMAKER
-	KARATE_CHOP,\
-	MEDITATE,\ ; VOID MIND
+	BULK_UP,\
+	SHADOW_BALL,\
+	DEMOLISH,\
+	VOID_MIND,\
+	SHADOW_GAME,\
 	ROCK_SLIDE,\
-	GLARE,\
+	ROCK_ON,\
 	SUBSTITUTE,\
+	CLAY_ARMOR,\
 	CUT,\
 	SURF,\
 	STRENGTH
@@ -54,3 +55,21 @@
 
 	dw PinsirPicFrontAlt, PinsirPicBack
 
+; --- Sunsette SSOT directives (parsed by tools/gen_pokemon_data.py) ---
+;@ nature       NATURE_CRUEL NATURE_SCRAPPY
+;@ pal_battle   PAL_BROWNMON2
+;@ pal_altbattle PAL_BLACK
+;@ pal_icon     PAL_ICON_64
+;@ pal_alticon  PAL_ICON_65
+;@ evo_move    NO_MOVE
+;@ evo_react   NONE
+;@ learn       19, HARDEN
+;@ learn       21, POWER_BIND
+;@ learn       24, MUD_BOMB
+;@ learn       27, FOCUS_ENERGY
+;@ learn       30, UNDERBUG
+;@ learn       33, SPIKE_CANNON
+;@ learn       38, EARTHQUAKE
+;@ learn       45, COMBOBREAKER
+;@ learn       49, EXTERMINATE
+;@ learn       54, STRENGTH

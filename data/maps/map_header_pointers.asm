@@ -243,7 +243,7 @@ MapHeaderPointers::
 	dw TradeCenter_h
 	dw Colosseum_h
 	dw SilphCo2F_h ; UNUSED_MAP_F1
-	dw SilphCo2F_h ; UNUSED_MAP_F2
+	dw SummerBeachHouse_h ; SUMMER_BEACH_HOUSE
 	dw SilphCo2F_h ; UNUSED_MAP_F3
 	dw SilphCo2F_h ; UNUSED_MAP_F4
 	dw LoreleisRoom_h

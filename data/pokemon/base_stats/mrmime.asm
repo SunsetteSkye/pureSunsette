@@ -15,37 +15,34 @@
 
 	; tm/hm learnset
 	tmhm \
-	SONICBOOM,\ ; ILL WIND
-	ICE_PUNCH,\ ; FROST FIST
-	FIRE_PUNCH,\ ; BLAZE HAMMER
+	FROST_FIST,\
+	BLAZE_HAMMER,\
 	TOXIC,\
 	BODY_SLAM,\
 	DISABLE,\
 	DOUBLE_EDGE,\
-	BUBBLEBEAM,\
-	AURORA_BEAM,\
+	AURORA_MIST,\
 	HYPER_BEAM,\
-	AMNESIA,\ ; CALM MIND
+	CALM_MIND,\
 	LOW_KICK,\
-	THUNDERPUNCH,\ ; ZAPPERCUT
-	ROLLING_KICK,\ ; METEOR SWEEP
+	ZAPPERCUT,\
+	METEOR_SWEEP,\
 	BARRIER,\
-	SOLARBEAM,\ ; SOLARBEAM
+	SOLARBEAM,\ 
 	THUNDERBOLT,\
 	THUNDER,\
-	CRABHAMMER,\
+	RIPTIDE,\
 	PSYCHIC_M,\
-	KINESIS,\ ; MIRAGE
+	MIRAGE,\
 	REFLECT,\
-	BIDE,\ ; BULK UP
-	BARRAGE,\ ; SHADOW BALL
-	SLAM,\ ; WASTEMAKER
-	KARATE_CHOP,\
-	MEDITATE,\ ; VOID MIND
+	BULK_UP,\
+	ILL_WIND,\
+	SHADOW_BALL,\
+	DEMOLISH,\
+	VOID_MIND,\
 	LIGHT_SCREEN,\
 	THUNDER_WAVE,\
-	PSYWAVE,\ ; SKITTERMIND
-	GLARE,\
+	SKITTERMIND,\
 	SUBSTITUTE,\
 	CUT,\
 	SURF,\
@@ -61,3 +58,22 @@
 
 	dw 0, MrMimePicBack
 
+; --- Sunsette SSOT directives (parsed by tools/gen_pokemon_data.py) ---
+;@ nature       NATURE_CALCULATING NATURE_RAGE
+;@ pal_battle   PAL_ROSEMON
+;@ pal_altbattle PAL_WHITEMON
+;@ pal_icon     PAL_ICON_62
+;@ pal_alticon  PAL_ICON_27
+;@ evo_move    NO_MOVE
+;@ evo_react   NONE
+;@ learn       17, DOUBLESLAP
+;@ learn       19, LIGHT_SCREEN
+;@ learn       23, PSYBEAM
+;@ learn       25, TELEPORT
+;@ learn       28, MOCKINGBIRD
+;@ learn       31, SEISMIC_TOSS
+;@ learn       35, VOID_MIND
+;@ learn       39, PSYCHIC_M
+;@ learn       44, ILL_WIND
+;@ learn       48, SUBSTITUTE
+;@ learn       53, MIMIC

@@ -40,7 +40,7 @@ GymStatueTextScript::
 	text_far _GymStatueRivalPlayer
 	text_end
 
-; PureRGBnote: CHANGED: Previously gym statue name data was loaded by the respective gym's map script into wram, 
+; PureRGBnote: CHANGED: Previously gym statue name data was loaded by the respective gym's map script into wram,
 ; but it was wasteful because it's not even hard to load without even using wram values right when you read the statue.
 ; this was refactored from some free wram space.
 

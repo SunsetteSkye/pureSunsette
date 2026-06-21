@@ -1,3 +1,4 @@
+; Sunsette: CINNABAR ISLAND MART stock. INCLUDEd by scripts/CinnabarMart.asm (mart data is read from the caller's bank).
 CinnabarMartClerkText::
 	script_mart \
 	ULTRA_BALL, \
@@ -8,12 +9,3 @@ CinnabarMartClerkText::
 	ESCAPE_ROPE, \
 	FULL_HEAL, \
 	REVIVE
-	
-CinnabarTMKidShop::
-	script_mart \
-	TM_TOXIC, \
-	TM_BARRIER, \
-	TM_AMNESIA, \ ; CALM MIND
-	TM_BODY_SLAM, \
-	TM_BARRAGE, \ ; SHADOW BALL
-	TM_SLAM ; WASTEMAKER

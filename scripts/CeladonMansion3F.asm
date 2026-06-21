@@ -13,6 +13,17 @@ CeladonMansion3F_TextPointers:
 	dw_const CeladonMansion3FDevRoomSignText,    TEXT_CELADONMANSION3F_DEV_ROOM_SIGN
 
 CeladonMansion3FProgrammerText:
+	text_asm
+	ld hl, .text
+	rst _PrintText
+	CheckEvent EVENT_REACTED_GAME_FREAK
+	jr nz, .done
+	SetEvent EVENT_REACTED_GAME_FREAK
+	ld a, NROW_GAME_FREAK
+	farcall ShowOverworldNature
+.done
+	rst TextScriptEnd
+.text
 	text_far _CeladonMansion3FProgrammerText
 	text_end
 

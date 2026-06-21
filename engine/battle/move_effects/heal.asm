@@ -52,7 +52,7 @@ HealEffectCommon:
 	inc hl	; however, it does get us working with e & l
 	jr nz, .passed	; if c_flag is set, then h is > d and therefore hl is assumed > de. we can stop checking here
 	ld a, [de]	;if h = d, then load e into a. again, assume l >= e
-	sbc [hl]	;c_flag is still 0. compare a with l. 
+	sbc [hl]	;c_flag is still 0. compare a with l.
 	;A a zero flag means both h and d as well as l and e are equal pairs. hl = de, so already at full hp!
 	jp z, .failed ; no effect if user's HP is already at its maximum
 .passed
@@ -99,9 +99,9 @@ HealEffectCommon:
 ; Recover and Softboiled only heal for half the mon's max HP
 	srl b
 	rr c
-	cp WITHDRAW ; SHELL GAME
+	cp SHELL_GAME
 	jp z, .oneThird ; Sunsette: jp (not jr) - the RECOVER FLOURISH hook pushed .oneThird out of jr range
-	cp GROWTH ; ADAPTATION
+	cp ADAPTATION
 	jp z, .oneThird ; Sunsette: jp (not jr) - the RECOVER FLOURISH hook pushed .oneThird out of jr range
 	cp TELEPORT
 	jr nz, .gotHPAmountToHeal

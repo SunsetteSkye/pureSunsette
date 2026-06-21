@@ -1,5 +1,5 @@
 ; this function temporarily makes the starters owned so that the full Pokedex information gets displayed in Oak's lab
-; PureRGBnote: CHANGED: refactored to mark the starters indicated by the starter constants 
+; PureRGBnote: CHANGED: refactored to mark the starters indicated by the starter constants
 ; by converting them to dex constants so no changes are necessary other than changing the constant values
 ; downside is this function takes up more space than before
 StarterDex::

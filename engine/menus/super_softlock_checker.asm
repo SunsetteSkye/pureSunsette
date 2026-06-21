@@ -1,4 +1,4 @@
-; PureRGBnote: ADDED: code for preventing softlocks. 
+; PureRGBnote: ADDED: code for preventing softlocks.
 ; For cut, it just keeps the tree cut down until you leave the area where you could get softlocked if it reappeared.
 ; For surf, autosurf just stays active even if you have no pokemon with SURF if you're on an island.
 

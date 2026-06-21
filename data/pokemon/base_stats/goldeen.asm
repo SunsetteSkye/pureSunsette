@@ -10,29 +10,32 @@
 	INCBIN "gfx/pokemon/front/goldeen.pic", 0, 1 ; sprite dimensions
 	dw GoldeenPicFront, GoldeenPicBackSW
 
-	db SPLASH, WATER_GUN, SUPERSONIC, NO_MOVE ; level 1 learnset (SUPER SOAK)
+	db SPLASH, SUPER_SOAK, SUPERSONIC, NO_MOVE ; level 1 learnset
 	db GROWTH_MEDIUM_FAST ; growth rate
 
 	; tm/hm learnset
 	tmhm \
-	FURY_ATTACK,\ ; MUD BOMB
-	DISABLE,\
+	ROCK_ON,\
+	ADAPTATION,\
+	MUD_BOMB,\
 	TOXIC,\
-	HORN_DRILL,\ ; VENOM DRILL
+	HONE_EDGE,\
 	BODY_SLAM,\
+	DISABLE,\
 	DOUBLE_EDGE,\
-	BUBBLEBEAM,\
-	AURORA_BEAM,\
+	AQUA_RING,\
 	ICE_BEAM,\
 	BLIZZARD,\
 	BARRIER,\
+	RIPTIDE,\
 	SWORDS_DANCE,\
 	REFLECT,\
-	BIDE,\ ; BULK UP
-	BARRAGE,\ ; SHADOW BALL
-	SLAM,\ ; WASTEMAKER
+	BULK_UP,\
+	SHADOW_BALL,\
+	TWISTER,\
 	LOVELY_KISS,\
 	LIGHT_SCREEN,\
+	SHADOW_GAME,\
 	SUBSTITUTE,\
 	SURF,\
 	FLASH
@@ -46,3 +49,22 @@
 
 	dw 0, GoldeenPicBack
 
+; --- Sunsette SSOT directives (parsed by tools/gen_pokemon_data.py) ---
+;@ nature       NATURE_ARROGANT NATURE_CONSIDERATE
+;@ pal_battle   PAL_GOLDEENMON
+;@ pal_altbattle PAL_PEWTER
+;@ pal_icon     PAL_ICON_19
+;@ pal_alticon  PAL_ICON_59
+;@ evo         EVOLVE_LEVEL, 25, SEAKING
+;@ evo_move    NO_MOVE
+;@ evo_react   NONE
+;@ learn       15, SUPERSONIC
+;@ learn       18, WATER_PULSE
+;@ learn       21, HEADBUTT
+;@ learn       24, MUD_BOMB
+;@ learn       27, AIR_DRILL
+;@ learn       31, RIPTIDE
+;@ learn       35, AGILITY
+;@ learn       38, METEOR_DRIVE
+;@ learn       43, DOUBLE_EDGE
+;@ learn       45, HYDRO_PUMP

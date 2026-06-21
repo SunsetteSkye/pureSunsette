@@ -95,7 +95,7 @@ UpdateNonPlayerSprite:
 ; is going to collide with another sprite by looping over the other sprites.
 ; The current sprite's offset will be labelled with i (e.g. i#SPRITESTATEDATA1_PICTUREID).
 ; The loop sprite's offset will labelled with j (e.g. j#SPRITESTATEDATA1_PICTUREID).
-;
+
 ; Note that the Y coordinate of the sprite (in [k#SPRITESTATEDATA1_YPIXELS])
 ; is one of the following 9 values when the sprite is aligned with the grid:
 ; $fc, $0c, $1c, $2c, ..., $7c.

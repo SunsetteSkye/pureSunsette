@@ -7,6 +7,11 @@ PokemonMansionB1F_Script:
 	call MansionB1FCheckReplaceSwitchDoorBlocks
 	call EnableAutoTextBoxDrawing
 	callfar CheckUsedFlash ; Sunsette: Flash brightens the dark Mansion (mirrors Rock Tunnel)
+	CheckEvent EVENT_REACTED_MANSION_DREAD
+	jr nz, .skipReaction
+	SetEvent EVENT_REACTED_MANSION_DREAD
+	farcall ShowMansionReaction
+.skipReaction
 	ld hl, Mansion4TrainerHeaders
 	ld de, PokemonMansionB1F_ScriptPointers
 	ld a, [wPokemonMansionB1FCurScript]

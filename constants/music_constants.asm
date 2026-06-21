@@ -242,7 +242,13 @@ DEF MAX_SFX_ID_2 EQUS "SFX_TRAINER_APPEARED"
 	music_const SFX_SLOTS_REWARD,       SFX_Slots_Reward
 	music_const SFX_SLOTS_NEW_SPIN,     SFX_Slots_New_Spin
 	music_const SFX_SHOOTING_STAR,      SFX_Shooting_Star
-DEF MAX_SFX_ID_3 EQUS "SFX_SHOOTING_STAR"
+	; PureRGBnote: ADDED: Surfing Pikachu minigame SFX (bank 3, same bank as Music_Surfing
+	; which backs the minigame BGM). Order here must match the sfxheaders3 header order.
+	music_const SFX_SURFING_JUMP,       SFX_Surfing_Jump
+	music_const SFX_SURFING_FLIP,       SFX_Surfing_Flip
+	music_const SFX_SURFING_CRASH,      SFX_Surfing_Crash
+	music_const SFX_SURFING_LAND,       SFX_Surfing_Land
+DEF MAX_SFX_ID_3 EQUS "SFX_SURFING_LAND"
 
 DEF SFX_STOP_ALL_MUSIC EQU $ff
 

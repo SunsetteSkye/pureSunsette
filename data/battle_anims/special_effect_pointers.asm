@@ -35,8 +35,9 @@ SpecialEffectPointers:
 	special_effect SE_SHAKE_ENEMY_HUD,           AnimationShakeEnemyHUD           ; $E4
 	special_effect SE_SPIRAL_BALLS_INWARD_FAST,  AnimationSpiralBallsInwardFast   ; $E3
 	special_effect SE_SPIRAL_BALLS_INWARD,       AnimationSpiralBallsInwardDefault; $E2
+	special_effect SE_SPIRAL_BALLS_OUTWARD,      AnimationSpiralBallsOutward      ; $C9 Sunsette: MAXIMIZE (reversed spiral)
 	special_effect SE_DELAY_ANIMATION_10,        AnimationDelay10                 ; $E1
-	special_effect SE_WATER_DROPLETS_EVERYWHERE_FAST,       AnimationWaterDropletsEverywhereFast        ; $E0 
+	special_effect SE_WATER_DROPLETS_EVERYWHERE_FAST,       AnimationWaterDropletsEverywhereFast        ; $E0
 	special_effect SE_HIDE_ENEMY_MON_PIC,        AnimationHideEnemyMonPic         ; $DF
 	special_effect SE_BLINK_ENEMY_MON,           AnimationBlinkEnemyMon           ; $DE
 	special_effect SE_SHOW_MON_PIC,              AnimationShowMonPic              ; $DD

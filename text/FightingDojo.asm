@@ -41,6 +41,18 @@ _FightingDojoKarateMasterStayAndTrainWithUsText::
 	line "Karate with us!"
 	done
 
+_FightingDojoMasterTMShopText::
+	text "A true master"
+	line "shares his art."
+
+	para "These <TM>s hold"
+	line "our DOJO's finest"
+	cont "techniques."
+
+	para "Train hard with"
+	line "them!"
+	prompt
+
 _FightingDojoBlackbelt1BattleText::
 	text "Hoargh! Take your"
 	line "shoes off!"

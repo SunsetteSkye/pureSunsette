@@ -620,7 +620,7 @@ ItemUseBall:
 	ld hl, ItemUseBallText08
 .printTransferredToPCText
 	rst _PrintText
-	call PrintRemainingBoxSpacePrompt ; PureRGBnote: ADDED: 
+	call PrintRemainingBoxSpacePrompt ; PureRGBnote: ADDED:
 	jr .done
 
 .oldManCaughtMon
@@ -1580,7 +1580,7 @@ ItemUseMedicine:
 	ld a, [hl] ; a = MSB of stat experience of the appropriate stat
 	cp 100 ; is there already at least 25600 (256 * 100) stat experience?
 	jr nc, .vitaminNoEffect ; if so, vitamins can't add any more
-	add b ; add ; PureRGBnote: CHANGED: now 8704 EXP (256*34) stat experience OLD: 2560 (256 * 10) 
+	add b ; add ; PureRGBnote: CHANGED: now 8704 EXP (256*34) stat experience OLD: 2560 (256 * 10)
 	jr nc, .noCarry3 ; a carry should be impossible here, so this will always jump
 	ld a, 255
 .noCarry3
@@ -2188,7 +2188,7 @@ ItemUsePokeFlute:
 	ld hl, wEnemyMonStatus
 	ld a, [hl]
 
-;;;;;;;;;; shinpokerednote: FIXED: There is an oversight here. 
+;;;;;;;;;; shinpokerednote: FIXED: There is an oversight here.
 ;;;;;;;;;; wWereAnyMonsAsleep can never get set off of a wild pokemon.
 ;;;;;;;;;; As a result, the wrong message plays when only the wild pokemon is woken up.
 ;;;;;;;;;; Need to check and set wWereAnyMonsAsleep here in order to fix it.
@@ -2216,7 +2216,7 @@ ItemUsePokeFlute:
 	call WaitForSoundToFinish ; wait for sound to end
 ;;;;;;;;;; PureRGBnote: ADDED: pause music here to make music work better when playing out-of-bank battle music
 	call PauseMusic
-;;;;;;;;;; 
+;;;;;;;;;;
 	farcall Music_PokeFluteInBattle ; play in-battle pokeflute music
 .musicWaitLoop ; wait for music to finish playing
 	ld a, [wChannelSoundIDs + CHAN7]
@@ -2429,7 +2429,7 @@ FishingInit:
 ItemNotYours:
 	jp ItemUseNotYoursToUse
 
-; PureRGBnote: CHANGED: ADDED: itemfinder will make you face in the direction of the item it detected. 
+; PureRGBnote: CHANGED: ADDED: itemfinder will make you face in the direction of the item it detected.
 ItemUseItemfinder:
 	ld a, [wIsInBattle]
 	and a

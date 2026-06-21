@@ -44,6 +44,7 @@ CeruleanGymReceiveTM11:
 .gymVictory
 	ld hl, wObtainedBadges
 	set BIT_CASCADEBADGE, [hl]
+	call BadgeMonCry ; Sunsette: lead mon cries when the badge is earned
 
 	; deactivate gym trainers
 	SetEvents EVENT_BEAT_CERULEAN_GYM_TRAINER_0, EVENT_BEAT_CERULEAN_GYM_TRAINER_1
@@ -84,7 +85,7 @@ CeruleanGymMistyText:
 	call DisableWaitingAfterTextDisplay
 	rst TextScriptEnd
 .afterBeat
-	ld hl, .TM11ExplanationText
+	ld hl, .PostBattleText
 	rst _PrintText
 	rst TextScriptEnd
 .beforeBeat
@@ -102,6 +103,7 @@ CeruleanGymMistyText:
 	call InitBattleEnemyParameters
 	ld a, $2
 	ld [wGymLeaderNo], a
+	call ApplyGymLeaderBadgeTier ; Sunsette: badge count picks the leader's party tier
 	xor a
 	ldh [hJoyHeld], a
 	ld a, SCRIPT_CERULEANGYM_MISTY_POST_BATTLE
@@ -112,8 +114,8 @@ CeruleanGymMistyText:
 	text_far _CeruleanGymMistyPreBattleText
 	text_end
 
-.TM11ExplanationText:
-	text_far _CeruleanGymMistyTM11ExplanationText
+.PostBattleText:
+	text_far _CeruleanGymMistyPostBattleText
 	text_end
 
 CeruleanGymMistyCascadeBadgeInfoText:
@@ -123,6 +125,7 @@ CeruleanGymMistyCascadeBadgeInfoText:
 CeruleanGymMistyReceivedTM11Text:
 	text_far _CeruleanGymMistyReceivedTM11Text
 	sound_get_item_1
+	text_far _CeruleanGymMistyTM11ExplanationText
 	text_end
 
 CeruleanGymMistyTM11NoRoomText:
@@ -165,53 +168,32 @@ CeruleanGymAfterBattleText2:
 	text_far _CeruleanGymAfterBattleText2
 	text_end
 
-CeruleanGymGymGuideText: ; PureRGBnote: ADDED: gym guide gives you apex chips after beating the leader
+CeruleanGymGymGuideText: ; Sunsette: post-badge, the gym guide sells a spare copy of MISTY's TM at the normal MART price
 	text_asm
 	CheckEvent EVENT_BEAT_MISTY
+	jr nz, .afterBeat
 	ld hl, CeruleanGymChampInMakingText
-	jr z, .printDone
-.afterBeat
-	CheckEvent EVENT_GOT_PEWTER_APEX_CHIPS ; have to hear about apex chips to receive them after that
-	ld hl, CeruleanGymBeatMistyText
-	jr z, .printDone
-	rst _PrintText
-	call DisplayTextPromptButton
-	CheckEvent EVENT_GOT_CERULEAN_APEX_CHIPS
-	jr nz, .alreadyChips
-.giveApexChips
-	ld hl, GymGuideMoreApexChipText2
-	rst _PrintText
-	lb bc, APEX_CHIP, 2
-	call GiveItem
-	ld hl, ApexNoRoomText2
-	jr nc, .printDone
-	ld hl, ReceivedApexChipsText2
-	rst _PrintText
-	ld hl, CeruleanGymGuideApexChipWaterText
-	rst _PrintText
-	SetEvent EVENT_GOT_CERULEAN_APEX_CHIPS
-.alreadyChips
-	ld hl, AlreadyReceivedApexChipsText2
-.printDone
 	rst _PrintText
 	rst TextScriptEnd
+.afterBeat
+	ld hl, CeruleanGymBeatMistyText
+	rst _PrintText
+	ld hl, wObtainedBadges ; Sunsette: badge-count-gated extra TMs (3 badges, then 6)
+	ld b, 1
+	call CountSetBits
+	ld a, [wNumSetBits]
+	cp 6
+	ld hl, CeruleanGymGuideTMShop6
+	jr nc, .tmShopReady
+	cp 3
+	ld hl, CeruleanGymGuideTMShop3
+	jr nc, .tmShopReady
+	ld hl, CeruleanGymGuideTMShop1
+.tmShopReady
+	call DisplayPokemartNoGreeting
+	rst TextScriptEnd
 
-ReceivedApexChipsText2:
-	text_far _ReceivedApexChipsText
-	sound_get_item_1
-	text_end
-
-ApexNoRoomText2:
-	text_far _PewterGymTM34NoRoomText
-	text_end
-
-GymGuideMoreApexChipText2:
-	text_far _GymGuideMoreApexChipText
-	text_end
-
-AlreadyReceivedApexChipsText2:
-	text_far _AlreadyReceivedApexChipsText
-	text_end
+INCLUDE "data/items/marts/cerulean_gym_guide.asm"
 
 CeruleanGymChampInMakingText:
 	text_far _GymGuideChampInMakingText
@@ -220,13 +202,4 @@ CeruleanGymChampInMakingText:
 
 CeruleanGymBeatMistyText:
 	text_far _CeruleanGymGymGuideBeatMistyText
-	text_end
-
-ReceivedApexChipsText::
-	text_far _ReceivedApexChipsText
-	sound_get_item_1
-	text_end
-
-CeruleanGymGuideApexChipWaterText:
-	text_far _CeruleanGymGuideApexChipWaterText
 	text_end

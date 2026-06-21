@@ -355,6 +355,13 @@ SECTION "Splash Animation", ROMX
 INCLUDE "engine/movie/splash.asm"
 INCLUDE "engine/movie/hall_of_fame.asm"
 
+; Sunsette: relocated out of bank3 (player_state.asm) to free room for the BEACH_HOUSE tileset header.
+; Floating ROMX (not pinned in layout.link) so the linker drops it in any bank with room. Both callers
+; of IsPlayerStandingOnDoorTileOrWarpTile already use callfar/farcall, so its bank is irrelevant.
+SECTION "Sunsette Warp Tile Lookup", ROMX
+INCLUDE "engine/overworld/standing_on_warp_tile.asm"
+INCLUDE "data/tilesets/warp_tile_ids.asm"
+
 SECTION "movedCode", ROMX
 ; moved from home bank
 INCLUDE "data/tilesets/collision_tile_ids.asm"
@@ -384,8 +391,24 @@ INCLUDE "engine/pokemon/draw_hp_bar.asm"
 
 SECTION "Party Sprites", ROMX, BANK[$34]
 ; PureRGBnote: ADDED: new menu sprite icons raw data
+; NOTE: these are dual-purpose. Besides the (legacy) type-grouped party icons,
+; several event scripts (Power Plant, Silph, Vermilion Dock, Cinnabar Volcano,
+; Cerulean Cave, the Dig minigame, town map) copy specific tile offsets out of
+; these blobs for overworld statues / minigame sprites. Do NOT repoint or resize
+; them. The live per-species party-menu icons live in DexPartyIcons1/2 below.
 PartyMonSprites1:: INCBIN "gfx/icons/menusprites1.2bpp"
 PartyMonSprites2:: INCBIN "gfx/icons/menusprites2.2bpp"
+
+; Sunsette: ADDED: per-species party-menu icons (pokecrystal mini-icons), stored
+; in National Dex order (slot N = dex #N; slot 0 = Missingno/egg). Each icon is
+; 8 tiles ($80 bytes) = two 16x16 frames side by side. Slots 0..127 fill bank $3E
+; exactly; slots 128..151 live in bank $3F. Addressed in PreparePartyMonSpriteCopy.
+; Built by tools/build_dex_menu_icons.py from gfx/pokemon/icons/*.png.
+SECTION "Dex Party Icons 1", ROMX, BANK[$3E]
+DexPartyIcons1:: INCBIN "gfx/pokemon/icons/dex_icons1.2bpp"
+
+SECTION "Dex Party Icons 2", ROMX, BANK[$3F]
+DexPartyIcons2:: INCBIN "gfx/pokemon/icons/dex_icons2.2bpp"
 
 SECTION "GBC Mode Code", ROMX
 
@@ -439,14 +462,12 @@ INCLUDE "engine/pokemon/change_mon_species.asm"
 INCLUDE "engine/menus/super_softlock_checker.asm"
 INCLUDE "engine/pokemon/remap_typings.asm"
 INCLUDE "engine/gbc/gbc_cpu_speed.asm"
-INCLUDE "data/trainers/custom_movesets.asm"
 INCLUDE "engine/gbc/gbc_fade.asm"
 INCLUDE "engine/menus/dig.asm"
 INCLUDE "engine/battle/pp_tracker.asm"
 INCLUDE "engine/menus/world_options.asm"
 INCLUDE "engine/battle/volcano_battle_init.asm"
 INCLUDE "engine/gfx/enter_map_replace_tiles_check.asm"
-INCLUDE "engine/battle/move_effects/defense_curl_effect.asm"
 INCLUDE "engine/battle/remap_move_data.asm"
 INCLUDE "engine/battle/move_effects/conversion.asm"
 INCLUDE "engine/overworld/overworld_animation.asm"
@@ -459,6 +480,47 @@ INCLUDE "engine/overworld/daycare_exp.asm" ; Sunsette: moved out of full bank3 -
 
 INCLUDE "engine/battle/splash.asm" ; Sunsette: SPLASH MAGIKARP-signature comedy handler + its own message bank (self-contained SECTION)
 INCLUDE "engine/battle/critical_hit.asm" ; Sunsette: CriticalHitTest + helpers + high-crit table, floated out of the full Battle Core bank (self-contained SECTION); adds auto-crit-vs-status
+INCLUDE "engine/battle/sleep_hit_reduction.asm" ; Sunsette: hitting a sleeping target wears down its sleep (1 round per hit, 2 per crit), applied after the turn (self-contained SECTION)
+INCLUDE "engine/battle/black_haze.asm" ; Sunsette: SHADOW GAME field effect - badly poison + EVASION +2 both sides after the Haze reset (self-contained floating SECTION; newCode is full)
+INCLUDE "data/trainers/custom_movesets.asm" ; Sunsette: floated out of full newCode into its own SECTION (callfar'd, self-contained function + data); the GymKogaMoveset addition tipped newCode over
+
+; Sunsette: ADDED: Pokemon nature reactions (sprite-pop + cry + personality line on field moves,
+; story beats, notable wins, and evolution). Self-contained floating SECTION: logic + tables +
+; the line text live together so rst _PrintText reads each line from this bank directly. All
+; callers reach it via farcall, so the bank is irrelevant.
+SECTION "Sunsette Nature Reactions", ROMX
+INCLUDE "engine/overworld/nature_reactions.asm"
+INCLUDE "data/pokemon/nature_table.asm"
+INCLUDE "data/pokemon/nature_reactions_data.asm"
+
+; Sunsette: the reaction line STRINGS live in their own floating section (the code+pools section
+; outgrew one bank); the pools reference them via text_far stubs. tools/split_nature_text.py.
+SECTION "Sunsette Nature Reaction Text", ROMX
+INCLUDE "data/pokemon/nature_reactions_text.asm"
+
+; Sunsette: status-screen PAGE 3 (battle effects / eagerness / personality reaction). Self-contained
+; floating SECTION: renderer + tables + PlaceString text together, callfar'd from both status loops.
+SECTION "Sunsette Status Page 3", ROMX
+INCLUDE "engine/pokemon/status_page3.asm"
+
+; Sunsette: last-mon trainer cut-ins (trainer pic scrolls in + a character line before they send
+; their final mon). Self-contained: logic + dispatch + line text together, callfar'd from EnemySendOut.
+SECTION "Sunsette Last Mon Cutin", ROMX
+INCLUDE "engine/battle/last_mon_cutin.asm"
+
+; Sunsette: PSYDUCK's hidden psychic-headache recoil (callfar'd from CheckRemapMoveData; newCode is full).
+SECTION "Sunsette Psyduck Headache", ROMX
+INCLUDE "engine/battle/psyduck_headache.asm"
+
+; Sunsette: GHOST flinch immunity + SLOWPOKE/SLOWBRO confusion immunity, floated out of the full Battle
+; Core bank (declares its own SECTION; reached via jpfar/callfar from effects.asm).
+INCLUDE "engine/battle/status_type_immunities.asm"
+
+; Sunsette: the comeback / desperation-stage engine shared by the comeback move family (self-contained SECTION).
+INCLUDE "engine/battle/comeback.asm"
+
+; Sunsette: ROCK ON's escalating defensive effect, floated out of the full newCode bank (self-contained SECTION).
+INCLUDE "engine/battle/move_effects/defense_curl_effect.asm"
 
 SECTION "newCode2", ROMX
 
@@ -499,3 +561,14 @@ INCLUDE "engine/events/locked_area_lockout.asm" ; Sunsette: morale lockout - con
 SECTION "Silph Card Key Scripts", ROMX
 
 INCLUDE "engine/events/silph_card_key_scripts.asm"
+
+; PureRGBnote: ADDED: the Surfing Pikachu minigame ported from pokeyellow (Summer
+; Beach House on Route 19). Code + its animated-object engine live in one floating
+; bank; the graphics file declares its own section.
+SECTION "Surfing Pikachu Minigame", ROMX
+
+INCLUDE "engine/gfx/animated_objects.asm"
+INCLUDE "engine/minigame/surfing_pikachu.asm"
+INCLUDE "engine/minigame/surfing_pikachu_hiscore.asm"
+
+INCLUDE "gfx/surfing_pikachu.asm"

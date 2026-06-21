@@ -1,4 +1,4 @@
-; PureRGBnote: ADDED: Entirely new volcano area with a lot of stuff. 
+; PureRGBnote: ADDED: Entirely new volcano area with a lot of stuff.
 CinnabarVolcano_Script:
 	ld hl, wCurrentMapScriptFlags
 	bit BIT_CUR_MAP_LOADED_1, [hl]
@@ -28,7 +28,7 @@ CinnabarVolcanoOnMapLoad:
 	;SetEventReuseHL EVENT_GAVE_GRAVELER_ROCK_SALTS
 	;SetEventReuseHL EVENT_GAVE_RHYDON_LIMESTONE
 	;SetEventReuseHL EVENT_FINISHED_VOLCANO
-	;
+
 	call Remove7FTilesFromBGMap
 	CheckEvent EVENT_BEAT_MOLTRES
 	jr z, .dontHideVolcanoMoltres
@@ -1080,11 +1080,11 @@ CinnabarVolcanoBombRockText:
 .loop
 	; we check for specific moves first because exploding the rocks looks cooler
 	ld a, [hli]
-	cp EXPLOSION
+	cp METAMORPHIC
 	jr z, .explodeRocksExplosion
-	cp SELFDESTRUCT
+	cp SUPERNOVA
 	jr z, .explodeRocksSelfdestruct
-	cp SKULL_BASH ; METEOR DRIVE
+	cp METEOR_DRIVE
 	jr z, .shatterRocksSkullBash
 	dec b
 	jr nz, .loop
@@ -1743,7 +1743,10 @@ CheckIfVolcanoBattleOccurred:
 	ld c, TOGGLE_VOLCANO_MOLTRES
 	call HideExtraObject
 	ld c, TOGGLE_MOLTRES
-	jp HideObject
+	call HideObject
+	ld a, NRLEG_MOLTRES ; Sunsette: legendary reaction (defeat or capture)
+	farcall ShowLegendaryReaction
+	ret
 .magmarWin
 	ld a, [wBattleFunctionalFlags]
 	bit 1, a

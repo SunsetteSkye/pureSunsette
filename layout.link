@@ -83,7 +83,6 @@ ROMX $E
 	"Battle Engine 5"
 	"Battle Engine 6"
 	"Battle Engine 7"
-	"Slot Machines"
 	"Predefs"
 ROMX $F
 	"Battle Core"
@@ -96,7 +95,6 @@ ROMX $11
 	"Hidden Events Core"
 ROMX $12
 	"Maps 7"
-	"Screen Effects"
 	"Maps 8"
 ROMX $13
 	"Pics 6"
@@ -181,7 +179,8 @@ ROMX $2B
 ROMX $2C
 	"Move Names"
 	"Wild Mons"
-	"Evos Moves"
+	; "Evos Moves" floated (unpinned) so the linker drops it into any bank with room;
+	; it outgrew $2C after the evolution-registers-a-new-species Pokedex popup was added.
 ROMX $2D
 	"Pics 7"
 ROMX $2E
@@ -227,6 +226,10 @@ ROMX $3C
 	"NPC Sprites 5"
 ROMX $3D
 	"newCode3"
+ROMX $3E
+	"Dex Party Icons 1"
+ROMX $3F
+	"Dex Party Icons 2"
 WRAM0
 	"Audio RAM"
 	org $c100

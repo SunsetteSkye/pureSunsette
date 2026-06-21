@@ -47,6 +47,7 @@ SaffronGymSabrinaReceiveTM46Script:
 .gymVictory
 	ld hl, wObtainedBadges
 	set BIT_PSYCHICBADGE, [hl]
+	call BadgeMonCry ; Sunsette: lead mon cries when the badge is earned
 
 	; deactivate gym trainers
 	SetEventRange EVENT_BEAT_SAFFRON_GYM_TRAINER_0, EVENT_BEAT_SAFFRON_GYM_TRAINER_6
@@ -99,8 +100,20 @@ SaffronGymSabrinaText:
 	call DisableWaitingAfterTextDisplay
 	jr .done
 .afterBeat
-	ld hl, .PostBattleAdviceText
+	ld hl, .StopBotheringText
 	rst _PrintText
+	call YesNoChoice
+	jr nz, .keepBothering ; NZ = NO -> won't stop -> teleport to the gym entrance
+	ld hl, .ThankYouText
+	rst _PrintText
+	jr .done
+.keepBothering
+	xor a ; warp 0 = the bottom entrance door
+	ld [wDestinationWarpID], a
+	ld a, SAFFRON_GYM
+	ldh [hWarpDestinationMap], a
+	ld hl, wStatusFlags3
+	set BIT_WARP_FROM_CUR_SCRIPT, [hl]
 	jr .done
 .beforeBeat
 	ld hl, .Text
@@ -117,6 +130,7 @@ SaffronGymSabrinaText:
 	call InitBattleEnemyParameters
 	ld a, $6
 	ld [wGymLeaderNo], a
+	call ApplyGymLeaderBadgeTier ; Sunsette: badge count picks the leader's party tier
 	ld a, SCRIPT_SAFFRONGYM_SABRINA_POST_BATTLE
 	ld [wSaffronGymCurScript], a
 .done
@@ -132,8 +146,12 @@ SaffronGymSabrinaText:
 	text_promptbutton
 	text_end
 
-.PostBattleAdviceText:
-	text_far _SaffronGymSabrinaPostBattleAdviceText
+.StopBotheringText:
+	text_far _SaffronGymSabrinaStopBotheringText
+	text_end
+
+.ThankYouText:
+	text_far _SaffronGymSabrinaThankYouText
 	text_end
 
 SaffronGymSabrinaMarshBadgeInfoText:
@@ -171,57 +189,32 @@ SaffronGymYoungster3Text:
 SaffronGymYoungster4Text:
 	script_trainer SaffronGymTrainerHeader6
 
-SaffronGymGymGuideText: ; PureRGBnote: ADDED: gym guide gives you apex chips after beating the leader
+SaffronGymGymGuideText: ; Sunsette: post-badge, the gym guide sells a spare copy of SABRINA's TM at the normal MART price
 	text_asm
 	CheckEvent EVENT_BEAT_SABRINA
+	jr nz, .afterBeat
 	ld hl, SaffronGymGuideChampInMakingText
-	jr z, .printDone
-.afterBeat
-	CheckEvent EVENT_GOT_PEWTER_APEX_CHIPS ; have to hear about apex chips to receive them after that
-	ld hl, SaffronGymGuideBeatSabrinaText
-	jr z, .printDone
-	rst _PrintText
-	call DisplayTextPromptButton
-	CheckEvent EVENT_GOT_SAFFRON_APEX_CHIPS
-	jr nz, .alreadyApexChips
-.giveApexChips
-	ld hl, GymGuideMoreApexChipText6
-	rst _PrintText
-	lb bc, APEX_CHIP, 2
-	call GiveItem
-	ld hl, ApexNoRoomText6
-	jr nc, .printDone
-	ld hl, ReceivedApexChipsText6
-	rst _PrintText
-	ld hl, SaffronGymGuideApexChipPsychicText
-	rst _PrintText
-	SetEvent EVENT_GOT_SAFFRON_APEX_CHIPS
-.alreadyApexChips
-	ld hl, AlreadyReceivedApexChipsText6
-.printDone
 	rst _PrintText
 	rst TextScriptEnd
+.afterBeat
+	ld hl, SaffronGymGuideBeatSabrinaText
+	rst _PrintText
+	ld hl, wObtainedBadges ; Sunsette: badge-count-gated extra TMs (3 badges, then 6)
+	ld b, 1
+	call CountSetBits
+	ld a, [wNumSetBits]
+	cp 6
+	ld hl, SaffronGymGuideTMShop6
+	jr nc, .tmShopReady
+	cp 3
+	ld hl, SaffronGymGuideTMShop3
+	jr nc, .tmShopReady
+	ld hl, SaffronGymGuideTMShop1
+.tmShopReady
+	call DisplayPokemartNoGreeting
+	rst TextScriptEnd
 
-ReceivedApexChipsText6:
-	text_far _ReceivedApexChipsText
-	sound_get_item_1
-	text_end
-
-ApexNoRoomText6:
-	text_far _PewterGymTM34NoRoomText
-	text_end
-
-GymGuideMoreApexChipText6:
-	text_far _GymGuideMoreApexChipText
-	text_end
-
-AlreadyReceivedApexChipsText6:
-	text_far _AlreadyReceivedApexChipsText
-	text_end
-
-SaffronGymGuideApexChipPsychicText:
-	text_far _SaffronGymGuideApexChipPsychicText
-	text_end
+INCLUDE "data/items/marts/saffron_gym_guide.asm"
 
 SaffronGymGuideChampInMakingText:
 	text_far _GymGuideChampInMakingText

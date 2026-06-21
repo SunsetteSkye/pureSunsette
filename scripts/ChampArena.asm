@@ -579,7 +579,7 @@ ReloadChallengerSprite:
 	ret
 
 ;OpponentTrainerDataArray1:
-;	db OPP_ERIKA, 2     dw 
+;	db OPP_ERIKA, 2     dw
 ;	db OPP_BLAINE, 2
 
 MACRO sprite_data
@@ -807,7 +807,7 @@ ErikaIntroText:
 	; TODO: how do you respond?
 	ld a, 4
 	ld [wGymLeaderNo], a
-	ld b, 2
+	ld b, 8 ; Sunsette: rematch sets moved to 8-9 (1-7 = badge tiers)
 	call GetChampArenaChallengerPartyID
 	ld a, OPP_ERIKA
 	ld hl, .challengerLost
@@ -839,7 +839,7 @@ BlaineIntroText:
 	; TODO: how do you respond?
 	ld a, 7
 	ld [wGymLeaderNo], a
-	ld b, 2
+	ld b, 8 ; Sunsette: rematch sets moved to 8-9 (1-7 = badge tiers)
 	call GetChampArenaChallengerPartyID
 	ld a, OPP_BLAINE
 	ld hl, .challengerLost
@@ -871,7 +871,7 @@ SurgeIntroText:
 	; TODO: how do you respond?
 	ld a, 3
 	ld [wGymLeaderNo], a
-	ld b, 2
+	ld b, 8 ; Sunsette: rematch sets moved to 8-9 (1-7 = badge tiers)
 	call GetChampArenaChallengerPartyID
 	ld a, OPP_LT_SURGE
 	ld hl, .challengerLost
@@ -903,7 +903,7 @@ SabrinaIntroText:
 	; TODO: how do you respond?
 	ld a, 6
 	ld [wGymLeaderNo], a
-	ld b, 2
+	ld b, 8 ; Sunsette: rematch sets moved to 8-9 (1-7 = badge tiers)
 	call GetChampArenaChallengerPartyID
 	ld a, OPP_SABRINA
 	ld hl, .challengerLost
@@ -973,7 +973,7 @@ MistyIntroText:
 	; TODO: how do you respond?
 	ld a, 2
 	ld [wGymLeaderNo], a
-	ld b, a
+	ld b, 8 ; Sunsette: rematch sets moved to 8-9 (1-7 = badge tiers)
 	call GetChampArenaChallengerPartyID
 	ld a, OPP_MISTY
 	ld hl, .challengerLost
@@ -1040,7 +1040,7 @@ KogaIntroText:
 	; TODO: how do you respond?
 	ld a, 5
 	ld [wGymLeaderNo], a
-	ld b, 2
+	ld b, 8 ; Sunsette: rematch sets moved to 8-9 (1-7 = badge tiers)
 	call GetChampArenaChallengerPartyID
 	ld a, OPP_KOGA
 	ld hl, .challengerLost
@@ -1104,7 +1104,7 @@ BrockIntroText:
 	; TODO: how do you respond?
 	ld a, 1
 	ld [wGymLeaderNo], a
-	ld b, 2
+	ld b, 8 ; Sunsette: Champ-Arena rematch teams moved to sets 8-9 (1-7 are badge tiers)
 	call GetChampArenaChallengerPartyID
 	ld a, OPP_BROCK
 	ld hl, .challengerLost
@@ -1174,7 +1174,7 @@ GymGuideIntroText:
 	call AudienceClaps
 	ld hl, .intro2
 	rst _PrintText
-	; tm kid shows up 
+	; tm kid shows up
 	ld hl, .tmkid
 	rst _PrintText
 	; TODO: how do you respond?
@@ -1240,8 +1240,10 @@ BlueIntroText:
 	text_far _RivalWonText
 	text_end
 
-ChampArenaStoreInitBattleData:	
+ChampArenaStoreInitBattleData:
 	ld [wCurOpponent], a
+	ld a, 1 ; Sunsette: trainer-battle latch
+	ld [wIsTrainerBattle], a
 	ld a, b
 	ld [wTrainerNo], a
 	call SaveEndBattleTextPointers
@@ -2077,7 +2079,7 @@ PlayChampCrowdSFXChannel5:
 	ld hl, wChannelCommandPointers + CHAN5 * 2
 	; fall through
 
-; input hl = crowd SFX's 
+; input hl = crowd SFX's
 PlayChampCrowdSFX:
 	; remap channel to play the actual desired sound
 	ld a, e

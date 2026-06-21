@@ -3,7 +3,7 @@
 MovedexEntryPointers:
 	table_width 2, MovedexEntryPointers
 	dw PoundDexEntry
-	dw KarateChopDexEntry
+	dw DemolishDexEntry
 	dw DoubleslapDexEntry
 	dw CometPunchDexEntry
 	dw MegaPunchDexEntry
@@ -99,7 +99,7 @@ MovedexEntryPointers:
 	dw HypnosisDexEntry
 	dw MeditateDexEntry
 	dw AgilityDexEntry
-	dw QuickAttackDexEntry
+	dw BlitzStrikeDexEntry
 	dw RageDexEntry
 	dw TeleportDexEntry
 	dw NightShadeDexEntry
@@ -120,7 +120,7 @@ MovedexEntryPointers:
 	dw FocusEnergyDexEntry
 	dw BideDexEntry
 	dw MetronomeDexEntry
-	dw MirrorMoveDexEntry ; MOCKINGBIRD
+	dw MirrorMoveDexEntry
 	dw SelfdestructDexEntry
 	dw EggBombDexEntry
 	dw LickDexEntry
@@ -138,7 +138,7 @@ MovedexEntryPointers:
 	dw KinesisDexEntry
 	dw SoftboiledDexEntry
 	dw HiJumpKickDexEntry
-	dw GlareDexEntry
+	dw VanillaExplosionDexEntry
 	dw DreamEaterDexEntry
 	dw PoisonGasDexEntry
 	dw BarrageDexEntry
@@ -169,6 +169,9 @@ MovedexEntryPointers:
 	dw WinterGaleDexEntry  ; ARTICUNO
 	dw StormDrillDexEntry  ; ZAPDOS
 	dw PhoenixDiveDexEntry ; MOLTRES
+	dw MaximizeDexEntry
+	dw CrystallizeDexEntry
+	dw QuickAttackDexEntry
 	dw StruggleDexEntry
 	assert_table_length NUM_ATTACKS
 
@@ -176,8 +179,8 @@ PoundDexEntry:
 	text_far _PoundDexEntry
 	text_end
 
-KarateChopDexEntry:
-	text_far _KarateChopDexEntry
+DemolishDexEntry:
+	text_far _DemolishDexEntry
 	text_end
 
 DoubleslapDexEntry:
@@ -560,8 +563,8 @@ AgilityDexEntry:
 	text_far _AgilityDexEntry
 	text_end
 
-QuickAttackDexEntry:
-	text_far _QuickAttackDexEntry
+BlitzStrikeDexEntry:
+	text_far _BlitzStrikeDexEntry
 	text_end
 
 RageDexEntry:
@@ -716,8 +719,8 @@ HiJumpKickDexEntry:
 	text_far _HiJumpKickDexEntry
 	text_end
 
-GlareDexEntry:
-	text_far _GlareDexEntry
+VanillaExplosionDexEntry:
+	text_far _VanillaExplosionDexEntry
 	text_end
 
 DreamEaterDexEntry:
@@ -838,6 +841,18 @@ StormDrillDexEntry:
 
 PhoenixDiveDexEntry:
 	text_far _PhoenixDiveDexEntry
+	text_end
+
+MaximizeDexEntry:
+	text_far _MaximizeDexEntry
+	text_end
+
+CrystallizeDexEntry:
+	text_far _CrystallizeDexEntry
+	text_end
+
+QuickAttackDexEntry:
+	text_far _QuickAttackDexEntry
 	text_end
 
 StruggleDexEntry:

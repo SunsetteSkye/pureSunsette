@@ -1,3 +1,4 @@
+; Sunsette POKEMON TOWER B1F SPIRIT: Spirit (Torched). Borrows EXEGGUTOR's dex slot for its base data (db DEX_EXEGGUTOR). See base_stats/exeggutor.asm.
 	db DEX_EXEGGUTOR ; pokedex id
 
 	db  95,  95,  85,  55, 125
@@ -10,32 +11,35 @@
 	INCBIN "gfx/battle/spirit_torched.pic", 0, 1 ; sprite dimensions
 	dw TorchedPicFront, ExeggutorPicBackSW
 
-	db BARRIER, FLAMETHROWER, SELFDESTRUCT, MEGA_DRAIN ; level 1 learnset
+	db BARRIER, FLAMETHROWER, SUPERNOVA, MEGA_DRAIN ; level 1 learnset
 	db GROWTH_MEDIUM_SLOW ; growth rate
 
 	; tm/hm learnset
 	tmhm \
-	LOW_KICK,\
-	DISABLE,\
 	TOXIC,\
+	HONE_EDGE,\
 	BODY_SLAM,\
+	DISABLE,\
 	DOUBLE_EDGE,\
+	AQUA_RING,\
 	HYPER_BEAM,\
-	AMNESIA,\ ; CALM MIND
-	ROLLING_KICK,\ ; METEOR SWEEP
+	CALM_MIND,\
+	LOW_KICK,\
+	METEOR_SWEEP,\
 	BARRIER,\
-	RAZOR_LEAF,\
-	SOLARBEAM,\ ; SOLARBEAM
+	ADAPTATION,\
+	SOLARBEAM,\ 
 	EARTHQUAKE,\
 	PSYCHIC_M,\
 	MEGA_DRAIN,\
 	SWORDS_DANCE,\
 	REFLECT,\
-	BIDE,\ ; BULK UP
-	BARRAGE,\ ; SHADOW BALL
-	SLAM,\ ; WASTEMAKER
+	BULK_UP,\
+	SHADOW_BALL,\
+	SUPERNOVA,\
 	LIGHT_SCREEN,\
-	PSYWAVE,\ ; SKITTERMIND
+	SKITTERMIND,\
+	SHADOW_GAME,\
 	SUBSTITUTE,\
 	STRENGTH,\
 	FLASH

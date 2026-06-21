@@ -1,8 +1,8 @@
 CeladonMoveTutorMoves::
-	dbw SELFDESTRUCT, SelfdestructLearnset
-	dbw EXPLOSION,    ExplosionLearnset
+	dbw SUPERNOVA, SelfdestructLearnset
+	dbw METAMORPHIC,    ExplosionLearnset
 	dbw TRI_ATTACK,   TriAttackLearnset
-	dbw DREAM_EATER,  DreamEaterLearnset ; SOULSTEALER
+	dbw SOULSTEALER,  DreamEaterLearnset
 	dbw PAY_DAY,      PayDayLearnset
 	dbw REST,         -1
 	dbw TELEPORT,     TeleportLearnset
@@ -11,12 +11,12 @@ CeladonMoveTutorMoves::
 
 SaffronMoveTutorMoves::
 	dbw DIZZY_PUNCH, DizzyPunchLearnset ; Sunsette: was MEGA_PUNCH (now SHORYUKEN, tutored by the Fighting Bros Right Bro)
-	dbw MEGA_KICK,  MegaKickLearnset ; PISTON KICK
-	dbw WHIRLWIND,  WhirlwindLearnset ; HURRICANE
-	dbw SKULL_BASH, SkullBashLearnset ; METEOR DRIVE
+	dbw PISTON_KICK,  MegaKickLearnset
+	dbw HURRICANE,  WhirlwindLearnset
+	dbw METEOR_DRIVE, SkullBashLearnset
 	dbw SWIFT,      SwiftLearnset
 	dbw EGG_BOMB,   EggBombLearnset
-	dbw DOUBLE_TEAM, -1 ; Sunsette: was RAGE (MAD RUSH); everyone-but-Ditto criteria
+	dbw DOUBLE_TEAM, -1 ; Sunsette: was RAGE; everyone-but-Ditto criteria
 	dbw SCREECH,    ScreechLearnset
 	db -1
 
@@ -57,7 +57,7 @@ MoveTutorScript::
 	jr z, .doneCheckingMoveList
 	cp SOFTBOILED
 	jr z, .onlyPokemonList
-	cp DOUBLE_TEAM ; Sunsette: was RAGE; everyone-but-Ditto can learn it (MAD RUSH)
+	cp DOUBLE_TEAM ; Sunsette: was RAGE; everyone-but-Ditto can learn it
 	jr z, .onlyDittoCant
 	cp REST
 	jr z, .onlyDittoCant
@@ -179,7 +179,7 @@ MoveTutorScript::
 	call EnableTextDelay
 	; choose move from move list with handlemenuinput
 	ld a, 6
-	ld [wTopMenuItemX], a ; 
+	ld [wTopMenuItemX], a
 	xor a
 	ld [wCurrentMenuItem], a
 	ld [wLastMenuItem], a
@@ -290,7 +290,7 @@ PaidMoveTutorScript::
 	text_end
 
 ; show a window listing the moves a given move tutor can teach
-; input 
+; input
 ; hMoney = cost of learning a move
 ; de = which list of moves (max 8 moves)
 ShowMoveTutorMoveList::

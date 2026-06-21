@@ -2,7 +2,7 @@
 ; affection / Pressure cues in other banks can trigger them via farcall/callfar. The ID comes in e,
 ; NOT a: a cross-bank callfar runs through Bankswitch (`ld a, b`), so a = the caller-resolved bank on
 ; entry; Bankswitch never touches e, so callers pass the ID there.
-;
+
 ; CRITICAL: these cues fire MID-turn (e.g. PressureDrainPlayerMove runs during the player's turn,
 ; right after PP decrement and before the move's animation/effect). They must SAVE and RESTORE
 ; hWhoseTurn around the overlay - otherwise the "enemy side" (hWhoseTurn=1) leaks into the rest of

@@ -15,29 +15,34 @@
 
 	; tm/hm learnset
 	tmhm \
+	ROCK_ON,\
 	PIN_MISSILE,\
 	TOXIC,\
+	HONE_EDGE,\
 	BODY_SLAM,\
 	DISABLE,\
 	DOUBLE_EDGE,\
-	AMNESIA,\ ; CALM MIND
+	HYPER_BEAM,\
+	CALM_MIND,\
 	BARRIER,\
-	RAZOR_LEAF,\
-	SOLARBEAM,\ ; SOLARBEAM
+	ADAPTATION,\
+	SOLARBEAM,\ 
 	EARTHQUAKE,\
-	CRABHAMMER,\
 	DIG,\
 	MEGA_DRAIN,\
 	SWORDS_DANCE,\
 	REFLECT,\
-	BIDE,\ ; BULK UP
-	BARRAGE,\ ; SHADOW BALL
-	SLAM,\ ; WASTEMAKER
-	KARATE_CHOP,\
+	BULK_UP,\
+	ILL_WIND,\
+	SHADOW_BALL,\
+	DEMOLISH,\
 	LIGHT_SCREEN,\
-	SLUDGE,\ ; SLUDGE BOMB
+	SHADOW_GAME,\
+	ROCK_SLIDE,\
 	SUBSTITUTE,\
+	CLAY_ARMOR,\
 	CUT,\
+	STRENGTH,\
 	FLASH
 	; end
 
@@ -49,3 +54,22 @@
 
 	dw 0, ParasPicBack
 
+; --- Sunsette SSOT directives (parsed by tools/gen_pokemon_data.py) ---
+;@ nature       NATURE_STOLID NATURE_MOROSE
+;@ pal_battle   PAL_SANDVIOLET
+;@ pal_altbattle PAL_REDMON
+;@ pal_icon     $FF
+;@ pal_alticon  $FF
+;@ evo         EVOLVE_LEVEL, 24, PARASECT
+;@ evo_move    NO_MOVE
+;@ evo_react   NONE
+;@ learn       13, STUN_SPORE
+;@ learn       15, MEGA_DRAIN
+;@ learn       18, UNDERBUG
+;@ learn       21, SLASH
+;@ learn       25, PHANTASM
+;@ learn       28, SPORE
+;@ learn       33, LEECH_LIFE
+;@ learn       39, CRABHAMMER
+;@ learn       44, SOULSTEALER
+;@ learn       49, EXTERMINATE

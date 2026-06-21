@@ -1,6 +1,6 @@
 	db DEX_FEAROW ; pokedex id
 
-	db  85, 100,  65, 100,  61
+	db  95, 100,  65,  80,  81
 	;   hp  atk  def  spd  spc
 
 	db GHOST, FLYING ; type
@@ -15,24 +15,26 @@
 
 	; tm/hm learnset
 	tmhm \
-	LOW_KICK,\
-	SONICBOOM,\ ; ILL WIND
-	RAZOR_WIND,\ ; ROOST
+	ROOST,\
 	PIN_MISSILE,\
 	TOXIC,\
+	HONE_EDGE,\
 	BODY_SLAM,\
 	DISABLE,\
 	DOUBLE_EDGE,\
+	AURORA_MIST,\
 	HYPER_BEAM,\
+	LOW_KICK,\
 	BARRIER,\
 	DIG,\
 	SWORDS_DANCE,\
 	REFLECT,\
-	BIDE,\ ; BULK UP
-	BARRAGE,\ ; SHADOW BALL
-	SLAM,\ ; WASTEMAKER
-	SKY_ATTACK,\ ; BRAVE BIRD
-	GLARE,\
+	BULK_UP,\
+	ILL_WIND,\
+	SHADOW_BALL,\
+	TWISTER,\
+	BRAVE_BIRD,\
+	SHADOW_GAME,\
 	SUBSTITUTE,\
 	CUT,\
 	FLY,\
@@ -47,3 +49,25 @@
 
 	dw 0, FearowPicBack
 
+; --- Sunsette SSOT directives (parsed by tools/gen_pokemon_data.py) ---
+;@ nature       NATURE_MOROSE NATURE_RAGE
+;@ pal_battle   PAL_STEELMON
+;@ pal_altbattle PAL_TANMON
+;@ pal_icon     $FF
+;@ pal_alticon  $FF
+;@ evo_move    NO_MOVE
+;@ evo_react   "It stretches tall" "and screeches!"
+;@ evo_react   "It snaps its beak" "with a loud clack!"
+;@ evo_react   "Broad wings sweep" "a sudden gust!"
+;@ evo_react   "It wheels up," "scanning below!"
+;@ learn       9, LEER
+;@ learn       13, MUD_CLAW
+;@ learn       18, WING_ATTACK
+;@ learn       22, ILL_WIND
+;@ learn       26, MOCKINGBIRD
+;@ learn       30, BLOOD_RUSH
+;@ learn       33, AIR_DRILL
+;@ learn       37, PHANTASM
+;@ learn       42, AGILITY
+;@ learn       48, DOUBLE_EDGE
+;@ learn       55, SPIKE_CANNON

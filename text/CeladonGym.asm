@@ -37,14 +37,13 @@ _CeladonGymErikaReceivedRainbowBadgeText::
 	prompt
 
 _CeladonGymErikaPostBattleAdviceText::
-	text "You are cataloging"
-	line "#MON? I must"
-	cont "say I'm impressed."
+	text "You<...> You seem"
+	line "destined to join"
+	cont "the cycle of life"
+	cont "and death."
 
-	para "I would never"
-	line "collect #MON"
-	cont "if they were"
-	cont "unattractive."
+	para "For some time"
+	line "yet, I think."
 	done
 
 _CeladonGymRainbowBadgeInfoText::
@@ -68,12 +67,14 @@ _TM21ExplanationText::
 	para "@"
 	text_ram_stringbuffer
 	text " contains"
-	line "SOLAR CANNON."
+	line "ADAPTATION."
 
-	para "It gathers light,"
-	line "then the next use"
-	cont "fires it back at"
-	cont "double power!"
+	para "The user braces,"
+	line "curing its status"
+	cont "then halving the"
+	cont "damage it takes"
+	cont "from the type"
+	cont "that last hit it."
 	done
 
 _CeladonGymTM21NoRoomText::

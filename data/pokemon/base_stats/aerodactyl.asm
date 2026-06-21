@@ -15,26 +15,28 @@
 
 	; tm/hm learnset
 	tmhm \
-	SONICBOOM,\ ; ILL WIND
-	RAZOR_WIND,\ ; ROOST
+	ADAPTATION,\
+	ROOST,\
 	PIN_MISSILE,\
 	TOXIC,\
+	HONE_EDGE,\
 	BODY_SLAM,\
 	DISABLE,\
 	DOUBLE_EDGE,\
+	AURORA_MIST,\
 	HYPER_BEAM,\
-	DRAGON_RAGE,\ ; WYRM WRATH
+	WYRM_WRATH,\
 	EARTHQUAKE,\
-	KINESIS,\ ; MIRAGE
+	MIRAGE,\
 	REFLECT,\
-	BIDE,\ ; BULK UP
-	BARRAGE,\ ; SHADOW BALL
+	BULK_UP,\
+	ILL_WIND,\
+	SHADOW_BALL,\
 	FIRE_BLAST,\
-	FLAMETHROWER,\
-	SLAM,\ ; WASTEMAKER
-	SKY_ATTACK,\ ; BRAVE BIRD
+	TWISTER,\
+	BRAVE_BIRD,\
+	SHADOW_GAME,\
 	ROCK_SLIDE,\
-	GLARE,\
 	SUBSTITUTE,\
 	CUT,\
 	FLY,\
@@ -48,3 +50,17 @@
 	db BANK(AerodactylPicBackSW)
 
 	dw 0, AerodactylPicBack
+
+; --- Sunsette SSOT directives (parsed by tools/gen_pokemon_data.py) ---
+;@ nature       NATURE_ARROGANT NATURE_CRUEL
+;@ pal_battle   PAL_GRAYMON
+;@ pal_altbattle PAL_SANDSTONEMON
+;@ pal_icon     $FF
+;@ pal_alticon  $FF
+;@ evo_move    NO_MOVE
+;@ evo_react   NONE
+;@ learn       26, ROCK_THROW
+;@ learn       32, SWORDS_DANCE
+;@ learn       38, METEOR_DRIVE
+;@ learn       44, EARTHQUAKE
+;@ learn       49, HURRICANE

@@ -13,7 +13,7 @@ Route16FlyHouseBrunetteGirlText:
 	jr nz, .printDone
 	ld hl, .Text
 	rst _PrintText
-	lb bc, TM_ROUTE_16_FLY_HOUSE_FAMOUS_GIRL, 1 ; ILL WIND
+	lb bc, TM_ROUTE_16_FLY_HOUSE_FAMOUS_GIRL, 1
 	call GiveItem
 	ld hl, .NoRoomText
 	jr nc, .printDone

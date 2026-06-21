@@ -3,8 +3,8 @@ LoadShootingStarGraphics:
 	ldh [rOBP0], a
 	ld a, $a4
 	ldh [rOBP1], a
-	call UpdateGBCPal_OBP0 ; shinpokerednote: gbcnote: gbc color code from yellow 
-	call UpdateGBCPal_OBP1 ; shinpokerednote: gbcnote: gbc color code from yellow 
+	call UpdateGBCPal_OBP0 ; shinpokerednote: gbcnote: gbc color code from yellow
+	call UpdateGBCPal_OBP1 ; shinpokerednote: gbcnote: gbc color code from yellow
 	ld de, MoveAnimationTiles1 tile 3 ; star tile (top left quadrant)
 	ld hl, vChars1 tile $20
 	lb bc, BANK(MoveAnimationTiles1), 1
@@ -76,7 +76,7 @@ AnimateShootingStar:
 	ld hl, rOBP0
 	rrc [hl]
 	rrc [hl]
-	call UpdateGBCPal_OBP0 ; shinpokerednote: gbcnote: gbc color code from yellow 
+	call UpdateGBCPal_OBP0 ; shinpokerednote: gbcnote: gbc color code from yellow
 	ld c, 10
 	call CheckForUserInterruption
 	ret c
@@ -229,7 +229,7 @@ MoveDownSmallStars:
 	ldh a, [rOBP1]
 	xor %10100000
 	ldh [rOBP1], a
-	call UpdateGBCPal_OBP1 ; shinpokerednote: gbcnote: gbc color code from yellow 
+	call UpdateGBCPal_OBP1 ; shinpokerednote: gbcnote: gbc color code from yellow
 
 	ld c, 3
 	call CheckForUserInterruption

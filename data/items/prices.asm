@@ -34,12 +34,12 @@ ItemPrices::
 	bcd3 2100  ; FIRE_STONE
 	bcd3 2100  ; THUNDER_STONE
 	bcd3 2100  ; WATER_STONE
-	bcd3 5000  ; HP_UP
-	bcd3 5000  ; PROTEIN
-	bcd3 5000  ; IRON
-	bcd3 5000  ; CARBOS
-	bcd3 5000  ; CALCIUM
-	bcd3 4000  ; RARE_CANDY
+	bcd3 2500  ; HP_UP
+	bcd3 2500  ; PROTEIN
+	bcd3 2500  ; IRON
+	bcd3 2500  ; CARBOS
+	bcd3 2500  ; CALCIUM
+	bcd3 2000  ; RARE_CANDY
 	bcd3 0     ; DOME_FOSSIL
 	bcd3 0     ; HELIX_FOSSIL
 	bcd3 0     ; SECRET_KEY
@@ -49,7 +49,7 @@ ItemPrices::
 	bcd3 2100  ; LEAF_STONE
 	bcd3 0     ; CARD_KEY
 	bcd3 10000 ; NUGGET
-	bcd3 1000  ; APEX_CHIP
+	bcd3 20000 ; APEX_CHIP
 	bcd3 1000  ; POKE_DOLL
 	bcd3 600   ; FULL_HEAL
 	bcd3 1500  ; REVIVE

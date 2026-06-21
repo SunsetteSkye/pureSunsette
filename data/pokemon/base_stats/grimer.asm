@@ -15,37 +15,36 @@
 
 	; tm/hm learnset
 	tmhm \
-	FURY_ATTACK,\ ; MUD BOMB
-	DISABLE,\
-	SONICBOOM,\ ; ILL WIND
-	ICE_PUNCH,\ ; FROST FIST
-	FIRE_PUNCH,\ ; BLAZE HAMMER
+	ADAPTATION,\
+	FROST_FIST,\
+	MUD_BOMB,\
+	BLAZE_HAMMER,\
 	TOXIC,\
+	HONE_EDGE,\
 	BODY_SLAM,\
+	DISABLE,\
 	DOUBLE_EDGE,\
-	BUBBLEBEAM,\
-	AURORA_BEAM,\
-	AMNESIA,\ ; CALM MIND
-	THUNDERPUNCH,\ ; ZAPPERCUT
+	CALM_MIND,\
+	ZAPPERCUT,\
+	BARRIER,\
 	THUNDERBOLT,\
 	THUNDER,\
+	RIPTIDE,\
 	DIG,\
-	BARRIER,\
 	MEGA_DRAIN,\
-	KINESIS,\ ; MIRAGE
+	MIRAGE,\
 	SWORDS_DANCE,\
 	REFLECT,\
-	BIDE,\ ; BULK UP
-	BARRAGE,\ ; SHADOW BALL
+	BULK_UP,\
+	ILL_WIND,\
+	SHADOW_BALL,\
 	FIRE_BLAST,\
-	FLAMETHROWER,\
-	SLAM,\ ; WASTEMAKER
-	KARATE_CHOP,\
+	DEMOLISH,\
 	LIGHT_SCREEN,\
-	SLUDGE,\ ; SLUDGE BOMB
+	SHADOW_GAME,\
 	ROCK_SLIDE,\
-	GLARE,\
 	SUBSTITUTE,\
+	CLAY_ARMOR,\
 	SURF,\
 	STRENGTH,\
 	FLASH
@@ -59,3 +58,22 @@
 
 	dw 0, GrimerPicBack
 
+; --- Sunsette SSOT directives (parsed by tools/gen_pokemon_data.py) ---
+;@ nature       NATURE_GLUTTON NATURE_CRUEL
+;@ pal_battle   PAL_GRAYMON
+;@ pal_altbattle PAL_SAFARIBALL
+;@ pal_icon     $FF
+;@ pal_alticon  $FF
+;@ evo         EVOLVE_LEVEL, 30, MUK
+;@ evo_move    NO_MOVE
+;@ evo_react   NONE
+;@ learn       14, ACID
+;@ learn       23, HARDEN
+;@ learn       26, MUD_BOMB
+;@ learn       29, MINIMIZE
+;@ learn       33, BODY_SLAM
+;@ learn       37, SLUDGE_BOMB
+;@ learn       41, RECOVER
+;@ learn       46, MAXIMIZE
+;@ learn       50, DOUBLE_EDGE
+;@ learn       55, VENOM_LASH

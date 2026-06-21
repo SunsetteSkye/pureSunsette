@@ -19,10 +19,25 @@ _CeruleanGymMistyPreBattleText::
 
 _CeruleanGymMistyTM11ExplanationText::
 	text "<TM>11 teaches"
-	line "BUBBLEBEAM!"
+	line "AQUA RING!"
 
-	para "Use it on an"
-	line "aquatic #MON!"
+	para "A veil of water"
+	line "mends your team"
+	cont "each turn!"
+	done
+
+_CeruleanGymMistyPostBattleText::
+	text "Listen! GYM"
+	line "LEADERS don't go"
+	cont "all out on some"
+	cont "newbie!"
+
+	para "Don't go getting"
+	line "full of hot air,"
+	cont "boy<...>"
+
+	para "<...>or I'll soak"
+	line "you good!"
 	done
 
 _CeruleanGymMistyCascadeBadgeInfoText::
@@ -45,6 +60,15 @@ _CeruleanGymMistyCascadeBadgeInfoText::
 _CeruleanGymMistyReceivedCascadeBadgeText::
 	text "Wow!"
 	line "You're too much!"
+
+	para "Truth is, I held"
+	line "back. A rookie"
+	cont "isn't ready for"
+	cont "my HYDRO PUMPs."
+
+	para "Face me again as"
+	line "a pro<...> I won't"
+	cont "go easy twice."
 
 	para "All right!"
 
@@ -100,11 +124,12 @@ _GymGuideChampInMakingText::
 _CeruleanGymGymGuideChampInMakingText::
 	text "Here's my advice!"
 
-	para "MISTY bends this"
-	line "GYM's pool to her"
-	cont "will. Her #MON"
-	cont "mend their wounds"
-	cont "as you fight!"
+	para "MISTY floods this"
+	line "GYM into a pool!"
+
+	para "WATER #MON on"
+	line "BOTH sides swim"
+	cont "faster here!"
 	done
 
 _CeruleanGymGymGuideBeatMistyText::

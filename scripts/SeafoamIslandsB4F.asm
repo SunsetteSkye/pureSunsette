@@ -61,6 +61,8 @@ SeafoamIslandsB4FEndArticunoBattleScript:
 	SetEvent EVENT_BEAT_ARTICUNO
 	ld c, TOGGLE_ARTICUNO
 	call HideObject
+	ld a, NRLEG_ARTICUNO ; Sunsette: legendary reaction (defeat or capture)
+	farcall ShowLegendaryReaction
 SeafoamB4FDefaultScript:
 	ld a, SCRIPT_SEAFOAMISLANDSB4F_DEFAULT
 	ld [wSeafoamIslandsB4FCurScript], a
@@ -249,7 +251,7 @@ SeafoamIslandsB4FArticunoIntroAnimation:
 	lb bc, BANK(NothingSprite), 4
 	ld hl, vNPCSprites tile $18
 	call CopyVideoData
-	; show everything freezing 
+	; show everything freezing
 	call GBFadeOutToWhite
 	; turn off the water visual animation
 	xor a

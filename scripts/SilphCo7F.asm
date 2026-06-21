@@ -101,6 +101,8 @@ SilphCo7FRivalStartBattleScript:
 	call SaveEndBattleTextPointers
 	ld a, OPP_RIVAL2
 	ld [wCurOpponent], a
+	ld a, 1 ; Sunsette: trainer-battle latch
+	ld [wIsTrainerBattle], a
 	ld a, [wRivalStarter]
 	call StarterToPartyID
 	add 6 ; third set of rival parties for RIVAL2

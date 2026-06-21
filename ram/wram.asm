@@ -202,6 +202,77 @@ wSerialPartyMonsPatchList:: ds 200
 
 ; list of indexes to patch with SERIAL_NO_DATA_BYTE after transfer
 wSerialEnemyMonsPatchList:: ds 200
+
+NEXTU
+; PureRGBnote: ADDED: Surfing Pikachu minigame + its animated-object (OAM sprite
+; animation) engine working RAM, ported from pokeyellow. Unioned over wTileMapBackup
+; because the minigame takes over the whole screen, so no menu/tilemap-save runs
+; during it. (The persistent hi-score lives in its own stable section, below.)
+wAnimatedObjectsData::
+wAnimatedObjectStartTileOffsets:: ds 10 * 2
+wAnimatedObjectDataStructs::
+; wAnimatedObject0 - wAnimatedObject9
+FOR n, 10
+wAnimatedObject{d:n}:: animated_object wAnimatedObject{d:n}
+ENDR
+wNumLoadedAnimatedObjects:: db
+wCurrentAnimatedObjectOAMBufferOffset::
+	ds 3
+wAnimatedObjectSpawnStateDataPointer:: dw
+wAnimatedObjectFramesDataPointer:: dw
+wAnimatedObjectJumptablePointer:: dw
+wAnimatedObjectOAMDataPointer:: dw
+wCurAnimatedObjectOAMAttributes:: db
+wCurrentAnimatedObjectVTileOffset:: db
+wCurrentAnimatedObjectXCoord:: db
+wCurrentAnimatedObjectYCoord:: db
+wCurrentAnimatedObjectXOffset:: db
+wCurrentAnimatedObjectYOffset:: db
+wAnimatedObjectGlobalYOffset:: db
+wAnimatedObjectGlobalXOffset:: db
+wAnimatedObjectsDataEnd::
+
+; Surfing minigame
+wSurfingMinigameData:: db
+wSurfingMinigameRoutineNumber:: db
+wc5d2:: db
+wSurfingMinigameWaveFunctionNumber:: dw
+wc5d5:: db
+wSurfingMinigamePikachuHP:: dw ; little-endian BCD
+wPlayerAdaptType:: db ; Sunsette: ADAPTATION - type the player's mon has adapted to (type+1, 0 = none); reclaimed unused wc5d8
+; number of consecutive tricks
+wSurfingMinigameRadnessMeter:: db
+wSurfingMinigameRadnessScore:: dw ; little-endian BCD
+wSurfingMinigameTotalScore:: dw ; little-endian BCD
+wc5de:: db
+wc5df:: db
+wc5e0:: db
+wc5e1:: db
+wc5e2:: db
+wSurfingMinigamePikachuSpeed:: dw ; little-endian
+wc5e5:: ds 3 ; big-endian
+wSurfingMinigameWaveHeightBuffer:: dw
+wSurfingMinigamePikachuObjectHeight:: db
+wc5eb:: db
+wc5ec:: db
+wc5ed:: db
+wc5ee:: db
+wSurfingMinigameBGMapReadBuffer:: ds 1 tiles
+	ds 24
+wSurfingMinigameSCX:: db
+wSurfingMinigameSCX2:: db
+wSurfingMinigameSCXHi:: db
+wSurfingMinigameWaveHeight:: ds SCREEN_WIDTH
+wSurfingMinigameXOffset:: db
+wSurfingMinigameTrickFlags:: db
+wc630:: db
+wc631:: db
+wSurfingMinigameRoutineDelay:: db
+wSurfingMinigameIntroAnimationFinished:: db
+; PureRGBnote: scratch bytes the minigame uses (named after their Yellow addresses).
+wc634:: db
+wc635:: db
+wSurfingMinigameDataEnd::
 ENDU
 
 
@@ -213,6 +284,23 @@ wOverworldMapEnd::
 
 NEXTU
 wTempPic:: ds PIC_SIZE tiles
+
+NEXTU
+; PureRGBnote: ADDED: Surfing Pikachu minigame per-scanline LY-override buffers (ported
+; from pokeyellow). Unioned over wOverworldMap, which is idle during the full-screen
+; minigame and rebuilt afterward (ReloadMapAfterSurfingMinigame calls LoadTileBlockMap).
+; wLYOverrides must be page-aligned ($c700) so the LCD-STAT (HBlank) handler in home/lcdc.asm
+; can index it directly by rLY (ld h, HIGH(wLYOverrides); ld l, rLY). "Overworld Map" is placed
+; (not org'd) at $c6e8 by layout.link, so 24 bytes of padding reaches the next 256-boundary.
+; `align` can't be used here because the section's pinned base would conflict; the assert below
+; fails the build loudly if the WRAM0 layout ever shifts wOverworldMap off $c6e8. Padding + 512B
+; stays within wOverworldMap's 1300 bytes, so the union doesn't grow.
+	ds $c700 - $c6e8 ; = 24
+wLYOverrides:: ds $100
+wLYOverridesEnd::
+wLYOverridesBuffer:: ds $100
+wLYOverridesBufferEnd::
+	assert LOW(wLYOverrides) == 0, "wLYOverrides must be page-aligned for the Surfing Pikachu LCD-STAT wave handler"
 ENDU
 
 
@@ -335,7 +423,7 @@ wWhichTradeMonSelectionMenu::
 ; 2 = current box
 ; 3 = daycare
 ; 4 = in-battle mon
-;
+
 ; AddPartyMon uses it slightly differently.
 ; If the lower nybble is 0, the mon is added to the player's party, else the enemy's.
 ; If the entire value is 0, then the player is allowed to name the mon.
@@ -345,7 +433,7 @@ wMonDataLocation:: db
 ; set to 0 if you can't go past the top or bottom of the menu
 wMenuWrappingEnabled:: db
 
-; PureRGBnote: CHANGED: Now a counter that is incremented when holding A+B while standing still in the overworld. 
+; PureRGBnote: CHANGED: Now a counter that is incremented when holding A+B while standing still in the overworld.
 ; After this counter reaches a certain amount, the player will be in "turn around without moving forward" mode.
 ; Releasing either button will reset this counter.
 wDirectionChangeModeCounter:: db
@@ -353,7 +441,7 @@ wDirectionChangeModeCounter:: db
 ; PureRGBnote: when running the generic palette setting function, we can force it to use a different palette by loading one here
 wGenericPaletteOverride:: db
 
-	ds 1 ; used to be wToggleableObjectIndex but that wasn't needed after moving the hide/show object routines into home bank
+wEnemyAdaptType:: db ; Sunsette: ADAPTATION - type the enemy's mon has adapted to (type+1, 0 = none); reclaimed unused byte (was wToggleableObjectIndex)
 
 wPredefID:: db
 wPredefHL:: dw
@@ -582,8 +670,12 @@ wConversionRetype:: db ; 1 = the move in flight is CONVERSION (retype user to th
 wPlayerConvertPalette:: db
 wEnemyConvertPalette:: db
 
-	ds 6
-	
+; Sunsette: 0 until the player's FIRST mon of a trainer battle has been sent out; then 1. Lives in
+; the wMiscBattleData block so InitBattleVariables zeroes it at the start of every battle. Read by
+; CheckArenaFirstMonStatus to apply the LORELEI freeze / FUCHSIA confuse to the lead only (not switch-ins).
+wArenaFirstPlayerMonSent:: db
+	ds 5
+
 wMiscBattleDataEnd::
 
 ENDU
@@ -1422,11 +1514,26 @@ wWhichTrade::
 ; which trainer class is being fought against
 wTrainerClass:: db
 
-	ds 1 ; unused lone byte
+; Sunsette: trainer/species decouple - latched at battle start (1 = trainer battle, 0 = wild) and NOT cleared by
+; end_of_battle (it lives outside wBattleStatusData), so post-battle code (EndTrainerBattle sprite removal,
+; DontFreezeIDs, etc.) can still tell what kind of battle just happened after wIsInBattle/wCurOpponent are wiped.
+wWasTrainerBattle:: db
+
+; Sunsette: trainer/species decouple - set to 1 by every trainer-battle queue site (scripted rivals/Oak,
+; InitBattleEnemyParameters for sight/talk trainers, the link battle) BEFORE the battle; read by
+; InitBattleCommon to choose wIsInBattle (2 trainer / 1 wild) instead of inferring it from the opponent's
+; numeric range. Cleared by end_of_battle so the next wild battle sees 0.
+wIsTrainerBattle:: db
+
+; Sunsette: trainer/species decouple - palette overrides for the battle intro, so the trainer pic (slot 3)
+; and the player back-sprite (slot 2) are colored WITHOUT stuffing fake "species" sentinels into the species
+; bytes (which would squat in species ID space). SetPal_Battle uses wPlayerBackSpritePalette while no player
+; mon is loaded (wBattleMonSpecies == 0), and wEnemyTrainerPicPalette while the trainer pic is up
+; (wWasTrainerBattle set AND wEnemyMonSpecies2 == 0 - true during both the intro and the post-battle scroll).
+wPlayerBackSpritePalette:: db
+wEnemyTrainerPicPalette:: db
 
 wTrainerPicPointer:: dw
-
-	ds 1 ; unused lone byte
 
 UNION
 
@@ -1465,7 +1572,8 @@ wIsInBattle:: db
 wPartyGainExpFlags:: flag_array PARTY_LENGTH
 
 ; in a wild battle, this is the species of pokemon
-; in a trainer battle, this is the trainer class + OPP_ID_OFFSET
+; in a trainer battle, this is the raw trainer class (Sunsette: no longer + OPP_ID_OFFSET; the battle type
+; is carried by wIsTrainerBattle, so species and class each use the full 1-255 range)
 wCurOpponent:: db
 
 ; in normal battle, this is 0
@@ -1512,7 +1620,7 @@ wPlayerStatsToHalve:: db
 ; bit 7 - confusion
 wPlayerBattleStatus1:: db
 
-; bit 0 - X Accuracy effect 
+; bit 0 - X Accuracy effect
 ; bit 1 - protected by "mist"
 ; bit 2 - focus energy effect
 ; bit 3 - immune to psychic moves (triggered by haze)
@@ -1576,7 +1684,12 @@ NEXTU
 wPlayerNumHits:: db
 ENDU
 
-	ds 2 ; unused 2 bytes
+; Sunsette: hitting a sleeping target wears down its sleep. wSleepRoundReduction accumulates the rounds to
+; subtract this attacker turn (1 per damaging hit, 2 per critical hit); wMoveSleepWeight is the per-move
+; weight (1, or 2 on a crit), latched on the move's first damaging hit so every strike of a multi-hit move
+; counts. Applied once, after the whole turn finishes, in ApplySleepHitTally. (Claims the 2 unused bytes.)
+wSleepRoundReduction:: db
+wMoveSleepWeight:: db
 wBattleStatusDataEnd::
 
 ; non-zero when an item or move that allows escape from battle was used
@@ -1599,7 +1712,16 @@ wTempTilesetNumTiles:: db
 ; so that it can be restored when the player is done with the pokemart NPC
 wSavedListScrollOffset:: db
 
-	ds 2 ; unused 2 bytes
+; Sunsette: counts down 1 per overworld step (in TryDoWildEncounter). While nonzero, field-move
+; nature reactions are suppressed; reset to NATURE_REACTION_COOLDOWN after one fires. Claimed
+; from the unused padding here (net-zero growth). If it ever resets early the only effect is a
+; slightly sooner reaction, so it does not need the never-cleared stability of the repel timer.
+wNatureReactionCooldown:: db
+
+; Sunsette: a deferred reaction armed by FLY/DIG/TELEPORT (which warp away). Holds the reacting
+; party index + 1 (0 = none); FireDeferredNatureReaction (called from EnterMap after arrival)
+; pops the mon at the destination and clears this. Claimed from the unused byte here.
+wNatureReactionPending:: db
 
 ; base coordinates of frame block
 wBaseCoordX:: db
@@ -1974,7 +2096,7 @@ wBattleFunctionalFlags:: db
 
 ;;;;; PureRGBnote: CHANGED: this property is also used in the pokedex for some flags.
 ;;;;; bit 0 -> How we're displaying pokedex data. 0 = internal (from the pokedex), 1 = external (from dialog)
-;;;;; bit 1 -> Which sprite is currently displayed on a pokedex data page. 0 = front sprite, 1 = back sprite 
+;;;;; bit 1 -> Which sprite is currently displayed on a pokedex data page. 0 = front sprite, 1 = back sprite
 ;;;;; bit 2 -> used to indicate whether we're in the pokedex data page or not
 ;;;;; bit 3 -> How we're displaying movedex data. 0 = internal (from the movedex), 1 = external (from learnset page)
 ;;;;; bit 4 -> does the currently chosen pokedex pokemon have its learnset unlocked
@@ -2036,7 +2158,10 @@ wPseudoItemID:: db
 wEnemyStatEXPStore:: ; shinpokerednote: ADDED: store for EVs applied to the opponent's pokemon if the option is turned on
 wUnusedAlreadyOwnedFlag:: db
 
-	ds 2 ; unused 2 bytes
+; Sunsette: party index of the mon used to FLY; drives the fly-animation species icon + palette.
+; $ff = none (generic bird). Always written right before any fly-bird animation reads it.
+wFlyCarrierMon:: db
+	ds 1 ; unused 1 byte
 
 wEvoStoneItemID:: db
 
@@ -2084,7 +2209,7 @@ wPokedexOwnedEnd::
 wPokedexSeen:: flag_array NUM_POKEMON - 1 ; PureRGBnote: CHANGED: discount missingno since it doesn't appear in the dex - size remains the same as original
 wPokedexSeenEnd::
 
-;;;;; PureRGBnote: CHANGED: bag item size increased so now we have a bunch of space here 
+;;;;; PureRGBnote: CHANGED: bag item size increased so now we have a bunch of space here
 ;;;;; (wNumBagItems and wBagItems used to be here, and used 42 bytes of space)
 
 UNION
@@ -2540,7 +2665,7 @@ wFossilMon:: db
 
 	ds 2 ; unused save file 2 bytes
 
-; trainer classes start at OPP_ID_OFFSET
+; Sunsette: the raw trainer class in a trainer battle (was trainer class + OPP_ID_OFFSET)
 wEnemyMonOrTrainerClass:: db
 
 wPlayerJumpingYScreenCoordsIndex:: db
@@ -2783,7 +2908,7 @@ wSpriteOptions:: db
 ; bit 5 -> Raticate sprite version: 0 = RB, 1 = RG
 wSpriteOptions2:: db
 
-; bits 0-1 = Palette setting 
+; bits 0-1 = Palette setting
 ; 00 = Original
 ; 01 = SGB1
 ; 10 = SGB2

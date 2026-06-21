@@ -10,7 +10,7 @@ ResetPlayerSpriteData::
 	; PureRGBnote: OPTIMIZED
 	ld a, $3c
 	ld [hli], a ; set Y screen pos
-	;ld [hl], $3c     
+	;ld [hl], $3c
 	;inc hl
 	inc hl
 	ld [hl], $40     ; set X screen pos

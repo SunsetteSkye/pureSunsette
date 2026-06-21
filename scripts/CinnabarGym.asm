@@ -135,6 +135,7 @@ CinnabarGymReceiveTM38:
 .gymVictory
 	ld hl, wObtainedBadges
 	set BIT_VOLCANOBADGE, [hl]
+	call BadgeMonCry ; Sunsette: lead mon cries when the badge is earned
 
 	; deactivate gym trainers
 	SetEventRange EVENT_BEAT_CINNABAR_GYM_TRAINER_0, EVENT_BEAT_CINNABAR_GYM_TRAINER_6
@@ -165,6 +166,9 @@ CinnabarGymStartBattleScript:
 	ld [wSpriteIndex], a
 	call EngageMapTrainer
 	call InitBattleEnemyParameters
+	ld a, [wSpriteIndex]
+	cp CINNABARGYM_BLAINE
+	call z, ApplyGymLeaderBadgeTier ; Sunsette: only Blaine scales by badges; gym trainers keep their set
 	ld hl, wStatusFlags3
 	set BIT_TALKED_TO_TRAINER, [hl]
 	set BIT_PRINT_END_BATTLE_TEXT, [hl]
@@ -198,9 +202,37 @@ CinnabarGymBlaineText:
 	ld bc, LearnsetFadeOutInBlaineStory
 	predef_jump LearnsetTrainerScriptMain
 .noMoltres
-	ld hl, .PostBattleAdviceText
+	; Sunsette: BLAINE cracks a randomly picked bad fire pun, then cackles at it
+	call Random
+	and %11
+	add a ; * 2 for word-sized pointers
+	ld e, a
+	ld d, 0
+	ld hl, .punPointers
+	add hl, de
+	ld a, [hli]
+	ld h, [hl]
+	ld l, a
 	rst _PrintText
 	rst TextScriptEnd
+
+.punPointers
+	dw .pun1
+	dw .pun2
+	dw .pun3
+	dw .pun4
+.pun1
+	text_far _CinnabarGymBlainePun1Text
+	text_end
+.pun2
+	text_far _CinnabarGymBlainePun2Text
+	text_end
+.pun3
+	text_far _CinnabarGymBlainePun3Text
+	text_end
+.pun4
+	text_far _CinnabarGymBlainePun4Text
+	text_end
 .beforeBeat
 	ld hl, .PreBattleText
 	rst _PrintText
@@ -219,10 +251,6 @@ CinnabarGymBlaineText:
 	text_far _CinnabarGymBlaineReceivedVolcanoBadgeText
 	sound_get_key_item ; actually plays the second channel of SFX_BALL_POOF due to the wrong music bank being loaded
 	text_waitbutton
-	text_end
-
-.PostBattleAdviceText:
-	text_far _CinnabarGymBlainePostBattleAdviceText
 	text_end
 
 .moltresText
@@ -384,57 +412,32 @@ CinnabarGymFirefighter2TextPointers:
 	text_far _CinnabarGymFirefighter2AfterBattleText
 	text_end
 
-CinnabarGymGymGuideText: ; PureRGBnote: ADDED: gym guide gives you apex chips after beating the leader
+CinnabarGymGymGuideText: ; Sunsette: post-badge, the gym guide sells a spare copy of BLAINE's TM at the normal MART price
 	text_asm
 	CheckEvent EVENT_BEAT_BLAINE
+	jr nz, .afterBeat
 	ld hl, ChampInMakingText
-	jr z, .printDone
-.afterBeat
-	CheckEvent EVENT_GOT_PEWTER_APEX_CHIPS ; have to hear about apex chips to receive them after that
-	ld hl, CinnabarGymGuidePostBattleText
-	jr z, .printDone
-	ld hl, CinnabarGymGuidePostBattleTextPrompt
-	rst _PrintText
-	CheckEvent EVENT_GOT_CINNABAR_APEX_CHIPS
-	jr nz, .alreadyApexChips
-.giveApexChips
-	ld hl, GymGuideMoreApexChipText7
-	rst _PrintText
-	lb bc, APEX_CHIP, 2
-	call GiveItem
-	ld hl, ApexNoRoomText7
-	jr nc, .printDone
-	ld hl, ReceivedApexChipsText7
-	rst _PrintText
-	ld hl, CinnabarGymGuideApexChipFireText
-	rst _PrintText
-	SetEvent EVENT_GOT_CINNABAR_APEX_CHIPS
-.alreadyApexChips
-	ld hl, AlreadyReceivedApexChipsText7
-.printDone
 	rst _PrintText
 	rst TextScriptEnd
+.afterBeat
+	ld hl, CinnabarGymGuidePostBattleText
+	rst _PrintText
+	ld hl, wObtainedBadges ; Sunsette: badge-count-gated extra TMs (3 badges, then 6)
+	ld b, 1
+	call CountSetBits
+	ld a, [wNumSetBits]
+	cp 6
+	ld hl, CinnabarGymGuideTMShop6
+	jr nc, .tmShopReady
+	cp 3
+	ld hl, CinnabarGymGuideTMShop3
+	jr nc, .tmShopReady
+	ld hl, CinnabarGymGuideTMShop1
+.tmShopReady
+	call DisplayPokemartNoGreeting
+	rst TextScriptEnd
 
-ReceivedApexChipsText7:
-	text_far _ReceivedApexChipsText
-	sound_get_item_1
-	text_end
-
-ApexNoRoomText7:
-	text_far _PewterGymTM34NoRoomText
-	text_end
-
-GymGuideMoreApexChipText7:
-	text_far _GymGuideMoreApexChipText
-	text_end
-
-AlreadyReceivedApexChipsText7:
-	text_far _AlreadyReceivedApexChipsText
-	text_end
-
-CinnabarGymGuideApexChipFireText:
-	text_far _CinnabarGymGuideApexChipFireText
-	text_end
+INCLUDE "data/items/marts/cinnabar_gym_guide.asm"
 
 ChampInMakingText:
 	text_far _GymGuideChampInMakingText
@@ -443,11 +446,6 @@ ChampInMakingText:
 
 CinnabarGymGuidePostBattleText:
 	text_far _CinnabarGymGymGuideBeatBlaineText
-	text_end
-
-CinnabarGymGuidePostBattleTextPrompt:
-	text_far _CinnabarGymGymGuideBeatBlaineText
-	text_promptbutton
 	text_end
 
 PrintCinnabarQuiz::

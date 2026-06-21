@@ -1,4 +1,4 @@
-; shinpokerednote: gbcnote: ADDED: palette data from pokemon yellow, this data is used on GBC to display colors in the correct places on screen 
+; shinpokerednote: gbcnote: ADDED: palette data from pokemon yellow, this data is used on GBC to display colors in the correct places on screen
 
 BGMapAttributes_Celadon:
 	db $3f

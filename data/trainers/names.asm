@@ -40,7 +40,7 @@ TrainerNames::
 	li "SABRINA"
 	li "GENTLEMAN"
 	li "" ; rival 2, shortened for some free space
-	li "" ; champion rival, shortened for some free space 
+	li "" ; champion rival, shortened for some free space
 	li "LORELEI"
 	li "CHANNELER"
 	li "AGATHA"
@@ -57,4 +57,5 @@ TrainerNames::
 	li "SPRINTER"
 	li "FISTFIGHTER"
 	li "ROCKET QUEEN"
+	li "BIKER" ; BIKER_F (Sunsette: female bikers display as plain BIKER)
 	assert_list_length NUM_TRAINERS

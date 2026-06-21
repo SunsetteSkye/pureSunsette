@@ -39,6 +39,14 @@ TryDoWildEncounter:
 	ld a, b
 	ld [wFlashStepsRemaining], a
 .flashTimerDone
+	; Sunsette: tick the field-move nature-reaction cooldown each real step (same code path as the
+	; repel/FLASH timers, so it only counts genuine overworld steps).
+	ld a, [wNatureReactionCooldown]
+	and a
+	jr z, .natureReactionTicked
+	dec a
+	ld [wNatureReactionCooldown], a
+.natureReactionTicked
 	ld a, [wRepelRemainingSteps]
 	and a
 	jr z, .next
@@ -301,7 +309,7 @@ TestWaterTile:
 	cp OVERWORLD
 	ret nz ; maps not in FOREST or OVERWORLD tilesets dont have any other water tiles to consider
 	ld a, [wCurMap]
-	cp ROUTE_20	; every OVERWORLD map except route 20 will treat tile 32 as a water encounter tile as well 
+	cp ROUTE_20	; every OVERWORLD map except route 20 will treat tile 32 as a water encounter tile as well
 	            ; (route 20 is an exception to preserve missingno behaviour)
 	jr nz, .overworldCoastTileCheck
 .cantEncounter

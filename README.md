@@ -18,13 +18,15 @@ The type chart was reworked to suit: Grass and Fire are now respectable on both 
 
 Every single monster is meant to feel unique, and avoid the situations where two unrelated mons feel like one is a distinct upgrade in every way. A number of types have been changed to achieve this end. Freeze has been revamped, too, and about half of the moves (!) have been heavily reworked.
 
-Finally, on base-Speed-influenced crits: it uses a quadratic formula rather than a linear one, and isn't fully in place until you get the Earth Badge. Legendaries don't follow the system at all. In sum total, it lets a lot of famously weak but fast mons make up for offense elsewhere, while legends have a more steady, overwhelming power.
+Finally, on base-Speed-influenced crits: it uses a quadratic formula rather than a linear one, and isn't fully in place until you get the Earth Badge. Even at its height, it follows a 1.5x multiplier instead of a 2x multiplier, with many critical moves increased in base power. Legendaries don't follow the system at all. In sum total, it lets a lot of famously weak but fast mons make up for offense elsewhere, while legends have a more steady, overwhelming power.
 
 ### Wild Distribution
 
 Early wild encounter tables were tweaked for a little more variety up front -- more of the roster turns up sooner, but without cramming the opening routes full of the rare, high-value catches that always feel a touch too much like wish fulfillment. Beyond that, there's a fresh handful of field moves (none of them strictly necessary, many quite convenient). Also, inspired by Legends ZA, you can now blunder into encounters in the cities themselves. Urban areas keep a pretty low encounter rate so it won't be a nuisance, but some monsters can only be found that way!
 
 ### Bonds of Battle
+
+Level doesn't tell the whole story. Your Pokémon will grow stronger with battle. With each level-up they make, their underlying DVs (IVs in other generations, or genes) will slowly, gradually increase. That weak Caterpie you got on Route 1 (...not an error!) will never feel completely outclassed, not if you put in the effort to make sure it keeps up.
 
 A small affection system has been added; it's less powerful and pervasive than what the modern games do, but I'm hopeful it carries some of that bond feeling back onto the Game Boy. (If you're in the habit of routinely shuffling your Pokémon off into the boxes, mind that the ones left to languish there might grow less affectionate over time -- consider yourself warned.)
 

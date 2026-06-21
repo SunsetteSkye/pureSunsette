@@ -15,29 +15,30 @@
 
 	; tm/hm learnset
 	tmhm \
-	SONICBOOM,\ ; ILL WIND
-	RAZOR_WIND,\ ; ROOST
+	ROOST,\
 	TOXIC,\
 	BODY_SLAM,\
 	DISABLE,\
 	DOUBLE_EDGE,\
+	AURORA_MIST,\
 	HYPER_BEAM,\
-	AMNESIA,\ ; CALM MIND
+	CALM_MIND,\
 	BARRIER,\
-	SOLARBEAM,\ ; SOLARBEAM
-	DRAGON_RAGE,\ ; WYRM WRATH
+	SOLARBEAM,\ 
+	WYRM_WRATH,\
 	THUNDERBOLT,\
 	THUNDER,\
-	KINESIS,\ ; MIRAGE
+	MIRAGE,\
 	REFLECT,\
-	BIDE,\ ; BULK UP
-	BARRAGE,\ ; SHADOW BALL
+	BULK_UP,\
+	ILL_WIND,\
+	SHADOW_BALL,\
+	SUPERNOVA,\
 	FIRE_BLAST,\
-	FLAMETHROWER,\
-	SKY_ATTACK,\ ; BRAVE BIRD
+	TWISTER,\
+	BRAVE_BIRD,\
 	LIGHT_SCREEN,\
-	PSYWAVE,\ ; SKITTERMIND
-	GLARE,\
+	SKITTERMIND,\
 	SUBSTITUTE,\
 	CUT,\
 	FLY,\
@@ -52,3 +53,16 @@
 
 	dw 0, MoltresPicBack
 
+; --- Sunsette SSOT directives (parsed by tools/gen_pokemon_data.py) ---
+;@ nature       NATURE_WISE NATURE_ARROGANT
+;@ pal_battle   PAL_REDBAR
+;@ pal_altbattle PAL_REDPURPLEMON
+;@ pal_icon     $FF
+;@ pal_alticon  $FF
+;@ evo_move    NO_MOVE
+;@ evo_react   NONE
+;@ learn       51, BRAVE_BIRD
+;@ learn       55, SOFTBOILED
+;@ learn       60, FIRE_BLAST
+;@ learn       65, AGILITY
+;@ learn       70, PHOENIX_DIVE

@@ -545,6 +545,16 @@ StatusScreenOriginal:
 	call StatusScreen2
 	ld b, PAD_A | PAD_B
 	call PokedexStatusWaitForButtonPressLoop
+	bit B_PAD_B, a
+	jr nz, ExitStatusScreen
+	callfar DrawStatusPage3 ; Sunsette: page 3 (battle effects / personality reaction)
+.page3Wait
+	callfar StatusPage3WaitNoDir ; blinks the overflow down-arrow while waiting; pressed buttons -> e
+	ld a, e
+	bit B_PAD_B, a
+	jr nz, ExitStatusScreen
+	callfar DrawStatusPage3Next ; Sunsette: spill a long battle-effects list onto further pages
+	jr c, .page3Wait
 ExitStatusScreen:
 	pop af
 	ldh [hTileAnimations], a
@@ -554,7 +564,7 @@ ExitStatusScreen:
 .select
 	call ToggleStatData
 	jr StatusScreenOriginal.continue
-;;;;;;;;;; 
+;;;;;;;;;;
 
 ;;;;;;;;;; PureRGBnote: ADDED: code that allows going up and down on the dpad
 ;;;;;;;;;; to next and previous party pokemon while in battle or in the start POKEMON menu.
@@ -583,6 +593,20 @@ StatusScreenLoop:
 	jr nz, .prevMon
 	bit B_PAD_DOWN, a
 	jr nz, .nextMon
+	bit B_PAD_B, a
+	jr nz, .exitStatus
+	callfar DrawStatusPage3 ; Sunsette: page 3 (battle effects / personality reaction)
+.page3Wait
+	callfar StatusPage3WaitParty ; blinks the overflow down-arrow while waiting; pressed buttons -> e
+	ld a, e
+	bit B_PAD_UP, a
+	jr nz, .prevMon
+	bit B_PAD_DOWN, a
+	jr nz, .nextMon
+	bit B_PAD_B, a
+	jr nz, .exitStatus
+	callfar DrawStatusPage3Next ; Sunsette: spill a long battle-effects list onto further pages
+	jr c, .page3Wait
 .exitStatus
 	jp ExitStatusScreen
 .nextMon

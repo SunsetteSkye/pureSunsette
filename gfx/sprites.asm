@@ -154,3 +154,5 @@ SuperneetSprite:: INCBIN "gfx/sprites/super_neet.2bpp"
 ; SPRITESET_NERD_ROUTES table (+11 bytes) overflowed "Battle Engine 2" by 6 bytes.
 SeelSprite::             INCBIN "gfx/sprites/seel.2bpp"
 CueballSprite::          INCBIN "gfx/sprites/cueball.2bpp" ; Sunsette: CUE BALL trainer (16x96 walking sheet)
+PikachuSprite::          INCBIN "gfx/sprites/pikachu.2bpp" ; Sunsette: overworld Pikachu (ported from pokeyellow; 16x96 walking sheet)
+BikerFSprite::           INCBIN "gfx/sprites/biker_f.2bpp" ; Sunsette: female biker walking sheet (PLACEHOLDER = biker.2bpp; replace with sukeban art)

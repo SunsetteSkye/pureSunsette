@@ -132,7 +132,7 @@ AutoBgMapTransfer::
 	ldh a, [hAutoBGTransferEnabled]
 	and a
 	ret z
-;;;;;;;; PureRGBnote: OPTIMIZED 
+;;;;;;;; PureRGBnote: OPTIMIZED
 ;;;; 11 cycles
 	;ld hl, sp + 0
 	;ld a, h
@@ -339,7 +339,7 @@ ENDR
 	push hl
 	ld sp, hSPTemp
 	pop hl
-;;;;;;;;	
+;;;;;;;;
 	ld sp, hl
 	ret
 

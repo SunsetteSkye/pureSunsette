@@ -15,28 +15,28 @@
 
 	; tm/hm learnset
 	tmhm \
-	FURY_ATTACK,\ ; MUD BOMB
-	SONICBOOM,\ ; ILL WIND
+	MUD_BOMB,\
 	PIN_MISSILE,\
 	TOXIC,\
-	DISABLE,\
+	HONE_EDGE,\
 	BODY_SLAM,\
+	DISABLE,\
 	DOUBLE_EDGE,\
+	AQUA_RING,\
 	HYPER_BEAM,\
-	AMNESIA,\ ; CALM MIND
+	CALM_MIND,\
 	BARRIER,\
-	RAZOR_LEAF,\
-	DRAGON_RAGE,\ ; WYRM WRATH
-	SOLARBEAM,\ ; SOLARBEAM
+	ADAPTATION,\
+	SOLARBEAM,\ 
+	WYRM_WRATH,\
 	MEGA_DRAIN,\
 	SWORDS_DANCE,\
 	REFLECT,\
-	BIDE,\ ; BULK UP
-	BARRAGE,\ ; SHADOW BALL
-	SLAM,\ ; WASTEMAKER
+	BULK_UP,\
+	ILL_WIND,\
+	SHADOW_BALL,\
 	LIGHT_SCREEN,\
-	SLUDGE,\ ; SLUDGE BOMB
-	GLARE,\
+	SHADOW_GAME,\
 	SUBSTITUTE,\
 	CUT,\
 	FLASH
@@ -49,3 +49,25 @@
 
 	dw 0, VictreebelPicBack
 
+; --- Sunsette SSOT directives (parsed by tools/gen_pokemon_data.py) ---
+;@ nature       NATURE_CRUEL NATURE_GLUTTON
+;@ pal_battle   PAL_GREENBAR
+;@ pal_altbattle PAL_AMBERMON
+;@ pal_icon     $FF
+;@ pal_alticon  $FF
+;@ evo_move    NO_MOVE
+;@ evo_react   "A sweet, heavy" "scent oozes out."
+;@ evo_react   "It yawns wide," "luring with scent!"
+;@ evo_react   "Sweet nectar pools" "at its lip!"
+;@ evo_react   "Its vine coils," "ready to snatch!"
+;@ learn       13, POISONPOWDER
+;@ learn       16, ACID
+;@ learn       19, MEGA_DRAIN
+;@ learn       22, STUN_SPORE
+;@ learn       25, POWER_BIND
+;@ learn       28, RAZOR_LEAF
+;@ learn       34, SLEEP_POWDER
+;@ learn       42, VENOM_LASH
+;@ learn       48, EGG_BOMB
+;@ learn       54, LEECH_SEED
+;@ learn       58, ADAPTATION

@@ -1,5 +1,13 @@
 Route19_Script:
 	call EnableAutoTextBoxDrawing
+	CheckEvent EVENT_REACTED_ROUTE19_BEACH
+	jr nz, .skipReaction
+	ld a, [wWarpedFromWhichMap]
+	cp FUCHSIA_CITY
+	jr nz, .skipReaction
+	SetEvent EVENT_REACTED_ROUTE19_BEACH
+	farcall ShowRoute19Reaction
+.skipReaction
 	ld hl, Route19TrainerHeaders
 	ld de, Route19_ScriptPointers
 	ld a, [wRoute19CurScript]

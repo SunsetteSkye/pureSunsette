@@ -172,7 +172,7 @@ BluesHouseDaisySittingText:
 
 ;.bag_full
 ;	ld hl, DaisyBagFullText
-;	rst _PrintText	
+;	rst _PrintText
 .teaWithDaisy
 	ld hl, DaisyTeaEvent
 	rst _PrintText

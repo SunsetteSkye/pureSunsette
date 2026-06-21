@@ -10,30 +10,33 @@
 	INCBIN "gfx/pokemon/front/seaking.pic", 0, 1 ; sprite dimensions
 	dw SeakingPicFront, SeakingPicBackSW
 
-	db SPLASH, WATER_GUN, SUPERSONIC, NO_MOVE ; level 1 learnset (SUPER SOAK)
+	db SPLASH, SUPER_SOAK, SUPERSONIC, NO_MOVE ; level 1 learnset
 	db GROWTH_MEDIUM_FAST ; growth rate
 
 	; tm/hm learnset
 	tmhm \
-	FURY_ATTACK,\ ; MUD BOMB
-	DISABLE,\
+	ROCK_ON,\
+	ADAPTATION,\
+	MUD_BOMB,\
 	TOXIC,\
-	HORN_DRILL,\ ; VENOM DRILL
+	HONE_EDGE,\
 	BODY_SLAM,\
+	DISABLE,\
 	DOUBLE_EDGE,\
-	BUBBLEBEAM,\
-	AURORA_BEAM,\
+	AQUA_RING,\
 	ICE_BEAM,\
 	BLIZZARD,\
 	HYPER_BEAM,\
 	BARRIER,\
+	RIPTIDE,\
 	SWORDS_DANCE,\
 	REFLECT,\
-	BIDE,\ ; BULK UP
-	BARRAGE,\ ; SHADOW BALL
-	SLAM,\ ; WASTEMAKER
+	BULK_UP,\
+	SHADOW_BALL,\
+	TWISTER,\
 	LOVELY_KISS,\
 	LIGHT_SCREEN,\
+	SHADOW_GAME,\
 	SUBSTITUTE,\
 	SURF,\
 	FLASH
@@ -46,3 +49,24 @@
 
 	dw 0, SeakingPicBack
 
+; --- Sunsette SSOT directives (parsed by tools/gen_pokemon_data.py) ---
+;@ nature       NATURE_ARROGANT NATURE_CONSIDERATE
+;@ pal_battle   PAL_GOLDMON
+;@ pal_altbattle PAL_PEWTER
+;@ pal_icon     PAL_ICON_60
+;@ pal_alticon  PAL_ICON_59
+;@ evo_move    NO_MOVE
+;@ evo_react   "It thrashes, horn" "cutting the water!"
+;@ evo_react   "It leaps up, fins" "catching the sun!"
+;@ evo_react   "It charges, horn" "aimed dead ahead!"
+;@ evo_react   "It splashes hard" "and dives deep!"
+;@ learn       15, SUPERSONIC
+;@ learn       18, WATER_PULSE
+;@ learn       21, HEADBUTT
+;@ learn       24, MUD_BOMB
+;@ learn       27, AIR_DRILL
+;@ learn       31, RIPTIDE
+;@ learn       35, AGILITY
+;@ learn       38, METEOR_DRIVE
+;@ learn       43, DOUBLE_EDGE
+;@ learn       45, HYDRO_PUMP

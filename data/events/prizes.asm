@@ -33,13 +33,13 @@ PrizeMenuMon2Cost:
 	db "@"
 
 PrizeMenuTMsEntries:
-	db TM_SWORDS_DANCE
-	db TM_HYPER_BEAM
 	db TM_SUBSTITUTE
+	db TM_SWORDS_DANCE
+	db TM_LOVELY_KISS
 	db "@"
 
 PrizeMenuTMsCost:
+	bcd2 4000
 	bcd2 1500
 	bcd2 3000
-	bcd2 4000
 	db "@"

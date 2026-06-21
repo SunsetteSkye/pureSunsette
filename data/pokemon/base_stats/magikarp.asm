@@ -16,8 +16,9 @@
 	; tm/hm learnset
 	tmhm \
 	DISABLE,\
-	BUBBLEBEAM,\
-	BIDE ; BULK UP
+	AQUA_RING,\
+	BULK_UP,\
+	TWISTER
 	; end
 
 
@@ -28,3 +29,15 @@
 
 	dw 0, MagikarpPicBack
 
+; --- Sunsette SSOT directives (parsed by tools/gen_pokemon_data.py) ---
+;@ nature       NATURE_DITZ NATURE_NONE
+;@ pal_battle   PAL_EMBERMON
+;@ pal_altbattle PAL_GAMEFREAK
+;@ pal_icon     PAL_ICON_04
+;@ pal_alticon  PAL_ICON_67
+;@ evo         EVOLVE_LEVEL, 30, GYARADOS
+;@ evo         15, TACKLE
+;@ evo         20, BITE
+;@ evo         25, LEER
+;@ evo_move    NO_MOVE
+;@ evo_react   NONE

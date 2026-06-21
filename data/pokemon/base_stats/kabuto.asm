@@ -10,34 +10,32 @@
 	INCBIN "gfx/pokemon/front/kabuto.pic", 0, 1 ; sprite dimensions
 	dw KabutoPicFront, KabutoPicBackSW
 
-	db ROCK_THROW, HARDEN, SONICBOOM, NO_MOVE ; level 1 learnset
+	db ROCK_THROW, HARDEN, ILL_WIND, NO_MOVE ; level 1 learnset
 	db GROWTH_MEDIUM_FAST ; growth rate
 
 	; tm/hm learnset
 	tmhm \
-	FURY_ATTACK,\ ; MUD BOMB
+	ADAPTATION,\
+	MUD_BOMB,\
 	PIN_MISSILE,\
 	TOXIC,\
 	BODY_SLAM,\
 	DISABLE,\
 	DOUBLE_EDGE,\
-	BUBBLEBEAM,\
-	AURORA_BEAM,\
 	ICE_BEAM,\
 	BLIZZARD,\
 	BARRIER,\
 	EARTHQUAKE,\
-	CRABHAMMER,\
 	DIG,\
 	MEGA_DRAIN,\
 	REFLECT,\
-	BIDE,\ ; BULK UP
-	BARRAGE,\ ; SHADOW BALL
-	SLAM,\ ; WASTEMAKER
-	SLUDGE,\ ; SLUDGE BOMB
+	BULK_UP,\
+	SHADOW_BALL,\
+	SHADOW_GAME,\
 	ROCK_SLIDE,\
-	GLARE,\
+	ROCK_ON,\
 	SUBSTITUTE,\
+	CLAY_ARMOR,\
 	CUT,\
 	SURF,\
 	FLASH
@@ -51,3 +49,19 @@
 
 	dw 0, KabutoPicBack
 
+; --- Sunsette SSOT directives (parsed by tools/gen_pokemon_data.py) ---
+;@ nature       NATURE_STOLID NATURE_CRUEL
+;@ pal_battle   PAL_BROWNMON2
+;@ pal_altbattle PAL_LEEKMON
+;@ pal_icon     PAL_ICON_64
+;@ pal_alticon  PAL_ICON_52
+;@ evo         EVOLVE_LEVEL, 33, KABUTOPS
+;@ evo_move    NO_MOVE
+;@ evo_react   NONE
+;@ learn       24, LEECH_LIFE
+;@ learn       28, POWER_BIND
+;@ learn       35, MUD_BOMB
+;@ learn       39, METEOR_DRIVE
+;@ learn       44, EXTERMINATE
+;@ learn       49, EARTHQUAKE
+;@ learn       53, METAMORPHIC

@@ -12,7 +12,7 @@ WaterifyEffect_:
 	ld a, WATER
 	ld [hli], a ; type1 = WATER
 	ld [hli], a ; type2 = WATER, hl now -> the mon's Flags byte (the next byte after Type2 in the struct)
-	set 1, [hl] ; bit 1 = force PAL_BLUEMON (soaked blue); preserves bit 0 (the alt-palette flag)
+	set 1, [hl] ; bit 1 = force PAL_CYANMON (soaked); preserves bit 0 (the alt-palette flag)
 	call RunDefaultPaletteCommand ; re-apply SET_PAL_BATTLE so the blue shows immediately
 	ld hl, WaterifiedText
 	jp PrintText

@@ -15,29 +15,28 @@
 
 	; tm/hm learnset
 	tmhm \
-	FURY_ATTACK,\ ; MUD BOMB
-	LOW_KICK,\
+	MUD_BOMB,\
 	TOXIC,\
 	BODY_SLAM,\
 	DISABLE,\
 	DOUBLE_EDGE,\
-	BUBBLEBEAM,\
-	AURORA_BEAM,\
+	AQUA_RING,\
 	ICE_BEAM,\
 	BLIZZARD,\
 	HYPER_BEAM,\
-	AMNESIA,\ ; CALM MIND
+	CALM_MIND,\
+	LOW_KICK,\
+	METEOR_SWEEP,\
 	BARRIER,\
-	ROLLING_KICK,\ ; METEOR SWEEP
+	RIPTIDE,\
 	DIG,\
 	MEGA_DRAIN,\
 	REFLECT,\
-	BIDE,\ ; BULK UP
-	BARRAGE,\ ; SHADOW BALL
-	SLAM,\ ; WASTEMAKER
-	KARATE_CHOP,\
+	BULK_UP,\
+	SHADOW_BALL,\
+	TWISTER,\
+	DEMOLISH,\
 	LIGHT_SCREEN,\
-	GLARE,\
 	SUBSTITUTE,\
 	CUT,\
 	SURF,\
@@ -52,3 +51,25 @@
 
 	dw 0, VaporeonPicBack
 
+; --- Sunsette SSOT directives (parsed by tools/gen_pokemon_data.py) ---
+;@ nature       NATURE_GENTLE NATURE_PLAYFUL
+;@ pal_battle   PAL_CERULEAN
+;@ pal_altbattle PAL_KELPMON
+;@ pal_icon     PAL_ICON_71
+;@ pal_alticon  PAL_ICON_72
+;@ evo_move    SUPER_SOAK
+;@ evo_react   "It shimmers, half" "melting away."
+;@ evo_react   "It dissolves into" "a splash, reforms!"
+;@ evo_react   "Its fins ripple" "like cool water."
+;@ evo_react   "It dips low and" "ripples away!"
+;@ learn       6, HONE_EDGE
+;@ learn       10, BITE
+;@ learn       14, BELLOW
+;@ learn       18, SWIFT
+;@ learn       21, WATER_PULSE
+;@ learn       25, BARRIER
+;@ learn       28, RIPTIDE
+;@ learn       32, TRI_ATTACK
+;@ learn       35, SLUDGE_BOMB
+;@ learn       44, AURORA_MIST
+;@ learn       49, HYDRO_PUMP

@@ -15,6 +15,9 @@ Route19_Object:
 
 	def_warp_events
 	warp_event 13, 49, FUCHSIA_GOOD_ROD_HOUSE, 4
+	; Sunsette: Summer Beach House (Surfing Pikachu minigame). Door painted at (3,5); this is
+	; Route 19 warp index 2 (warp 1 is the Good Rod House), which the interior's exit warps return to (LAST_MAP, 2).
+	warp_event  3,  5, SUMMER_BEACH_HOUSE, 1
 
 	def_bg_events
 	bg_event 11,  9, TEXT_ROUTE19_SIGN

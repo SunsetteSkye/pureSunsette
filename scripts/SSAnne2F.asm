@@ -20,6 +20,14 @@ ENDC
 	ld hl, .PlayerCoordinatesArray
 	call ArePlayerCoordsInArray
 	ret nc
+	; Sunsette: this rival fight just doesn't happen if you already hold 4+ badges (you sequence-broke
+	; back to the ship); skip the encounter entirely so you can pass.
+	ld hl, wObtainedBadges
+	ld b, 1
+	call CountSetBits
+	ld a, [wNumSetBits]
+	cp 4
+	ret nc
 	ld a, SFX_STOP_ALL_MUSIC
 	ld [wNewSoundID], a
 	rst _PlaySound
@@ -87,6 +95,8 @@ SSAnne2FRivalStartBattleScript:
 	call Delay3
 	ld a, OPP_RIVAL2
 	ld [wCurOpponent], a
+	ld a, 1 ; Sunsette: trainer-battle latch
+	ld [wIsTrainerBattle], a
 
 	; select which team to use during the encounter
 	ld a, [wRivalStarter]

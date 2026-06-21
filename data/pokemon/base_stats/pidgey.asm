@@ -15,28 +15,30 @@
 
 	; tm/hm learnset
 	tmhm \
-	FURY_ATTACK,\ ; MUD BOMB
-	DISABLE,\
-	SONICBOOM,\ ; ILL WIND
-	RAZOR_WIND,\ ; ROOST
+	ROOST,\
+	MUD_BOMB,\
 	PIN_MISSILE,\
 	TOXIC,\
+	HONE_EDGE,\
+	DISABLE,\
 	DOUBLE_EDGE,\
-	DRAGON_RAGE,\ ; WYRM WRATH
+	AURORA_MIST,\
 	BARRIER,\
-	RAZOR_LEAF,\
+	ADAPTATION,\
+	WYRM_WRATH,\
 	THUNDERBOLT,\
 	THUNDER,\
+	MIRAGE,\
 	SWORDS_DANCE,\
-	KINESIS,\ ; MIRAGE
 	REFLECT,\
-	BIDE,\ ; BULK UP
-	BARRAGE,\ ; SHADOW BALL
-	SLAM,\ ; WASTEMAKER
-	KARATE_CHOP,\
-	SKY_ATTACK,\ ; BRAVE BIRD
+	BULK_UP,\
+	ILL_WIND,\
+	SHADOW_BALL,\
+	TWISTER,\
+	DEMOLISH,\
+	BRAVE_BIRD,\
 	LIGHT_SCREEN,\
-	GLARE,\
+	SHADOW_GAME,\
 	SUBSTITUTE,\
 	CUT,\
 	FLY,\
@@ -51,3 +53,24 @@
 
 	dw 0, PidgeyPicBack
 
+; --- Sunsette SSOT directives (parsed by tools/gen_pokemon_data.py) ---
+;@ nature       NATURE_CAUTIOUS NATURE_GENTLE
+;@ pal_battle   PAL_BROWNMON2
+;@ pal_altbattle PAL_BROWNGOLDMON
+;@ pal_icon     PAL_ICON_10
+;@ pal_alticon  PAL_ICON_11
+;@ evo         EVOLVE_LEVEL, 24, PIDGEOTTO
+;@ evo_move    NO_MOVE
+;@ evo_react   NONE
+;@ learn       6, GUST
+;@ learn       9, SAND_ATTACK
+;@ learn       14, AGILITY
+;@ learn       17, SWIFT
+;@ learn       23, WING_ATTACK
+;@ learn       28, RAZOR_LEAF
+;@ learn       32, BLITZ_STRIKE
+;@ learn       35, HONE_EDGE
+;@ learn       41, HURRICANE
+;@ learn       48, SENBONZAKURA
+;@ learn       54, DOUBLE_EDGE
+;@ learn       60, MOCKINGBIRD

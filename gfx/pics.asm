@@ -619,6 +619,11 @@ WinterDragonairPicFront:: INCBIN "gfx/pokemon/front_alt/dragonair.pic"
 VolcanicMagmarPicFront:: INCBIN "gfx/pokemon/front_alt/volcanic_magmar.pic"
 VolcanicMagmarPicBackSW:: INCBIN "gfx/pokemon/back_sw/volcanic_magmarb.pic"
 
+; floating-form front portraits (back sprites reuse the base form's)
+FloatingMagnetonPicFront:: INCBIN "gfx/pokemon/front/floating_magneton.pic"
+FloatingWeezingPicFront::  INCBIN "gfx/pokemon/front/floating_weezing.pic"
+
+
 ; spirits
 TorchedPicFront:: INCBIN "gfx/battle/spirit_torched.pic"
 ChunkyPicFront:: INCBIN "gfx/battle/spirit_chunky.pic"
@@ -633,6 +638,7 @@ ScubaSuitBattlePicSW:: INCBIN "gfx/player/scuba_suitb_big.pic"
 ScubaSuitBattlePic::   INCBIN "gfx/player/scuba_suitb.pic"
 
 RocketSisterPic::    INCBIN "gfx/trainers/rocketsister.pic" ; Sunsette: ROCKET QUEEN front sprite (dialogue calls them ROCKET SISTERS)
+BikerFPic::          INCBIN "gfx/trainers/biker_f.pic" ; Sunsette: BIKER_F front pic (must sit past COOL_KID in BANK(KidPic); PLACEHOLDER = biker.pic, replace with sukeban art)
 
 SECTION "Pics Sunny", ROMX
 PidgeyPicFront::      INCBIN "gfx/pokemon/front/pidgey.pic"

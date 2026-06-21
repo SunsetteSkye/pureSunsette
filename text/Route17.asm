@@ -36,8 +36,8 @@ _Route17Biker2AfterBattleText::
 	done
 
 _Route17Biker3BattleText::
-	text "You heading to"
-	line "FUCHSIA?"
+	text "You headin' down"
+	line "to FUCHSIA, kid?"
 	done
 
 _Route17Biker3EndBattleText::
@@ -46,8 +46,9 @@ _Route17Biker3EndBattleText::
 	prompt
 
 _Route17Biker3AfterBattleText::
-	text "I love racing"
-	line "downhill!"
+	text "Nothin' beats"
+	line "bombin' downhill"
+	cont "full throttle!"
 	done
 
 _Route17Biker4BattleText::
@@ -135,8 +136,8 @@ _Route17Biker8AfterBattleText::
 	done
 
 _Route17Biker9BattleText::
-	text "Nice BIKE!"
-	line "How's it handle?"
+	text "Cute BIKE, kid."
+	line "How's she ride?"
 	done
 
 _Route17Biker9EndBattleText::
@@ -144,23 +145,26 @@ _Route17Biker9EndBattleText::
 	prompt
 
 _Route17Biker9AfterBattleText::
-	text "The slope makes"
-	line "it hard to steer!"
+	text "This slope'll"
+	line "throw ya if you"
+	cont "can't handle it."
 	done
 
 _Route17Biker10BattleText::
-	text "Get lost kid!"
-	line "I'm bushed!"
+	text "Welcome to the"
+	line "Gym of Hard"
+	cont "Knocks, kid!"
 	done
 
 _Route17Biker10EndBattleText::
-	text "Are you"
-	line "satisfied?"
+	text "Class..."
+	line "dismissed?!"
 	prompt
 
 _Route17Biker10AfterBattleText::
-	text "I need to catch"
-	line "a few Zs!"
+	text "No GYM LEADER"
+	line "runs a tougher"
+	cont "class than me."
 	done
 
 _Route17NoticeSign1Text::

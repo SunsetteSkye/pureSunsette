@@ -14,30 +14,31 @@
 	db GROWTH_MEDIUM_SLOW ; growth rate
 
 	tmhm \
-	LOW_KICK,\
-	FIRE_PUNCH,\ ; BLAZE HAMMER
+	BLAZE_HAMMER,\
 	TOXIC,\
+	HONE_EDGE,\
 	BODY_SLAM,\
 	DISABLE,\
 	DOUBLE_EDGE,\
-	AMNESIA,\ ; CALM MIND
-	THUNDERPUNCH,\ ; ZAPPERCUT
-	ROLLING_KICK,\ ; METEOR SWEEP
+	CALM_MIND,\
+	LOW_KICK,\
+	ZAPPERCUT,\
+	METEOR_SWEEP,\
 	BARRIER,\
-	SOLARBEAM,\ ; SOLARBEAM
-	DRAGON_RAGE,\ ; WYRM WRATH
+	SOLARBEAM,\ 
+	WYRM_WRATH,\
 	DIG,\
-	KINESIS,\ ; MIRAGE
+	MIRAGE,\
 	SWORDS_DANCE,\
 	REFLECT,\
-	BIDE,\ ; BULK UP
-	BARRAGE,\ ; SHADOW BALL
+	BULK_UP,\
+	SHADOW_BALL,\
+	SUPERNOVA,\
 	FIRE_BLAST,\
-	FLAMETHROWER,\
-	SLAM,\ ; WASTEMAKER
-	KARATE_CHOP,\
+	DEMOLISH,\
 	LIGHT_SCREEN,\
-	GLARE,\
+	SHADOW_GAME,\
+	ROCK_ON,\
 	SUBSTITUTE,\
 	CUT,\
 	STRENGTH,\
@@ -51,3 +52,25 @@
 
 	dw 0, CharmanderPicBack
 
+; --- Sunsette SSOT directives (parsed by tools/gen_pokemon_data.py) ---
+;@ nature       NATURE_SCRAPPY NATURE_CAUTIOUS
+;@ pal_battle   PAL_FLAREMON
+;@ pal_altbattle PAL_EMBERMON
+;@ pal_icon     PAL_ICON_03
+;@ pal_alticon  PAL_ICON_04
+;@ evo         EVOLVE_LEVEL, 6, CHARMELEON
+;@ evo         EVOLVE_LEVEL, 16, CHARMELEON
+;@ evo_move    NO_MOVE
+;@ evo_react   NONE
+;@ learn       6, SMOKESCREEN
+;@ learn       9, EMBER
+;@ learn       12, SEISMIC_TOSS
+;@ learn       15, BELLOW
+;@ learn       18, HEAT_RUSH
+;@ learn       23, HONE_EDGE
+;@ learn       26, SLASH
+;@ learn       30, SHORYUKEN
+;@ learn       38, FLAMETHROWER
+;@ learn       46, HYPER_BEAM
+;@ learn       54, WYRM_WRATH
+;@ learn       60, FIRE_BLAST

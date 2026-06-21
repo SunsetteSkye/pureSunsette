@@ -1,5 +1,5 @@
 UnusedHighCriticalMoves:
-	db KARATE_CHOP
+	db DEMOLISH
 	db RAZOR_LEAF
 	db CRABHAMMER
 	db SLASH

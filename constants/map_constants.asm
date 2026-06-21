@@ -23,7 +23,7 @@ ENDM
 	map_const LAVENDER_TOWN,                 10,  9 ; $04
 	map_const VERMILION_CITY,                20, 20 ; $05
 	map_const CELADON_CITY,                  25, 18 ; $06
-	map_const SAFFRON_CITY,                  20, 18 ; $07 ; PureRGBnote: MOVED: Saffron city was moved earlier in the index so it appears before Fuchsia city in the fly menu 
+	map_const SAFFRON_CITY,                  20, 18 ; $07 ; PureRGBnote: MOVED: Saffron city was moved earlier in the index so it appears before Fuchsia city in the fly menu
 	map_const FUCHSIA_CITY,                  20, 18 ; $08
 	map_const CINNABAR_ISLAND,               10,  9 ; $09
 	map_const INDIGO_PLATEAU,                10,  9 ; $0A
@@ -97,7 +97,7 @@ DEF FIRST_INDOOR_MAP EQU const_value
 	map_const VERMILION_FITNESS_CLUB,         9,  5 ; $4B ; pureRGBnote: ADDED: new map
 	map_const ROUTE_7_GATE,                   3,  4 ; $4C
 	map_const UNDERGROUND_PATH_ROUTE_7,       4,  4 ; $4D
-	map_const CELADON_BACK_ALLEY,            21,  8 ; $4E ; pureRGBnote: ADDED: new map 
+	map_const CELADON_BACK_ALLEY,            21,  8 ; $4E ; pureRGBnote: ADDED: new map
 	map_const ROUTE_8_GATE,                   3,  4 ; $4F
 	map_const UNDERGROUND_PATH_ROUTE_8,       4,  4 ; $50
 	map_const ROCK_TUNNEL_POKECENTER,         7,  4 ; $51
@@ -261,7 +261,7 @@ DEF FIRST_INDOOR_MAP EQU const_value
 	map_const TRADE_CENTER,                   5,  4 ; $EF
 	map_const COLOSSEUM,                      5,  4 ; $F0
 	map_const UNUSED_MAP_F1,                  0,  0 ; $F1 ; unused map
-	map_const UNUSED_MAP_F2,                  0,  0 ; $F2 ; unused map
+	map_const SUMMER_BEACH_HOUSE,             7,  4 ; $F2 ; Sunsette: Summer Beach House (Route 19) - Surfing Pikachu minigame
 	map_const UNUSED_MAP_F3,                  0,  0 ; $F3 ; unused map
 	map_const UNUSED_MAP_F4,                  0,  0 ; $F4 ; unused map
 	map_const LORELEIS_ROOM,                  5,  6 ; $F5

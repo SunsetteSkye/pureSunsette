@@ -15,25 +15,18 @@ _TypeGuysHouseTypeGuyAwakeText::
 	line "master you know!"
 	para "Been one for more"
 	line "than 25 years!"
-	para "Back in my day,"
-	line "SANDSHREW was"
-	cont "plain old GROUND"
-	cont "-type."
-	para "Not any of this"
-	line "GROUND / NORMAL"
-	cont "nonsense!"
 	prompt
 
 _TypeGuysHouseTypeGuyAwakeText2::
 	text "Folks these days"
 	line "have got it good!"
-	para "But just for you,"
-	line "I'll switch TYPEs"
-	cont "back to their"
-	cont "original ones!"
-	para "Got any"
-	line "preferences?"
-	para " "
+
+	para "Tell you what,"
+	line "have a look at my"
+	cont "old <TM> stash."
+
+	para "See anything you"
+	line "fancy?"
 	done
 
 _TypeGuysHouseTypeGuyDoneText::

@@ -118,6 +118,8 @@ Route22Rival1StartBattleScript:
 	call SaveEndBattleTextPointers
 	ld a, OPP_RIVAL1
 	ld [wCurOpponent], a
+	ld a, 1 ; Sunsette: trainer-battle latch
+	ld [wIsTrainerBattle], a
 	ld a, [wRivalStarter]
 	call StarterToPartyID
 	add 3 ; second set of parties for RIVAL1
@@ -270,6 +272,8 @@ Route22Rival2StartBattleScript:
 	call SaveEndBattleTextPointers
 	ld a, OPP_RIVAL2
 	ld [wCurOpponent], a
+	ld a, 1 ; Sunsette: trainer-battle latch
+	ld [wIsTrainerBattle], a
 	ld a, [wRivalStarter]
 	call StarterToPartyID
 	add 9 ; 4th set of parties for RIVAL2

@@ -2,7 +2,6 @@
 	const_export FUCHSIAMART_CLERK
 	const_export FUCHSIAMART_MIDDLE_AGED_MAN
 	const_export FUCHSIAMART_COOLTRAINER_F
-	const_export FUCHSIAMART_TM_KID
 
 FuchsiaMart_Object:
 	db $0 ; border block
@@ -17,6 +16,5 @@ FuchsiaMart_Object:
 	object_event  0,  5, SPRITE_CLERK, STAY, RIGHT, TEXT_FUCHSIAMART_CLERK 
 	object_event  4,  2, SPRITE_MIDDLE_AGED_MAN, STAY, NONE, TEXT_FUCHSIAMART_MIDDLE_AGED_MAN 
 	object_event  6,  5, SPRITE_COOLTRAINER_F, WALK, UP_DOWN, TEXT_FUCHSIAMART_COOLTRAINER_F 
-	object_event  1,  7, SPRITE_LITTLE_BOY, STAY, NONE, TEXT_FUCHSIAMART_TM_KID
 
 	def_warps_to FUCHSIA_MART

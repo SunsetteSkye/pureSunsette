@@ -29,6 +29,7 @@ WarpTileIDPointers:
 	dw .ChampCupWarpTileIDs
 	dw .VolcanoWarpTileIDs
 	dw .ReactorWarpTileIDs
+	dw .BeachHouseWarpTileIDs ; Sunsette: Summer Beach House interior
 	assert_table_length NUM_TILESETS
 
 MACRO warp_tiles
@@ -110,3 +111,8 @@ ENDM
 
 .VolcanoWarpTileIDs
 	warp_tiles $01, $18, $1A, $1F, $4A
+
+; Sunsette: Summer Beach House interior. No auto-warp tiles (the exit warp_events handle it),
+; matching pokeyellow's empty BeachHouse warp tile list.
+.BeachHouseWarpTileIDs:
+	warp_tiles ; end

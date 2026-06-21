@@ -15,30 +15,32 @@
 
 	; tm/hm learnset
 	tmhm \
-	FURY_ATTACK,\ ; MUD BOMB
-	LOW_KICK,\
-	SONICBOOM,\ ; ILL WIND
+	MUD_BOMB,\
 	PIN_MISSILE,\
 	TOXIC,\
+	HONE_EDGE,\
 	BODY_SLAM,\
 	DISABLE,\
 	DOUBLE_EDGE,\
-	AMNESIA,\ ; CALM MIND
-	ROLLING_KICK,\ ; METEOR SWEEP
+	AQUA_RING,\
+	CALM_MIND,\
+	LOW_KICK,\
+	METEOR_SWEEP,\
 	BARRIER,\
-	RAZOR_LEAF,\
-	SOLARBEAM,\ ; SOLARBEAM
+	ADAPTATION,\
+	SOLARBEAM,\ 
 	DIG,\
 	MEGA_DRAIN,\
 	SWORDS_DANCE,\
 	REFLECT,\
-	BIDE,\ ; BULK UP
-	BARRAGE,\ ; SHADOW BALL
-	SLAM,\ ; WASTEMAKER
-	MEDITATE,\ ; VOID MIND
+	BULK_UP,\
+	ILL_WIND,\
+	SHADOW_BALL,\
+	TWISTER,\
+	VOID_MIND,\
 	LIGHT_SCREEN,\
-	SLUDGE,\ ; SLUDGE BOMB
-	GLARE,\
+	SHADOW_GAME,\
+	ROCK_ON,\
 	SUBSTITUTE,\
 	CUT,\
 	FLASH
@@ -51,3 +53,16 @@
 
 	dw 0, IvysaurPicBack
 
+; --- Sunsette SSOT directives (parsed by tools/gen_pokemon_data.py) ---
+;@ nature       NATURE_GENTLE NATURE_CAUTIOUS
+;@ pal_battle   PAL_ICON_02
+;@ pal_altbattle PAL_IVYALT
+;@ pal_icon     PAL_ICON_02
+;@ pal_alticon  $FF
+;@ evo         EVOLVE_LEVEL, 32, VENUSAUR
+;@ evo_move    NO_MOVE
+;@ evo_react   "It hops up," "ready to go!"
+;@ evo_react   "Its bud swells," "full of new life!"
+;@ evo_react   "Roots burst out," "gripping the dirt!"
+;@ evo_react   "Fresh leaves open" "into the sun!"
+;@ learn_like  BULBASAUR

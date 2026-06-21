@@ -42,14 +42,23 @@ SetPal_Battle:
 	ld a, [wBattleMonFlags]
 	and 1 ; only the 1st bit of the flags determines alt palette
 	ld [wIsAltPalettePkmn], a
+	; Sunsette: during the intro the player's mon isn't loaded yet (wBattleMonSpecies == 0) - color the back
+	; sprite (slot 2) from the override palette instead of treating 0 as a species.
+	ld a, [wBattleMonSpecies]
+	and a
+	jr nz, .playerHasMon
+	ld a, [wPlayerBackSpritePalette]
+	ld b, a
+	jr .override
+.playerHasMon
 	ld a, [wPlayerBattleStatus3]
 	ld hl, wBattleMonSpecies
 	call DeterminePaletteID
 	ld b, a
-	ld a, [wBattleMonFlags] ; Sunsette: bit 1 = WATERIFY soak -> PAL_BLUEMON; bit 2 = CONVERSION recolor -> wPlayerConvertPalette
+	ld a, [wBattleMonFlags] ; Sunsette: bit 1 = WATERIFY soak -> PAL_CYANMON; bit 2 = CONVERSION recolor -> wPlayerConvertPalette
 	bit 1, a
 	jr z, .checkConvertPlayer
-	ld b, PAL_BLUEMON
+	ld b, PAL_CYANMON
 	jr .override
 .checkConvertPlayer
 	bit 2, a
@@ -59,20 +68,37 @@ SetPal_Battle:
 	jr .override
 .checkGrayPlayer
 	bit 3, a ; Sunsette: SKITTERMIND -> PAL_MINDWIPE (all-gray)
-	jr z, .override
+	jr z, .checkGlowPlayer
 	ld b, PAL_MINDWIPE
+	jr .override
+.checkGlowPlayer
+	bit 4, a ; Sunsette: METAMORPHIC -> PAL_GAMEFREAK (super-saiyan glow)
+	jr z, .override
+	ld b, PAL_GAMEFREAK
 .override
 	ld a, [wEnemyMonFlags]
 	and 1 ; only the 1st bit of the flags determines alt palette
 	ld [wIsAltPalettePkmn], a
+	; Sunsette: while the enemy trainer pic is up (trainer battle + no enemy mon loaded, wEnemyMonSpecies2 == 0
+	; - true during the intro AND the post-battle scroll) color slot 3 from the trainer-pic override.
+	ld a, [wWasTrainerBattle]
+	and a
+	jr z, .enemyHasMon
+	ld a, [wEnemyMonSpecies2]
+	and a
+	jr nz, .enemyHasMon
+	ld a, [wEnemyTrainerPicPalette]
+	ld c, a
+	jr .gotEnemyPal
+.enemyHasMon
 	ld a, [wEnemyBattleStatus3]
 	ld hl, wEnemyMonSpecies2
 	call DeterminePaletteID
 	ld c, a
-	ld a, [wEnemyMonFlags] ; Sunsette: bit 1 = WATERIFY soak -> PAL_BLUEMON; bit 2 = CONVERSION recolor -> wEnemyConvertPalette
+	ld a, [wEnemyMonFlags] ; Sunsette: bit 1 = WATERIFY soak -> PAL_CYANMON; bit 2 = CONVERSION recolor -> wEnemyConvertPalette
 	bit 1, a
 	jr z, .checkConvertEnemy
-	ld c, PAL_BLUEMON
+	ld c, PAL_CYANMON
 	jr .gotEnemyPal
 .checkConvertEnemy
 	bit 2, a
@@ -82,8 +108,13 @@ SetPal_Battle:
 	jr .gotEnemyPal
 .checkGrayEnemy
 	bit 3, a ; Sunsette: SKITTERMIND -> PAL_MINDWIPE (all-gray)
-	jr z, .gotEnemyPal
+	jr z, .checkGlowEnemy
 	ld c, PAL_MINDWIPE
+	jr .gotEnemyPal
+.checkGlowEnemy
+	bit 4, a ; Sunsette: METAMORPHIC -> PAL_GAMEFREAK (super-saiyan glow)
+	jr z, .gotEnemyPal
+	ld c, PAL_GAMEFREAK
 .gotEnemyPal
 	ld hl, wPalPacket + 1
 	ld a, [wPlayerHPBarColor]
@@ -109,36 +140,27 @@ SetPal_Battle:
 ; class into wEnemyMonSpecies2 first so the intro pic gets its class palette (NonMonCustomPalettes,
 ; unlisted classes default to PAL_MEWMON), then re-clear it. Wild battles are unchanged.
 SetEnemyTrainerIntroPalette:
-;;;;;;;;;; Sunsette: feed the player back-sprite sentinel species into wBattleMonSpecies so the
-; SAME SET_PAL_BATTLE colors slot 2 (the back-sprite body) directly - PAL_PLAYER, or PAL_REDBAR
-; in the volcano (lava suit) / PAL_BLUEMON in the scuba event - with no MEWMON flash. The real
-; player mon species is saved and restored around the command.
+; Sunsette: the player back-sprite (slot 2) is colored from wPlayerBackSpritePalette - PAL_PLAYER, or PAL_REDBAR
+; in the volcano (lava suit) / PAL_BLUEMON in the scuba event - and the enemy trainer pic (slot 3) from
+; wEnemyTrainerPicPalette (by raw class). SetPal_Battle uses these while no real mon is loaded, with no fake
+; "species" sentinels squatting in species ID space. The overrides persist through slide-off / send-out via
+; their wBattleMonSpecies==0 / wEnemyMonSpecies2==0 conditions there.
 	ld a, [wCurMapTileset]
 	cp VOLCANO
-	ld a, PLAYER_BACK_LAVA
-	jr z, .gotBackSentinel
+	ld a, PAL_REDBAR
+	jr z, .gotBack
 	CheckEvent EVENT_DRAGONAIR_EVENT_BATTLING_CLOYSTER
-	ld a, PLAYER_BACK_SCUBA
-	jr nz, .gotBackSentinel
-	ld a, PLAYER_BACK_NORMAL
-.gotBackSentinel
-	ld [wBattleMonSpecies], a ; leave the sentinel in place: it must persist through the slide-off
-	; and the enemy's send-out (both re-run SET_PAL_BATTLE while the player back is still on screen
-	; and the player's mon isn't loaded yet) until the player's own send-out overwrites it. Nothing
-	; else reads wBattleMonSpecies as a real species before then, so the sentinel is harmless there.
-;;;;;;;;;;
+	ld a, PAL_BLUEMON
+	jr nz, .gotBack
+	ld a, PAL_PLAYER
+.gotBack
+	ld [wPlayerBackSpritePalette], a
 	ld a, [wIsInBattle]
 	cp $2
-	jr nz, .wildPal
-	ld a, [wTrainerClass]
-	add OPP_ID_OFFSET
-	ld [wEnemyMonSpecies2], a
-	ld d, SET_PAL_BATTLE
-	call RunPaletteCommand
-	xor a
-	ld [wEnemyMonSpecies2], a
-	ret
-.wildPal
+	jr nz, .doCommand
+	call DetermineTrainerPaletteID
+	ld [wEnemyTrainerPicPalette], a
+.doCommand
 	ld d, SET_PAL_BATTLE
 	jp RunPaletteCommand
 
@@ -159,6 +181,193 @@ SetPokeballPalette::
 	ld a, 1
 	call TransferCurOBPData ; OBJ palette slot 1 (enemy balls)
 	ret
+
+; Sunsette: ADDED (pass 2): per-species party-menu icon colors. For each visible
+; party member, look up its ICON palette (icon shading, NOT the battle-sprite
+; shading) from IconPalettes / IconPalettesAlt by dex number, and load it into an
+; OBJ palette slot. A table entry of $FF means "use the mon's battle palette"
+; (DeterminePaletteIDOutOfBattle). We use slots 2..7 (one per row, up to
+; PARTY_LENGTH = 6) because GBPalNormal refreshes only OBJ slots 0/1 - so our icon
+; colors survive it. Each row's 4 OAM sub-sprites are tagged with attr = that slot.
+; GBC only; on DMG/SGB the OAM attrs stay $00 and icons keep the menu palette.
+; Called from RedrawPartyMenu_ after GBPalNormal.
+LoadPartyIconPalettes::
+	ldh a, [hGBC]
+	and a
+	ret z
+	ld a, [wPartyCount]
+	and a
+	ret z
+	xor a
+	ldh [hPartyIconPalIdx], a
+.loop
+	; alt-palette flag from this mon's stored flags (bit 0) -> hIconAltFlag
+	ld hl, wPartyMon1Flags
+	ld bc, wPartyMon2Flags - wPartyMon1Flags
+	ldh a, [hPartyIconPalIdx]
+	call AddNTimes
+	ld a, [hl]
+	and 1
+	ldh [hIconAltFlag], a
+	; species index for this row -> hIconSpecies
+	ld hl, wPartySpecies
+	ldh a, [hPartyIconPalIdx]
+	ld c, a
+	ld b, 0
+	add hl, bc
+	ld a, [hl]
+	ldh [hIconSpecies], a
+	; species index -> dex number (for the icon tables)
+	ld [wPokedexNum], a
+	call IndexToPokedex
+	ld a, [wPokedexNum]
+	ld c, a
+	ld b, 0
+	; pick the table for this variant
+	ld hl, IconPalettes
+	ldh a, [hIconAltFlag]
+	and a
+	jr z, .gotTable
+	ld hl, IconPalettesAlt
+.gotTable
+	add hl, bc
+	ld a, [hl] ; icon PAL_*, or $FF = use battle palette
+	cp $FF
+	jr nz, .gotPal
+	; battle fallback (honors alt flag + alt-palette option)
+	ldh a, [hIconAltFlag]
+	ld [wIsAltPalettePkmn], a
+	ldh a, [hIconSpecies]
+	call DeterminePaletteIDOutOfBattle
+.gotPal
+	call GetGBCBasePalAddress           ; de = base palette address
+	ld a, CONVERT_OBP0
+	call DMGPalToGBCPal                  ; wGBCPal = converted colors
+	ldh a, [hPartyIconPalIdx]
+	add 2                                ; OBJ slot = row + 2
+	call TransferCurOBPData
+	call SetPartyIconOAMAttr             ; tag this row's OAM sub-sprites
+	ldh a, [hPartyIconPalIdx]
+	inc a
+	ldh [hPartyIconPalIdx], a
+	ld b, a
+	ld a, [wPartyCount]
+	cp b
+	jr nz, .loop
+	ret
+
+; Sunsette: write attr byte (= row+2, the OBJ palette slot) into the 4 OAM entries
+; of party row [hPartyIconPalIdx], in both the live shadow OAM and the saved copy
+; the icon animation flips between. Each row is OBJ_SIZE*4 = 16 bytes; attr is the
+; 4th byte of each 4-byte entry.
+SetPartyIconOAMAttr:
+	ldh a, [hPartyIconPalIdx]
+	swap a ; row * 16 (row is 0..5, so no high-nibble overflow)
+	ld c, a
+	ld b, 0
+	ldh a, [hPartyIconPalIdx]
+	add 2
+	ld d, a ; attr value
+	ld hl, wShadowOAM + 3
+	add hl, bc
+	call .write4
+	ld hl, wMonPartySpritesSavedOAM + 3
+	add hl, bc
+.write4
+	ld a, d
+	ld [hl], a
+	inc hl
+	inc hl
+	inc hl
+	inc hl
+	ld a, d
+	ld [hl], a
+	inc hl
+	inc hl
+	inc hl
+	inc hl
+	ld a, d
+	ld [hl], a
+	inc hl
+	inc hl
+	inc hl
+	inc hl
+	ld a, d
+	ld [hl], a
+	ret
+
+; Sunsette: load the FLY carrier's icon palette into OBJ slot 1 (the player's overworld sprite
+; slot), so the fly-animation bird-icon renders in that species' colors. Mirrors one iteration
+; of LoadPartyIconPalettes. GBC only. Reads wFlyCarrierMon.
+LoadFlyCarrierOWPalette::
+	ldh a, [hGBC]
+	and a
+	ret z
+	ld a, [wFlyCarrierMon]
+	cp PARTY_LENGTH
+	ret nc ; $ff / invalid -> leave slot 1 as-is (defensive; caller guarantees validity)
+	; alt-palette flag from this mon's stored flags (bit 0); a = party index = AddNTimes count
+	ld hl, wPartyMon1Flags
+	ld bc, wPartyMon2Flags - wPartyMon1Flags
+	call AddNTimes
+	ld a, [hl]
+	and 1
+	ld [wIsAltPalettePkmn], a
+	; species index for this party row
+	ld a, [wFlyCarrierMon]
+	ld c, a
+	ld b, 0
+	ld hl, wPartySpecies
+	add hl, bc
+	ld a, [hl]
+	; species -> dex number for the icon tables
+	ld [wPokedexNum], a
+	call IndexToPokedex
+	ld a, [wPokedexNum]
+	ld c, a
+	ld b, 0
+	ld hl, IconPalettes
+	ld a, [wIsAltPalettePkmn]
+	and a
+	jr z, .gotTable
+	ld hl, IconPalettesAlt
+.gotTable
+	add hl, bc
+	ld a, [hl] ; icon PAL_*, or $FF = use battle palette
+	cp $FF
+	jr nz, .gotPal
+	; battle fallback: re-read the carrier's species (honors wIsAltPalettePkmn, still set)
+	ld a, [wFlyCarrierMon]
+	ld c, a
+	ld b, 0
+	ld hl, wPartySpecies
+	add hl, bc
+	ld a, [hl]
+	call DeterminePaletteIDOutOfBattle
+.gotPal
+	call GetGBCBasePalAddress
+	ld a, CONVERT_OBP0
+	call DMGPalToGBCPal
+	ld a, 1
+	jp TransferCurOBPData ; OBJ palette slot 1 = player overworld sprite
+
+; Sunsette: restore the normal player overworld OBJ palette (slot 1) after a fly-in, so the
+; landed player isn't left tinted in the flyer's colors. Fly-ins always land walking on an
+; outdoor town, so PAL_PLAYEROW is correct (the volcano/surf player tints can't occur here).
+RestorePlayerOWPalette::
+	ldh a, [hGBC]
+	and a
+	ret z
+	ld a, PAL_PLAYEROW
+	call GetGBCBasePalAddress
+	ld a, CONVERT_OBP0
+	call DMGPalToGBCPal
+	ld a, 1
+	jp TransferCurOBPData
+
+; Sunsette: per-dex icon palette tables (in this bank so LoadPartyIconPalettes can
+; read them with a near load). $FF = use battle palette.
+INCLUDE "data/pokemon/icon_palettes.asm"
 
 SetPal_TownMap:
 	ld hl, PalPacket_TownMap
@@ -245,7 +454,7 @@ SetPal_Movedex:
 	ld de, BlkPacket_Pokedex
 	ret
 
-; PureRGBnote: ADDED: function that sets the palette on the pokemon sprite boxes 
+; PureRGBnote: ADDED: function that sets the palette on the pokemon sprite boxes
 ;                     that appear in the pewter museum or the route 15 left binoculars
 SetPal_MiddleScreenMonBox:
 	ld hl, PalPacket_Empty
@@ -299,6 +508,14 @@ SetPal_ColorBeforeAfter:
 SetPal_Slots:
 	ld hl, PalPacket_Slots
 	ld de, BlkPacket_Slots
+	ret
+
+; PureRGBnote: ADDED: palette for the ported Surfing Pikachu minigame (intro + gameplay).
+; Ocean-blue sea (slot 0, drawn via rBGP) + Pikachu-yellow sprite (OBJ slots 1-3). Whole-screen
+; block so the entire sea uses slot 0; the minigame remaps slot 0 via rBGP for its wave shading.
+SetPal_SurfingPikachuMinigame:
+	ld hl, PalPacket_SurfingPikachu
+	ld de, BlkPacket_WholeScreen
 	ret
 
 SetPal_TitleScreen:
@@ -1148,6 +1365,12 @@ SetPalFunctions:
 	dw SetPal_ColorBeforeAfter
 	dw SetPal_MiddleScreenMonBox
 	dw SetPal_Movedex
+	; PureRGBnote: ADDED: SET_PAL_CELADON ($13) is defined but never used and had no
+	; table slot; this placeholder keeps the table parallel with the constants so the
+	; two Surfing Pikachu entries land on their correct indices.
+	dw SetPal_Generic                ; SET_PAL_CELADON (unused placeholder)
+	dw SetPal_SurfingPikachuMinigame ; SET_PAL_SURFING_PIKACHU_TITLE
+	dw SetPal_SurfingPikachuMinigame ; SET_PAL_SURFING_PIKACHU_MINIGAME
 
 ; The length of the blk data of each badge on the Trainer Card.
 ; The Rainbow Badge has 3 entries because of its many colors.
@@ -1162,45 +1385,57 @@ BadgeBlkDataLengths:
 	db 6     ; Earth Badge
 
 ;;;;; PureRGBnote: ADDED: some opponents or variant pokemon get special palettes instead of the default for their species.
-; Sunsette: sentinel "species" values for the player back-sprite intro palette (slot 2). Above the
-; trainer OPP range, below $FF; caught by NonMonCustomPalettes before the trainer default.
-DEF PLAYER_BACK_NORMAL EQU 251
-DEF PLAYER_BACK_LAVA EQU 252
-DEF PLAYER_BACK_SCUBA EQU 253
+; Sunsette (trainer/species decouple): this table is now SPECIES-only (the SPIRIT_* special mons). Trainer
+; palettes moved to TrainerCustomPalettes (keyed by raw class), and the player-back-sprite intro palette is no
+; longer a fake "species" sentinel - it's resolved directly into wPlayerBackSpritePalette. This keeps the
+; species ID space clean so it can grow.
 NonMonCustomPalettes:
 	db SPIRIT_TORCHED, PAL_VOLCANO
 	db SPIRIT_CHUNKY, PAL_MEWMON
 	db SPIRIT_PAINLESS, PAL_PINKMON ; whitemon?
 	db SPIRIT_IRRADIATED, PAL_SAFARIBALL
 	db SPIRIT_THE_MAW, PAL_REALLY_REDMON
-;;;;;;;;;; Sunsette: trainer front-sprite palettes (keyed by OPP class). Trainers not listed
-; here default to PAL_MEWMON via DeterminePaletteIDOutOfBattle (so Giovanni/Bruno/Oak + all
-; generic trainers = Mewmon). Battle order [white, light, dark, black], same as their fronts.
-	db OPP_BROCK, PAL_BROCK
-	db OPP_MISTY, PAL_REDBAR
-	db OPP_LT_SURGE, PAL_GREENBAR
-	db OPP_ERIKA, PAL_REDBAR
-	db OPP_KOGA, PAL_KOGA
-	db OPP_SABRINA, PAL_REDBAR
-	db OPP_BLAINE, PAL_REDBAR
-	db OPP_LORELEI, PAL_REDBAR
-	db OPP_AGATHA, PAL_GRAYMON
-	db OPP_LANCE, PAL_REDBAR
-	db OPP_RIVAL1, PAL_RIVAL
-	db OPP_RIVAL2, PAL_RIVAL
-	db OPP_RIVAL3, PAL_RIVAL
-	db OPP_ROCKET_QUEEN, PAL_ROCKETSISTER ; Sunsette
-;;;;;;;;;;
-;;;;;;;;;; Sunsette: player back-sprite (slot 2) intro palette sentinels (no MEWMON flash)
-	db PLAYER_BACK_NORMAL, PAL_PLAYER
-	db PLAYER_BACK_LAVA,   PAL_REDBAR
-	db PLAYER_BACK_SCUBA,  PAL_BLUEMON
-;;;;;;;;;;
 	db -1
 
+; Sunsette: enemy trainer intro/scroll pic palettes, keyed by RAW trainer class. Classes not listed here
+; default to PAL_MEWMON (see DetermineTrainerPaletteID), the generic "most people" trainer color (Giovanni/
+; Bruno/Oak + all generic trainers). Battle order [white, light, dark, black], same as their fronts.
+TrainerCustomPalettes:
+	db BROCK, PAL_BROCK
+	db MISTY, PAL_REDBAR
+	db LT_SURGE, PAL_GREENBAR
+	db ERIKA, PAL_REDBAR
+	db KOGA, PAL_KOGA
+	db SABRINA, PAL_REDBAR
+	db BLAINE, PAL_REDBAR
+	db LORELEI, PAL_REDBAR
+	db AGATHA, PAL_GRAYMON
+	db LANCE, PAL_REDBAR
+	db RIVAL1, PAL_RIVAL
+	db RIVAL2, PAL_RIVAL
+	db RIVAL3, PAL_RIVAL
+	db ROCKET_QUEEN, PAL_ROCKETSISTER
+	db -1
+
+; Sunsette: resolve the enemy trainer pic palette (slot 3) from the RAW trainer class in wTrainerClass.
+; Unlisted classes -> PAL_MEWMON. Replaces feeding class+OPP_ID_OFFSET through the species palette resolver.
+DetermineTrainerPaletteID:
+	ld a, [wTrainerClass]
+	ld hl, TrainerCustomPalettes
+	ld de, 2
+	call IsInArray
+	jr nc, .default
+	inc hl
+	ld a, [hl]
+	ret
+.default
+	ld a, PAL_MEWMON
+	ret
+
 SpecialMonCustomPalettes:
-	db HARDENED_ONIX, PAL_BLACKMON, PAL_WHITEMON
-	db WINTER_DRAGONAIR, PAL_CYANMON, PAL_PINKMON
+	db HARDENED_ONIX, PAL_CRYSTALMON, PAL_AMBERMON
+	db WINTER_DRAGONAIR, PAL_CYANMON, PAL_BLUSHMON
+	db ARMORED_MEWTWO, PAL_ARMORMON, PAL_GAMEFREAK
 	db -1
 ;;;;;
 
@@ -1224,9 +1459,9 @@ DeterminePaletteIDOutOfBattle:
 	ld de, 3
 	call IsInArray
 	jr c, .specialMonPalette
-	ld a, [wPokedexNum]    ; Sunsette: trainer class (index >= OPP offset) not listed above?
-	cp OPP_ID_OFFSET
-	jr nc, .trainerDefault ; -> default trainer color PAL_MEWMON ("most people")
+	ld a, [wPokedexNum]    ; Sunsette: anything past the species index range is a non-mon palette request
+	cp NUM_POKEMON_INDEXES + 1 ; (was cp OPP_ID_OFFSET; trainer classes no longer reach here - they use DetermineTrainerPaletteID)
+	jr nc, .trainerDefault ; -> default PAL_MEWMON; rises automatically as NUM_POKEMON_INDEXES grows
 	call IndexToPokedex
 	ld a, [wPokedexNum]
 	; 0 = missingno is a valid value here
@@ -1458,7 +1693,7 @@ DMGPalToGBCPal::	;shinpokerednote: gbcnote: new function
 	jr nz, .notOG1 ; if this value is non-zero we're not using OG palettes on GBC
 	ld de, GBC_OGPalettes_BGOBJ1
 .notOG1
-;;;;;;;;;; 
+;;;;;;;;;;
 	ldh a, [rBGP]
 	ld [wLastBGP], a
 	jr .convert
@@ -1681,7 +1916,7 @@ TransferPalColorLCDDisabled:
 	ret
 	
 _UpdateGBCPal_BGP:: ;shinpokerednote: gbcnote: code from pokemon yellow
-	;prevent the BGmap from updating during vblank 
+	;prevent the BGmap from updating during vblank
 	;because this is going to take a frame or two in order to fully run
 	;otherwise a partial update (like during a screen whiteout) can be distracting
 	ld hl, hFlagsFFFA
@@ -1929,7 +2164,7 @@ BufferAllPokeyellowColorsGBC::
 	ld a, d
 	ld [hli], a		;buffer high byte
 	ld a, e
-	ld [hli], a		;buffer low byte	
+	ld [hli], a		;buffer low byte
 	xor a
 	ldh [rWBK], a ; switch back to default wram bank
 	pop de

@@ -15,17 +15,20 @@
 
 	; tm/hm learnset
 	tmhm \
-	DISABLE,\
+	ADAPTATION,\
 	TOXIC,\
+	HONE_EDGE,\
+	DISABLE,\
 	DOUBLE_EDGE,\
 	BARRIER,\
 	MEGA_DRAIN,\
 	SWORDS_DANCE,\
 	REFLECT,\
-	BIDE,\ ; BULK UP
+	BULK_UP,\
 	LIGHT_SCREEN,\
-	GLARE,\
+	SHADOW_GAME,\
 	SUBSTITUTE,\
+	CLAY_ARMOR,\
 	CUT,\
 	FLASH
 	;end
@@ -36,3 +39,13 @@
 	db BANK(CaterpiePicBackSW)
 
 	dw 0, CaterpiePicBack
+
+; --- Sunsette SSOT directives (parsed by tools/gen_pokemon_data.py) ---
+;@ nature       NATURE_GENTLE NATURE_GLUTTON
+;@ pal_battle   PAL_GREENBAR
+;@ pal_altbattle PAL_WHITEMON
+;@ pal_icon     $FF
+;@ pal_alticon  $FF
+;@ evo         EVOLVE_LEVEL, 7, METAPOD
+;@ evo_move    NO_MOVE
+;@ evo_react   NONE

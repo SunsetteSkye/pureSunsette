@@ -10,48 +10,46 @@
 	INCBIN "gfx/pokemon/front/nidoking.pic", 0, 1 ; sprite dimensions
 	dw NidokingPicFront, NidokingPicBackSW
 
-	db TACKLE, LEER, THRASH, NO_MOVE ; level 1 learnset (OUTRAGE)
+	db TACKLE, LEER, OUTRAGE, NO_MOVE ; level 1 learnset
 	db GROWTH_MEDIUM_SLOW ; growth rate
 
 	; tm/hm learnset
 	tmhm \
-	FURY_ATTACK,\ ; MUD BOMB
-	LOW_KICK,\
-	SONICBOOM,\ ; ILL WIND
-	ICE_PUNCH,\ ; FROST FIST
+	ADAPTATION,\
+	FROST_FIST,\
+	MUD_BOMB,\
 	PIN_MISSILE,\
-	FIRE_PUNCH,\ ; BLAZE HAMMER
+	BLAZE_HAMMER,\
 	TOXIC,\
-	HORN_DRILL,\ ; VENOM DRILL
+	HONE_EDGE,\
 	BODY_SLAM,\
 	DISABLE,\
 	DOUBLE_EDGE,\
-	BUBBLEBEAM,\
-	AURORA_BEAM,\
 	ICE_BEAM,\
 	BLIZZARD,\
 	HYPER_BEAM,\
-	THUNDERPUNCH,\ ; ZAPPERCUT
-	ROLLING_KICK,\ ; METEOR SWEEP
+	LOW_KICK,\
+	ZAPPERCUT,\
+	METEOR_SWEEP,\
 	BARRIER,\
-	DRAGON_RAGE,\ ; WYRM WRATH
+	WYRM_WRATH,\
 	THUNDERBOLT,\
 	THUNDER,\
 	EARTHQUAKE,\
 	DIG,\
-	KINESIS,\ ; MIRAGE
+	MIRAGE,\
 	REFLECT,\
-	BIDE,\ ; BULK UP
-	BARRAGE,\ ; SHADOW BALL
+	BULK_UP,\
+	ILL_WIND,\
+	SHADOW_BALL,\
 	FIRE_BLAST,\
-	FLAMETHROWER,\
-	SLAM,\ ; WASTEMAKER
-	KARATE_CHOP,\
+	DEMOLISH,\
 	LIGHT_SCREEN,\
-	SLUDGE,\ ; SLUDGE BOMB
+	SHADOW_GAME,\
 	ROCK_SLIDE,\
-	GLARE,\
+	ROCK_ON,\
 	SUBSTITUTE,\
+	CLAY_ARMOR,\
 	CUT,\
 	SURF,\
 	STRENGTH
@@ -64,3 +62,25 @@
 
 	dw 0, NidokingPicBack
 
+; --- Sunsette SSOT directives (parsed by tools/gen_pokemon_data.py) ---
+;@ nature       NATURE_RAGE NATURE_ARROGANT
+;@ pal_battle   PAL_NIDOMASC
+;@ pal_altbattle PAL_GREENBAR
+;@ pal_icon     PAL_ICON_21
+;@ pal_alticon  PAL_ICON_22
+;@ evo_move    NO_MOVE
+;@ evo_react   "It beats its chest" "and bellows!"
+;@ evo_react   "Its tail swings," "ground quaking!"
+;@ evo_react   "It throws its head" "back with a roar!"
+;@ evo_react   "It pounds earth," "fists clenched!"
+;@ learn       8, POISON_STING
+;@ learn       12, DOUBLE_KICK
+;@ learn       16, SAND_ATTACK
+;@ learn       20, MUD_BOMB
+;@ learn       25, METEOR_HORN
+;@ learn       30, STOMP
+;@ learn       35, FOCUS_ENERGY
+;@ learn       40, EARTHQUAKE
+;@ learn       46, REST
+;@ learn       52, VENOM_DRILL
+;@ learn       58, PISTON_KICK

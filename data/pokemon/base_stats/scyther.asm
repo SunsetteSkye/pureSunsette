@@ -10,32 +10,35 @@
 	INCBIN "gfx/pokemon/front/scyther.pic", 0, 1 ; sprite dimensions
 	dw ScytherPicFront, ScytherPicBackSW
 
-	db QUICK_ATTACK, SHARPEN, NO_MOVE, NO_MOVE ; level 1 learnset (HONE EDGE)
+	db BLITZ_STRIKE, HONE_EDGE, NO_MOVE, NO_MOVE ; level 1 learnset
 	db GROWTH_MEDIUM_FAST ; growth rate
 
 	; tm/hm learnset
 	tmhm \
-	SONICBOOM,\ ; ILL WIND
-	RAZOR_WIND,\ ; ROOST
+	ADAPTATION,\
+	ROOST,\
 	PIN_MISSILE,\
 	TOXIC,\
+	HONE_EDGE,\
 	BODY_SLAM,\
 	DISABLE,\
 	DOUBLE_EDGE,\
+	AURORA_MIST,\
 	HYPER_BEAM,\
 	LOW_KICK,\
-	ROLLING_KICK,\ ; METEOR SWEEP
+	METEOR_SWEEP,\
 	BARRIER,\
 	DIG,\
 	SWORDS_DANCE,\
 	REFLECT,\
-	BIDE,\ ; BULK UP
-	BARRAGE,\ ; SHADOW BALL
-	SLAM,\ ; WASTEMAKER
-	KARATE_CHOP,\
-	SKY_ATTACK,\ ; BRAVE BIRD
+	BULK_UP,\
+	ILL_WIND,\
+	SHADOW_BALL,\
+	TWISTER,\
+	DEMOLISH,\
+	BRAVE_BIRD,\
 	LIGHT_SCREEN,\
-	GLARE,\
+	SHADOW_GAME,\
 	SUBSTITUTE,\
 	CUT,\
 	FLY,\
@@ -50,3 +53,21 @@
 
 	dw ScytherPicFrontAlt, ScytherPicBack
 
+; --- Sunsette SSOT directives (parsed by tools/gen_pokemon_data.py) ---
+;@ nature       NATURE_CALCULATING NATURE_SCRAPPY
+;@ pal_battle   PAL_LEAFMON
+;@ pal_altbattle PAL_LEEKMON
+;@ pal_icon     PAL_ICON_54
+;@ pal_alticon  PAL_ICON_63
+;@ evo_move    NO_MOVE
+;@ evo_react   NONE
+;@ learn       17, WING_ATTACK
+;@ learn       19, FOCUS_ENERGY
+;@ learn       23, PIN_MISSILE
+;@ learn       25, DOUBLE_TEAM
+;@ learn       27, LEAP_ATTACK
+;@ learn       32, SWORDS_DANCE
+;@ learn       38, EXTERMINATE
+;@ learn       41, SLASH
+;@ learn       48, AIR_DRILL
+;@ learn       55, AGILITY

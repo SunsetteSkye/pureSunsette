@@ -375,7 +375,7 @@ DisplayMonFrontSpriteInBox::
 	ld a, MON_SPRITE_POPUP
 	ld [wTextBoxID], a
 	call DisplayTextBoxID ; redisplay the box to clear the pokemon sprite out
-	call Delay3 ; allow box to finish clearing 
+	call Delay3 ; allow box to finish clearing
 	call RunDefaultPaletteCommand ; reset palette to what it was before displaying this box
 	call LoadScreenTilesFromBuffer1 ; close the box
 	call Delay3 ; allow box to finish closing before resetting hWY

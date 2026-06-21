@@ -559,15 +559,8 @@ _ViridianSchoolNotebookText4::
 	line "#MON LEAGUE!"
 	prompt
 
-_EnemiesOnEverySideText::
-	text "Enemies on every"
-	line "side!"
-	done
-
-_WhatGoesAroundComesAroundText::
-	text "What goes around"
-	line "comes around!"
-	done
+; Sunsette: the two functionless Fighting Dojo side scrolls were repurposed into crit-hit lessons; their
+; text moved to data/text/sunsette_dojo_text.asm (_FightingDojoCritFightingText / _FightingDojoCritSpeedText).
 
 _FightingDojoText::
 	text "FIGHTING DOJO"
@@ -640,21 +633,7 @@ _ViridianSchoolBlackboardText2::
 	line "you want to read?"
 	done
 
-_ViridianBlackboardSleepText::
-	text "A #MON can't"
-	line "attack if it's"
-	cont "asleep!"
-
-	para "It can wake up"
-	line "during battle."
-
-	para "#MON will stay"
-	line "asleep even after"
-	cont "battles."
-
-	para "Use AWAKENING to"
-	line "wake them up!"
-	prompt
+; _ViridianBlackboardSleepText moved to data/text/sunsette_blackboard_text.asm (Text 3 was full).
 
 _ViridianBlackboardPoisonText::
 	text "When poisoned, a"
@@ -680,6 +659,9 @@ _ViridianBlackboardPrlzText::
 
 	para "Paralysis remains"
 	line "after battles."
+
+	para "ELECTRIC types"
+	line "ignore paralysis."
 
 	para "Use PARLYZ HEAL"
 	line "for treatment!"
@@ -1027,6 +1009,12 @@ _FastAsleepText::
 
 _WokeUpText::
 	text "<USER>"
+	line "woke up!"
+	prompt
+
+; Sunsette: woken by being hit (printed on the attacker's turn, so name the TARGET, not the USER)
+_SleepHitWokeUpText::
+	text "<TARGET>"
 	line "woke up!"
 	prompt
 

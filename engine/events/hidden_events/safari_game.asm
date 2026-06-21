@@ -70,7 +70,7 @@ PrintSafariGameOverText::
 	ld a, [wSafariType]
 	and a
 	jr z, .gotSafariDoneText 
-	; if we finished a Ranger Hunt game (wSafariType = 1) we will display different ending text. 
+	; if we finished a Ranger Hunt game (wSafariType = 1) we will display different ending text.
 	ld a, [wNumRangersLeft]
 	and a
 	jr nz, .gotSafariDoneText ; if wNumRangersLeft isn't 0, display the normal game over text

@@ -98,7 +98,7 @@ StrengthRagePostHit::
 	jr z, .gotMove
 	ld a, [wEnemyMoveNum]
 .gotMove
-	cp RAGE
+	cp BLOOD_RUSH
 	jr z, .rage
 ; STRENGTH (flat 100 BP): if the user is a lighter weight class than the target, take 1/2-damage recoil,
 ; then a 30% chance to raise the user's ATTACK by 1 (no cap).
@@ -111,7 +111,40 @@ StrengthRagePostHit::
 	ret
 ; UNLEASH RAGE: snap the user out of CONFUSION and clear its own non-sleep status (PSN/BRN/FRZ/PAR), recalcing
 ; the burn/paralysis stat penalties. Only when something is present.
+; Sunsette: BLOOD RUSH (comeback). On a connecting hit, raise the user's ATTACK by (1 + desperation stage),
+; so +1 healthy up to +4 at max desperation. The +1 plays the normal "ATTACK rose!" line; the extra `stage`
+; is added to the mod silently and recalced. At stages 2-3 it then snaps the user out of CONFUSION and clears
+; its own non-sleep status (PSN/BRN/FRZ/PAR), recalcing the burn/paralysis penalties.
 .rage
+	callfar GetDesperationStage  ; e = stage
+	ld a, e
+	push af                      ; save stage
+	callfar RaiseUserAttackUp1   ; +1 ATTACK (with the "ATTACK rose!" message + recalc)
+	pop af
+	push af                      ; keep stage saved
+	and a
+	jr z, .rageClearCheck        ; stage 0 -> only the +1
+	ld b, a                      ; b = stage (the extra raise)
+	ldh a, [hWhoseTurn]
+	and a
+	ld hl, wPlayerMonAttackMod
+	jr z, .rageMod
+	ld hl, wEnemyMonAttackMod
+.rageMod
+	ld a, [hl]
+	add b
+	cp 13 + 1
+	jr c, .rageNoCap
+	ld a, 13                     ; cap at +6 (mod 13)
+.rageNoCap
+	ld [hl], a
+	ldh a, [hWhoseTurn]
+	ld [wCalculateWhoseStats], a ; 0 = player / nonzero = enemy
+	callfar CalculateModifiedStats ; apply the extra stages silently
+.rageClearCheck
+	pop af                       ; a = stage
+	cp 2
+	ret c                        ; stages 0-1: no status clear
 	ldh a, [hWhoseTurn]
 	and a
 	ld hl, wPlayerBattleStatus1

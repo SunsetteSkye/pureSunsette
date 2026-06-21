@@ -1,3 +1,4 @@
+; Sunsette: has a variant form -> base_stats/armored_mewtwo.asm (Armored Mewtwo).
 	db DEX_MEWTWO ; pokedex id
 
 	db 106, 110,  90, 130, 154
@@ -15,41 +16,37 @@
 
 	; tm/hm learnset
 	tmhm \
-	SONICBOOM,\ ; ILL WIND
-	ICE_PUNCH,\ ; FROST FIST
-	FIRE_PUNCH,\ ; BLAZE HAMMER
+	FROST_FIST,\
+	BLAZE_HAMMER,\
 	TOXIC,\
 	BODY_SLAM,\
 	DISABLE,\
 	DOUBLE_EDGE,\
-	BUBBLEBEAM,\
-	AURORA_BEAM,\
+	AURORA_MIST,\
 	ICE_BEAM,\
 	BLIZZARD,\
 	HYPER_BEAM,\
-	AMNESIA,\ ; CALM MIND
+	CALM_MIND,\
 	LOW_KICK,\
-	THUNDERPUNCH,\ ; ZAPPERCUT
-	ROLLING_KICK,\ ; METEOR SWEEP
+	ZAPPERCUT,\
+	METEOR_SWEEP,\
 	BARRIER,\
-	SOLARBEAM,\ ; SOLARBEAM
+	SOLARBEAM,\ 
 	THUNDERBOLT,\
 	THUNDER,\
 	EARTHQUAKE,\
-	CRABHAMMER,\
 	PSYCHIC_M,\
-	KINESIS,\ ; MIRAGE
+	MIRAGE,\
 	REFLECT,\
-	BIDE,\ ; BULK UP
-	BARRAGE,\ ; SHADOW BALL
+	BULK_UP,\
+	ILL_WIND,\
+	SHADOW_BALL,\
 	FIRE_BLAST,\
-	FLAMETHROWER,\
-	KARATE_CHOP,\
-	MEDITATE,\ ; VOID MIND
+	DEMOLISH,\
+	VOID_MIND,\
 	LIGHT_SCREEN,\
 	THUNDER_WAVE,\
-	PSYWAVE,\ ; SKITTERMIND
-	GLARE,\
+	SKITTERMIND,\
 	SUBSTITUTE,\
 	CUT,\
 	STRENGTH,\
@@ -64,3 +61,16 @@
 
 	dw MewtwoPicFrontAlt, MewtwoPicBack
 
+; --- Sunsette SSOT directives (parsed by tools/gen_pokemon_data.py) ---
+;@ nature       NATURE_CALCULATING NATURE_CRUEL
+;@ pal_battle   PAL_GRAYMON
+;@ pal_altbattle PAL_SAFFRON
+;@ pal_icon     $FF
+;@ pal_alticon  $FF
+;@ evo_move    NO_MOVE
+;@ evo_react   NONE
+;@ learn       66, PSYCHIC_M
+;@ learn       70, RECOVER
+;@ learn       72, BARRIER
+;@ learn       75, AURORA_MIST
+;@ learn       81, CALM_MIND

@@ -15,29 +15,29 @@
 
 	; tm/hm learnset
 	tmhm \
-	FURY_ATTACK,\ ; MUD BOMB
-	DISABLE,\
-	SONICBOOM,\ ; ILL WIND
+	MUD_BOMB,\
 	TOXIC,\
+	HONE_EDGE,\
 	BODY_SLAM,\
+	DISABLE,\
 	DOUBLE_EDGE,\
 	HYPER_BEAM,\
-	AMNESIA,\ ; CALM MIND
+	CALM_MIND,\
 	BARRIER,\
-	RAZOR_LEAF,\
-	SOLARBEAM,\ ; SOLARBEAM
+	ADAPTATION,\
+	SOLARBEAM,\ 
 	PSYCHIC_M,\
 	MEGA_DRAIN,\
 	SWORDS_DANCE,\
 	REFLECT,\
-	BIDE,\ ; BULK UP
-	BARRAGE,\ ; SHADOW BALL
-	SLAM,\ ; WASTEMAKER
-	KARATE_CHOP,\
+	BULK_UP,\
+	ILL_WIND,\
+	SHADOW_BALL,\
+	DEMOLISH,\
 	LIGHT_SCREEN,\
-	SLUDGE,\ ; SLUDGE BOMB
-	GLARE,\
+	SHADOW_GAME,\
 	SUBSTITUTE,\
+	CLAY_ARMOR,\
 	CUT,\
 	FLASH
 	; end
@@ -49,3 +49,25 @@
 
 	dw 0, VileplumePicBack
 
+; --- Sunsette SSOT directives (parsed by tools/gen_pokemon_data.py) ---
+;@ nature       NATURE_CRUEL NATURE_ARROGANT
+;@ pal_battle   PAL_REDPURPLEMON
+;@ pal_altbattle PAL_0F
+;@ pal_icon     $FF
+;@ pal_alticon  $FF
+;@ evo_move    NO_MOVE
+;@ evo_react   "The smell's worse" "now! How?!"
+;@ evo_react   "The funk knocks" "you back a step!"
+;@ evo_react   "You cover your" "nose. Too late!"
+;@ evo_react   "That stench could" "drop a SNORLAX!"
+;@ learn       7, POISONPOWDER
+;@ learn       11, ACID
+;@ learn       15, ADAPTATION
+;@ learn       17, STUN_SPORE
+;@ learn       19, MEGA_DRAIN
+;@ learn       23, PHANTASM
+;@ learn       28, SLEEP_POWDER
+;@ learn       36, SLUDGE_BOMB
+;@ learn       45, TOXIC
+;@ learn       50, SENBONZAKURA
+;@ learn       57, EMETIC_PURGE

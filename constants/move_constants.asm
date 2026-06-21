@@ -6,43 +6,43 @@
 ; - MoveSoundTable (see data/moves/sfx.asm)
 	const_def
 	const NO_MOVE      ; 00
-	const POUND        ; 01 (JOLT BOLT)
-	const KARATE_CHOP  ; 02
+	const SPARK        ; 01
+	const DEMOLISH  ; 02
 	const DOUBLESLAP   ; 03
-	const COMET_PUNCH  ; 04 (MACH PUNCH)
-	const MEGA_PUNCH   ; 05 (SHORYUKEN)
+	const MACH_PUNCH   ; 04
+	const SHORYUKEN    ; 05
 	const PAY_DAY      ; 06
-	const FIRE_PUNCH   ; 07 (BLAZE HAMMER)
-	const ICE_PUNCH    ; 08 (FROST FIST)
-	const THUNDERPUNCH ; 09 (ZAPPERCUT)
+	const BLAZE_HAMMER ; 07
+	const FROST_FIST   ; 08
+	const ZAPPERCUT    ; 09
 	const SCRATCH      ; 0a
-	const VICEGRIP     ; 0b (LOCKJAW)
-	const GUILLOTINE   ; 0c (EXTERMINATE)
-	const RAZOR_WIND   ; 0d
+	const UNDERBUG      ; 0b
+	const EXTERMINATE  ; 0c
+	const ROOST        ; 0d
 	const SWORDS_DANCE ; 0e
 	const CUT          ; 0f
 	const GUST         ; 10
 	const WING_ATTACK  ; 11
-	const WHIRLWIND    ; 12 (HURRICANE)
+	const HURRICANE    ; 12
 	const FLY          ; 13
-	const BIND         ; 14 (POWER BIND)
-	const SLAM         ; 15 (WASTEMAKER)
+	const POWER_BIND   ; 14
+	const TWISTER      ; 15
 	const VINE_WHIP    ; 16
 	const STOMP        ; 17
 	const DOUBLE_KICK  ; 18
-	const MEGA_KICK    ; 19 (PISTON KICK)
-	const JUMP_KICK    ; 1a (LEAP ATTACK)
-	const ROLLING_KICK ; 1b (METEOR SWEEP)
+	const PISTON_KICK  ; 19
+	const LEAP_ATTACK  ; 1a
+	const METEOR_SWEEP ; 1b
 	const SAND_ATTACK  ; 1c
 	const HEADBUTT     ; 1d
-	const HORN_ATTACK  ; 1e (METEOR HORN)
-	const FURY_ATTACK  ; 1f (MUD BOMB)
-	const HORN_DRILL   ; 20 (VENOM DRILL)
+	const METEOR_HORN  ; 1e
+	const MUD_BOMB     ; 1f
+	const VENOM_DRILL  ; 20
 	const TACKLE       ; 21
 	const BODY_SLAM    ; 22
 	const WRAP         ; 23
-	const TAKE_DOWN    ; 24
-	const THRASH       ; 25
+	const HEAT_RUSH    ; 24
+	const OUTRAGE      ; 25
 	const DOUBLE_EDGE  ; 26
 	const TAIL_WHIP    ; 27
 	const POISON_STING ; 28
@@ -51,43 +51,43 @@
 	const LEER         ; 2b
 	const BITE         ; 2c
 	const GROWL        ; 2d
-	const ROAR         ; 2e (BELLOW)
+	const BELLOW       ; 2e
 	const SING         ; 2f
 	const SUPERSONIC   ; 30
-	const SONICBOOM    ; 31
+	const ILL_WIND     ; 31
 	const DISABLE      ; 32
 	const ACID         ; 33
 	const EMBER        ; 34
 	const FLAMETHROWER ; 35
-	const MIST         ; 36 (ETHEREAL)
-	const WATER_GUN    ; 37 (SUPER SOAK)
+	const AURORA_MIST  ; 36
+	const SUPER_SOAK   ; 37
 	const HYDRO_PUMP   ; 38
 	const SURF         ; 39
 	const ICE_BEAM     ; 3a
 	const BLIZZARD     ; 3b
 	const PSYBEAM      ; 3c
-	const BUBBLEBEAM   ; 3d
+	const WATER_PULSE  ; 3d
 	const AURORA_BEAM  ; 3e
 	const HYPER_BEAM   ; 3f
 	const PECK         ; 40
-	const DRILL_PECK   ; 41 (AIR DRILL)
-	const SUBMISSION   ; 42 (FULL NELSON)
+	const AIR_DRILL    ; 41
+	const COMBOBREAKER  ; 42
 	const LOW_KICK     ; 43
-	const COUNTER      ; 44 (SHADOW BOX)
+	const SHADOW_BOX   ; 44
 	const SEISMIC_TOSS ; 45
 	const STRENGTH     ; 46
 	const ABSORB       ; 47
 	const MEGA_DRAIN   ; 48
 	const LEECH_SEED   ; 49
-	const GROWTH       ; 4a (ADAPTATION)
+	const ADAPTATION   ; 4a
 	const RAZOR_LEAF   ; 4b
-	const SOLARBEAM    ; 4c (SOLARBEAM)
+	const SOLARBEAM    ; 4c
 	const POISONPOWDER ; 4d
 	const STUN_SPORE   ; 4e
 	const SLEEP_POWDER ; 4f
-	const PETAL_DANCE  ; 50 (BLOSSOMBLITZ)
+	const SENBONZAKURA ; 50
 	const STRING_SHOT  ; 51
-	const DRAGON_RAGE  ; 52 (WYRM WRATH)
+	const WYRM_WRATH   ; 52
 	const FIRE_SPIN    ; 53
 	const THUNDERSHOCK ; 54
 	const THUNDERBOLT  ; 55
@@ -95,18 +95,18 @@
 	const THUNDER      ; 57
 	const ROCK_THROW   ; 58
 	const EARTHQUAKE   ; 59
-	const FISSURE      ; 5a
+	const CLAY_ARMOR   ; 5a
 	const DIG          ; 5b
 	const TOXIC        ; 5c
 	const CONFUSION    ; 5d
 	const PSYCHIC_M    ; 5e
 	const HYPNOSIS     ; 5f
-	const MEDITATE     ; 60 (VOID MIND)
+	const VOID_MIND    ; 60
 	const AGILITY      ; 61
-	const QUICK_ATTACK ; 62
-	const RAGE         ; 63 (MAD RUSH)
+	const BLITZ_STRIKE ; 62
+	const BLOOD_RUSH     ; 63
 	const TELEPORT     ; 64
-	const NIGHT_SHADE  ; 65 (PHANTASM)
+	const PHANTASM     ; 65
 	const MIMIC        ; 66
 	const SCREECH      ; 67
 	const DOUBLE_TEAM  ; 68
@@ -115,56 +115,56 @@
 	const MINIMIZE     ; 6b
 	const SMOKESCREEN  ; 6c
 	const CONFUSE_RAY  ; 6d
-	const WITHDRAW     ; 6e (SHELL GAME)
-	const DEFENSE_CURL ; 6f (BUNKER DOWN)
+	const SHELL_GAME   ; 6e
+	const ROCK_ON  ; 6f
 	const BARRIER      ; 70
 	const LIGHT_SCREEN ; 71
-	const HAZE         ; 72 (BLACK HAZE)
+	const SHADOW_GAME  ; 72
 	const REFLECT      ; 73
 	const FOCUS_ENERGY ; 74
-	const BIDE         ; 75 (BULK UP)
+	const BULK_UP      ; 75
 	const METRONOME    ; 76
-	const MIRROR_MOVE  ; 77 (MOCKINGBIRD)
-	const SELFDESTRUCT ; 78
+	const MOCKINGBIRD  ; 77
+	const SUPERNOVA    ; 78
 	const EGG_BOMB     ; 79
 	const LICK         ; 7a
 	const SMOG         ; 7b
-	const SLUDGE       ; 7c (SLUDGE BOMB)
+	const SLUDGE_BOMB  ; 7c
 	const BONE_CLUB    ; 7d
 	const FIRE_BLAST   ; 7e
-	const WATERFALL    ; 7f
+	const RIPTIDE      ; 7f
 	const CLAMP        ; 80
 	const SWIFT        ; 81
-	const SKULL_BASH   ; 82 (METEOR DRIVE)
+	const METEOR_DRIVE ; 82
 	const SPIKE_CANNON ; 83
-	const CONSTRICT    ; 84 (VENOM LASH)
-	const AMNESIA      ; 85 (CALM MIND)
-	const KINESIS      ; 86
+	const VENOM_LASH   ; 84
+	const CALM_MIND    ; 85
+	const MIRAGE       ; 86
 	const SOFTBOILED   ; 87
 	const HI_JUMP_KICK ; 88
-	const GLARE        ; 89
-	const DREAM_EATER  ; 8a (SOULSTEALER)
-	const POISON_GAS   ; 8b
-	const BARRAGE      ; 8c (SHADOW BALL)
+	const EXPLOSION    ; 89 ; Sunsette: vanilla EXPLOSION (was GLARE); 250 BP NORMAL, halves target DEF, faints user
+	const SOULSTEALER  ; 8a
+	const EMETIC_PURGE ; 8b
+	const SHADOW_BALL  ; 8c
 	const LEECH_LIFE   ; 8d
 	const LOVELY_KISS  ; 8e
-	const SKY_ATTACK   ; 8f (BRAVE BIRD)
+	const BRAVE_BIRD   ; 8f
 	const TRANSFORM    ; 90
 	const BUBBLE       ; 91
 	const DIZZY_PUNCH  ; 92
 	const SPORE        ; 93
 	const FLASH        ; 94
-	const PSYWAVE      ; 95 (SKITTERMIND)
+	const SKITTERMIND  ; 95
 	const SPLASH       ; 96
-	const ACID_ARMOR   ; 97 (ACID CLOAK)
+	const AQUA_RING    ; 97
 	const CRABHAMMER   ; 98
-	const EXPLOSION    ; 99
-	const FURY_SWIPES  ; 9a (MUD CLAW)
+	const METAMORPHIC  ; 99
+	const MUD_CLAW     ; 9a
 	const BONEMERANG   ; 9b
 	const REST         ; 9c
 	const ROCK_SLIDE   ; 9d
 	const HYPER_FANG   ; 9e
-	const SHARPEN      ; 9f (HONE EDGE)
+	const HONE_EDGE    ; 9f
 	const CONVERSION   ; a0
 	const TRI_ATTACK   ; a1
 	const SUPER_FANG   ; a2
@@ -176,7 +176,18 @@
 	const WINTER_GALE  ; a5 - ARTICUNO (clone of WHIRLWIND)
 	const STORM_DRILL  ; a6 - ZAPDOS   (clone of Drill Peck)
 	const PHOENIX_DIVE ; a7 - MOLTRES  (clone of SKY_ATTACK)
-	const STRUGGLE     ; a8
+	; Sunsette: MAXIMIZE - NORMAL status buff (Jigglypuff/Muk/Gengar/Golbat lines). Sets the user's
+	; ATTACK to +6 and drops its EVASION and SPEED by 2 each. Placed just before STRUGGLE so only
+	; STRUGGLE shifts (NUM_ATTACKS == STRUGGLE still holds).
+	const MAXIMIZE     ; a8
+	; Sunsette: CRYSTALLIZE - ROCK status buff (Onix line + the cocoon/bug lines). +2 DEFENSE, and turns a
+	; Rock-type's type1 to CRYSTAL or a non-Rock's type1 to ROCK. Placed before STRUGGLE so only STRUGGLE
+	; shifts (NUM_ATTACKS == STRUGGLE still holds). +2 DEF via DEFENSE_UP2_EFFECT; type change via CrystallizeModifier.
+	const CRYSTALLIZE  ; a9
+	; Sunsette: QUICK ATTACK revived as the early/weak member of the comeback priority line (BLITZ STRIKE is the
+	; upgrade). Placed just before STRUGGLE so only STRUGGLE shifts (NUM_ATTACKS == STRUGGLE still holds).
+	const QUICK_ATTACK ; aa
+	const STRUGGLE     ; ab
 DEF NUM_ATTACKS EQU const_value - 1
 
 DEF CANNOT_MOVE EQU $ff
@@ -185,7 +196,7 @@ DEF CANNOT_MOVE EQU $ff
 
 	const SHOWPIC_ANIM
 	const STATUS_AFFECTED_ANIM
-	const ANIM_A8 ; unused?
+	const ANIM_A8      ; unused?
 	const SHAKE_ENEMY_HUD_ANIM ; happens when a side effect applies status to an enemy
 	const TRADE_BALL_DROP_ANIM
 	const TRADE_BALL_SHAKE_ANIM
@@ -201,27 +212,27 @@ DEF CANNOT_MOVE EQU $ff
 	const TRI_ATTACK_ICE
 	const TRI_ATTACK_THUNDER
 	const AMNESIA_ENEMY_ANIM
-	const BURN_ANIM ; Plays when a monster is burned
+	const BURN_ANIM    ; Plays when a monster is burned
 	const SAFARITOSS_ANIM
 	const HYPERTOSS_ANIM
-	const PSN_ANIM ; Plays when a monster is poisoned
+	const PSN_ANIM     ; Plays when a monster is poisoned
 	const MASTERTOSS_ANIM ; toss Master Ball
 ;;;;;;;;;;
 	const SLP_PLAYER_ANIM
-	const SLP_ANIM ; sleeping monster
+	const SLP_ANIM     ; sleeping monster
 	const CONF_PLAYER_ANIM
-	const CONF_ANIM ; confused monster
+	const CONF_ANIM    ; confused monster
 	const DIG_DOWN_ANIM
-	const TOSS_ANIM ; toss Poké Ball
-	const SHAKE_ANIM ; shaking Poké Ball when catching monster
-	const POOF_ANIM ; puff of smoke
+	const TOSS_ANIM    ; toss Poké Ball
+	const SHAKE_ANIM   ; shaking Poké Ball when catching monster
+	const POOF_ANIM    ; puff of smoke
 	const BLOCKBALL_ANIM ; trainer knocks away Poké Ball
 	const GREATTOSS_ANIM ; toss Great Ball
 	const ULTRATOSS_ANIM ; toss Ultra Ball
 	const SHAKE_SCREEN_ANIM ; happens when player is inflicted with poison
 	const HIDEPIC_ANIM ; monster disappears
-	const ROCK_ANIM ; throw rock
-	const BAIT_ANIM ; throw bait
+	const ROCK_ANIM    ; throw rock
+	const BAIT_ANIM    ; throw bait
 ;;;;; PureRGBnote: ADDED: new animation constants
 	const FLY_ANIM_PART1
 	const FIRE_PILLAR_ANIM
@@ -236,6 +247,13 @@ DEF CANNOT_MOVE EQU $ff
 	const HAPPINESS_SPARKLE_ANIM ; Sunsette: legendary sparkle cue (over the PLAYER's mon)
 	const HAPPINESS_SPARKLE_ENEMY_ANIM ; Sunsette: legendary sparkle cue (over the ENEMY's mon)
 	const PSISMIC_TOSS_ANIM ; Sunsette: PSISMIC TOSS - Psychic-user variant of SEISMIC TOSS's animation (PlayAnimation swaps to it via MaybeSeismicTossPsychicAnim)
+	const DESPERATE_SENBONZAKURA_ANIM ; Sunsette: comeback family - SENBONZAKURA at desperation stage 2-3 (swapped in by MaybeDesperateAnim)
+	const DESPERATE_BLITZ_STRIKE_ANIM ; Sunsette: comeback family - BLITZ STRIKE at stage 2-3
+	const DESPERATE_HYPER_BEAM_ANIM ; Sunsette: comeback family - HYPER BEAM at stage 2-3
+	const DESPERATE_BLOOD_RUSH_ANIM ; Sunsette: comeback family - BLOOD RUSH at stage 2-3
+	const DESPERATE_COMBOBREAKER_ANIM ; Sunsette: comeback family - COMBOBREAKER at stage 2-3
+	const DESPERATE_UNDERBUG_ANIM ; Sunsette: comeback family - UNDERBUG at stage 2-3
+	const DESPERATE_QUICK_ATTACK_ANIM ; Sunsette: comeback family - QUICK ATTACK at stage 2-3 (copy of BLITZ STRIKE's anim)
 ;;;;;
 
 	; 45 non-move anims + 166 move anims = 201 anims

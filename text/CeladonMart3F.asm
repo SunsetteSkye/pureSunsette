@@ -8,8 +8,8 @@ _CeladonMart3FClerkTM18PreReceiveText::
 	prompt
 
 _CeladonMart3FClerkTM18ExplanationText::
-	text "<TM>39 is"
-	line "WASTEMAKER!"
+	text "<TM>09 is"
+	line "DISABLE!"
 
 	para "Trust me, I've"
 	line "been here for 30"

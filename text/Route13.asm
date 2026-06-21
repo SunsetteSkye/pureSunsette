@@ -129,17 +129,17 @@ _Route13Beauty2AfterBattleText::
 	done
 
 _Route13BikerBattleText::
-	text "What're you"
-	line "lookin' at?"
+	text "Quit gawkin',"
+	line "little man."
 	done
 
 _Route13BikerEndBattleText::
-	text "Dang!"
-	line "Stripped gears!"
+	text "Tch..."
+	line "busted up."
 	prompt
 
 _Route13BikerAfterBattleText::
-	text "Get lost!"
+	text "Scram, shrimp."
 	done
 
 _Route13CooltrainerM3BattleText::

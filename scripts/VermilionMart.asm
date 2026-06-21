@@ -6,36 +6,6 @@ VermilionMart_TextPointers:
 	dw_const VermilionMartClerkText,        TEXT_VERMILIONMART_CLERK
 	dw_const VermilionMartCooltrainerMText, TEXT_VERMILIONMART_COOLTRAINER_M
 	dw_const VermilionMartCooltrainerFText, TEXT_VERMILIONMART_COOLTRAINER_F
-	dw_const VermilionMartTMKid,            TEXT_VERMILIONMART_TM_KID
-
-VermilionMartTMKid: ; PureRGBnote: ADDED: new NPC who will sell TMs
-	text_asm
-	ld hl, TMKidGreet2
-	rst _PrintText
-	CheckAndSetEvent EVENT_MET_VERMILION_TM_KID
-	ld hl, VermilionMartTMKidFlavor
-	jr z, .gotText
-	ld hl, TMKidQuick2
-.gotText
-	rst _PrintText
-	ld hl, VermilionTMKidShop
-	call DisplayPokemartNoGreeting
-	rst TextScriptEnd
-	
-TMKidGreet2::
-	text_far _TMKidGreet
-	text_end
-
-VermilionMartTMKidFlavor:
-	text_far _TMKidBringingTMsAnyCost
-	text_far _TMKidSellingTMsCopiedDadOriginals
-	text_far _VermilionMartTMKidFlavor
-	text_far _TMKidWantSomeTMsText
-	text_end
-
-TMKidQuick2::
-	text_far _TMKidQuick
-	text_end
 
 VermilionMartCooltrainerMText:
 	text_far _VermilionMartCooltrainerMText

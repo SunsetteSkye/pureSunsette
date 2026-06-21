@@ -15,33 +15,35 @@
 
 	; tm/hm learnset
 	tmhm \
-	FURY_ATTACK,\ ; MUD BOMB
-	LOW_KICK,\
-	SONICBOOM,\ ; ILL WIND
+	MUD_BOMB,\
 	PIN_MISSILE,\
 	TOXIC,\
+	HONE_EDGE,\
 	BODY_SLAM,\
 	DISABLE,\
 	DOUBLE_EDGE,\
+	AQUA_RING,\
 	HYPER_BEAM,\
-	AMNESIA,\ ; CALM MIND
-	ROLLING_KICK,\ ; METEOR SWEEP
+	CALM_MIND,\
+	LOW_KICK,\
+	METEOR_SWEEP,\
 	BARRIER,\
-	RAZOR_LEAF,\
-	SOLARBEAM,\ ; SOLARBEAM
-	DRAGON_RAGE,\ ; WYRM WRATH
+	ADAPTATION,\
+	SOLARBEAM,\ 
+	WYRM_WRATH,\
 	EARTHQUAKE,\
 	DIG,\
 	MEGA_DRAIN,\
 	SWORDS_DANCE,\
 	REFLECT,\
-	BIDE,\ ; BULK UP
-	BARRAGE,\ ; SHADOW BALL
-	SLAM,\ ; WASTEMAKER
-	MEDITATE,\ ; VOID MIND
+	BULK_UP,\
+	ILL_WIND,\
+	SHADOW_BALL,\
+	TWISTER,\
+	VOID_MIND,\
 	LIGHT_SCREEN,\
-	SLUDGE,\ ; SLUDGE BOMB
-	GLARE,\
+	SHADOW_GAME,\
+	ROCK_ON,\
 	SUBSTITUTE,\
 	CUT,\
 	STRENGTH,\
@@ -55,3 +57,25 @@
 
 	dw 0, VenusaurPicBack
 
+; --- Sunsette SSOT directives (parsed by tools/gen_pokemon_data.py) ---
+;@ nature       NATURE_STOLID NATURE_WISE
+;@ pal_battle   PAL_ICON_02
+;@ pal_altbattle PAL_IVYALT
+;@ pal_icon     PAL_ICON_02
+;@ pal_alticon  $FF
+;@ evo_move    NO_MOVE
+;@ evo_react   "A heavy aroma" "settles around it."
+;@ evo_react   "Its great bloom" "throws open wide!"
+;@ evo_react   "Petals fan out," "drinking in light!"
+;@ evo_react   "It plants itself," "vast and unmoving."
+;@ learn       6, LEECH_SEED
+;@ learn       8, VINE_WHIP
+;@ learn       11, POISONPOWDER
+;@ learn       14, ADAPTATION
+;@ learn       18, STUN_SPORE
+;@ learn       21, RAZOR_LEAF
+;@ learn       25, EMETIC_PURGE
+;@ learn       33, SLEEP_POWDER
+;@ learn       38, VENOM_LASH
+;@ learn       45, SENBONZAKURA
+;@ learn       52, TOXIC

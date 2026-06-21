@@ -7,7 +7,7 @@ Music_SecretLab2_Ch1::
 	note_type 12, 12, 0
 	octave 3	
 	rest 16
-;	
+
 	octave 3
 	note A_, 1
 	note B_, 6
@@ -40,7 +40,7 @@ Music_SecretLab2_Ch1::
 	note G_, 1
 	note E_, 1
 	rest 4
-;	
+
 	octave 3
 	note D_, 1
 	note E_, 6
@@ -110,7 +110,7 @@ Music_SecretLab2_Ch2::
 	note D_, 1
 	octave 4
 	note B_, 1
-;
+
 	octave 2
 	note A_, 1
 	note B_, 6
@@ -140,7 +140,7 @@ Music_SecretLab2_Ch2::
 	note A_, 1
 	note B_, 1
 	rest 4
-;
+
 	note_type 12, 8, 0
 .mainloop
 .loop2

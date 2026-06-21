@@ -99,9 +99,9 @@ NextChar::
 ;	; This is a debugging leftover.
 ;	ld de, TextIDErrorText
 ;	dec de
-;	ret	
+;	ret
 
-; PureRGBnote: CHANGED: many shortcut commands were added here 
+; PureRGBnote: CHANGED: many shortcut commands were added here
 ; because it greatly reduces text data size if certain commonly used phrases are parameterized.
 ; must match the order of the charmap shortcuts and no gaps are allowed
 TextShortcutCommandJumpTable:
@@ -314,7 +314,7 @@ PageChar::
 	push hl
 	jp NextChar
 
-;;;;;;;;; PureRGBnote: ADDED: new text command that allows multiple buttons to be watched while waiting on a text prompt 
+;;;;;;;;; PureRGBnote: ADDED: new text command that allows multiple buttons to be watched while waiting on a text prompt
 MultiButtonPageChar::
 	push de
 	callfar TextCommandPromptMultiButton

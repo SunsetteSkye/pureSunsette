@@ -91,6 +91,15 @@ _IsEvolvingText::
 	line "is evolving!"
 	done
 
+; Sunsette: ADDED: shown when an evolution adds a brand-new species to the Pokedex.
+_NewDexDataEvolvedText::
+	text "New #DEX data"
+	line "will be added for"
+	cont "@"
+	text_ram_namebuffer
+	text "!@"
+	text_end
+
 _YoureAnExpertText::
 	text "You're an expert"
 	line "with @"
@@ -167,6 +176,11 @@ _MonsStatsFellText::
 
 _FellText::
 	text " fell!"
+	prompt
+
+_MaximizeText:: ; Sunsette: MAXIMIZE (the SPEED/EVASION "sharply fell!" lines follow)
+	text "<USER>"
+	line "maximized itself!"
 	prompt
 
 _TeleportedAway::

@@ -42,3 +42,6 @@ tools/
 
 # shelved experiments kept for reference (not part of the build)
 _attempts/
+
+# generated sprite-sheet / scratch artifacts
+build/

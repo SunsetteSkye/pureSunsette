@@ -1,12 +1,15 @@
 _FuchsiaGymKogaPostBattleAdviceText::
-	text "When afflicted by"
-	line "TOXIC, #MON"
-	cont "suffer more and"
-	cont "more as battle"
-	cont "progresses!"
+	text "A fine result."
+	line "I congratulate"
+	cont "you."
 
-	para "It will surely"
-	line "terrorize foes!"
+	para "Naturally, a true"
+	line "ninja shows only"
+	cont "what he wishes"
+	cont "to be seen<...>"
+
+	para "<...>and keeps the"
+	line "rest unseen."
 	done
 
 _FuchsiaGymKogaSoulBadgeInfoText::
@@ -29,7 +32,7 @@ _FuchsiaGymKogaTM06ExplanationText::
 	para "@"
 	text_ram_stringbuffer
 	text " contains"
-	line "TOXIC!"
+	line "SHADOW GAME!"
 
 	para "It is a secret"
 	line "technique over"
@@ -177,10 +180,10 @@ _FuchsiaGymGymGuideChampInMakingText::
 	line "riddled with"
 	cont "invisible walls!"
 
-	para "That same haze"
-	line "makes his #MON"
-	cont "slippery and"
-	cont "hard to hit!"
+	para "Those same walls"
+	line "confuse your lead"
+	cont "#MON as the"
+	cont "battle begins!"
 
 	para "You have to find"
 	line "gaps in the walls"

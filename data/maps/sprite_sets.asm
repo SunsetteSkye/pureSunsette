@@ -167,7 +167,7 @@ SpriteSets:
 	db SPRITE_COOLTRAINER_M
 	db SPRITE_BEAUTY
 	db SPRITE_FISHER
-	db SPRITE_ROCKER ; not used
+	db SPRITE_BIKERF ; Sunsette: female bikers (reused the unused SPRITE_ROCKER slot)
 	db SPRITE_BIRD
 	db SPRITE_POKE_BALL
 	db SPRITE_SNORLAX
@@ -180,7 +180,7 @@ SpriteSets:
 	db SPRITE_ROCKER
 	db SPRITE_HIKER
 	db SPRITE_GAMBLER
-	db SPRITE_MIDDLE_AGED_MAN
+	db SPRITE_BIKERF ; Sunsette: female bikers (reused the dummy SPRITE_MIDDLE_AGED_MAN slot; unused on Cycling Road)
 	db SPRITE_SCRUFFY_GUY
 	db SPRITE_POKE_BALL
 	db SPRITE_SNORLAX

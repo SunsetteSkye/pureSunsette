@@ -37,7 +37,7 @@ SubstituteEffect_:
 	sbc 0
 	pop bc
 	jr c, .notEnoughHP ; underflow means user would be left with negative health
-    ; bug: since it only branches on carry, it will possibly leave user with 0 HP 
+    ; bug: since it only branches on carry, it will possibly leave user with 0 HP
 ;;;;;;;;;; PureRGBnote: FIXED: will set to 1 when at 0 health after subtraction
 	jr nz, .userHasEnoughHP
 	inc d

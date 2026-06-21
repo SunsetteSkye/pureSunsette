@@ -46,10 +46,10 @@ _CeladonMartRoofLittleGirlTM49ExplanationText::
 	para "@"
 	text_ram_stringbuffer
 	text " contains"
-	line "GLARE!"
-	para "It paralyzes the"
-	line "target with a"
-	cont "piercing gaze!@"
+	line "BULK UP!"
+	para "Raise attack and"
+	line "defense at the"
+	cont "same time!@"
 	text_end
 
 _CeladonMartRoofLittleGirlNoRoomText::

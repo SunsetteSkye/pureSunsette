@@ -10,7 +10,9 @@ SaffronCity_Script:
 	lb bc, 1, 19
 	call ReplaceTileBlock
 .notFirstLoad
-	jp EnableAutoTextBoxDrawing
+	call EnableAutoTextBoxDrawing
+	farcall TryTallBuildingReaction
+	ret
 
 SaffronCity_TextPointers:
 	def_text_pointers

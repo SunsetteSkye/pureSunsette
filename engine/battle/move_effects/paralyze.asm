@@ -10,6 +10,17 @@ ParalyzeEffect_:
 	ld a, [hl]
 	and a ; does the target already have a status ailment?
 	jr nz, .didntAffect
+; Sunsette: ELECTRIC-types are immune to paralysis (status+1/+2 = the target's type1/type2)
+	ld b, h
+	ld c, l
+	inc bc
+	ld a, [bc]
+	cp ELECTRIC
+	jr z, .doesntAffect
+	inc bc
+	ld a, [bc]
+	cp ELECTRIC
+	jr z, .doesntAffect
 ; check if the target is immune due to types
 	ld a, [de]
 	cp ELECTRIC

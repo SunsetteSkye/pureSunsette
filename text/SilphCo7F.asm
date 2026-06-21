@@ -42,15 +42,17 @@ _SilphCo7FSilphWorkerM1SavedText::
 _SilphCo7FSilphWorkerM2AfterTheMasterBallText::
 	text "<TEAM><ROCKET> was"
 	line "after the MASTER"
-	cont "BALL which will"
-	cont "catch any #MON!"
+	cont "BALL, and our"
+	cont "APEX CHIP tech!"
 	done
 
 _SilphCo7FSilphWorkerM2CancelledMasterBallText::
-	text "We canceled the"
-	line "MASTER BALL"
-	cont "project because"
-	cont "of <TEAM><ROCKET>."
+	text "We mothballed the"
+	line "MASTER BALL and"
+	cont "APEX CHIP lines."
+
+	para "Both, thanks to"
+	line "<TEAM><ROCKET>."
 	done
 
 _SilphCo7FSilphWorkerM3ItWouldBeBadText::

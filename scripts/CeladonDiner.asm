@@ -1,5 +1,11 @@
 CeladonDiner_Script:
-	jp EnableAutoTextBoxDrawing
+	call EnableAutoTextBoxDrawing
+	CheckEvent EVENT_REACTED_CROWDED
+	ret nz
+	SetEvent EVENT_REACTED_CROWDED
+	ld a, NROW_CROWDED
+	farcall ShowOverworldNature
+	ret
 
 CeladonDiner_TextPointers:
 	def_text_pointers

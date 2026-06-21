@@ -346,7 +346,7 @@ UseCameraRoute8:
 	ld c, 60
 	rst _DelayFrames
 	; make jolteon "absorb electricity"
-	; darken color palette	
+	; darken color palette
 	ld a, 3
 	ld [wMapPalOffset], a
 	call LoadGBPal
@@ -1423,7 +1423,7 @@ ShowCustomBallUnlockPicture::
 	ld hl, CustomPokeballCameraPicPalettes
 	ld bc, CUSTOM_BALL_PALETTE_DATA_LENGTH
 	call AddNTimes
-	; hl = palette data 
+	; hl = palette data
 	; de = picture data
 	ld a, BANK(CustomPokeballCameraPics)
 ShowCameraPicture::

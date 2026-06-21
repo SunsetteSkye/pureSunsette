@@ -5,23 +5,23 @@ ENDM
 
 AnimationIdSpecialEffects:
 	; animation id, effect routine address
-	anim_special_effect WHIRLWIND,             FlashScreenEveryFourFrameBlocks ; PureRGBnote: ADDED: special effect during WHIRLWIND (HURRICANE)
-	anim_special_effect MEGA_PUNCH,            MegaPunchSpecialEffect
-	anim_special_effect GUILLOTINE,            AnimationFlashScreen ; EXTERMINATE
+	anim_special_effect HURRICANE,             FlashScreenEveryFourFrameBlocks ; PureRGBnote: ADDED: special effect during WHIRLWIND
+	anim_special_effect SHORYUKEN,            MegaPunchSpecialEffect
+	anim_special_effect EXTERMINATE,            AnimationFlashScreen
 	anim_special_effect CRABHAMMER,            FlashScreenEveryFourFrameBlocks ; PureRGBnote: ADDED: special effect during CRABHAMMER
-	anim_special_effect MEGA_KICK,             AnimationFlashScreen
+	anim_special_effect PISTON_KICK,             AnimationFlashScreen
 	anim_special_effect HEADBUTT,              AnimationFlashScreen
 	anim_special_effect TAIL_WHIP,             TailWhipAnimationUnused
 	anim_special_effect GROWL,                 DoGrowlSpecialEffects
 	anim_special_effect DISABLE,               AnimationFlashScreen
 	anim_special_effect BLIZZARD,              DoBlizzardSpecialEffects
-	anim_special_effect BUBBLEBEAM,            AnimationFlashScreen
+	anim_special_effect WATER_PULSE,            AnimationFlashScreen
 	anim_special_effect HYPER_BEAM,            FlashScreenEveryFourFrameBlocks
 	anim_special_effect THUNDERBOLT,           FlashScreenEveryEightFrameBlocks ; four?
 	anim_special_effect REFLECT,               AnimationFlashScreen
-	anim_special_effect SELFDESTRUCT,          DoExplodeSpecialEffects
+	anim_special_effect SUPERNOVA,          DoExplodeSpecialEffects
 	anim_special_effect SPORE,                 FlashScreenEveryFourFrameBlocks ; PureRGBnote: ADDED: special effect during SPORE
-	anim_special_effect EXPLOSION,             DoExplodeSpecialEffects
+	anim_special_effect METAMORPHIC,             DoExplodeSpecialEffects
 	anim_special_effect ROCK_SLIDE,            DoRockSlideSpecialEffects
 	anim_special_effect TRADE_BALL_DROP_ANIM,  TradeHidePokemon
 	anim_special_effect TRADE_BALL_SHAKE_ANIM, TradeShakePokeball
@@ -36,5 +36,5 @@ AnimationIdSpecialEffects:
 	anim_special_effect HYPERTOSS_ANIM,        DoBallTossSpecialEffects
 	anim_special_effect SAFARITOSS_ANIM,        DoBallTossSpecialEffects
 ;;;;;;;;;;
-	anim_special_effect KINESIS,               MirageSpecialEffect
+	anim_special_effect MIRAGE,               MirageSpecialEffect
 	db -1 ; end

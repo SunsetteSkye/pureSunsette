@@ -30,11 +30,16 @@ _SaffronGymSabrinaReceivedMarshBadgeText::
 	line "SOULBADGE!@"
 	text_end
 
-_SaffronGymSabrinaPostBattleAdviceText::
-	text "Everyone has"
-	line "psychic power!"
-	cont "People just don't"
-	cont "realize it!"
+_SaffronGymSabrinaStopBotheringText::
+	text "<...>What is it"
+	line "now?"
+
+	para "Will you stop"
+	line "bothering me?"
+	done
+
+_SaffronGymSabrinaThankYouText::
+	text "<...>Thank you."
 	done
 
 _TM46ExplanationText::
@@ -48,8 +53,8 @@ _TM46ExplanationText::
 	para "It forgets what"
 	line "it is, left a"
 	cont "mere BUG."
-	para "Its aim falters,"
-	line "too."
+	para "Confusion"
+	line "clouds it."
 	done
 
 _SaffronGymSabrinaTM46NoRoomText::
@@ -62,10 +67,11 @@ _SaffronGymGuideChampInMakingText::
 	line "use psychic power"
 	cont "instead of force!"
 
-	para "The charged air"
-	line "here sharpens"
-	cont "her #MON to"
-	cont "strike first!"
+	para "A psychic barrier"
+	line "seals your PACK."
+
+	para "No items the"
+	line "whole fight!"
 	done
 
 _SaffronGymGuideBeatSabrinaText::

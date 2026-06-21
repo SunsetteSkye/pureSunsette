@@ -15,25 +15,25 @@
 
 	; tm/hm learnset
 	tmhm \
-	FURY_ATTACK,\ ; MUD BOMB
-	DISABLE,\
-	SONICBOOM,\ ; ILL WIND
+	MUD_BOMB,\
 	TOXIC,\
+	HONE_EDGE,\
+	DISABLE,\
 	DOUBLE_EDGE,\
-	AMNESIA,\ ; CALM MIND
+	AQUA_RING,\
+	CALM_MIND,\
 	BARRIER,\
-	RAZOR_LEAF,\
-	SOLARBEAM,\ ; SOLARBEAM
+	ADAPTATION,\
+	SOLARBEAM,\ 
 	PSYCHIC_M,\
 	MEGA_DRAIN,\
 	SWORDS_DANCE,\
 	REFLECT,\
-	BIDE,\ ; BULK UP
-	BARRAGE,\ ; SHADOW BALL
-	SLAM,\ ; WASTEMAKER
+	BULK_UP,\
+	ILL_WIND,\
+	SHADOW_BALL,\
 	LIGHT_SCREEN,\
-	SLUDGE,\ ; SLUDGE BOMB
-	GLARE,\
+	SHADOW_GAME,\
 	SUBSTITUTE,\
 	CUT,\
 	FLASH
@@ -47,3 +47,23 @@
 
 	dw 0, OddishPicBack
 
+; --- Sunsette SSOT directives (parsed by tools/gen_pokemon_data.py) ---
+;@ nature       NATURE_CAUTIOUS NATURE_MOROSE
+;@ pal_battle   PAL_GREENMON
+;@ pal_altbattle PAL_0F
+;@ pal_icon     $FF
+;@ pal_alticon  $FF
+;@ evo         EVOLVE_LEVEL, 21, GLOOM
+;@ evo_move    NO_MOVE
+;@ evo_react   NONE
+;@ learn       7, POISONPOWDER
+;@ learn       11, ACID
+;@ learn       15, ADAPTATION
+;@ learn       17, STUN_SPORE
+;@ learn       19, MEGA_DRAIN
+;@ learn       23, PHANTASM
+;@ learn       28, SLEEP_POWDER
+;@ learn       36, SLUDGE_BOMB
+;@ learn       45, TOXIC
+;@ learn       50, SENBONZAKURA
+;@ learn       57, EMETIC_PURGE

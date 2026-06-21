@@ -2,6 +2,12 @@
 
 Route14_Script:
 	call EnableAutoTextBoxDrawing
+	CheckEvent EVENT_REACTED_ROUTE14
+	jr nz, .skipReaction
+	SetEvent EVENT_REACTED_ROUTE14
+	ld a, NROW_ROUTE14
+	farcall ShowOverworldNature
+.skipReaction
 	ld hl, Route14TrainerHeaders
 	ld de, Route14_ScriptPointers
 	ld a, [wRoute14CurScript]

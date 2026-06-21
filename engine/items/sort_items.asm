@@ -99,7 +99,7 @@ SortItems::
 	dec hl
 	ld [hl], d
 	pop hl ; pop bc into hl, hl is now at the item to be sorted's address
-	; replace the newly sorted item's data with the first unsorted item's data 
+	; replace the newly sorted item's data with the first unsorted item's data
 	ld [hl], b
 	inc hl
 	ld [hl], c
@@ -234,56 +234,57 @@ ItemSortedList:
 	db NUGGET
 	db OLD_COIN
 	; TMs / HMs
-	db TM_ICE_PUNCH   	; $C9 (FROST FIST)
-	db TM_RAZOR_WIND   ; $CA ROOST
-	db TM_FURY_ATTACK 	; $CB (MUD BOMB)
+	db TM_FROST_FIST   	; $C9
+	db TM_ROOST   ; $CA ROOST
+	db TM_MUD_BOMB 	; $CB
 	db TM_PIN_MISSILE  ; $CC
-	db TM_FIRE_PUNCH   ; $CD (BLAZE HAMMER)
+	db TM_BLAZE_HAMMER   ; $CD
 	db TM_TOXIC        ; $CE
-	db TM_HORN_DRILL   ; $CF (VENOM DRILL)
+	db TM_HONE_EDGE   ; $CF
 	db TM_BODY_SLAM    ; $D0
 	db TM_DISABLE    	; $D1
 	db TM_DOUBLE_EDGE  ; $D2
-	db TM_BUBBLEBEAM   ; $D3
-	db TM_AURORA_BEAM  ; $D4
+	db TM_AQUA_RING   ; $D3
+	db TM_AURORA_MIST  ; $D4
 	db TM_ICE_BEAM     ; $D5
 	db TM_BLIZZARD     ; $D6
 	db TM_HYPER_BEAM   ; $D7
-	db TM_AMNESIA      ; $D8 (CALM MIND)
+	db TM_CALM_MIND      ; $D8
 	db TM_LOW_KICK     ; $D9 ; LOW KICK
-	db TM_THUNDERPUNCH ; $DA (ZAPPERCUT)
-	db TM_ROLLING_KICK ; $DB (METEOR SWEEP)
+	db TM_ZAPPERCUT ; $DA
+	db TM_METEOR_SWEEP ; $DB
 	db TM_BARRIER      ; $DC
-	db TM_RAZOR_LEAF   ; $DD
+	db TM_ADAPTATION   ; $DD
 	db TM_SOLARBEAM    ; $DE (SOLARBEAM)
-	db TM_DRAGON_RAGE  ; $DF (WYRM WRATH)
+	db TM_WYRM_WRATH  ; $DF
 	db TM_THUNDERBOLT  ; $E0
 	db TM_THUNDER      ; $E1
 	db TM_EARTHQUAKE   ; $E2
-	db TM_CRABHAMMER	; $E3
+	db TM_RIPTIDE	; $E3 ; Sunsette: TM28 now RIPTIDE (WATERFALL)
 	db TM_DIG          ; $E4
 	db TM_PSYCHIC_M    ; $E5
 	db TM_MEGA_DRAIN   ; $E6
-	db TM_KINESIS      ; $E7 MIRAGE
+	db TM_MIRAGE      ; $E7 MIRAGE
 	db TM_SWORDS_DANCE ; $E8
 	db TM_REFLECT      ; $E9
-	db TM_BIDE         ; $EA (BULK UP)
-	db TM_SONICBOOM    	; $EB
-	db TM_BARRAGE 		; $EC (SHADOW BALL)
-	db TM_FLAMETHROWER ; $ED
+	db TM_BULK_UP         ; $EA
+	db TM_ILL_WIND    	; $EB
+	db TM_SHADOW_BALL 		; $EC
+	db TM_SUPERNOVA ; $ED
 	db TM_FIRE_BLAST   ; $EE
-	db TM_SLAM        	; $EF (WASTEMAKER)
-	db TM_KARATE_CHOP  ; $F0
-	db TM_MEDITATE   	; $F1  (VOID MIND)
+	db TM_TWISTER        	; $EF
+	db TM_DEMOLISH  ; $F0
+	db TM_VOID_MIND   	; $F1
 	db TM_LOVELY_KISS  ; $F2
-	db TM_SKY_ATTACK   ; $F3 (BRAVE BIRD)
+	db TM_BRAVE_BIRD   ; $F3
 	db TM_LIGHT_SCREEN ; $F4
 	db TM_THUNDER_WAVE ; $F5
-	db TM_PSYWAVE      ; $F6 ; SKITTERMIND
-	db TM_SLUDGE    	; $F7 (SLUDGE BOMB)
+	db TM_SKITTERMIND      ; $F6 ; SKITTERMIND
+	db TM_SHADOW_GAME      	; $F7 (SHADOW GAME; was SLUDGE BOMB)
 	db TM_ROCK_SLIDE   ; $F8
-	db TM_GLARE   		; $F9
+	db TM_ROCK_ON	; $F9
 	db TM_SUBSTITUTE   ; $FA
+	db TM_CLAY_ARMOR      ; $FB (CLAY ARMOR; Sunsette TM51)
 	db HM_CUT          ; $C4
 	db HM_FLY          ; $C5
 	db HM_SURF         ; $C6

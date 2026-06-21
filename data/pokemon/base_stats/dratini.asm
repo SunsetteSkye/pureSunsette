@@ -10,30 +10,30 @@
 	INCBIN "gfx/pokemon/front/dratini.pic", 0, 1 ; sprite dimensions
 	dw DratiniPicFront, DratiniPicBackSW
 
-	db WRAP, LEER, ROAR, NO_MOVE ; level 1 learnset (BELLOW)
+	db WRAP, LEER, BELLOW, NO_MOVE ; level 1 learnset
 	db GROWTH_SLOW ; growth rate
 
 	; tm/hm learnset
 	tmhm \
-	DISABLE,\
+	ADAPTATION,\
 	TOXIC,\
 	BODY_SLAM,\
+	DISABLE,\
 	DOUBLE_EDGE,\
-	BUBBLEBEAM,\
-	AURORA_BEAM,\
+	AURORA_MIST,\
 	ICE_BEAM,\
 	BLIZZARD,\
-	SOLARBEAM,\ ; SOLARBEAM
-	DRAGON_RAGE,\ ; WYRM WRATH
+	SOLARBEAM,\ 
+	WYRM_WRATH,\
 	THUNDERBOLT,\
 	THUNDER,\
-	KINESIS,\ ; MIRAGE
+	RIPTIDE,\
+	MIRAGE,\
 	REFLECT,\
-	BIDE,\ ; BULK UP
-	BARRAGE,\ ; SHADOW BALL
+	BULK_UP,\
+	SHADOW_BALL,\
 	FIRE_BLAST,\
-	FLAMETHROWER,\
-	SLAM,\ ; WASTEMAKER
+	TWISTER,\
 	LIGHT_SCREEN,\
 	THUNDER_WAVE,\
 	SUBSTITUTE,\
@@ -50,3 +50,20 @@
 
 	dw 0, DratiniPicBack
 
+; --- Sunsette SSOT directives (parsed by tools/gen_pokemon_data.py) ---
+;@ nature       NATURE_WISE NATURE_CAUTIOUS
+;@ pal_battle   PAL_ICON_59
+;@ pal_altbattle PAL_ICON_62
+;@ pal_icon     PAL_ICON_69
+;@ pal_alticon  PAL_ICON_09
+;@ evo         EVOLVE_LEVEL, 30, DRAGONAIR
+;@ evo_move    NO_MOVE
+;@ evo_react   NONE
+;@ learn       20, THUNDER_WAVE
+;@ learn       25, RIPTIDE
+;@ learn       29, AURORA_MIST
+;@ learn       33, TWISTER
+;@ learn       38, BLITZ_STRIKE
+;@ learn       46, AGILITY
+;@ learn       52, HYPER_BEAM
+;@ learn       60, OUTRAGE

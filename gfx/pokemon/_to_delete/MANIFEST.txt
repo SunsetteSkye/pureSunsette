@@ -1,0 +1,55 @@
+DIR  gfx/pokemon\back
+DIR  gfx/pokemon\back_original
+DIR  gfx/pokemon\back_sw_original
+DIR  gfx/pokemon\front_rb
+DIR  gfx/pokemon\front_rg
+DIR  gfx/pokemon\front_backup
+DIR  gfx/pokemon\front_backup (1-21)
+DIR  gfx/pokemon\front_backup (purergb)
+DIR  gfx/pokemon\test
+DIR  gfx/pokemon\front_sw
+DIR  gfx/pokemon\gallery
+FILE gfx/pokemon\front\Cloyster.png  (RESTORED lowercase twin; capital was an alias)
+FILE gfx/pokemon\front\Machoke.png  (RESTORED lowercase twin; capital was an alias)
+FILE gfx/pokemon\front\Machop.png  (RESTORED lowercase twin; capital was an alias)
+FILE gfx/pokemon\front\Muk.png  (RESTORED lowercase twin; capital was an alias)
+FILE gfx/pokemon\front\Parasect.png  (RESTORED lowercase twin; capital was an alias)
+FILE gfx/pokemon\front\Shellder.png  (RESTORED lowercase twin; capital was an alias)
+FILE gfx/pokemon\front\Victreebel.png  (RESTORED lowercase twin; capital was an alias)
+FILE gfx/pokemon\back_sw\poliwrath.png
+FILE gfx/pokemon\front_alt\abra.png
+FILE gfx/pokemon\front_alt\arcanine.png
+FILE gfx/pokemon\front_alt\armored_mewtwo.png
+FILE gfx/pokemon\front_alt\articuno.png
+FILE gfx/pokemon\front_alt\blastoise.png
+FILE gfx/pokemon\front_alt\bulbasaur.png
+FILE gfx/pokemon\front_alt\butterfree.png
+FILE gfx/pokemon\front_alt\cloyster.png
+FILE gfx/pokemon\front_alt\electabuzz.png
+FILE gfx/pokemon\front_alt\exeggcute.png
+FILE gfx/pokemon\front_alt\exeggutor.png
+FILE gfx/pokemon\front_alt\farfetchd.png
+FILE gfx/pokemon\front_alt\gengar.png
+FILE gfx/pokemon\front_alt\golbat.png
+FILE gfx/pokemon\front_alt\golduck.png
+FILE gfx/pokemon\front_alt\graveler.png
+FILE gfx/pokemon\front_alt\jynx.png
+FILE gfx/pokemon\front_alt\kadabra.png
+FILE gfx/pokemon\front_alt\koffing.png
+FILE gfx/pokemon\front_alt\machop.png
+FILE gfx/pokemon\front_alt\mankey.png
+FILE gfx/pokemon\front_alt\mewtwo.png
+FILE gfx/pokemon\front_alt\nidorino.png
+FILE gfx/pokemon\front_alt\omanyte.png
+FILE gfx/pokemon\front_alt\onix.png
+FILE gfx/pokemon\front_alt\pidgeot.png
+FILE gfx/pokemon\front_alt\pidgeotto.png
+FILE gfx/pokemon\front_alt\pinsir.png
+FILE gfx/pokemon\front_alt\raticate.png
+FILE gfx/pokemon\front_alt\scyther.png
+FILE gfx/pokemon\front_alt\spearow.png
+FILE gfx/pokemon\front_alt\squirtle.png
+FILE gfx/pokemon\front_alt\starmie.png
+FILE gfx/pokemon\front_alt\tentacruel.png
+FILE gfx/pokemon\front_alt\voltorb.png
+FILE gfx/pokemon\front_alt\zapdos.png

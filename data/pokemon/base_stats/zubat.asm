@@ -1,6 +1,6 @@
 	db DEX_ZUBAT ; pokedex id
 
-	db  40,  45,  35,  55,  40
+	db  40,  45,  35,  65,  50
 	;   hp  atk  def  spd  spc
 
 	db POISON, FLYING ; type
@@ -15,20 +15,24 @@
 
 	; tm/hm learnset
 	tmhm \
-	SONICBOOM,\ ; ILL WIND
-	RAZOR_WIND,\ ; ROOST
+	ADAPTATION,\
+	ROOST,\
 	TOXIC,\
+	HONE_EDGE,\
 	DISABLE,\
 	DOUBLE_EDGE,\
+	AURORA_MIST,\
 	BARRIER,\
 	MEGA_DRAIN,\
 	SWORDS_DANCE,\
-	BIDE,\ ; BULK UP
-	BARRAGE,\ ; SHADOW BALL
-	SLAM,\ ; WASTEMAKER
+	BULK_UP,\
+	ILL_WIND,\
+	SHADOW_BALL,\
+	TWISTER,\
 	LOVELY_KISS,\
-	PSYWAVE,\ ; SKITTERMIND
-	SLUDGE,\ ; SLUDGE BOMB
+	BRAVE_BIRD,\
+	SKITTERMIND,\
+	SHADOW_GAME,\
 	SUBSTITUTE,\
 	CUT,\
 	FLY
@@ -42,3 +46,23 @@
 
 	dw 0, ZubatPicBack
 
+; --- Sunsette SSOT directives (parsed by tools/gen_pokemon_data.py) ---
+;@ nature       NATURE_HYPER NATURE_GLUTTON
+;@ pal_battle   PAL_TWILIGHTMON
+;@ pal_altbattle PAL_PINKMON
+;@ pal_icon     $FF
+;@ pal_alticon  $FF
+;@ evo         EVOLVE_LEVEL, 22, GOLBAT
+;@ evo_move    NO_MOVE
+;@ evo_react   NONE
+;@ learn       10, SUPERSONIC
+;@ learn       15, LEECH_LIFE
+;@ learn       18, BITE
+;@ learn       21, WING_ATTACK
+;@ learn       25, CONFUSE_RAY
+;@ learn       28, ILL_WIND
+;@ learn       30, HYPER_FANG
+;@ learn       37, AIR_DRILL
+;@ learn       44, SOULSTEALER
+;@ learn       50, MAXIMIZE
+;@ learn       55, VENOM_DRILL

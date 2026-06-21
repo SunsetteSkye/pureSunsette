@@ -29,6 +29,12 @@ DEF BASE_ALTBACKPIC  rw
           
 DEF BASE_DATA_SIZE EQU _RS
 
+; Sunsette: learnset "level" sentinel for a move learned ON EVOLUTION (authored via ;@ evo_move; emitted
+; as the LAST learnset entry `db EVO_MOVE_LEVEL, move`). Inert to every level reader: learning is an exact
+; level match and WriteMonMoves bails on it (255 > any level, sorted-ascending), so it is never learned by
+; leveling - only EvolutionForceLearnMove (engine/pokemon/evos_moves.asm) scans for it on evolution.
+DEF EVO_MOVE_LEVEL EQU $FF
+
 ; party_struct members (see macros/ram.asm)
 rsreset
 DEF MON_SPECIES    rb

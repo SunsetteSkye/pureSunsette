@@ -47,6 +47,11 @@ _ArbokMoveMysticText::
 	line "venomous viper."
 	prompt
 
+_EkansMoveMysticText::
+	text_start
+	line "sneaky serpent."
+	prompt
+
 _GolemMoveMysticText::
 	text_start
 	line "rolling rock."
@@ -83,11 +88,10 @@ _SeakingMoveMysticText::
 	line "fabulous fish."
 	prompt
 
-_LickitungMoveMysticText::
-	text_start
-	line "salivating"
-	cont "slurper."
-	prompt
+; Sunsette: _GoldeenMoveMysticText / _GyaradosMoveMysticText live in data/text/sunsette_battle_text.asm
+; (this Text 3 bank is full).
+
+; Sunsette: _LickitungMoveMysticText removed - LICK is no longer a signature move (VENOM LASH covers it).
 
 _OmastarMoveMysticText::
 	text_start
@@ -120,8 +124,8 @@ _BlastoiseMoveMysticText::
 	line "cannon colossus."
 	prompt
 
-; Sunsette: _KrabbyMoveMysticText / _KinglerMoveMysticText flavor + their CRABHAMMER info texts
-; live in data/text/sunsette_battle_text.asm (Text 3 bank was full).
+; Sunsette: KRABBY/KINGLER MOVE MYSTIC texts were removed - CRABHAMMER is a flat 100-BP move now,
+; no longer their signature.
 
 _MoveMysticMasterOfMoveText::
 	text "It's a master"
@@ -152,15 +156,12 @@ _MoveMysticLovesMoveText::
 	prompt
 
 _MoveMysticBeedrillText::
-	text "Its deadly"
-	line "stingers help in"
-	cont "multiple ways!"
-	para "POISON STING's"
-	line "POWER triples to"
-	cont "45!"
-	para "On top of that,"
-	line "TWINEEDLE's POWER"
-	cont "increases to 65!"
+	text "Its venom runs"
+	line "thick and potent!"
+
+	para "Its TWINEEDLE"
+	line "POISONS the foe"
+	cont "40% of the time."
 	done
 
 _MoveMysticPidgeotText::

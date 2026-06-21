@@ -64,6 +64,8 @@ OakCeruleanCaveText:
 	set BIT_PRINT_END_BATTLE_TEXT, [hl]
 	ld a, OPP_PROF_OAK
 	ld [wCurOpponent], a
+	ld a, 1 ; Sunsette: trainer-battle latch
+	ld [wIsTrainerBattle], a
 	; select which team to use during the encounter
 	ld a, [wPlayerStarter]
 	call StarterToPartyID

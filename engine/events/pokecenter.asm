@@ -1,4 +1,4 @@
-; PureRGBnote: ADDED: this code was modified to make it so you can speed up pokemon center dialog by holding B before talking to the nurse. 
+; PureRGBnote: ADDED: this code was modified to make it so you can speed up pokemon center dialog by holding B before talking to the nurse.
 ;                     the ability to do this is unlocked by donating to the nurse at rock tunnel pokecenter.
 
 DisplayPokemonCenterDialogue_::
@@ -69,6 +69,7 @@ DisplayPokemonCenterDialogue_::
 	ld [wSprite01StateData1ImageIndex], a ; make the nurse bow
 	ld c, a
 	rst _DelayFrames
+	farcall ShowHealReaction ; Sunsette: a random party mon reacts to being healed
 	CheckEvent EVENT_BECAME_CHAMP
 	jr z, .notChamp
 	callfar RandomPartyPokemon

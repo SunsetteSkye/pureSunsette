@@ -61,4 +61,5 @@ TrainerAIPointers:
 	dbw 3, GenericAI ; sprinter
 	dbw 3, GenericAI ; fist fighter
 	dbw 3, GenericAI ; rocket sister (Sunsette: difficulty comes from Pressure/crit/team, not smart AI - keep below gym-leader AI)
+	dbw 3, GenericAI ; biker_f (Sunsette: mirror BIKER)
 	assert_table_length NUM_TRAINERS

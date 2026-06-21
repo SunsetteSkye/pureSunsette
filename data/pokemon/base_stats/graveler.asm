@@ -15,29 +15,28 @@
 
 	; tm/hm learnset
 	tmhm \
-	FURY_ATTACK,\ ; MUD BOMB
-	LOW_KICK,\
-	ICE_PUNCH,\ ; FROST FIST
-	FIRE_PUNCH,\ ; BLAZE HAMMER
+	ADAPTATION,\
+	FROST_FIST,\
+	MUD_BOMB,\
+	BLAZE_HAMMER,\
 	TOXIC,\
 	BODY_SLAM,\
 	DISABLE,\
 	DOUBLE_EDGE,\
-	THUNDERPUNCH,\ ; ZAPPERCUT
-	ROLLING_KICK,\ ; METEOR SWEEP
+	LOW_KICK,\
+	ZAPPERCUT,\
+	METEOR_SWEEP,\
 	EARTHQUAKE,\
-	CRABHAMMER,\
 	DIG,\
-	BIDE,\ ; BULK UP
-	BARRAGE,\ ; SHADOW BALL
+	BULK_UP,\
+	SHADOW_BALL,\
 	FIRE_BLAST,\
-	FLAMETHROWER,\
-	SLAM,\ ; WASTEMAKER
-	KARATE_CHOP,\
-	MEDITATE,\ ; VOID MIND
+	DEMOLISH,\
+	VOID_MIND,\
 	ROCK_SLIDE,\
-	GLARE,\
+	ROCK_ON,\
 	SUBSTITUTE,\
+	CLAY_ARMOR,\
 	CUT,\
 	STRENGTH
 	; end
@@ -49,3 +48,28 @@
 
 	dw GravelerPicFrontAlt, GravelerPicBack
 
+; --- Sunsette SSOT directives (parsed by tools/gen_pokemon_data.py) ---
+;@ nature       NATURE_STOLID NATURE_SCRAPPY
+;@ pal_battle   PAL_GRANITEMON
+;@ pal_altbattle PAL_SANDSTONEMON
+;@ pal_icon     $FF
+;@ pal_alticon  $FF
+;@ evo         EVOLVE_TRADE, 1, GOLEM
+;@ evo         EVOLVE_LEVEL, 37, GOLEM
+;@ evo_move    NO_MOVE
+;@ evo_react   "It rolls up with" "a grinding rumble!"
+;@ evo_react   "It tucks in tight" "and rolls away!"
+;@ evo_react   "Boulders grind" "as it lurches up!"
+;@ evo_react   "It cracks knuckles" "of solid stone!"
+;@ learn       11, HARDEN
+;@ learn       13, SEISMIC_TOSS
+;@ learn       16, ROCK_THROW
+;@ learn       19, BULK_UP
+;@ learn       21, BLAZE_HAMMER
+;@ learn       28, ROCK_SLIDE
+;@ learn       31, DIZZY_PUNCH
+;@ learn       34, EXPLOSION
+;@ learn       39, EARTHQUAKE
+;@ learn       46, METAMORPHIC
+;@ learn       52, PISTON_KICK
+;@ learn       60, COMBOBREAKER

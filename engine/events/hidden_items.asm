@@ -1,4 +1,4 @@
-;;;;;;;;;; PureRGBnote: ADDED: CHANGED: most of these functions were modified to allow multiple hidden items to be picked up at once. 
+;;;;;;;;;; PureRGBnote: ADDED: CHANGED: most of these functions were modified to allow multiple hidden items to be picked up at once.
 
 HiddenItems::
 	call HiddenItemsInit

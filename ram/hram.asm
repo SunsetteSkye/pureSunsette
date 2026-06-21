@@ -173,6 +173,13 @@ NEXTU
 ; some code zeroes this for no reason when writing a coin amount
 hUnusedCoinsByte:: db
 hCoins:: dw ; BCD number
+
+NEXTU
+; PureRGBnote: ADDED: the Surfing Pikachu minigame's hLCDCPointer (ported from pokeyellow)
+; overlaps the genuinely-unused hUnusedCoinsByte (HRAM is full; that byte is only written,
+; never read, and only in the Game Corner where the minigame is inactive). It holds the
+; LOW byte of the HRAM reg the LCD-STAT wave handler would write per scanline.
+hLCDCPointer:: db
 ENDU
 
 hDivideBCDDivisor::
@@ -284,7 +291,8 @@ hTileAnimations:: db
 
 hMovingBGTilesCounter1:: db
 
-	ds 1 ; unused hram byte
+; Sunsette: loop counter for LoadPartyIconPalettes (per-row party-menu icon colors)
+hPartyIconPalIdx:: db
 
 hCurrentSpriteOffset:: db ; multiple of $10
 
@@ -336,7 +344,9 @@ hBackupGymGateIndex:: db
 ; the first tile ID in a sequence of tile IDs that increase by 1 each step
 hStartTileID:: db
 
-	ds 2 ; unused 2 hram bytes
+; Sunsette: scratch for LoadPartyIconPalettes (survive callfar'd palette routines)
+hIconAltFlag:: db
+hIconSpecies:: db
 
 hNewPartyLength:: db
 

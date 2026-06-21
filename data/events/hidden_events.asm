@@ -234,7 +234,7 @@ DEF ANY_FACING EQU $d0
 	hidden_event  13, 15, StartSlotMachine, ANY_FACING
 	; PureRGBnote: FIXED: this machine is inaccessible due to the NPC in front, and is blocking obtaining the coins
 	; defined on its coordinate below, so remove it to make those coins accessible.
-	;hidden_event  12, 15, StartSlotMachine, ANY_FACING 
+	;hidden_event  12, 15, StartSlotMachine, ANY_FACING
 	hidden_event  12, 14, StartSlotMachine, ANY_FACING
 	hidden_event  12, 13, StartSlotMachine, ANY_FACING
 	hidden_event  12, 12, StartSlotMachine, ANY_FACING
@@ -526,7 +526,7 @@ DEF ANY_FACING EQU $d0
 
 	hidden_events_for FOSSIL_GUYS_HOUSE
 	hidden_event  2, 4, FossilGuysPC, SPRITE_FACING_UP
-	db -1 ; end	
+	db -1 ; end
 
 	hidden_events_for ROUTE_2
 	hidden_event  18, 66, HiddenItems5, HIDDEN_ITEM_ROUTE_2_SOUTHEAST_FLOWERS_NEW ; NEW
@@ -582,7 +582,7 @@ DEF ANY_FACING EQU $d0
 	hidden_event  13,  5, RocketBasementMachine, SPRITE_FACING_UP
 	hidden_event  14,  5, RocketBasementMachine, SPRITE_FACING_UP
 	hidden_event  15,  5, RocketBasementMachine, SPRITE_FACING_UP
-	db -1 ; end	
+	db -1 ; end
 
 	hidden_events_for DAYCARE
 	hidden_event  4,  1, OpenPokemonCenterPC, SPRITE_FACING_UP

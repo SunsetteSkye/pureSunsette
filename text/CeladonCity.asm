@@ -125,11 +125,11 @@ _Route12Gate2FBrunetteGirlReceivedTM39Text::
 ;_CeladonCityGramps3TM41ExplanationText::
 ;	text "<TM>41 teaches"
 ;	line "MEDITATE!"
-;
+
 ;	para "It raises ATTACK,"
 ;	line "SPECIAL and SPEED"
 ;	cont "all by one stage!"
-;
+
 ;	para "Your #MON will"
 ;	line "be unstoppable!"
 ;	done

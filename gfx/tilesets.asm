@@ -76,3 +76,9 @@ Section "Tilesets 5", ROMX
 
 Reactor_GFX::       INCBIN "gfx/tilesets/reactor.2bpp"
 Reactor_Block::     INCBIN "gfx/blocksets/reactor.bst"
+
+SECTION "Tilesets 6", ROMX
+
+; Sunsette: Summer Beach House interior tileset (ported from pokeyellow) for the Surfing Pikachu minigame map.
+BeachHouse_GFX::    INCBIN "gfx/tilesets/beach_house.2bpp"
+BeachHouse_Block::  INCBIN "gfx/blocksets/beach_house.bst"

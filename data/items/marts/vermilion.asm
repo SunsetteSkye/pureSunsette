@@ -1,3 +1,4 @@
+; Sunsette: VERMILION CITY MART stock. INCLUDEd by scripts/VermilionMart.asm (mart data is read from the caller's bank).
 VermilionMartClerkText::
 	script_mart \
 	POKE_BALL, \
@@ -6,8 +7,3 @@ VermilionMartClerkText::
 	AWAKENING, \
 	PARLYZ_HEAL, \
 	REPEL
-
-VermilionTMKidShop::
-	script_mart \
-	TM_KINESIS, \ ; MIRAGE
-	TM_MEGA_DRAIN

@@ -270,7 +270,7 @@ DialPhone:
 	ld c, 50
 	rst _DelayFrames
 
-	; call outgoing sounds 
+	; call outgoing sounds
 	call Random
 	and %11 ; 0-3 rings
 	ld b, a

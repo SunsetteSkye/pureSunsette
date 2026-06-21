@@ -20,6 +20,11 @@
 	const SET_PAL_MIDDLE_SCREEN_MON_BOX; $11
 	const SET_PAL_MOVEDEX              ; $12
 	const SET_PAL_CELADON              ; $13
+	; PureRGBnote: ADDED: palettes for the ported Surfing Pikachu minigame. (The ; $NN
+	; comments above are stale; `const` auto-increments, so the real values stay
+	; sequential and parallel with the SetPalFunctions table.)
+	const SET_PAL_SURFING_PIKACHU_TITLE    ; surf intro
+	const SET_PAL_SURFING_PIKACHU_MINIGAME ; surf gameplay
 
 DEF SET_PAL_PARTY_MENU_HP_BARS EQU $fc
 DEF SET_PAL_DEFAULT EQU $ff
@@ -124,4 +129,147 @@ DEF SET_PAL_DEFAULT EQU $ff
 	const PAL_MINDWIPE ; Sunsette: SKITTERMIND all-gray mon palette (true grayscale, no purple tint like PAL_GRAYMON)
 	const PAL_ROCKETSISTER ; Sunsette: ROCKET SISTER trainer front sprite (white / f7b58c / 953a58 / black)
 	const PAL_EVOTEXTBOX ; Sunsette: evolution textbox split slot - white bg + pure black lines (PAL_BLACK's mid shade is gray)
+	const PAL_BROWNMON2 ; Sunsette: default Pidgey-line coloration (white / dbb88a / 7f3f23 / black)
+	const PAL_BROWNGOLDMON ; Sunsette: alt Pidgey-line / default Raichu coloration (white / f7d77f / b04545 / black)
+	const PAL_STEELMON ; Sunsette: default Spearow/Fearow coloration (white / 98a8c0 / a04040 / black)
+	const PAL_TANMON ; Sunsette: alt Spearow/Fearow coloration (white / c89060 / 6b4d75 / black)
+	const PAL_MAUVEMON ; Sunsette: alt Rattata/Raticate coloration (white / 857a91 / 51304d / black)
+	const PAL_GOLDMON ; Sunsette: default Raichu coloration (white / f8d058 / d07048 / black)
+	const PAL_THUNDERMON ; Sunsette: alt Pikachu/Raichu coloration (white / f8e800 / 68b8f8 / black)
+	const PAL_SOFTVIOSCAR ; Sunsette: default Butterfree / alt Venomoth coloration (white / e89068 / a888c0 / black)
+	const PAL_ORCHIDMON ; Sunsette: default Ekans/Arbok coloration (white / c282cf / a13d41 / black)
+	const PAL_OLIVEMON ; Sunsette: alt Ekans/Arbok coloration (white / 90ab70 / 275854 / black)
+	const PAL_EMBERMON ; Sunsette: default Vulpix/Charmeleon coloration (white / e07039 / a94315 / black)
+	const PAL_FLAREMON ; Sunsette: default Charmander/Charizard + alt Charmeleon (white / f7bc68 / cf3f2f / black)
+	const PAL_GRAYVELVET ; Sunsette: alt Vulpix/Wigglytuff coloration (white / 9898ae / 464078 / black)
+	const PAL_VERDANTMON ; Sunsette: default Bulbasaur line coloration (white / 29dda8 / 30b515 / black)
+	const PAL_IVORYMON ; Sunsette: default Parasect coloration (white / efe6d6 / 84739c / black)
+	const PAL_LEAFMON ; Sunsette: alt Bulbasaur line + default Metapod/Scyther (white / 90a870 / 4e914e / black)
+	const PAL_AQUAMON ; Sunsette: default Squirtle coloration (white / a0e8e8 / a8a080 / black)
+	const PAL_MUDDYWATER ; Sunsette: default Blastoise coloration (white / 68a0e8 / 988870 / black)
+	const PAL_HORNETMON ; Sunsette: default Beedrill coloration (white / ffe13b / 897789 / black)
+	const PAL_NIDOMASC ; Sunsette: default NidoranM/Nidorino/Nidoking coloration (white / c7a0d6 / 507868 / black)
+	const PAL_BLUSHMON ; Sunsette: default Clefairy/Clefable/Jigglypuff/Wigglytuff coloration (white / f0d8e0 / d898a0 / black)
+	const PAL_ROSEMON ; Sunsette: default Mr. Mime coloration (white / f0d8e0 / e078a8 / black)
+	const PAL_TWILIGHTMON ; Sunsette: default Zubat/Golbat coloration (white / 6088d0 / 702078 / black)
+	const PAL_SANDVIOLET ; Sunsette: default Paras coloration (white / e8b898 / a088b8 / black)
+	const PAL_SOILMON ; Sunsette: default Diglett/Dugtrio coloration (white / b07858 / 902010 / black)
+	const PAL_BRICKMON ; Sunsette: alt Diglett/Dugtrio coloration (white / efe6d9 / b83323 / black)
+	const PAL_MOCHAMON ; Sunsette: default Mankey/Primeape coloration (white / efe6d6 / 8b3e20 / black)
+	const PAL_SANDMON ; Sunsette: alt Sandshrew/Sandslash coloration (white / f1e7ba / 845038 / black)
+	const PAL_AMBERMON ; Sunsette: default Abra/Kadabra/Alakazam coloration (white / f7db87 / 685848 / black)
+	const PAL_SLATEMON ; Sunsette: default Machop/Machoke/Machamp coloration (white / 86aaaf / 6c594d / black)
+	const PAL_KELPMON ; Sunsette: clone of the old SLOTS3 mon repurpose (white / 98d080 / 5878c8 / black)
+	const PAL_CORALMON ; Sunsette: clone of the old SLOTS4 mon repurpose (white / 88d0f0 / c83828 / black)
+	const PAL_GRANITEMON ; Sunsette: default Geodude/Graveler coloration (white / 82817a / 5b514a / black)
+	const PAL_SANDSTONEMON ; Sunsette: alt Geodude/Graveler/Onix coloration (white / a08060 / 605040 / black)
+	const PAL_BOULDERMON ; Sunsette: default Golem coloration (white / 7f4f37 / 3f3f37 / black)
+	const PAL_MAGMAMON ; Sunsette: alt Golem coloration (white / db3018 / 895f4a / black, intentional light/dark inversion)
+	const PAL_MAGENTAMON ; Sunsette: alt Slowpoke/Slowbro coloration (white / f0b0e0 / bf5bac / black)
+	const PAL_IRONMON ; Sunsette: default Magnemite/Magneton coloration (white / 97b7a7 / 4d5354 / black)
+	const PAL_LEEKMON ; Sunsette: default Farfetch'd coloration (white / d8d0a8 / 68b058 / black)
+	const PAL_PEARLMON ; Sunsette: default Seel coloration (white / efe6d6 / d898a0 / black; ivory light + blush dark)
+	const PAL_FROSTMON ; Sunsette: default Dewgong coloration (white / efe6d6 / 98a8d0 / black; PearlMon w/ periwinkle dark)
+	const PAL_VOLTORBMON ; Sunsette: clone of the old SLOTS1 mon repurpose (white / d0a8b0 / c83828 / black)
+	const PAL_LAVENDERMON ; Sunsette: default Shellder coloration (white / e8c8e0 / 9858b0 / black)
+	const PAL_CRYSTALMON ; Sunsette: default Hardened Onix coloration (white / d9e7ec / bcb6c4 / black)
+	const PAL_LEMONMON ; Sunsette: default Hypno coloration (white / fff17d / ceb461 / black)
+	const PAL_CLAYMON ; Sunsette: default Cubone/Marowak coloration (white / e4c890 / af6763 / black)
+	const PAL_GHOSTMON ; Sunsette: alt Cubone/Marowak coloration (white / cddceb / 6b659f / black)
+	const PAL_ROSEGOLDMON ; Sunsette: default Hitmonchan coloration (white / c8ac70 / b46b8b / black)
+	const PAL_ASHMON ; Sunsette: default Rhyhorn/Rhydon coloration (white / 919191 / 4c5e5e / black)
+	const PAL_VIOLETMON ; Sunsette: alt Staryu / default Starmie coloration (white / a098c8 / a06088 / black)
+	const PAL_SMOGMON ; Sunsette: default Koffing/Weezing coloration (white / ccbfd7 / b084c3 / black)
+	const PAL_ARMORMON ; Sunsette: default Armored Mewtwo coloration (white / c8c0da / 7b577e / black)
+	const PAL_CLEFMON ; Sunsette: Clefairy/Clefable battle (BlushMon w/ lighter f8f0e8 light)
+	const PAL_JIGGMON ; Sunsette: Jigglypuff/Wigglytuff battle (BlushMon w/ lighter f8e8e8 light)
+	const PAL_GOLDEENMON ; Sunsette: Goldeen battle (f8d0a8 / f89840), cloned off PAL_REDMON
+; Sunsette: per-species ICON palettes (icon shading; see _design/icon_palettes_draft.md)
+	const PAL_ICON_01
+	const PAL_ICON_02
+	const PAL_ICON_03
+	const PAL_ICON_04
+	const PAL_ICON_05
+	const PAL_ICON_06
+	const PAL_ICON_07
+	const PAL_ICON_08
+	const PAL_ICON_09
+	const PAL_ICON_10
+	const PAL_ICON_11
+	const PAL_ICON_12
+	const PAL_ICON_13
+	const PAL_ICON_14
+	const PAL_ICON_15
+	const PAL_ICON_16
+	const PAL_ICON_17
+	const PAL_ICON_18
+	const PAL_ICON_19
+	const PAL_ICON_20
+	const PAL_ICON_21
+	const PAL_ICON_22
+	const PAL_ICON_23
+	const PAL_ICON_24
+	const PAL_ICON_25
+	const PAL_ICON_26
+	const PAL_ICON_27
+	const PAL_ICON_28
+	const PAL_ICON_29
+	const PAL_ICON_30
+	const PAL_ICON_31
+	const PAL_ICON_32
+	const PAL_ICON_33
+	const PAL_ICON_34
+	const PAL_ICON_35
+	const PAL_ICON_36
+	const PAL_ICON_37
+	const PAL_ICON_38
+	const PAL_ICON_39
+	const PAL_ICON_40
+	const PAL_ICON_41
+	const PAL_ICON_42
+	const PAL_ICON_43
+	const PAL_ICON_44
+	const PAL_ICON_45
+	const PAL_ICON_46
+	const PAL_ICON_47
+	const PAL_ICON_48
+	const PAL_ICON_49
+	const PAL_ICON_50
+	const PAL_ICON_51
+	const PAL_ICON_52
+	const PAL_ICON_53
+	const PAL_ICON_54
+	const PAL_ICON_55
+	const PAL_ICON_56
+	const PAL_ICON_57
+	const PAL_ICON_58
+	const PAL_ICON_59
+	const PAL_ICON_60
+	const PAL_ICON_61
+	const PAL_ICON_62
+	const PAL_ICON_63
+	const PAL_ICON_64
+	const PAL_ICON_65
+	const PAL_ICON_66
+	const PAL_ICON_67
+	const PAL_ICON_68
+	const PAL_ICON_69
+	const PAL_ICON_70
+	const PAL_ICON_71
+	const PAL_ICON_72
+	const PAL_ICON_73
+	const PAL_ICON_74
+	const PAL_ICON_75
+	const PAL_ICON_76
+	const PAL_ICON_77
+	const PAL_ICON_78
+	const PAL_ICON_79
+	const PAL_OLIVEMON_REV ; Sunsette: alt Koffing/Weezing - PAL_OLIVEMON with the two green mids swapped
+	const PAL_WARTORTLEMON ; Sunsette: normal Wartortle unique palette (white / b8c0f8 / 8880a8 / black)
+	const PAL_BULBAALT ; Sunsette: alt Bulbasaur icon+battle (white / 78d078 / 489048 / black)
+	const PAL_IVYALT ; Sunsette: alt Ivysaur/Venusaur icon+battle (white / 78d078 / d45c40 / black)
+	const PAL_CHARIZARDMON ; Sunsette: normal Charizard icon+battle (white / f0a060 / 008ab2 / black)
+	const PAL_CHARIZARDALT ; Sunsette: alt Charizard icon+battle (white / 787890 / 008ab2 / black)
+	const PAL_CHARMELEONALT ; Sunsette: alt Charmeleon BATTLE (white / 80c8e8 / 8090b0 / black)
+	const PAL_CHARMELEONALTICON ; Sunsette: alt Charmeleon ICON (white / f8f8f0 / 8090b0 / black)
 DEF NUM_SGB_PALS EQU const_value

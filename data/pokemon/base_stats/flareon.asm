@@ -15,29 +15,28 @@
 
 	; tm/hm learnset
 	tmhm \
-	FURY_ATTACK,\ ; MUD BOMB
-	LOW_KICK,\
+	MUD_BOMB,\
 	PIN_MISSILE,\
 	TOXIC,\
 	BODY_SLAM,\
 	DISABLE,\
 	DOUBLE_EDGE,\
 	HYPER_BEAM,\
-	AMNESIA,\ ; CALM MIND
+	CALM_MIND,\
+	LOW_KICK,\
+	METEOR_SWEEP,\
 	BARRIER,\
-	ROLLING_KICK,\ ; METEOR SWEEP
-	SOLARBEAM,\ ; SOLARBEAM
+	SOLARBEAM,\ 
 	DIG,\
-	KINESIS,\ ; MIRAGE
+	MIRAGE,\
 	REFLECT,\
-	BIDE,\ ; BULK UP
-	BARRAGE,\ ; SHADOW BALL
+	BULK_UP,\
+	SHADOW_BALL,\
+	SUPERNOVA,\
 	FIRE_BLAST,\
-	FLAMETHROWER,\
-	SLAM,\ ; WASTEMAKER
-	KARATE_CHOP,\
+	DEMOLISH,\
 	LIGHT_SCREEN,\
-	GLARE,\
+	SHADOW_GAME,\
 	SUBSTITUTE,\
 	CUT,\
 	STRENGTH,\
@@ -51,3 +50,25 @@
 
 	dw 0, FlareonPicBack
 
+; --- Sunsette SSOT directives (parsed by tools/gen_pokemon_data.py) ---
+;@ nature       NATURE_GENTLE NATURE_SCRAPPY
+;@ pal_battle   PAL_REALLY_REDMON
+;@ pal_altbattle PAL_REDMON
+;@ pal_icon     PAL_ICON_04
+;@ pal_alticon  PAL_ICON_03
+;@ evo_move    EMBER
+;@ evo_react   "A wave of heat" "rolls off its fur."
+;@ evo_react   "It shakes out a" "shower of embers!"
+;@ evo_react   "Its tail flares" "bright and warm!"
+;@ evo_react   "It huffs, a puff" "of smoke puffs up!"
+;@ learn       6, HONE_EDGE
+;@ learn       10, BITE
+;@ learn       14, BELLOW
+;@ learn       18, SWIFT
+;@ learn       21, BLOOD_RUSH
+;@ learn       25, AGILITY
+;@ learn       28, FLAMETHROWER
+;@ learn       32, TRI_ATTACK
+;@ learn       38, PISTON_KICK
+;@ learn       44, BLITZ_STRIKE
+;@ learn       49, FIRE_BLAST

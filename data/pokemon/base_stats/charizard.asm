@@ -15,34 +15,36 @@
 
 	; tm/hm learnset
 	tmhm \
-	LOW_KICK,\
-	RAZOR_WIND,\ ; ROOST
-	FIRE_PUNCH,\ ; BLAZE HAMMER
+	ADAPTATION,\
+	ROOST,\
+	BLAZE_HAMMER,\
 	TOXIC,\
+	HONE_EDGE,\
 	BODY_SLAM,\
 	DISABLE,\
 	DOUBLE_EDGE,\
 	HYPER_BEAM,\
-	AMNESIA,\ ; CALM MIND
-	THUNDERPUNCH,\ ; ZAPPERCUT
-	ROLLING_KICK,\ ; METEOR SWEEP
+	CALM_MIND,\
+	LOW_KICK,\
+	ZAPPERCUT,\
+	METEOR_SWEEP,\
 	BARRIER,\
-	SOLARBEAM,\ ; SOLARBEAM
-	DRAGON_RAGE,\ ; WYRM WRATH
+	SOLARBEAM,\ 
+	WYRM_WRATH,\
 	EARTHQUAKE,\
 	DIG,\
-	KINESIS,\ ; MIRAGE
+	MIRAGE,\
 	SWORDS_DANCE,\
 	REFLECT,\
-	BIDE,\ ; BULK UP
-	BARRAGE,\ ; SHADOW BALL
+	BULK_UP,\
+	SHADOW_BALL,\
+	SUPERNOVA,\
 	FIRE_BLAST,\
-	FLAMETHROWER,\
-	SLAM,\ ; WASTEMAKER
-	KARATE_CHOP,\
-	SKY_ATTACK,\ ; BRAVE BIRD
+	DEMOLISH,\
+	BRAVE_BIRD,\
 	LIGHT_SCREEN,\
-	GLARE,\
+	SHADOW_GAME,\
+	ROCK_ON,\
 	SUBSTITUTE,\
 	CUT,\
 	FLY,\
@@ -57,3 +59,26 @@
 
 	dw 0, CharizardPicBack
 
+; --- Sunsette SSOT directives (parsed by tools/gen_pokemon_data.py) ---
+;@ nature       NATURE_ARROGANT NATURE_RAGE
+;@ pal_battle   PAL_CHARIZARDMON
+;@ pal_altbattle PAL_CHARIZARDALT
+;@ pal_icon     $FF
+;@ pal_alticon  $FF
+;@ evo_move    NO_MOVE
+;@ evo_react   "It spreads its" "wings with a roar!"
+;@ evo_react   "It rockets up," "trailing flame!"
+;@ evo_react   "Its tail flame" "blazes higher!"
+;@ evo_react   "It rears back," "spitting fire!"
+;@ learn       6, SMOKESCREEN
+;@ learn       9, EMBER
+;@ learn       12, SEISMIC_TOSS
+;@ learn       15, BELLOW
+;@ learn       18, HEAT_RUSH
+;@ learn       23, HONE_EDGE
+;@ learn       26, SLASH
+;@ learn       30, SHORYUKEN
+;@ learn       38, FLAMETHROWER
+;@ learn       46, HYPER_BEAM
+;@ learn       54, WYRM_WRATH
+;@ learn       60, FIRE_BLAST

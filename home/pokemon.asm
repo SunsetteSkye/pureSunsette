@@ -88,6 +88,25 @@ PlayCry::
 	jp WaitForSoundToFinish
 ;;;;;;;;;;
 
+; Sunsette: play the lead (slot 1) mon's cry, e.g. right after a Gym Badge is earned.
+; No-op if the party is empty. Register-transparent so it can be dropped after any badge-set.
+BadgeMonCry::
+	push af
+	push bc
+	push de
+	push hl
+	ld a, [wPartyCount]
+	and a
+	jr z, .done
+	ld a, [wPartySpecies]
+	call PlayCry
+.done
+	pop hl
+	pop de
+	pop bc
+	pop af
+	ret
+
 GetCryData::
 ; Load cry data for monster a.
 	push de

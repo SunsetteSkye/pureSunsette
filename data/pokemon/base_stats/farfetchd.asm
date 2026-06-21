@@ -15,31 +15,33 @@
 
 	; tm/hm learnset
 	tmhm \
-	FURY_ATTACK,\ ; MUD BOMB
-	SONICBOOM,\ ; ILL WIND
-	RAZOR_WIND,\ ; ROOST
+	ROOST,\
+	MUD_BOMB,\
 	PIN_MISSILE,\
 	TOXIC,\
+	HONE_EDGE,\
 	BODY_SLAM,\
 	DISABLE,\
 	DOUBLE_EDGE,\
-	BUBBLEBEAM,\
+	AQUA_RING,\
 	HYPER_BEAM,\
 	LOW_KICK,\
-	ROLLING_KICK,\ ; METEOR SWEEP
+	METEOR_SWEEP,\
 	BARRIER,\
-	RAZOR_LEAF,\
+	ADAPTATION,\
+	RIPTIDE,\
 	DIG,\
 	SWORDS_DANCE,\
 	REFLECT,\
-	BIDE,\ ; BULK UP
-	BARRAGE,\ ; SHADOW BALL
-	SLAM,\ ; WASTEMAKER
-	KARATE_CHOP,\
-	MEDITATE,\ ; VOID MIND
-	SKY_ATTACK,\ ; BRAVE BIRD
+	BULK_UP,\
+	ILL_WIND,\
+	SHADOW_BALL,\
+	TWISTER,\
+	DEMOLISH,\
+	VOID_MIND,\
+	BRAVE_BIRD,\
 	LIGHT_SCREEN,\
-	GLARE,\
+	SHADOW_GAME,\
 	SUBSTITUTE,\
 	CUT,\
 	FLY,\
@@ -56,3 +58,21 @@
 
 	dw FarfetchdPicFrontAlt, FarfetchdPicBack
 
+; --- Sunsette SSOT directives (parsed by tools/gen_pokemon_data.py) ---
+;@ nature       NATURE_ARROGANT NATURE_CAUTIOUS
+;@ pal_battle   PAL_LEEKMON
+;@ pal_altbattle PAL_BROWNMON2
+;@ pal_icon     $FF
+;@ pal_alticon  PAL_ICON_10
+;@ evo_move    NO_MOVE
+;@ evo_react   NONE
+;@ learn       15, WING_ATTACK
+;@ learn       17, AGILITY
+;@ learn       19, SOFTBOILED
+;@ learn       22, RAZOR_LEAF
+;@ learn       24, FLY
+;@ learn       27, SWIFT
+;@ learn       31, SWORDS_DANCE
+;@ learn       35, SENBONZAKURA
+;@ learn       40, BRAVE_BIRD
+;@ learn       45, MOCKINGBIRD

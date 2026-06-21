@@ -15,31 +15,30 @@
 
 	; tm/hm learnset
 	tmhm \
-	FURY_ATTACK,\ ; MUD BOMB
-	SONICBOOM,\ ; ILL WIND
+	MUD_BOMB,\
 	TOXIC,\
 	BODY_SLAM,\
 	DISABLE,\
 	DOUBLE_EDGE,\
-	AURORA_BEAM,\
 	HYPER_BEAM,\
-	AMNESIA,\ ; CALM MIND
-	ROLLING_KICK,\ ; METEOR SWEEP
+	CALM_MIND,\
+	METEOR_SWEEP,\
 	BARRIER,\
-	SOLARBEAM,\ ; SOLARBEAM
-	DRAGON_RAGE,\ ; WYRM WRATH
+	SOLARBEAM,\ 
+	WYRM_WRATH,\
 	DIG,\
 	PSYCHIC_M,\
-	KINESIS,\ ; MIRAGE
+	MIRAGE,\
 	REFLECT,\
-	BIDE,\ ; BULK UP
-	BARRAGE,\ ; SHADOW BALL
+	BULK_UP,\
+	ILL_WIND,\
+	SHADOW_BALL,\
+	SUPERNOVA,\
 	FIRE_BLAST,\
-	FLAMETHROWER,\
 	LIGHT_SCREEN,\
 	THUNDER_WAVE,\
-	PSYWAVE,\ ; SKITTERMIND
-	GLARE,\
+	SKITTERMIND,\
+	SHADOW_GAME,\
 	SUBSTITUTE,\
 	CUT,\
 	FLASH
@@ -52,3 +51,25 @@
 
 	dw 0, NinetalesPicBack
 
+; --- Sunsette SSOT directives (parsed by tools/gen_pokemon_data.py) ---
+;@ nature       NATURE_ARROGANT NATURE_CALCULATING
+;@ pal_battle   PAL_GOLDMON
+;@ pal_altbattle PAL_WHITEMON
+;@ pal_icon     PAL_ICON_25
+;@ pal_alticon  PAL_ICON_13
+;@ evo_move    NO_MOVE
+;@ evo_react   "From the flame," "eyes gleaming."
+;@ evo_react   "Its nine tails" "fan out grandly!"
+;@ evo_react   "Embers swirl" "around its paws!"
+;@ evo_react   "It tosses its mane" "with proud glint!"
+;@ learn       9, LICK
+;@ learn       12, DISABLE
+;@ learn       16, BITE
+;@ learn       21, MIRAGE
+;@ learn       23, CONFUSE_RAY
+;@ learn       28, PHANTASM
+;@ learn       35, FLAMETHROWER
+;@ learn       44, HYPNOSIS
+;@ learn       50, PSYCHIC_M
+;@ learn       56, SOULSTEALER
+;@ learn       60, FIRE_SPIN

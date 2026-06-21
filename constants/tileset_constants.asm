@@ -38,4 +38,5 @@
 	const CHAMP_CUP    ; 26
 	const VOLCANO      ; 27
 	const REACTOR      ; 28
+	const BEACH_HOUSE  ; 29 ; Sunsette: Summer Beach House interior (ported from pokeyellow)
 DEF NUM_TILESETS EQU const_value

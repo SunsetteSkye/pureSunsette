@@ -419,7 +419,7 @@ HandlePokedexListMenu:
 ;;;;;;;;;;
 	bit B_PAD_B, a
 	jp nz, .buttonBPressed
-;;;;;;;;;; PureRGBnote: FIXED: code from yellow, avoids a bug where pressing down/up and then 
+;;;;;;;;;; PureRGBnote: FIXED: code from yellow, avoids a bug where pressing down/up and then
 ;;;;;;;;;; immediately A scrolls up/down twice instead of selecting the next pokemon
 	bit B_PAD_A, a 
 	jp nz, .buttonAPressed 

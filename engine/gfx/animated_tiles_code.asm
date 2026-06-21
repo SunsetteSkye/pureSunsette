@@ -97,7 +97,7 @@ AnimateTiles::
 .skipQuickCurrent
 	cp 20
 	ret c
-	; fall through		
+	; fall through
 ; moves water tile sometimes left and and sometimes right to look like waves
 AnimateWaterTile::
 	ld hl, vTileset tile $14

@@ -193,7 +193,7 @@ TryingToLearn:
 	inc hl
 	ld a, [wNumMovesMinusOne]
 	ld [hli], a ; wMaxMenuItem
-	ld a, PAD_A | PAD_B | PAD_START  ; PureRGBnote: ADDED: START button is tracked in this menu 
+	ld a, PAD_A | PAD_B | PAD_START  ; PureRGBnote: ADDED: START button is tracked in this menu
 	ld [hli], a ; wMenuWatchedKeys
 	ld [hl], 0 ; wLastMenuItem
 	ld hl, hUILayoutFlags

@@ -3,40 +3,41 @@
 	db  65,  55, 140,  60, 100
 	;   hp  atk  def  spd  spc
 
-	db GRASS, GHOST ; type
+	db GRASS, WATER ; type
 	db 85 ; catch rate
 	db 166 ; base exp
 
 	INCBIN "gfx/pokemon/front/tangela.pic", 0, 1 ; sprite dimensions
 	dw TangelaPicFront, TangelaPicBackSW
 
-	db VINE_WHIP, LICK, NO_MOVE, NO_MOVE ; level 1 learnset
+	db VINE_WHIP, BUBBLE, NO_MOVE, NO_MOVE ; level 1 learnset
 	db GROWTH_MEDIUM_FAST ; growth rate
 
 	; tm/hm learnset
 	tmhm \
-	FURY_ATTACK,\ ; MUD BOMB
-	DISABLE,\
-	SONICBOOM,\ ; ILL WIND
+	MUD_BOMB,\
 	PIN_MISSILE,\
 	TOXIC,\
+	HONE_EDGE,\
 	BODY_SLAM,\
+	DISABLE,\
 	DOUBLE_EDGE,\
-	BUBBLEBEAM,\
+	AQUA_RING,\
+	AURORA_MIST,\
 	HYPER_BEAM,\
-	AMNESIA,\ ; CALM MIND
+	CALM_MIND,\
 	BARRIER,\
-	RAZOR_LEAF,\
-	SOLARBEAM,\ ; SOLARBEAM
+	ADAPTATION,\
+	SOLARBEAM,\ 
+	RIPTIDE,\
 	MEGA_DRAIN,\
 	SWORDS_DANCE,\
 	REFLECT,\
-	BIDE,\ ; BULK UP
-	BARRAGE,\ ; SHADOW BALL
-	SLAM,\ ; WASTEMAKER
+	BULK_UP,\
+	ILL_WIND,\
+	SHADOW_BALL,\
 	LIGHT_SCREEN,\
-	SLUDGE,\ ; SLUDGE BOMB
-	GLARE,\
+	SHADOW_GAME,\
 	SUBSTITUTE,\
 	CUT,\
 	SURF,\
@@ -52,3 +53,20 @@
 
 	dw 0, TangelaPicBack
 
+; --- Sunsette SSOT directives (parsed by tools/gen_pokemon_data.py) ---
+;@ nature       NATURE_CAUTIOUS NATURE_DITZ
+;@ pal_battle   PAL_KELPMON
+;@ pal_altbattle PAL_REDPURPLEMON
+;@ pal_icon     $FF
+;@ pal_alticon  $FF
+;@ evo_move    NO_MOVE
+;@ evo_react   NONE
+;@ learn       14, POISONPOWDER
+;@ learn       18, WRAP
+;@ learn       23, MEGA_DRAIN
+;@ learn       26, WATER_PULSE
+;@ learn       30, SHELL_GAME
+;@ learn       34, SPORE
+;@ learn       44, POWER_BIND
+;@ learn       49, HYDRO_PUMP
+;@ learn       54, VENOM_LASH

@@ -1,4 +1,4 @@
-; PureRGBnote: ADDED: If FLAG_MAP_HAS_OVERWORLD_ANIMATION is set, this function will run each Overworld loop. 
+; PureRGBnote: ADDED: If FLAG_MAP_HAS_OVERWORLD_ANIMATION is set, this function will run each Overworld loop.
 ; In the volcano, a "Shaking" animation occasionally plays.
 ; In DIGLETT's CAVE, this is also used to hide digletts when you get too close.
 ; Could be used for other things but at the moment just these two.

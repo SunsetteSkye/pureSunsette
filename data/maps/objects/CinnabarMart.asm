@@ -2,7 +2,6 @@
 	const_export CINNABARMART_CLERK
 	const_export CINNABARMART_SILPH_WORKER_F
 	const_export CINNABARMART_SCIENTIST
-	const_export CINNABARMART_TM_KID
 
 CinnabarMart_Object:
 	db $0 ; border block
@@ -17,6 +16,5 @@ CinnabarMart_Object:
 	object_event  0,  5, SPRITE_CLERK, STAY, RIGHT, TEXT_CINNABARMART_CLERK
 	object_event  6,  2, SPRITE_SILPH_WORKER_F, STAY, NONE, TEXT_CINNABARMART_SILPH_WORKER_F
 	object_event  3,  4, SPRITE_SCIENTIST, STAY, NONE, TEXT_CINNABARMART_SCIENTIST
-	object_event  1,  7, SPRITE_LITTLE_BOY, STAY, NONE, TEXT_CINNABARMART_TM_KID
 
 	def_warps_to CINNABAR_MART

@@ -15,20 +15,20 @@ WildPalettePointers:
 	table_width 2, WildPalettePointers
 	dw DefaultPalettes         ; PALLET_TOWN
 	dw SurfGrassAltPalettes         ; VIRIDIAN_CITY
-	dw DefaultPalettes         ; PEWTER_CITY
-	dw DefaultPalettes         ; CERULEAN_CITY
+	dw PewterCityWildPalettes  ; PEWTER_CITY
+	dw CeruleanCityWildPalettes ; CERULEAN_CITY
 	dw DefaultPalettes         ; LAVENDER_TOWN
 	dw VermilionCityWildPalettes         ; VERMILION_CITY
 	dw AllAltPalettes          ; CELADON_CITY
-	dw DefaultPalettes         ; SAFFRON_CITY
+	dw SaffronCityWildPalettes ; SAFFRON_CITY
 	dw FuchsiaCityWildPalettes         ; FUCHSIA_CITY
 	dw SeaRoutesWildPalettes   ; CINNABAR_ISLAND
 	dw DefaultPalettes         ; INDIGO_PLATEAU
 	dw DefaultPalettes         ; unused
 	dw Route1WildPalettes         ; ROUTE_1
-	dw DefaultPalettes         ; ROUTE_2
+	dw Route2WildPalettes      ; ROUTE_2
 	dw DefaultPalettes         ; ROUTE_3
-	dw DefaultPalettes         ; ROUTE_4
+	dw Route4WildPalettes      ; ROUTE_4
 	dw Route5WildPalettes         ; ROUTE_5
 	dw Route6WildPalettes         ; ROUTE_6
 	dw Route7WildPalettes         ; ROUTE_7
@@ -328,3 +328,6 @@ INCLUDE "data/wild/palettes/maps/FuchsiaCity.asm"
 INCLUDE "data/wild/palettes/maps/ViridianCity.asm"
 INCLUDE "data/wild/palettes/maps/BillsGarden.asm"
 INCLUDE "data/wild/palettes/maps/CinnabarVolcano.asm"
+INCLUDE "data/wild/palettes/maps/PewterCity.asm"
+INCLUDE "data/wild/palettes/maps/CeruleanCity.asm"
+INCLUDE "data/wild/palettes/maps/SaffronCity.asm"

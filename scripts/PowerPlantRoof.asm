@@ -372,7 +372,10 @@ ZapdosEndBattleScript:
 	ret z
 	SetEvent EVENT_BEAT_ZAPDOS
 	ld c, TOGGLE_POWER_PLANT_ROOF_ZAPDOS
-	jp HideExtraObject
+	call HideExtraObject
+	ld a, NRLEG_ZAPDOS ; Sunsette: legendary reaction (defeat or capture)
+	farcall ShowLegendaryReaction
+	ret
 	
 PowerPlantRoofSignText::
 	text_far _PowerPlantRoofSignText

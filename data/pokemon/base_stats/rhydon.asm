@@ -10,46 +10,43 @@
 	INCBIN "gfx/pokemon/front/rhydon.pic", 0, 1 ; sprite dimensions
 	dw RhydonPicFront, RhydonPicBackSW
 
-	db FURY_SWIPES, NO_MOVE, NO_MOVE, NO_MOVE ; level 1 learnset (MUD CLAW)
+	db MUD_CLAW, NO_MOVE, NO_MOVE, NO_MOVE ; level 1 learnset
 	db GROWTH_MEDIUM_SLOW ; growth rate
 
 	; tm/hm learnset
 	tmhm \
-	FURY_ATTACK,\ ; MUD BOMB
-	LOW_KICK,\
-	DISABLE,\
-	ICE_PUNCH,\ ; FROST FIST
+	ADAPTATION,\
+	FROST_FIST,\
+	MUD_BOMB,\
 	PIN_MISSILE,\
-	FIRE_PUNCH,\ ; BLAZE HAMMER
+	BLAZE_HAMMER,\
 	TOXIC,\
-	HORN_DRILL,\ ; VENOM DRILL
+	HONE_EDGE,\
 	BODY_SLAM,\
+	DISABLE,\
 	DOUBLE_EDGE,\
-	BUBBLEBEAM,\
-	AURORA_BEAM,\
 	ICE_BEAM,\
 	BLIZZARD,\
 	HYPER_BEAM,\
-	THUNDERPUNCH,\ ; ZAPPERCUT
-	ROLLING_KICK,\ ; METEOR SWEEP
+	LOW_KICK,\
+	ZAPPERCUT,\
+	METEOR_SWEEP,\
 	BARRIER,\
-	DRAGON_RAGE,\ ; WYRM WRATH
+	WYRM_WRATH,\
 	THUNDERBOLT,\
 	THUNDER,\
 	EARTHQUAKE,\
-	CRABHAMMER,\
 	DIG,\
-	KINESIS,\ ; MIRAGE
+	MIRAGE,\
 	SWORDS_DANCE,\
-	BIDE,\ ; BULK UP
-	BARRAGE,\ ; SHADOW BALL
+	BULK_UP,\
+	SHADOW_BALL,\
 	FIRE_BLAST,\
-	FLAMETHROWER,\
-	SLAM,\ ; WASTEMAKER
-	KARATE_CHOP,\
+	DEMOLISH,\
 	ROCK_SLIDE,\
-	GLARE,\
+	ROCK_ON,\
 	SUBSTITUTE,\
+	CLAY_ARMOR,\
 	CUT,\
 	SURF,\
 	STRENGTH
@@ -62,3 +59,26 @@
 
 	dw 0, RhydonPicBack
 
+; --- Sunsette SSOT directives (parsed by tools/gen_pokemon_data.py) ---
+;@ nature       NATURE_RAGE NATURE_DITZ
+;@ pal_battle   PAL_ASHMON
+;@ pal_altbattle PAL_WHITEMON
+;@ pal_icon     PAL_ICON_55
+;@ pal_alticon  $FF
+;@ evo_move    NO_MOVE
+;@ evo_react   "Its whirring horn" "gleams bright!"
+;@ evo_react   "It paws the ground" "and snorts hard!"
+;@ evo_react   "It charges, horn" "lowered to ram!"
+;@ evo_react   "It flexes, rocky" "hide gleaming!"
+;@ learn       8, ROCK_THROW
+;@ learn       12, BITE
+;@ learn       15, DOUBLE_KICK
+;@ learn       19, METEOR_HORN
+;@ learn       23, MUD_BOMB
+;@ learn       27, ROCK_ON
+;@ learn       36, PISTON_KICK
+;@ learn       39, ROCK_SLIDE
+;@ learn       42, EARTHQUAKE
+;@ learn       47, METAMORPHIC
+;@ learn       52, AIR_DRILL
+;@ learn       56, SPIKE_CANNON

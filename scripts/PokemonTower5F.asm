@@ -37,6 +37,12 @@ PokemonTower5FDefaultScript:
 	ld a, TEXT_POKEMONTOWER5F_PURIFIEDZONE
 	ldh [hTextID], a
 	call DisplayTextID
+	CheckEvent EVENT_REACTED_LAVENDER_HEAL
+	jr nz, .skipReaction
+	SetEvent EVENT_REACTED_LAVENDER_HEAL
+	ld a, NROW_LAVENDER_HEAL
+	farcall ShowOverworldNature
+.skipReaction
 	jp EnableAllJoypad
 
 PokemonTower5FPurifiedZoneCoords:

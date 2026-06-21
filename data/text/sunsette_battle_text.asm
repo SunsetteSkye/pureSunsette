@@ -8,12 +8,14 @@ _PewterGymBuffText::
 	prompt
 
 _VermilionGymBuffText::
-	text "Shocking SPEED!"
+	text "The enemy likes"
+	line "close combat!"
 	prompt
 
+; Sunsette: FUCHSIA arena - the invisible-wall maze confuses the player's lead mon
 _FuchsiaGymBuffText::
-	text "The enemy is"
-	line "EVASIVE!"
+	text "Invisible walls"
+	line "make it dizzy!"
 	prompt
 
 _FightingDojoBuffText::
@@ -21,8 +23,10 @@ _FightingDojoBuffText::
 	line "TOUGH!"
 	prompt
 
+; Sunsette: SAFFRON arena - a psychic barrier seals the PACK shut (shown when you try to use an item)
 _SaffronGymBuffText::
-	text "SPEED of thought!"
+	text "A mind barrier"
+	line "seals your items!"
 	prompt
 
 _CinnabarGymBuffText::
@@ -30,14 +34,46 @@ _CinnabarGymBuffText::
 	line "knowledge!"
 	prompt
 
+; Sunsette: VIRIDIAN arena - the vicious trainers (and Giovanni) crit twice as often; this telegraphs it
 _ViridianGymBuffText::
-	text "The enemy is"
-	line "ACCURATE!"
+	text "These #MON aim"
+	line "for weak spots!"
 	prompt
 
+; Sunsette: CERULEAN arena - the pool gives WATER mons (both sides) +1 SPEED
 _CeruleanGymBuffText::
-	text "The WATER"
-	line "regenerates!"
+	text "WATER #MON swim"
+	line "faster here!"
+	prompt
+
+; Sunsette: AGATHA arena - +1 SPECIAL to each of her mons
+_AgathaRoomBuffText::
+	text "Her soul is"
+	line "powerful!"
+	prompt
+
+; Sunsette: LANCE arena - +1 SPEED and +1 ACCURACY to each of his mons
+_LanceRoomBuffText::
+	text "This trainer"
+	line "is intense!"
+	prompt
+
+; Sunsette: BRUNO arena - his mons cannot be critically hit; shown as each one comes out
+_BrunoRoomBuffText::
+	text "You can't spot"
+	line "any weak point!"
+	prompt
+
+; Sunsette: CHAMPION's room - the final rival crits twice as often; this telegraphs it
+_ChampionRivalBuffText::
+	text "Your rival holds"
+	line "nothing back!"
+	prompt
+
+; Sunsette: LORELEI arena - the frigid air freezes the player's lead mon
+_LoreleiRoomFreezeText::
+	text "The frigid air"
+	line "freezes it solid!"
 	prompt
 
 _CeladonGymBuffText::
@@ -80,7 +116,7 @@ _FlashAttractsText::
 	line "a wild #MON!"
 	prompt
 
-_GrowthFieldText::
+_MysticFieldText::
 	text "Rare #MON are"
 	line "drawn out here!"
 	prompt
@@ -205,6 +241,84 @@ _ShellGameReflectText::
 	line "its shell!"
 	prompt
 
+; Sunsette: SHADOW GAME (HAZE) - the toxic fog that poisons + obscures both sides after the stat reset
+_BlackHazeFogText::
+	text "A toxic black fog"
+	line "blankets all!"
+	prompt
+
+; Sunsette: EMETIC PURGE (POISON_GAS) - one-sided revenge stat clear (+ poison). Neutral "its/it" both ways.
+_MiasmaScatterText::
+	text "The purge voided"
+	line "its gathered"
+	cont "power!"
+	prompt
+
+_MiasmaPoisonedText::
+	text "It was left"
+	line "poisoned and ill!"
+	prompt
+
+; Sunsette: SENBONZAKURA (PETAL_DANCE) - the petal storm resets the user's own stats, then a lingering bloom
+_SenbonzakuraText::
+	text "Petals scatter,"
+	line "wiping the slate"
+	cont "to a fresh bloom!"
+	prompt
+
+; Sunsette: AQUA RING (ACID_ARMOR) - the water veil that grants doubled FLOURISH regen
+_AquaRingText::
+	text "A veil of water"
+	line "envelops it!"
+	prompt
+
+; Sunsette: CLAY ARMOR (FISSURE) - type-gated dual screens; GROUND users also heal half their HP
+_ClayArmorText::
+	text "A shell of clay"
+	line "hardens over it!"
+	prompt
+
+_ClayArmorHealText::
+	text "The good earth"
+	line "mends its wounds!"
+	prompt
+
+; Sunsette: AURORA MIST (ETHEREAL) - the icy veil that grants Mist immunity + clears both mons' status
+_AuroraMistText::
+	text "An icy mist"
+	line "purges all status!"
+	prompt
+
+; Sunsette: AURORA MIST - a non-ICE user freezes over and becomes an ICE type (cyan coat)
+_AuroraMistFrozenText::
+	text "Frostbitten! It is"
+	line "now an ICE type!"
+	prompt
+
+; Sunsette: AURORA MIST - an ICE user raises both Reflect and Light Screen
+_AuroraMistScreenText::
+	text "Glittering walls"
+	line "of frost arise!"
+	prompt
+
+; Sunsette: METAMORPHIC (EXPLOSION) - a ROCK user breaks its shell, sheds ROCK, and surges to +6 SPEED
+_MetamorphicText::
+	text "The shell broke!"
+	line "SPEED unleashed!"
+	prompt
+
+; Sunsette: SUPERNOVA (SELFDESTRUCT) - a FIRE user burns out, shedding its FIRE type (no recoil)
+_SupernovaCoolText::
+	text "Spent! Its fire"
+	line "has burned out!"
+	prompt
+
+; Sunsette: SUPERNOVA - a non-FIRE user is scorched by its own blast
+_SupernovaBurnText::
+	text "The backblast"
+	line "left it burned!"
+	prompt
+
 ; Sunsette: SHELL GAME - the player fled a wild battle
 _ShellGameFledText::
 	text "Got away in the"
@@ -218,44 +332,39 @@ _SignatureMoveText::
 	text "Signature Move!"
 	prompt
 
-; Sunsette: TANGELA's STRANGLEVINE signature (90 BP) - uses the generic power-increase info path
-_TangelaMoveMysticText::
-	text_start
-	line "tangled terror."
+; Sunsette: shown when DOUBLESLAP ("wake-up slap") hits a SNORLAX - it always gets the asleep-target
+; damage bonus because SNORLAX is perpetually drowsy (and the hit never wakes it). See DoubleSlapModifier.
+_AlwaysDrowsyText::
+	text "It's always"
+	line "drowsy!"
 	prompt
+
+; Sunsette: PSYDUCK's hidden psychic-headache recoil (see CheckPsyduckHeadache). Stands in for the
+; "Signature Move!" line, but PSYDUCK is not a RemappableMoves entry so it never shows in the MOVE MYSTIC.
+_PsyduckHeadacheText::
+	text "Oh no! It has a"
+	line "headache!"
+	prompt
+
+; Sunsette: _TangelaMoveMysticText removed - VENOM LASH (CONSTRICT) is no longer a TANGELA signature.
 
 ; Sunsette: the legendary-bird MOVE MYSTIC info/flavor texts were removed - the birds' effects now
 ; live on their own dedicated moves (PHOENIX DIVE / STORM DRILL / WINTER GALE), so they're no longer
 ; MOVE MYSTIC signature mons.
 
-; Sunsette: KRABBY/KINGLER MOVE MYSTIC flavor + CRABHAMMER info (moved here; MoveMystic.asm's Text 3 bank was full)
-_KrabbyMoveMysticText::
+; Sunsette: KRABBY/KINGLER MOVE MYSTIC texts removed - CRABHAMMER is a flat 100-BP move now, no longer their signature.
+
+; Sunsette: GOLDEEN / GYARADOS MOVE MYSTIC flavor (here because MoveMystic.asm's Text 3 bank is full). Their
+; signature info uses the shared _MoveMysticRiptideText below (RIPTIDE always raises SPEED).
+_GoldeenMoveMysticText::
 	text_start
-	line "river ruffian."
+	line "graceful goldfish."
 	prompt
 
-_KinglerMoveMysticText::
+_GyaradosMoveMysticText::
 	text_start
-	line "crushing claw."
+	line "raging whirlpool."
 	prompt
-
-_MoveMysticKrabbyText::
-	text "Its hardy pincer"
-	line "strikes with"
-	cont "surprising force!"
-	para "CRABHAMMER's"
-	line "POWER rises to"
-	cont "75!"
-	done
-
-_MoveMysticKinglerText::
-	text "Its giant pincer"
-	line "crushes all in"
-	cont "its grip!"
-	para "CRABHAMMER's"
-	line "POWER rises to"
-	cont "100!"
-	done
 
 _SnorlaxMoveMysticText::
 	text_start
@@ -278,12 +387,81 @@ _KangaskhanMoveMysticText::
 	line "maternal mauler."
 	prompt
 
-_MoveMysticArbokText::
-	text "When it uses FOCUS"
-	line "ENERGY, its SPEED"
-	cont "surges too!"
+; Sunsette: WEEZING's SLUDGE BOMB signature is now a BURN (special-cased info text below), not a power bump.
+_WeezingMoveMysticText::
+	text_start
+	line "noxious nuisance."
+	prompt
 
-	para "And its WRAP coils"
-	line "on two rounds"
-	cont "longer than most!"
+; Sunsette: PIKACHU / RAICHU - SURF WATERIFIES the target once the player has surfed at the Beach House.
+_PikachuMoveMysticText::
+	text_start
+	line "pint-size surfer."
+	prompt
+
+_RaichuMoveMysticText::
+	text_start
+	line "shock surfer."
+	prompt
+
+_MoveMysticSurfSigText::
+	text "It learned to ride"
+	line "with the DUDE!"
+
+	para "Its SURF now soaks"
+	line "the foe, turning"
+	cont "them to WATER!"
+	done
+
+; Sunsette: CLEFAIRY/CLEFABLE - METRONOME also raises one of the user's stats at random. Shared epithet
+; (_ClefairyMoveMysticText) + detailed info (_MoveMysticClefairyText).
+_ClefairyMoveMysticText::
+	text_start
+	line "lucky charmer."
+	prompt
+
+_MoveMysticClefairyText::
+	text "Its METRONOME is"
+	line "charmed with luck!"
+
+	para "Each use also"
+	line "raises one of its"
+	cont "stats at random!"
+	done
+
+; Sunsette: SEAKING (and the GOLDEEN/GYARADOS line) - RIPTIDE always raises the user's SPEED.
+_MoveMysticRiptideText::
+	text "It rides the ocean"
+	line "currents like no"
+	cont "other!"
+
+	para "Its RIPTIDE always"
+	line "raises its own"
+	cont "SPEED!"
+	done
+
+; Sunsette: WEEZING - SLUDGE BOMB burns instead of poisoning (FIRE types are immune, so they get poisoned).
+_MoveMysticWeezingBurnText::
+	text "Its gases burn as"
+	line "much as they"
+	cont "poison!"
+
+	para "Its SLUDGE BOMB"
+	line "scorches the foe"
+	cont "with a BURN!"
+
+	para "FIRE types shrug"
+	line "it off, so they"
+	cont "get POISONED."
+	done
+
+; Sunsette: shared by EKANS + ARBOK (the Ekans line's ACID priority signature).
+_MoveMysticArbokText::
+	text "When it spits ACID"
+	line "the strike lands"
+	cont "first, always!"
+
+	para "A reflex too quick"
+	line "for most foes to"
+	cont "ever react to."
 	done

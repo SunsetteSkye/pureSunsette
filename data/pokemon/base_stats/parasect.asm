@@ -1,6 +1,6 @@
 	db DEX_PARASECT ; pokedex id
 
-	db  140, 95, 80,  30,  80
+	db  110, 95, 80,  30,  80
 	;   hp  atk  def  spd  spc
 
 	db BUG, GHOST ; type
@@ -15,34 +15,36 @@
 
 	; tm/hm learnset
 	tmhm \
-	SONICBOOM,\ ; ILL WIND
+	ROCK_ON,\
 	PIN_MISSILE,\
 	TOXIC,\
+	HONE_EDGE,\
 	BODY_SLAM,\
 	DISABLE,\
 	DOUBLE_EDGE,\
 	HYPER_BEAM,\
-	AMNESIA,\ ; CALM MIND
+	CALM_MIND,\
 	BARRIER,\
-	RAZOR_LEAF,\
-	SOLARBEAM,\ ; SOLARBEAM
+	ADAPTATION,\
+	SOLARBEAM,\ 
 	EARTHQUAKE,\
-	CRABHAMMER,\
 	DIG,\
 	MEGA_DRAIN,\
 	SWORDS_DANCE,\
 	REFLECT,\
-	BIDE,\ ; BULK UP
-	BARRAGE,\ ; SHADOW BALL
-	SLAM,\ ; WASTEMAKER
-	KARATE_CHOP,\
+	BULK_UP,\
+	ILL_WIND,\
+	SHADOW_BALL,\
+	DEMOLISH,\
 	LIGHT_SCREEN,\
-	SLUDGE,\ ; SLUDGE BOMB
+	SHADOW_GAME,\
 	ROCK_SLIDE,\
 	SUBSTITUTE,\
+	CLAY_ARMOR,\
 	CUT,\
 	STRENGTH,\
 	FLASH
+
 	; end
 
 	db BANK(ParasectPicFront)
@@ -52,3 +54,24 @@
 
 	dw 0, ParasectPicBack
 
+; --- Sunsette SSOT directives (parsed by tools/gen_pokemon_data.py) ---
+;@ nature       NATURE_STOLID NATURE_MOROSE
+;@ pal_battle   PAL_IVORYMON
+;@ pal_altbattle PAL_REDMON
+;@ pal_icon     $FF
+;@ pal_alticon  $FF
+;@ evo_move    NO_MOVE
+;@ evo_react   "It is still." "Rot and earth."
+;@ evo_react   "It twitches once," "then goes still."
+;@ evo_react   "Spores drift off" "in a slow haze."
+;@ evo_react   "The shell creaks" "as it settles."
+;@ learn       13, STUN_SPORE
+;@ learn       15, MEGA_DRAIN
+;@ learn       18, UNDERBUG
+;@ learn       21, SLASH
+;@ learn       25, PHANTASM
+;@ learn       28, SPORE
+;@ learn       33, LEECH_LIFE
+;@ learn       39, CRABHAMMER
+;@ learn       44, SOULSTEALER
+;@ learn       49, EXTERMINATE

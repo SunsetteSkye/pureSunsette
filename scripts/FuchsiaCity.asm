@@ -45,7 +45,7 @@ FuchsiaCityDefaultScript:
 	ResetEvent EVENT_FOSSIL_FAN_TEXT_TOGGLE ; this is just a good place to clear this event so the guy says the first text every time you reload the area.
 	; fall through
 	
-; PureRGBnote: ADDED: since we don't have enough space in the sprite sheet to add kabuto's icon, 
+; PureRGBnote: ADDED: since we don't have enough space in the sprite sheet to add kabuto's icon,
 ; we just replace omanyte's with it when loading fuchsia city if kabuto is supposed to be in the zoo
 
 CheckLoadKabutoShell::

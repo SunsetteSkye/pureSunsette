@@ -303,7 +303,7 @@ SetGBCFadeCursorPosition:
 ;	ret z
 ;	ld b, OPTION_COLORS_MIDDLE_XPOS
 ;	ret
-;
+
 ;ToggleAltSGBYellowColors:
 ;	ld a, SFX_PRESS_AB
 ;	rst _PlaySound
@@ -313,7 +313,7 @@ SetGBCFadeCursorPosition:
 ;	and %01000011
 ;	call PrintSGBYellowOptionNumbers
 ;	jp RunDefaultPaletteCommand
-;
+
 ;; input: a = color mode indicator. Bit 6 indicates if alternate color mode is activated. First 2 bits indictate the main color mode.
 ;PrintSGBYellowOptionNumbers:
 ;	hlcoord 15, 3

@@ -10,40 +10,43 @@
 	INCBIN "gfx/pokemon/front/electabuzz.pic", 0, 1 ; sprite dimensions
 	dw ElectabuzzPicFront, ElectabuzzPicBackSW
 
-	db QUICK_ATTACK, LEER, THUNDERSHOCK, SCREECH ; level 1 learnset
+	db BLITZ_STRIKE, LEER, THUNDERSHOCK, SCREECH ; level 1 learnset
 	db GROWTH_MEDIUM_FAST ; growth rate
 
 	; tm/hm learnset
 	tmhm \
-	FURY_ATTACK,\ ; MUD BOMB
-	ICE_PUNCH,\ ; FROST FIST
+	FROST_FIST,\
+	MUD_BOMB,\
 	PIN_MISSILE,\
-	FIRE_PUNCH,\ ; BLAZE HAMMER
+	BLAZE_HAMMER,\
 	TOXIC,\
+	HONE_EDGE,\
 	BODY_SLAM,\
 	DISABLE,\
 	DOUBLE_EDGE,\
+	AURORA_MIST,\
 	HYPER_BEAM,\
-	AMNESIA,\ ; CALM MIND
+	CALM_MIND,\
 	LOW_KICK,\
-	THUNDERPUNCH,\ ; ZAPPERCUT
-	ROLLING_KICK,\ ; METEOR SWEEP
+	ZAPPERCUT,\
+	METEOR_SWEEP,\
 	BARRIER,\
 	THUNDERBOLT,\
 	THUNDER,\
 	DIG,\
-	KINESIS,\ ; MIRAGE
+	MIRAGE,\
 	SWORDS_DANCE,\
 	REFLECT,\
-	BIDE,\ ; BULK UP
-	BARRAGE,\ ; SHADOW BALL
-	SLAM,\ ; WASTEMAKER
-	KARATE_CHOP,\
-	MEDITATE,\ ; VOID MIND
+	BULK_UP,\
+	SHADOW_BALL,\
+	DEMOLISH,\
+	VOID_MIND,\
 	LIGHT_SCREEN,\
 	THUNDER_WAVE,\
-	GLARE,\
+	SHADOW_GAME,\
+	ROCK_ON,\
 	SUBSTITUTE,\
+	CLAY_ARMOR,\
 	CUT,\
 	STRENGTH,\
 	FLASH
@@ -57,3 +60,19 @@
 
 	dw ElectabuzzPicFrontAlt, ElectabuzzPicBack
 
+; --- Sunsette SSOT directives (parsed by tools/gen_pokemon_data.py) ---
+;@ nature       NATURE_HYPER NATURE_SCRAPPY
+;@ pal_battle   PAL_GOLDMON
+;@ pal_altbattle PAL_THUNDERMON
+;@ pal_icon     $FF
+;@ pal_alticon  $FF
+;@ evo_move    NO_MOVE
+;@ evo_react   NONE
+;@ learn       26, MACH_PUNCH
+;@ learn       28, LIGHT_SCREEN
+;@ learn       30, ZAPPERCUT
+;@ learn       33, SHADOW_BOX
+;@ learn       37, SEISMIC_TOSS
+;@ learn       42, DIZZY_PUNCH
+;@ learn       47, THUNDER
+;@ learn       54, HYPER_BEAM

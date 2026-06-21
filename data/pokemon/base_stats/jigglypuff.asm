@@ -3,7 +3,7 @@
 	db 115,  45,  20,  20,  25
 	;   hp  atk  def  spd  spc
 
-	db NORMAL, NORMAL ; type
+	db NORMAL, FLOATING ; type
 	db 170 ; catch rate
 	db 76 ; base exp
 
@@ -15,40 +15,41 @@
 
 	; tm/hm learnset
 	tmhm \
-	DISABLE,\
-	ICE_PUNCH,\ ; FROST FIST
-	FIRE_PUNCH,\ ; BLAZE HAMMER
+	ROCK_ON,\
+	ADAPTATION,\
+	FROST_FIST,\
+	BLAZE_HAMMER,\
 	TOXIC,\
+	HONE_EDGE,\
 	BODY_SLAM,\
+	DISABLE,\
 	DOUBLE_EDGE,\
-	BUBBLEBEAM,\
-	AURORA_BEAM,\
+	AURORA_MIST,\
 	ICE_BEAM,\
 	BLIZZARD,\
-	AMNESIA,\ ; CALM MIND
+	CALM_MIND,\
 	LOW_KICK,\
-	THUNDERPUNCH,\ ; ZAPPERCUT
-	ROLLING_KICK,\ ; METEOR SWEEP
+	ZAPPERCUT,\
+	METEOR_SWEEP,\
 	BARRIER,\
-	SOLARBEAM,\ ; SOLARBEAM
+	SOLARBEAM,\ 
 	THUNDERBOLT,\
 	THUNDER,\
 	DIG,\
 	PSYCHIC_M,\
-	KINESIS,\ ; MIRAGE
+	MIRAGE,\
 	SWORDS_DANCE,\
 	REFLECT,\
-	BIDE,\ ; BULK UP
-	BARRAGE,\ ; SHADOW BALL
+	BULK_UP,\
+	SHADOW_BALL,\
 	FIRE_BLAST,\
-	FLAMETHROWER,\
-	KARATE_CHOP,\
+	DEMOLISH,\
 	LOVELY_KISS,\
 	LIGHT_SCREEN,\
 	THUNDER_WAVE,\
-	PSYWAVE,\ ; SKITTERMIND
+	SKITTERMIND,\
 	SUBSTITUTE,\
-	CUT,\
+	FLY,\
 	STRENGTH,\
 	FLASH
 	; end
@@ -61,3 +62,22 @@
 
 	dw 0, JigglypuffPicBack
 
+; --- Sunsette SSOT directives (parsed by tools/gen_pokemon_data.py) ---
+;@ nature       NATURE_PLAYFUL NATURE_CONSIDERATE
+;@ pal_battle   PAL_JIGGMON
+;@ pal_altbattle PAL_IVORYMON
+;@ pal_icon     PAL_ICON_26
+;@ pal_alticon  PAL_ICON_27
+;@ evo         EVOLVE_ITEM, MOON_STONE, 1, WIGGLYTUFF
+;@ evo_move    NO_MOVE
+;@ evo_react   NONE
+;@ learn       9, DISABLE
+;@ learn       13, ROCK_ON
+;@ learn       16, DOUBLESLAP
+;@ learn       24, BODY_SLAM
+;@ learn       32, MINIMIZE
+;@ learn       37, DIZZY_PUNCH
+;@ learn       42, DOUBLE_EDGE
+;@ learn       50, MAXIMIZE
+;@ learn       55, SOULSTEALER
+;@ learn       60, EXPLOSION

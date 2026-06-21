@@ -10,39 +10,41 @@
 	INCBIN "gfx/pokemon/front/raticate.pic", 0, 1 ; sprite dimensions
 	dw RaticatePicFront, RaticatePicBackSW
 
-	db SCRATCH, TAIL_WHIP, QUICK_ATTACK, NO_MOVE ; level 1 learnset
+	db SCRATCH, TAIL_WHIP, BLITZ_STRIKE, NO_MOVE ; level 1 learnset
 	db GROWTH_MEDIUM_FAST ; growth rate
 
 	; tm/hm learnset
 	tmhm \
-	FURY_ATTACK,\ ; MUD BOMB
-	DISABLE,\
-	ICE_PUNCH,\ ; FROST FIST
-	FIRE_PUNCH,\ ; BLAZE HAMMER
+	ADAPTATION,\
+	FROST_FIST,\
+	MUD_BOMB,\
+	BLAZE_HAMMER,\
 	TOXIC,\
+	HONE_EDGE,\
 	BODY_SLAM,\
+	DISABLE,\
 	DOUBLE_EDGE,\
-	BUBBLEBEAM,\
-	AURORA_BEAM,\
+	AURORA_MIST,\
 	ICE_BEAM,\
 	BLIZZARD,\
 	HYPER_BEAM,\
-	AMNESIA,\ ; CALM MIND
+	CALM_MIND,\
 	LOW_KICK,\
-	THUNDERPUNCH,\ ; ZAPPERCUT
-	ROLLING_KICK,\ ; METEOR SWEEP
+	ZAPPERCUT,\
+	METEOR_SWEEP,\
 	BARRIER,\
 	THUNDERBOLT,\
 	THUNDER,\
+	RIPTIDE,\
 	DIG,\
-	KINESIS,\ ; MIRAGE
+	MIRAGE,\
 	SWORDS_DANCE,\
-	BIDE,\ ; BULK UP
-	BARRAGE,\ ; SHADOW BALL
-	SLAM,\ ; WASTEMAKER
-	KARATE_CHOP,\
-	MEDITATE,\ ; VOID MIND
-	GLARE,\
+	BULK_UP,\
+	SHADOW_BALL,\
+	DEMOLISH,\
+	VOID_MIND,\
+	SHADOW_GAME,\
+	ROCK_ON,\
 	SUBSTITUTE,\
 	CUT,\
 	SURF,\
@@ -57,3 +59,25 @@
 
 	dw RaticatePicFrontAlt, RaticatePicBack
 
+; --- Sunsette SSOT directives (parsed by tools/gen_pokemon_data.py) ---
+;@ nature       NATURE_SCRAPPY NATURE_GLUTTON
+;@ pal_battle   PAL_BROWNMON2
+;@ pal_altbattle PAL_MAUVEMON
+;@ pal_icon     PAL_ICON_14
+;@ pal_alticon  PAL_ICON_13
+;@ evo_move    NO_MOVE
+;@ evo_react   "It gnashes its" "huge new fangs!"
+;@ evo_react   "It scrabbles up," "whiskers twitch!"
+;@ evo_react   "It gnaws the air" "with new vigor!"
+;@ evo_react   "Its tail lashes" "quick and sharp!"
+;@ learn       7, BITE
+;@ learn       12, DISABLE
+;@ learn       14, MUD_BOMB
+;@ learn       17, BLITZ_STRIKE
+;@ learn       20, SCREECH
+;@ learn       23, DIG
+;@ learn       26, LEAP_ATTACK
+;@ learn       31, HYPER_FANG
+;@ learn       34, FOCUS_ENERGY
+;@ learn       40, ADAPTATION
+;@ learn       45, SUPER_FANG

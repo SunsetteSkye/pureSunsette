@@ -97,3 +97,14 @@
 	const DEX_CATEGORY_NEW_SPECIE
 	const DEX_CATEGORY_STORM
 	const DEX_CATEGORY_INFERNO
+	; Sunsette additions (appended to keep existing indices stable; DexCategoryStrings must match this order)
+	const DEX_CATEGORY_SQUIRREL
+	const DEX_CATEGORY_GREAT_BIRD
+	const DEX_CATEGORY_BLOOM
+	const DEX_CATEGORY_ARMOR
+	const DEX_CATEGORY_MONARCH
+	const DEX_CATEGORY_HORNET
+	const DEX_CATEGORY_BUCKTOOTH
+	const DEX_CATEGORY_OMEN
+	const DEX_CATEGORY_TERROR
+	const DEX_CATEGORY_SONGBIRD

@@ -6,3 +6,7 @@
 ; Used in SpriteFacingAndAnimationTable (see data/sprites/facings.asm)
 DEF FACING_END  EQU 1 << BIT_END_OF_OAM_DATA
 DEF UNDER_GRASS EQU 1 << BIT_SPRITE_UNDER_GRASS
+
+; PureRGBnote: ADDED: GBC OAM attribute bit (ported from pokeyellow) for the Surfing
+; Pikachu minigame's animated-object engine. Selects OBP palettes %100-%111.
+DEF OAM_HIGH_PALS EQU 1 << 2

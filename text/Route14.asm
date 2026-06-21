@@ -132,34 +132,33 @@ _Route14CooltrainerM6AfterBattleText::
 	done
 
 _Route14Biker1BattleText::
-	text "C'mon, c'mon."
-	line "Let's go, let's"
-	cont "go, let's go!"
+	text "Ugh, finally!"
+	line "Let's just go!"
 	done
 
 _Route14Biker1EndBattleText::
-	text "Arrg!"
-	line "Lost! Get lost!"
+	text "Lame."
+	line "So over it."
 	prompt
 
 _Route14Biker1AfterBattleText::
-	text "What, what, what?"
-	line "What do you want?"
+	text "What? Spit it"
+	line "out already."
 	done
 
 _Route14Biker2BattleText::
-	text "Perfect! I need to"
-	line "burn some time!"
+	text "Ehh, you'll do."
+	line "I'm bored."
 	done
 
 _Route14Biker2EndBattleText::
-	text "What?"
-	line "You!?"
+	text "Huh?"
+	line "No way."
 	prompt
 
 _Route14Biker2AfterBattleText::
-	text "Raising #MON"
-	line "is a drag, man."
+	text "Raisin' #MON's"
+	line "such a drag, hon."
 	done
 
 _Route14Biker3BattleText::

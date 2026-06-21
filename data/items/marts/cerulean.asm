@@ -1,3 +1,4 @@
+; Sunsette: CERULEAN CITY MART stock. INCLUDEd by scripts/CeruleanMart.asm (mart data is read from the caller's bank).
 CeruleanMartClerkText::
 	script_mart \
 	POKE_BALL, \
@@ -7,9 +8,4 @@ CeruleanMartClerkText::
 	BURN_HEAL, \
 	AWAKENING, \
 	PARLYZ_HEAL
-
-
-CeruleanTMKidShop::
-	script_mart \
-	TM_BIDE ; BULK UP
 

@@ -27,7 +27,7 @@ PlayIntroScene:
 	ldh [rBGP], a
 	ldh [rOBP0], a
 	ldh [rOBP1], a
-;;;;;;;;;; shinpokerednote: gbcnote: gbc color code from yellow 
+;;;;;;;;;; shinpokerednote: gbcnote: gbc color code from yellow
 	call UpdateGBCPal_BGP 
 	call UpdateGBCPal_OBP0 
 	call UpdateGBCPal_OBP1
@@ -313,7 +313,7 @@ PlayShootingStar:
 	farcall LoadCopyrightAndTextBoxTiles
 	ldpal a, SHADE_BLACK, SHADE_DARK, SHADE_LIGHT, SHADE_WHITE
 	ldh [rBGP], a
-	call UpdateGBCPal_BGP ; shinpokerednote: gbcnote: gbc color code from yellow 
+	call UpdateGBCPal_BGP ; shinpokerednote: gbcnote: gbc color code from yellow
 	ld c, 180
 	rst _DelayFrames
 	call ClearScreen

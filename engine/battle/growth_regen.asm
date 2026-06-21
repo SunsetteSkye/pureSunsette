@@ -34,8 +34,20 @@ HandleGrowthRegen::
 	rr c
 	srl b
 	rr c
-	srl c
-	srl c           ; c = max HP/16 (assumes HP < 1024, like the poison code)
+	srl c           ; c = max HP/8 (assumes HP < 1024, like the poison code)
+	; Sunsette: AQUA RING (DOUBLE_FLOURISH) keeps the doubled 1/8; plain FLOURISH halves once more to 1/16
+	push hl
+	ldh a, [hWhoseTurn]
+	and a
+	ld hl, wPlayerBattleStatus2
+	jr z, .haveS2ptr
+	ld hl, wEnemyBattleStatus2
+.haveS2ptr
+	bit DOUBLE_FLOURISH, [hl]
+	pop hl
+	jr nz, .gotHealAmount
+	srl c           ; c = max HP/16
+.gotHealAmount
 	ld a, c
 	and a
 	jr nz, .nonZeroHeal

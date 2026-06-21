@@ -10,41 +10,39 @@
 	INCBIN "gfx/pokemon/front/slowbro.pic", 0, 1 ; sprite dimensions
 	dw SlowbroPicFront, SlowbroPicBackSW
 
-	db CONFUSION, WATER_GUN, NO_MOVE, NO_MOVE ; level 1 learnset (SUPER SOAK)
+	db CONFUSION, SUPER_SOAK, NO_MOVE, NO_MOVE ; level 1 learnset
 	db GROWTH_MEDIUM_FAST ; growth rate
 
 	; tm/hm learnset
 	tmhm \
-	FURY_ATTACK,\ ; MUD BOMB
-	LOW_KICK,\
-	DISABLE,\
-	ICE_PUNCH,\ ; FROST FIST
-	FIRE_PUNCH,\ ; BLAZE HAMMER
+	FROST_FIST,\
+	MUD_BOMB,\
+	BLAZE_HAMMER,\
 	TOXIC,\
 	BODY_SLAM,\
+	DISABLE,\
 	DOUBLE_EDGE,\
-	BUBBLEBEAM,\
-	AURORA_BEAM,\
+	AQUA_RING,\
 	ICE_BEAM,\
 	BLIZZARD,\
 	HYPER_BEAM,\
-	AMNESIA,\ ; CALM MIND
-	THUNDERPUNCH,\ ; ZAPPERCUT
-	ROLLING_KICK,\ ; METEOR SWEEP
+	CALM_MIND,\
+	LOW_KICK,\
+	ZAPPERCUT,\
+	METEOR_SWEEP,\
 	EARTHQUAKE,\
-	CRABHAMMER,\
+	RIPTIDE,\
 	DIG,\
 	PSYCHIC_M,\
 	REFLECT,\
-	BIDE,\ ; BULK UP
-	BARRAGE,\ ; SHADOW BALL
+	BULK_UP,\
+	SHADOW_BALL,\
 	FIRE_BLAST,\
-	FLAMETHROWER,\
-	SLAM,\ ; WASTEMAKER
-	KARATE_CHOP,\
-	MEDITATE,\ ; VOID MIND
+	TWISTER,\
+	DEMOLISH,\
+	VOID_MIND,\
 	LIGHT_SCREEN,\
-	PSYWAVE,\ ; SKITTERMIND
+	SKITTERMIND,\
 	SUBSTITUTE,\
 	CUT,\
 	SURF,\
@@ -59,3 +57,23 @@
 
 	dw 0, SlowbroPicBack
 
+; --- Sunsette SSOT directives (parsed by tools/gen_pokemon_data.py) ---
+;@ nature       NATURE_LAZY NATURE_DITZ
+;@ pal_battle   PAL_BLUSHMON
+;@ pal_altbattle PAL_MAGENTAMON
+;@ pal_icon     PAL_ICON_40
+;@ pal_alticon  PAL_ICON_41
+;@ evo_move    NO_MOVE
+;@ evo_react   "It stares at you." "(<...><...><...><...><...><...><...><...>)"
+;@ evo_react   "It blinks once<...>" "then nothing more."
+;@ evo_react   "It looks around<...>" "still searching<...>"
+;@ evo_react   "A long pause<...>" "Did it notice?"
+;@ learn       12, CONFUSION
+;@ learn       17, DISABLE
+;@ learn       20, HEADBUTT
+;@ learn       24, CLAMP
+;@ learn       28, PSYBEAM
+;@ learn       32, SHELL_GAME
+;@ learn       36, SLUDGE_BOMB
+;@ learn       41, CALM_MIND
+;@ learn       45, PSYCHIC_M

@@ -65,16 +65,13 @@ EnterMapAnim::
 	pop hl
 	CheckAndResetEvent FLAG_DIG_OVERWORLD_ANIMATION
 	jr z, .noDig
-.dig ; PureRGBnote: ADDED: new dig overworld animation when entering the map 
+.dig ; PureRGBnote: ADDED: new dig overworld animation when entering the map
 	callfar StartDigEnterMapAnimation
 	call LoadPlayerSpriteGraphics
 	jr .restoreDefaultMusic
 .noDig
-	ld de, BirdSprite
-	ld hl, vNPCSprites
-	lb bc, BANK(BirdSprite), $0c
-	call CopyVideoData
-	call LoadBirdSpriteGraphics
+	call LoadFlyIconOrBirdGraphics ; Sunsette: flyer's species icon, or the generic bird
+	callfar LoadFlyCarrierOWPalette ; Sunsette: tint slot 1 with the flyer's colors
 	ld a, SFX_FLY
 	rst _PlaySound
 	ld hl, wFlyAnimUsingCoordList
@@ -86,6 +83,7 @@ EnterMapAnim::
 	ld de, FlyAnimationEnterScreenCoords
 	callfar DoFlyAnimation
 	call LoadPlayerSpriteGraphics
+	callfar RestorePlayerOWPalette ; Sunsette: undo the flyer tint so the landed player is normal
 	jr .restoreDefaultMusic
 
 PlayerSpinWhileMovingDown:
@@ -143,7 +141,13 @@ _LeaveMapAnim::
 	call StopMusic
 	ld a, [wStatusFlags6]
 	bit BIT_ESCAPE_WARP, a
-	jr z, .flyAnimation
+	jr nz, .spinUpAnimation ; teleport-to-center / escape rope -> spin
+	; Sunsette: real FLY sets BIT_USED_FLY; Sabrina teleport clears it -> spin (no bird)
+	ld a, [wStatusFlags7]
+	bit BIT_USED_FLY, a
+	jr z, .spinUpAnimation
+	jr .flyAnimation
+.spinUpAnimation
 ; if going to the last used pokemon center
 	CheckFlag FLAG_DIG_OVERWORLD_ANIMATION
 	jr nz, .dig
@@ -166,7 +170,8 @@ _LeaveMapAnim::
 	call GBFadeOutToWhite
 	jp RestoreFacingDirectionAndYScreenPos
 .notDig
-	call LoadBirdSpriteGraphics
+	call LoadFlyIconOrBirdGraphics ; Sunsette: flyer's species icon, or the generic bird
+	callfar LoadFlyCarrierOWPalette ; Sunsette: tint slot 1 with the flyer's colors (no restore; warping away)
 	ld hl, wFlyAnimUsingCoordList
 	ld a, $ff ; is not using coord list (flap in place)
 	ld [hli], a ; wFlyAnimUsingCoordList
@@ -219,6 +224,16 @@ LeaveMapThroughHoleAnim:
 	call GBFadeOutToWhite
 	call EnableSpriteUpdates
 	jp RestoreFacingDirectionAndYScreenPos
+
+; Sunsette: FLY animation graphics. If a flyer species was recorded (wFlyCarrierMon), load that
+; species' menu icon into the bird VRAM slots; otherwise fall back to the generic bird. Only
+; ever called on the real-FLY path (teleport spins and never reaches here).
+LoadFlyIconOrBirdGraphics:
+	ld a, [wFlyCarrierMon]
+	cp PARTY_LENGTH
+	jr nc, LoadBirdSpriteGraphics ; $ff / invalid -> generic bird
+	callfar LoadFlyIconIntoBirdVRAM
+	ret
 
 LoadBirdSpriteGraphics:
 	ld de, BirdSprite

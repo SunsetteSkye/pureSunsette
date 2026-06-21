@@ -15,24 +15,24 @@
 
 	; tm/hm learnset
 	tmhm \
-	DISABLE,\
-	SONICBOOM,\ ; ILL WIND
 	TOXIC,\
 	BODY_SLAM,\
+	DISABLE,\
 	DOUBLE_EDGE,\
-	AURORA_BEAM,\
+	AURORA_MIST,\
 	BARRIER,\
 	THUNDERBOLT,\
 	THUNDER,\
-	CRABHAMMER,\
-	KINESIS,\ ; MIRAGE
+	MIRAGE,\
 	REFLECT,\
-	BIDE,\ ; BULK UP
-	BARRAGE,\ ; SHADOW BALL
-	MEDITATE,\ ; VOID MIND
+	BULK_UP,\
+	ILL_WIND,\
+	SHADOW_BALL,\
+	VOID_MIND,\
 	LIGHT_SCREEN,\
 	THUNDER_WAVE,\
-	PSYWAVE,\ ; SKITTERMIND
+	SKITTERMIND,\
+	SHADOW_GAME,\
 	SUBSTITUTE,\
 	FLASH
 	; end
@@ -45,3 +45,23 @@
 
 	dw 0, MagnemitePicBack
 
+; --- Sunsette SSOT directives (parsed by tools/gen_pokemon_data.py) ---
+;@ nature       NATURE_CALCULATING NATURE_STOLID
+;@ pal_battle   PAL_IRONMON
+;@ pal_altbattle PAL_AMBERMON
+;@ pal_icon     PAL_ICON_42
+;@ pal_alticon  PAL_ICON_43
+;@ evo         EVOLVE_LEVEL, 30, MAGNETON
+;@ evo_move    NO_MOVE
+;@ evo_react   NONE
+;@ learn       13, THUNDERSHOCK
+;@ learn       16, SUPERSONIC
+;@ learn       19, SPARK
+;@ learn       22, THUNDER_WAVE
+;@ learn       26, ILL_WIND
+;@ learn       31, TELEPORT
+;@ learn       34, THUNDERBOLT
+;@ learn       38, TRI_ATTACK
+;@ learn       43, CONVERSION
+;@ learn       47, THUNDER
+;@ learn       52, SUPERNOVA

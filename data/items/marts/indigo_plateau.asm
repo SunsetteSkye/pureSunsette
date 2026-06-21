@@ -1,3 +1,4 @@
+; Sunsette: INDIGO PLATEAU lobby MART stock. INCLUDEd by scripts/IndigoPlateauLobby.asm (mart data is read from the caller's bank).
 IndigoPlateauLobbyClerkText:
 	script_mart \
 	HYPER_POTION, \
@@ -12,75 +13,5 @@ IndigoPlateauLobbyClerkText:
 	SUPER_REPEL, \
 	MAX_REPEL
 
-IndigoGymGuideShop:
-	script_mart \ 
-	APEX_CHIP, \
-	MAX_REVIVE, \
-	MAX_ELIXER, \
-	MAX_ETHER
-
-IndigoGymGuideSonShop1:
-	script_mart \
-	TM_ICE_BEAM, \
-	TM_THUNDERBOLT, \
-	TM_EARTHQUAKE, \
-	TM_FLAMETHROWER, \
-	TM_LOW_KICK, \ ; LOW KICK
-	TM_PSYCHIC_M, \
-	TM_SOLARBEAM, \ ; SOLAR CANNON
-	TM_ROCK_SLIDE, \
-	TM_SLUDGE, \ ; SLUDGE BOMB
-	TM_DOUBLE_EDGE
-
-IndigoGymGuideSonShop2: ; all TMs
-	script_mart \
-	TM_ICE_PUNCH, \ ; FROST FIST
-	TM_RAZOR_WIND, \    ; ROOST
-	TM_FURY_ATTACK, \ ; MUD BOMB
-	TM_PIN_MISSILE, \
-	TM_FIRE_PUNCH, \ ; BLAZE HAMMER
-	TM_TOXIC, \
-	TM_HORN_DRILL, \ ; VENOM DRILL
-	TM_BODY_SLAM, \
-	TM_DISABLE, \
-	TM_DOUBLE_EDGE, \
-	TM_BUBBLEBEAM, \
-	TM_AURORA_BEAM, \
-	TM_ICE_BEAM, \
-	TM_BLIZZARD, \
-	TM_HYPER_BEAM, \
-	TM_AMNESIA, \ ; CALM MIND
-	TM_LOW_KICK, \ ; LOW KICK
-	TM_THUNDERPUNCH, \ ; ZAPPERCUT
-	TM_ROLLING_KICK, \ ; METEOR SWEEP
-	TM_BARRIER, \
-	TM_RAZOR_LEAF, \
-	TM_SOLARBEAM, \ ; SOLAR CANNON
-	TM_DRAGON_RAGE, \ ; WYRM WRATH
-	TM_THUNDERBOLT, \
-	TM_THUNDER, \
-	TM_EARTHQUAKE, \
-	TM_CRABHAMMER, \
-	TM_DIG, \
-	TM_PSYCHIC_M, \
-	TM_MEGA_DRAIN, \
-	TM_KINESIS, \    	; MIRAGE
-	TM_SWORDS_DANCE, \
-	TM_REFLECT, \
-	TM_BIDE, \ ; BULK UP
-	TM_SONICBOOM, \
-	TM_BARRAGE, \ ; SHADOW BALL
-	TM_FIRE_BLAST, \
-	TM_FLAMETHROWER, \
-	TM_SLAM, \          ; WASTEMAKER
-	TM_KARATE_CHOP, \
-	TM_MEDITATE, \ ; VOID MIND
-	TM_LOVELY_KISS, \
-	TM_SKY_ATTACK, \ ; BRAVE BIRD
-	TM_LIGHT_SCREEN, \
-	TM_THUNDER_WAVE, \
-	TM_PSYWAVE, \ ; SKITTERMIND
-	TM_SLUDGE, \ ; SLUDGE BOMB
-	TM_ROCK_SLIDE, \
-	TM_GLARE, \
-	TM_SUBSTITUTE
+; Sunsette: the Indigo gym-guide's-son TM shops (IndigoGymGuideSonShop1/2, "all TMs") were deleted -
+; they had no callers (the NPC was removed) and were unreachable. The lobby clerk above is the only mart here.

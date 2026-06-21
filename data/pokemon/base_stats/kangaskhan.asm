@@ -10,42 +10,42 @@
 	INCBIN "gfx/pokemon/front/kangaskhan.pic", 0, 1 ; sprite dimensions
 	dw KangaskhanPicFront, KangaskhanPicBackSW
 
-	db SCRATCH, GROWL, NO_MOVE, NO_MOVE ; level 1 learnset (JOLT BOLT) (MAD RUSH)
+	db SCRATCH, GROWL, NO_MOVE, NO_MOVE ; level 1 learnset
 	db GROWTH_MEDIUM_FAST ; growth rate
 
 	; tm/hm learnset
 	tmhm \
-	FURY_ATTACK,\ ; MUD BOMB
-	DISABLE,\
-	ICE_PUNCH,\ ; FROST FIST
-	FIRE_PUNCH,\ ; BLAZE HAMMER
+	ADAPTATION,\
+	FROST_FIST,\
+	MUD_BOMB,\
+	BLAZE_HAMMER,\
 	TOXIC,\
+	HONE_EDGE,\
 	BODY_SLAM,\
+	DISABLE,\
 	DOUBLE_EDGE,\
-	BUBBLEBEAM,\
-	AURORA_BEAM,\
 	ICE_BEAM,\
 	BLIZZARD,\
 	HYPER_BEAM,\
 	LOW_KICK,\
-	THUNDERPUNCH,\ ; ZAPPERCUT
-	ROLLING_KICK,\ ; METEOR SWEEP
-	SOLARBEAM,\ ; SOLARBEAM
+	ZAPPERCUT,\
+	METEOR_SWEEP,\
+	SOLARBEAM,\ 
 	THUNDERBOLT,\
 	THUNDER,\
 	EARTHQUAKE,\
+	RIPTIDE,\
 	DIG,\
 	SWORDS_DANCE,\
-	BIDE,\ ; BULK UP
-	BARRAGE,\ ; SHADOW BALL
+	BULK_UP,\
+	SHADOW_BALL,\
 	FIRE_BLAST,\
-	FLAMETHROWER,\
-	SLAM,\ ; WASTEMAKER
-	KARATE_CHOP,\
-	MEDITATE,\ ; VOID MIND
+	DEMOLISH,\
+	VOID_MIND,\
 	ROCK_SLIDE,\
-	GLARE,\
+	ROCK_ON,\
 	SUBSTITUTE,\
+	CLAY_ARMOR,\
 	CUT,\
 	SURF,\
 	STRENGTH
@@ -59,3 +59,21 @@
 
 	dw 0, KangaskhanPicBack
 
+; --- Sunsette SSOT directives (parsed by tools/gen_pokemon_data.py) ---
+;@ nature       NATURE_CONSIDERATE NATURE_RAGE
+;@ pal_battle   PAL_BROWNMON2
+;@ pal_altbattle PAL_GRANITEMON
+;@ pal_icon     PAL_ICON_10
+;@ pal_alticon  PAL_ICON_57
+;@ evo_move    NO_MOVE
+;@ evo_react   NONE
+;@ learn       18, BITE
+;@ learn       23, STOMP
+;@ learn       27, DOUBLE_KICK
+;@ learn       30, MACH_PUNCH
+;@ learn       36, REST
+;@ learn       39, DOUBLE_EDGE
+;@ learn       41, FOCUS_ENERGY
+;@ learn       44, DIZZY_PUNCH
+;@ learn       52, SHORYUKEN
+;@ learn       56, COMBOBREAKER

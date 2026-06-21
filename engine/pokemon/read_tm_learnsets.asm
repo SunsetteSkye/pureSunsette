@@ -35,7 +35,7 @@ LoadTMLearnsetIntoWram:
 	inc b
 	ld a, b
 	cp NUM_HMS + NUM_TMS
-	assert (NUM_HMS + NUM_TMS) < 56
+	assert (NUM_HMS + NUM_TMS) < 57 ; Sunsette: was < 56; CLAY ARMOR (TM51) uses the last bit -> 56 flags, fits the 7-byte field exactly
 	jr nz, .loop
 	ld a, c
 	ld [wDexLearnsetListCount], a

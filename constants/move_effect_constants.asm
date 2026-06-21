@@ -13,7 +13,7 @@
 	const PARALYZE_SIDE_EFFECT1      ; $06
 	const EXPLODE_EFFECT             ; $07 Explosion, Self Destruct
 	const DREAM_EATER_EFFECT         ; $08
-	const MIRROR_MOVE_EFFECT         ; $09 (MOCKINGBIRD)
+	const MIRROR_MOVE_EFFECT         ; $09
 	const ATTACK_UP1_EFFECT          ; $0A
 	const DEFENSE_UP1_EFFECT         ; $0B
 	const SPEED_UP1_EFFECT           ; $0C
@@ -34,7 +34,7 @@
 	const THRASH_PETAL_DANCE_EFFECT  ; $1B
 	const TELEPORT_EFFECT            ; $1C
 	const TWO_TO_FIVE_ATTACKS_EFFECT ; $1D
-	const MIRAGE_EFFECT              ; $1E ; Mirage (kinesis): confuses a non-fire target; burns if user is fire-type or target already confused
+	const MIRAGE_EFFECT              ; $1E ; Mirage: burns the target through any existing status, and drops its Special -1 unless already burned. FIRE immune to both; ROCK immune to the burn.
 	const FLINCH_SIDE_EFFECT1        ; $1F
 	const SLEEP_EFFECT               ; $20
 	const POISON_SIDE_EFFECT2        ; $21
@@ -99,7 +99,7 @@
 	const ACID_ARMOR_EFFECT          ; $5A ; PureRGBnote: ADDED: new effect, does light screen and reflect in one move
 	const EXPLODE_RECOIL_EFFECT      ; $5B ; PureRGBnote: ADDED: new effect, selfdestruct/explosion base effect, changes at lower health to EXPLODE_EFFECT
 	const CONVERSION_EFFECT          ; $5C ; PureRGBnote: ADDED: new effect, used with conversion
-	const ACID_SIDE_EFFECT           ; $5D ; PureRGBnote: ADDED: new effect, 50% attack or defense chance of lowering opponent
+	const MAXIMIZE_EFFECT            ; $5D ; Sunsette: REPURPOSED (was ACID_SIDE_EFFECT, which no move used). MAXIMIZE - sets the user's ATTACK to +6, drops its EVASION and SPEED by 2 each, plays a slowed cry. In ResidualEffects2 -> trampoline MaximizeEffect -> jpfar MaximizeEffect_
 	const SIPHON_SNAG_EFFECT         ; $5E ; PureRGBnote: ADDED: new effect, heals status on self, or a mon in party if no status on self
 	const HEAT_RUSH_EFFECT           ; $5F ; PureRGBnote: ADDED: new effect, 30% burn chance, and if used by a fire pokemon, 40% chance of raising special one stage
 	const MEGA_PUNCH_EFFECT          ; $60 ; PureRGBnote: ADDED: new effect, 30% flinch chance if user is FIGHTING type, 10% flinch otherwise
@@ -112,10 +112,16 @@
 	const SOLARBEAM_EFFECT           ; $67 ; Sunsette: ADDED: SolarBeam pseudo-charge. Non-fire: 1st use drains 1/2 + "primes"; next use is the 120-BP release with a 30% burn. FIRE users: 90 BP, 1/3 recoil, 30% burn, no priming. Shares Haze's trampoline -> SolarBeamEffect_
 	const MINDWIPE_EFFECT            ; $68 ; Sunsette: ADDED: PSYWAVE->SKITTERMIND. No damage; retypes the target to BUG (+ gray palette) and drops its ACCURACY by 1. In ResidualEffects1 -> MindwipeEffect_
 	const ROOST_EFFECT               ; $69 ; Sunsette: ADDED: RAZOR_WIND->ROOST. Heal 1/2 + refresh user to natural types/palette (cures SKITTERMIND/WATERIFY) + strip FLYING/FLOATING this turn (NORMAL if that leaves it typeless); restored next turn. In ResidualEffects1 -> RoostEffect_
-	const JOLT_BOLT_EFFECT           ; $6A ; Sunsette: ADDED: POUND->JOLT BOLT. Damaging ELECTRIC priority move with a 50% chance to raise the USER's EVASION by 1 (post-damage side effect). Shares Haze's trampoline -> JoltBoltEffect_
-	const HOBBLE_EFFECT              ; $6B ; Sunsette: ADDED: LOCKJAW (Vicegrip) / METEOR SWEEP (Rolling Kick) signature. Damaging move that guarantees -1 SPEED and -1 EVASION to the target on hit (post-damage side effect). Shares Haze's trampoline -> HobbleEffect_
+	const JOLT_BOLT_EFFECT           ; $6A ; Sunsette: RETIRED 2026-06-17. Was POUND/JOLT BOLT's 50% +1-user-EVASION effect; POUND is now SPARK (stock PARALYZE_SIDE_EFFECT2). Const + its plumbing (JoltBoltEffect_, effects_pointers row, SpecialEffects/AlwaysHappen entries) kept dead-but-harmless to preserve effect-id indices.
+	const HOBBLE_EFFECT              ; $6B ; Sunsette: ADDED: UNDERBUG (Vicegrip) / METEOR SWEEP (Rolling Kick) signature. Damaging move that guarantees -1 SPEED and -1 EVASION to the target on hit (post-damage side effect). Shares Haze's trampoline -> HobbleEffect_
 	const CALM_MIND_EFFECT           ; $6C ; Sunsette: ADDED: CALM MIND (AMNESIA). +1 user SPECIAL AND clears the user's own CONFUSION (only when the move actually executes - the confusion self-hit check is NOT bypassed). In ResidualEffects2; shares Haze's trampoline -> CalmMindEffect_
 	const STRENGTH_EFFECT            ; $6D ; Sunsette: ADDED: STRENGTH (flat 100 BP). Effect itself is a no-op (Haze trampoline -> ret); its only purpose is to be NONZERO so the engine reaches SpeciesMoveBonus -> StrengthRagePostHit (30% +1 ATK, plus 1/2-damage recoil if the user is a lighter weight class than the target).
-	const BLOSSOM_BLITZ_EFFECT       ; $6E ; Sunsette: ADDED: BLOSSOM BLITZ (PETAL_DANCE). Damaging GRASS move with a 50% post-damage chance to raise the USER's SPEED by 1 (replaces the old confuse chance). Mirrors JOLT BOLT - shares Haze's trampoline -> BlossomBlitzEffect_, in AlwaysHappen + SpecialEffects.
+	const BLOSSOM_BLITZ_EFFECT       ; $6E ; Sunsette: RIPTIDE (WATERFALL) now. Damaging move with a 50% post-damage chance to raise the USER's SPEED by 1 (guaranteed for the GYARADOS/SEAKING/GOLDEEN signature). Was also PETAL_DANCE's effect; PETAL_DANCE split off to SENBONZAKURA_EFFECT, so this is RIPTIDE-only. Shares Haze's trampoline -> BlossomBlitzEffect_, in AlwaysHappen + SpecialEffects.
 	const SHORYUKEN_EFFECT           ; $6F ; Sunsette: ADDED: SHORYUKEN (MEGA_PUNCH). No-op here (Haze trampoline -> ret), only nonzero so SpeciesMoveBonus runs -> strips the TARGET's FLYING/FLOATING type on hit (restored by ROOST). Fly-invuln bypass is in CheckSemiInvulnBypass.
+	const MIASMA_EFFECT              ; $70 ; Sunsette: ADDED: EMETIC PURGE (visible name; internal const POISON_GAS). No-damage priority move; one-sided "revenge stat clear" - resets the FOE's stat stages to neutral (Haze, foe only) and regular-poisons it (POISON/GHOST immune; Sub blocks the poison). In ResidualEffects1; shares Haze's trampoline -> MiasmaEffect_
+	const AQUA_RING_EFFECT           ; $71 ; Sunsette: ADDED: AQUA RING (ACID_ARMOR const). 0-BP self-buff; grants FLOURISH + the DOUBLE_FLOURISH flag (1/8-per-turn regen). In ResidualEffects1; shares Haze's trampoline -> AquaRingEffect_
+	const CLAY_ARMOR_EFFECT          ; $72 ; Sunsette: ADDED: CLAY ARMOR (FISSURE const). 0-BP. Type-gated (GROUND/FIGHTING/POISON/ROCK/BUG, not FLYING/FLOATING); fails if a screen is up. Sets Reflect+Light Screen; GROUND users also heal 1/2. In ResidualEffects1; Haze trampoline -> ClayArmorEffect_
+	const METAMORPHIC_EFFECT         ; $73 ; Sunsette: ADDED: METAMORPHIC (EXPLOSION const). Damaging ROCK move; post-damage (hit only) it applies heavy recoil, and a ROCK user sheds its ROCK type (mono-Rock -> NORMAL), gains +6 SPEED, and a PAL_GAMEFREAK glow. Haze trampoline -> MetamorphicEffect_
+	const SUPERNOVA_EFFECT           ; $74 ; Sunsette: ADDED: SUPERNOVA (SELFDESTRUCT const). Damaging FIRE move; post-damage (hit only) a FIRE user takes NO recoil, sheds FIRE (mono-Fire -> NORMAL) + PAL_MINDWIPE gray; a non-FIRE user takes heavy recoil + self-burn. Haze trampoline -> SupernovaEffect_
+	const SENBONZAKURA_EFFECT        ; $75 ; Sunsette: ADDED: SENBONZAKURA (PETAL_DANCE). Damaging GRASS move; post-damage (hit OR KO) self-effect - resets the USER's stat stages to neutral, grants FLOURISH, then raises EVASION +1. The reset-then-+1 ordering pins evasion at exactly +1 (no dodge-tank stacking) and wipes the user's own boosts too. Split off BLOSSOM_BLITZ_EFFECT so RIPTIDE keeps its +SPEED. Haze trampoline -> SenbonzakuraEffect_; in AlwaysHappen + SpecialEffects.
 DEF NUM_MOVE_EFFECTS EQU const_value - 1

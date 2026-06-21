@@ -15,26 +15,24 @@
 
 	; tm/hm learnset
 	tmhm \
-	DISABLE,\
 	TOXIC,\
 	BODY_SLAM,\
+	DISABLE,\
 	DOUBLE_EDGE,\
-	BUBBLEBEAM,\
-	AURORA_BEAM,\
+	AURORA_MIST,\
 	ICE_BEAM,\
 	BLIZZARD,\
 	HYPER_BEAM,\
-	SOLARBEAM,\ ; SOLARBEAM
+	SOLARBEAM,\ 
 	THUNDERBOLT,\
 	THUNDER,\
 	PSYCHIC_M,\
 	REFLECT,\
-	BIDE,\ ; BULK UP
-	BARRAGE,\ ; SHADOW BALL
+	BULK_UP,\
+	SHADOW_BALL,\
 	FIRE_BLAST,\
-	FLAMETHROWER,\
 	LIGHT_SCREEN,\
-	PSYWAVE,\ ; SKITTERMIND
+	SKITTERMIND,\
 	SUBSTITUTE,\
 	STRENGTH,\
 	FLASH
@@ -48,3 +46,18 @@
 
 	dw 0, ChanseyPicBack
 
+; --- Sunsette SSOT directives (parsed by tools/gen_pokemon_data.py) ---
+;@ nature       NATURE_GENTLE NATURE_CONSIDERATE
+;@ pal_battle   PAL_JIGGMON
+;@ pal_altbattle PAL_GREENBAR
+;@ pal_icon     PAL_ICON_23
+;@ pal_alticon  PAL_ICON_56
+;@ evo_move    NO_MOVE
+;@ evo_react   NONE
+;@ learn       18, SEISMIC_TOSS
+;@ learn       23, SING
+;@ learn       28, MINIMIZE
+;@ learn       34, SHADOW_BALL
+;@ learn       41, SOFTBOILED
+;@ learn       47, EGG_BOMB
+;@ learn       54, DOUBLE_EDGE

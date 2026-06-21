@@ -204,7 +204,7 @@ FadeInIntroPic:
 .next
 	ld a, [hli]
 	ldh [rBGP], a
-	call UpdateGBCPal_BGP ; shinpokerednote: gbcnote: gbc color code from yellow 
+	call UpdateGBCPal_BGP ; shinpokerednote: gbcnote: gbc color code from yellow
 	ld c, 10
 	rst _DelayFrames
 	dec b
@@ -226,7 +226,7 @@ MovePicLeft:
 
 	ld a, %11100100
 	ldh [rBGP], a
-	call UpdateGBCPal_BGP ; shinpokerednote: gbcnote: gbc color code from yellow 
+	call UpdateGBCPal_BGP ; shinpokerednote: gbcnote: gbc color code from yellow
 .next
 	rst _DelayFrame
 	ldh a, [rWX]

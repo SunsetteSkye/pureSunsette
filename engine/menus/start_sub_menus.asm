@@ -128,7 +128,7 @@ StartMenu_Pokemon::
 	dw .teleport
 	dw .softboiled
 	dw .confuseRay ; Sunsette: ADDED
-	dw .growth ; Sunsette: ADDED
+	dw .mystic ; Sunsette: ADDED
 	dw .flamethrower ; Sunsette: ADDED
 	dw .sandAttack ; Sunsette: ADDED
 	dw .mist ; Sunsette: ADDED
@@ -139,9 +139,9 @@ StartMenu_Pokemon::
 	dw .stunSpore ; Sunsette: ADDED
 	dw .spore ; Sunsette: ADDED
 	dw .smog ; Sunsette: ADDED
-	dw .growth ; 21 METRONOME - Sunsette: invert wild-encounter rarity (FLOURISH's old effect, shared handler)
-	dw .growth ; 22 SING
-	dw .growth ; 23 HYPNOSIS
+	dw .mystic ; 21 METRONOME - Sunsette: invert wild-encounter rarity (FLOURISH's old effect, shared handler)
+	dw .mystic ; 22 SING
+	dw .mystic ; 23 HYPNOSIS
 .fly
 	bit BIT_THUNDERBADGE, a
 	jp z, .newBadgeRequired
@@ -157,11 +157,28 @@ StartMenu_Pokemon::
 	call ChooseFlyDestination
 	ld a, [wStatusFlags6]
 	bit BIT_FLY_WARP, a ; did the player decide to fly?
-	jr nz, .doFly
+	jr nz, .doRealFly
 	call LoadFontTilePatterns
 	ld hl, wStatusFlags4
 	set BIT_UNKNOWN_4_1, [hl]
 	jp StartMenu_Pokemon
+.doRealFly
+	; Sunsette: remember which mon we flew with, so the fly animation shows its species icon.
+	ld a, [wWhichPokemon]
+	ld [wFlyCarrierMon], a
+	ld a, NRDEF_FLY
+	farcall ArmDeferredNatureReaction ; Sunsette: arm the FLY destination reaction
+	jr .doFly
+.doTeleportSpin
+	; Sunsette: Sabrina teleport warps to the chosen destination but uses the teleport SPIN, not
+	; the fly bird. Clearing BIT_USED_FLY makes both leave and enter spin; no species icon.
+	ld hl, wStatusFlags7
+	res BIT_USED_FLY, [hl]
+	ld a, $ff
+	ld [wFlyCarrierMon], a
+	ld a, NRDEF_TELEPORT
+	farcall ArmDeferredNatureReaction ; Sunsette: arm the TELEPORT destination reaction
+	jr .doFly
 .doFly
 	ResetFlag FLAG_DIG_OVERWORLD_ANIMATION
 .doDig
@@ -174,6 +191,8 @@ StartMenu_Pokemon::
 	ld a, [wActionResultOrTookBattleTurn]
 	and a
 	jp z, .loop
+	ld a, NREVT_CUT
+	farcall TryFieldMoveReaction ; Sunsette: nature reaction
 	jp CloseTextDisplay
 .surf
 	bit BIT_POISONBADGE, a
@@ -194,12 +213,16 @@ StartMenu_Pokemon::
 	ld a, [wActionResultOrTookBattleTurn]
 	and a
 	jp z, .loop
+	ld a, NREVT_SURF
+	farcall TryFieldMoveReaction ; Sunsette: nature reaction
 	call GBPalWhiteOutWithDelay3
 	jp .goBackToMap
 .strength
 	bit BIT_RAINBOWBADGE, a
 	jp z, .newBadgeRequired
 	callfar PrintStrengthText
+	ld a, NREVT_STRENGTH
+	farcall TryFieldMoveReaction ; Sunsette: nature reaction
 	call GBPalWhiteOutWithDelay3
 	jp .goBackToMap
 .flash
@@ -232,6 +255,8 @@ StartMenu_Pokemon::
 	SetEvent EVENT_USED_FLASH_FROM_PARTY_MENU
 	ld hl, .flashLightsAreaText
 	rst _PrintText
+	ld a, NREVT_FLASH
+	farcall TryFieldMoveReaction ; Sunsette: nature reaction (only the dark-cave lighting use)
 	call GBPalWhiteOutWithDelay3
 	jp .goBackToMap
 .flashEncounterText
@@ -246,8 +271,10 @@ StartMenu_Pokemon::
 	jp z, .loop
 	ld a, [wStatusFlags6]
 	bit BIT_FLY_WARP, a ; did the player decide to dig?
-	jp nz, .doDig
-	jp .goBackToMap
+	jp z, .goBackToMap
+	ld a, NRDEF_DIG
+	farcall ArmDeferredNatureReaction ; Sunsette: arm the DIG destination reaction
+	jp .doDig
 .teleport
 	;call CheckIfInOutsideMap ; PureRGBnote: CHANGED: teleport can be used anywhere.
 	; jr .canTeleport
@@ -267,7 +294,7 @@ StartMenu_Pokemon::
 	call ChooseFlyDestination
 	ld a, [wStatusFlags6]
 	bit BIT_FLY_WARP, a ; did the player pick a destination?
-	jp nz, .doFly
+	jp nz, .doTeleportSpin ; Sunsette: teleport keeps its spin (not the fly bird), no icon
 	call LoadFontTilePatterns
 	ld hl, wStatusFlags4
 	set BIT_UNKNOWN_4_1, [hl]
@@ -284,6 +311,8 @@ StartMenu_Pokemon::
 	ld c, 60
 	rst _DelayFrames
 	call GBPalWhiteOutWithDelay3
+	ld a, NRDEF_TELEPORT
+	farcall ArmDeferredNatureReaction ; Sunsette: arm the TELEPORT destination reaction
 	callfar ClearSafariFlags
 	jp .goBackToMap
 .warpToLastPokemonCenterText
@@ -320,10 +349,16 @@ StartMenu_Pokemon::
 	jp nc, .notHealthyEnough
 	ld a, [wPartyAndBillsPCSavedMenuItem]
 	push af
+	ld a, [wWhichPokemon] ; Sunsette: remember the healer; UseItem repoints wWhichPokemon to the heal target
+	push af
 	ld a, POTION
 	ld [wCurItem], a
 	ld [wPseudoItemID], a
 	call UseItem
+	pop af
+	ld [wWhichPokemon], a ; Sunsette: react as the healer (source), not the target
+	ld a, NREVT_SOFTBOILED
+	farcall TryFieldMoveReaction ; Sunsette: nature reaction
 	pop af
 	ld [wPartyAndBillsPCSavedMenuItem], a
 	jp .loop
@@ -343,24 +378,28 @@ StartMenu_Pokemon::
 	set 0, [hl] ; bit 0 = CONFUSE RAY armed (Growth-invert uses bit 1)
 	ld hl, .confuseRayText
 	rst _PrintText
+	ld a, NREVT_CONFUSE_RAY
+	farcall TryFieldMoveReaction ; Sunsette: nature reaction
 	call GBPalWhiteOutWithDelay3
 	jp .goBackToMap
 .confuseRayText
 	text_far _ConfuseRayFieldText
 	text_end
 ; Sunsette: METRONOME / SING / HYPNOSIS invert wild-encounter rarity (rare<->common) until you change maps.
-; (This was GROWTH/FLOURISH's field move; relocated here, all three share this handler. Label kept as .growth.)
+; (This was GROWTH/FLOURISH's field move; relocated here, all three share this handler. renamed to .mystic.)
 ; Arms wUnusedMapVariable bit 1 (cleared on map change by ClearVariablesOnEnterMap); TryDoWildEncounter
 ; flips the rolled encounter slot while it's set. No badge required.
-.growth
+.mystic
 	ld hl, wUnusedMapVariable
-	set 1, [hl] ; bit 1 = GROWTH-invert armed (cleared on map change with the byte) (FLOURISH)
-	ld hl, .growthText
+	set 1, [hl] ; bit 1 = MYSTIC-invert armed (cleared on map change with the byte) (FLOURISH)
+	ld hl, .mysticText
 	rst _PrintText
+	ld a, NREVT_MYSTIC
+	farcall TryFieldMoveReaction ; Sunsette: nature reaction
 	call GBPalWhiteOutWithDelay3
 	jp .goBackToMap
-.growthText
-	text_far _GrowthFieldText
+.mysticText
+	text_far _MysticFieldText
 	text_end
 ; Sunsette: ADDED: FLAMETHROWER scorches every cuttable block (tall grass AND cut-trees) in the
 ; visible map window, directly in wOverworldMap so it stays burned until the map is reloaded.
@@ -369,6 +408,8 @@ StartMenu_Pokemon::
 	bit BIT_CASCADEBADGE, a
 	jp z, .newBadgeRequired
 	callfar UsedFlamethrower
+	ld a, NREVT_FLAMETHROWER
+	farcall TryFieldMoveReaction ; Sunsette: nature reaction
 	jp CloseTextDisplay
 ; Sunsette: ADDED: SAND ATTACK / MIST / HAZE / SMOKESCREEN / POISONPOWDER / SLEEP POWDER / STUN SPORE / (BLACK HAZE, ETHEREAL)
 ; SPORE / SMOG kick up cover that hides you from wild
@@ -378,10 +419,10 @@ StartMenu_Pokemon::
 	ld a, SAND_ATTACK
 	jr .startHiding
 .mist
-	ld a, MIST ; ETHEREAL
+	ld a, AURORA_MIST ; ETHEREAL
 	jr .startHiding
 .haze
-	ld a, HAZE ; BLACK HAZE
+	ld a, SHADOW_GAME ; BLACK HAZE
 	jr .startHiding
 .smokescreen
 	ld a, SMOKESCREEN
@@ -402,6 +443,13 @@ StartMenu_Pokemon::
 	ld a, SMOG
 .startHiding
 	ld [wHidingMoveID], a
+	; Sunsette: nature reaction, but only when starting fresh (skip a repel/hiding refresh)
+	ld a, [wRepelRemainingSteps]
+	and a
+	jr nz, .skipHidingReaction
+	ld a, NREVT_HIDING
+	farcall TryFieldMoveReaction
+.skipHidingReaction
 	ld a, 100
 	ld [wRepelRemainingSteps], a
 	ld hl, .startHidingText
@@ -475,7 +523,7 @@ StartMenu_Item::
 	call UpdateSprites
 	jp RedisplayStartMenu
 .choseItem
-;;;;;;;;;; PureRGBnote: ADDED: code to facilitate depositing an item from the item menu directly to PC. 
+;;;;;;;;;; PureRGBnote: ADDED: code to facilitate depositing an item from the item menu directly to PC.
 ;;;;;;;;;;                     wUnusedC000 is set when we pressed start in the item list.
 	ld a, [wUnusedC000]
 	and a
@@ -486,7 +534,7 @@ StartMenu_Item::
 	jp ItemMenuLoop
 .noStartButton
 ;;;;;;;;;;
-; erase menu cursor (blank each tile in front of an item name) 
+; erase menu cursor (blank each tile in front of an item name)
 	ld a, ' '
 	ldcoord_a 5, 4
 	ldcoord_a 5, 6

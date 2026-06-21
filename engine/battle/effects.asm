@@ -44,8 +44,12 @@ PoisonEffect:
 	ld a, [hli]
 	cp POISON ; can't poison a poison-type target
 	jr z, .noEffect
+	cp GHOST ; Sunsette: ghosts are immune to poison too
+	jr z, .noEffect
 	ld a, [hld]
 	cp POISON ; can't poison a poison-type target
+	jr z, .noEffect
+	cp GHOST ; Sunsette: ghosts are immune to poison too
 	jr z, .noEffect
 	ld a, [de]
 	cp POISON_SIDE_EFFECT1
@@ -145,6 +149,8 @@ FreezeBurnParalyzeEffect:
 	cp SOLARBEAM ; SOLARBEAM
 	ld b, FIRE ; NEW: solarbeam can't burn fire types
 	jr z, .doComparison1
+	cp SLUDGE_BOMB ; Sunsette: WEEZING's burn-swapped SLUDGE BOMB - FIRE immunity (b already FIRE) so non-fire POISON-types still burn
+	jr z, .doComparison1
 
 	ld a, [wPlayerMoveType]
 	cp NORMAL ; NEW: body slam can apply status to any pokemon type
@@ -167,6 +173,15 @@ FreezeBurnParalyzeEffect:
 	jr c, .regular_effectiveness
 ; extra effectiveness
 	ld b, 30 percent + 1
+	; Sunsette: WEEZING's burn-swapped SLUDGE BOMB burns at 40% (= its base 40% poison), not the usual 30%.
+	; SLUDGE BOMB only reaches this routine via that burn swap, so matching the move id here is safe.
+	push af
+	ld a, [wPlayerMoveNum]
+	cp SLUDGE_BOMB
+	jr nz, .notSludgeBurn1
+	ld b, 40 percent + 1
+.notSludgeBurn1
+	pop af
 	ASSERT PARALYZE_SIDE_EFFECT2 - PARALYZE_SIDE_EFFECT1 == BURN_SIDE_EFFECT2 - BURN_SIDE_EFFECT1
 	ASSERT PARALYZE_SIDE_EFFECT2 - PARALYZE_SIDE_EFFECT1 == FREEZE_SIDE_EFFECT2 - FREEZE_SIDE_EFFECT1 ; Sunsette: Ice Beam's 30% freeze rides this native EFFECT2 path
 	sub PARALYZE_SIDE_EFFECT2 - PARALYZE_SIDE_EFFECT1 ; treat extra effective as regular from now on
@@ -182,6 +197,11 @@ FreezeBurnParalyzeEffect:
 	cp FREEZE_SIDE_EFFECT1
 	jr z, .freeze1
 ; paralyze1
+; Sunsette: ELECTRIC-types are immune to paralysis (check floated out of the full Battle Core bank).
+	callfar TargetIsElectric
+	ld a, e
+	and a
+	ret nz
 	ld a, 1 << PAR
 	ld [wEnemyMonStatus], a
 	call QuarterSpeedDueToParalysis ; quarter speed of affected mon
@@ -189,6 +209,13 @@ FreezeBurnParalyzeEffect:
 	call PlayBattleAnimation
 	jp PrintMayNotAttackText ; print paralysis text
 .burn1
+; Sunsette: ROCK-types are immune to burn (engine-wide), like FIRE is to burn/freeze.
+	ld a, [wEnemyMonType1]
+	cp ROCK
+	ret z
+	ld a, [wEnemyMonType2]
+	cp ROCK
+	ret z
 	ld a, 1 << BRN
 	ld [wEnemyMonStatus], a
 	call HalveAttackDueToBurn ; halve attack of affected mon
@@ -213,7 +240,9 @@ FreezeBurnParalyzeEffect:
 	cp SOLARBEAM ; SOLARBEAM
 	ld b, FIRE ; NEW: solarbeam can't burn fire types
 	jr z, .doComparison2
-	
+	cp SLUDGE_BOMB ; Sunsette: WEEZING's burn-swapped SLUDGE BOMB - FIRE immunity (b already FIRE) so non-fire POISON-types still burn
+	jr z, .doComparison2
+
 	ld a, [wEnemyMoveType]
 	cp NORMAL ; NEW: body slam can apply status to any pokemon type
 	jr z, .skipTypeComparison2
@@ -235,6 +264,14 @@ FreezeBurnParalyzeEffect:
 	jr c, .regular_effectiveness2
 ; extra effectiveness
 	ld b, 30 percent + 1
+	; Sunsette: WEEZING's burn-swapped SLUDGE BOMB burns at 40% (= its base 40% poison), not the usual 30%.
+	push af
+	ld a, [wEnemyMoveNum]
+	cp SLUDGE_BOMB
+	jr nz, .notSludgeBurn2
+	ld b, 40 percent + 1
+.notSludgeBurn2
+	pop af
 	sub BURN_SIDE_EFFECT2 - BURN_SIDE_EFFECT1 ; treat extra effective as regular from now on
 .regular_effectiveness2
 	push af
@@ -248,11 +285,23 @@ FreezeBurnParalyzeEffect:
 	cp FREEZE_SIDE_EFFECT1
 	jr z, .freeze2
 ; paralyze2
+; Sunsette: ELECTRIC-types are immune to paralysis (check floated out of the full Battle Core bank).
+	callfar TargetIsElectric
+	ld a, e
+	and a
+	ret nz
 	ld a, 1 << PAR
 	ld [wBattleMonStatus], a
 	call QuarterSpeedDueToParalysis
 	jr PrintMayNotAttackText
 .burn2
+; Sunsette: ROCK-types are immune to burn (engine-wide), like FIRE is to burn/freeze.
+	ld a, [wBattleMonType1]
+	cp ROCK
+	ret z
+	ld a, [wBattleMonType2]
+	cp ROCK
+	ret z
 	ld a, 1 << BRN
 	ld [wBattleMonStatus], a
 	call HalveAttackDueToBurn
@@ -698,9 +747,9 @@ PrintNothingHappenedText:
 	jr z, .playerTurn
 	ld a, [wEnemyMoveNum]
 .playerTurn
-	cp SUBMISSION ; FULL NELSON
+	cp COMBOBREAKER
 	ret z ; if the move is a side effect, skip writing "nothing happened"
-	cp RAGE ; MAD RUSH
+	cp BLOOD_RUSH
 	ret z ; if the move is a side effect, skip writing "nothing happened"
 ;;;;;;;;;;
 	ld hl, NothingHappenedText
@@ -757,7 +806,7 @@ StatModifierDownEffect:
 ;;;;;;;;;;
 	CheckFlag FLAG_SKIP_NPC_STAT_DOWN_DEBUFF
 	jr nz, .statModifierDownEffect
-	; hardcoded 25% miss rate for opponents using stat down effect moves (feature in the original game) 
+	; hardcoded 25% miss rate for opponents using stat down effect moves (feature in the original game)
 	call BattleRandom
 	cp 25 percent + 1 ; chance to miss by in regular battle
 	jp c, MoveMissed
@@ -1063,16 +1112,8 @@ TwoToFiveAttacksEffect:
 	ld bc, wEnemyNumHits
 	ld a, [wEnemyMoveNum]
 .twoToFiveAttacksEffect
-;;;;; PureRGBnote: ADDED: If doubleslap hits a sleeping pokemon, set it to wake up.
-	cp DOUBLESLAP
-	jr nz, .notDoubleSlap
-	push hl
-	push bc
-	callfar DoubleSlapModifierPart2
-	pop bc
-	pop hl
-.notDoubleSlap
-;;;;;
+; Sunsette: DoubleSlap's old "set the sleeping target to 1 turn left" special case was removed - the general
+; per-hit sleep-reduction system (see ApplySleepHitTally) now wears down sleep one round per strike instead.
 	bit ATTACKING_MULTIPLE_TIMES, [hl] ; is mon attacking multiple times?
 	ret nz
 	set ATTACKING_MULTIPLE_TIMES, [hl] ; mon is now attacking multiple times
@@ -1114,13 +1155,37 @@ TwoToFiveAttacksEffect:
 	ld [bc], a
 	ret
 .twineedle
-	ld a, POISON_SIDE_EFFECT1 ; this is also the value 2, which is how many hits twineedle will do
-	ld [hl], a ; set Twineedle's effect to poison effect
+	; Sunsette: BEEDRILL's signature upgrades Twineedle's poison from the base 20% (POISON_SIDE_EFFECT1)
+	; to 40% (POISON_SIDE_EFFECT2). The original code reused POISON_SIDE_EFFECT1's value (== 2) as the hit
+	; count; POISON_SIDE_EFFECT2 isn't 2, so we now set the hit count (always 2) explicitly below.
+	call GetTwineedlePoisonEffect ; a = the poison side-effect to use (clobbers only a)
+	ld [hl], a ; set Twineedle's effect to the poison side effect
+	ld a, 2 ; Twineedle always strikes exactly twice
 	jr .saveNumberOfHits
 .bonemerang
 	ld [hl], SPEED_DOWN_SIDE_EFFECT ; make bonemerang a 30% chance of speed down move
 	ld a, 2
 	jr .saveNumberOfHits
+
+; Sunsette: which poison side-effect Twineedle uses this turn. BEEDRILL's signature is the stronger 40%
+; tier (POISON_SIDE_EFFECT2) while signatures are ON; everyone else keeps the base 20% (POISON_SIDE_EFFECT1).
+; Clobbers ONLY a, so the TwoToFiveAttacksEffect caller keeps hl/de/bc.
+GetTwineedlePoisonEffect:
+	CheckEvent FLAG_SIGNATURE_MOVES_TURNED_OFF
+	jr nz, .base ; signatures globally off -> base poison
+	ldh a, [hWhoseTurn]
+	and a
+	ld a, [wBattleMonSpecies]
+	jr z, .gotUser
+	ld a, [wEnemyMonSpecies]
+.gotUser
+	cp BEEDRILL
+	jr nz, .base
+	ld a, POISON_SIDE_EFFECT2 ; BEEDRILL signature: 40% poison
+	ret
+.base
+	ld a, POISON_SIDE_EFFECT1 ; base: 20% poison
+	ret
 
 FlinchSideEffect:
 	call CheckTargetSubstitute
@@ -1136,7 +1201,7 @@ FlinchSideEffect:
 	ld bc, wEnemyMoveNum
 .flinchSideEffect
 	ld a, [bc]
-	cp SONICBOOM
+	cp ILL_WIND
 	jr z, .sonicBoom
 	ld a, [de]
 	cp FLINCH_SIDE_EFFECT1
@@ -1148,8 +1213,7 @@ FlinchSideEffect:
 	cp b
 	ret nc
 .flinch
-	set FLINCHED, [hl] ; set mon's status to flinching
-	jp ClearHyperBeam
+	jpfar GhostFlinchOrSet ; Sunsette: GHOST-types can't be flinched (handler floated out of the full Battle Core bank)
 ;;;;; PureRGBnote: ADDED: sonic boom always flinches if it's used the first turn a pokemon is out
 .sonicBoom
 	ldh a, [hWhoseTurn]
@@ -1195,7 +1259,8 @@ ChargeEffect:
 	ld [wChargeMoveNum], a
 	ld hl, ChargeMoveEffectText
 	rst _PrintText
-	callfar ChargeMoveEvasionBoost ; Sunsette: Fly/Dig also raise the user's EVASION +1 on the charge turn
+	callfar ChargeMoveEvasionBoost ; Sunsette: Fly/Dig reset the user's own stats, then pin EVASION on the charge turn (non-stacking)
+	callfar FlyKeepTypePrompt ; Sunsette: turn-1 "keep airborne?" popup (player + grounded FLY only); AFTER the evasion calc so it never affects the boost
 	ret
 
 ChargeMoveEffectText:
@@ -1208,10 +1273,10 @@ ChargeMoveEffectText:
 	;cp SOLARBEAM
 	;ld hl, TookInSunlightText
 	;ret z
-	;cp SKULL_BASH (METEOR DRIVE)
+	;cp SKULL_BASH
 	;ld hl, LoweredItsHeadText
 	;ret z
-	;cp SKY_ATTACK (BRAVE BIRD)
+	;cp SKY_ATTACK
 	;ld hl, SkyAttackGlowingText
 	;ret z
 	cp FLY
@@ -1273,7 +1338,7 @@ TrappingEffect:
                         ; the target won't need to recharge even if the trapping move missed
 	set USING_TRAPPING_MOVE, [hl] ; mon is now using a trapping move
 
-;;;;;;;;;;;;;;;;; PureRGBnote: CHANGED: trapping moves do 2-3 turns maximum but a bit more damage to compensate.	
+;;;;;;;;;;;;;;;;; PureRGBnote: CHANGED: trapping moves do 2-3 turns maximum but a bit more damage to compensate.
 .reroll
 	call BattleRandom 	
 	and %11
@@ -1328,6 +1393,12 @@ ConfusionEffect:
 	jr nz, ConfusionEffectFailed
 
 ConfusionSideEffectSuccess:
+; Sunsette: SLOWPOKE/SLOWBRO are too oblivious to be confused (handler floated out of full Battle Core;
+; returns e=1 + prints its own line when immune). callfar clobbers flags, so read the verdict from e.
+	callfar SlowpokeConfusionCheck
+	ld a, e
+	and a
+	ret nz
 	ldh a, [hWhoseTurn]
 	and a
 	ld hl, wEnemyBattleStatus1
@@ -1533,7 +1604,7 @@ SplashEffect:
 	jpfar SplashEffect_ ; Sunsette: SPLASH is now a user-weight attack; only MAGIKARP's signature is a no-op (+ random comedy line), handled in a floating bank
 
 ;;;;;;;;;; PureRGBnote: CHANGED: this function was updated to disable the previous move used by the opponent
-;;;;;;;;;;                       or a random one if they haven't used any move yet. 
+;;;;;;;;;;                       or a random one if they haven't used any move yet.
 DisableEffect:
 	call MoveHitTest
 	ld a, [wMoveMissed]
@@ -1561,57 +1632,15 @@ DisableEffectCore:
 .pickMoveToDisable
 	ld a, b ; load the player or enemy's previously used move
 	and a 
-	jr z, .doRandomSelection ; if this value is 0, they haven't selected a move yet or are unable to act, so randomly select a move instead
-	ld [wNamedObjectIndex], a ; store move ID 
+	jr z, .moveMissed ; Sunsette: no last move to disable (turn 1 / unable to act) -> fail (was: random pick)
+	ld [wNamedObjectIndex], a ; store move ID
 	ld c, 0
 .findPreviousMoveIndex
 	ld a, [hli]
 	inc c ; c will be move index 1-4
 	cp b
 	jr nz, .findPreviousMoveIndex
-	jr .finishDisabling
-.doRandomSelection
-	push hl
-	call BattleRandom
-	and $3
-	ld c, a
-	ld b, $0
-	add hl, bc
-	ld a, [hl]
-	pop hl
-	and a
-	jr z, .pickMoveToDisable ; loop until a non-00 move slot is found
-	ld [wNamedObjectIndex], a ; store move number
-	push hl
-	ldh a, [hWhoseTurn]
-	and a
-	ld hl, wBattleMonPP
-	jr nz, .enemyTurn
-	ld a, [wLinkState]
-	cp LINK_STATE_BATTLING
-	pop hl ; wEnemyMonMoves
-	jr nz, .playerTurnNotLinkBattle
-; player's turn, Link Battle
-	push hl
-	ld hl, wEnemyMonPP
-.enemyTurn
-	push hl
-	ld a, [hli]
-	or [hl]
-	inc hl
-	or [hl]
-	inc hl
-	or [hl]
-	and PP_MASK
-	pop hl ; wBattleMonPP or wEnemyMonPP
-	jr z, .moveMissedPopHL ; nothing to do if all moves have no PP left
-	add hl, bc
-	ld a, [hl]
-	pop hl
-	and a
-	jr z, .pickMoveToDisable ; pick another move if this one had 0 PP
-.playerTurnNotLinkBattle
-	inc c ; move 1-4 will be disabled
+	; fall through to .finishDisabling (c = the matched move's index 1-4)
 .finishDisabling
 ; non-link battle enemies have unlimited PP so the previous checks aren't needed
 	call BattleRandom
@@ -1636,8 +1665,6 @@ DisableEffectCore:
 	ld hl, MoveWasDisabledText
 	rst _PrintText
 	ret
-.moveMissedPopHL
-	pop hl
 .moveMissed
 	; Sunsette: print "They're already DISABLED!" vs "But, it failed!" depending on whether the target
 	; already has a move disabled. The delay + text choice live in a floating bank (Battle Core is full).
@@ -1666,14 +1693,7 @@ HazeEffect:
 ; state here, then jpfar's to AdaptationEffect (roomier bank) to cure the user's status and raise its ATTACK
 ; by 1. (Was the old FLOURISH move = +1 SPECIAL + regen; now +1 ATTACK + status cure + regen.)
 GrowthEffect:
-	ld hl, wPlayerBattleStatus3
-	ldh a, [hWhoseTurn]
-	and a
-	jr z, .gotStatus
-	ld hl, wEnemyBattleStatus3
-.gotStatus
-	set FLOURISH, [hl]
-	jpfar AdaptationEffect
+	jpfar AdaptationEffect ; Sunsette: ADAPTATION - fail-check, status cure, FLOURISH regen, and adapt-to-last-hit all live in the floated handler
 
 ; PureRGBnote: ADDED: withdraw raises defense by 1 and heals around 1/3rd health. Does nothing at all if you're at full health.
 WithdrawEffect:
@@ -1924,29 +1944,11 @@ IsStatMaxed:
 DefenseCurlEffect:
 	jpfar _DefenseCurlEffect
 
-AcidEffect:
-	SetEvents FLAG_SKIP_STAT_ANIMATION, FLAG_SKIP_NPC_STAT_DOWN_DEBUFF
-	; either attack down or defense down effect, always one of them
-	call BattleRandom
-	bit 0, a
-	ld b, ATTACK_DOWN1_EFFECT
-	jr z, .attackDown
-	ld b, DEFENSE_DOWN1_EFFECT
-.attackDown
-	ldh a, [hWhoseTurn]
-	and a
-	ld hl, wPlayerMoveEffect
-	jr z, .playersTurn
-	ld hl, wEnemyMoveEffect
-.playersTurn
-	ld [hl], b
-.done
-	push hl
-	call StatModifierDownEffect
-	ResetEvents FLAG_SKIP_STAT_ANIMATION, FLAG_SKIP_NPC_STAT_DOWN_DEBUFF
-	pop hl
-	ld [hl], ACID_SIDE_EFFECT
-	ret
+; Sunsette: MAXIMIZE (MAXIMIZE_EFFECT, was the unused ACID_SIDE_EFFECT / AcidEffect). The Battle Core
+; bank is full, so the real body lives in the volcano bank; this is just the trampoline reached from
+; the effect pointer table. MaximizeEffect_ ends in ret -> returns to JumpMoveEffect's caller.
+MaximizeEffect:
+	jpfar MaximizeEffect_
 
 AccuracyDownEffect::
 	jpfar _AccuracyDownEffect

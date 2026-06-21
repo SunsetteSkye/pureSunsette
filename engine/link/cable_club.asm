@@ -272,6 +272,8 @@ CableClub_DoBattleOrTradeAgain:
 	ld [wLinkState], a
 	ld a, OPP_RIVAL1
 	ld [wCurOpponent], a
+	ld a, 1 ; Sunsette: trainer-battle latch (link battle)
+	ld [wIsTrainerBattle], a
 	call ClearScreen
 	call Delay3
 	ld d, SET_PAL_OVERWORLD

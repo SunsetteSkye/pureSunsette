@@ -15,25 +15,24 @@
 
 	; tm/hm learnset
 	tmhm \
-	FURY_ATTACK,\ ; MUD BOMB
+	MUD_BOMB,\
 	TOXIC,\
 	BODY_SLAM,\
 	DISABLE,\
 	DOUBLE_EDGE,\
-	AURORA_BEAM,\
-	AMNESIA,\ ; CALM MIND
-	ROLLING_KICK,\ ; METEOR SWEEP
+	CALM_MIND,\
+	METEOR_SWEEP,\
 	BARRIER,\
-	SOLARBEAM,\ ; SOLARBEAM
+	SOLARBEAM,\ 
 	DIG,\
-	KINESIS,\ ; MIRAGE
+	MIRAGE,\
 	REFLECT,\
-	BIDE,\ ; BULK UP
-	BARRAGE,\ ; SHADOW BALL
+	BULK_UP,\
+	SHADOW_BALL,\
+	SUPERNOVA,\
 	FIRE_BLAST,\
-	FLAMETHROWER,\
 	LIGHT_SCREEN,\
-	GLARE,\
+	SHADOW_GAME,\
 	SUBSTITUTE,\
 	CUT,\
 	FLASH
@@ -47,3 +46,23 @@
 
 	dw 0, VulpixPicBack
 
+; --- Sunsette SSOT directives (parsed by tools/gen_pokemon_data.py) ---
+;@ nature       NATURE_PLAYFUL NATURE_GENTLE
+;@ pal_battle   PAL_EMBERMON
+;@ pal_altbattle PAL_GRAYVELVET
+;@ pal_icon     PAL_ICON_04
+;@ pal_alticon  PAL_ICON_13
+;@ evo         EVOLVE_ITEM, FIRE_STONE, 1, NINETALES
+;@ evo_move    NO_MOVE
+;@ evo_react   NONE
+;@ learn       9, LICK
+;@ learn       12, DISABLE
+;@ learn       16, BITE
+;@ learn       21, MIRAGE
+;@ learn       23, CONFUSE_RAY
+;@ learn       28, PHANTASM
+;@ learn       35, FLAMETHROWER
+;@ learn       44, HYPNOSIS
+;@ learn       50, PSYCHIC_M
+;@ learn       56, SOULSTEALER
+;@ learn       60, FIRE_SPIN

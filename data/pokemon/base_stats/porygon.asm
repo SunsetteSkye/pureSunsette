@@ -10,35 +10,37 @@
 	INCBIN "gfx/pokemon/front/porygon.pic", 0, 1 ; sprite dimensions
 	dw PorygonPicFront, PorygonPicBackSW
 
-	db TACKLE, SHARPEN, KINESIS, MIRROR_MOVE ; level 1 learnset (MOCKINGBIRD) (HONE EDGE)
+	db TACKLE, HONE_EDGE, MIRAGE, MOCKINGBIRD ; level 1 learnset
 	db GROWTH_FAST ; growth rate
 
 	; tm/hm learnset
 	tmhm \
+	ROCK_ON,\
+	ADAPTATION,\
 	PIN_MISSILE,\
 	TOXIC,\
 	DISABLE,\
 	DOUBLE_EDGE,\
-	AURORA_BEAM,\
+	AURORA_MIST,\
 	ICE_BEAM,\
 	BLIZZARD,\
 	HYPER_BEAM,\
 	BARRIER,\
-	SOLARBEAM,\ ; SOLARBEAM
+	SOLARBEAM,\ 
 	THUNDERBOLT,\
 	THUNDER,\
 	PSYCHIC_M,\
 	MEGA_DRAIN,\
-	KINESIS,\ ; MIRAGE
+	MIRAGE,\
 	REFLECT,\
-	SONICBOOM,\ ; ILL WIND
-	BARRAGE,\ ; SHADOW BALL
+	ILL_WIND,\
+	SHADOW_BALL,\
 	FIRE_BLAST,\
-	FLAMETHROWER,\
-	MEDITATE,\ ; VOID MIND
+	VOID_MIND,\
 	LIGHT_SCREEN,\
 	THUNDER_WAVE,\
-	PSYWAVE,\ ; SKITTERMIND
+	SKITTERMIND,\
+	SHADOW_GAME,\
 	SUBSTITUTE,\
 	FLASH
 	; end
@@ -51,3 +53,18 @@
 
 	dw 0, PorygonPicBack
 
+; --- Sunsette SSOT directives (parsed by tools/gen_pokemon_data.py) ---
+;@ nature       NATURE_STOLID NATURE_DITZ
+;@ pal_battle   PAL_FUCHSIA
+;@ pal_altbattle PAL_CINNABAR
+;@ pal_icon     $FF
+;@ pal_alticon  $FF
+;@ evo_move    NO_MOVE
+;@ evo_react   NONE
+;@ learn       23, ILL_WIND
+;@ learn       25, CONVERSION
+;@ learn       28, RECOVER
+;@ learn       35, TRI_ATTACK
+;@ learn       42, PHANTASM
+;@ learn       49, AGILITY
+;@ learn       56, HYPER_BEAM

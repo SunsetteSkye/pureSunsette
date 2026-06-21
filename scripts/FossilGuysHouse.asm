@@ -471,7 +471,10 @@ MoveMysticCrystalBallText:
 	cp BEEDRILL
 	ld hl, .beedrillInfoText
 	jp z, .printDone
-	cp ARBOK ; Sunsette: FOCUS ENERGY (+2 SPEED) / WRAP (+2 trap turns) signatures - effect adds, not a power remap
+	cp ARBOK ; Sunsette: ACID priority signature (Ekans line) - strikes first; lives in priority_moves.asm, not a remap
+	ld hl, .arbokInfoText
+	jp z, .printDone
+	cp EKANS ; Sunsette: shares ARBOK's ACID priority signature -> same info text
 	ld hl, .arbokInfoText
 	jp z, .printDone
 	cp PIDGEOT
@@ -479,14 +482,33 @@ MoveMysticCrystalBallText:
 	jp z, .printDone
 	; Sunsette: BLASTOISE / DRAGONITE / MOLTRES / ZAPDOS / ARTICUNO are no longer MOVE MYSTIC
 	; signature mons (the birds' effects moved onto their own dedicated moves).
-	cp KRABBY ; Sunsette: KRABBY/KINGLER use the CrabhammerModifier (byte2=-1, not species-searchable), so custom text
-	ld hl, .krabbyInfoText
-	jp z, .printDone
-	cp KINGLER
-	ld hl, .kinglerInfoText
-	jp z, .printDone
+	; Sunsette: KRABBY / KINGLER removed - CRABHAMMER is a flat 100-BP move now, no longer their signature.
 	cp SNORLAX ; Sunsette: REST bonus is an effect add (not a power remap), so custom text
 	ld hl, .snorlaxInfoText
+	jp z, .printDone
+	cp SEAKING ; Sunsette: RIPTIDE always raises SPEED - the GYARADOS / SEAKING / GOLDEEN signature
+	ld hl, .riptideInfoText
+	jp z, .printDone
+	cp GOLDEEN
+	ld hl, .riptideInfoText
+	jp z, .printDone
+	cp GYARADOS
+	ld hl, .riptideInfoText
+	jp z, .printDone
+	cp WEEZING ; Sunsette: SLUDGE BOMB burns instead of poisoning - custom text
+	ld hl, .weezingInfoText
+	jp z, .printDone
+	cp PIKACHU ; Sunsette: SURF WATERIFIES (effect signature, not a power remap) - custom text
+	ld hl, .surfSigInfoText
+	jp z, .printDone
+	cp RAICHU
+	ld hl, .surfSigInfoText
+	jp z, .printDone
+	cp CLEFAIRY ; Sunsette: METRONOME also raises a random stat (signature)
+	ld hl, .clefairyInfoText
+	jp z, .printDone
+	cp CLEFABLE
+	ld hl, .clefairyInfoText
 	jp z, .printDone
 	push de
 	cp JIGGLYPUFF
@@ -587,14 +609,21 @@ MoveMysticCrystalBallText:
 .pidgeotInfoText
 	text_far _MoveMysticPidgeotText
 	text_end
-.krabbyInfoText
-	text_far _MoveMysticKrabbyText
-	text_end
-.kinglerInfoText
-	text_far _MoveMysticKinglerText
-	text_end
+	; Sunsette: .krabbyInfoText / .kinglerInfoText removed - CRABHAMMER is no longer a signature.
 .snorlaxInfoText
 	text_far _MoveMysticSnorlaxText
+	text_end
+.riptideInfoText
+	text_far _MoveMysticRiptideText
+	text_end
+.weezingInfoText
+	text_far _MoveMysticWeezingBurnText
+	text_end
+.surfSigInfoText
+	text_far _MoveMysticSurfSigText
+	text_end
+.clefairyInfoText
+	text_far _MoveMysticClefairyText
 	text_end
 .masterOfMove
 	text_far _MoveMysticMasterOfMoveText
@@ -696,24 +725,33 @@ FormulateMoveMysticMonList:
 MoveMysticMonsList:
 	db BEEDRILL, $FF
 	db ARBOK, DEX_ARBOK
+	db EKANS, DEX_EKANS ; Sunsette: shares ARBOK's ACID priority signature (parallel text entry added too)
 	db JIGGLYPUFF, $FF
 	db WIGGLYTUFF, DEX_WIGGLYTUFF
 	db GOLDUCK, DEX_GOLDUCK
 	db GOLEM, DEX_GOLEM
 	db HYPNO, DEX_HYPNO
-	db LICKITUNG, $FF
-	db SEAKING, DEX_SEAKING
+	; Sunsette: LICKITUNG removed - LICK is no longer a signature (VENOM LASH covers it).
+	; (Its parallel text entry in MoveMysticMonTextEntries was removed too, to keep the tables index-parallel.)
+	db SEAKING, DEX_SEAKING ; Sunsette: RIPTIDE always +1 SPEED (GYARADOS/SEAKING/GOLDEEN signature)
+	db GOLDEEN, DEX_GOLDEEN ; Sunsette: ditto (parallel text entry added below)
+	db GYARADOS, DEX_GYARADOS ; Sunsette: ditto (parallel text entry added below)
 	db JYNX, DEX_JYNX
 	db ELECTABUZZ, DEX_ELECTABUZZ
 	db MAGMAR, DEX_MAGMAR
 	db OMASTAR, DEX_OMASTAR
 	; Sunsette: DRAGONITE / BLASTOISE / MOLTRES / ZAPDOS / ARTICUNO removed - no longer signature mons.
 	db PIDGEOT, DEX_PIDGEOT
-	db TANGELA, DEX_TANGELA ; Sunsette: STRANGLEVINE -> 90 BP (signature); uses the generic power-increase path
-	db KRABBY, DEX_KRABBY ; Sunsette: CRABHAMMER -> 75 BP (signature)
-	db KINGLER, DEX_KINGLER ; Sunsette: CRABHAMMER -> 100 BP (signature)
+	; Sunsette: TANGELA removed - VENOM LASH no longer a signature (parallel text entry removed too).
+	; Sunsette: KRABBY / KINGLER removed - CRABHAMMER is a flat 100-BP move now, no longer their signature
+	; (parallel text entries removed below to keep the tables index-parallel).
 	db SNORLAX, DEX_SNORLAX ; Sunsette: REST -> FLOURISH (GROWING) + SPEED +1
 	db KANGASKHAN, DEX_KANGASKHAN ; Sunsette: DIZZY PUNCH -> 90 BP (signature); generic power-increase path
+	db WEEZING, DEX_WEEZING ; Sunsette: SLUDGE BOMB now BURNS (special-cased info text)
+	db PIKACHU, DEX_PIKACHU ; Sunsette: SURF WATERIFIES once the player has surfed at the Summer Beach House
+	db RAICHU, DEX_RAICHU   ; Sunsette: ditto (parallel text entry below)
+	db CLEFAIRY, DEX_CLEFAIRY ; Sunsette: METRONOME also raises one random stat (parallel text entry below)
+	db CLEFABLE, DEX_CLEFABLE ; Sunsette: ditto
 	db -1
 
 MoveMysticMonTextEntries:
@@ -722,6 +760,9 @@ BeedrillMoveMysticText:
 	text_end
 ArbokMoveMysticText::
 	text_far _ArbokMoveMysticText
+	text_end
+EkansMoveMysticText:: ; Sunsette: index-parallel with EKANS in MoveMysticMonsList
+	text_far _EkansMoveMysticText
 	text_end
 JigglypuffMoveMysticText::
 	text_far _JigglypuffMoveMysticText
@@ -738,11 +779,15 @@ GolemMoveMysticText::
 HypnoMoveMysticText::
 	text_far _HypnoMoveMysticText
 	text_end
-LickitungMoveMysticText::
-	text_far _LickitungMoveMysticText
-	text_end
+; Sunsette: LickitungMoveMysticText removed (LICK no longer a signature) - stays index-parallel with MoveMysticMonsList.
 SeakingMoveMysticText::
 	text_far _SeakingMoveMysticText
+	text_end
+GoldeenMoveMysticText:: ; Sunsette: index-parallel with GOLDEEN in MoveMysticMonsList
+	text_far _GoldeenMoveMysticText
+	text_end
+GyaradosMoveMysticText:: ; Sunsette: index-parallel with GYARADOS in MoveMysticMonsList
+	text_far _GyaradosMoveMysticText
 	text_end
 JynxMoveMysticText::
 	text_far _JynxMoveMysticText
@@ -761,18 +806,26 @@ PidgeotMoveMysticText::
 	text_far _PidgeotMoveMysticText
 	text_end
 	; Sunsette: BLASTOISE / MOLTRES / ZAPDOS / ARTICUNO entries removed here (index-parallel removal).
-TangelaMoveMysticText::
-	text_far _TangelaMoveMysticText
-	text_end
-KrabbyMoveMysticText::
-	text_far _KrabbyMoveMysticText
-	text_end
-KinglerMoveMysticText::
-	text_far _KinglerMoveMysticText
-	text_end
+	; Sunsette: TangelaMoveMysticText removed (VENOM LASH no longer a signature) - stays index-parallel.
+	; Sunsette: KrabbyMoveMysticText / KinglerMoveMysticText removed (CRABHAMMER no longer a signature) - stays index-parallel.
 SnorlaxMoveMysticText::
 	text_far _SnorlaxMoveMysticText
 	text_end
 KangaskhanMoveMysticText:: ; Sunsette: index-parallel with KANGASKHAN in MoveMysticMonsList
 	text_far _KangaskhanMoveMysticText
+	text_end
+WeezingMoveMysticText:: ; Sunsette: index-parallel with WEEZING in MoveMysticMonsList
+	text_far _WeezingMoveMysticText
+	text_end
+PikachuMoveMysticText:: ; Sunsette: index-parallel with PIKACHU in MoveMysticMonsList
+	text_far _PikachuMoveMysticText
+	text_end
+RaichuMoveMysticText:: ; Sunsette: index-parallel with RAICHU in MoveMysticMonsList
+	text_far _RaichuMoveMysticText
+	text_end
+ClefairyMoveMysticText:: ; Sunsette: index-parallel with CLEFAIRY in MoveMysticMonsList
+	text_far _ClefairyMoveMysticText
+	text_end
+ClefableMoveMysticText:: ; Sunsette: index-parallel with CLEFABLE; shares the epithet text
+	text_far _ClefairyMoveMysticText
 	text_end

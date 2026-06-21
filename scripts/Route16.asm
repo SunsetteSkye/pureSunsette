@@ -1,5 +1,6 @@
 Route16_Script:
 	call EnableAutoTextBoxDrawing
+	farcall TryCyclingFlyReaction
 	call Route16CheckHideCutTree
 	ld hl, Route16TrainerHeaders
 	ld de, Route16_ScriptPointers

@@ -97,7 +97,7 @@ DEF NUM_ITEMS EQU const_value - 1
 ; HMs are defined before TMs, so the actual number of TM definitions
 ; is not yet available. The TM quantity is hard-coded here and must
 ; match the actual number below.
-DEF NUM_TMS EQU 50
+DEF NUM_TMS EQU 51
 
 DEF __tmhm_value__ = NUM_TMS + 1
 
@@ -138,63 +138,69 @@ MACRO add_tm
 ENDM
 
 ;;;;; PureRGBnote: CHANGED: TMs were reassigned better moves
+; Sunsette: a move's TM NUMBER (the "TMxx" shown in-game and in NPC dialogue) is its 1-based position in this
+; list: FROST_FIST = TM01, ... ROCK_ON = TM49, SUBSTITUTE = TM50, CLAY_ARMOR = TM51. The "; $XX" after each
+; entry is the ITEM id (hex), NOT the TM number - do not confuse the two. To number a TM, count only the real
+; "add_tm <MOVE>" lines (a loose grep for "add_tm" also matches the macro definition + comments and overcounts,
+; e.g. it makes ROCK_ON look like TM53). There are exactly NUM_TMS == 51, enforced by the ASSERT below.
 DEF TM01 EQU const_value
-	add_tm ICE_PUNCH   	; $C9 (FROST FIST)
-	add_tm RAZOR_WIND   ; $CA ROOST
-	add_tm FURY_ATTACK 	; $CB (MUD BOMB) ; was LEECH_SEED
+	add_tm FROST_FIST   ; $C9
+	add_tm ROOST        ; $CA
+	add_tm MUD_BOMB     ; $CB ; was LEECH_SEED
 	add_tm PIN_MISSILE  ; $CC
-	add_tm FIRE_PUNCH   ; $CD (BLAZE HAMMER)
+	add_tm BLAZE_HAMMER ; $CD
 	add_tm TOXIC        ; $CE
-	add_tm HORN_DRILL   ; $CF (VENOM DRILL)
+	add_tm HONE_EDGE    ; $CF ; Sunsette: HONE EDGE (was VENOM DRILL/HORN_DRILL TM); wide distribution
 	add_tm BODY_SLAM    ; $D0
-	add_tm DISABLE    	; $D1
+	add_tm DISABLE      ; $D1
 	add_tm DOUBLE_EDGE  ; $D2
-	add_tm BUBBLEBEAM   ; $D3
-	add_tm AURORA_BEAM  ; $D4
+	add_tm AQUA_RING    ; $D3 ; Sunsette: AQUA RING (was BUBBLEBEAM TM); Misty's TM. Bubblebeam -> WATER PULSE level-up
+	add_tm AURORA_MIST  ; $D4 ; Sunsette: AURORA MIST (was AURORA_BEAM TM); Aurora Beam -> level-up
 	add_tm ICE_BEAM     ; $D5
 	add_tm BLIZZARD     ; $D6
 	add_tm HYPER_BEAM   ; $D7
-	add_tm AMNESIA      ; $D8 (CALM MIND)
+	add_tm CALM_MIND    ; $D8
 	add_tm LOW_KICK     ; $D9 ; Sunsette: was HI_JUMP_KICK; now the weight-based LOW KICK TM (TM_HI_JUMP_KICK -> TM_LOW_KICK), taught to all but a set of exclusions
-	add_tm THUNDERPUNCH ; $DA (ZAPPERCUT)
-	add_tm ROLLING_KICK ; $DB (METEOR SWEEP)
+	add_tm ZAPPERCUT    ; $DA
+	add_tm METEOR_SWEEP ; $DB
 	add_tm BARRIER      ; $DC
-	add_tm RAZOR_LEAF   ; $DD
-	add_tm SOLARBEAM    ; $DE (SOLAR CANNON)
-	add_tm DRAGON_RAGE  ; $DF (WYRM WRATH)
+	add_tm ADAPTATION   ; $DD ; Sunsette: ADAPTATION (was RAZOR_LEAF TM); Erika's gift, type-themed distribution. Razor Leaf is level-up only now.
+	add_tm SOLARBEAM    ; $DE
+	add_tm WYRM_WRATH   ; $DF
 	add_tm THUNDERBOLT  ; $E0
 	add_tm THUNDER      ; $E1
 	add_tm EARTHQUAKE   ; $E2
-	add_tm CRABHAMMER	; $E3
+	add_tm RIPTIDE      ; $E3 ; Sunsette: TM28 now teaches RIPTIDE (WATERFALL); was CRABHAMMER (still a KRABBY/KINGLER level-up move)
 	add_tm DIG          ; $E4
 	add_tm PSYCHIC_M    ; $E5
 	add_tm MEGA_DRAIN   ; $E6
-	add_tm KINESIS      ; $E7 MIRAGE
+	add_tm MIRAGE       ; $E7
 	add_tm SWORDS_DANCE ; $E8
 	add_tm REFLECT      ; $E9
-	add_tm BIDE         ; $EA (BULK UP)
-	add_tm SONICBOOM    	; $EB
-	add_tm BARRAGE 		; $EC (SHADOW BALL)
-	add_tm FLAMETHROWER ; $ED
+	add_tm BULK_UP      ; $EA
+	add_tm ILL_WIND     ; $EB
+	add_tm SHADOW_BALL  ; $EC
+	add_tm SUPERNOVA    ; $ED ; Sunsette: SUPERNOVA (was FLAMETHROWER TM); Blaine's TM. Flamethrower -> level-up
 	add_tm FIRE_BLAST   ; $EE
-	add_tm SLAM        	; $EF (WASTEMAKER)
-	add_tm KARATE_CHOP  ; $F0
-	add_tm MEDITATE   	; $F1  (VOID MIND)
+	add_tm TWISTER      ; $EF
+	add_tm DEMOLISH  ; $F0
+	add_tm VOID_MIND    ; $F1
 	add_tm LOVELY_KISS  ; $F2
-	add_tm SKY_ATTACK   ; $F3 (BRAVE BIRD)
+	add_tm BRAVE_BIRD   ; $F3
 	add_tm LIGHT_SCREEN ; $F4
 	add_tm THUNDER_WAVE ; $F5
-	add_tm PSYWAVE      ; $F6 ; SKITTERMIND (was PSYBEAM's TM; now teaches PSYWAVE/SKITTERMIND)
-	add_tm SLUDGE    	; $F7 (SLUDGE BOMB)
+	add_tm SKITTERMIND  ; $F6 ; SKITTERMIND (was PSYBEAM's TM; now teaches PSYWAVE/SKITTERMIND)
+	add_tm SHADOW_GAME  ; $F7 ; Sunsette: was SLUDGE; now teaches SHADOW GAME. Sludge Bomb is level-up only now.
 	add_tm ROCK_SLIDE   ; $F8
-	add_tm GLARE   		; $F9
+	add_tm ROCK_ON  ; $F9 ; Sunsette: BUNKER DOWN (was GLARE TM); Brock's gift, physical+GHOST brace. GLARE is level-up only now.
 	add_tm SUBSTITUTE   ; $FA
+	add_tm CLAY_ARMOR   ; $FB ; Sunsette: CLAY ARMOR - the 51st TM (Giovanni's). Uses the last free tmhm bit; nothing sacrificed.
 ASSERT NUM_TMS == const_value - TM01, "NUM_TMS ({d:NUM_TMS}) does not match the number of add_tm definitions"
 
 DEF NUM_TM_HM EQU NUM_TMS + NUM_HMS
 
-; 50 TMs + 5 HMs = 55 learnable TM/HM flags per Pokémon.
-; These fit in 7 bytes, with one unused bit left over.
+; 51 TMs + 5 HMs = 56 learnable TM/HM flags per Pokémon.
+; These fit in 7 bytes exactly (the last spare bit is now used by CLAY ARMOR's TM).
 DEF __tmhm_value__ = NUM_TM_HM + 1
 DEF UNUSED_TMNUM EQU __tmhm_value__
 

@@ -1338,7 +1338,7 @@ LoadDefaultBallOAMCoords::
 	jr LoadBallOAMCoords
 
 	; de = coords
-	; c = which sprite is the beginning of the 4-sprite 
+	; c = which sprite is the beginning of the 4-sprite
 LoadSpecificOAMSpriteCoords::
 	ld hl, wShadowOAMSprite00YCoord
 	push de
@@ -2162,7 +2162,7 @@ PoofSFXChoices:
 	dbw $FF, PlayPoisonWhirlPoofSFX ; poison whirl -> poison -> water
 	db 0, 15, SFX_BATTLE_34 ; explode deep -> good -> fire sort of
 	dbw $FF, PlayLightningStrikePoofSFX ; lightning strike -> good -> electric
-	dbw $FF, PlaySparklePoofSFX ; grass -> 
+	dbw $FF, PlaySparklePoofSFX ; grass ->
 	db -1
 
 BallPoofDelay2Frames:
@@ -2287,7 +2287,7 @@ BattleAnim_Sine:
 	;db 0, 60, SFX_NOT_VERY_EFFECTIVE ; explode
 	;db 0, 20, SFX_SUPER_EFFECTIVE ; rock
 	;db 0, 45, SFX_NOT_VERY_EFFECTIVE ; explode
-	;db 0, 30, SFX_BATTLE_0E ; cut ? 
+	;db 0, 30, SFX_BATTLE_0E ; cut ?
 	;db 0, 25, SFX_NOT_VERY_EFFECTIVE ; cut ?
 	;db 0, 178, SFX_SUPER_EFFECTIVE ; wind? - combine with poof
 	;db $30, $FF, SFX_NOT_VERY_EFFECTIVE ; Poison gas
@@ -2322,7 +2322,7 @@ BattleAnim_Sine:
 
 ;SFXTestValues:
 ;	;db 0, 0, SFX_BATTLE_34 ; explode standard
-;
+
 ;LoopTestSFX2:
 ;	call StopAllMusic
 ;	ld hl, PoofSFXChoices
@@ -2350,7 +2350,7 @@ BattleAnim_Sine:
 ;	ld de, wSoundID
 ;	lb bc, 1 | LEADING_ZEROES, 3
 ;	call PrintNumber
-;	call WaitForTextScrollButtonPress 
+;	call WaitForTextScrollButtonPress
 ;	pop hl
 ;	ldh a, [hJoy5]
 ;	bit B_PAD_B, a
@@ -2391,7 +2391,7 @@ BattleAnim_Sine:
 ;	ld de, wSoundID
 ;	lb bc, 1 | LEADING_ZEROES, 3
 ;	call PrintNumber
-;	call WaitForTextScrollButtonPress 
+;	call WaitForTextScrollButtonPress
 ;	pop bc
 ;	pop hl
 ;	ldh a, [hJoy5]
@@ -2403,7 +2403,7 @@ BattleAnim_Sine:
 ;	;jr nz, .loopFrequencies
 ;	inc hl
 ;	jr .loopSFX
-;
+
 ;SFXList:
 ;	db  SFX_BATTLE_27
 ;	db  SFX_PSYCHIC_M
@@ -2441,15 +2441,15 @@ BattleAnim_Sine:
 ;	; fire
 ;	dn BALL_TILE_FIRE, BALL_COLOR_RED, BALL_THROW_VIBRATE, BALL_SFX_EXPLODE, BALL_POOF_CIRCLE_SPREAD, 0
 ;	; water
-;	dn BALL_TILE_DROPLET, BALL_COLOR_BLUE, BALL_THROW_DROP, BALL_SFX_SQUIRT, BALL_POOF_GRAVITY, 0 
+;	dn BALL_TILE_DROPLET, BALL_COLOR_BLUE, BALL_THROW_DROP, BALL_SFX_SQUIRT, BALL_POOF_GRAVITY, 0
 ;	; grass
-;	dn BALL_TILE_LEAF, BALL_COLOR_GREEN, BALL_THROW_ROLL, BALL_SFX_WHOOSH, BALL_POOF_CIRCLE_SPREAD, 0 
+;	dn BALL_TILE_LEAF, BALL_COLOR_GREEN, BALL_THROW_ROLL, BALL_SFX_WHOOSH, BALL_POOF_CIRCLE_SPREAD, 0
 ;	; electric
 ;	dn BALL_TILE_BOLT, BALL_COLOR_YELLOW, BALL_THROW_ZIGZAG, BALL_SFX_THUNDER, BALL_POOF_STRIKE, %0001
 ;	; ice
 ;	dn BALL_TILE_CRYSTAL, BALL_COLOR_CYAN, BALL_THROW_SHAKE, BALL_SFX_ICY, BALL_POOF_SPECKLE, 0
 ;	; psychic
-;	dn BALL_TILE_EYE, BALL_COLOR_PINK, BALL_THROW_THE_MERGING, BALL_SFX_PSY, BALL_POOF_WINDMILL , 0 
+;	dn BALL_TILE_EYE, BALL_COLOR_PINK, BALL_THROW_THE_MERGING, BALL_SFX_PSY, BALL_POOF_WINDMILL , 0
 ;	; ghost
 ;	dn BALL_TILE_GHOST, BALL_COLOR_PURPLE, BALL_THROW_THE_MERGING, BALL_SFX_EVIL, BALL_POOF_TORNADO, %0001
 ;	; bug
@@ -2472,5 +2472,5 @@ BattleAnim_Sine:
 ;	dn BALL_TILE_SHINE, BALL_COLOR_YELLOW, BALL_THROW_ANGELIC, BALL_SFX_SHWING, BALL_POOF_CONFETTI, %0010
 ;	; explosion
 ;	dn BALL_TILE_SPHERE, BALL_COLOR_BLACK, BALL_THROW_FLASH, BALL_SFX_EXPLODE, BALL_POOF_EXPLOSION, 0
-;
+
 ;	db -1

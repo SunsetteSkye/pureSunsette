@@ -12,10 +12,11 @@ PlayBattleMusic::
 	and a
 	ld b, MUSIC_GYM_LEADER_BATTLE
 	jr nz, .playSong
-	ld a, [wCurOpponent]
-	cp OPP_ID_OFFSET
+	ld a, [wIsInBattle] ; Sunsette: trainer-vs-wild now from the type flag (2 = trainer), not the packed opponent range
+	cp 2
 	ld b, MUSIC_WILD_BATTLE
 	jr c, .playSong
+	ld a, [wCurOpponent]
 	cp OPP_RIVAL3
 	ld b, MUSIC_FINAL_BATTLE
 	jr z, .playSong

@@ -6,12 +6,30 @@ PrintMonType::
 	ld l, e
 	push hl
 	push hl
+	; Sunsette: when viewing the ACTIVE mon during a battle, show its LIVE typing (Conversion / the
+	; transformation moves rewrite wBattleMonType, which is already type-remapped) instead of the base
+	; species typing. Any other context (benched mon, Pokedex, Hall of Fame, out of battle) uses the header.
+	ld a, [wIsInBattle]
+	and a
+	jr z, .useHeader
+	ld a, [wPlayerMonNumber]
+	ld b, a
+	ld a, [wWhichPokemon]
+	cp b
+	jr nz, .useHeader
+	ld a, [wBattleMonType1]
+	ld d, a
+	ld a, [wBattleMonType2]
+	ld e, a
+	jr .gotTypes
+.useHeader
 	call GetMonHeader
 	ld a, [wMonHType1]
 	ld d, a
 	ld a, [wMonHType2]
 	ld e, a
 	callfar TryRemapTypingNoWramChange
+.gotTypes
 	pop hl
 	ld a, d
 	push de
@@ -67,3 +85,33 @@ FarPrintType:
 	ld l, e
 	ld a, [wPlayerMoveType]
 	jp PrintType
+
+; Sunsette: announce an ADAPTATION-style brace, naming the type. e = the braced type. Copies that type's
+; name into wStringBuffer and prints "It braced against <TYPE>!". Lives here for TypeNames access; callfar'd
+; from AGILITY / ADAPTATION / BUNKER DOWN. callfar clobbers a/b/c but preserves de, so the type comes in via e.
+AnnounceBrace::
+	ld a, e
+	add a
+	ld e, a
+	ld d, 0
+	ld hl, TypeNames
+	add hl, de
+	ld a, [hli]
+	ld h, [hl]
+	ld l, a ; hl = the type's name string
+	ld de, wStringBuffer
+.copy
+	ld a, [hli]
+	ld [de], a
+	inc de
+	cp '@'
+	jr nz, .copy
+	ld hl, BracedAgainstText
+	jp PrintText
+
+BracedAgainstText:
+	text "It braced against"
+	line "@"
+	text_ram_stringbuffer
+	text "!"
+	prompt

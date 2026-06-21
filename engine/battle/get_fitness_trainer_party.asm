@@ -19,7 +19,7 @@ FitnessProxyParties:
 	dw FitnessProxyParty5
 	dw FitnessProxyParty6
 
-; only pokemon that 
+; only pokemon that
 GetRandomFitnessPokemon::
 	ld a, [wCurMap]
 	cp VERMILION_FITNESS_CLUB

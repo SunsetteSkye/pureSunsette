@@ -9,7 +9,7 @@ CheckRemapSprite::
 ; Sunsette: icons are always OG+ (enhanced) - no overworld sprite remapping needed
 	ret
 
-; PureRGBnote: ADDED: code that will remap overworld NPC icons according to options selection (enhanced or original) 
+; PureRGBnote: ADDED: code that will remap overworld NPC icons according to options selection (enhanced or original)
 ; if not using enhanced sprites we remap the sprite to its original sprite.
 ; output: de = mapped sprite id
 RemapSpritePictureIDs::

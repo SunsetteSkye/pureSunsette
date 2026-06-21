@@ -309,61 +309,38 @@ GameCornerMiddleAgedWomanText:
 	text_far _GameCornerMiddleAgedWomanText
 	text_end
 
-GameCornerGymGuideText: ; PureRGBnote: ADDED: gym guide gives you apex chips after beating the leader
+GameCornerGymGuideText: ; Sunsette: post-RAINBOW BADGE, the exiled CELADON gym guide sells a spare copy of ERIKA's TM (ADAPTATION) at MART price; +MEGA DRAIN at 3 badges, +SOLARBEAM at 6
 	text_asm
 	CheckEvent EVENT_BEAT_ERIKA
 	jr nz, .afterBattle
 	ld hl, GameCornerGymGuideChampInMakingText
 	rst _PrintText
-	jr .done
+	rst TextScriptEnd
 .afterBattle
 	ld hl, CeladonGameCornerText_gymguide
 	rst _PrintText
-	CheckEvent EVENT_GOT_PEWTER_APEX_CHIPS ; have to hear about apex chips to receive them after that
-	jr z, .gameCornerPrizes
-	CheckEvent EVENT_GOT_CELADON_APEX_CHIPS
-	jr nz, .gameCornerPrizes
-.giveApexChips
-	ld hl, GymGuideMoreApexChipText4
-	rst _PrintText
-	lb bc, APEX_CHIP, 2
-	call GiveItem
-	jr nc, .BagFull
-	ld hl, ReceivedApexChipsText4
-	rst _PrintText
-	ld hl, CeladonGameCornerGymGuideApexChipGrassText
-	rst _PrintText
-	SetEvent EVENT_GOT_CELADON_APEX_CHIPS
-.gameCornerPrizes
 	ld hl, GameCornerGymGuideTheyOfferRarePokemonText
 	rst _PrintText
-	jr .done
-.BagFull
-	ld hl, ApexNoRoomText4
-	rst _PrintText
-.done
+	ld hl, wObtainedBadges ; Sunsette: badge-count-gated extra TMs (3 badges, then 6)
+	ld b, 1
+	call CountSetBits
+	ld a, [wNumSetBits]
+	cp 6
+	ld hl, GameCornerGymGuideTMShop6
+	jr nc, .tmShopReady
+	cp 3
+	ld hl, GameCornerGymGuideTMShop3
+	jr nc, .tmShopReady
+	ld hl, GameCornerGymGuideTMShop1
+.tmShopReady
+	call DisplayPokemartNoGreeting
 	rst TextScriptEnd
 
-ReceivedApexChipsText4:
-	text_far _ReceivedApexChipsText
-	sound_get_item_1
-	text_end
-
-ApexNoRoomText4:
-	text_far _PewterGymTM34NoRoomText
-	text_end
-
-GymGuideMoreApexChipText4:
-	text_far _GymGuideMoreApexChipText
-	text_end
+INCLUDE "data/items/marts/celadon_gym_guide.asm"
 
 CeladonGameCornerText_gymguide:
 	text_far _GymGuideChampInMakingText
 	text_far _CeladonGameCornerText_gymguide
-	text_end
-
-CeladonGameCornerGymGuideApexChipGrassText:
-	text_far _CeladonGameCornerGymGuideApexChipGrassText
 	text_end
 
 GameCornerGymGuideChampInMakingText:

@@ -38,7 +38,7 @@ Route10_TextPointers:
 	dw_const Route10CooltrainerF2Text,  TEXT_ROUTE10_COOLTRAINER_F2
 	dw_const Route10Text7,              TEXT_ROUTE10_SUPER_NERD3
 	dw_const Route10FlareonText,        TEXT_ROUTE10_FLAREON
-	dw_const PickUpItemText,            TEXT_ROUTE10_ITEM1 ; PureRGBnote: ADDED: new item in this location 
+	dw_const PickUpItemText,            TEXT_ROUTE10_ITEM1 ; PureRGBnote: ADDED: new item in this location
 	dw_const Route10RockTunnelSignText, TEXT_ROUTE10_ROCKTUNNEL_NORTH_SIGN
 	dw_const PokeCenterSignText,        TEXT_ROUTE10_POKECENTER_SIGN
 	dw_const Route10RockTunnelSignText, TEXT_ROUTE10_ROCKTUNNEL_SOUTH_SIGN

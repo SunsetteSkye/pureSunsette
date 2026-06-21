@@ -15,44 +15,41 @@
 
 	; tm/hm learnset
 	tmhm \
-	FURY_ATTACK,\ ; MUD BOMB
-	LOW_KICK,\
-	SONICBOOM,\ ; ILL WIND
-	ICE_PUNCH,\ ; FROST FIST
+	ADAPTATION,\
+	FROST_FIST,\
+	MUD_BOMB,\
 	PIN_MISSILE,\
-	FIRE_PUNCH,\ ; BLAZE HAMMER
+	BLAZE_HAMMER,\
 	TOXIC,\
-	HORN_DRILL,\ ; VENOM DRILL
 	BODY_SLAM,\
 	DISABLE,\
 	DOUBLE_EDGE,\
-	BUBBLEBEAM,\
-	AURORA_BEAM,\
 	ICE_BEAM,\
 	BLIZZARD,\
 	HYPER_BEAM,\
-	THUNDERPUNCH,\ ; ZAPPERCUT
-	ROLLING_KICK,\ ; METEOR SWEEP
+	LOW_KICK,\
+	ZAPPERCUT,\
+	METEOR_SWEEP,\
 	BARRIER,\
-	DRAGON_RAGE,\ ; WYRM WRATH
+	WYRM_WRATH,\
 	THUNDERBOLT,\
 	THUNDER,\
 	EARTHQUAKE,\
 	DIG,\
-	KINESIS,\ ; MIRAGE
+	MIRAGE,\
 	REFLECT,\
-	BIDE,\ ; BULK UP
-	BARRAGE,\ ; SHADOW BALL
+	BULK_UP,\
+	ILL_WIND,\
+	SHADOW_BALL,\
 	FIRE_BLAST,\
-	FLAMETHROWER,\
-	SLAM,\ ; WASTEMAKER
-	KARATE_CHOP,\
+	DEMOLISH,\
 	LOVELY_KISS,\
 	LIGHT_SCREEN,\
-	SLUDGE,\ ; SLUDGE BOMB
+	SHADOW_GAME,\
 	ROCK_SLIDE,\
-	GLARE,\
+	ROCK_ON,\
 	SUBSTITUTE,\
+	CLAY_ARMOR,\
 	CUT,\
 	SURF,\
 	STRENGTH
@@ -65,3 +62,25 @@
 
 	dw 0, NidoqueenPicBack
 
+; --- Sunsette SSOT directives (parsed by tools/gen_pokemon_data.py) ---
+;@ nature       NATURE_CONSIDERATE NATURE_STOLID
+;@ pal_battle   PAL_MUDDYWATER
+;@ pal_altbattle PAL_SOFTVIOSCAR
+;@ pal_icon     PAL_ICON_08
+;@ pal_alticon  PAL_ICON_20
+;@ evo_move    NO_MOVE
+;@ evo_react   "It stomps down," "broad and proud!"
+;@ evo_react   "It rears up tall," "scales flaring!"
+;@ evo_react   "It lashes its tail" "like a club!"
+;@ evo_react   "It bellows out," "fierce and grand!"
+;@ learn       8, POISON_STING
+;@ learn       12, MUD_BOMB
+;@ learn       16, SAND_ATTACK
+;@ learn       20, BULK_UP
+;@ learn       25, BLOOD_RUSH
+;@ learn       30, BODY_SLAM
+;@ learn       35, BARRIER
+;@ learn       40, EARTHQUAKE
+;@ learn       46, REST
+;@ learn       52, SLUDGE_BOMB
+;@ learn       58, METEOR_DRIVE

@@ -15,17 +15,20 @@
 
 	; tm/hm learnset
 	tmhm \
-	DISABLE,\
+	ADAPTATION,\
 	TOXIC,\
+	HONE_EDGE,\
+	DISABLE,\
 	DOUBLE_EDGE,\
 	BARRIER,\
 	MEGA_DRAIN,\
 	SWORDS_DANCE,\
 	REFLECT,\
-	BIDE,\ ; BULK UP
+	BULK_UP,\
 	LIGHT_SCREEN,\
-	GLARE,\
+	SHADOW_GAME,\
 	SUBSTITUTE,\
+	CLAY_ARMOR,\
 	CUT,\
 	FLASH
 	;end
@@ -37,3 +40,18 @@
 
 	dw 0, MetapodPicBack
 
+; --- Sunsette SSOT directives (parsed by tools/gen_pokemon_data.py) ---
+;@ nature       NATURE_STOLID NATURE_NONE
+;@ pal_battle   PAL_LEAFMON
+;@ pal_altbattle PAL_IVORYMON
+;@ pal_icon     $FF
+;@ pal_alticon  $FF
+;@ evo         EVOLVE_LEVEL, 10, BUTTERFREE
+;@ evo_move    NO_MOVE
+;@ evo_react   "It stiffens, then" "locks up tight!"
+;@ evo_react   "Its shell hardens" "with a slow creak."
+;@ evo_react   "It rocks once," "then goes still."
+;@ evo_react   "A green sheen" "crawls over it."
+;@ learn       7, HARDEN
+;@ learn       7, CALM_MIND
+;@ learn       15, CRYSTALLIZE

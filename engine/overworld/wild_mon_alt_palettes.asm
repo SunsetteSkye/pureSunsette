@@ -17,7 +17,7 @@ GetWildPokemonPalettes::
 	rst _CopyData
 	ret
 
-;[wIsAltPalettePkmn] = which encounter slot 0-9 for grass encounters, 10-19 for water encounters, 20-23 for super rod encounters 
+;[wIsAltPalettePkmn] = which encounter slot 0-9 for grass encounters, 10-19 for water encounters, 20-23 for super rod encounters
 ;[wWildMonPalettes] = 24-bit flag-array that indicates which pokemon have alternate palettes for the current area
 CheckWildPokemonPalettes::
 	ld a, [wIsAltPalettePkmn]

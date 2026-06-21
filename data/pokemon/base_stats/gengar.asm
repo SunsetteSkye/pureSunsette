@@ -10,35 +10,33 @@
 	INCBIN "gfx/pokemon/front/gengar.pic", 0, 1 ; sprite dimensions
 	dw GengarPicFront, GengarPicBackSW
 
-	db LICK, HAZE, GUST, NO_MOVE ; level 1 learnset
+	db LICK, TOXIC, GUST, NO_MOVE ; level 1 learnset
 	db GROWTH_MEDIUM_SLOW ; growth rate
 
 	; tm/hm learnset
 	tmhm \
-	DISABLE,\
-	SONICBOOM,\ ; ILL WIND
-	ICE_PUNCH,\ ; FROST FIST
+	FROST_FIST,\
 	TOXIC,\
 	BODY_SLAM,\
+	DISABLE,\
 	DOUBLE_EDGE,\
-	AURORA_BEAM,\
+	AURORA_MIST,\
 	HYPER_BEAM,\
 	LOW_KICK,\
-	THUNDERPUNCH,\ ; ZAPPERCUT
-	ROLLING_KICK,\ ; METEOR SWEEP
+	ZAPPERCUT,\
+	METEOR_SWEEP,\
 	THUNDERBOLT,\
 	THUNDER,\
 	PSYCHIC_M,\
 	MEGA_DRAIN,\
-	KINESIS,\ ; MIRAGE
-	BIDE,\ ; BULK UP
-	BARRAGE,\ ; SHADOW BALL
-	SLAM,\ ; WASTEMAKER
-	KARATE_CHOP,\
+	MIRAGE,\
+	BULK_UP,\
+	ILL_WIND,\
+	SHADOW_BALL,\
+	DEMOLISH,\
 	LOVELY_KISS,\
-	PSYWAVE,\ ; SKITTERMIND
-	SLUDGE,\ ; SLUDGE BOMB
-	GLARE,\
+	SKITTERMIND,\
+	SHADOW_GAME,\
 	SUBSTITUTE,\
 	CUT,\
 	STRENGTH,\
@@ -52,3 +50,22 @@
 
 	dw GengarPicFrontAlt, GengarPicBack
 
+; --- Sunsette SSOT directives (parsed by tools/gen_pokemon_data.py) ---
+;@ nature       NATURE_CRUEL NATURE_PLAYFUL
+;@ pal_battle   PAL_REDPURPLEMON
+;@ pal_altbattle PAL_0F
+;@ pal_icon     $FF
+;@ pal_alticon  $FF
+;@ evo_move    NO_MOVE
+;@ evo_react   "Your own shadow" "looks like it now<...>"
+;@ evo_react   "It grins wide," "fangs flashing!"
+;@ evo_react   "It sinks into the" "floor, cackling!"
+;@ evo_react   "It darts around" "you in a blur!"
+;@ learn       21, PHANTASM
+;@ learn       24, HYPNOSIS
+;@ learn       29, EMETIC_PURGE
+;@ learn       33, CONFUSE_RAY
+;@ learn       41, SHADOW_BOX
+;@ learn       46, DOUBLE_TEAM
+;@ learn       51, MAXIMIZE
+;@ learn       57, SOULSTEALER

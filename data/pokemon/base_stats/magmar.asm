@@ -1,3 +1,4 @@
+; Sunsette: has a variant form -> base_stats/volcanic_magmar.asm (Volcanic Magmar).
 	db DEX_MAGMAR ; pokedex id
 
 	db  85,  95,  57,  93,  95
@@ -15,39 +16,41 @@
 
 	; tm/hm learnset
 	tmhm \
-	ICE_PUNCH,\ ; FROST FIST
-	FIRE_PUNCH,\ ; BLAZE HAMMER
+	ADAPTATION,\
+	FROST_FIST,\
+	BLAZE_HAMMER,\
 	TOXIC,\
+	HONE_EDGE,\
 	BODY_SLAM,\
 	DISABLE,\
 	DOUBLE_EDGE,\
 	HYPER_BEAM,\
-	AMNESIA,\ ; CALM MIND
+	CALM_MIND,\
 	LOW_KICK,\
-	THUNDERPUNCH,\ ; ZAPPERCUT
-	ROLLING_KICK,\ ; METEOR SWEEP
+	ZAPPERCUT,\
+	METEOR_SWEEP,\
 	BARRIER,\
-	SOLARBEAM,\ ; SOLARBEAM
-	DRAGON_RAGE,\ ; WYRM WRATH
+	SOLARBEAM,\ 
+	WYRM_WRATH,\
 	EARTHQUAKE,\
 	DIG,\
 	PSYCHIC_M,\
-	KINESIS,\ ; MIRAGE
+	MIRAGE,\
 	SWORDS_DANCE,\
 	REFLECT,\
-	BIDE,\ ; BULK UP
-	BARRAGE,\ ; SHADOW BALL
+	BULK_UP,\
+	SHADOW_BALL,\
+	SUPERNOVA,\
 	FIRE_BLAST,\
-	FLAMETHROWER,\
-	SLAM,\ ; WASTEMAKER
-	KARATE_CHOP,\
-	MEDITATE,\ ; VOID MIND
+	DEMOLISH,\
+	VOID_MIND,\
 	LOVELY_KISS,\
+	BRAVE_BIRD,\
 	LIGHT_SCREEN,\
-	PSYWAVE,\ ; SKITTERMIND
-	SLUDGE,\ ; SLUDGE BOMB
-	GLARE,\
+	SKITTERMIND,\
+	SHADOW_GAME,\
 	SUBSTITUTE,\
+	CLAY_ARMOR,\
 	CUT,\
 	STRENGTH,\
 	FLASH
@@ -61,3 +64,22 @@
 
 	dw 0, MagmarPicBack
 
+; --- Sunsette SSOT directives (parsed by tools/gen_pokemon_data.py) ---
+;@ nature       NATURE_CRUEL NATURE_HYPER
+;@ pal_battle   PAL_REDMON
+;@ pal_altbattle PAL_CYANMON
+;@ pal_icon     $FF
+;@ pal_alticon  $FF
+;@ evo_move    NO_MOVE
+;@ evo_react   NONE
+;@ learn       15, SMOG
+;@ learn       17, SMOKESCREEN
+;@ learn       20, METEOR_SWEEP
+;@ learn       22, CONFUSE_RAY
+;@ learn       24, EMETIC_PURGE
+;@ learn       27, BLAZE_HAMMER
+;@ learn       30, TELEPORT
+;@ learn       37, EGG_BOMB
+;@ learn       43, SLUDGE_BOMB
+;@ learn       49, FIRE_BLAST
+;@ learn       54, TOXIC

@@ -20,8 +20,21 @@ _PewterGymBrockPreBattleText::
 _PewterGymGuideCallOverText::
 	text "GYM GUIDE: Hey"
 	line "kid! You won!"
-	para "That was a rock-"
-	line "solid battle!"
-	para "Come over"
-	line "here for a sec."
+
+	para "That was a solid"
+	line "battle!"
+
+	para "Say, now you've"
+	line "got that BADGE,"
+	cont "I can copy you a"
+	cont "spare of BROCK's"
+	cont "<TM>!"
+
+	para "Any GYM GUIDE"
+	line "will, once you've"
+	cont "earned that"
+	cont "LEADER's BADGE!"
+
+	para "Same price as a"
+	line "MART. Handy, eh?"
 	done

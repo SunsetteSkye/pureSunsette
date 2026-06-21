@@ -23,7 +23,6 @@ _TMKidGreet::
 	line "The <TM> Pirate!"
 	prompt
 
-_IndigoPlateauGymGuideSonShopStart::
 _TMKidQuick::
 	text "Want some <TM>s?"
 	done

@@ -3,6 +3,15 @@
 SilphCo5F_Script:
 	call SilphCo5FGateCallbackScript
 	call EnableAutoTextBoxDrawing
+	CheckEvent EVENT_REACTED_CARD_KEY
+	jr nz, .skipReaction
+	ld b, CARD_KEY
+	call IsItemInBag
+	jr z, .skipReaction
+	SetEvent EVENT_REACTED_CARD_KEY
+	ld a, NROW_CARD_KEY
+	farcall ShowOverworldNature
+.skipReaction
 	ld hl, SilphCo5TrainerHeaders
 	ld de, SilphCo5F_ScriptPointers
 	ld a, [wSilphCo5FCurScript]

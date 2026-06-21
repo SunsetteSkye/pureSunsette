@@ -54,10 +54,10 @@ VermilionDockSSAnneLeavesScript:
 ;;;;;;;;;;
 	SetEventForceReuseHL EVENT_SS_ANNE_LEFT
 	callfar GBCSetCPU1xSpeed ; shinpokerednote: ADDED: GBC double speed cpu mode messes up this animation
-;;;;;;;;;; PureRGBnote: ADDED: since we instantly enter this script from a warp and due to DEFER_SHOWING_MAP bit set on this map's header, 
+;;;;;;;;;; PureRGBnote: ADDED: since we instantly enter this script from a warp and due to DEFER_SHOWING_MAP bit set on this map's header,
 ;;;;;;;;;; we need to reset the palette here or the screen will be black
 	call GBPalNormal
-;;;;;;;;;; 
+;;;;;;;;;;
 	call DisableAllJoypad
 	ASSERT SFX_STOP_ALL_MUSIC == $FF 
 	; a = SFX_STOP_ALL_MUSIC = $FF due to DisableAllJoypad
@@ -251,8 +251,18 @@ MewTrainerHeader:
 
 VermilionDockMewText:
 	text_asm
+	; Sunsette: remember whether Mew was already encountered, so we only react on the win itself.
+	CheckEvent EVENT_ENCOUNTERED_MEW
+	push af
 	ld hl, MewTrainerHeader
 	call TalkToTrainer
+	pop af
+	jr nz, .skipMewReaction ; was already encountered before -> no reaction
+	CheckEvent EVENT_ENCOUNTERED_MEW
+	jr z, .skipMewReaction ; battle didn't actually resolve to a win
+	ld a, NRLEG_MEW
+	farcall ShowLegendaryReaction
+.skipMewReaction
 	ld c, 60
 	rst _DelayFrames
 	jp TextScriptEndNoButtonPress

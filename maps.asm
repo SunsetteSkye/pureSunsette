@@ -1181,6 +1181,17 @@ CeruleanRocketHouse1F_Blocks: INCBIN "maps/CeruleanRocketHouse1F.blk"
 CeruleanRocketHouseB1F_Blocks: INCBIN "maps/CeruleanRocketHouseB1F.blk"
 
 
+; Sunsette: interior of the new Summer Beach House on Route 19 (Surfing Pikachu minigame).
+; Own floating section so header/script/objects/blocks share a bank (BANK(SummerBeachHouse_h)
+; auto-resolves for map_header_banks).
+SECTION "Sunsette Summer Beach House", ROMX
+
+INCLUDE "data/maps/headers/SummerBeachHouse.asm"
+INCLUDE "scripts/SummerBeachHouse.asm"
+INCLUDE "data/maps/objects/SummerBeachHouse.asm"
+SummerBeachHouse_Blocks: INCBIN "maps/SummerBeachHouse.blk"
+
+
 SECTION "Maps 20", ROMX
 
 INCLUDE "data/maps/headers/ViridianGym.asm"

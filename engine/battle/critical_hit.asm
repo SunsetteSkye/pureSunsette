@@ -11,6 +11,9 @@ SECTION "Sunsette Critical Hit", ROMX
 CriticalHitTest:
 	xor a
 	ld [wCriticalHitOrOHKO], a
+	call DemolishBreakScreens ; Sunsette: DEMOLISH (DEMOLISH) shatters the target's screens pre-damage
+	call CheckBrunoNoCrit ; Sunsette: BRUNO's room - his mons cannot be crit (overrides forced crits)
+	ret c
 	call CheckAutoCritVsStatus ; Sunsette: drain moves / VENOM LASH auto-crit a statused target
 	jr nc, .normalCalc
 	ld a, $1
@@ -56,6 +59,25 @@ CriticalHitTest:
 	jr nz, .fullCritSpeed
 	srl b
 .fullCritSpeed
+; Sunsette: FIGHTING-type attackers crit at double the normal speed-based rate (vital-point strikes).
+; Applied to the speed contribution before the Focus Energy / high-crit multipliers, so it compounds.
+	ldh a, [hWhoseTurn]
+	and a
+	ld hl, wBattleMonType1
+	jr z, .gotCritAtkType
+	ld hl, wEnemyMonType1
+.gotCritAtkType
+	ld a, [hli]
+	cp FIGHTING
+	jr z, .doubleFighting
+	ld a, [hl]
+	cp FIGHTING
+	jr nz, .afterFighting
+.doubleFighting
+	sla b
+	jr nc, .afterFighting
+	ld b, $ff ; cap
+.afterFighting
 ; Sunsette: Articuno/Zapdos/Moltres/Mewtwo/Mew can only crit via Focus Energy or a high-crit move
 	call CheckCritRestrictedSpecies
 	jr nz, .critAllowed
@@ -103,6 +125,7 @@ CriticalHitTest:
 .capCritical
 	ld b, $ff
 .finishcalc
+	call ApplyArenaCritScale     ; Sunsette: VIRIDIAN GYM / final RIVAL (Champion's room) - enemy crit rate x2
 	push bc                      ; Sunsette: FarBattleRandom (callfar) clobbers b via the bankswitch; b is the crit threshold
 	callfar FarBattleRandom      ; d = random value (survives the bankswitch)
 	pop bc                       ; restore b = crit threshold
@@ -116,8 +139,51 @@ CriticalHitTest:
 	ld [wCriticalHitOrOHKO], a   ; set critical hit flag
 	ret
 
-; Sunsette: carry SET if the move being used is a drain move (Absorb / Mega Drain / Leech Life) or
-; VENOM LASH (CONSTRICT) AND the TARGET currently has a status condition -> force a critical hit.
+; Sunsette: DEMOLISH (display name; const DEMOLISH) is Karate Chop with Brick Break's screen-break.
+; Called at the very top of CriticalHitTest (pre-damage, and a high-crit move already passes through here, so
+; this costs zero bytes in the full Battle Core / newCode banks). For any other move it returns immediately.
+; For DEMOLISH it clears the TARGET's REFLECT + LIGHT SCREEN *before* damage is rolled, so the strike lands
+; at full power and the screens are gone for the rest of the battle. (It also breaks on the rare 100%-acc miss;
+; acceptable.) Clobbers a/hl/flags - fine, CriticalHitTest reloads everything after this returns.
+DemolishBreakScreens:
+	ldh a, [hWhoseTurn]
+	and a
+	ld a, [wPlayerMoveNum]
+	jr z, .gotMove
+	ld a, [wEnemyMoveNum]
+.gotMove
+	cp DEMOLISH
+	jr z, .break                 ; DEMOLISH always shatters screens
+	cp HYPER_BEAM
+	ret nz                       ; only DEMOLISH and HYPER BEAM break screens
+	callfar GetDesperationStage  ; Sunsette: HYPER BEAM only shatters them at desperation stage 2-3
+	ld a, e
+	cp 2
+	ret c
+.break
+	ldh a, [hWhoseTurn]
+	and a
+	ld hl, wEnemyBattleStatus3   ; player attacking -> target = enemy
+	jr z, .gotTarget
+	ld hl, wPlayerBattleStatus3
+.gotTarget
+	bit HAS_LIGHT_SCREEN_UP, [hl]
+	jr nz, .hadScreen
+	bit HAS_REFLECT_UP, [hl]
+	ret z                        ; no screens up -> nothing to shatter, stay silent
+.hadScreen
+	res HAS_LIGHT_SCREEN_UP, [hl]
+	res HAS_REFLECT_UP, [hl]
+	ld hl, ScreenShatteredText
+	jp PrintText
+
+ScreenShatteredText:
+	text "The barrier"
+	line "shattered!"
+	prompt
+
+; Sunsette: carry SET if the move being used is a drain move (Absorb / Mega Drain / Leech Life)
+; AND the TARGET currently has a status condition -> force a critical hit.
 ; SOULSTEALER is deliberately excluded (already strong). hWhoseTurn picks the user; target is the other side.
 CheckAutoCritVsStatus:
 	ldh a, [hWhoseTurn]
@@ -133,8 +199,6 @@ CheckAutoCritVsStatus:
 	cp MEGA_DRAIN
 	jr z, .autoCritMove
 	cp LEECH_LIFE
-	jr z, .autoCritMove
-	cp CONSTRICT                 ; VENOM LASH
 	jr z, .autoCritMove
 	and a                        ; not an auto-crit move -> carry clear
 	ret
@@ -187,6 +251,40 @@ CheckFullCritSpeed:
 	ret
 .full
 	or 1 ; nz -> full
+	ret
+
+; Sunsette: ARENA EFFECT - BRUNO's room: his Pokemon cannot be critically hit. Carry SET (suppress the
+; crit, even forced ones) when the DEFENDER is the enemy mon, i.e. the player is attacking (hWhoseTurn 0)
+; in BRUNOS_ROOM. The Champ Arena rematch is a different map, so it is unaffected. Uses register a.
+CheckBrunoNoCrit:
+	ld a, [wCurMap]
+	cp BRUNOS_ROOM
+	jr nz, .allow
+	ldh a, [hWhoseTurn]
+	and a                        ; player's turn -> target = enemy = Bruno's mon
+	jr nz, .allow                ; enemy attacking the player -> ordinary crits
+	scf
+	ret
+.allow
+	or a
+	ret
+
+; Sunsette: ARENA EFFECT - VIRIDIAN GYM (vicious trainers) and CHAMPIONS_ROOM (the final rival) double
+; the ENEMY's crit threshold (b). Only the enemy's attacks get the boost; map-gated so the Champ Arena
+; rematches are untouched. b is the crit threshold computed in .finishcalc.
+ApplyArenaCritScale:
+	ldh a, [hWhoseTurn]
+	and a
+	ret z                        ; player attacking -> no arena boost
+	ld a, [wCurMap]
+	cp VIRIDIAN_GYM
+	jr z, .double
+	cp CHAMPIONS_ROOM
+	ret nz
+.double
+	sla b                        ; x2 crit rate
+	ret nc
+	ld b, $ff                    ; cap
 	ret
 
 ; Sunsette: returns z if the attacker (wCurSpecies) is one of the legendaries that can only crit

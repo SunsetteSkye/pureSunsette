@@ -77,14 +77,14 @@ _ViridianGymGiovanniTM27ExplanationText::
 
 	para "@"
 	text_ram_stringbuffer
-	text ": EARTHQUAKE!"
-	line "A reliable and"
-	cont "immensely strong"
-	cont "GROUND-type move!"
+	text ": CLAY ARMOR!"
+	line "An earthen guard"
+	cont "that shields and"
+	cont "heals GROUND kin!"
 
-	para "I made it when I"
-	line "ran the GYM here,"
-	cont "too long ago<...>"
+	para "I forged it when"
+	line "I ran the GYM"
+	cont "here, long ago<...>"
 	done
 
 _ViridianGymGiovanniTM27NoRoomText::
@@ -232,10 +232,12 @@ _ViridianGymGuidePreBattleText::
 	line "toughest of all"
 	cont "the GYM LEADERs!"
 
-	para "The packed earth"
-	line "here steadies"
-	cont "their aim-- they"
-	cont "rarely miss!"
+	para "These trainers"
+	line "fight vicious!"
+
+	para "Their #MON land"
+	line "critical hits"
+	cont "twice as often!"
 	done
 
 _ViridianGymGuidePostBattleText::

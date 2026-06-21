@@ -10,35 +10,34 @@
 	INCBIN "gfx/pokemon/front/slowpoke.pic", 0, 1 ; sprite dimensions
 	dw SlowpokePicFront, SlowpokePicBackSW
 
-	db CONFUSION, WATER_GUN, NO_MOVE, NO_MOVE ; level 1 learnset (SUPER SOAK)
+	db CONFUSION, SUPER_SOAK, NO_MOVE, NO_MOVE ; level 1 learnset
 	db GROWTH_MEDIUM_FAST ; growth rate
 
 	; tm/hm learnset
 	tmhm \
-	FURY_ATTACK,\ ; MUD BOMB
-	LOW_KICK,\
-	DISABLE,\
+	MUD_BOMB,\
 	TOXIC,\
 	BODY_SLAM,\
+	DISABLE,\
 	DOUBLE_EDGE,\
-	BUBBLEBEAM,\
-	AURORA_BEAM,\
+	AQUA_RING,\
 	ICE_BEAM,\
 	BLIZZARD,\
-	AMNESIA,\ ; CALM MIND
-	ROLLING_KICK,\ ; METEOR SWEEP
+	CALM_MIND,\
+	LOW_KICK,\
+	METEOR_SWEEP,\
 	EARTHQUAKE,\
+	RIPTIDE,\
 	DIG,\
 	PSYCHIC_M,\
 	REFLECT,\
-	BIDE,\ ; BULK UP
-	BARRAGE,\ ; SHADOW BALL
+	BULK_UP,\
+	SHADOW_BALL,\
 	FIRE_BLAST,\
-	FLAMETHROWER,\
-	SLAM,\ ; WASTEMAKER
-	MEDITATE,\ ; VOID MIND
+	TWISTER,\
+	VOID_MIND,\
 	LIGHT_SCREEN,\
-	PSYWAVE,\ ; SKITTERMIND
+	SKITTERMIND,\
 	SUBSTITUTE,\
 	CUT,\
 	SURF,\
@@ -54,3 +53,21 @@
 
 	dw 0, SlowpokePicBack
 
+; --- Sunsette SSOT directives (parsed by tools/gen_pokemon_data.py) ---
+;@ nature       NATURE_LAZY NATURE_DITZ
+;@ pal_battle   PAL_BLUSHMON
+;@ pal_altbattle PAL_MAGENTAMON
+;@ pal_icon     PAL_ICON_40
+;@ pal_alticon  PAL_ICON_41
+;@ evo         EVOLVE_LEVEL, 28, SLOWBRO
+;@ evo_move    NO_MOVE
+;@ evo_react   NONE
+;@ learn       12, CONFUSION
+;@ learn       17, DISABLE
+;@ learn       20, HEADBUTT
+;@ learn       24, CLAMP
+;@ learn       29, PSYBEAM
+;@ learn       32, SHELL_GAME
+;@ learn       36, SLUDGE_BOMB
+;@ learn       41, CALM_MIND
+;@ learn       45, PSYCHIC_M

@@ -1,8 +1,9 @@
-DEF OPP_ID_OFFSET EQU 197
-
+; Sunsette (trainer/species decouple): OPP_<CLASS> is now just the raw class id (== the class constant), not
+; class + OPP_ID_OFFSET. Battle type comes from the wIsTrainerBattle latch, so trainer classes and Pokemon
+; species each get the full 1-255 byte instead of sharing one packed number line. OPP_ID_OFFSET is gone.
 MACRO trainer_const
 	const \1
-	DEF OPP_\1 EQU OPP_ID_OFFSET + \1
+	DEF OPP_\1 EQU \1
 ENDM
 
 ; trainer class ids
@@ -72,6 +73,7 @@ ENDM
 	trainer_const SPRINTER       ; $37
 	trainer_const FIST_FIGHTER   ; $38
 	trainer_const ROCKET_QUEEN  ; $39 ; Sunsette: the four Silph Co. "ROCKET SISTERS" (was the ROCKET BROTHERS)
+	trainer_const BIKER_F       ; $3A ; Sunsette: female bikers (sukeban/gyaru delinquents); displays as "BIKER", shares BIKER stats
 ;;;;;;;;;;
-	; one trainer slot left
+	; trainer slots full
 DEF NUM_TRAINERS EQU const_value - 1

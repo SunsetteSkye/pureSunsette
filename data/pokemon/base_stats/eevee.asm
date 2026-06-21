@@ -15,21 +15,22 @@
 
 	; tm/hm learnset
 	tmhm \
-	FURY_ATTACK,\ ; MUD BOMB
-	LOW_KICK,\
+	ADAPTATION,\
+	MUD_BOMB,\
 	TOXIC,\
 	BODY_SLAM,\
 	DISABLE,\
 	DOUBLE_EDGE,\
-	ROLLING_KICK,\ ; METEOR SWEEP
+	AURORA_MIST,\
+	LOW_KICK,\
+	METEOR_SWEEP,\
 	DIG,\
 	REFLECT,\
-	BIDE,\ ; BULK UP
-	BARRAGE,\ ; SHADOW BALL
-	SLAM,\ ; WASTEMAKER
-	KARATE_CHOP,\
+	BULK_UP,\
+	SHADOW_BALL,\
+	DEMOLISH,\
 	LIGHT_SCREEN,\
-	GLARE,\
+	ROCK_ON,\
 	SUBSTITUTE,\
 	CUT,\
 	FLASH
@@ -43,3 +44,20 @@
 
 	dw 0, EeveePicBack
 
+; --- Sunsette SSOT directives (parsed by tools/gen_pokemon_data.py) ---
+;@ nature       NATURE_PLAYFUL NATURE_CAUTIOUS
+;@ pal_battle   PAL_BROWNMON2
+;@ pal_altbattle PAL_MOCHAMON
+;@ pal_icon     PAL_ICON_10
+;@ pal_alticon  PAL_ICON_70
+;@ evo         EVOLVE_ITEM, FIRE_STONE, 1, FLAREON
+;@ evo         EVOLVE_ITEM, THUNDER_STONE, 1, JOLTEON
+;@ evo         EVOLVE_ITEM, WATER_STONE, 1, VAPOREON
+;@ evo_move    NO_MOVE
+;@ evo_react   NONE
+;@ learn       6, HONE_EDGE
+;@ learn       10, BITE
+;@ learn       14, BELLOW
+;@ learn       18, SWIFT
+;@ learn       25, HEADBUTT
+;@ learn       30, TRI_ATTACK

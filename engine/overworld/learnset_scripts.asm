@@ -319,8 +319,8 @@ LearnsetKrabbyKid::
 	text_far _LearnsetKrabbyKid
 	text_end
 
-LearnsetKinglerGuy::
-	text_far _CinnabarLabKinglerLearnset
+LearnsetHydrologist:: ; Sunsette: was LearnsetKinglerGuy; mon-agnostic name (the hydrologist demos KINGLER - he jokes crustaceans are quick in a pinch even without RIPTIDE's +SPEED bonus)
+	text_far _CinnabarLabHydrologistLearnset
 	text_end
 
 ToldAThrillingStory::

@@ -21,14 +21,9 @@ _CinnabarGymBlaineReceivedVolcanoBadgeText::
 	line "the VOLCANOBADGE!@"
 	text_end
 
-_CinnabarGymBlainePostBattleAdviceText::
-	text "FIRE BLAST is the"
-	line "ultimate fire"
-	cont "technique!"
-
-	para "Don't waste it on"
-	line "water #MON!"
-	done
+; Sunsette: BLAINE's random post-battle fire puns live in the floating
+; "Sunsette Gym Repeat Text" section (text/sunsette_gym_repeat_text.asm)
+; because the Text 9 bank is full.
 
 _CinnabarGymBlaineMoltres::
 	text "It can't be<...>"
@@ -60,14 +55,15 @@ _CinnabarGymBlaineTM38ExplanationText::
 	para "@"
 	text_ram_stringbuffer
 	text " contains"
-	line "FIRE BLAST!"
+	line "SUPERNOVA!"
 
-	para "Teach it to fire-"
-	line "type #MON!"
+	para "A FIRE #MON"
+	line "blasts it with no"
+	cont "recoil at all!"
 
-	para "CHARMELEON or"
-	line "PONYTA would be"
-	cont "good bets!"
+	para "NINETALES and"
+	line "ARCANINE love"
+	cont "this gift!"
 	done
 
 _CinnabarGymBlaineTM38NoRoomText::

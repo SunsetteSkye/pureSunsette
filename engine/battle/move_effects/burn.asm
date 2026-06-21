@@ -1,11 +1,12 @@
-; PureRGBnote: CHANGED: Mirage (formerly Firewall / the move "Kinesis"). A no-damage FIRE
-; status move (a ResidualEffects1 entry, so it runs its own accuracy test and animation like
-; Thunder Wave). It confuses a non-Fire target; it additionally burns the target (only when
-; the target has no major status yet) if the user is Fire-type OR the target was already
-; confused. Fire-type targets are immune to the whole move. No damage escalation anymore.
+; Sunsette: MIRAGE (a no-damage FIRE status move; a ResidualEffects1 entry, so it runs its own
+; accuracy test and animation like Thunder Wave). On a non-Fire target it BURNS the target even
+; through an existing major status (overwriting it), and additionally drops the target's SPECIAL by
+; one stage UNLESS the target was already burned (so the drop can't be re-stacked). FIRE-types are
+; immune to the whole move; ROCK-types are immune to the burn only (they still take the Special drop,
+; matching the engine-wide ROCK burn immunity in effects.asm). No damage.
 
 MirageEffect_:
-; Fire-type targets are immune to the entire move.
+; Fire-type targets are immune to the entire move (no Special drop, no burn).
 	ldh a, [hWhoseTurn]
 	and a
 	ld hl, wEnemyMonType1
@@ -34,56 +35,39 @@ MirageEffect_:
 	jp nz, .didntAffect
 ; The move lands: play its animation.
 	callfar PlayCurrentMoveAnimation
-; Confuse the target unless it is already confused.
-	ldh a, [hWhoseTurn]
-	and a
-	ld hl, wEnemyBattleStatus1
-	jr z, .gotConfuse
-	ld hl, wPlayerBattleStatus1
-.gotConfuse
-	bit CONFUSED, [hl]
-	jr nz, .burn ; already confused -> escalate straight to a burn
-	set CONFUSED, [hl]
-	callfar FarBattleRandom ; random value returned in d (a is clobbered by the bankswitch)
-	ld a, d
-	and $3
-	inc a
-	inc a
-	ld b, a ; confusion lasts 2-5 turns
-	ldh a, [hWhoseTurn]
-	and a
-	ld hl, wEnemyConfusedCounter
-	jr z, .gotCounter
-	ld hl, wPlayerConfusedCounter
-.gotCounter
-	ld [hl], b
-	ld hl, MirageConfusedText
-	rst _PrintText
-; Freshly confused: only burn as well if the user itself is Fire-type.
-	ldh a, [hWhoseTurn]
-	and a
-	ld hl, wBattleMonType1
-	jr z, .gotUserType
-	ld hl, wEnemyMonType1
-.gotUserType
-	ld a, [hli]
-	cp FIRE
-	jr z, .burn
-	ld a, [hl]
-	cp FIRE
-	ret nz ; user not Fire -> target is left confused only
-.burn
-; Burn the target if it has no major status yet (Fire immunity was handled above).
+; Point hl at the target's status byte.
 	ldh a, [hWhoseTurn]
 	and a
 	ld hl, wEnemyMonStatus
 	jr z, .gotStatus
 	ld hl, wBattleMonStatus
 .gotStatus
-	ld a, [hl]
+; Special -1, but only if the target is not already burned (can't re-stack the drop).
+	bit BRN, [hl]
+	jr nz, .doBurn
+	push hl
+	ldh a, [hWhoseTurn]
+	ld b, a ; target side (0 = enemy on player's turn, 1 = player on enemy's turn)
+	ld c, SPECIAL_DOWN1_EFFECT
+	callfar ApplyStatDownToTarget
+	pop hl
+.doBurn
+; ROCK-types are immune to the burn (they still took the Special drop above).
+	ldh a, [hWhoseTurn]
 	and a
-	ret nz ; target already has a major status -> can't burn it
-	set BRN, [hl]
+	ld de, wEnemyMonType1
+	jr z, .gotBurnType
+	ld de, wBattleMonType1
+.gotBurnType
+	ld a, [de]
+	cp ROCK
+	ret z
+	inc de
+	ld a, [de]
+	cp ROCK
+	ret z
+; Burn the target, overwriting any existing major status.
+	ld [hl], 1 << BRN
 	callfar HalveAttackDueToBurn
 	jpfar PrintBurnText
 .didntAffect
@@ -94,10 +78,6 @@ MirageEffect_:
 	ld c, 50
 	rst _DelayFrames
 	jpfar PrintDoesntAffectText
-
-MirageConfusedText:
-	text_far _BecameConfusedText
-	text_end
 
 ; input de = wBattleMonStatus or wEnemyMonStatus
 AutoBurnEffect::

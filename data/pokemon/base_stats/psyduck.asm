@@ -1,6 +1,6 @@
 	db DEX_PSYDUCK ; pokedex id
 
-	db  50,  52,  48,  55,  50
+	db  50,  52,  48,  55,  70
 	;   hp  atk  def  spd  spc
 
 	db WATER, WATER ; type
@@ -15,37 +15,38 @@
 
 	; tm/hm learnset
 	tmhm \
-	FURY_ATTACK,\ ; MUD BOMB
-	ICE_PUNCH,\ ; FROST FIST
-	FIRE_PUNCH,\ ; BLAZE HAMMER
+	FROST_FIST,\
+	MUD_BOMB,\
+	BLAZE_HAMMER,\
 	TOXIC,\
+	HONE_EDGE,\
 	BODY_SLAM,\
 	DISABLE,\
 	DOUBLE_EDGE,\
-	BUBBLEBEAM,\
-	AURORA_BEAM,\
+	AQUA_RING,\
 	ICE_BEAM,\
 	BLIZZARD,\
-	AMNESIA,\ ; CALM MIND
+	CALM_MIND,\
 	LOW_KICK,\
-	ROLLING_KICK,\ ; METEOR SWEEP
+	METEOR_SWEEP,\
 	BARRIER,\
-	CRABHAMMER,\
+	RIPTIDE,\
 	DIG,\
 	PSYCHIC_M,\
 	MEGA_DRAIN,\
 	SWORDS_DANCE,\
 	REFLECT,\
-	BIDE,\ ; BULK UP
-	BARRAGE,\ ; SHADOW BALL
-	SLAM,\ ; WASTEMAKER
-	KARATE_CHOP,\
-	MEDITATE,\ ; VOID MIND
+	BULK_UP,\
+	SHADOW_BALL,\
+	TWISTER,\
+	DEMOLISH,\
+	VOID_MIND,\
 	LOVELY_KISS,\
+	BRAVE_BIRD,\
 	LIGHT_SCREEN,\
 	THUNDER_WAVE,\
-	PSYWAVE,\ ; SKITTERMIND
-	GLARE,\
+	SKITTERMIND,\
+	SHADOW_GAME,\
 	SUBSTITUTE,\
 	CUT,\
 	SURF,\
@@ -61,3 +62,25 @@
 
 	dw 0, PsyduckPicBack
 
+; --- Sunsette SSOT directives (parsed by tools/gen_pokemon_data.py) ---
+;@ nature       NATURE_DITZ NATURE_CALCULATING
+;@ pal_battle   PAL_SAFFRON
+;@ pal_altbattle PAL_THUNDERMON
+;@ pal_icon     $FF
+;@ pal_alticon  PAL_ICON_30
+;@ evo         EVOLVE_LEVEL, 25, GOLDUCK
+;@ evo_move    NO_MOVE
+;@ evo_react   NONE
+;@ learn       10, CONFUSION
+;@ learn       13, SUPER_SOAK
+;@ learn       17, DISABLE
+;@ learn       20, DOUBLESLAP
+;@ learn       23, LOW_KICK
+;@ learn       27, RIPTIDE
+;@ learn       32, METRONOME
+;@ learn       34, SWIFT
+;@ learn       38, CALM_MIND
+;@ learn       44, PSYCHIC_M
+;@ learn       50, TELEPORT
+;@ learn       56, MOCKINGBIRD
+;@ learn       60, HYDRO_PUMP

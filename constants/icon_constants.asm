@@ -1,4 +1,4 @@
-; PureRGBnote: ADDED: Many new menu icons for pokemon were added 
+; PureRGBnote: ADDED: Many new menu icons for pokemon were added
 ; party menu icons
 ; used in MonPartySpritePointers (see data/icon_pointers.asm)
 	const_def

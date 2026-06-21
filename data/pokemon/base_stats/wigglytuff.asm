@@ -1,9 +1,10 @@
+; Sunsette: a Pokemon Tower B1F spirit borrows this dex slot -> base_stats/spirit_painless.asm (Spirit (Painless)).
 	db DEX_WIGGLYTUFF ; pokedex id
 
-	db 140,  80,  45,  55,  80
+	db 140,  70,  45,  55,  70
 	;   hp  atk  def  spd  spc
 
-	db NORMAL, NORMAL ; type
+	db NORMAL, FLOATING ; type
 	db 50 ; catch rate
 	db 109 ; base exp
 
@@ -15,41 +16,42 @@
 
 	; tm/hm learnset
 	tmhm \
-	DISABLE,\
-	ICE_PUNCH,\ ; FROST FIST
-	FIRE_PUNCH,\ ; BLAZE HAMMER
+	ROCK_ON,\
+	ADAPTATION,\
+	FROST_FIST,\
+	BLAZE_HAMMER,\
 	TOXIC,\
+	HONE_EDGE,\
 	BODY_SLAM,\
+	DISABLE,\
 	DOUBLE_EDGE,\
-	BUBBLEBEAM,\
-	AURORA_BEAM,\
+	AURORA_MIST,\
 	ICE_BEAM,\
 	BLIZZARD,\
 	HYPER_BEAM,\
-	AMNESIA,\ ; CALM MIND
+	CALM_MIND,\
 	LOW_KICK,\
-	THUNDERPUNCH,\ ; ZAPPERCUT
-	ROLLING_KICK,\ ; METEOR SWEEP
+	ZAPPERCUT,\
+	METEOR_SWEEP,\
 	BARRIER,\
-	SOLARBEAM,\ ; SOLARBEAM
+	SOLARBEAM,\ 
 	THUNDERBOLT,\
 	THUNDER,\
 	DIG,\
 	PSYCHIC_M,\
-	KINESIS,\ ; MIRAGE
+	MIRAGE,\
 	SWORDS_DANCE,\
 	REFLECT,\
-	BIDE,\ ; BULK UP
-	BARRAGE,\ ; SHADOW BALL
+	BULK_UP,\
+	SHADOW_BALL,\
 	FIRE_BLAST,\
-	FLAMETHROWER,\
-	KARATE_CHOP,\
+	DEMOLISH,\
 	LOVELY_KISS,\
 	LIGHT_SCREEN,\
 	THUNDER_WAVE,\
-	PSYWAVE,\ ; SKITTERMIND
+	SKITTERMIND,\
 	SUBSTITUTE,\
-	CUT,\
+	FLY,\
 	STRENGTH,\
 	FLASH
 	; end
@@ -61,3 +63,24 @@
 
 	dw 0, WigglytuffPicBack
 
+; --- Sunsette SSOT directives (parsed by tools/gen_pokemon_data.py) ---
+;@ nature       NATURE_PLAYFUL NATURE_CONSIDERATE
+;@ pal_battle   PAL_JIGGMON
+;@ pal_altbattle PAL_GRAYVELVET
+;@ pal_icon     PAL_ICON_26
+;@ pal_alticon  $FF
+;@ evo_move    NO_MOVE
+;@ evo_react   "It puffs up big," "then squeaks!"
+;@ evo_react   "It bounces high" "on a big breath!"
+;@ evo_react   "Its fur fluffs out" "soft and round!"
+;@ evo_react   "It claps its hands" "with a happy hop!"
+;@ learn       9, DISABLE
+;@ learn       13, ROCK_ON
+;@ learn       16, DOUBLESLAP
+;@ learn       24, BODY_SLAM
+;@ learn       32, MINIMIZE
+;@ learn       37, DIZZY_PUNCH
+;@ learn       42, DOUBLE_EDGE
+;@ learn       50, MAXIMIZE
+;@ learn       55, SOULSTEALER
+;@ learn       60, EXPLOSION

@@ -131,7 +131,7 @@ home_PrepareOAMData::
 ;If disabled, then enable it for now.
 ;This is so DMA transfer is skipped in case vblank triggers while PrepareOAMData is running.
     set 0, [hl]
-;Now prepare the OAM data. 
+;Now prepare the OAM data.
     farcall PrepareOAMData
 ;Re-disable the OAM skip flag.
     ld hl, hFlagsFFFA
@@ -141,7 +141,7 @@ home_PrepareOAMData::
     pop hl
     pop de
     pop bc
-;Notes: 
+;Notes:
 ; - A good place to test this is the row of four trainers on route 8.
 ; - There may be a rare 1-frame flicker due to instances where DMA transfer gets skipped for 1 frame.
 ; --> But trying to do DMA transfer here is worse because audio noise gets injected when drawing the screen.

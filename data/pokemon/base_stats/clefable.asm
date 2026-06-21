@@ -1,9 +1,9 @@
 	db DEX_CLEFABLE ; pokedex id
 
-	db  95,  70,  73,  60, 105
+	db  95,  70,  73,  60,  95
 	;   hp  atk  def  spd  spc
 
-	db NORMAL, FLOATING ; type
+	db NORMAL, PSYCHIC_TYPE ; type
 	db 65 ; catch rate
 	db 129 ; base exp
 
@@ -15,44 +15,44 @@
 
 	; tm/hm learnset
 	tmhm \
-	LOW_KICK,\
-	DISABLE,\
-	ICE_PUNCH,\ ; FROST FIST
-	FIRE_PUNCH,\ ; BLAZE HAMMER
+	ROCK_ON,\
+	ADAPTATION,\
+	FROST_FIST,\
+	BLAZE_HAMMER,\
 	TOXIC,\
 	BODY_SLAM,\
+	DISABLE,\
 	DOUBLE_EDGE,\
-	BUBBLEBEAM,\
-	AURORA_BEAM,\
+	AURORA_MIST,\
 	ICE_BEAM,\
 	BLIZZARD,\
 	HYPER_BEAM,\
-	AMNESIA,\ ; CALM MIND
-	THUNDERPUNCH,\ ; ZAPPERCUT
-	ROLLING_KICK,\ ; METEOR SWEEP
+	CALM_MIND,\
+	LOW_KICK,\
+	ZAPPERCUT,\
+	METEOR_SWEEP,\
 	BARRIER,\
-	SOLARBEAM,\ ; SOLARBEAM
-	DRAGON_RAGE,\ ; WYRM WRATH
+	SOLARBEAM,\ 
+	WYRM_WRATH,\
 	THUNDERBOLT,\
 	THUNDER,\
 	DIG,\
 	PSYCHIC_M,\
-	KINESIS,\ ; MIRAGE
+	MIRAGE,\
 	REFLECT,\
-	BIDE,\ ; BULK UP
-	SONICBOOM,\ ; ILL WIND
-	BARRAGE,\ ; SHADOW BALL
+	BULK_UP,\
+	ILL_WIND,\
+	SHADOW_BALL,\
 	FIRE_BLAST,\
-	FLAMETHROWER,\
-	KARATE_CHOP,\
-	MEDITATE,\ ; VOID MIND
+	DEMOLISH,\
+	VOID_MIND,\
 	LOVELY_KISS,\
-	SKY_ATTACK,\ ; BRAVE BIRD
+	BRAVE_BIRD,\
 	LIGHT_SCREEN,\
 	THUNDER_WAVE,\
-	PSYWAVE,\ ; SKITTERMIND
+	SKITTERMIND,\
 	SUBSTITUTE,\
-	CUT,\
+	FLY,\
 	STRENGTH,\
 	FLASH
 	; end
@@ -64,3 +64,26 @@
 
 	dw 0, ClefablePicBack
 
+; --- Sunsette SSOT directives (parsed by tools/gen_pokemon_data.py) ---
+;@ nature       NATURE_PLAYFUL NATURE_GENTLE
+;@ pal_battle   PAL_CLEFMON
+;@ pal_altbattle PAL_GAMEFREAK
+;@ pal_icon     PAL_ICON_23
+;@ pal_alticon  PAL_ICON_24
+;@ evo_move    NO_MOVE
+;@ evo_react   "A finger wiggle," "and up it floats!"
+;@ evo_react   "It bounces up" "on springy feet!"
+;@ evo_react   "Its wings flick," "sparkling softly!"
+;@ evo_react   "It twirls once," "light as a puff!"
+;@ learn       13, SING
+;@ learn       15, DOUBLESLAP
+;@ learn       17, METRONOME
+;@ learn       21, PSYBEAM
+;@ learn       25, LIGHT_SCREEN
+;@ learn       28, MIMIC
+;@ learn       33, LOVELY_KISS
+;@ learn       38, PSYCHIC_M
+;@ learn       45, AURORA_MIST
+;@ learn       54, SENBONZAKURA
+;@ learn       59, TRI_ATTACK
+;@ learn       65, MINIMIZE

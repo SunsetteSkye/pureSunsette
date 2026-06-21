@@ -15,28 +15,28 @@
 
 	; tm/hm learnset
 	tmhm \
-	FURY_ATTACK,\ ; MUD BOMB
-	LOW_KICK,\
+	MUD_BOMB,\
 	PIN_MISSILE,\
 	TOXIC,\
 	BODY_SLAM,\
 	DISABLE,\
 	DOUBLE_EDGE,\
+	AURORA_MIST,\
 	HYPER_BEAM,\
-	AMNESIA,\ ; CALM MIND
+	CALM_MIND,\
+	LOW_KICK,\
+	METEOR_SWEEP,\
 	BARRIER,\
-	ROLLING_KICK,\ ; METEOR SWEEP
 	THUNDERBOLT,\
 	THUNDER,\
 	DIG,\
 	REFLECT,\
-	BIDE,\ ; BULK UP
-	BARRAGE,\ ; SHADOW BALL
-	SLAM,\ ; WASTEMAKER
-	KARATE_CHOP,\
+	BULK_UP,\
+	SHADOW_BALL,\
+	DEMOLISH,\
 	LIGHT_SCREEN,\
 	THUNDER_WAVE,\
-	GLARE,\
+	SHADOW_GAME,\
 	SUBSTITUTE,\
 	CUT,\
 	STRENGTH,\
@@ -50,3 +50,25 @@
 
 	dw 0, JolteonPicBack
 
+; --- Sunsette SSOT directives (parsed by tools/gen_pokemon_data.py) ---
+;@ nature       NATURE_HYPER NATURE_CAUTIOUS
+;@ pal_battle   PAL_SAFFRON
+;@ pal_altbattle PAL_GRANITEMON
+;@ pal_icon     $FF
+;@ pal_alticon  $FF
+;@ evo_move    THUNDERSHOCK
+;@ evo_react   "Its fur stands up," "crackling wildly!"
+;@ evo_react   "It darts off in" "a flash of sparks!"
+;@ evo_react   "Spikes bristle," "snapping loud!"
+;@ evo_react   "It bolts past you," "a streak of light!"
+;@ learn       6, HONE_EDGE
+;@ learn       10, BITE
+;@ learn       14, BELLOW
+;@ learn       18, SWIFT
+;@ learn       21, THUNDER_WAVE
+;@ learn       25, AGILITY
+;@ learn       28, THUNDERBOLT
+;@ learn       32, TRI_ATTACK
+;@ learn       38, PIN_MISSILE
+;@ learn       44, PHANTASM
+;@ learn       49, THUNDER

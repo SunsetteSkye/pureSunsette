@@ -9,6 +9,9 @@ CheckRemapMoveData::
 	xor a
 	ld [wSignatureMoveActive], a
 	call .doRemap
+	callfar CheckPsyduckHeadache ; Sunsette: PSYDUCK's hidden psychic-move headache recoil (floated section)
+	callfar CheckClefairyMetronome ; Sunsette: CLEFAIRY/CLEFABLE METRONOME also raises a random stat (floated)
+	callfar ComebackApplyPower ; Sunsette: comeback family - stage-scaled power + desperation flavour (no-op for other moves)
 	ld a, [wSignatureMoveActive]
 	and a
 	ret z
@@ -34,6 +37,10 @@ CheckRemapMoveData::
 	jr nz, .notVolcanicMagmar
 	ld a, MAGMAR ; treat VOLCANIC_MAGMAR as MAGMAR when checking for signature moves
 .notVolcanicMagmar
+	cp FLOATING_WEEZING
+	jr nz, .notFloatingWeezing
+	ld a, WEEZING ; Sunsette: treat FLOATING WEEZING as WEEZING for signatures (same idea as VOLCANIC MAGMAR), so its SLUDGE BOMB also gets the burn signature
+.notFloatingWeezing
 	cp [hl]
 	ret nz
 	; Sunsette: a species-specific signature matched (and signatures are ON) -> flag the message.
@@ -100,40 +107,53 @@ GetMoveRemapData2:
 RemappableMoves::
 	db SING, -1, -2, 1
 	db DOUBLESLAP, -1, -2, 0
-	db EXPLOSION, -1, -2, 2
-	db SELFDESTRUCT, -1, -2, 2
+	db METAMORPHIC, -1, -2, 2
+	db SUPERNOVA, -1, -2, 2
 	db TOXIC, -1, -2, 4
-	db SKULL_BASH, -1, -2, 5 ; METEOR DRIVE
-	db SLAM, -1, -2, 6 ; WASTEMAKER
+	db EXPLOSION, -1, -2, 14 ; Sunsette: vanilla EXPLOSION faints the user on use (ExplosionFaintModifier); the DEFENSE-halve is in core.asm's EXPLODE_EFFECT branch
+	db CRYSTALLIZE, -1, -2, 15 ; Sunsette: type1 -> CRYSTAL (Rock-like user) / ROCK (else); +2 DEF is the move's own DEFENSE_UP2_EFFECT
+	db AGILITY, -1, -2, 16 ; Sunsette: +2 SPEED is the move's own SPEED_UP2_EFFECT; this adds the type-keyed ADAPTATION brace (AgilityBrace)
+	db BARRIER, -1, -2, 17 ; Sunsette: +2 DEF is the move's own DEFENSE_UP2_EFFECT; this always braces NORMAL (BarrierBrace)
+	; Sunsette: METEOR_DRIVE's ROCK/CRYSTAL-user 100%-accuracy remap (SkullBashModifier, ModifierFuncs slot 5)
+	; removed - it now keeps its base 80 accuracy for everyone. Slot 5 is kept dead so indices 6+ don't shift.
+	; Sunsette: SLAM is now TWISTER (DRAGON, 30% flinch, hits FLY users); its old FilthySlamModifier
+	; (130 BP vs poisoned) entry was removed. ModifierFuncs slot 6 is kept dead so indices 7+ don't shift.
 	db SOLARBEAM, -1, -2, 7 ; Sunsette: live power - 60 (charge) / 120 (release, primed) / 90 (FIRE user) (SOLARBEAM)
 	; signature moves start here
-	db POISON_STING, BEEDRILL, 45, 0
-	db TWINEEDLE, BEEDRILL, 65, 0
+	; Sunsette: BEEDRILL's POISON STING signature removed (reverts to base 15 BP).
+	db TWINEEDLE, BEEDRILL, -1, 0 ; Sunsette: no power change, just trips the "Signature Move!" flag; BEEDRILL's real Twineedle signature is the 40% poison (POISON_SIDE_EFFECT2) swap in TwoToFiveAttacksEffect
 	db ROCK_SLIDE, GOLEM, 110, 0
-	db THUNDERPUNCH, ELECTABUZZ, 90, 0 ; ZAPPERCUT
-	db FIRE_PUNCH, MAGMAR, 90, 0 ; BLAZE HAMMER
-	db ICE_PUNCH, JYNX, 90, 0 ; FROST FIST
+	db ZAPPERCUT, ELECTABUZZ, 90, 0
+	db BLAZE_HAMMER, MAGMAR, 90, 0
+	db FROST_FIST, JYNX, 90, 0
 	db HYPNOSIS, HYPNO, -1, 85 percent
 	; Sunsette: DRAGONITE's DRAGON_RAGE signature removed (no longer a MOVE MYSTIC signature mon).
-	db WATERFALL, SEAKING, 110, 0
-	db LICK, LICKITUNG, 70, 0
+	; Sunsette: RIPTIDE (WATERFALL) is no longer a power remap - its 50% user-SPEED-up (guaranteed for
+	; GYARADOS/SEAKING/GOLDEEN) lives in BlossomBlitzEffect_. RIPTIDE is now the ONLY user of that effect
+	; (PETAL_DANCE split off to SENBONZAKURA_EFFECT -> SenbonzakuraEffect_).
+	; Sunsette: LICKITUNG's LICK signature (30 -> 70 BP) removed; its terminal VENOM LASH (CONSTRICT, L50) covers the niche.
 	db SPIKE_CANNON, OMASTAR, 70, 0
-	db WHIRLWIND, PIDGEOT, -1, 100 percent ; HURRICANE
-	; Sunsette: BLASTOISE's HYDRO_PUMP / SKULL_BASH (METEOR DRIVE) signatures removed (no longer a MOVE MYSTIC mon).
+	db HURRICANE, PIDGEOT, -1, 100 percent
+	; Sunsette: BLASTOISE's HYDRO_PUMP / SKULL_BASH signatures removed (no longer a MOVE MYSTIC mon).
 	db PSYBEAM, GOLDUCK, 105, 0
-	db CONSTRICT, TANGELA, 90, 0 ; VENOM LASH: 75 BP normally, 90 BP for TANGELA (signature)
+	db SLUDGE_BOMB, WEEZING, -2, 12 ; Sunsette: WEEZING's SLUDGE BOMB tries to BURN instead of poison (SludgeBombModifier); KOFFING keeps the base 40% poison
+	; Sunsette: TANGELA's VENOM LASH (CONSTRICT) signature removed. The remap only set 90 BP, which is already
+	; the move's flat base power, so it changed nothing but the "Signature Move!" alert + Move Mystic listing.
 	db DIZZY_PUNCH, KANGASKHAN, 90, 0 ; Sunsette: 70 BP normally, 90 BP for KANGASKHAN (signature)
 	db LOW_KICK, -1, -2, 8 ; Sunsette: power scales with the TARGET's weight (LowKickModifier)
-	db CRABHAMMER, -1, -2, 9 ; Sunsette: signature power by user - 75 KRABBY / 100 KINGLER (CrabhammerModifier)
+	; Sunsette: CRABHAMMER is a flat 100-BP move now (no longer a KRABBY/KINGLER signature, since RIPTIDE took
+	; its TM slot and CRABHAMMER is no longer widespread). Its old by-user power remap was removed.
 	; Sunsette: STRENGTH no longer remaps its power (flat 100 BP); its weight-class recoil + 30% +ATK are all in StrengthRagePostHit.
-	db RAGE, -1, -2, 10 ; Sunsette: UNLEASH RAGE - 40 BP, tripled to 120 when the user is hurt/confused/statused (UnleashRageModifier) (MAD RUSH)
-	; Sunsette: no-op (power/accuracy unchanged) species entries whose REAL signature bonus is an EFFECT
-	; applied elsewhere (SnorlaxRestBonus / ArbokFocusEnergyBonus / ArbokWrapBonus). They live here only
-	; so the species-match path flags the "Signature Move!" message right after the move is announced.
+	; Sunsette: BLOOD RUSH (was MAD RUSH) is now a comeback-family move (flat 50 BP via ComebackPowerTables, with
+	; an on-hit Attack ramp); its old slot-10 power remap is gone. ModifierFuncs slot 10 is kept dead so 11+ hold.
+	; Sunsette: no-op (power/accuracy unchanged) species entry whose REAL signature bonus is an EFFECT applied
+	; elsewhere (SnorlaxRestBonus). It lives here only so the species-match path flags the "Signature Move!"
+	; message right after the move is announced.
 	db REST, SNORLAX, -1, 0          ; SNORLAX: REST also grants FLOURISH + SPEED +1 (SnorlaxRestBonus)
-	; Sunsette: ARBOK's FOCUS ENERGY (+SPEED) and WRAP (+2 trap rounds) signatures were removed (Focus Energy
-	; now gives everyone +1 DEF; WRAP no longer traps). No "Signature Move!" flag for ARBOK anymore.
+	; Sunsette: ARBOK's old FOCUS ENERGY / WRAP signatures were removed; its current signature is the Ekans-line
+	; ACID priority (data/battle/priority_moves.asm), decided at turn-order time, not through this table.
 	db SPLASH, -1, -2, 11            ; Sunsette: power scales with the USER's weight (SplashWeightModifier); MAGIKARP -> 0 (signature comedy)
+	db SURF, -1, -2, 13              ; Sunsette: SURF is a PIKACHU/RAICHU signature once EVENT_SURFED_WITH_DUDE is set; SurfSignatureModifier only flags the "Signature Move!" alert (the WATERIFY itself is in SpeciesMoveBonus)
 	db -1
 
 ModifierFuncs:
@@ -143,12 +163,18 @@ ModifierFuncs:
 	dw FirewallModifier
 	dw ToxicModifier
 	dw SkullBashModifier
-	dw FilthySlamModifier
+	dw FilthySlamModifier ; Sunsette: DEAD (SLAM->TWISTER dropped it); slot kept so the indices below don't shift
 	dw SolarBeamPowerModifier
 	dw LowKickModifier
-	dw CrabhammerModifier
+	dw FirewallModifier ; Sunsette: DEAD (CRABHAMMER no longer a signature); slot kept so the indices below don't shift
 	dw UnleashRageModifier
 	dw SplashWeightModifier
+	dw SludgeBombModifier
+	dw SurfSignatureModifier ; 13 - Sunsette: PIKACHU/RAICHU SURF "Signature Move!" alert (gated on EVENT_SURFED_WITH_DUDE)
+	dw ExplosionFaintModifier ; 14 - Sunsette: vanilla EXPLOSION faints the user the instant it is used
+	dw CrystallizeModifier ; 15 - Sunsette: CRYSTALLIZE retypes the user's type1 (Rock-like -> CRYSTAL, else -> ROCK)
+	dw AgilityBraceModifier ; 16 - Sunsette: AGILITY's type-keyed ADAPTATION brace
+	dw BarrierBraceModifier ; 17 - Sunsette: BARRIER always braces NORMAL
 
 ; Sunsette: SolarBeam's power is decided live, before damage calc, from the user's state:
 ;   FIRE-type user           -> 120 (one-shot full power; recoil + 30% burn + -1 SPC, never charges)
@@ -305,62 +331,14 @@ SplashWeightModifier:
 	ld [wSignatureMoveActive], a ; "Signature Move!" then SplashEffect_'s comedy line
 	ret
 
-; Sunsette: CRABHAMMER is the KRABBY line's signature move - 75 BP for KRABBY, 100 BP for KINGLER.
-; Any other user keeps the move's listed 50 BP. Toggleable via the MOVE MYSTIC's signature switch.
-; byte 2 of its RemappableMoves entry is -1, so CheckRemapMoveData skips the signature gate - we do it here.
-CrabhammerModifier:
-	CheckEvent FLAG_SIGNATURE_MOVES_TURNED_OFF
-	ret nz
-	call GetMoveRemapData ; d = user species
-	ld a, d
-	cp KRABBY
-	jr z, .krabby
-	cp KINGLER
-	ret nz
-	call GetMoveRemapData2 ; bc = wXxxMovePower (clobbers a)
-	ld a, 100
-	ld [bc], a
-	jr .flagSignature
-.krabby
-	call GetMoveRemapData2
-	ld a, 75
-	ld [bc], a
-.flagSignature
-	; Sunsette: KRABBY/KINGLER signature applied -> drive the "Signature Move!" message
-	ld a, 1
-	ld [wSignatureMoveActive], a
-	ret
+; Sunsette: CrabhammerModifier removed - CRABHAMMER is now a flat 100-BP move (no by-user signature).
+; Its ModifierFuncs slot was repointed to the no-op FirewallModifier so later indices stay put.
 
 ; Sunsette: UNLEASH RAGE / MAD RUSH (RAGE). Base 40 BP, TRIPLED to 120 if the user is hurt (HP bar not green) OR
 ; confused OR has a non-sleep status (PSN/BRN/FRZ/PAR). The matching on-hit status/confusion clear + recalc
 ; is in SpeciesMoveBonus.
 UnleashRageModifier:
-	call GetMoveRemapData2 ; bc = power ptr
-	ldh a, [hWhoseTurn]
-	and a
-	ld a, [wPlayerHPBarColor]
-	ld hl, wBattleMonStatus
-	ld de, wPlayerBattleStatus1
-	jr z, .gotPtrs
-	ld a, [wEnemyHPBarColor]
-	ld hl, wEnemyMonStatus
-	ld de, wEnemyBattleStatus1
-.gotPtrs
-	and a
-	jr nz, .triple         ; HP bar not green -> hurt
-	ld a, [hl]
-	and $78                ; PSN/BRN/FRZ/PAR (non-sleep statuses)
-	jr nz, .triple
-	ld a, [de]
-	bit CONFUSED, a
-	jr nz, .triple
-	ld a, 40
-	jr .rstore
-.triple
-	ld a, 120
-.rstore
-	ld [bc], a
-	ret
+	jpfar UnleashRageModifier_ ; Sunsette: floated to the roomy comeback bank (reuses GetDesperationStage) to free newCode
 
 CheckIfAsleep::
 GetOpponentStatus::
@@ -378,19 +356,64 @@ GetOpponentStatus::
 
 DoubleSlapModifier::
 	call CheckIfAsleep
-	ret z
+	jr nz, .double
+	; Sunsette: awake target -> normally no bonus, but SNORLAX is "always drowsy" so it still takes the
+	; wake-up bonus (and the hit never rouses it; see the deep-sleeper guard in ApplySleepHitTally). The
+	; SNORLAX message + power-double live in the roomy sleep-hit section to spare the near-full Battle Core.
+	callfar DoubleSlapAwakeBonus
+	ret
+.double
 	ld a, [hl]
 	sla a
-	ld [hl], a ; double doubleslap's power when opponent is asleep
+	ld [hl], a ; double DOUBLESLAP's power vs a sleeping (or always-drowsy SNORLAX) target
 	ret
 
-DoubleSlapModifierPart2::
-	call CheckIfAsleep
+; Sunsette: DoubleSlapModifierPart2 (force the sleeping target to "1 turn left") was removed - the general
+; per-hit sleep-reduction system now handles waking a target that gets pummeled. See ApplySleepHitTally.
+
+; Sunsette: WEEZING's SLUDGE BOMB signature - instead of poison, it tries to BURN the target. A FIRE-type
+; target is burn-immune, so it falls back to the normal poison. Reached pre-damage from CheckRemapMoveData
+; (only when the user is WEEZING / FLOATING WEEZING and signatures are ON - the table already gated both).
+; We just swap the move's secondary EFFECT to BURN_SIDE_EFFECT2, bumped to 40% for SLUDGE BOMB in
+; FreezeBurnParalyzeEffect so the burn chance matches the base 40% poison; the
+; SLUDGE BOMB -> FIRE override in FreezeBurnParalyzeEffect makes the burn's type-immunity FIRE-based, so non-fire
+; POISON-types still burn rather than being wrongly blocked by the move's POISON type.
+SludgeBombModifier::
+	ldh a, [hWhoseTurn]
+	and a
+	ld hl, wEnemyMonType1   ; player's turn -> target = enemy
+	ld bc, wPlayerMoveEffect
+	jr z, .gotPtrs
+	ld hl, wBattleMonType1
+	ld bc, wEnemyMoveEffect
+.gotPtrs
+	ld a, [hli]
+	cp FIRE
+	ret z                   ; target type 1 FIRE -> burn-immune -> keep the poison
+	ld a, [hl]
+	cp FIRE
+	ret z                   ; target type 2 FIRE -> keep the poison
+	ld a, BURN_SIDE_EFFECT2
+	ld [bc], a              ; otherwise swap the 40% poison for a 40% burn (bumped in FreezeBurnParalyzeEffect)
+	ret
+
+SurfSignatureModifier::
+	; Sunsette: flags the "Signature Move!" alert when PIKACHU/RAICHU use SURF, but only after the
+	; player has surfed at the Summer Beach House (EVENT_SURFED_WITH_DUDE). The WATERIFY itself is
+	; applied post-damage in SpeciesMoveBonus. No power/accuracy change. Reached via ModifierFuncs[13].
+	CheckEvent FLAG_SIGNATURE_MOVES_TURNED_OFF
+	ret nz
+	call GetMoveRemapData
+	ld a, d ; user species
+	cp PIKACHU
+	jr z, .check
+	cp RAICHU
+	ret nz
+.check
+	CheckEvent EVENT_SURFED_WITH_DUDE
 	ret z
-	ld a, [bc]
-	and %11111000
-	inc a
-	ld [bc], a ; 1 turn of sleep left now (needs to be applied separately by the effect so it only triggers if the attack hits)
+	ld a, 1
+	ld [wSignatureMoveActive], a
 	ret
 
 SingModifier::
@@ -416,8 +439,6 @@ SingModifier::
 	ret
 
 ExplosionSelfdestructModifier:
-	xor a
-	ld [wAnimationType], a
 	ldh a, [hWhoseTurn]
 	and a
 	jr z, .playerTurn
@@ -443,6 +464,9 @@ ExplosionSelfdestructModifier:
 	ld a, EXPLODE_EFFECT
 	ld [bc], a
 	; the below code was originally in ExplodeEffect but was moved because it looks nicer to happen instantly on using the move
+ExplosionFaintAndClear: ; Sunsette: shared faint+leech-clear tail (also entered by ExplosionFaintModifier for vanilla EXPLOSION)
+	xor a
+	ld [wAnimationType], a
 	ld hl, wBattleMonHP
 	ld de, wPlayerBattleStatus2
 	ldh a, [hWhoseTurn]
@@ -460,6 +484,24 @@ ExplosionSelfdestructModifier:
 	res SEEDED, a ; clear mon's leech seed status
 	ld [de], a
 	jpfar DrawHUDsAndHPBars
+
+; Sunsette: vanilla EXPLOSION (replacing GLARE) - faint the user the instant the move is used, regardless of
+; HP (unlike ExplosionSelfdestructModifier above, which only bursts below 1/3 HP). CheckRemapMoveData runs this
+; right after "X used Y!" and before the damage step, so the move still connects and THEN the user is gone.
+; Reuses ExplosionSelfdestructModifier's faint+clear tail to stay small (newCode is tight).
+ExplosionFaintModifier:
+	jp ExplosionFaintAndClear
+
+; Sunsette: CRYSTALLIZE retypes the USER's type1 at move-use (Rock-like -> CRYSTAL, else -> ROCK). The body
+; lives in the roomier black_haze bank (newCode is full); the +2 DEFENSE is the move's own DEFENSE_UP2_EFFECT.
+CrystallizeModifier:
+	jpfar CrystallizeRetype
+
+AgilityBraceModifier:
+	jpfar AgilityBrace
+
+BarrierBraceModifier:
+	jpfar BarrierBrace
 
 ; PureRGBnote: Mirage (formerly Firewall) no longer remaps its power, so this is now a no-op.
 ; The label/slot is kept so the ModifierFuncs indices that follow it stay correct.
@@ -520,24 +562,8 @@ Modifier100Accuracy:
 ; Sunsette: METEOR DRIVE (SKULL_BASH) gets 100% accuracy for ROCK/CRYSTAL-type users (a type bonus,
 ; not a species signature, so it does NOT trigger the "Signature Move!" message). BLASTOISE's old
 ; species-specific 100%-accuracy signature was removed (no longer a MOVE MYSTIC mon).
-SkullBashModifier:
-	call GetUserType
-	ld a, [hli]
-	cp ROCK
-	jr z, Modifier100Accuracy
-	cp CRYSTAL
-	jr z, Modifier100Accuracy
-	ld a, [hl]
-	cp ROCK
-	jr z, Modifier100Accuracy
-	cp CRYSTAL
-	ret nz
-	jr Modifier100Accuracy
+SkullBashModifier: ; Sunsette: DEAD (METEOR_DRIVE's ROCK/CRYSTAL 100%-accuracy perk removed); collapsed to a no-op, label kept for ModifierFuncs slot 5
+	ret
 
-FilthySlamModifier::
-	call GetOpponentStatus
-	ld a, [bc]
-	bit PSN, a
-	ret z
-	ld [hl], 130 ; increase filthy slam power to 130 if opponent poisoned
+FilthySlamModifier:: ; Sunsette: DEAD (SLAM -> TWISTER dropped it); collapsed to a no-op, label kept for ModifierFuncs slot 6
 	ret

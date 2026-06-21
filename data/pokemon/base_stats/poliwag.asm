@@ -15,27 +15,28 @@
 
 	; tm/hm learnset
 	tmhm \
-	FURY_ATTACK,\ ; MUD BOMB
-	LOW_KICK,\
-	DISABLE,\
+	MUD_BOMB,\
 	TOXIC,\
 	BODY_SLAM,\
+	DISABLE,\
 	DOUBLE_EDGE,\
-	BUBBLEBEAM,\
-	AURORA_BEAM,\
+	AQUA_RING,\
 	ICE_BEAM,\
 	BLIZZARD,\
-	AMNESIA,\ ; CALM MIND
+	CALM_MIND,\
+	LOW_KICK,\
 	BARRIER,\
+	RIPTIDE,\
 	DIG,\
 	PSYCHIC_M,\
 	REFLECT,\
-	BIDE,\ ; BULK UP
-	BARRAGE,\ ; SHADOW BALL
-	MEDITATE,\ ; VOID MIND
+	BULK_UP,\
+	SHADOW_BALL,\
+	TWISTER,\
+	VOID_MIND,\
 	LIGHT_SCREEN,\
-	PSYWAVE,\ ; SKITTERMIND
-	GLARE,\
+	SKITTERMIND,\
+	SHADOW_GAME,\
 	SUBSTITUTE,\
 	SURF,\
 	FLASH
@@ -49,3 +50,22 @@
 
 	dw 0, PoliwagPicBack
 
+; --- Sunsette SSOT directives (parsed by tools/gen_pokemon_data.py) ---
+;@ nature       NATURE_PLAYFUL NATURE_DITZ
+;@ pal_battle   PAL_PEWTER
+;@ pal_altbattle PAL_GREENBAR
+;@ pal_icon     PAL_ICON_34
+;@ pal_alticon  PAL_ICON_35
+;@ evo         EVOLVE_LEVEL, 23, POLIWHIRL
+;@ evo_move    NO_MOVE
+;@ evo_react   NONE
+;@ learn       12, SUPER_SOAK
+;@ learn       15, HYPNOSIS
+;@ learn       19, CONFUSION
+;@ learn       22, WATER_PULSE
+;@ learn       27, BODY_SLAM
+;@ learn       30, RIPTIDE
+;@ learn       36, DIZZY_PUNCH
+;@ learn       41, CALM_MIND
+;@ learn       45, HYDRO_PUMP
+;@ learn       52, SHADOW_BOX

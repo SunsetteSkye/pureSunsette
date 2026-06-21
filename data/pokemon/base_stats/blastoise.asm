@@ -15,33 +15,33 @@
 
 	; tm/hm learnset
 	tmhm \
-	FURY_ATTACK,\ ; MUD BOMB
-	LOW_KICK,\
-	DISABLE,\
-	ICE_PUNCH,\ ; FROST FIST
+	FROST_FIST,\
+	MUD_BOMB,\
 	TOXIC,\
+	HONE_EDGE,\
 	BODY_SLAM,\
+	DISABLE,\
 	DOUBLE_EDGE,\
-	BUBBLEBEAM,\
-	AURORA_BEAM,\
+	AQUA_RING,\
 	ICE_BEAM,\
 	BLIZZARD,\
 	HYPER_BEAM,\
-	AMNESIA,\ ; CALM MIND
-	THUNDERPUNCH,\ ; ZAPPERCUT
-	ROLLING_KICK,\ ; METEOR SWEEP
+	CALM_MIND,\
+	LOW_KICK,\
+	ZAPPERCUT,\
+	METEOR_SWEEP,\
 	BARRIER,\
 	EARTHQUAKE,\
-	CRABHAMMER,\
+	RIPTIDE,\
 	DIG,\
 	SWORDS_DANCE,\
 	REFLECT,\
-	BIDE,\ ; BULK UP
-	BARRAGE,\ ; SHADOW BALL
-	SLAM,\ ; WASTEMAKER
-	KARATE_CHOP,\
+	BULK_UP,\
+	SHADOW_BALL,\
+	DEMOLISH,\
 	LIGHT_SCREEN,\
-	GLARE,\
+	SHADOW_GAME,\
+	ROCK_ON,\
 	SUBSTITUTE,\
 	CUT,\
 	SURF,\
@@ -54,3 +54,25 @@
 
 	dw BlastoisePicFrontAlt, BlastoisePicBack
 
+; --- Sunsette SSOT directives (parsed by tools/gen_pokemon_data.py) ---
+;@ nature       NATURE_STOLID NATURE_CONSIDERATE
+;@ pal_battle   PAL_MUDDYWATER
+;@ pal_altbattle PAL_PEWTER
+;@ pal_icon     PAL_ICON_08
+;@ pal_alticon  PAL_ICON_06
+;@ evo_move    NO_MOVE
+;@ evo_react   "Look at those" "cannons go! Gonna" "need a poncho!"
+;@ evo_react   "It braces low," "cannons aimed!"
+;@ evo_react   "Water blasts" "from its shell!"
+;@ evo_react   "It stomps forward," "heavy and sure!"
+;@ learn       6, BUBBLE
+;@ learn       8, HARDEN
+;@ learn       11, SUPER_SOAK
+;@ learn       14, LOW_KICK
+;@ learn       18, BITE
+;@ learn       23, SHELL_GAME
+;@ learn       28, CLAMP
+;@ learn       33, DIZZY_PUNCH
+;@ learn       35, BLOOD_RUSH
+;@ learn       42, METEOR_DRIVE
+;@ learn       50, HYDRO_PUMP

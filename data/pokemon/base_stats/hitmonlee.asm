@@ -10,29 +10,31 @@
 	INCBIN "gfx/pokemon/front/hitmonlee.pic", 0, 1 ; sprite dimensions
 	dw HitmonleePicFront, HitmonleePicBackSW
 
-	db DOUBLE_KICK, MEDITATE, NO_MOVE, NO_MOVE ; level 1 learnset (VOID MIND)
+	db DOUBLE_KICK, VOID_MIND, NO_MOVE, NO_MOVE ; level 1 learnset
 	db GROWTH_MEDIUM_FAST ; growth rate
 
 	; tm/hm learnset
 	tmhm \
-	FURY_ATTACK,\ ; MUD BOMB
+	MUD_BOMB,\
 	TOXIC,\
+	HONE_EDGE,\
 	BODY_SLAM,\
 	DISABLE,\
 	DOUBLE_EDGE,\
 	HYPER_BEAM,\
 	LOW_KICK,\
-	ROLLING_KICK,\ ; METEOR SWEEP
+	METEOR_SWEEP,\
 	BARRIER,\
 	EARTHQUAKE,\
 	SWORDS_DANCE,\
-	BIDE,\ ; BULK UP
-	SLAM,\ ; WASTEMAKER
-	KARATE_CHOP,\
-	MEDITATE,\ ; VOID MIND
+	BULK_UP,\
+	DEMOLISH,\
+	VOID_MIND,\
+	SHADOW_GAME,\
 	ROCK_SLIDE,\
-	GLARE,\
+	ROCK_ON,\
 	SUBSTITUTE,\
+	CLAY_ARMOR,\
 	CUT,\
 	STRENGTH
 	; end
@@ -45,3 +47,19 @@
 
 	dw 0, HitmonleePicBack
 
+; --- Sunsette SSOT directives (parsed by tools/gen_pokemon_data.py) ---
+;@ nature       NATURE_SCRAPPY NATURE_STOLID
+;@ pal_battle   PAL_CAVE
+;@ pal_altbattle PAL_LEEKMON
+;@ pal_icon     PAL_ICON_51
+;@ pal_alticon  PAL_ICON_52
+;@ evo_move    NO_MOVE
+;@ evo_react   NONE
+;@ learn       20, LOW_KICK
+;@ learn       24, STOMP
+;@ learn       27, FOCUS_ENERGY
+;@ learn       31, METEOR_SWEEP
+;@ learn       36, PISTON_KICK
+;@ learn       41, BLITZ_STRIKE
+;@ learn       46, METEOR_DRIVE
+;@ learn       53, HI_JUMP_KICK

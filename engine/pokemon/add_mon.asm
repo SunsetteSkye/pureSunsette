@@ -189,8 +189,8 @@ ENDC
 	ld a, [hli]       ; type 2
 	ld [de], a
 	inc de
-;;;;;;;;;; PureRGBnote: CHANGED: we don't load catch rate here, we instead treat this byte as a set of flags. 
-;;;;;;;;;; at the moment only bit 0 is used for indicating alt palettes. 
+;;;;;;;;;; PureRGBnote: CHANGED: we don't load catch rate here, we instead treat this byte as a set of flags.
+;;;;;;;;;; at the moment only bit 0 is used for indicating alt palettes.
 	inc hl ; skip over catch rate
 	ld a, [wIsAltPalettePkmnData] ; also contains which ball the pokemon was caught in if it's a wild mon that was caught
 	ld [de], a

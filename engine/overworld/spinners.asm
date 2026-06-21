@@ -197,7 +197,7 @@ CheckStartStopSpinning::
 	jp ForceLoadSpinnerArrowTiles ; reset to default spinner tile
 
 ; need to check 2 tiles to figure out spin direction since they reused tiles
-; format: 
+; format:
 ; 1st byte: bottom left tile player must be standing on
 ; 2nd byte: bottom right tile player must be standing on
 ; 3rd byte: direction it should move player

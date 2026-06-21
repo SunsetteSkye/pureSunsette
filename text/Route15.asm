@@ -106,36 +106,36 @@ _Route15Beauty2AfterBattleText::
 	done
 
 _Route15Biker1BattleText::
-	text "Hey kid! C'mon!"
-	line "I just got these!"
+	text "I ride five deep,"
+	line "kid. Still game?"
 	done
 
 _Route15Biker1EndBattleText::
-	text "Why"
-	line "not?"
+	text "Beaten...?"
+	line "Me?!"
 	prompt
 
 _Route15Biker1AfterBattleText::
-	text "You only live"
-	line "once, so I live"
-	cont "as an outlaw!"
-	cont "<TEAM><ROCKET> RULES!"
+	text "I've run with"
+	line "<TEAM><ROCKET> for"
+	cont "years, kid. Heh."
 	done
 
 _Route15Biker2BattleText::
-	text "Fork over all your"
-	line "cash when you"
-	cont "lose to me, kid!"
+	text "Open your wallet"
+	line "and pay tribute,"
+	cont "runt. All of it."
 	done
 
 _Route15Biker2EndBattleText::
-	text "That"
-	line "can't be true!"
+	text "Wh-what? No"
+	line "tribute?!"
 	prompt
 
 _Route15Biker2AfterBattleText::
-	text "I was just joking"
-	line "about the money!"
+	text "Pay the tax up"
+	line "front next time,"
+	cont "and I'll be nice."
 	done
 
 _Route15CooltrainerF3BattleText::

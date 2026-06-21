@@ -487,13 +487,13 @@ The fifth page contains some additional options.
   - DOUBLESLAP - does double damage on sleeping pokemon! But also makes them wake up.
   - SONICBOOM - Priority move, GHOST type, 50 power. If you use it on the first turn you can attack, it will always cause the opponent to flinch.
   - ACID ARMOR - Does both LIGHT SCREEN and REFLECT in one move.
-  - ACID - Always lowers either the opponents ATTACK or DEFENSE by one stage.
+  - ACID - 50 power POISON move with a 50% chance to lower the opponent's DEFENSE by one stage. When used by EKANS or ARBOK it gets priority (strikes first), a quick venom spit.
   - LEECH SEED - will do more damage per turn depending on the opponent's resistance to GRASS type. It will stay at 1/16th of their HP per turn if they resist GRASS type, 1/8th if GRASS is normally effective, and 3/16th if they are weak to GRASS type.
   - SMOKESCREEN doesn't affect FIRE-type pokemon. (Allows some counter-play to these moves)
   - SAND-ATTACK doesn't affect GROUND or FLYING-type pokemon. (Allows some counter-play to these moves)
   - TOXIC - 100% accuracy when used by poison pokemon.
   - SCREECH - Still lowers defense by 2 stages, but now never misses, and also causes an effect "Echoing screeches" which will wake up any sleeping pokemon, and prevent sleep moves from being used. Echoing screeches will last for the whole battle! The move is used automatically if a pokemon that has it in their move list is attempted to be put to sleep by the opponent. Say NO to sleep moves if you want!
-- Some pokemon get SIGNATURE MOVES! This means they do more damage or get better accuracy with specific moves. For example, if ARBOK uses ACID, its power will be 100 instead of 50. An NPC in Saffron City can tell you which pokemon get signature moves and what the bonuses are to those moves. You can disable signature moves by turning off the MOVEMYSTIC option in the WORLD OPTIONS.
+- Some pokemon get SIGNATURE MOVES! This means they do more damage or get better accuracy with specific moves. For example, if GOLEM uses ROCK SLIDE, its power will be 110 instead of 75. An NPC in Saffron City can tell you which pokemon get signature moves and what the bonuses are to those moves. You can disable signature moves by turning off the MOVEMYSTIC option in the WORLD OPTIONS.
 - There are many more tweaks to moves. Check your MOVEDEX in game to see what a move you just saw's effects were, or see the wiki for a link to the complete move list. Be sure to try almost every move and don't write them off. Except for splash. It still does nothing as usual.
 
 ## Pokemon type changes

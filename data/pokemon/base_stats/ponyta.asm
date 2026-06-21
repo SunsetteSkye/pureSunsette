@@ -15,35 +15,34 @@
 
 	; tm/hm learnset
 	tmhm \
-	FURY_ATTACK,\ ; MUD BOMB
-	DISABLE,\
+	MUD_BOMB,\
 	TOXIC,\
-	HORN_DRILL,\ ; VENOM DRILL
+	HONE_EDGE,\
 	BODY_SLAM,\
+	DISABLE,\
 	DOUBLE_EDGE,\
-	AURORA_BEAM,\
+	AURORA_MIST,\
 	HYPER_BEAM,\
-	ROLLING_KICK,\ ; METEOR SWEEP
+	METEOR_SWEEP,\
 	BARRIER,\
-	SOLARBEAM,\ ; SOLARBEAM
-	DRAGON_RAGE,\ ; WYRM WRATH
+	SOLARBEAM,\ 
+	WYRM_WRATH,\
 	THUNDERBOLT,\
 	THUNDER,\
 	EARTHQUAKE,\
 	PSYCHIC_M,\
-	KINESIS,\ ; MIRAGE
+	MIRAGE,\
 	SWORDS_DANCE,\
 	REFLECT,\
-	BIDE,\ ; BULK UP
-	BARRAGE,\ ; SHADOW BALL
+	BULK_UP,\
+	SHADOW_BALL,\
+	SUPERNOVA,\
 	FIRE_BLAST,\
-	FLAMETHROWER,\
-	SLAM,\ ; WASTEMAKER
 	LOVELY_KISS,\
 	LIGHT_SCREEN,\
-	PSYWAVE,\ ; SKITTERMIND
+	SKITTERMIND,\
+	SHADOW_GAME,\
 	ROCK_SLIDE,\
-	GLARE,\
 	SUBSTITUTE,\
 	STRENGTH,\
 	FLASH
@@ -57,3 +56,23 @@
 
 	dw 0, PonytaPicBack
 
+; --- Sunsette SSOT directives (parsed by tools/gen_pokemon_data.py) ---
+;@ nature       NATURE_HYPER NATURE_ARROGANT
+;@ pal_battle   PAL_REDBAR
+;@ pal_altbattle PAL_0F
+;@ pal_icon     PAL_ICON_32
+;@ pal_alticon  PAL_ICON_39
+;@ evo         EVOLVE_LEVEL, 30, RAPIDASH
+;@ evo_move    NO_MOVE
+;@ evo_react   NONE
+;@ learn       9, CONFUSION
+;@ learn       18, HEAT_RUSH
+;@ learn       21, DOUBLE_KICK
+;@ learn       25, FOCUS_ENERGY
+;@ learn       28, PSYBEAM
+;@ learn       33, FIRE_SPIN
+;@ learn       36, PISTON_KICK
+;@ learn       39, PSYCHIC_M
+;@ learn       45, DOUBLE_EDGE
+;@ learn       49, FIRE_BLAST
+;@ learn       54, METEOR_DRIVE

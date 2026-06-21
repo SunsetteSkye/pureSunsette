@@ -3,6 +3,12 @@
 SafariZoneEast_Script:
 	call CheckModifySafariWildRate
 	call EnableAutoTextBoxDrawing
+	CheckEvent EVENT_REACTED_SAFARI
+	jr nz, .skipReaction
+	SetEvent EVENT_REACTED_SAFARI
+	ld a, NROW_SAFARI
+	farcall ShowOverworldNature
+.skipReaction
 	ld hl, SafariZoneEastTrainerHeaders
 	ld de, SafariZoneEast_ScriptPointers
 	ld a, [wSafariZoneEastCurScript]
