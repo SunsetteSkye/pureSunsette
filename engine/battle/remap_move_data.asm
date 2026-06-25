@@ -5,33 +5,31 @@
 ; if a species-specific bonus on a NORMAL move (Beedrill/Golem/Wigglytuff/etc.) actually applied this
 ; turn. Called right after "X used Y!" (DisplayUsedMoveText) and before damage, so the alert reads
 ; "X used Y! Signature Move!" then proceeds as normal. .doRemap's many ret/jp-hl exits all return here.
+; Sunsette FIX (2026-06-25): the remap logic is now INLINED into CheckRemapMoveData instead
+; of being reached via `call .doRemap`. The old `call .doRemap` held one extra return frame
+; on the stack across the whole remap; at the deepest battle moment (a move's pre-damage
+; remap with a VBlank+audio interrupt nested on top) that 2-byte frame overflowed the 256-byte
+; wStack, corrupting a saved return address -> the engine `ret`'d into the boot Init region ->
+; soft-reset to the title mid-battle. Bisected to 0555ab38 (last good combat: cb51ca35).
+; Now every per-move path falls through with `jr .afterRemap` (no extra frame); the modifier
+; path goes through the .jumpHL helper so a ModifierFunc's `ret` still lands at .afterRemap.
 CheckRemapMoveData::
 	xor a
 	ld [wSignatureMoveActive], a
-	call .doRemap
-	callfar CheckPsyduckHeadache ; Sunsette: PSYDUCK's hidden psychic-move headache recoil (floated section)
-	callfar CheckClefairyMetronome ; Sunsette: CLEFAIRY/CLEFABLE METRONOME also raises a random stat (floated)
-	callfar ComebackApplyPower ; Sunsette: comeback family - stage-scaled power + desperation flavour (no-op for other moves)
-	ld a, [wSignatureMoveActive]
-	and a
-	ret z
-	ld hl, SignatureMoveText
-	jp PrintText
-.doRemap:
 	call GetMoveRemapData
 	push de
 	ld hl, RemappableMoves
 	ld de, 4
 	call IsInArray
 	pop de
-	ret nc
+	jr nc, .afterRemap
 	inc hl
 	ld a, [hl]
 	cp -1
 	jr z, .donePokemonCheck
 	; the move has a specific pokemon required (it is a signature move)
 	CheckEvent FLAG_SIGNATURE_MOVES_TURNED_OFF
-	ret nz
+	jr nz, .afterRemap
 	ld a, d
 	cp VOLCANIC_MAGMAR
 	jr nz, .notVolcanicMagmar
@@ -42,7 +40,7 @@ CheckRemapMoveData::
 	ld a, WEEZING ; Sunsette: treat FLOATING WEEZING as WEEZING for signatures (same idea as VOLCANIC MAGMAR), so its SLUDGE BOMB also gets the burn signature
 .notFloatingWeezing
 	cp [hl]
-	ret nz
+	jr nz, .afterRemap
 	; Sunsette: a species-specific signature matched (and signatures are ON) -> flag the message.
 	; a is reloaded immediately below, so clobbering it here is fine.
 	ld a, 1
@@ -60,14 +58,25 @@ CheckRemapMoveData::
 .donePowerCheck
 	ld a, [hli]
 	and a
-	ret z ; no accuracy change
+	jr z, .afterRemap ; no accuracy change
 	ld [de], a
-	ret
+	jr .afterRemap
 .modifierFunction
 	inc hl
 	ld a, [hl]
 	ld hl, ModifierFuncs
 	call GetAddressFromPointerArray
+	call .jumpHL ; run the ModifierFunc; its `ret` returns here, then we fall into .afterRemap
+.afterRemap:
+	callfar CheckPsyduckHeadache ; Sunsette: PSYDUCK's hidden psychic-move headache recoil (floated section)
+	callfar CheckClefairyMetronome ; Sunsette: CLEFAIRY/CLEFABLE METRONOME also raises a random stat (floated)
+	callfar ComebackApplyPower ; Sunsette: comeback family - stage-scaled power + desperation flavour (no-op for other moves)
+	ld a, [wSignatureMoveActive]
+	and a
+	ret z
+	ld hl, SignatureMoveText
+	jp PrintText
+.jumpHL:
 	jp hl
 
 SignatureMoveText: ; Sunsette: "Signature Move!" - shown after a species-specific signature on a normal move
