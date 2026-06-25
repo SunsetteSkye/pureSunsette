@@ -1080,7 +1080,7 @@ CinnabarVolcanoBombRockText:
 .loop
 	; we check for specific moves first because exploding the rocks looks cooler
 	ld a, [hli]
-	cp METAMORPHIC
+	cp OROCLASM
 	jr z, .explodeRocksExplosion
 	cp SUPERNOVA
 	jr z, .explodeRocksSelfdestruct

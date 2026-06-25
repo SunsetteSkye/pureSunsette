@@ -21,7 +21,7 @@ MoveSoundTable:
 	db SFX_BATTLE_13,          $00, $e0 ; WHIRLWIND
 	db SFX_NOT_VERY_EFFECTIVE, $20, $c0 ; FLY
 	db SFX_BATTLE_14,          $00, $80 ; STONEBOUND
-	db SFX_BATTLE_22,          $00, $80 ; SLAM (WASTEMAKER)
+	db SFX_BATTLE_22,          $00, $80 ; TEMPEST
 	db SFX_VINE_WHIP,          $01, $80 ; VINE_WHIP
 	db SFX_BATTLE_20,          $00, $80 ; STOMP
 	db SFX_BATTLE_17,          $f0, $40 ; DOUBLE_KICK
@@ -67,8 +67,8 @@ MoveSoundTable:
 	db SFX_PECK,               $01, $a0 ; PECK
 	db SFX_BATTLE_13,          $f0, $20 ; DRILL_PECK
 	db SFX_BATTLE_23,          $01, $c0 ; SUBMISSION
-	db SFX_BATTLE_23,          $00, $80 ; LOW_KICK
-	db SFX_SUPER_EFFECTIVE,    $00, $e0 ; COUNTER
+	db SFX_BATTLE_23,          $00, $80 ; FINISHER
+	db SFX_SUPER_EFFECTIVE,    $00, $e0 ; SHADOW_BOX
 	db SFX_BATTLE_26,          $01, $60 ; SEISMIC_TOSS
 	db SFX_BATTLE_26,          $20, $40 ; STRENGTH
 	db SFX_BATTLE_24,          $00, $80 ; ABSORB
@@ -146,7 +146,7 @@ MoveSoundTable:
 	db SFX_BATTLE_25,          $48, $ff ; SKY_ATTACK
 	db SFX_FAINT_FALL,         $ff, $ff ; TRANSFORM
 	db SFX_BATTLE_24,          $ff, $10 ; BUBBLE
-	db SFX_FAINT_FALL,         $ff, $04 ; DIZZY_PUNCH
+	db SFX_FAINT_FALL,         $ff, $04 ; CLOBBERCLOCK
 	db SFX_BATTLE_1C,          $22, $ff ; SPORE
 	db SFX_BATTLE_13,          $f8, $ff ; FLASH
 	db SFX_BATTLE_0C,          $f0, $f0
@@ -171,6 +171,22 @@ MoveSoundTable:
 	db SFX_BATTLE_25,          $00, $80 ; MAXIMIZE (Sunsette: Focus-Energy-style spiral SFX)
 	db SFX_BATTLE_14,          $11, $20 ; CRYSTALLIZE (Sunsette: HARDEN-style defensive SFX)
 	db SFX_BATTLE_25,          $00, $10 ; QUICK_ATTACK (Sunsette: same dash SFX as its upgrade BLITZ STRIKE)
+	db SFX_PSYCHIC_M,          $00, $80 ; PSYCHO_SHIFT (Sunsette: borrows PSYCHIC's tone - audio id table is full, no room for a new SFX)
+	db SFX_BATTLE_24,          $40, $c0 ; GIGA_DRAIN (Sunsette: clones MEGA DRAIN's sfx for now)
+	db SFX_BATTLE_24,          $40, $c0 ; SAPPING_COLD (Sunsette: clones MEGA DRAIN's sfx for now)
+	db SFX_BATTLE_24,          $40, $c0 ; PLASMA_BURN (Sunsette: placeholder sfx)
+	db SFX_BATTLE_24,          $40, $c0 ; BULLDOZE (Sunsette: placeholder sfx)
+	db SFX_BATTLE_24,          $40, $c0 ; ENERGY_FLUX (Sunsette: placeholder sfx)
+	db SFX_BATTLE_2C,          $00, $80 ; MUDSLIDE (Sunsette: clones SURF's sfx)
+	db SFX_BATTLE_24,          $40, $c0 ; POISON_FANG (Sunsette: placeholder sfx)
+	db SFX_BATTLE_24,          $40, $c0 ; BUG_OFF (Sunsette: placeholder sfx)
+	db SFX_PSYCHIC_M,          $00, $80 ; PSYCHOCRISIS (Sunsette: borrows PSYCHIC's tone, like PSYCHO SHIFT)
+	db SFX_BATTLE_0C,          $10, $80 ; ROCK_SMASH (Sunsette: DEMOLISH-style fighting hit placeholder)
+	db SFX_BATTLE_0C,          $10, $80 ; SUPERPOWER (Sunsette: placeholder fighting hit)
+	db SFX_BATTLE_0C,          $10, $80 ; SUBMISSION (Sunsette: placeholder fighting hit)
+	db SFX_BATTLE_22,          $00, $80 ; SLAM (Sunsette: the classic SLAM hit sound)
+	db SFX_PSYCHIC_M,          $00, $80 ; PSYSHOCK (Sunsette: clones PSYCHIC's tone, matching its placeholder anim)
+	db SFX_BATTLE_17,          $f0, $40 ; FLUTTER_KICK (Sunsette: clones DOUBLE KICK's sfx, matching its placeholder anim)
 	db SFX_BATTLE_2C,          $20, $00 ; STRUGGLE ; actually used for HAZE
 	assert_table_length NUM_ATTACKS
 	db SFX_BATTLE_0B,          $00, $80

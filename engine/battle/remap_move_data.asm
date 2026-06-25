@@ -107,7 +107,10 @@ GetMoveRemapData2:
 RemappableMoves::
 	db SING, -1, -2, 1
 	db DOUBLESLAP, -1, -2, 0
-	db METAMORPHIC, -1, -2, 2
+	; Sunsette: OROCLASM no longer uses a power modifier - it's a flat 110 BP anti-barrier finisher now
+	; (goes last + pre-damage screen clear, both handled outside the remap system). The old 70/140
+	; counter-puncher (OroclasmPowerModifier/Impl, slot 19 below) is retired/orphaned, kept only so the
+	; ModifierFuncs indices don't shift.
 	db SUPERNOVA, -1, -2, 2
 	db TOXIC, -1, -2, 4
 	db EXPLOSION, -1, -2, 14 ; Sunsette: vanilla EXPLOSION faints the user on use (ExplosionFaintModifier); the DEFENSE-halve is in core.asm's EXPLODE_EFFECT branch
@@ -116,13 +119,12 @@ RemappableMoves::
 	db BARRIER, -1, -2, 17 ; Sunsette: +2 DEF is the move's own DEFENSE_UP2_EFFECT; this always braces NORMAL (BarrierBrace)
 	; Sunsette: METEOR_DRIVE's ROCK/CRYSTAL-user 100%-accuracy remap (SkullBashModifier, ModifierFuncs slot 5)
 	; removed - it now keeps its base 80 accuracy for everyone. Slot 5 is kept dead so indices 6+ don't shift.
-	; Sunsette: SLAM is now TWISTER (DRAGON, 30% flinch, hits FLY users); its old FilthySlamModifier
+	; Sunsette: SLAM is now TEMPEST (DRAGON, 30% flinch, hits FLY users); its old FilthySlamModifier
 	; (130 BP vs poisoned) entry was removed. ModifierFuncs slot 6 is kept dead so indices 7+ don't shift.
 	db SOLARBEAM, -1, -2, 7 ; Sunsette: live power - 60 (charge) / 120 (release, primed) / 90 (FIRE user) (SOLARBEAM)
 	; signature moves start here
 	; Sunsette: BEEDRILL's POISON STING signature removed (reverts to base 15 BP).
 	db TWINEEDLE, BEEDRILL, -1, 0 ; Sunsette: no power change, just trips the "Signature Move!" flag; BEEDRILL's real Twineedle signature is the 40% poison (POISON_SIDE_EFFECT2) swap in TwoToFiveAttacksEffect
-	db ROCK_SLIDE, GOLEM, 110, 0
 	db ZAPPERCUT, ELECTABUZZ, 90, 0
 	db BLAZE_HAMMER, MAGMAR, 90, 0
 	db FROST_FIST, JYNX, 90, 0
@@ -136,11 +138,12 @@ RemappableMoves::
 	db HURRICANE, PIDGEOT, -1, 100 percent
 	; Sunsette: BLASTOISE's HYDRO_PUMP / SKULL_BASH signatures removed (no longer a MOVE MYSTIC mon).
 	db PSYBEAM, GOLDUCK, 105, 0
-	db SLUDGE_BOMB, WEEZING, -2, 12 ; Sunsette: WEEZING's SLUDGE BOMB tries to BURN instead of poison (SludgeBombModifier); KOFFING keeps the base 40% poison
+	db FLAMETHROWER, WEEZING, -1, 0 ; Sunsette: WEEZING's signature is now FLAMETHROWER - it gets STAB on it despite being POISON (granted in ShouldMoveGetStabBoost). This table entry only flags the "Signature Move!" banner. (SLUDGE BOMB reverts to its base 40% poison for WEEZING/KOFFING alike.)
 	; Sunsette: TANGELA's VENOM LASH (CONSTRICT) signature removed. The remap only set 90 BP, which is already
 	; the move's flat base power, so it changed nothing but the "Signature Move!" alert + Move Mystic listing.
-	db DIZZY_PUNCH, KANGASKHAN, 90, 0 ; Sunsette: 70 BP normally, 90 BP for KANGASKHAN (signature)
-	db LOW_KICK, -1, -2, 8 ; Sunsette: power scales with the TARGET's weight (LowKickModifier)
+	db CLOBBERCLOCK, KANGASKHAN, 90, 0 ; Sunsette: 70 BP normally, 90 BP for KANGASKHAN (signature)
+	db TEMPEST, -1, -2, 8 ; Sunsette: power scales with the TARGET's weight (TempestWeightModifier, compressed brackets)
+	db FINISHER, -1, -2, 6 ; Sunsette: power 150 unimpeded / 50 if the user took a direct hit first (FinisherPowerModifier -> FinisherPowerImpl, reads FINISHER_INTERRUPTED)
 	; Sunsette: CRABHAMMER is a flat 100-BP move now (no longer a KRABBY/KINGLER signature, since RIPTIDE took
 	; its TM slot and CRABHAMMER is no longer widespread). Its old by-user power remap was removed.
 	; Sunsette: STRENGTH no longer remaps its power (flat 100 BP); its weight-class recoil + 30% +ATK are all in StrengthRagePostHit.
@@ -150,10 +153,13 @@ RemappableMoves::
 	; elsewhere (SnorlaxRestBonus). It lives here only so the species-match path flags the "Signature Move!"
 	; message right after the move is announced.
 	db REST, SNORLAX, -1, 0          ; SNORLAX: REST also grants FLOURISH + SPEED +1 (SnorlaxRestBonus)
-	; Sunsette: ARBOK's old FOCUS ENERGY / WRAP signatures were removed; its current signature is the Ekans-line
-	; ACID priority (data/battle/priority_moves.asm), decided at turn-order time, not through this table.
+	; Sunsette: EKANS/ARBOK FOCUS ENERGY signature - it also heals 1/4 max HP (EkansLineFocusEnergyHeal, in
+	; arbok_signature.asm). These no-op entries just flag the "Signature Move!" banner when Focus Energy is used.
+	db FOCUS_ENERGY, ARBOK, -1, 0
+	db FOCUS_ENERGY, EKANS, -1, 0
 	db SPLASH, -1, -2, 11            ; Sunsette: power scales with the USER's weight (SplashWeightModifier); MAGIKARP -> 0 (signature comedy)
 	db SURF, -1, -2, 13              ; Sunsette: SURF is a PIKACHU/RAICHU signature once EVENT_SURFED_WITH_DUDE is set; SurfSignatureModifier only flags the "Signature Move!" alert (the WATERIFY itself is in SpeciesMoveBonus)
+	db SHADOW_BOX, -1, -2, 18        ; Sunsette: SHADOW BOX power 75 (foe's selected move is Special) / 35 (anything else) - ShadowBoxPowerModifier
 	db -1
 
 ModifierFuncs:
@@ -163,18 +169,20 @@ ModifierFuncs:
 	dw FirewallModifier
 	dw ToxicModifier
 	dw SkullBashModifier
-	dw FilthySlamModifier ; Sunsette: DEAD (SLAM->TWISTER dropped it); slot kept so the indices below don't shift
+	dw FinisherPowerModifier ; 6 - Sunsette: PIVOT STRIKE power 60->80 vs a statused target (reuses the old dead FilthySlam slot)
 	dw SolarBeamPowerModifier
-	dw LowKickModifier
+	dw TempestWeightModifier
 	dw FirewallModifier ; Sunsette: DEAD (CRABHAMMER no longer a signature); slot kept so the indices below don't shift
 	dw UnleashRageModifier
 	dw SplashWeightModifier
-	dw SludgeBombModifier
+	dw SludgeBombModifier ; 12 - Sunsette: DEAD (WEEZING's SLUDGE BOMB burn signature removed 2026-06-23; slot kept so indices 13+ don't shift)
 	dw SurfSignatureModifier ; 13 - Sunsette: PIKACHU/RAICHU SURF "Signature Move!" alert (gated on EVENT_SURFED_WITH_DUDE)
 	dw ExplosionFaintModifier ; 14 - Sunsette: vanilla EXPLOSION faints the user the instant it is used
 	dw CrystallizeModifier ; 15 - Sunsette: CRYSTALLIZE retypes the user's type1 (Rock-like -> CRYSTAL, else -> ROCK)
 	dw AgilityBraceModifier ; 16 - Sunsette: AGILITY's type-keyed ADAPTATION brace
 	dw BarrierBraceModifier ; 17 - Sunsette: BARRIER always braces NORMAL
+	dw ShadowBoxPowerModifier ; 18 - Sunsette: SHADOW BOX power 75 (read foe's Special) / 35 (whiff)
+	dw OroclasmPowerModifier ; 19 - Sunsette: OROCLASM power 70 / 140 if hit by a physical-typed move this turn (go-last counter)
 
 ; Sunsette: SolarBeam's power is decided live, before damage calc, from the user's state:
 ;   FIRE-type user           -> 120 (one-shot full power; recoil + 30% burn + -1 SPC, never charges)
@@ -207,11 +215,12 @@ SolarBeamPowerModifier:
 	ld [bc], a
 	ret
 
-; Sunsette: LOW KICK scales with the TARGET's weight (Gen-4+ style). We look up the target's dex weight
-; and pick a power bracket. Non-dex foes (MISSINGNO, the SPIRIT_* ghosts, etc.) have no real dex weight,
-; so they fall back to the move's listed 60 BP. Weight from GetMetricMeasurements is in 1/10 of a kg:
-;   <=10kg(100):20  <=25kg(250):40  <=50kg(500):60  <=100kg(1000):80  <=200kg(2000):100  else:120
-LowKickModifier:
+; Sunsette: TEMPEST (was TWISTER) scales with the TARGET's weight (Low Kick style), so a heavy flyer/dragon
+; takes a real hit while a light bird is mostly just grounded. Brackets are COMPRESSED vs Low Kick so the
+; top end doesn't collide with DRAGON's 2x-vs-Dragon (capped 90, not 120). Non-dex foes (MISSINGNO, the
+; SPIRIT_* ghosts, etc.) fall back to the move's listed 60 BP. Weight (GetMetricMeasurements) is 1/10 kg:
+;   <=10kg(100):20  <=25kg(250):35  <=50kg(500):50  <=100kg(1000):65  <=200kg(2000):80  else:90
+TempestWeightModifier:
 	call GetMoveRemapData2 ; bc = wXxxMovePower (user side); de = accuracy (unused)
 	push bc                ; save the power pointer across the lookups
 	ldh a, [hWhoseTurn]
@@ -234,21 +243,21 @@ LowKickModifier:
 	jr c, .store
 	ld bc, 250
 	call .weightLE
-	ld a, 40
+	ld a, 35
 	jr c, .store
 	ld bc, 500
 	call .weightLE
-	ld a, 60
+	ld a, 50
 	jr c, .store
 	ld bc, 1000
 	call .weightLE
-	ld a, 80
+	ld a, 65
 	jr c, .store
 	ld bc, 2000
 	call .weightLE
-	ld a, 100
+	ld a, 80
 	jr c, .store
-	ld a, 120
+	ld a, 90
 .store
 	pop hl                   ; recover the power pointer
 	ld [hl], a
@@ -292,23 +301,23 @@ SplashWeightModifier:
 	jr nc, .fallback         ; > 151 (MISSINGNO / spirits)
 	farcall GetMetricMeasurements ; de = weight in 1/10 kg (survives the bankswitch)
 	ld bc, 100
-	call LowKickModifier.weightLE
+	call TempestWeightModifier.weightLE
 	ld a, 10
 	jr c, .store
 	ld bc, 250
-	call LowKickModifier.weightLE
+	call TempestWeightModifier.weightLE
 	ld a, 20
 	jr c, .store
 	ld bc, 500
-	call LowKickModifier.weightLE
+	call TempestWeightModifier.weightLE
 	ld a, 30
 	jr c, .store
 	ld bc, 1000
-	call LowKickModifier.weightLE
+	call TempestWeightModifier.weightLE
 	ld a, 40
 	jr c, .store
 	ld bc, 2000
-	call LowKickModifier.weightLE
+	call TempestWeightModifier.weightLE
 	ld a, 50
 	jr c, .store
 	ld a, 60
@@ -371,13 +380,10 @@ DoubleSlapModifier::
 ; Sunsette: DoubleSlapModifierPart2 (force the sleeping target to "1 turn left") was removed - the general
 ; per-hit sleep-reduction system now handles waking a target that gets pummeled. See ApplySleepHitTally.
 
-; Sunsette: WEEZING's SLUDGE BOMB signature - instead of poison, it tries to BURN the target. A FIRE-type
-; target is burn-immune, so it falls back to the normal poison. Reached pre-damage from CheckRemapMoveData
-; (only when the user is WEEZING / FLOATING WEEZING and signatures are ON - the table already gated both).
-; We just swap the move's secondary EFFECT to BURN_SIDE_EFFECT2, bumped to 40% for SLUDGE BOMB in
-; FreezeBurnParalyzeEffect so the burn chance matches the base 40% poison; the
-; SLUDGE BOMB -> FIRE override in FreezeBurnParalyzeEffect makes the burn's type-immunity FIRE-based, so non-fire
-; POISON-types still burn rather than being wrongly blocked by the move's POISON type.
+; Sunsette: DEAD as of 2026-06-23 - WEEZING's SLUDGE BOMB burn signature was removed (its signature is now
+; FLAMETHROWER-with-STAB). No table entry dispatches here anymore; the body is kept only because ModifierFuncs
+; slot 12 still points at it (kept dead so indices 13+ don't shift). Formerly: swapped SLUDGE BOMB's poison for
+; a FIRE-immune 40% burn for WEEZING / FLOATING WEEZING.
 SludgeBombModifier::
 	ldh a, [hWhoseTurn]
 	and a
@@ -485,7 +491,7 @@ ExplosionFaintAndClear: ; Sunsette: shared faint+leech-clear tail (also entered 
 	ld [de], a
 	jpfar DrawHUDsAndHPBars
 
-; Sunsette: vanilla EXPLOSION (replacing GLARE) - faint the user the instant the move is used, regardless of
+; Sunsette: vanilla EXPLOSION - faint the user the instant the move is used, regardless of
 ; HP (unlike ExplosionSelfdestructModifier above, which only bursts below 1/3 HP). CheckRemapMoveData runs this
 ; right after "X used Y!" and before the damage step, so the move still connects and THEN the user is gone.
 ; Reuses ExplosionSelfdestructModifier's faint+clear tail to stay small (newCode is tight).
@@ -565,5 +571,30 @@ Modifier100Accuracy:
 SkullBashModifier: ; Sunsette: DEAD (METEOR_DRIVE's ROCK/CRYSTAL 100%-accuracy perk removed); collapsed to a no-op, label kept for ModifierFuncs slot 5
 	ret
 
-FilthySlamModifier:: ; Sunsette: DEAD (SLAM -> TWISTER dropped it); collapsed to a no-op, label kept for ModifierFuncs slot 6
-	ret
+; Sunsette: FINISHER (was PIVOT STRIKE) - a Focus-Punch-like commitment. It goes LAST (negative priority,
+; handled in the turn-order code); if the user takes a direct damaging hit before it fires, power drops to
+; 50, else it's a 150-BP "FINISH THEM!". The body is jpfar'd out (newCode is full). Pre-damage, ModifierFuncs slot 6.
+FinisherPowerModifier::
+	jpfar FinisherPowerImpl
+
+; Sunsette: OROCLASM live power - 70 base, 140 if the user took a PHYSICAL-typed hit this turn (the counter-
+; punch). Body jpfar'd out (newCode full); reads FINISHER_INTERRUPTED + the foe's move type. ModifierFuncs slot 19.
+OroclasmPowerModifier::
+	jpfar OroclasmPowerImpl
+
+; Sunsette: SHADOW BOX live power - 75 if the FOE's selected move this turn is special-typed (you read the
+; attack), else 35 (you whiffed the read). The read itself lives in FoeSelectedMoveIsSpecial (volcano bank,
+; alongside the post-damage confuse handler), callfar'd so the verdict rides home in e.
+ShadowBoxPowerModifier::
+	callfar FoeSelectedMoveIsSpecial ; e = 1 (foe's move special) / 0
+	ld a, e
+	push af
+	call GetMoveRemapData2   ; bc = wXxxMovePower (clobbers de)
+	pop af
+	and a
+	ld a, 60                 ; whiff -> modest 60 BP (never a fully wasted turn)
+	jr z, .storeSB
+	ld a, 90                 ; read the Special -> decent 90 BP
+.storeSB
+	ld [bc], a
+	ret ; Sunsette: the COMBO_MOVE_USED lock is now armed centrally by CheckComboMoveLock (set-on-allow), not here

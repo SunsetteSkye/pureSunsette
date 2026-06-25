@@ -33,7 +33,6 @@
 	RIPTIDE,\
 	DIG,\
 	MEGA_DRAIN,\
-	MIRAGE,\
 	SWORDS_DANCE,\
 	REFLECT,\
 	BULK_UP,\
@@ -79,3 +78,7 @@
 ;@ learn       46, MAXIMIZE
 ;@ learn       50, DOUBLE_EDGE
 ;@ learn       55, VENOM_LASH
+;@ tutor       EXPLOSION
+;@ tutor       CLOBBERCLOCK
+;@ tutor       EGG_BOMB
+;@ tutor       SCREECH

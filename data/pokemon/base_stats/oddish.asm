@@ -15,26 +15,33 @@
 
 	; tm/hm learnset
 	tmhm \
-	MUD_BOMB,\
-	TOXIC,\
 	HONE_EDGE,\
 	DISABLE,\
-	DOUBLE_EDGE,\
-	AQUA_RING,\
-	CALM_MIND,\
-	BARRIER,\
-	ADAPTATION,\
-	SOLARBEAM,\ 
-	PSYCHIC_M,\
-	MEGA_DRAIN,\
 	SWORDS_DANCE,\
-	REFLECT,\
+	SHADOW_GAME,\
+	TOXIC,\
+	SLUDGE_BOMB,\
+	DOUBLE_EDGE,\
+	WATER_PULSE,\
+	SUPER_SOAK,\
+	MEGA_DRAIN,\
+	SOLARBEAM,\
+	MUD_BOMB,\
+	PSYCHIC_M,\
 	BULK_UP,\
+	REFLECT,\
+	LIGHT_SCREEN,\
 	ILL_WIND,\
 	SHADOW_BALL,\
-	LIGHT_SCREEN,\
-	SHADOW_GAME,\
+	SHADOW_BOX,\
+	BARRIER,\
 	SUBSTITUTE,\
+	AQUA_RING,\
+	ADAPTATION,\
+	CALM_MIND,\
+	VOID_MIND,\
+	PSYCHO_SHIFT,\
+	LEECH_LIFE,\
 	CUT,\
 	FLASH
 	; end
@@ -54,16 +61,18 @@
 ;@ pal_icon     $FF
 ;@ pal_alticon  $FF
 ;@ evo         EVOLVE_LEVEL, 21, GLOOM
-;@ evo_move    NO_MOVE
+;@ evo_move    LICK
 ;@ evo_react   NONE
 ;@ learn       7, POISONPOWDER
 ;@ learn       11, ACID
-;@ learn       15, ADAPTATION
-;@ learn       17, STUN_SPORE
+;@ learn       15, STUN_SPORE
 ;@ learn       19, MEGA_DRAIN
-;@ learn       23, PHANTASM
+;@ learn       23, ADAPTATION
 ;@ learn       28, SLEEP_POWDER
-;@ learn       36, SLUDGE_BOMB
-;@ learn       45, TOXIC
-;@ learn       50, SENBONZAKURA
-;@ learn       57, EMETIC_PURGE
+;@ learn       34, SLUDGE_BOMB
+;@ learn       40, TOXIC
+;@ learn       47, SOLARBEAM
+;@ learn       54, EMETIC_PURGE
+;@ tutor       SOULSTEALER
+;@ tutor       TELEPORT
+;@ tutor       SWIFT

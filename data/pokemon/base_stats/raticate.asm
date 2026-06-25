@@ -15,37 +15,43 @@
 
 	; tm/hm learnset
 	tmhm \
-	ADAPTATION,\
-	FROST_FIST,\
-	MUD_BOMB,\
-	BLAZE_HAMMER,\
-	TOXIC,\
 	HONE_EDGE,\
-	BODY_SLAM,\
 	DISABLE,\
-	DOUBLE_EDGE,\
+	SWORDS_DANCE,\
 	AURORA_MIST,\
+	SHADOW_GAME,\
+	TOXIC,\
+	SLUDGE_BOMB,\
+	BODY_SLAM,\
+	QUICK_ATTACK,\
+	DOUBLE_EDGE,\
+	WATER_PULSE,\
+	SUPER_SOAK,\
 	ICE_BEAM,\
 	BLIZZARD,\
 	HYPER_BEAM,\
-	CALM_MIND,\
-	LOW_KICK,\
 	ZAPPERCUT,\
-	METEOR_SWEEP,\
-	BARRIER,\
-	THUNDERBOLT,\
-	THUNDER,\
-	RIPTIDE,\
+	FROST_FIST,\
+	BLAZE_HAMMER,\
+	MUD_BOMB,\
 	DIG,\
-	MIRAGE,\
-	SWORDS_DANCE,\
-	BULK_UP,\
-	SHADOW_BALL,\
+	FINISHER,\
 	DEMOLISH,\
-	VOID_MIND,\
-	SHADOW_GAME,\
-	ROCK_ON,\
+	BULK_UP,\
+	BARRIER,\
+	METEOR_SWEEP,\
+	ROCK_SLIDE,\
 	SUBSTITUTE,\
+	RIPTIDE,\
+	AQUA_RING,\
+	ADAPTATION,\
+	CALM_MIND,\
+	VOID_MIND,\
+	PSYCHO_SHIFT,\
+	LEAP_ATTACK,\
+	LEECH_LIFE,\
+	CLAY_ARMOR,\
+	ROCK_ON,\
 	CUT,\
 	SURF,\
 	STRENGTH
@@ -71,13 +77,18 @@
 ;@ evo_react   "It gnaws the air" "with new vigor!"
 ;@ evo_react   "Its tail lashes" "quick and sharp!"
 ;@ learn       7, BITE
-;@ learn       12, DISABLE
-;@ learn       14, MUD_BOMB
-;@ learn       17, BLITZ_STRIKE
-;@ learn       20, SCREECH
-;@ learn       23, DIG
-;@ learn       26, LEAP_ATTACK
-;@ learn       31, HYPER_FANG
-;@ learn       34, FOCUS_ENERGY
-;@ learn       40, ADAPTATION
-;@ learn       45, SUPER_FANG
+;@ learn       12, MUD_CLAW
+;@ learn       17, DISABLE
+;@ learn       21, HYPER_FANG
+;@ learn       27, FOCUS_ENERGY
+;@ learn       33, LEAP_ATTACK
+;@ learn       39, ADAPTATION
+;@ learn       45, BLITZ_STRIKE
+;@ learn       52, SUPER_FANG
+;@ tutor       PAY_DAY
+;@ tutor       CLOBBERCLOCK
+;@ tutor       PISTON_KICK
+;@ tutor       METEOR_DRIVE
+;@ tutor       SWIFT
+;@ tutor       SCREECH
+;@ tutor       SOFTBOILED

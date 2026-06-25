@@ -197,8 +197,11 @@ AIMoveChoiceModification1:
 	cp SUPERNOVA
 	call z, ScoreSupernova ; Sunsette: prioritize for a FIRE user vs Water/Ground/Rock; avoid for a non-FIRE user vs a target not weak to FIRE
 	ld a, [wEnemyMoveNum]
-	cp METAMORPHIC
-	call z, ScoreMetamorphic ; Sunsette: prioritize for a ROCK user vs Water/Ground/Grass/Fighting
+	cp OROCLASM
+	call z, ScoreOroclasm ; Sunsette: prioritize for a ROCK user vs Water/Ground/Grass/Fighting
+	ld a, [wEnemyMoveNum]
+	cp PSYSHOCK
+	call z, ScorePsyshock ; Sunsette: favor over PSYCHIC when the target's DEFENSE <= 3/4 of its SPECIAL
 	ld a, [wEnemyMoveNum]
 	call ScoreComebackMove ; Sunsette: comeback family - discourage the weak floors at desperation stage 0, encourage all at 2-3
 	ld a, [wPlayerBattleStatus1]
@@ -210,8 +213,6 @@ AIMoveChoiceModification1:
 	jp z, .checkAsleep
 	cp OHKO_EFFECT
 	jr z, .ohko
-	cp MIRAGE_EFFECT
-	jp z, .firewall
 	ld a, [wEnemyMovePower]
 	and a
 	jp nz, .nextMove ; Sunsette: jr->jp (the ScoreComebackMove call pushed this past the jr range)
@@ -293,38 +294,13 @@ AIMoveChoiceModification1:
 	pop bc
 	pop hl
 	jp .nextMove
-.firewall
-	; Sunsette: Mirage burns through any status AND drops the target's Special (unless already burned).
-	; Wasted on FIRE-types (immune to all of it) and largely wasted on an already-burned target.
-	ld a, [wBattleMonType1]
-	cp FIRE
-	jr z, .discourage
-	ld a, [wBattleMonType2]
-	cp FIRE
-	jr z, .discourage
-	ld a, [wAITargetMonStatus]
-	and a
-	jr nz, .aiThinksStatus
-	; ai doesn't think opponent has status on switching/healing
-	ld a, [wAIMoveSpamAvoider] ; set if we switched or healed this turn
-	cp 2 ; set to 2 if we switched
-	jr z, .firewallNext ; just switched, assume no status -> good move
-	ld a, [wBattleMonStatus]
-	and a
-	jr z, .firewallNext ; no status -> good (burn + Special drop)
-.aiThinksStatus
-	bit BRN, a
-	jr nz, .discourage ; already burned -> no Special drop, redundant burn
-	; non-burn status: Mirage burns through it AND still drops Special -> good move
-.firewallNext
-	jp .nextMove
 .discourageStatBoostingMoveWhenMaxedOut
 	ld a, [wEnemyMoveEffect]
 	ld hl, StatBoostingEffectList
 	call IsInSingleByteArray
 	jp nc, .notStatBoostingMove
 	ld a, [wEnemyMoveEffect]
-	cp MEDITATE_EFFECT
+	cp VOID_MIND_EFFECT
 	jr z, .meditateCheck
 	cp ATTACK_ACCURACY_UP1_EFFECT
 	jr z, .sharpenCheck
@@ -743,10 +719,10 @@ ScoreSupernova:
 	scf
 	ret
 
-; Sunsette: METAMORPHIC (EXPLOSION) scoring. Only a ROCK user gains the type-shed/+6-SPEED payoff, so this only
+; Sunsette: OROCLASM (EXPLOSION) scoring. Only a ROCK user gains the type-shed/+6-SPEED payoff, so this only
 ; fires for a ROCK acting mon: prioritize the 140-BP nuke against the types that threaten Rock
 ; (Water/Ground/Grass/Fighting) even when resisted. hl = score slot.
-ScoreMetamorphic:
+ScoreOroclasm:
 	ld a, [wEnemyMonType1]
 	cp ROCK
 	jr z, .rockUser
@@ -791,6 +767,43 @@ ScoreMetamorphic:
 	ret
 .yes:
 	scf
+	ret
+
+; Sunsette: favor PSYSHOCK over PSYCHIC when the target's DEFENSE <= 3/4 of its SPECIAL (Psyshock strikes the
+; physical DEFENSE, so it out-damages PSYCHIC when DEF is the lower stat). hl = this move's score slot; lower
+; the score (= more likely to be chosen) when the condition holds, else leave it. Target = the player's active
+; mon (wBattleMon). Preserves hl/de/bc for the AIMoveChoiceModification1 loop.
+ScorePsyshock:
+	push hl
+	push de
+	push bc
+	ld a, [wBattleMonSpecial]
+	ld b, a
+	ld a, [wBattleMonSpecial + 1]
+	ld c, a                 ; bc = target SPECIAL
+	ld h, b
+	ld l, c                 ; hl = SPECIAL
+	add hl, bc              ; hl = 2 * SPECIAL
+	add hl, bc              ; hl = 3 * SPECIAL
+	srl h
+	rr l
+	srl h
+	rr l                    ; hl = 3/4 * SPECIAL  (the threshold)
+	ld a, [wBattleMonDefense]
+	ld d, a
+	ld a, [wBattleMonDefense + 1]
+	ld e, a                 ; de = target DEFENSE
+	ld a, l                 ; (threshold - DEFENSE)
+	sub e
+	ld a, h
+	sbc d                   ; carry SET if threshold < DEFENSE (Psyshock not the better hit)
+	pop bc
+	pop de
+	pop hl                  ; pops leave the carry flag intact
+	ret c                   ; DEFENSE > 3/4 SPECIAL -> leave the score (PSYCHIC ties/wins)
+	ld a, [hl]
+	sub 3                   ; favor PSYSHOCK (lower score = more likely), same magnitude as ScoreSupernova
+	ld [hl], a
 	ret
 
 EncourageMockingbird:
@@ -1076,7 +1089,7 @@ StatBoostingEffectList:
 	db EVASION_UP2_EFFECT
 	db ATTACK_ACCURACY_UP1_EFFECT
 	db ATTACK_DEFENSE_UP1_EFFECT
-	db MEDITATE_EFFECT
+	db VOID_MIND_EFFECT
 	db MAXIMIZE_EFFECT ; Sunsette: recognize MAXIMIZE as setup, so the AI anti-spams it once ATTACK is maxed
 	db -1
 
@@ -1234,7 +1247,6 @@ AIMoveChoiceModification3:
 .checkSpecificEffects ; we'll further encourage certain moves
 	call EncouragePriorityIfSlow
 	call EncourageDrainingMoveIfLowHealth
-	call EncourageOHKOMoveIfXAccuracy
 	jr .nextMove
 .notEffectiveMove ; discourages non-effective moves if better moves are available
 	cp NO_EFFECT
@@ -1361,18 +1373,6 @@ EncourageDrainingMoveIfLowHealth:
 	dec [hl] ; encourage the draining move if enemy has more than half health gone
 	ret
 
-; PureRGBnote: ADDED: one trainer in the game can use x accuracy, and will prioritize OHKO moves once they have
-EncourageOHKOMoveIfXAccuracy:
-	; further encourage OHKO move if x accuracy is active (only 1 trainer uses x accuracies ever)
-	ld a, [wEnemyBattleStatus2]
-	bit USING_X_ACCURACY, a
-	ret z
-	call WillOHKOMoveAlwaysFail
-	ret c
-	dec [hl]
-	dec [hl] ; encourage twice to make it really likely to be used
-	ret
-
 ; PureRGBnote: ADDED: AKA the "Apply Status and Heal when needed" subroutine
 ; slightly encourage moves with specific effects.
 ; This one will make the opponent want to use status applying moves when you don't have one.
@@ -1458,7 +1458,6 @@ Modifier4PreferredMoves:
 	db SLEEP_EFFECT
 	db POISON_EFFECT
 	db PARALYZE_EFFECT
-	db MIRAGE_EFFECT
 	db CONFUSION_EFFECT
 	db -1 ; end
 
@@ -1483,8 +1482,6 @@ INCLUDE "engine/battle/misc.asm"
 
 INCLUDE "engine/battle/read_trainer_party.asm"
 
-INCLUDE "data/trainers/special_moves.asm"
-
 INCLUDE "data/trainers/parties.asm"
 
 TrainerAI:
@@ -1502,7 +1499,7 @@ TrainerAI:
 	bit NEEDS_TO_RECHARGE, a
 	ret nz
 	ld a, [wEnemyBattleStatus1]
-	and %01110010 
+	and %01010010 ; THRASHING_ABOUT | CHARGING_UP | INVULNERABLE (Sunsette: dropped reclaimed USING_TRAPPING_MOVE bit 5)
 	ret nz
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -1699,20 +1696,10 @@ FullRestore50Percent:
 	jp AIUseFullRestore
 
 GymGuideAI:
+	; Sunsette: the Champ Arena gym guide used to pop an X Accuracy with its Tauros, but X Accuracy
+	; no longer grants the always-hit flag (it raises ACCURACY now), so it just runs the boss AI.
 	push af
-	call IsPlayerPokemonDangerous
-	jr c, ChampArenaAI
-	call WillOHKOMoveAlwaysFail
-	jr c, ChampArenaAI
-	ld a, [wEnemyBattleStatus2]
-	bit USING_X_ACCURACY, a
-	jr nz, ChampArenaAI
-	ld a, [wEnemyMonSpecies]
-	cp TAUROS
-	jr nz, ChampArenaAI
-.useXAccuracy
-	pop af
-	jp AIUseXAccuracy
+	jp ChampArenaAI
 
 ChampArenaAI:
 	ld a, [wEnemyMonStatus]
@@ -1880,18 +1867,7 @@ SwitchEnemyMon:
 	jp SwitchEnemyMonCommon2
 
 SwitchEnemyMonCommon:
-;;;;; shinpokerednote: CHANGED: if player using trapping move, then end their move
-	ld a, [wPlayerBattleStatus1]
-	bit USING_TRAPPING_MOVE, a
-	jr z, .preparewithdraw
-	ld hl, wPlayerBattleStatus1
-	res USING_TRAPPING_MOVE, [hl] 
-	xor a
-	ld [wPlayerNumAttacksLeft], a
-	ld a, $FF
-	ld [wPlayerSelectedMove], a
-.preparewithdraw
-;;;;;
+;;;;; Sunsette: trapping (Wrap-style) moves removed; nothing to release when the enemy switches.
 
 ; prepare to withdraw the active monster: copy HP, party pos, and status to roster
 
@@ -1976,13 +1952,6 @@ AICureStatus:	;shinpokerednote: CHANGED: modified to be more robust and also und
 	ld hl, wEnemyBattleStatus3
 	res BADLY_POISONED, [hl]	;clear toxic bit
 	ret
-
-AIUseXAccuracy:
-	call AIPlayRestoringSFX
-	ld hl, wEnemyBattleStatus2
-	set USING_X_ACCURACY, [hl]
-	ld a, X_ACCURACY
-	jp AIPrintItemUse
 
 ;AIUseGuardSpec: ; PureRGBnote: CHANGED: now unused
 ;	call AIPlayRestoringSFX

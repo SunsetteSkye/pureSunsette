@@ -10,35 +10,45 @@
 	INCBIN "gfx/pokemon/front/graveler.pic", 0, 1 ; sprite dimensions
 	dw GravelerPicFront, GravelerPicBackSW
 
-	db TACKLE, NO_MOVE, NO_MOVE, NO_MOVE ; level 1 learnset
+	db TACKLE, HARDEN, NO_MOVE, NO_MOVE ; level 1 learnset
 	db GROWTH_MEDIUM_SLOW ; growth rate
 
 	; tm/hm learnset
 	tmhm \
-	ADAPTATION,\
-	FROST_FIST,\
-	MUD_BOMB,\
-	BLAZE_HAMMER,\
-	TOXIC,\
-	BODY_SLAM,\
 	DISABLE,\
+	TOXIC,\
+	SLUDGE_BOMB,\
+	BODY_SLAM,\
 	DOUBLE_EDGE,\
-	LOW_KICK,\
 	ZAPPERCUT,\
-	METEOR_SWEEP,\
+	BLAZE_HAMMER,\
+	THUNDERBOLT,\
+	THUNDER,\
 	EARTHQUAKE,\
+	MUD_BOMB,\
 	DIG,\
-	BULK_UP,\
-	SHADOW_BALL,\
-	FIRE_BLAST,\
+	FINISHER,\
 	DEMOLISH,\
-	VOID_MIND,\
+	BULK_UP,\
+	LIGHT_SCREEN,\
+	HEAT_RUSH,\
+	SUPERNOVA,\
+	FLAMETHROWER,\
+	FIRE_BLAST,\
+	ENERGY_FLUX,\
+	THUNDER_WAVE,\
+	METEOR_SWEEP,\
 	ROCK_SLIDE,\
-	ROCK_ON,\
+	OROCLASM,\
 	SUBSTITUTE,\
+	ADAPTATION,\
+	VOID_MIND,\
+	LEAP_ATTACK,\
 	CLAY_ARMOR,\
+	ROCK_ON,\
 	CUT,\
-	STRENGTH
+	STRENGTH,\
+	FLASH
 	; end
 
 	db BANK(GravelerPicFront)
@@ -56,20 +66,22 @@
 ;@ pal_alticon  $FF
 ;@ evo         EVOLVE_TRADE, 1, GOLEM
 ;@ evo         EVOLVE_LEVEL, 37, GOLEM
-;@ evo_move    NO_MOVE
+;@ evo_move    EXPLOSION
 ;@ evo_react   "It rolls up with" "a grinding rumble!"
 ;@ evo_react   "It tucks in tight" "and rolls away!"
 ;@ evo_react   "Boulders grind" "as it lurches up!"
 ;@ evo_react   "It cracks knuckles" "of solid stone!"
-;@ learn       11, HARDEN
-;@ learn       13, SEISMIC_TOSS
-;@ learn       16, ROCK_THROW
-;@ learn       19, BULK_UP
-;@ learn       21, BLAZE_HAMMER
-;@ learn       28, ROCK_SLIDE
-;@ learn       31, DIZZY_PUNCH
-;@ learn       34, EXPLOSION
-;@ learn       39, EARTHQUAKE
-;@ learn       46, METAMORPHIC
-;@ learn       52, PISTON_KICK
-;@ learn       60, COMBOBREAKER
+;@ learn       8, ROCK_THROW
+;@ learn       13, ROCK_SMASH
+;@ learn       18, BULK_UP
+;@ learn       23, ZAPPERCUT
+;@ learn       29, ROCK_SLIDE
+;@ learn       34, CLOBBERCLOCK
+;@ learn       39, ENERGY_FLUX
+;@ learn       44, EARTHQUAKE
+;@ learn       50, OROCLASM
+;@ learn       57, SUPERPOWER
+;@ tutor       EXPLOSION
+;@ tutor       CLOBBERCLOCK
+;@ tutor       PISTON_KICK
+;@ tutor       METEOR_DRIVE

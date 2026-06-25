@@ -15,6 +15,7 @@
 
 	; tm/hm learnset
 	tmhm \
+	LEAP_ATTACK,\
 	ADAPTATION,\
 	MUD_BOMB,\
 	TOXIC,\
@@ -22,7 +23,7 @@
 	DISABLE,\
 	DOUBLE_EDGE,\
 	AURORA_MIST,\
-	LOW_KICK,\
+	FINISHER,\
 	METEOR_SWEEP,\
 	DIG,\
 	REFLECT,\
@@ -61,3 +62,7 @@
 ;@ learn       18, SWIFT
 ;@ learn       25, HEADBUTT
 ;@ learn       30, TRI_ATTACK
+;@ tutor       TRI_ATTACK
+;@ tutor       PAY_DAY
+;@ tutor       METEOR_DRIVE
+;@ tutor       SWIFT

@@ -1,9 +1,13 @@
+; RETIRED (unused): MIRAGE was reworked into a FIRE clone of WATER PULSE (CONFUSION_BIG_SIDE_EFFECT),
+; so nothing references MIRAGE_EFFECT / MirageEffect_ anymore. Kept dead-but-harmless because the
+; MIRAGE_EFFECT const slot still points here; removing it would shift the effect enum.
+;
 ; Sunsette: MIRAGE (a no-damage FIRE status move; a ResidualEffects1 entry, so it runs its own
 ; accuracy test and animation like Thunder Wave). On a non-Fire target it BURNS the target even
 ; through an existing major status (overwriting it), and additionally drops the target's SPECIAL by
 ; one stage UNLESS the target was already burned (so the drop can't be re-stacked). FIRE-types are
-; immune to the whole move; ROCK-types are immune to the burn only (they still take the Special drop,
-; matching the engine-wide ROCK burn immunity in effects.asm). No damage.
+; immune to the whole move; WATER-types are immune to the burn only (they still take the Special drop,
+; matching the engine-wide FIRE/WATER burn immunity in effects.asm). No damage.
 
 MirageEffect_:
 ; Fire-type targets are immune to the entire move (no Special drop, no burn).
@@ -52,7 +56,7 @@ MirageEffect_:
 	callfar ApplyStatDownToTarget
 	pop hl
 .doBurn
-; ROCK-types are immune to the burn (they still took the Special drop above).
+; WATER-types are immune to the burn (they still took the Special drop above). FIRE already exited at the top.
 	ldh a, [hWhoseTurn]
 	and a
 	ld de, wEnemyMonType1
@@ -60,11 +64,11 @@ MirageEffect_:
 	ld de, wBattleMonType1
 .gotBurnType
 	ld a, [de]
-	cp ROCK
+	cp WATER
 	ret z
 	inc de
 	ld a, [de]
-	cp ROCK
+	cp WATER
 	ret z
 ; Burn the target, overwriting any existing major status.
 	ld [hl], 1 << BRN

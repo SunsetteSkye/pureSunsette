@@ -15,6 +15,7 @@
 
 	; tm/hm learnset
 	tmhm \
+	LEAP_ATTACK,\
 	TOXIC,\
 	HONE_EDGE,\
 	BODY_SLAM,\
@@ -27,7 +28,6 @@
 	THUNDERBOLT,\
 	THUNDER,\
 	MEGA_DRAIN,\
-	MIRAGE,\
 	SWORDS_DANCE,\
 	REFLECT,\
 	BULK_UP,\
@@ -48,7 +48,7 @@
 	dw 0, ElectrodePicBack
 
 ; --- Sunsette SSOT directives (parsed by tools/gen_pokemon_data.py) ---
-;@ nature       NATURE_HYPER NATURE_RAGE
+;@ nature       NATURE_HYPER NATURE_PLAYFUL
 ;@ pal_battle   PAL_VOLTORBMON
 ;@ pal_altbattle PAL_GREENBAR
 ;@ pal_icon     PAL_ICON_04
@@ -68,3 +68,9 @@
 ;@ learn       39, SUPERNOVA
 ;@ learn       42, EXPLOSION
 ;@ learn       48, THUNDER
+;@ tutor       EXPLOSION
+;@ tutor       TELEPORT
+;@ tutor       METEOR_DRIVE
+;@ tutor       SWIFT
+;@ tutor       EGG_BOMB
+;@ tutor       SCREECH

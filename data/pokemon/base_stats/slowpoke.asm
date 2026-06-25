@@ -15,30 +15,42 @@
 
 	; tm/hm learnset
 	tmhm \
-	MUD_BOMB,\
-	TOXIC,\
-	BODY_SLAM,\
 	DISABLE,\
+	AURORA_MIST,\
+	TOXIC,\
+	SLUDGE_BOMB,\
+	BODY_SLAM,\
 	DOUBLE_EDGE,\
-	AQUA_RING,\
+	WATER_PULSE,\
+	SUPER_SOAK,\
 	ICE_BEAM,\
 	BLIZZARD,\
-	CALM_MIND,\
-	LOW_KICK,\
-	METEOR_SWEEP,\
+	SEISMIC_TOSS,\
+	SOLARBEAM,\
 	EARTHQUAKE,\
-	RIPTIDE,\
+	MUD_BOMB,\
 	DIG,\
 	PSYCHIC_M,\
-	REFLECT,\
+	FINISHER,\
 	BULK_UP,\
-	SHADOW_BALL,\
-	FIRE_BLAST,\
-	TWISTER,\
-	VOID_MIND,\
+	REFLECT,\
 	LIGHT_SCREEN,\
+	FLAMETHROWER,\
+	FIRE_BLAST,\
+	SHADOW_BALL,\
+	SHADOW_BOX,\
+	BARRIER,\
+	THUNDER_WAVE,\
 	SKITTERMIND,\
+	METEOR_SWEEP,\
 	SUBSTITUTE,\
+	RIPTIDE,\
+	AQUA_RING,\
+	CALM_MIND,\
+	VOID_MIND,\
+	PSYCHO_SHIFT,\
+	TEMPEST,\
+	CLAY_ARMOR,\
 	CUT,\
 	SURF,\
 	STRENGTH,\
@@ -60,14 +72,20 @@
 ;@ pal_icon     PAL_ICON_40
 ;@ pal_alticon  PAL_ICON_41
 ;@ evo         EVOLVE_LEVEL, 28, SLOWBRO
-;@ evo_move    NO_MOVE
+;@ evo_move    CLAMP
 ;@ evo_react   NONE
-;@ learn       12, CONFUSION
-;@ learn       17, DISABLE
-;@ learn       20, HEADBUTT
-;@ learn       24, CLAMP
-;@ learn       29, PSYBEAM
-;@ learn       32, SHELL_GAME
-;@ learn       36, SLUDGE_BOMB
-;@ learn       41, CALM_MIND
-;@ learn       45, PSYCHIC_M
+;@ learn       8, DISABLE
+;@ learn       12, HEADBUTT
+;@ learn       16, WATER_PULSE
+;@ learn       20, PSYBEAM
+;@ learn       24, SHELL_GAME
+;@ learn       29, SLAM
+;@ learn       34, SURF
+;@ learn       39, PSYCHIC_M
+;@ learn       43, SLUDGE_BOMB
+;@ learn       48, REST
+;@ learn       55, HYDRO_PUMP
+;@ tutor       TRI_ATTACK
+;@ tutor       PAY_DAY
+;@ tutor       TELEPORT
+;@ tutor       METEOR_DRIVE

@@ -10,34 +10,44 @@
 	INCBIN "gfx/pokemon/front/victreebel.pic", 0, 1 ; sprite dimensions
 	dw VictreebelPicFront, VictreebelPicBackSW
 
-	db VINE_WHIP, NO_MOVE, NO_MOVE, NO_MOVE ; level 1 learnset
+	db VINE_WHIP, POISONPOWDER, ACID, RAZOR_LEAF ; level 1 learnset
 	db GROWTH_MEDIUM_SLOW ; growth rate
 
 	; tm/hm learnset
 	tmhm \
-	MUD_BOMB,\
-	PIN_MISSILE,\
-	TOXIC,\
 	HONE_EDGE,\
-	BODY_SLAM,\
 	DISABLE,\
-	DOUBLE_EDGE,\
-	AQUA_RING,\
-	HYPER_BEAM,\
-	CALM_MIND,\
-	BARRIER,\
-	ADAPTATION,\
-	SOLARBEAM,\ 
-	WYRM_WRATH,\
-	MEGA_DRAIN,\
 	SWORDS_DANCE,\
-	REFLECT,\
+	SHADOW_GAME,\
+	TOXIC,\
+	SLUDGE_BOMB,\
+	BODY_SLAM,\
+	DOUBLE_EDGE,\
+	WATER_PULSE,\
+	SUPER_SOAK,\
+	HYPER_BEAM,\
+	SEISMIC_TOSS,\
+	GIGA_DRAIN,\
+	MEGA_DRAIN,\
+	SOLARBEAM,\
+	WYRM_WRATH,\
+	MUD_BOMB,\
 	BULK_UP,\
+	REFLECT,\
+	LIGHT_SCREEN,\
 	ILL_WIND,\
 	SHADOW_BALL,\
-	LIGHT_SCREEN,\
-	SHADOW_GAME,\
+	BARRIER,\
+	SKITTERMIND,\
 	SUBSTITUTE,\
+	AQUA_RING,\
+	RAZOR_LEAF,\
+	ADAPTATION,\
+	CALM_MIND,\
+	VOID_MIND,\
+	PSYCHO_SHIFT,\
+	PIN_MISSILE,\
+	LEECH_LIFE,\
 	CUT,\
 	FLASH
 	; end
@@ -60,14 +70,9 @@
 ;@ evo_react   "It yawns wide," "luring with scent!"
 ;@ evo_react   "Sweet nectar pools" "at its lip!"
 ;@ evo_react   "Its vine coils," "ready to snatch!"
-;@ learn       13, POISONPOWDER
-;@ learn       16, ACID
-;@ learn       19, MEGA_DRAIN
-;@ learn       22, STUN_SPORE
-;@ learn       25, POWER_BIND
-;@ learn       28, RAZOR_LEAF
-;@ learn       34, SLEEP_POWDER
-;@ learn       42, VENOM_LASH
-;@ learn       48, EGG_BOMB
-;@ learn       54, LEECH_SEED
-;@ learn       58, ADAPTATION
+;@ learn       40, POWER_BIND
+;@ learn       46, CLAMP
+;@ learn       52, VENOM_LASH
+;@ learn       58, GIGA_DRAIN
+;@ tutor       EXPLOSION
+;@ tutor       EGG_BOMB

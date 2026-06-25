@@ -112,6 +112,56 @@ ShouldMoveGetStabBoost::
 	ld a, [wEnemyMoveType]
 	ld [wMoveType], a
 .next
+; Sunsette: FIGHTING-type users get STAB on SHADOW BOX (a GHOST move) and SHORYUKEN (a DRAGON move) - both
+; are Fighting martial-arts techniques. Checked before the normal type match; a GHOST/DRAGON user still gets
+; ordinary STAB through the path below, and everyone else gets none. (A real reason a Fighting type might run
+; two combo moves despite the shared cooldown.)
+	ldh a, [hWhoseTurn]
+	and a
+	ld a, [wPlayerMoveNum]
+	jr z, .gotComboMove
+	ld a, [wEnemyMoveNum]
+.gotComboMove
+	cp SHADOW_BOX
+	jr z, .fightingStabMove
+	cp SHORYUKEN
+	jr z, .fightingStabMove
+; Sunsette: FLOATING-type users get STAB on GUST, AIR DRILL and FLUTTER KICK - FLYING moves that read as
+; floating maneuvers (the floating-mon signature). A FLYING user still gets ordinary STAB via .normalTypeMatch.
+	cp GUST
+	jr z, .floatingStabMove
+	cp AIR_DRILL
+	jr z, .floatingStabMove
+	cp FLUTTER_KICK
+	jr z, .floatingStabMove
+; Sunsette: WEEZING (and FLOATING WEEZING) get STAB on FLAMETHROWER despite being POISON - its signature.
+	cp FLAMETHROWER
+	jr nz, .normalTypeMatch
+	ldh a, [hWhoseTurn]
+	and a
+	ld a, [wBattleMonSpecies]
+	jr z, .gotFlamethrowerUser
+	ld a, [wEnemyMonSpecies]
+.gotFlamethrowerUser
+	cp WEEZING
+	jr z, .sameTypeAttackBonus
+	cp FLOATING_WEEZING
+	jr z, .sameTypeAttackBonus
+	jr .normalTypeMatch
+.floatingStabMove
+	ld a, FLOATING
+	cp b
+	jr z, .sameTypeAttackBonus
+	cp c
+	jr z, .sameTypeAttackBonus
+	jr .normalTypeMatch
+.fightingStabMove
+	ld a, FIGHTING
+	cp b
+	jr z, .sameTypeAttackBonus
+	cp c
+	jr z, .sameTypeAttackBonus
+.normalTypeMatch
 	ld a, [wMoveType]
 	cp b ; does the move type match type 1 of the attacker?
 	jr z, .sameTypeAttackBonus

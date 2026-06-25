@@ -1,7 +1,7 @@
 ; Sunsette: a Pokemon Tower B1F spirit borrows this dex slot -> base_stats/spirit_the_maw.asm (Spirit (The Maw)).
 	db DEX_GOLBAT ; pokedex id
 
-	db  75,  95,  75,  79, 97
+	db  75,  95,  75,  79, 75
 	;   hp  atk  def  spd  spc
 
 	db POISON, FLYING ; type
@@ -16,27 +16,40 @@
 
 	; tm/hm learnset
 	tmhm \
-	ADAPTATION,\
-	ROOST,\
-	TOXIC,\
 	HONE_EDGE,\
-	BODY_SLAM,\
 	DISABLE,\
-	DOUBLE_EDGE,\
-	AURORA_MIST,\
-	HYPER_BEAM,\
-	BARRIER,\
-	MEGA_DRAIN,\
 	SWORDS_DANCE,\
+	AURORA_MIST,\
+	SHADOW_GAME,\
+	TOXIC,\
+	SLUDGE_BOMB,\
+	BODY_SLAM,\
+	QUICK_ATTACK,\
+	DOUBLE_EDGE,\
+	HYPER_BEAM,\
+	SEISMIC_TOSS,\
+	MEGA_DRAIN,\
+	MUD_BOMB,\
+	FINISHER,\
+	DEMOLISH,\
 	BULK_UP,\
+	REFLECT,\
+	LIGHT_SCREEN,\
 	ILL_WIND,\
 	SHADOW_BALL,\
-	TWISTER,\
-	LOVELY_KISS,\
+	BARRIER,\
 	BRAVE_BIRD,\
 	SKITTERMIND,\
-	SHADOW_GAME,\
 	SUBSTITUTE,\
+	RAZOR_LEAF,\
+	ADAPTATION,\
+	CALM_MIND,\
+	PSYCHO_SHIFT,\
+	LOVELY_KISS,\
+	ROOST,\
+	LEAP_ATTACK,\
+	LEECH_LIFE,\
+	TEMPEST,\
 	CUT,\
 	FLY
 	; end
@@ -59,14 +72,17 @@
 ;@ evo_react   "It swoops in low," "wings whistling!"
 ;@ evo_react   "It bares fangs," "craving a bite!"
 ;@ evo_react   "It screeches once," "echoing loud!"
+;@ learn       6, LEECH_LIFE
 ;@ learn       10, SUPERSONIC
-;@ learn       15, LEECH_LIFE
-;@ learn       18, BITE
-;@ learn       21, WING_ATTACK
-;@ learn       25, CONFUSE_RAY
-;@ learn       28, ILL_WIND
-;@ learn       30, HYPER_FANG
-;@ learn       37, AIR_DRILL
-;@ learn       44, SOULSTEALER
-;@ learn       50, MAXIMIZE
-;@ learn       55, VENOM_DRILL
+;@ learn       15, WING_ATTACK
+;@ learn       20, ROOST
+;@ learn       25, POISON_FANG
+;@ learn       31, CONFUSE_RAY
+;@ learn       38, AIR_DRILL
+;@ learn       45, MAXIMIZE
+;@ learn       52, HYPER_FANG
+;@ learn       60, VENOM_DRILL
+;@ tutor       SOULSTEALER
+;@ tutor       HURRICANE
+;@ tutor       METEOR_DRIVE
+;@ tutor       SCREECH

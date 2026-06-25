@@ -15,10 +15,11 @@
 
 	; tm/hm learnset
 	tmhm \
+	LEAP_ATTACK,\
 	DISABLE,\
 	AQUA_RING,\
 	BULK_UP,\
-	TWISTER
+	TEMPEST
 	; end
 
 

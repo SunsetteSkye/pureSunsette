@@ -85,7 +85,7 @@ ViridianCityFisherYouCanHaveThisText::
 	prompt
 
 _ViridianCityFisherTM42ExplanationText::
-	text "<TM>42 contains"
+	text "<TM>58 contains"
 	line "LOVELY KISS<...>"
 	cont "<...>Snore<...>"
 	done

@@ -22,7 +22,7 @@ MovedexEntryPointers:
 	dw WhirlwindDexEntry
 	dw FlyDexEntry
 	dw BindDexEntry
-	dw SlamDexEntry
+	dw TempestDexEntry
 	dw VineWhipDexEntry
 	dw StompDexEntry
 	dw DoubleKickDexEntry
@@ -67,9 +67,9 @@ MovedexEntryPointers:
 	dw HyperBeamDexEntry
 	dw PeckDexEntry
 	dw DrillPeckDexEntry
-	dw SubmissionDexEntry
-	dw LowKickDexEntry
-	dw CounterDexEntry
+	dw ComboBreakerDexEntry
+	dw FinisherDexEntry
+	dw ShadowBoxDexEntry
 	dw SeismicTossDexEntry
 	dw StrengthDexEntry
 	dw AbsorbDexEntry
@@ -147,14 +147,14 @@ MovedexEntryPointers:
 	dw SkyAttackDexEntry
 	dw TransformDexEntry
 	dw BubbleDexEntry
-	dw DizzyPunchDexEntry
+	dw ClobberclockDexEntry
 	dw SporeDexEntry
 	dw FlashDexEntry
 	dw PsywaveDexEntry
 	dw SplashDexEntry
 	dw AcidArmorDexEntry
 	dw CrabhammerDexEntry
-	dw ExplosionDexEntry
+	dw OroclasmDexEntry
 	dw FurySwipesDexEntry
 	dw BonemerangDexEntry
 	dw RestDexEntry
@@ -172,6 +172,22 @@ MovedexEntryPointers:
 	dw MaximizeDexEntry
 	dw CrystallizeDexEntry
 	dw QuickAttackDexEntry
+	dw PsychoShiftDexEntry
+	dw GigaDrainDexEntry
+	dw SappingColdDexEntry
+	dw PlasmaBurnDexEntry
+	dw BulldozeDexEntry
+	dw EnergyFluxDexEntry
+	dw MudslideDexEntry
+	dw PoisonFangDexEntry
+	dw BugOffDexEntry
+	dw PsychocrisisDexEntry
+	dw RockSmashDexEntry
+	dw SuperpowerDexEntry
+	dw SubmissionMoveDexEntry
+	dw SlamDexEntry
+	dw PsyshockDexEntry
+	dw FlutterKickDexEntry
 	dw StruggleDexEntry
 	assert_table_length NUM_ATTACKS
 
@@ -255,8 +271,8 @@ BindDexEntry:
 	text_far _BindDexEntry
 	text_end
 
-SlamDexEntry:
-	text_far _SlamDexEntry
+TempestDexEntry:
+	text_far _TempestDexEntry
 	text_end
 
 VineWhipDexEntry:
@@ -435,16 +451,16 @@ DrillPeckDexEntry:
 	text_far _DrillPeckDexEntry
 	text_end
 
-SubmissionDexEntry:
-	text_far _SubmissionDexEntry
+ComboBreakerDexEntry: ; Sunsette: COMBOBREAKER (this slot was vanilla Submission -> FULL NELSON -> COMBOBREAKER; the label was never updated)
+	text_far _ComboBreakerDexEntry
 	text_end
 
-LowKickDexEntry:
-	text_far _LowKickDexEntry
+FinisherDexEntry:
+	text_far _FinisherDexEntry
 	text_end
 
-CounterDexEntry:
-	text_far _CounterDexEntry
+ShadowBoxDexEntry:
+	text_far _ShadowBoxDexEntry
 	text_end
 
 SeismicTossDexEntry:
@@ -755,8 +771,8 @@ BubbleDexEntry:
 	text_far _BubbleDexEntry
 	text_end
 
-DizzyPunchDexEntry:
-	text_far _DizzyPunchDexEntry
+ClobberclockDexEntry:
+	text_far _ClobberclockDexEntry
 	text_end
 
 SporeDexEntry:
@@ -783,8 +799,8 @@ CrabhammerDexEntry:
 	text_far _CrabhammerDexEntry
 	text_end
 
-ExplosionDexEntry:
-	text_far _ExplosionDexEntry
+OroclasmDexEntry: ; Sunsette: renamed from the misleading ExplosionDexEntry (only OROCLASM uses it; the real EXPLOSION uses VanillaExplosionDexEntry)
+	text_far _OroclasmDexEntry
 	text_end
 
 FurySwipesDexEntry:
@@ -853,6 +869,70 @@ CrystallizeDexEntry:
 
 QuickAttackDexEntry:
 	text_far _QuickAttackDexEntry
+	text_end
+
+PsychoShiftDexEntry:
+	text_far _PsychoShiftDexEntry
+	text_end
+
+GigaDrainDexEntry:
+	text_far _GigaDrainDexEntry
+	text_end
+
+SappingColdDexEntry:
+	text_far _SappingColdDexEntry
+	text_end
+
+PlasmaBurnDexEntry:
+	text_far _PlasmaBurnDexEntry
+	text_end
+
+BulldozeDexEntry:
+	text_far _BulldozeDexEntry
+	text_end
+
+EnergyFluxDexEntry:
+	text_far _EnergyFluxDexEntry
+	text_end
+
+MudslideDexEntry:
+	text_far _MudslideDexEntry
+	text_end
+
+FlutterKickDexEntry:
+	text_far _FlutterKickDexEntry
+	text_end
+
+PoisonFangDexEntry:
+	text_far _PoisonFangDexEntry
+	text_end
+
+BugOffDexEntry:
+	text_far _BugOffDexEntry
+	text_end
+
+PsychocrisisDexEntry:
+	text_far _PsychocrisisDexEntry ; Sunsette: text body in movedex_text2.asm (movedex_text.asm's bank is full)
+	text_end
+
+RockSmashDexEntry:
+	text_far _RockSmashDexEntry ; Sunsette: text body in movedex_text2.asm
+	text_end
+
+SuperpowerDexEntry:
+	text_far _SuperpowerDexEntry ; Sunsette: text body in movedex_text2.asm
+	text_end
+
+SubmissionMoveDexEntry: ; Sunsette: NEW fighting Submission (vanilla SubmissionDexEntry label is taken)
+	text_far _SubmissionMoveDexEntry ; text body in movedex_text2.asm
+	text_end
+
+SlamDexEntry: ; Sunsette: NEW plain NORMAL Slam (the old stale SlamDexEntry was renamed to TempestDexEntry)
+	text_far _SlamDexEntry ; text body in movedex_text2.asm
+	text_end
+
+PsyshockDexEntry:
+	text_far _PsyshockDexEntry ; text body in movedex_text2.asm
 	text_end
 
 StruggleDexEntry:

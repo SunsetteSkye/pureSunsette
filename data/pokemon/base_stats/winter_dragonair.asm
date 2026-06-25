@@ -16,6 +16,7 @@
 
 	; tm/hm learnset
 	tmhm \
+	LEAP_ATTACK,\
 	ADAPTATION,\
 	TOXIC,\
 	BODY_SLAM,\
@@ -25,19 +26,18 @@
 	ICE_BEAM,\
 	BLIZZARD,\
 	HYPER_BEAM,\
-	SOLARBEAM,\ 
+	SOLARBEAM,\
 	WYRM_WRATH,\
 	THUNDERBOLT,\
 	THUNDER,\
 	RIPTIDE,\
 	PSYCHIC_M,\
 	MEGA_DRAIN,\
-	MIRAGE,\
 	REFLECT,\
 	BULK_UP,\
 	SHADOW_BALL,\
 	FIRE_BLAST,\
-	TWISTER,\
+	TEMPEST,\
 	LOVELY_KISS,\
 	LIGHT_SCREEN,\
 	THUNDER_WAVE,\
@@ -59,8 +59,8 @@
 ;@ learn 20, THUNDER_WAVE
 ;@ learn 25, RIPTIDE
 ;@ learn 29, AURORA_MIST
-;@ learn 33, TWISTER
+;@ learn 33, TEMPEST
 ;@ learn 38, BLITZ_STRIKE
 ;@ learn 46, AGILITY
 ;@ learn 52, HYPER_BEAM
-;@ learn 60, OUTRAGE
+;@ learn 60, INDIGNATION

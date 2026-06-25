@@ -26,12 +26,11 @@
 	BLIZZARD,\
 	HYPER_BEAM,\
 	BARRIER,\
-	SOLARBEAM,\ 
+	SOLARBEAM,\
 	THUNDERBOLT,\
 	THUNDER,\
 	PSYCHIC_M,\
 	MEGA_DRAIN,\
-	MIRAGE,\
 	REFLECT,\
 	ILL_WIND,\
 	SHADOW_BALL,\
@@ -68,3 +67,9 @@
 ;@ learn       42, PHANTASM
 ;@ learn       49, AGILITY
 ;@ learn       56, HYPER_BEAM
+;@ tutor       EXPLOSION
+;@ tutor       TRI_ATTACK
+;@ tutor       TELEPORT
+;@ tutor       METEOR_DRIVE
+;@ tutor       SWIFT
+;@ tutor       SCREECH

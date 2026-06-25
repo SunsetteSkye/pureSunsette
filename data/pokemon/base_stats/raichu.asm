@@ -1,7 +1,7 @@
 ; Sunsette: a Pokemon Tower B1F spirit borrows this dex slot -> base_stats/spirit_chunky.asm (Spirit (Chunky)).
 	db DEX_RAICHU ; pokedex id
 
-	db  70,  95,  65, 100, 100
+	db  60,  95,  55, 110, 100
 	;   hp  atk  def  spd  spc
 
 	db ELECTRIC, NORMAL ; type
@@ -16,32 +16,42 @@
 
 	; tm/hm learnset
 	tmhm \
-	ADAPTATION,\
-	MUD_BOMB,\
+	DISABLE,\
+	AURORA_MIST,\
+	SHADOW_GAME,\
 	TOXIC,\
 	BODY_SLAM,\
-	DISABLE,\
+	QUICK_ATTACK,\
 	DOUBLE_EDGE,\
-	AURORA_MIST,\
 	HYPER_BEAM,\
-	LOW_KICK,\
 	ZAPPERCUT,\
-	METEOR_SWEEP,\
-	BARRIER,\
+	BLAZE_HAMMER,\
+	SEISMIC_TOSS,\
 	THUNDERBOLT,\
 	THUNDER,\
-	RIPTIDE,\
+	MUD_BOMB,\
 	DIG,\
-	REFLECT,\
-	BULK_UP,\
-	SHADOW_BALL,\
+	FINISHER,\
 	DEMOLISH,\
-	VOID_MIND,\
+	BULK_UP,\
+	REFLECT,\
 	LIGHT_SCREEN,\
+	HEAT_RUSH,\
+	ILL_WIND,\
+	SHADOW_BOX,\
+	BARRIER,\
+	ENERGY_FLUX,\
 	THUNDER_WAVE,\
-	SHADOW_GAME,\
-	ROCK_ON,\
+	METEOR_SWEEP,\
 	SUBSTITUTE,\
+	RIPTIDE,\
+	RAZOR_LEAF,\
+	ADAPTATION,\
+	CALM_MIND,\
+	VOID_MIND,\
+	PSYCHO_SHIFT,\
+	LEAP_ATTACK,\
+	ROCK_ON,\
 	CUT,\
 	SURF,\
 	STRENGTH,\
@@ -66,13 +76,13 @@
 ;@ evo_react   "Sparks crackle" "across its cheeks!"
 ;@ evo_react   "It bounds high," "crackling bright!"
 ;@ evo_react   "A bolt arcs" "off its tail!"
-;@ learn       6, TACKLE
-;@ learn       9, THUNDER_WAVE
-;@ learn       12, SPARK
-;@ learn       16, AGILITY
-;@ learn       22, SWIFT
-;@ learn       26, THUNDERBOLT
-;@ learn       31, FOCUS_ENERGY
-;@ learn       36, BLITZ_STRIKE
-;@ learn       45, THUNDER
-;@ learn       52, HYPER_BEAM
+;@ learn       36, PLASMA_BURN
+;@ learn       42, BODY_SLAM
+;@ learn       48, THUNDER
+;@ learn       55, HYPER_BEAM
+;@ tutor       PAY_DAY
+;@ tutor       TELEPORT
+;@ tutor       CLOBBERCLOCK
+;@ tutor       PISTON_KICK
+;@ tutor       METEOR_DRIVE
+;@ tutor       SWIFT

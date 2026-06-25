@@ -15,23 +15,20 @@
 
 	; tm/hm learnset
 	tmhm \
-	ADAPTATION,\
-	TOXIC,\
-	HONE_EDGE,\
 	DISABLE,\
-	DOUBLE_EDGE,\
-	BARRIER,\
-	MEGA_DRAIN,\
-	SWORDS_DANCE,\
-	REFLECT,\
-	BULK_UP,\
-	LIGHT_SCREEN,\
 	SHADOW_GAME,\
+	TOXIC,\
+	DOUBLE_EDGE,\
+	MEGA_DRAIN,\
+	REFLECT,\
+	LIGHT_SCREEN,\
+	BARRIER,\
 	SUBSTITUTE,\
+	ADAPTATION,\
 	CLAY_ARMOR,\
 	CUT,\
 	FLASH
-	;end
+	; end
 
 	db BANK(MetapodPicFront)
 	db 0
@@ -47,7 +44,7 @@
 ;@ pal_icon     $FF
 ;@ pal_alticon  $FF
 ;@ evo         EVOLVE_LEVEL, 10, BUTTERFREE
-;@ evo_move    NO_MOVE
+;@ evo_move    CONFUSION
 ;@ evo_react   "It stiffens, then" "locks up tight!"
 ;@ evo_react   "Its shell hardens" "with a slow creak."
 ;@ evo_react   "It rocks once," "then goes still."

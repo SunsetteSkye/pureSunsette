@@ -22,14 +22,13 @@
 	DOUBLE_EDGE,\
 	AURORA_MIST,\
 	HYPER_BEAM,\
-	LOW_KICK,\
+	FINISHER,\
 	ZAPPERCUT,\
 	METEOR_SWEEP,\
 	THUNDERBOLT,\
 	THUNDER,\
 	PSYCHIC_M,\
 	MEGA_DRAIN,\
-	MIRAGE,\
 	BULK_UP,\
 	ILL_WIND,\
 	SHADOW_BALL,\
@@ -69,3 +68,10 @@
 ;@ learn       46, DOUBLE_TEAM
 ;@ learn       51, MAXIMIZE
 ;@ learn       57, SOULSTEALER
+;@ tutor       EXPLOSION
+;@ tutor       SOULSTEALER
+;@ tutor       TELEPORT
+;@ tutor       CLOBBERCLOCK
+;@ tutor       PISTON_KICK
+;@ tutor       EGG_BOMB
+;@ tutor       SCREECH

@@ -6,6 +6,6 @@
 ViridianGymGuideTMShop1:
 	script_mart TM_GIOVANNI
 ViridianGymGuideTMShop3:
-	script_mart TM_GIOVANNI, TM_BULK_UP ; Sunsette: BULK UP (was GLARE, no longer a TM); Bulk Up lost its Brock home to BUNKER DOWN
+	script_mart TM_GIOVANNI, TM_BULK_UP ; Sunsette: +BULK UP at 3 badges (it lost its Brock home to ROCK ON)
 ViridianGymGuideTMShop6:
 	script_mart TM_GIOVANNI, TM_BULK_UP, TM_EARTHQUAKE

@@ -14,33 +14,36 @@
 	db GROWTH_MEDIUM_SLOW ; growth rate
 
 	tmhm \
-	ROOST,\
-	MUD_BOMB,\
-	PIN_MISSILE,\
-	TOXIC,\
 	HONE_EDGE,\
 	DISABLE,\
-	DOUBLE_EDGE,\
+	SWORDS_DANCE,\
 	AURORA_MIST,\
+	SHADOW_GAME,\
+	TOXIC,\
+	QUICK_ATTACK,\
+	DOUBLE_EDGE,\
+	BLIZZARD,\
 	HYPER_BEAM,\
-	BARRIER,\
-	ADAPTATION,\
-	WYRM_WRATH,\
+	SEISMIC_TOSS,\
 	THUNDERBOLT,\
 	THUNDER,\
-	MIRAGE,\
-	SWORDS_DANCE,\
+	MUD_BOMB,\
+	FINISHER,\
 	REFLECT,\
-	BULK_UP,\
-	ILL_WIND,\
-	SHADOW_BALL,\
-	TWISTER,\
-	DEMOLISH,\
-	VOID_MIND,\
-	BRAVE_BIRD,\
 	LIGHT_SCREEN,\
-	SHADOW_GAME,\
+	HEAT_RUSH,\
+	ILL_WIND,\
+	BARRIER,\
+	BRAVE_BIRD,\
 	SUBSTITUTE,\
+	RAZOR_LEAF,\
+	ADAPTATION,\
+	VOID_MIND,\
+	PSYCHO_SHIFT,\
+	ROOST,\
+	LEAP_ATTACK,\
+	PIN_MISSILE,\
+	TEMPEST,\
 	CUT,\
 	FLY,\
 	FLASH
@@ -65,15 +68,7 @@
 ;@ evo_react   "It soars high," "feathers blazing!"
 ;@ evo_react   "Its plume flares" "bright and bold!"
 ;@ evo_react   "It dives fast," "talons spread!"
-;@ learn       6, GUST
-;@ learn       9, SAND_ATTACK
-;@ learn       14, AGILITY
-;@ learn       17, SWIFT
-;@ learn       23, WING_ATTACK
-;@ learn       28, RAZOR_LEAF
-;@ learn       32, BLITZ_STRIKE
-;@ learn       35, HONE_EDGE
-;@ learn       41, HURRICANE
-;@ learn       48, SENBONZAKURA
-;@ learn       54, DOUBLE_EDGE
-;@ learn       60, MOCKINGBIRD
+;@ learn_like  PIDGEY
+;@ tutor       HURRICANE
+;@ tutor       METEOR_DRIVE
+;@ tutor       EGG_BOMB

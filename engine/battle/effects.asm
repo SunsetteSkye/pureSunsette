@@ -27,6 +27,10 @@ SleepEffect:
 	jpfar _SleepEffect
 
 PoisonEffect:
+	callfar TargetIsWarded ; Sunsette: AURORA MIST ward - a warded target can't be poisoned
+	ld a, e
+	and a
+	ret nz
 	ld hl, wEnemyMonStatus
 	ld de, wPlayerMoveEffect
 	ldh a, [hWhoseTurn]
@@ -132,6 +136,10 @@ DrainHPEffect:
 ; ExplodeEffect: ; PureRGBnote: MOVED: handled within remap_move_data.asm
 
 FreezeBurnParalyzeEffect:
+	callfar TargetIsWarded ; Sunsette: AURORA MIST ward - a warded target can't be burned/frozen/paralyzed
+	ld a, e
+	and a
+	ret nz
 	xor a
 	ld [wAnimationType], a
 	call CheckTargetSubstitute
@@ -148,8 +156,6 @@ FreezeBurnParalyzeEffect:
 	ld a, [wPlayerMoveNum]
 	cp SOLARBEAM ; SOLARBEAM
 	ld b, FIRE ; NEW: solarbeam can't burn fire types
-	jr z, .doComparison1
-	cp SLUDGE_BOMB ; Sunsette: WEEZING's burn-swapped SLUDGE BOMB - FIRE immunity (b already FIRE) so non-fire POISON-types still burn
 	jr z, .doComparison1
 
 	ld a, [wPlayerMoveType]
@@ -173,15 +179,6 @@ FreezeBurnParalyzeEffect:
 	jr c, .regular_effectiveness
 ; extra effectiveness
 	ld b, 30 percent + 1
-	; Sunsette: WEEZING's burn-swapped SLUDGE BOMB burns at 40% (= its base 40% poison), not the usual 30%.
-	; SLUDGE BOMB only reaches this routine via that burn swap, so matching the move id here is safe.
-	push af
-	ld a, [wPlayerMoveNum]
-	cp SLUDGE_BOMB
-	jr nz, .notSludgeBurn1
-	ld b, 40 percent + 1
-.notSludgeBurn1
-	pop af
 	ASSERT PARALYZE_SIDE_EFFECT2 - PARALYZE_SIDE_EFFECT1 == BURN_SIDE_EFFECT2 - BURN_SIDE_EFFECT1
 	ASSERT PARALYZE_SIDE_EFFECT2 - PARALYZE_SIDE_EFFECT1 == FREEZE_SIDE_EFFECT2 - FREEZE_SIDE_EFFECT1 ; Sunsette: Ice Beam's 30% freeze rides this native EFFECT2 path
 	sub PARALYZE_SIDE_EFFECT2 - PARALYZE_SIDE_EFFECT1 ; treat extra effective as regular from now on
@@ -209,13 +206,11 @@ FreezeBurnParalyzeEffect:
 	call PlayBattleAnimation
 	jp PrintMayNotAttackText ; print paralysis text
 .burn1
-; Sunsette: ROCK-types are immune to burn (engine-wide), like FIRE is to burn/freeze.
-	ld a, [wEnemyMonType1]
-	cp ROCK
-	ret z
-	ld a, [wEnemyMonType2]
-	cp ROCK
-	ret z
+; Sunsette: FIRE and WATER types are immune to burn (helper floated out of the full Battle Core bank).
+	callfar TargetIsBurnImmune
+	ld a, e
+	and a
+	ret nz
 	ld a, 1 << BRN
 	ld [wEnemyMonStatus], a
 	call HalveAttackDueToBurn ; halve attack of affected mon
@@ -223,6 +218,11 @@ FreezeBurnParalyzeEffect:
 	call PlayBattleAnimation
 	jp PrintBurnText
 .freeze1
+; Sunsette: FIRE types are immune to freeze (ICE already immune via the move-type/target-type match above).
+	callfar TargetIsFreezeImmune
+	ld a, e
+	and a
+	ret nz
 	call ClearHyperBeam ; resets hyper beam (recharge) condition from target
 	ld a, 1 << FRZ
 	ld [wEnemyMonStatus], a
@@ -239,8 +239,6 @@ FreezeBurnParalyzeEffect:
 	ld a, [wEnemyMoveNum]
 	cp SOLARBEAM ; SOLARBEAM
 	ld b, FIRE ; NEW: solarbeam can't burn fire types
-	jr z, .doComparison2
-	cp SLUDGE_BOMB ; Sunsette: WEEZING's burn-swapped SLUDGE BOMB - FIRE immunity (b already FIRE) so non-fire POISON-types still burn
 	jr z, .doComparison2
 
 	ld a, [wEnemyMoveType]
@@ -264,14 +262,6 @@ FreezeBurnParalyzeEffect:
 	jr c, .regular_effectiveness2
 ; extra effectiveness
 	ld b, 30 percent + 1
-	; Sunsette: WEEZING's burn-swapped SLUDGE BOMB burns at 40% (= its base 40% poison), not the usual 30%.
-	push af
-	ld a, [wEnemyMoveNum]
-	cp SLUDGE_BOMB
-	jr nz, .notSludgeBurn2
-	ld b, 40 percent + 1
-.notSludgeBurn2
-	pop af
 	sub BURN_SIDE_EFFECT2 - BURN_SIDE_EFFECT1 ; treat extra effective as regular from now on
 .regular_effectiveness2
 	push af
@@ -295,18 +285,21 @@ FreezeBurnParalyzeEffect:
 	call QuarterSpeedDueToParalysis
 	jr PrintMayNotAttackText
 .burn2
-; Sunsette: ROCK-types are immune to burn (engine-wide), like FIRE is to burn/freeze.
-	ld a, [wBattleMonType1]
-	cp ROCK
-	ret z
-	ld a, [wBattleMonType2]
-	cp ROCK
-	ret z
+; Sunsette: FIRE and WATER types are immune to burn (helper floated out of the full Battle Core bank).
+	callfar TargetIsBurnImmune
+	ld a, e
+	and a
+	ret nz
 	ld a, 1 << BRN
 	ld [wBattleMonStatus], a
 	call HalveAttackDueToBurn
 	jr PrintBurnText
 .freeze2
+; Sunsette: FIRE types are immune to freeze (ICE already immune via the move-type/target-type match above).
+	callfar TargetIsFreezeImmune
+	ld a, e
+	and a
+	ret nz
 ; hyper beam bits aren't reset for opponent's side
 	ld a, 1 << FRZ
 	ld [wBattleMonStatus], a
@@ -376,34 +369,33 @@ FireDefrostedText:
 	text_far _FireDefrostedText
 	text_end
 
-; PureRGBnote: ADDED: increases attack, special, and speed as a move effect. Used with Meditate.
-MeditateEffect:
-; PureRGBnote: CHANGED: Meditate now sets Light Screen (special-halving, crit-proof) on the
-; user and raises Attack +1. No cleanse, unlike the Reflect/Light Screen moves themselves.
-	ld hl, wPlayerBattleStatus3
+; Sunsette: VOID MIND - "use the Force." A 0-BP PSYCHIC focus move (was Meditate's priority Light Screen +
+; Attack, which made physical attackers god-tier once Light Screen got strong). Now it maxes the user's
+; ACCURACY (+6) and CLEARS its own CONFUSION. The confusion self-hit roll is bypassed for VOID MIND in the
+; move preamble (core.asm .IsConfused / .isConfused), so this ALWAYS lands even while the user is confused.
+VoidMindEffect:
+	callfar PlayCurrentMoveAnimation2 ; 0-BP move: nothing else plays its anim
 	ldh a, [hWhoseTurn]
 	and a
-	jr z, .lightScreenSet
-	ld hl, wEnemyBattleStatus3
-.lightScreenSet
-	set HAS_LIGHT_SCREEN_UP, [hl]
-	SetFlag FLAG_SKIPPED_STAT_MODIFIER
-	ld de, wPlayerMoveEffect
-	ldh a, [hWhoseTurn]
-	and a
-	jr z, .next
-	ld de, wEnemyMoveEffect
-.next
-	push de
-	call GetAttackPointers
-	call IsStatMaxed
-	pop de
-	jr c, .done
-	ld a, ATTACK_UP1_EFFECT
-	call ReplacedStatModifierUpEffect
-.done
-	ld a, MEDITATE_EFFECT
-	jr ResetStatModEffectAndAnimationFlag
+	ld hl, wPlayerMonAccuracyMod
+	ld de, wPlayerBattleStatus1
+	jr z, .gotPtrs
+	ld hl, wEnemyMonAccuracyMod
+	ld de, wEnemyBattleStatus1
+.gotPtrs
+	ld a, MAX_STAT_LEVEL
+	ld [hl], a              ; ACCURACY -> +6 (max). Accuracy is a live stage mod, so no stat recompute is needed.
+	ld a, [de]
+	res CONFUSED, a
+	ld [de], a              ; clear the user's own confusion (the stale confused counter is harmless once the bit is off)
+	ld hl, VoidMindText
+	rst _PrintText
+	ret
+
+VoidMindText:
+	text "Its mind became"
+	line "perfectly clear!"
+	prompt
 
 ; PureRGBnote: ADDED: increases both attack and defense as a move effect, used with bide
 AttackDefenseUpEffect:
@@ -813,6 +805,24 @@ StatModifierDownEffect:
 .statModifierDownEffect
 	call CheckTargetSubstitute ; can't hit through substitute
 	jp nz, MoveMissed
+	; Sunsette: unified MIST / DRAGON stat-drop immunity. A Mist-protected or DRAGON target can't have its
+	; stats lowered BY THE FOE - this one chokepoint blocks both primary stat-down moves AND secondary riders
+	; (Aurora Beam -atk, Bulldoze -spd, etc.). Resets (Haze/Flash) write neutral directly without this routine,
+	; so they still work. callfar leaves de/hl intact; bc (target BattleStatus1) is saved across it.
+	push bc
+	push de
+	callfar TargetResistsStatDrop ; e = 0 none / 1 MIST / 2 DRAGON
+	pop de
+	pop bc
+	ld a, e
+	and a
+	jr z, .notStatDropImmune
+	ld a, [de]
+	cp ATTACK_DOWN_SIDE_EFFECT
+	ret nc                        ; secondary rider on an immune target -> silently skip (the move still landed)
+	ld a, e                       ; primary stat-down move -> announce why nothing happened (1 MIST / 2 DRAGON)
+	jpfar PrintStatDropBlockedText
+.notStatDropImmune
 	ld a, [de]
 ;;;;;;;;;; PureRGBnote: ADDED: need to decide which stat is being modified here and store it so we can apply correct badge boosts if necessary
 	call MapEffectToStat
@@ -1082,6 +1092,7 @@ ThrashPetalDanceEffect:
 	inc a
 	inc a
 	ld [de], a ; set thrash/petal dance counter to 2 or 3 at random
+	callfar IndignationCleanse ; Sunsette: INDIGNATION/PSYCHOCRISIS - on activation, the rage resets the user's stats + cleanses its status/buffs (keeps FLOURISH). Once only: this effect runs just the first turn (continuation turns re-enter at PlayerCalcMoveDamage).
 	ld a, SHRINKING_SQUARE_ANIM
 	jp PlayBattleAnimation2
 
@@ -1213,7 +1224,7 @@ FlinchSideEffect:
 	cp b
 	ret nc
 .flinch
-	jpfar GhostFlinchOrSet ; Sunsette: GHOST-types can't be flinched (handler floated out of the full Battle Core bank)
+	jpfar DragonFlinchOrSet ; Sunsette: DRAGON-types can't be flinched (handler floated out of the full Battle Core bank)
 ;;;;; PureRGBnote: ADDED: sonic boom always flinches if it's used the first turn a pokemon is out
 .sonicBoom
 	ldh a, [hWhoseTurn]
@@ -1311,48 +1322,10 @@ DugAHoleText:
 	text_end
 
 TrappingEffect:
-;;;;;;;;;; PureRGBnote: FIXED: trapping state won't be set if the pokemon is immune to the attack
-	ldh a, [hWhoseTurn]
-	and a
-	jr z, .player
-	call AIGetImmediateTypeEffectiveness
-	jr .retIfImmune
-.player
-	call GetPlayerTypeEffectiveness
-.retIfImmune
-	; wTypeEffectiveness still in a here
-	and a
-	ret z
-;;;;;;;;;;
-	ld hl, wPlayerBattleStatus1
-	ld de, wPlayerNumAttacksLeft
-	ldh a, [hWhoseTurn]
-	and a
-	jr z, .trappingEffect
-	ld hl, wEnemyBattleStatus1
-	ld de, wEnemyNumAttacksLeft
-.trappingEffect
-	bit USING_TRAPPING_MOVE, [hl]
-	ret nz
-	call ClearHyperBeam ; since this effect is called before testing whether the move will hit,
-                        ; the target won't need to recharge even if the trapping move missed
-	set USING_TRAPPING_MOVE, [hl] ; mon is now using a trapping move
-
-;;;;;;;;;;;;;;;;; PureRGBnote: CHANGED: trapping moves do 2-3 turns maximum but a bit more damage to compensate.
-.reroll
-	call BattleRandom 	
-	and %11
-	cp %11
-	jr z, .reroll ; only want 3 possible results, not 4
-	and a ; 2/3 chance for 2 attacks (results 01 and 11), 1/3 chance for 3 (result 0)
-	ld a, 2
-	jr nz, .setTrappingCounter
-	ld a, 3
-.setTrappingCounter
-	dec a
-	ld [de], a
-;;;;;;;;;;;;;;;;;
-	ret ; Sunsette: TrappingEffect is now dead code (no move uses TRAPPING_EFFECT) and ARBOK lost its signatures
+	; Sunsette: dead code. No move uses TRAPPING_EFFECT and the USING_TRAPPING_MOVE battle-status
+	; bit has been reclaimed, so the old trapping (Wrap-style) machinery is gone. Kept as a bare
+	; ret only so the TRAPPING_EFFECT slot in the effect-pointer table still resolves.
+	ret
 
 MistEffect:
 	jpfar MistEffect_
@@ -1613,6 +1586,11 @@ DisableEffect:
 ; Sunsette: the actual disabling, minus the accuracy check above. CUT_DISABLE_EFFECT (Cut's added
 ; on-hit effect) jumps straight here - Cut already landed its hit, so it skips MoveHitTest.
 DisableEffectCore:
+; Sunsette: ELECTRIC-types are immune to Disable (covers DISABLE and CUT_DISABLE; both reach here).
+	callfar TargetIsElectric
+	ld a, e
+	and a
+	jp nz, .moveMissed
 	ld de, wEnemyDisabledMove
 	ld hl, wEnemyMonMoves
 	ld a, [wEnemyLastSelectedMoveDisable]
@@ -1796,6 +1774,7 @@ IsUnaffectedText:
 
 CheckTargetSubstitute:
 	push hl
+	push de
 	ld hl, wEnemyBattleStatus2
 	ldh a, [hWhoseTurn]
 	and a
@@ -1803,6 +1782,20 @@ CheckTargetSubstitute:
 	ld hl, wPlayerBattleStatus2
 .next
 	bit HAS_SUBSTITUTE_UP, [hl]
+	jr z, .done                  ; no substitute -> z (proceed normally)
+	; Sunsette: a substitute is up, but a BUG-type's BUG move hits THROUGH it (status AND damage), so report
+	; "no substitute" for the swarm. This is the status half of Bug's ignore-Substitute passive; the damage half
+	; is in ApplyDamageTo{Enemy,Player}Pokemon.
+	callfar IsBugUsingBugMove
+	ld a, e
+	and a
+	jr z, .subStays              ; not Bug-on-Bug -> the substitute really is there
+	xor a                        ; Bug-on-Bug -> force z = "no substitute"
+	jr .done
+.subStays
+	or 1                         ; nz = substitute present (the original behavior)
+.done
+	pop de
 	pop hl
 	ret
 
@@ -1874,52 +1867,8 @@ PlayBattleAnimationGotID:
 	pop hl
 	ret
 
-SuperFangEffect:
-	ldh a, [hWhoseTurn]
-	and a
-	ld hl, wEnemyMonHP
-	jr z, .playerTurn
-	ld hl, wBattleMonHP
-.playerTurn
-; set the damage to half the target's HP
-; PureRGBnote: CHANGED: now 2/3 the target's HP
-	ld a, 3
-	ldh [hDivisor], a
-	ld de, wDamage ; we'll store the whole opponent's current HP in the damage variable for now
-	ld a, [hli]
-	ldh [hDividend], a
-	ld [de], a
-	inc de
-	ld a, [hl]
-	ldh [hDividend + 1], a
-	ld [de], a
-	ld b, 2
-	call Divide
-	ldh a, [hQuotient + 2]
-	ld b, a
-	ldh a, [hQuotient + 3]
-	ld c, a
-	ld hl, wDamage ; subtract 1/3 of the mon's current HP from their current HP value to obtain 2/3 resultant damage
-	ld a, [hli]
-	ld d, a
-	ld a, [hl]
-	ld e, a
-	; subtract bc from de
-	sub c
-	ld e, a
-	ld a, d
-	sbc b
-	ld d, a
-	; de = resultant value
-	ld hl, wDamage
-	ld [hli], a
-	ld a, e
-	ld [hl], a
-	or d
-	ret nz
-; make sure Super Fang's damage is always at least 1
-	ld [hl], 1
-	ret
+; Sunsette: SuperFangEffect was floated out of the full "Battle Core" bank into the crit section
+; (engine/battle/critical_hit.asm) so it can run its own CriticalHitTest. Reached via callfar.
 
 ; input hl = which stat's current value
 ; input de = current stat modifier of this stat

@@ -73,13 +73,21 @@ _SpearowDexEntry::
 	dex
 
 _VoltorbDexEntry::
-	text "Usually found in"
-	next "power plants."
-	next "Easily mistaken"
+	text "Its origins are a"
+	next "mystery, but it is"
+	next "older than it"
 
-	bage "for a # BALL,"
-	next "they have zapped"
-	next "many people"
+	bage "looks; there are"
+	next "records of them"
+	next "centuries ago."
+
+	bage "A recent theory"
+	next "holds they grew"
+	next "from APRICORNs in"
+
+	bage "HISUI exposed to"
+	next "ionizing"
+	next "radiation."
 	dex
 
 _NidokingDexEntry::
@@ -101,13 +109,21 @@ _NidokingDexEntry::
 	dex
 
 _SlowbroDexEntry::
-	text "The SHELLDER that"
-	next "is latched onto"
-	next "SLOWPOKE's tail"
+	text "Occurs when a"
+	next "poisonous SHELLDER"
+	next "bites into its"
 
-	bage "is said to feed"
-	next "on the host's left"
-	next "over scraps"
+	bage "tail and the two"
+	next "create a mental"
+	next "link before"
+
+	bage "SLOWPOKE could"
+	next "feed."
+	next "The toxins"
+
+	bage "enhance its"
+	next "powers and make"
+	next "it numb to pain."
 	dex
 
 _IvysaurDexEntry::
@@ -129,13 +145,21 @@ _IvysaurDexEntry::
 	dex
 
 _ExeggutorDexEntry::
-	text "Legend has it that"
-	next "on rare occasions,"
-	next "one of its heads"
+	text "It feeds mostly on"
+	next "sunlight, so poor"
+	next "soil suits it."
 
-	bage "will drop off and"
-	next "continue on as an"
-	next "EXEGGCUTE"
+	bage "It is always on"
+	next "the move, but"
+	next "never in a hurry."
+
+	bage "As it travels, it"
+	next "grows new heads;"
+	next "these will soon"
+
+	bage "fall off to"
+	next "become a new"
+	next "EXEGGCUTE."
 	dex
 
 _LickitungDexEntry::
@@ -149,33 +173,57 @@ _LickitungDexEntry::
 	dex
 
 _ExeggcuteDexEntry::
-	text "Often mistaken"
-	next "for eggs."
-	next "When disturbed,"
+	text "Despite the name,"
+	next "they are a kind"
+	next "of plant #MON."
 
-	bage "they quickly"
-	next "gather and attack"
-	next "in swarms"
+	bage "Psychic powers"
+	next "keep them"
+	next "clustered, both"
+
+	bage "on the savannah"
+	next "and over the sea."
+	next "If a predator eats"
+
+	bage "one, a new one"
+	next "somehow appears"
+	next "by next morning."
 	dex
 
 _GrimerDexEntry::
-	text "Appears in filthy"
-	next "areas. Thrives by"
-	next "sucking up"
+	text "Born from"
+	next "industrial runoff"
+	next "struck by lunar"
 
-	bage "polluted sludge"
-	next "that is pumped"
-	next "out of factories"
+	bage "radiation."
+	next "Eradication"
+	next "failed, so policy"
+
+	bage "now favors"
+	next "coexistence."
+	next "MOON STONE remain"
+
+	bage "tightly controlled"
+	next "in cities,"
+	next "regardless."
 	dex
 
 _GengarDexEntry::
-	text "Under a full moon,"
-	next "this #MON"
-	next "likes to mimic"
+	text "GENGAR are said to"
+	next "emerge only from"
+	next "spirits of lost,"
 
-	bage "the shadows of"
-	next "people and laugh"
-	next "at their fright"
+	bage "lonely humans."
+	next "In bitterness they"
+	next "kidnap others who"
+
+	bage "would make good"
+	next "GENGAR too. Long"
+	next "ago, ARCANINE were"
+
+	bage "trained to guard"
+	next "mountain travelers"
+	next "from this evil."
 	dex
 
 _NidoranFDexEntry::
@@ -215,13 +263,21 @@ _NidoqueenDexEntry::
 	dex
 
 _CuboneDexEntry::
-	text "Because it never"
-	next "removes its skull"
-	next "helmet, no one"
+	text "Each CUBONE is a"
+	next "secret warden of"
+	next "an ancient"
 
-	bage "has ever seen"
-	next "this #MON's"
-	next "real face"
+	bage "mountain graveyard"
+	next "of generations"
+	next "of bones, the last"
+
+	bage "of a dwindling"
+	next "tribe."
+	next "The spirits of the"
+
+	bage "past instruct it"
+	next "when it lifts its"
+	next "bone for battle."
 	dex
 
 _RhyhornDexEntry::
@@ -283,33 +339,57 @@ _GyaradosDexEntry::
 	dex
 
 _ShellderDexEntry::
-	text "Its hard shell"
-	next "repels any kind"
-	next "of attack."
+	text "Toxic barbs on its"
+	next "ultra-hard"
+	next "bivalve shell"
 
-	bage "It is vulnerable"
-	next "only when its"
-	next "shell is open"
+	bage "keep most"
+	next "predators"
+	next "away."
+
+	bage "If it has to flee,"
+	next "however, it can"
+	next "create jets of"
+
+	bage "water to swim"
+	next "backwards"
+	next "surprisingly fast."
 	dex
 
 _TentacoolDexEntry::
-	text "Drifts in shallow"
-	next "seas. Anglers who"
-	next "hook them by"
+	text "Painfully common"
+	next "in the shallow"
+	next "seas around KANTO."
 
-	bage "accident are"
-	next "often punished by"
-	next "its stinging acid"
+	bage "It is almost"
+	next "entirely water."
+	next "TENTACOOL must"
+
+	bage "float in a giant"
+	next "bubble of saline"
+	next "when fighting on"
+
+	bage "land or in"
+	next "freshwater, or it"
+	next "dries out fast."
 	dex
 
 _GastlyDexEntry::
-	text "Almost invisible,"
-	next "this gaseous"
-	next "#MON cloaks"
+	text "There is dispute"
+	next "over whether"
+	next "GASTLY is the"
 
-	bage "the target and"
-	next "puts it to sleep"
-	next "without notice"
+	bage "spirit of a dead"
+	next "creature, or a"
+	next "sentient gas that"
+
+	bage "feeds on the"
+	next "living's spirits."
+	next "It smothers prey"
+
+	bage "in poisonous air,"
+	next "and delights in"
+	next "the panic."
 	dex
 
 _ScytherDexEntry::
@@ -387,13 +467,21 @@ _GrowlitheDexEntry::
 	dex
 
 _OnixDexEntry::
-	text "As it grows, the"
-	next "stone portions of"
-	next "its body harden"
+	text "It is extremely"
+	next "strong, boring"
+	next "rock at 50 MPH."
 
-	bage "to become similar"
-	next "to a diamond, but"
-	next "colored black"
+	bage "But it is so large"
+	next "it cannot use its"
+	next "full power in an"
+
+	bage "open-air battle."
+	next "The more worn down"
+	next "its boulders are,"
+
+	bage "the more likely"
+	next "it is a seasoned"
+	next "veteran."
 	dex
 
 _FearowDexEntry::
@@ -433,33 +521,57 @@ _PidgeyDexEntry::
 	dex
 
 _SlowpokeDexEntry::
-	text "Incredibly slow"
-	next "and dopey. It"
-	next "takes 5 seconds"
+	text "It reacts slowly"
+	next "to conserve"
+	next "energy, even"
 
-	bage "for it to feel"
-	next "pain when under"
-	next "attack"
+	bage "hunting lazily by"
+	next "dangling its"
+	next "sweet-tail for a"
+
+	bage "SHELLDER to get"
+	next "stuck biting."
+	next "But a powerful"
+
+	bage "psyche lurks"
+	next "behind those"
+	next "vacant eyes."
 	dex
 
 _KadabraDexEntry::
-	text "It emits special"
-	next "alpha waves from"
-	next "its body that"
+	text "It is dogged by"
+	next "documented but"
+	next "unexplained"
 
-	bage "induce headaches"
-	next "just by being"
-	next "close by"
+	bage "events: headaches,"
+	next "glitching tech,"
+	next "and strange"
+
+	bage "transformations."
+	next "If you must face"
+	next "one in battle,"
+
+	bage "attack the spoon"
+	next "through which it"
+	next "focuses its power."
 	dex
 
 _GravelerDexEntry::
-	text "Rolls down slopes"
-	next "to move. It rolls"
-	next "over any obstacle"
+	text "Its legs are"
+	next "strong, but short"
+	next "and stubby."
 
-	bage "without slowing"
-	next "or changing its"
-	next "direction"
+	bage "It climbs with its"
+	next "powerful arms and"
+	next "rolls downhill"
+
+	bage "like a boulder."
+	next "Travelers must"
+	next "beware and travel"
+
+	bage "rough paths to"
+	next "stay safe while"
+	next "hiking."
 	dex
 
 _ChanseyDexEntry::
@@ -473,13 +585,21 @@ _ChanseyDexEntry::
 	dex
 
 _MachokeDexEntry::
-	text "Its muscular body"
-	next "is so powerful, it"
-	next "must wear a power"
+	text "It can turn almost"
+	next "any task into an"
+	next "opportunity to"
 
-	bage "save belt to be"
-	next "able to regulate"
-	next "its motions"
+	bage "refine its"
+	next "strength and"
+	next "technique."
+
+	bage "Therefore, it is"
+	next "happy to do most"
+	next "physical labor,"
+
+	bage "as long as it"
+	next "gets enough"
+	next "PROTEIN and rest."
 	dex
 
 _MrMimeDexEntry::
@@ -493,23 +613,39 @@ _MrMimeDexEntry::
 	dex
 
 _HitmonleeDexEntry::
-	text "When in a hurry,"
-	next "its legs lengthen"
-	next "progressively."
+	text "A kick is risky,"
+	next "but powerful, an"
+	next "ethos HITMONLEE"
 
-	bage "It runs smoothly"
-	next "with extra long,"
-	next "loping strides"
+	bage "embraces deeply."
+	next "Each knows it will"
+	next "one day overextend"
+
+	bage "and be punished"
+	next "the final time."
+	next "All that matters"
+
+	bage "is it made the"
+	next "other #MON work"
+	next "for it."
 	dex
 
 _HitmonchanDexEntry::
-	text "While apparently"
-	next "doing nothing, it"
-	next "fires punches in"
+	text "Its punches are"
+	next "supersonic, yet so"
+	next "precise they are"
 
-	bage "lightning fast"
-	next "volleys that are"
-	next "impossible to see"
+	bage "quiet till impact."
+	next "It thinks through"
+	next "each fight just as"
+
+	bage "precisely: before,"
+	next "during, and after."
+	next "HITMONCHAN does"
+
+	bage "not lose; it"
+	next "merely hasn't"
+	next "won yet."
 	dex
 
 _ArbokDexEntry::
@@ -565,23 +701,39 @@ _PsyduckDexEntry::
 	dex
 
 _DrowzeeDexEntry::
-	text "Puts enemies to"
-	next "sleep then eats"
-	next "their dreams."
+	text "It puts others"
+	next "asleep and eats"
+	next "the memory of"
 
-	bage "Occasionally gets"
-	next "sick from eating"
-	next "bad dreams"
+	bage "their dreams."
+	next "This is harmless"
+	next "to the dreamer,"
+
+	bage "but DROWZEE's body"
+	next "slowly turns"
+	next "poisonous from"
+
+	bage "eating nightmares"
+	next "and the dreams of"
+	next "the wicked."
 	dex
 
 _GolemDexEntry::
-	text "Its boulder-like"
-	next "body is extremely"
-	next "hard. It can"
+	text "Its bond with"
+	next "people is"
+	next "complicated."
 
-	bage "easily withstand"
-	next "dynamite blasts"
-	next "without damage"
+	bage "Its yearly molt"
+	next "enriches the soil,"
+	next "so GOLEM mountains"
+
+	bage "have fertile"
+	next "farms."
+	next "But it travels"
+
+	bage "by exploding or"
+	next "rolling, a real"
+	next "hazard."
 	dex
 
 _MagmarDexEntry::
@@ -605,13 +757,21 @@ _ElectabuzzDexEntry::
 	dex
 
 _MagnetonDexEntry::
-	text "Formed by several"
-	next "MAGNEMITEs linked"
-	next "together. They"
+	text "Only evolves in"
+	next "special magnetic"
+	next "fields."
 
-	bage "frequently appear"
-	next "when sunspots"
-	next "flare up"
+	bage "Created by the"
+	next "spontaneous"
+	next "merger of three"
+
+	bage "MAGNEMITE."
+	next "Despite how fast"
+	next "they assemble,"
+
+	bage "no trace remains"
+	next "of three distinct"
+	next "entities."
 	dex
 
 _KoffingDexEntry::
@@ -643,13 +803,21 @@ _MankeyDexEntry::
 	dex
 
 _SeelDexEntry::
-	text "The protruding"
-	next "horn on its head"
-	next "is very hard."
+	text "Its two favorite"
+	next "things are"
+	next "icebergs and"
 
-	bage "It is used for"
-	next "bashing through"
-	next "thick ice"
+	bage "sunbathing."
+	next "Though most"
+	next "famously adapted"
+
+	bage "for the extreme"
+	next "cold, it can"
+	next "survive and even"
+
+	bage "thrive in much"
+	next "warmer regions,"
+	next "such as ALOLA."
 	dex
 
 _DiglettDexEntry::
@@ -681,13 +849,21 @@ _TaurosDexEntry::
 	dex
 
 _FarfetchdDexEntry::
-	text "The sprig of"
-	next "green onions it"
-	next "holds is its"
+	text "Once hunted to"
+	next "near-extinction."
+	next "Though not"
 
-	bage "weapon. It is"
-	next "used much like a"
-	next "metal sword"
+	bage "physically strong,"
+	next "it is a skilled"
+	next "swordsmon with"
+
+	bage "its leek, a master"
+	next "of critical hits."
+	next "Making a meal of"
+
+	bage "this #MON today"
+	next "would be quite"
+	next "FARFETCH'D."
 	dex
 
 _VenonatDexEntry::
@@ -719,13 +895,21 @@ _DragoniteDexEntry::
 	dex
 
 _DoduoDexEntry::
-	text "A bird that makes"
-	next "up for its poor"
-	next "flying with its"
+	text "Its two heads are"
+	next "in perfect sync,"
+	next "despite its"
 
-	bage "fast foot speed."
-	next "Leaves giant"
-	next "footprints"
+	bage "reckless look."
+	next "It uses the extra"
+	next "brainpower with"
+
+	bage "its powerful legs"
+	next "and tiny wings"
+	next "to deliver agile,"
+
+	bage "aerial kicks"
+	next "strong enough to"
+	next "crush a car."
 	dex
 
 _PoliwagDexEntry::
@@ -815,13 +999,21 @@ _MeowthDexEntry::
 	dex
 
 _KrabbyDexEntry::
-	text "Its pincers are"
-	next "not only powerful"
-	next "weapons, they are"
+	text "Its color on the"
+	next "riverbed or"
+	next "seafloor is blue,"
 
-	bage "used for balance"
-	next "when walking"
-	next "sideways"
+	bage "but living near"
+	next "shore turns it"
+	next "bright red."
+
+	bage "This makes it an"
+	next "obvious target"
+	next "for predators, so"
+
+	bage "littoral KRABBY"
+	next "hide in the sand"
+	next "when not feeding."
 	dex
 
 _VulpixDexEntry::
@@ -1093,13 +1285,21 @@ _VaporeonDexEntry::
 	dex
 
 _MachopDexEntry::
-	text "Loves to build"
-	next "its muscles."
-	next "It trains in all"
+	text "It believes it"
+	next "grows strongest"
+	next "with both"
 
-	bage "styles of martial"
-	next "arts to become"
-	next "even stronger"
+	bage "practice and"
+	next "community."
+	next "Colonies gather"
+
+	bage "where boulders"
+	next "are plentiful,"
+	next "turning rocky"
+
+	bage "slopes into"
+	next "communal"
+	next "training grounds."
 	dex
 
 _ZubatDexEntry::
@@ -1244,13 +1444,21 @@ _BeedrillDexEntry::
 	dex
 
 _DodrioDexEntry::
-	text "Uses its three"
-	next "brains to execute"
-	next "complex plans."
+	text "While it seems to"
+	next "argue with itself,"
+	next "this is really"
 
-	bage "While two heads"
-	next "sleep, one head"
-	next "stays awake"
+	bage "a kind of"
+	next "internal"
+	next "reasoning;"
+
+	bage "whichever head"
+	next "became the"
+	next "central stalk"
+
+	bage "leads, and the"
+	next "others offer"
+	next "loud opinions."
 	dex
 
 _PrimeapeDexEntry::
@@ -1308,13 +1516,21 @@ _VenomothDexEntry::
 	dex
 
 _DewgongDexEntry::
-	text "Stores thermal"
-	next "energy in its"
-	next "body. Swims at a"
+	text "Often seen in the"
+	next "arctic ocean."
+	next "It is impossibly"
 
-	bage "steady 8 knots"
-	next "even in intensely"
-	next "cold waters"
+	bage "graceful, a steady"
+	next "swimmer in the"
+	next "coldest waters."
+
+	bage "Old tales of"
+	next "mermaids saving"
+	next "sailors here are"
+
+	bage "now credited to"
+	next "DEWGONG's"
+	next "kindness."
 	dex
 
 _CaterpieDexEntry::
@@ -1367,13 +1583,21 @@ _ButterfreeDexEntry::
 	dex
 
 _MachampDexEntry::
-	text "Using its heavy"
-	next "muscles, it throws"
-	next "powerful punches"
+	text "It punches hard"
+	next "enough to send a"
+	next "BLASTOISE flying,"
 
-	bage "that can send the"
-	next "victim clear over"
-	next "the horizon"
+	bage "but it is also"
+	next "capable of warm"
+	next "and gentle hugs"
+
+	bage "if its Power-Save"
+	next "belt remains on."
+	next "However, it"
+
+	bage "sometimes forgets"
+	next "to clean its"
+	next "sweat before hugs."
 	dex
 
 _GolduckDexEntry::
@@ -1395,13 +1619,21 @@ _GolduckDexEntry::
 	dex
 
 _HypnoDexEntry::
-	text "When it locks eyes"
-	next "with an enemy, it"
-	next "will use a mix of"
+	text "Infamous for a"
+	next "sinister nature."
+	next "Many HYPNO grow"
 
-	bage "PSI moves such as"
-	next "HYPNOSIS and"
-	next "CONFUSION"
+	bage "addicted and will"
+	next "kidnap people who"
+	next "give especially"
+
+	bage "tasty dreams, to"
+	next "feed on forever."
+	next "However, many"
+
+	bage "others are helpful"
+	next "and work in"
+	next "sleep medicine."
 	dex
 
 _GolbatDexEntry::
@@ -1460,43 +1692,75 @@ _MagikarpDexEntry::
 	dex
 
 _MukDexEntry::
-	text "Thickly covered"
-	next "with a filthy,"
-	next "vile sludge. It"
+	text "There are #MON"
+	next "which smell worse"
+	next "than MUK, but"
 
-	bage "is so toxic, even"
-	next "its footprints"
-	next "contain poison"
+	bage "not many."
+	next "Even they are not"
+	next "nearly as toxic"
+
+	bage "to the touch."
+	next "To pet one, a"
+	next "trainer needs"
+
+	bage "thick protective"
+	next "gear, or years"
+	next "of acclimation."
 	dex
 
 _KinglerDexEntry::
-	text "The large pincer"
-	next "has 10000 hp of"
-	next "crushing power."
+	text "The large claw"
+	next "theoretically has"
+	next "enough strength"
 
-	bage "However, its huge"
-	next "size makes it"
-	next "unwieldy to use"
+	bage "to crack even a"
+	next "CLOYSTER's shell."
+	next "Since it is most"
+
+	bage "maneuverable on"
+	next "the sea floor,"
+	next "researchers"
+
+	bage "believe it grew"
+	next "its massive claw"
+	next "for that purpose."
 	dex
 
 _CloysterDexEntry::
-	text "When attacked, it"
-	next "launches its"
-	next "horns in quick"
+	text "Its shell survives"
+	next "conventional"
+	next "explosives"
 
-	bage "volleys. Its"
-	next "innards have"
-	next "never been seen"
+	bage "unscathed, yet it"
+	next "is very sensitive"
+	next "to environmental"
+
+	bage "changes. As the"
+	next "oceans warm,"
+	next "CLOYSTER has"
+
+	bage "become a rare"
+	next "sight the world"
+	next "over."
 	dex
 
 _ElectrodeDexEntry::
-	text "It stores electric"
-	next "energy under very"
-	next "high pressure."
+	text "Evolution has"
+	next "greatly improved"
+	next "its temper, but"
 
-	bage "It often explodes"
-	next "with little or no"
-	next "provocation"
+	bage "it is no safer."
+	next "Where VOLTORB"
+	next "would explode only"
+
+	bage "as a last resort"
+	next "(it just ran out"
+	next "of resorts fast),"
+
+	bage "ELECTRODE will"
+	next "explode out of"
+	next "boredom. Beware!"
 	dex
 
 _ClefableDexEntry::
@@ -1546,43 +1810,75 @@ _PersianDexEntry::
 	dex
 
 _MarowakDexEntry::
-	text "The bone it holds"
-	next "is its key weapon."
-	next "It throws the"
+	text "The spirits of its"
+	next "graveyard anoint"
+	next "MAROWAK as a"
 
-	bage "bone skillfully"
-	next "like a boomerang"
-	next "to KO targets"
+	bage "guardian, ready"
+	next "to avenge their"
+	next "legacy."
+
+	bage "If it ever feels"
+	next "scared or not"
+	next "ready, the rock-"
+
+	bage "hard bone mask it"
+	next "wears makes that"
+	next "impossible to see."
 	dex
 
 _HaunterDexEntry::
-	text "Because of its"
-	next "ability to slip"
-	next "through block"
+	text "Only the brave and"
+	next "kind should raise"
+	next "one; it feeds on"
 
-	bage "walls, it is said"
-	next "to be from an-"
-	next "other dimension"
+	bage "its trainer if it"
+	next "cannot hunt souls."
+	next "A strong will and"
+
+	bage "positive spirit"
+	next "can slowly change"
+	next "the HAUNTER that"
+
+	bage "feeds on it, but"
+	next "a few trainers die"
+	next "each year trying."
 	dex
 
 _AbraDexEntry::
-	text "Using its ability"
-	next "to read minds, it"
-	next "will identify"
+	text "Though always"
+	next "asleep, ABRA still"
+	next "uses its PSYCHIC"
 
-	bage "impending danger"
-	next "and TELEPORT to"
-	next "safety"
+	bage "powers to avoid"
+	next "danger."
+	next "It features in"
+
+	bage "old legends as a"
+	next "genie who appears,"
+	next "rewards the"
+
+	bage "virtuous and"
+	next "hardworking, then"
+	next "TELEPORTs away."
 	dex
 
 _AlakazamDexEntry::
-	text "Its brain can out-"
-	next "perform a super-"
-	next "computer."
+	text "For each year it"
+	next "has lived, its"
+	next "PSYCHIC powers"
 
-	bage "Its intelligence"
-	next "quotient is said"
-	next "to be 5,000"
+	bage "can summon 500"
+	next "years of every"
+	next "ALAKAZAM's"
+
+	bage "collective"
+	next "knowledge."
+	next "This is why"
+
+	bage "scientists once"
+	next "said it had an"
+	next "IQ of 5000."
 	dex
 
 _PidgeottoDexEntry::
@@ -1665,13 +1961,21 @@ _VenusaurDexEntry::
 	dex
 
 _TentacruelDexEntry::
-	text "The tentacles are"
-	next "normally kept"
-	next "short. On hunts,"
+	text "It must often"
+	next "float near the"
+	next "surface and bask"
 
-	bage "they are extended"
-	next "to ensnare and"
-	next "immobilize prey"
+	bage "in the sun for a"
+	next "few hours;"
+	next "that is the only"
+
+	bage "way it has enough"
+	next "energy to move"
+	next "its 80 stinging"
+
+	bage "tentacles and"
+	next "fire ultrasonic"
+	next "blasts."
 	dex
 
 _GoldeenDexEntry::
@@ -1695,23 +1999,39 @@ _SeakingDexEntry::
 	dex
 
 _PonytaDexEntry::
-	text "Its hooves are 10"
-	next "times harder than"
-	next "diamonds. It can"
+	text "If you see a foal"
+	next "alone, it has"
+	next "probably not"
 
-	bage "trample anything"
-	next "completely flat"
-	next "in little time"
+	bage "been abandoned."
+	next "Its parents go"
+	next "long distances"
+
+	bage "to encourage"
+	next "PONYTA to chase"
+	next "them, but use"
+
+	bage "PSYCHIC powers"
+	next "to keep the baby"
+	next "safe."
 	dex
 
 _RapidashDexEntry::
-	text "Very competitive,"
-	next "this #MON will"
-	next "chase anything"
+	text "Its fiery mane is"
+	next "said to burn away"
+	next "the wickedness in"
 
-	bage "that moves fast"
-	next "in the hopes of"
-	next "racing it"
+	bage "a rider's heart."
+	next "It can sustain"
+	next "150 mph, but when"
+
+	bage "its heart is"
+	next "united with its"
+	next "rider, the flames"
+
+	bage "can rocket them"
+	next "to almost the"
+	next "speed of sound."
 	dex
 
 _RattataDexEntry::
@@ -1786,13 +2106,21 @@ _NidorinaDexEntry::
 	dex
 
 _GeodudeDexEntry::
-	text "Found in fields"
-	next "and mountains."
-	next "Mistaking them"
+	text "It can float by"
+	next "working the"
+	next "magnetite in its"
 
-	bage "for boulders,"
-	next "people often step"
-	next "or trip on them"
+	bage "body, but this"
+	next "tires most"
+	next "GEODUDE."
+
+	bage "So it floats only"
+	next "to fight."
+	next "People often trip"
+
+	bage "or step on one"
+	next "while it is"
+	next "resting."
 	dex
 
 _PorygonDexEntry::
@@ -1816,13 +2144,21 @@ _AerodactylDexEntry::
 	dex
 
 _MagnemiteDexEntry::
-	text "Uses anti-gravity"
-	next "to stay suspended."
-	next "Appears without"
+	text "Forms"
+	next "spontaneously"
+	next "from abandoned"
 
-	bage "warning and uses"
-	next "THUNDER WAVE and"
-	next "similar moves"
+	bage "high-voltage"
+	next "machinery."
+	next "There is real"
+
+	bage "debate over"
+	next "whether it is a"
+	next "new species of"
+
+	bage "#MON, or a new"
+	next "form of an older"
+	next "one."
 	dex
 
 _CharmanderDexEntry::
@@ -1965,31 +2301,55 @@ _VileplumeDexEntry::
 	dex
 
 _BellsproutDexEntry::
-	text "A carnivorous"
-	next "#MON that traps"
-	next "and eats bugs."
+	text "At this stage, it"
+	next "hunts BUGs with"
+	next "surprising speed"
 
-	bage "It uses its root"
-	next "feet to soak up"
-	next "needed moisture"
+	bage "and precision."
+	next "Martial artists"
+	next "have studied the"
+
+	bage "way BELLSPROUT"
+	next "moves for"
+	next "thousands of"
+
+	bage "years, though few"
+	next "master spitting"
+	next "ACID."
 	dex
 
 _WeepinbellDexEntry::
-	text "It spits out"
-	next "POISONPOWDER to"
-	next "immobilize the"
+	text "It protects itself"
+	next "from its powerful"
+	next "ACIDs with a"
 
-	bage "enemy and then"
-	next "finishes it with"
-	next "a spray of ACID"
+	bage "rubbery coat on"
+	next "its leaves."
+	next "Some are raised"
+
+	bage "on farms and"
+	next "carefully milked"
+	next "for this fluid,"
+
+	bage "which has many"
+	next "uses in textiles"
+	next "and industry."
 	dex
 
 _VictreebelDexEntry::
 	text "Said to live in"
-	next "huge colonies"
-	next "deep in jungles,"
+	next "huge jungle"
+	next "colonies."
 
-	bage "although no one"
-	next "has ever returned"
-	next "from there"
+	bage "None have ever"
+	next "been confirmed,"
+	next "yet explorers"
+
+	bage "go missing in the"
+	next "sweet-scented"
+	next "regions where"
+
+	bage "they're suspected."
+	next "The remains"
+	next "are never found."
 	dex

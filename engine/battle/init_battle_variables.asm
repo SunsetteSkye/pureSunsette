@@ -9,7 +9,7 @@ InitBattleVariables:
 	res 1, [hl]
 	res 2, [hl] ; Sunsette: also clear any stale CONVERSION recolor (bit 2)
 	res 3, [hl] ; Sunsette: stale SKITTERMIND gray (bit 3)
-	res 4, [hl] ; Sunsette: stale METAMORPHIC glow (bit 4)
+	res 4, [hl] ; Sunsette: stale OROCLASM glow (bit 4)
 	ld hl, wBattleMonFlags
 	res 1, [hl]
 	res 2, [hl]

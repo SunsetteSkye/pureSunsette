@@ -26,7 +26,7 @@
 	ICE_BEAM,\
 	BLIZZARD,\
 	HYPER_BEAM,\
-	LOW_KICK,\
+	FINISHER,\
 	METEOR_SWEEP,\
 	BARRIER,\
 	EARTHQUAKE,\
@@ -73,4 +73,7 @@
 ;@ learn       39, METEOR_DRIVE
 ;@ learn       44, EXTERMINATE
 ;@ learn       49, EARTHQUAKE
-;@ learn       53, METAMORPHIC
+;@ learn       53, OROCLASM
+;@ tutor       PISTON_KICK
+;@ tutor       METEOR_DRIVE
+;@ tutor       SCREECH

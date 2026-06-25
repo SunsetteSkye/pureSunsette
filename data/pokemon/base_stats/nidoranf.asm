@@ -14,30 +14,38 @@
 	db GROWTH_MEDIUM_SLOW ; growth rate
 
 	tmhm \
-	ADAPTATION,\
-	MUD_BOMB,\
-	PIN_MISSILE,\
-	TOXIC,\
-	BODY_SLAM,\
 	DISABLE,\
+	SHADOW_GAME,\
+	TOXIC,\
+	SLUDGE_BOMB,\
+	BODY_SLAM,\
 	DOUBLE_EDGE,\
+	WATER_PULSE,\
+	SUPER_SOAK,\
 	ICE_BEAM,\
 	BLIZZARD,\
-	METEOR_SWEEP,\
 	THUNDERBOLT,\
 	THUNDER,\
+	MUD_BOMB,\
 	DIG,\
-	REFLECT,\
-	BULK_UP,\
-	ILL_WIND,\
-	SHADOW_BALL,\
 	DEMOLISH,\
-	LOVELY_KISS,\
+	BULK_UP,\
+	REFLECT,\
 	LIGHT_SCREEN,\
-	SHADOW_GAME,\
-	ROCK_ON,\
+	HEAT_RUSH,\
+	ILL_WIND,\
+	METEOR_SWEEP,\
 	SUBSTITUTE,\
+	AQUA_RING,\
+	RAZOR_LEAF,\
+	ADAPTATION,\
+	CALM_MIND,\
+	VOID_MIND,\
+	PSYCHO_SHIFT,\
+	LEAP_ATTACK,\
+	PIN_MISSILE,\
 	CLAY_ARMOR,\
+	ROCK_ON,\
 	CUT
 	; end
 
@@ -58,14 +66,15 @@
 ;@ evo         EVOLVE_LEVEL, 16, NIDORINA
 ;@ evo_move    NO_MOVE
 ;@ evo_react   NONE
-;@ learn       8, POISON_STING
+;@ learn       6, SAND_ATTACK
+;@ learn       9, POISON_STING
 ;@ learn       12, MUD_BOMB
-;@ learn       16, SAND_ATTACK
-;@ learn       20, BULK_UP
-;@ learn       25, BLOOD_RUSH
-;@ learn       30, BODY_SLAM
-;@ learn       35, BARRIER
-;@ learn       40, EARTHQUAKE
-;@ learn       46, REST
-;@ learn       52, SLUDGE_BOMB
-;@ learn       58, METEOR_DRIVE
+;@ learn       15, POISON_FANG
+;@ learn       19, HEADBUTT
+;@ learn       24, BULK_UP
+;@ learn       30, MUDSLIDE
+;@ learn       36, SLUDGE_BOMB
+;@ learn       44, DOUBLE_EDGE
+;@ learn       52, PISTON_KICK
+;@ tutor       PISTON_KICK
+;@ tutor       METEOR_DRIVE

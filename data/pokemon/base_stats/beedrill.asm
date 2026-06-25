@@ -1,6 +1,6 @@
 	db DEX_BEEDRILL ; pokedex id
 
-	db  60,  80,  40, 135,  60
+	db  60,  80,  40, 135,  50
 	;   hp  atk  def  spd  spc
 
 	db BUG, POISON ; type
@@ -14,31 +14,36 @@
 	db GROWTH_MEDIUM_FAST ; growth rate
 
 	tmhm \
-	ADAPTATION,\
-	ROOST,\
-	MUD_BOMB,\
-	PIN_MISSILE,\
-	TOXIC,\
 	HONE_EDGE,\
 	DISABLE,\
+	SWORDS_DANCE,\
+	SHADOW_GAME,\
+	TOXIC,\
+	SLUDGE_BOMB,\
+	QUICK_ATTACK,\
 	DOUBLE_EDGE,\
 	HYPER_BEAM,\
-	CALM_MIND,\
-	BARRIER,\
-	SOLARBEAM,\ 
-	MEGA_DRAIN,\
-	SWORDS_DANCE,\
-	REFLECT,\
-	BULK_UP,\
-	ILL_WIND,\
-	SHADOW_BALL,\
+	MUD_BOMB,\
+	DIG,\
+	FINISHER,\
 	DEMOLISH,\
+	BULK_UP,\
+	REFLECT,\
 	LIGHT_SCREEN,\
+	ILL_WIND,\
+	SHADOW_BOX,\
+	BARRIER,\
+	BRAVE_BIRD,\
 	THUNDER_WAVE,\
-	SHADOW_GAME,\
-	ROCK_ON,\
 	SUBSTITUTE,\
+	ADAPTATION,\
+	VOID_MIND,\
+	PSYCHO_SHIFT,\
+	ROOST,\
+	PIN_MISSILE,\
+	LEECH_LIFE,\
 	CLAY_ARMOR,\
+	ROCK_ON,\
 	CUT,\
 	FLY
 	; end
@@ -62,14 +67,13 @@
 ;@ evo_react   "Stingers gleam," "sharp and ready!"
 ;@ evo_react   "Wings buzz fast" "in an angry blur!"
 ;@ evo_react   "It darts in," "lances flashing!"
-;@ learn       10, PIN_MISSILE
-;@ learn       10, SUPERSONIC
-;@ learn       14, FOCUS_ENERGY
-;@ learn       17, ILL_WIND
-;@ learn       22, BLOOD_RUSH
-;@ learn       25, OUTRAGE
-;@ learn       30, AGILITY
-;@ learn       35, TWINEEDLE
-;@ learn       40, AIR_DRILL
-;@ learn       47, VENOM_DRILL
-;@ learn       50, CRYSTALLIZE
+;@ learn       12, SUPERSONIC
+;@ learn       15, AGILITY
+;@ learn       18, ILL_WIND
+;@ learn       23, BLOOD_RUSH
+;@ learn       31, AIR_DRILL
+;@ learn       42, FOCUS_ENERGY
+;@ learn       49, TWINEEDLE
+;@ learn       55, CRYSTALLIZE
+;@ learn       58, VENOM_DRILL
+;@ tutor       HURRICANE

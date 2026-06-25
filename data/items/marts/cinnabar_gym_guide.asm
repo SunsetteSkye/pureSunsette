@@ -5,6 +5,6 @@
 CinnabarGymGuideTMShop1:
 	script_mart TM_BLAINE
 CinnabarGymGuideTMShop3:
-	script_mart TM_BLAINE, TM_MIRAGE
+	script_mart TM_BLAINE, TM_HEAT_RUSH
 CinnabarGymGuideTMShop6:
-	script_mart TM_BLAINE, TM_MIRAGE, TM_FIRE_BLAST
+	script_mart TM_BLAINE, TM_HEAT_RUSH, TM_FIRE_BLAST

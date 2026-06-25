@@ -15,6 +15,7 @@
 
 	; tm/hm learnset
 	tmhm \
+	LEAP_ATTACK,\
 	ADAPTATION,\
 	ROOST,\
 	BLAZE_HAMMER,\
@@ -26,18 +27,17 @@
 	ICE_BEAM,\
 	BLIZZARD,\
 	HYPER_BEAM,\
-	SOLARBEAM,\ 
+	SOLARBEAM,\
 	WYRM_WRATH,\
 	THUNDERBOLT,\
 	THUNDER,\
 	RIPTIDE,\
-	MIRAGE,\
 	REFLECT,\
 	BULK_UP,\
 	ILL_WIND,\
 	SHADOW_BALL,\
 	FIRE_BLAST,\
-	TWISTER,\
+	TEMPEST,\
 	DEMOLISH,\
 	BRAVE_BIRD,\
 	LIGHT_SCREEN,\
@@ -70,9 +70,13 @@
 ;@ evo_react   "It beats its wings" "and rises high!"
 ;@ learn       25, RIPTIDE
 ;@ learn       29, AURORA_MIST
-;@ learn       33, TWISTER
+;@ learn       33, TEMPEST
 ;@ learn       38, BLITZ_STRIKE
 ;@ learn       46, AGILITY
 ;@ learn       47, HURRICANE
 ;@ learn       52, HYPER_BEAM
-;@ learn       60, OUTRAGE
+;@ learn       60, INDIGNATION
+;@ tutor       CLOBBERCLOCK
+;@ tutor       PISTON_KICK
+;@ tutor       HURRICANE
+;@ tutor       METEOR_DRIVE

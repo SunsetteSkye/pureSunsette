@@ -81,11 +81,11 @@ SwiftLearnset:
 	dbit TRUE  ; RAPIDASH   ; 78
 	dbit FALSE ; SLOWPOKE   ; 79
 	dbit FALSE ; SLOWBRO    ; 80
-	dbit FALSE ; MAGNEMITE  ; 81
-	dbit FALSE ; MAGNETON   ; 82
+	dbit TRUE  ; MAGNEMITE  ; 81
+	dbit TRUE  ; MAGNETON   ; 82
 	dbit TRUE  ; FARFETCHD  ; 83
-	dbit FALSE ; DODUO      ; 84
-	dbit FALSE ; DODRIO     ; 85
+	dbit TRUE  ; DODUO      ; 84
+	dbit TRUE  ; DODRIO     ; 85
 	dbit TRUE  ; SEEL       ; 86
 	dbit TRUE  ; DEWGONG    ; 87
 	dbit FALSE ; GRIMER     ; 88

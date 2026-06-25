@@ -187,6 +187,18 @@ _CalmMindCalmedText::
 	line "cleared its mind!"
 	prompt
 
+; Sunsette: ENERGY FLUX - the capacitor setup turn (type2->FLOATING, SPECIAL +2, ENERGIZED armed)
+_EnergyFluxChargeText::
+	text "It crackled with"
+	line "stored energy!"
+	prompt
+
+; Sunsette: ENERGY FLUX - the charge bursts when the user lands a special-typed hit (types + stats reset)
+_EnergyFluxDischargeText::
+	text "The stored charge"
+	line "burst free!"
+	prompt
+
 ; Sunsette: UNLEASH RAGE burns off the user's own status/confusion on a damaging hit
 _UnleashRageClearText::
 	text "The fury burned"
@@ -200,7 +212,7 @@ _StrengthTooHeavyText::
 	prompt
 
 ; Sunsette: SHORYUKEN strips a FLYING/FLOATING target's air type (grounds it)
-_ShoryukenGroundText::
+_TempestGroundText::
 	text "The foe crashed"
 	line "down to earth!"
 	prompt
@@ -247,7 +259,7 @@ _BlackHazeFogText::
 	line "blankets all!"
 	prompt
 
-; Sunsette: EMETIC PURGE (POISON_GAS) - one-sided revenge stat clear (+ poison). Neutral "its/it" both ways.
+; Sunsette: EMETIC PURGE - one-sided revenge stat clear (+ poison). Neutral "its/it" both ways.
 _MiasmaScatterText::
 	text "The purge voided"
 	line "its gathered"
@@ -257,6 +269,13 @@ _MiasmaScatterText::
 _MiasmaPoisonedText::
 	text "It was left"
 	line "poisoned and ill!"
+	prompt
+
+; Sunsette: PSYCHO SHIFT - the user casts its own ailments onto the foe. Neutral "its" both ways.
+_PsychoShiftText::
+	text "Its afflictions"
+	line "were cast onto"
+	cont "the foe!"
 	prompt
 
 ; Sunsette: SENBONZAKURA (PETAL_DANCE) - the petal storm resets the user's own stats, then a lingering bloom
@@ -301,7 +320,7 @@ _AuroraMistScreenText::
 	line "of frost arise!"
 	prompt
 
-; Sunsette: METAMORPHIC (EXPLOSION) - a ROCK user breaks its shell, sheds ROCK, and surges to +6 SPEED
+; Sunsette: OROCLASM (EXPLOSION) - a ROCK user breaks its shell, sheds ROCK, and surges to +6 SPEED
 _MetamorphicText::
 	text "The shell broke!"
 	line "SPEED unleashed!"
@@ -381,7 +400,7 @@ _MoveMysticSnorlaxText::
 	cont "boost!"
 	done
 
-; Sunsette: KANGASKHAN's DIZZY PUNCH signature (90 BP, up from 70) - uses the generic power-increase info path
+; Sunsette: KANGASKHAN's CLOBBERCLOCK signature (90 BP, up from 70) - uses the generic power-increase info path
 _KangaskhanMoveMysticText::
 	text_start
 	line "maternal mauler."
@@ -429,6 +448,28 @@ _MoveMysticClefairyText::
 	cont "stats at random!"
 	done
 
+; Sunsette: FARFETCH'D - a GRASS type whose critical hits keep the old NORMAL-type punch (2x, not 1.5x).
+; Shared epithet (_FarfetchdMoveMysticText) + detailed info (_MoveMysticFarfetchdText).
+_FarfetchdMoveMysticText::
+	text_start
+	line "wily leek fencer."
+	prompt
+
+_MoveMysticFarfetchdText::
+	text "It wields its leek"
+	line "like a born"
+	cont "swordsman!"
+
+	para "It may be a GRASS"
+	line "type, but it finds"
+	cont "the vital points."
+
+	para "Its critical hits"
+	line "strike for DOUBLE,"
+	cont "like a NORMAL"
+	cont "#MON's blows!"
+	done
+
 ; Sunsette: SEAKING (and the GOLDEEN/GYARADOS line) - RIPTIDE always raises the user's SPEED.
 _MoveMysticRiptideText::
 	text "It rides the ocean"
@@ -440,28 +481,27 @@ _MoveMysticRiptideText::
 	cont "SPEED!"
 	done
 
-; Sunsette: WEEZING - SLUDGE BOMB burns instead of poisoning (FIRE types are immune, so they get poisoned).
-_MoveMysticWeezingBurnText::
-	text "Its gases burn as"
-	line "much as they"
-	cont "poison!"
+; Sunsette: WEEZING - its signature FLAMETHROWER gets STAB (1.5x) even though Weezing is POISON, not FIRE.
+_MoveMysticWeezingFlamethrowerText::
+	text "Its toxic gases"
+	line "ignite with ease!"
 
-	para "Its SLUDGE BOMB"
-	line "scorches the foe"
-	cont "with a BURN!"
+	para "Its FLAMETHROWER"
+	line "blazes with"
+	cont "borrowed power!"
 
-	para "FIRE types shrug"
-	line "it off, so they"
-	cont "get POISONED."
+	para "It strikes as if"
+	line "WEEZING were a"
+	cont "FIRE-type itself!"
 	done
 
-; Sunsette: shared by EKANS + ARBOK (the Ekans line's ACID priority signature).
+; Sunsette: shared by EKANS + ARBOK (the line's FOCUS ENERGY coil-and-heal signature).
 _MoveMysticArbokText::
-	text "When it spits ACID"
-	line "the strike lands"
-	cont "first, always!"
+	text "Its FOCUS ENERGY"
+	line "is no mere coil!"
 
-	para "A reflex too quick"
-	line "for most foes to"
-	cont "ever react to."
+	para "It mends a"
+	line "quarter of its"
+	cont "health as it"
+	cont "coils to strike."
 	done

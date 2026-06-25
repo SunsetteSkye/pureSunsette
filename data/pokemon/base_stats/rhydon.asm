@@ -28,7 +28,7 @@
 	ICE_BEAM,\
 	BLIZZARD,\
 	HYPER_BEAM,\
-	LOW_KICK,\
+	FINISHER,\
 	ZAPPERCUT,\
 	METEOR_SWEEP,\
 	BARRIER,\
@@ -37,7 +37,6 @@
 	THUNDER,\
 	EARTHQUAKE,\
 	DIG,\
-	MIRAGE,\
 	SWORDS_DANCE,\
 	BULK_UP,\
 	SHADOW_BALL,\
@@ -79,6 +78,10 @@
 ;@ learn       36, PISTON_KICK
 ;@ learn       39, ROCK_SLIDE
 ;@ learn       42, EARTHQUAKE
-;@ learn       47, METAMORPHIC
+;@ learn       47, OROCLASM
 ;@ learn       52, AIR_DRILL
 ;@ learn       56, SPIKE_CANNON
+;@ tutor       PAY_DAY
+;@ tutor       CLOBBERCLOCK
+;@ tutor       PISTON_KICK
+;@ tutor       METEOR_DRIVE

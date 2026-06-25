@@ -84,12 +84,6 @@ TypeEffects:
 	db GRASS,        DRAGON,       NOT_VERY_EFFECTIVE
 	db ICE,          DRAGON,       SUPER_EFFECTIVE
 	db DRAGON,       DRAGON,       SUPER_EFFECTIVE
-	db TRI,          FIRE, 		   NOT_VERY_EFFECTIVE
-	db TRI,          FLYING,       SUPER_EFFECTIVE
-	db TRI,          GRASS,        SUPER_EFFECTIVE
-	db TRI,          ELECTRIC,     NOT_VERY_EFFECTIVE
-	db TRI,          ROCK,         NOT_VERY_EFFECTIVE
-	db TRI,          BUG,          SUPER_EFFECTIVE
 	db WATER,        CRYSTAL,      NOT_VERY_EFFECTIVE
 	db ICE,          CRYSTAL,      NOT_VERY_EFFECTIVE
 	db FIRE,         CRYSTAL,      NOT_VERY_EFFECTIVE
@@ -98,7 +92,6 @@ TypeEffects:
 	db POISON,       CRYSTAL,      NOT_VERY_EFFECTIVE
 	db GROUND,       CRYSTAL,      SUPER_EFFECTIVE
 	db FLYING,       CRYSTAL,      NOT_VERY_EFFECTIVE
-	db TRI,          CRYSTAL,      NOT_VERY_EFFECTIVE
 	db FLYING,       FLOATING,     SUPER_EFFECTIVE
 	db GROUND,       FLOATING,     NO_EFFECT
 	db BONEMERANG_TYPE,   FIRE,         SUPER_EFFECTIVE

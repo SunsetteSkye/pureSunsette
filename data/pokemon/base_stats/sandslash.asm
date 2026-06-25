@@ -1,6 +1,6 @@
 	db DEX_SANDSLASH ; pokedex id
 
-	db  75, 105, 105,  91,  40
+	db  75, 100, 110,  65,  55
 	;   hp  atk  def  spd  spc
 
 	db GROUND, NORMAL ; type
@@ -15,34 +15,39 @@
 
 	; tm/hm learnset
 	tmhm \
-	ADAPTATION,\
-	FROST_FIST,\
-	MUD_BOMB,\
-	PIN_MISSILE,\
-	BLAZE_HAMMER,\
-	TOXIC,\
 	HONE_EDGE,\
-	BODY_SLAM,\
 	DISABLE,\
+	SWORDS_DANCE,\
+	SHADOW_GAME,\
+	TOXIC,\
+	SLUDGE_BOMB,\
+	BODY_SLAM,\
+	QUICK_ATTACK,\
 	DOUBLE_EDGE,\
 	HYPER_BEAM,\
-	LOW_KICK,\
 	ZAPPERCUT,\
-	METEOR_SWEEP,\
-	BARRIER,\
+	FROST_FIST,\
+	BLAZE_HAMMER,\
+	SEISMIC_TOSS,\
 	EARTHQUAKE,\
+	MUD_BOMB,\
 	DIG,\
-	MEGA_DRAIN,\
-	SWORDS_DANCE,\
-	BULK_UP,\
-	SHADOW_BALL,\
+	FINISHER,\
 	DEMOLISH,\
-	VOID_MIND,\
-	SHADOW_GAME,\
+	BULK_UP,\
+	REFLECT,\
+	LIGHT_SCREEN,\
+	HEAT_RUSH,\
+	BARRIER,\
+	METEOR_SWEEP,\
 	ROCK_SLIDE,\
-	ROCK_ON,\
+	OROCLASM,\
 	SUBSTITUTE,\
+	ADAPTATION,\
+	LEAP_ATTACK,\
+	PIN_MISSILE,\
 	CLAY_ARMOR,\
+	ROCK_ON,\
 	CUT,\
 	STRENGTH
 	; end
@@ -65,13 +70,17 @@
 ;@ evo_react   "It curls up tight," "spikes bristling!"
 ;@ evo_react   "It rakes the dirt," "claws gleaming!"
 ;@ evo_react   "Spines snap up" "along its back!"
-;@ learn       10, MUD_CLAW
-;@ learn       12, SAND_ATTACK
-;@ learn       14, PIN_MISSILE
+;@ learn       8, SAND_ATTACK
+;@ learn       13, BULLDOZE
 ;@ learn       17, ROCK_ON
-;@ learn       20, DIG
-;@ learn       24, SWIFT
-;@ learn       29, TWINEEDLE
-;@ learn       35, AGILITY
-;@ learn       43, EARTHQUAKE
-;@ learn       51, SLASH
+;@ learn       22, SWIFT
+;@ learn       27, AGILITY
+;@ learn       32, DIG
+;@ learn       37, TWINEEDLE
+;@ learn       43, SLASH
+;@ learn       47, FOCUS_ENERGY
+;@ learn       52, EARTHQUAKE
+;@ learn       58, SPIKE_CANNON
+;@ tutor       PAY_DAY
+;@ tutor       PISTON_KICK
+;@ tutor       METEOR_DRIVE

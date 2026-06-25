@@ -15,31 +15,40 @@
 
 	; tm/hm learnset
 	tmhm \
-	ADAPTATION,\
-	MUD_BOMB,\
-	PIN_MISSILE,\
-	TOXIC,\
 	HONE_EDGE,\
-	BODY_SLAM,\
 	DISABLE,\
-	DOUBLE_EDGE,\
+	SWORDS_DANCE,\
 	AURORA_MIST,\
+	SHADOW_GAME,\
+	TOXIC,\
+	SLUDGE_BOMB,\
+	BODY_SLAM,\
+	QUICK_ATTACK,\
+	DOUBLE_EDGE,\
 	HYPER_BEAM,\
-	LOW_KICK,\
-	METEOR_SWEEP,\
-	BARRIER,\
+	SEISMIC_TOSS,\
 	THUNDERBOLT,\
 	THUNDER,\
+	MUD_BOMB,\
 	DIG,\
-	SWORDS_DANCE,\
-	BULK_UP,\
-	SHADOW_BALL,\
+	FINISHER,\
 	DEMOLISH,\
-	VOID_MIND,\
+	BULK_UP,\
 	LIGHT_SCREEN,\
-	SHADOW_GAME,\
-	ROCK_ON,\
+	SHADOW_BALL,\
+	SHADOW_BOX,\
+	BARRIER,\
+	ENERGY_FLUX,\
+	METEOR_SWEEP,\
 	SUBSTITUTE,\
+	ADAPTATION,\
+	CALM_MIND,\
+	VOID_MIND,\
+	PSYCHO_SHIFT,\
+	LOVELY_KISS,\
+	LEAP_ATTACK,\
+	PIN_MISSILE,\
+	ROCK_ON,\
 	CUT,\
 	STRENGTH,\
 	FLASH
@@ -64,13 +73,19 @@
 ;@ evo_react   "It licks a paw," "calm and proud."
 ;@ evo_react   "Its gem flashes" "with a sly gleam."
 ;@ evo_react   "Its back arches," "fur bristling."
-;@ learn       8, LICK
-;@ learn       10, MUD_CLAW
-;@ learn       12, BITE
-;@ learn       15, DOUBLE_KICK
-;@ learn       17, SCREECH
-;@ learn       21, SWIFT
-;@ learn       25, LEAP_ATTACK
+;@ learn       6, BITE
+;@ learn       10, SCREECH
+;@ learn       14, SWIFT
+;@ learn       18, MUD_CLAW
+;@ learn       23, DISABLE
+;@ learn       28, DOUBLE_KICK
 ;@ learn       33, AGILITY
-;@ learn       45, METEOR_DRIVE
-;@ learn       53, SLASH
+;@ learn       33, SLASH
+;@ learn       39, LEAP_ATTACK
+;@ learn       44, COMBOBREAKER
+;@ learn       55, SOULSTEALER
+;@ tutor       PAY_DAY
+;@ tutor       PISTON_KICK
+;@ tutor       METEOR_DRIVE
+;@ tutor       SWIFT
+;@ tutor       SCREECH

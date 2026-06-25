@@ -31,7 +31,7 @@ MoveRelearnerScript::
 	; load [level, move] pairs into wLearnsetList, count into wDexLearnsetListCount
 	xor a
 	ld [wDexLearnsetListCount], a ; in case the loader bails on an over-long learnset
-	callfar LoadLevelUpLearnsetIntoWRAM
+	callfar LoadLearnsetWithPreEvosIntoWRAM ; current mon's learnset + every pre-evolution's
 	call RelearnerFilterLearnset ; compact wLearnsetList to relearnable entries; wDexLearnsetListCount = kept
 	ld a, [wDexLearnsetListCount]
 	and a
@@ -56,10 +56,13 @@ MoveRelearnerScript::
 	; look up that entry's learn level (still stored in the [level, move] pairs at the front)
 	ld a, [wWhichPokemon]
 	call RelearnerPtrFromIndex ; hl = wLearnsetList + 2*index
-	ld a, [hl] ; learn level (0 = base move)
+	ld a, [hl] ; learn level (0 = base move, EVO_MOVE_LEVEL = on-evolution move)
+	cp EVO_MOVE_LEVEL
+	jr z, .chargeAsLevel1
 	and a
 	jr nz, .haveCostLevel
-	inc a ; base move -> charge as level 1
+.chargeAsLevel1
+	ld a, 1 ; base / on-evolution move -> charge as level 1
 .haveCostLevel
 	call RelearnerSetCost ; a (1..100) -> hMoney as level*100 in BCD
 	; show cost + confirm
@@ -128,9 +131,12 @@ RelearnerFilterLearnset:
 	call RelearnerReadPtr ; hl = wLearnsetList + 2*e
 	ld a, [hli] ; entry level
 	ld d, a
+	cp EVO_MOVE_LEVEL
+	jr z, .withinLevel ; on-evolution move ($FF): always within reach
 	ld a, [wRelearnerLevel] ; mon's current level
 	cp d ; carry if currentLevel < entryLevel
 	jr c, .next ; learns too high -> skip
+.withinLevel
 	ld a, [hl] ; entry move
 	ld d, a ; d = candidate move (helpers read d)
 	push bc
@@ -159,6 +165,11 @@ RelearnerFilterLearnset:
 	ld [hli], a ; level
 	ld [hl], d ; move
 	inc c
+	; cap the kept list: the move-list menu is built at wLearnsetList + 2*K and needs
+	; 3*K + 2 <= 56 bytes, so K must stay <= 18 (matters now that pre-evo moves are merged in)
+	ld a, c
+	cp 18
+	jr nc, .done
 .next
 	inc e
 	jr .loop

@@ -1,6 +1,6 @@
 	db DEX_FEAROW ; pokedex id
 
-	db  95, 100,  65,  80,  81
+	db  65,  90,  65, 100,  81
 	;   hp  atk  def  spd  spc
 
 	db GHOST, FLYING ; type
@@ -15,27 +15,35 @@
 
 	; tm/hm learnset
 	tmhm \
-	ROOST,\
-	PIN_MISSILE,\
-	TOXIC,\
 	HONE_EDGE,\
-	BODY_SLAM,\
 	DISABLE,\
-	DOUBLE_EDGE,\
-	AURORA_MIST,\
-	HYPER_BEAM,\
-	LOW_KICK,\
-	BARRIER,\
-	DIG,\
 	SWORDS_DANCE,\
-	REFLECT,\
+	AURORA_MIST,\
+	SHADOW_GAME,\
+	TOXIC,\
+	SLUDGE_BOMB,\
+	BODY_SLAM,\
+	DOUBLE_EDGE,\
+	HYPER_BEAM,\
+	SEISMIC_TOSS,\
+	MUD_BOMB,\
+	FINISHER,\
 	BULK_UP,\
+	REFLECT,\
 	ILL_WIND,\
 	SHADOW_BALL,\
-	TWISTER,\
+	SHADOW_BOX,\
+	BARRIER,\
 	BRAVE_BIRD,\
-	SHADOW_GAME,\
 	SUBSTITUTE,\
+	RAZOR_LEAF,\
+	ADAPTATION,\
+	CALM_MIND,\
+	VOID_MIND,\
+	ROOST,\
+	LEAP_ATTACK,\
+	PIN_MISSILE,\
+	TEMPEST,\
 	CUT,\
 	FLY,\
 	STRENGTH
@@ -63,11 +71,14 @@
 ;@ learn       9, LEER
 ;@ learn       13, MUD_CLAW
 ;@ learn       18, WING_ATTACK
-;@ learn       22, ILL_WIND
-;@ learn       26, MOCKINGBIRD
-;@ learn       30, BLOOD_RUSH
+;@ learn       23, MOCKINGBIRD
+;@ learn       27, PHANTASM
 ;@ learn       33, AIR_DRILL
-;@ learn       37, PHANTASM
-;@ learn       42, AGILITY
-;@ learn       48, DOUBLE_EDGE
-;@ learn       55, SPIKE_CANNON
+;@ learn       38, BLOOD_RUSH
+;@ learn       44, CONFUSE_RAY
+;@ learn       50, SOULSTEALER
+;@ learn       56, BRAVE_BIRD
+;@ tutor       HURRICANE
+;@ tutor       METEOR_DRIVE
+;@ tutor       EGG_BOMB
+;@ tutor       SCREECH

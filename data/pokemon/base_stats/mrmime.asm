@@ -24,16 +24,15 @@
 	AURORA_MIST,\
 	HYPER_BEAM,\
 	CALM_MIND,\
-	LOW_KICK,\
+	FINISHER,\
 	ZAPPERCUT,\
 	METEOR_SWEEP,\
 	BARRIER,\
-	SOLARBEAM,\ 
+	SOLARBEAM,\
 	THUNDERBOLT,\
 	THUNDER,\
 	RIPTIDE,\
 	PSYCHIC_M,\
-	MIRAGE,\
 	REFLECT,\
 	BULK_UP,\
 	ILL_WIND,\
@@ -77,3 +76,10 @@
 ;@ learn       44, ILL_WIND
 ;@ learn       48, SUBSTITUTE
 ;@ learn       53, MIMIC
+;@ tutor       TRI_ATTACK
+;@ tutor       SOULSTEALER
+;@ tutor       TELEPORT
+;@ tutor       CLOBBERCLOCK
+;@ tutor       PISTON_KICK
+;@ tutor       METEOR_DRIVE
+;@ tutor       SWIFT

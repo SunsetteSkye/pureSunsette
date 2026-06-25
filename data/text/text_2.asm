@@ -672,7 +672,9 @@ _ViridianBlackboardBurnText::
 	line "the ATTACK stat."
 	cont "It also causes"
 	cont "ongoing damage."
-	cont "FIRE is immune."
+
+	para "FIRE and WATER"
+	line "types are immune."
 
 	para "Burns remain"
 	line "after battles."

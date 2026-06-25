@@ -10,46 +10,57 @@
 	INCBIN "gfx/pokemon/front/nidoqueen.pic", 0, 1 ; sprite dimensions
 	dw NidoqueenPicFront, NidoqueenPicBackSW
 
-	db TACKLE, GROWL, NO_MOVE, NO_MOVE ; level 1 learnset
+	db TACKLE, GROWL, BULLDOZE, NO_MOVE ; level 1 learnset
 	db GROWTH_MEDIUM_SLOW ; growth rate
 
 	; tm/hm learnset
 	tmhm \
-	ADAPTATION,\
-	FROST_FIST,\
-	MUD_BOMB,\
-	PIN_MISSILE,\
-	BLAZE_HAMMER,\
-	TOXIC,\
-	BODY_SLAM,\
 	DISABLE,\
+	SHADOW_GAME,\
+	TOXIC,\
+	SLUDGE_BOMB,\
+	BODY_SLAM,\
 	DOUBLE_EDGE,\
+	WATER_PULSE,\
+	SUPER_SOAK,\
 	ICE_BEAM,\
 	BLIZZARD,\
 	HYPER_BEAM,\
-	LOW_KICK,\
 	ZAPPERCUT,\
-	METEOR_SWEEP,\
-	BARRIER,\
+	FROST_FIST,\
+	BLAZE_HAMMER,\
+	SEISMIC_TOSS,\
 	WYRM_WRATH,\
 	THUNDERBOLT,\
 	THUNDER,\
 	EARTHQUAKE,\
+	MUD_BOMB,\
 	DIG,\
-	MIRAGE,\
-	REFLECT,\
-	BULK_UP,\
-	ILL_WIND,\
-	SHADOW_BALL,\
-	FIRE_BLAST,\
+	FINISHER,\
 	DEMOLISH,\
-	LOVELY_KISS,\
+	BULK_UP,\
+	REFLECT,\
 	LIGHT_SCREEN,\
-	SHADOW_GAME,\
+	HEAT_RUSH,\
+	FLAMETHROWER,\
+	FIRE_BLAST,\
+	ILL_WIND,\
+	SHADOW_BOX,\
+	BARRIER,\
+	METEOR_SWEEP,\
 	ROCK_SLIDE,\
-	ROCK_ON,\
+	OROCLASM,\
 	SUBSTITUTE,\
+	AQUA_RING,\
+	RAZOR_LEAF,\
+	ADAPTATION,\
+	CALM_MIND,\
+	VOID_MIND,\
+	PSYCHO_SHIFT,\
+	LEAP_ATTACK,\
+	PIN_MISSILE,\
 	CLAY_ARMOR,\
+	ROCK_ON,\
 	CUT,\
 	SURF,\
 	STRENGTH
@@ -73,14 +84,12 @@
 ;@ evo_react   "It rears up tall," "scales flaring!"
 ;@ evo_react   "It lashes its tail" "like a club!"
 ;@ evo_react   "It bellows out," "fierce and grand!"
-;@ learn       8, POISON_STING
-;@ learn       12, MUD_BOMB
-;@ learn       16, SAND_ATTACK
-;@ learn       20, BULK_UP
-;@ learn       25, BLOOD_RUSH
 ;@ learn       30, BODY_SLAM
-;@ learn       35, BARRIER
-;@ learn       40, EARTHQUAKE
-;@ learn       46, REST
-;@ learn       52, SLUDGE_BOMB
-;@ learn       58, METEOR_DRIVE
+;@ learn       36, REST
+;@ learn       42, VENOM_LASH
+;@ learn       48, EARTHQUAKE
+;@ learn       55, INDIGNATION
+;@ tutor       PAY_DAY
+;@ tutor       CLOBBERCLOCK
+;@ tutor       PISTON_KICK
+;@ tutor       METEOR_DRIVE

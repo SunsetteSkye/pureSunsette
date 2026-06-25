@@ -234,58 +234,72 @@ ItemSortedList:
 	db NUGGET
 	db OLD_COIN
 	; TMs / HMs
-	db TM_FROST_FIST   	; $C9
-	db TM_ROOST   ; $CA ROOST
-	db TM_MUD_BOMB 	; $CB
-	db TM_PIN_MISSILE  ; $CC
-	db TM_BLAZE_HAMMER   ; $CD
-	db TM_TOXIC        ; $CE
-	db TM_HONE_EDGE   ; $CF
-	db TM_BODY_SLAM    ; $D0
-	db TM_DISABLE    	; $D1
-	db TM_DOUBLE_EDGE  ; $D2
-	db TM_AQUA_RING   ; $D3
-	db TM_AURORA_MIST  ; $D4
-	db TM_ICE_BEAM     ; $D5
-	db TM_BLIZZARD     ; $D6
-	db TM_HYPER_BEAM   ; $D7
-	db TM_CALM_MIND      ; $D8
-	db TM_LOW_KICK     ; $D9 ; LOW KICK
-	db TM_ZAPPERCUT ; $DA
-	db TM_METEOR_SWEEP ; $DB
-	db TM_BARRIER      ; $DC
-	db TM_ADAPTATION   ; $DD
-	db TM_SOLARBEAM    ; $DE (SOLARBEAM)
-	db TM_WYRM_WRATH  ; $DF
-	db TM_THUNDERBOLT  ; $E0
-	db TM_THUNDER      ; $E1
-	db TM_EARTHQUAKE   ; $E2
-	db TM_RIPTIDE	; $E3 ; Sunsette: TM28 now RIPTIDE (WATERFALL)
-	db TM_DIG          ; $E4
-	db TM_PSYCHIC_M    ; $E5
-	db TM_MEGA_DRAIN   ; $E6
-	db TM_MIRAGE      ; $E7 MIRAGE
-	db TM_SWORDS_DANCE ; $E8
-	db TM_REFLECT      ; $E9
-	db TM_BULK_UP         ; $EA
-	db TM_ILL_WIND    	; $EB
-	db TM_SHADOW_BALL 		; $EC
-	db TM_SUPERNOVA ; $ED
-	db TM_FIRE_BLAST   ; $EE
-	db TM_TWISTER        	; $EF
-	db TM_DEMOLISH  ; $F0
-	db TM_VOID_MIND   	; $F1
-	db TM_LOVELY_KISS  ; $F2
-	db TM_BRAVE_BIRD   ; $F3
-	db TM_LIGHT_SCREEN ; $F4
-	db TM_THUNDER_WAVE ; $F5
-	db TM_SKITTERMIND      ; $F6 ; SKITTERMIND
-	db TM_SHADOW_GAME      	; $F7 (SHADOW GAME; was SLUDGE BOMB)
-	db TM_ROCK_SLIDE   ; $F8
-	db TM_ROCK_ON	; $F9
-	db TM_SUBSTITUTE   ; $FA
-	db TM_CLAY_ARMOR      ; $FB (CLAY ARMOR; Sunsette TM51)
-	db HM_CUT          ; $C4
+	db TM_HONE_EDGE    ; TM01
+	db TM_DISABLE      ; TM02
+	db TM_SWORDS_DANCE ; TM03
+	db TM_AURORA_MIST  ; TM04
+	db TM_SHADOW_GAME  ; TM05
+	db TM_TOXIC        ; TM06
+	db TM_SLUDGE_BOMB  ; TM07
+	db TM_BODY_SLAM    ; TM08
+	db TM_QUICK_ATTACK ; TM09
+	db TM_DOUBLE_EDGE  ; TM10
+	db TM_WATER_PULSE  ; TM11
+	db TM_SUPER_SOAK   ; TM12
+	db TM_ICE_BEAM     ; TM13
+	db TM_BLIZZARD     ; TM14
+	db TM_HYPER_BEAM   ; TM15
+	db TM_ZAPPERCUT    ; TM16
+	db TM_FROST_FIST   ; TM17
+	db TM_BLAZE_HAMMER ; TM18
+	db TM_SEISMIC_TOSS ; TM19
+	db TM_GIGA_DRAIN   ; TM20
+	db TM_MEGA_DRAIN   ; TM21
+	db TM_SOLARBEAM    ; TM22
+	db TM_WYRM_WRATH   ; TM23
+	db TM_THUNDERBOLT  ; TM24
+	db TM_THUNDER      ; TM25
+	db TM_EARTHQUAKE   ; TM26
+	db TM_MUD_BOMB     ; TM27
+	db TM_DIG          ; TM28
+	db TM_PSYCHIC_M    ; TM29
+	db TM_FINISHER     ; TM30
+	db TM_DEMOLISH     ; TM31
+	db TM_BULK_UP      ; TM32
+	db TM_REFLECT      ; TM33
+	db TM_LIGHT_SCREEN ; TM34
+	db TM_HEAT_RUSH    ; TM35
+	db TM_SUPERNOVA    ; TM36
+	db TM_FLAMETHROWER ; TM37
+	db TM_FIRE_BLAST   ; TM38
+	db TM_ILL_WIND     ; TM39
+	db TM_SHADOW_BALL  ; TM40
+	db TM_SHADOW_BOX   ; TM41
+	db TM_BARRIER      ; TM42
+	db TM_BRAVE_BIRD   ; TM43
+	db TM_ENERGY_FLUX  ; TM44
+	db TM_THUNDER_WAVE ; TM45
+	db TM_SKITTERMIND  ; TM46
+	db TM_METEOR_SWEEP ; TM47
+	db TM_ROCK_SLIDE   ; TM48
+	db TM_OROCLASM     ; TM49
+	db TM_SUBSTITUTE   ; TM50
+	db TM_RIPTIDE      ; TM51
+	db TM_AQUA_RING    ; TM52
+	db TM_RAZOR_LEAF   ; TM53
+	db TM_ADAPTATION   ; TM54
+	db TM_CALM_MIND    ; TM55
+	db TM_VOID_MIND    ; TM56
+	db TM_PSYCHO_SHIFT ; TM57
+	db TM_LOVELY_KISS  ; TM58
+	db TM_ROOST        ; TM59
+	db TM_LEAP_ATTACK  ; TM60
+	db TM_PIN_MISSILE  ; TM61
+	db TM_LEECH_LIFE   ; TM62
+	db TM_TEMPEST      ; TM63
+	db TM_CLAY_ARMOR   ; TM64
+	db TM_ROCK_ON      ; TM65
+	db HM_CUT          ; $54
 	db HM_FLY          ; $C5
 	db HM_SURF         ; $C6
 	db HM_STRENGTH     ; $C7

@@ -15,34 +15,41 @@
 
 	; tm/hm learnset
 	tmhm \
-	ADAPTATION,\
-	FROST_FIST,\
-	MUD_BOMB,\
-	BLAZE_HAMMER,\
+	DISABLE,\
+	AURORA_MIST,\
+	SHADOW_GAME,\
 	TOXIC,\
 	BODY_SLAM,\
-	DISABLE,\
+	QUICK_ATTACK,\
 	DOUBLE_EDGE,\
-	AURORA_MIST,\
-	CALM_MIND,\
-	LOW_KICK,\
 	ZAPPERCUT,\
-	METEOR_SWEEP,\
-	BARRIER,\
+	BLAZE_HAMMER,\
+	SEISMIC_TOSS,\
 	THUNDERBOLT,\
 	THUNDER,\
-	RIPTIDE,\
+	MUD_BOMB,\
 	DIG,\
-	REFLECT,\
-	BULK_UP,\
-	SHADOW_BALL,\
+	FINISHER,\
 	DEMOLISH,\
-	VOID_MIND,\
+	BULK_UP,\
+	REFLECT,\
 	LIGHT_SCREEN,\
+	HEAT_RUSH,\
+	ILL_WIND,\
+	SHADOW_BOX,\
+	BARRIER,\
+	ENERGY_FLUX,\
 	THUNDER_WAVE,\
-	SHADOW_GAME,\
-	ROCK_ON,\
+	METEOR_SWEEP,\
 	SUBSTITUTE,\
+	RIPTIDE,\
+	RAZOR_LEAF,\
+	ADAPTATION,\
+	CALM_MIND,\
+	VOID_MIND,\
+	PSYCHO_SHIFT,\
+	LEAP_ATTACK,\
+	ROCK_ON,\
 	CUT,\
 	SURF,\
 	FLASH
@@ -63,15 +70,22 @@
 ;@ pal_icon     $FF
 ;@ pal_alticon  $FF
 ;@ evo         EVOLVE_ITEM, THUNDER_STONE, 1, RAICHU
-;@ evo_move    NO_MOVE
+;@ evo_move    ZAPPERCUT
 ;@ evo_react   NONE
-;@ learn       6, TACKLE
+;@ learn       5, QUICK_ATTACK
 ;@ learn       9, THUNDER_WAVE
-;@ learn       12, SPARK
-;@ learn       16, AGILITY
-;@ learn       22, SWIFT
-;@ learn       26, THUNDERBOLT
-;@ learn       31, FOCUS_ENERGY
-;@ learn       36, BLITZ_STRIKE
-;@ learn       45, THUNDER
-;@ learn       52, HYPER_BEAM
+;@ learn       13, SPARK
+;@ learn       18, AGILITY
+;@ learn       23, SWIFT
+;@ learn       28, THUNDERBOLT
+;@ learn       33, FOCUS_ENERGY
+;@ learn       38, ENERGY_FLUX
+;@ learn       44, BLITZ_STRIKE
+;@ learn       50, THUNDER
+;@ learn       56, HYPER_BEAM
+;@ tutor       PAY_DAY
+;@ tutor       TELEPORT
+;@ tutor       CLOBBERCLOCK
+;@ tutor       PISTON_KICK
+;@ tutor       METEOR_DRIVE
+;@ tutor       SWIFT

@@ -15,30 +15,34 @@
 
 	; tm/hm learnset
 	tmhm \
-	FROST_FIST,\
-	BLAZE_HAMMER,\
+	DISABLE,\
+	AURORA_MIST,\
+	SHADOW_GAME,\
 	TOXIC,\
 	BODY_SLAM,\
-	DISABLE,\
 	DOUBLE_EDGE,\
-	AURORA_MIST,\
-	CALM_MIND,\
-	LOW_KICK,\
 	ZAPPERCUT,\
-	METEOR_SWEEP,\
+	FROST_FIST,\
+	BLAZE_HAMMER,\
+	SEISMIC_TOSS,\
 	DIG,\
 	PSYCHIC_M,\
-	MIRAGE,\
-	REFLECT,\
+	FINISHER,\
+	DEMOLISH,\
 	BULK_UP,\
+	REFLECT,\
+	LIGHT_SCREEN,\
 	ILL_WIND,\
 	SHADOW_BALL,\
-	DEMOLISH,\
-	VOID_MIND,\
-	LIGHT_SCREEN,\
+	SHADOW_BOX,\
+	BARRIER,\
+	ENERGY_FLUX,\
 	SKITTERMIND,\
-	SHADOW_GAME,\
+	METEOR_SWEEP,\
 	SUBSTITUTE,\
+	CALM_MIND,\
+	VOID_MIND,\
+	PSYCHO_SHIFT,\
 	FLASH
 	; end
 
@@ -57,5 +61,8 @@
 ;@ pal_icon     $FF
 ;@ pal_alticon  $FF
 ;@ evo         EVOLVE_LEVEL, 16, KADABRA
-;@ evo_move    NO_MOVE
+;@ evo_move    CONFUSION
 ;@ evo_react   NONE
+;@ tutor       TELEPORT
+;@ tutor       CLOBBERCLOCK
+;@ tutor       PISTON_KICK

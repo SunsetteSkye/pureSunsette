@@ -3,7 +3,7 @@
 	db  50,  52,  48,  55,  70
 	;   hp  atk  def  spd  spc
 
-	db WATER, WATER ; type
+	db WATER, PSYCHIC_TYPE ; type
 	db 190 ; catch rate
 	db 80 ; base exp
 
@@ -15,39 +15,52 @@
 
 	; tm/hm learnset
 	tmhm \
-	FROST_FIST,\
-	MUD_BOMB,\
-	BLAZE_HAMMER,\
-	TOXIC,\
 	HONE_EDGE,\
-	BODY_SLAM,\
 	DISABLE,\
+	SWORDS_DANCE,\
+	AURORA_MIST,\
+	SHADOW_GAME,\
+	TOXIC,\
+	SLUDGE_BOMB,\
+	BODY_SLAM,\
+	QUICK_ATTACK,\
 	DOUBLE_EDGE,\
-	AQUA_RING,\
+	WATER_PULSE,\
+	SUPER_SOAK,\
 	ICE_BEAM,\
 	BLIZZARD,\
-	CALM_MIND,\
-	LOW_KICK,\
-	METEOR_SWEEP,\
-	BARRIER,\
-	RIPTIDE,\
+	FROST_FIST,\
+	SEISMIC_TOSS,\
+	GIGA_DRAIN,\
+	MEGA_DRAIN,\
+	MUD_BOMB,\
 	DIG,\
 	PSYCHIC_M,\
-	MEGA_DRAIN,\
-	SWORDS_DANCE,\
-	REFLECT,\
-	BULK_UP,\
-	SHADOW_BALL,\
-	TWISTER,\
+	FINISHER,\
 	DEMOLISH,\
-	VOID_MIND,\
-	LOVELY_KISS,\
-	BRAVE_BIRD,\
+	BULK_UP,\
+	REFLECT,\
 	LIGHT_SCREEN,\
+	SHADOW_BALL,\
+	SHADOW_BOX,\
+	BARRIER,\
+	BRAVE_BIRD,\
+	ENERGY_FLUX,\
 	THUNDER_WAVE,\
 	SKITTERMIND,\
-	SHADOW_GAME,\
+	METEOR_SWEEP,\
 	SUBSTITUTE,\
+	RIPTIDE,\
+	AQUA_RING,\
+	RAZOR_LEAF,\
+	CALM_MIND,\
+	VOID_MIND,\
+	PSYCHO_SHIFT,\
+	LOVELY_KISS,\
+	LEAP_ATTACK,\
+	PIN_MISSILE,\
+	LEECH_LIFE,\
+	TEMPEST,\
 	CUT,\
 	SURF,\
 	STRENGTH,\
@@ -71,16 +84,24 @@
 ;@ evo         EVOLVE_LEVEL, 25, GOLDUCK
 ;@ evo_move    NO_MOVE
 ;@ evo_react   NONE
-;@ learn       10, CONFUSION
-;@ learn       13, SUPER_SOAK
-;@ learn       17, DISABLE
-;@ learn       20, DOUBLESLAP
-;@ learn       23, LOW_KICK
-;@ learn       27, RIPTIDE
-;@ learn       32, METRONOME
-;@ learn       34, SWIFT
-;@ learn       38, CALM_MIND
-;@ learn       44, PSYCHIC_M
-;@ learn       50, TELEPORT
-;@ learn       56, MOCKINGBIRD
-;@ learn       60, HYDRO_PUMP
+;@ learn       6, CONFUSION
+;@ learn       10, SUPER_SOAK
+;@ learn       13, METRONOME
+;@ learn       17, DOUBLESLAP
+;@ learn       22, PSYBEAM
+;@ learn       26, WATER_PULSE
+;@ learn       31, DISABLE
+;@ learn       36, MUDSLIDE
+;@ learn       41, PSYCHOCRISIS
+;@ learn       47, RIPTIDE
+;@ learn       52, ENERGY_FLUX
+;@ learn       58, MOCKINGBIRD
+;@ learn       64, PSYCHIC_M
+;@ tutor       PAY_DAY
+;@ tutor       TELEPORT
+;@ tutor       CLOBBERCLOCK
+;@ tutor       PISTON_KICK
+;@ tutor       METEOR_DRIVE
+;@ tutor       SWIFT
+;@ tutor       EGG_BOMB
+;@ tutor       SCREECH

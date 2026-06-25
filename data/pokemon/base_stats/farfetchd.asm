@@ -10,44 +10,52 @@
 	INCBIN "gfx/pokemon/front/farfetchd.pic", 0, 1 ; sprite dimensions
 	dw FarfetchdPicFront, FarfetchdPicBackSW
 
-	db GUST, BUBBLE, LEER, NO_MOVE
+	db GUST, LEER, NO_MOVE, NO_MOVE
 	db GROWTH_FAST ; growth rate
 
 	; tm/hm learnset
 	tmhm \
-	ROOST,\
-	MUD_BOMB,\
-	PIN_MISSILE,\
-	TOXIC,\
 	HONE_EDGE,\
-	BODY_SLAM,\
 	DISABLE,\
-	DOUBLE_EDGE,\
-	AQUA_RING,\
-	HYPER_BEAM,\
-	LOW_KICK,\
-	METEOR_SWEEP,\
-	BARRIER,\
-	ADAPTATION,\
-	RIPTIDE,\
-	DIG,\
 	SWORDS_DANCE,\
-	REFLECT,\
-	BULK_UP,\
-	ILL_WIND,\
-	SHADOW_BALL,\
-	TWISTER,\
-	DEMOLISH,\
-	VOID_MIND,\
-	BRAVE_BIRD,\
-	LIGHT_SCREEN,\
+	AURORA_MIST,\
 	SHADOW_GAME,\
+	TOXIC,\
+	BODY_SLAM,\
+	QUICK_ATTACK,\
+	DOUBLE_EDGE,\
+	WATER_PULSE,\
+	SUPER_SOAK,\
+	HYPER_BEAM,\
+	GIGA_DRAIN,\
+	MEGA_DRAIN,\
+	MUD_BOMB,\
+	DIG,\
+	FINISHER,\
+	DEMOLISH,\
+	BULK_UP,\
+	REFLECT,\
+	LIGHT_SCREEN,\
+	ILL_WIND,\
+	BARRIER,\
+	BRAVE_BIRD,\
+	SKITTERMIND,\
+	METEOR_SWEEP,\
 	SUBSTITUTE,\
+	RIPTIDE,\
+	AQUA_RING,\
+	RAZOR_LEAF,\
+	ADAPTATION,\
+	VOID_MIND,\
+	ROOST,\
+	LEAP_ATTACK,\
+	PIN_MISSILE,\
+	LEECH_LIFE,\
+	TEMPEST,\
+	ROCK_ON,\
 	CUT,\
 	FLY,\
-	SURF,\
-	STRENGTH,\
-	FLASH
+	SURF
 	; end
 
 
@@ -66,13 +74,19 @@
 ;@ pal_alticon  PAL_ICON_10
 ;@ evo_move    NO_MOVE
 ;@ evo_react   NONE
-;@ learn       15, WING_ATTACK
-;@ learn       17, AGILITY
-;@ learn       19, SOFTBOILED
-;@ learn       22, RAZOR_LEAF
-;@ learn       24, FLY
-;@ learn       27, SWIFT
-;@ learn       31, SWORDS_DANCE
-;@ learn       35, SENBONZAKURA
-;@ learn       40, BRAVE_BIRD
-;@ learn       45, MOCKINGBIRD
+;@ learn       13, WING_ATTACK
+;@ learn       16, AGILITY
+;@ learn       19, RAZOR_LEAF
+;@ learn       22, SOFTBOILED
+;@ learn       26, AIR_DRILL
+;@ learn       30, SWIFT
+;@ learn       34, FOCUS_ENERGY
+;@ learn       38, SENBONZAKURA
+;@ learn       42, MOCKINGBIRD
+;@ learn       47, SLASH
+;@ tutor       PAY_DAY
+;@ tutor       CLOBBERCLOCK
+;@ tutor       PISTON_KICK
+;@ tutor       HURRICANE
+;@ tutor       METEOR_DRIVE
+;@ tutor       SWIFT

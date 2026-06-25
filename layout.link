@@ -46,7 +46,9 @@ ROMX $3
 ROMX $4
 	"NPC Sprites 1"
 	"Font Graphics"
-	"Battle Engine 1"
+	; Sunsette 2026-06-22: "Battle Engine 1" floated out of $4 (removed the bank pin) so the
+	; linker drops it into any bank with room. The 9th per-species TM/HM bitfield byte (68
+	; flags after the TM55-63 batch) grew the floated base-stats data enough to overflow $4.
 ROMX $5
 	"NPC Sprites 2"
 	"Battle Engine 2"

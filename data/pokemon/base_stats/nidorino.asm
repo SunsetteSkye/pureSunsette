@@ -15,31 +15,37 @@
 
 	; tm/hm learnset
 	tmhm \
-	ADAPTATION,\
-	MUD_BOMB,\
-	PIN_MISSILE,\
-	TOXIC,\
 	HONE_EDGE,\
-	BODY_SLAM,\
 	DISABLE,\
+	SWORDS_DANCE,\
+	SHADOW_GAME,\
+	TOXIC,\
+	SLUDGE_BOMB,\
+	BODY_SLAM,\
 	DOUBLE_EDGE,\
+	WATER_PULSE,\
+	SUPER_SOAK,\
 	ICE_BEAM,\
 	BLIZZARD,\
-	METEOR_SWEEP,\
-	BARRIER,\
 	THUNDERBOLT,\
 	THUNDER,\
+	MUD_BOMB,\
 	DIG,\
-	REFLECT,\
-	BULK_UP,\
-	ILL_WIND,\
-	SHADOW_BALL,\
 	DEMOLISH,\
+	BULK_UP,\
+	REFLECT,\
 	LIGHT_SCREEN,\
-	SHADOW_GAME,\
+	HEAT_RUSH,\
+	ILL_WIND,\
+	BARRIER,\
+	METEOR_SWEEP,\
 	ROCK_SLIDE,\
 	SUBSTITUTE,\
+	ADAPTATION,\
+	LEAP_ATTACK,\
+	PIN_MISSILE,\
 	CLAY_ARMOR,\
+	ROCK_ON,\
 	CUT,\
 	STRENGTH
 	; end
@@ -58,19 +64,20 @@
 ;@ pal_icon     PAL_ICON_21
 ;@ pal_alticon  PAL_ICON_22
 ;@ evo         EVOLVE_ITEM, MOON_STONE, 1, NIDOKING
-;@ evo_move    NO_MOVE
+;@ evo_move    BULLDOZE
 ;@ evo_react   "It paws and jabs" "its harder horn!"
 ;@ evo_react   "It scuffs dirt," "horn lowered!"
 ;@ evo_react   "It snorts hard," "ready to charge!"
 ;@ evo_react   "Its barbs bristle" "all over!"
-;@ learn       8, POISON_STING
+;@ learn       6, SAND_ATTACK
+;@ learn       9, POISON_STING
 ;@ learn       12, DOUBLE_KICK
-;@ learn       16, SAND_ATTACK
-;@ learn       20, MUD_BOMB
-;@ learn       25, METEOR_HORN
-;@ learn       30, STOMP
-;@ learn       35, FOCUS_ENERGY
-;@ learn       40, EARTHQUAKE
-;@ learn       46, REST
-;@ learn       52, VENOM_DRILL
-;@ learn       58, PISTON_KICK
+;@ learn       15, METEOR_HORN
+;@ learn       19, MUD_BOMB
+;@ learn       24, BLOOD_RUSH
+;@ learn       30, SLUDGE_BOMB
+;@ learn       36, FOCUS_ENERGY
+;@ learn       42, MUDSLIDE
+;@ learn       52, PISTON_KICK
+;@ tutor       PISTON_KICK
+;@ tutor       METEOR_DRIVE

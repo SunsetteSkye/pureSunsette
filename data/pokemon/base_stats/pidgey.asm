@@ -15,31 +15,35 @@
 
 	; tm/hm learnset
 	tmhm \
-	ROOST,\
-	MUD_BOMB,\
-	PIN_MISSILE,\
-	TOXIC,\
 	HONE_EDGE,\
 	DISABLE,\
-	DOUBLE_EDGE,\
+	SWORDS_DANCE,\
 	AURORA_MIST,\
-	BARRIER,\
-	ADAPTATION,\
-	WYRM_WRATH,\
+	SHADOW_GAME,\
+	TOXIC,\
+	QUICK_ATTACK,\
+	DOUBLE_EDGE,\
+	BLIZZARD,\
+	SEISMIC_TOSS,\
 	THUNDERBOLT,\
 	THUNDER,\
-	MIRAGE,\
-	SWORDS_DANCE,\
+	MUD_BOMB,\
+	FINISHER,\
 	REFLECT,\
-	BULK_UP,\
-	ILL_WIND,\
-	SHADOW_BALL,\
-	TWISTER,\
-	DEMOLISH,\
-	BRAVE_BIRD,\
 	LIGHT_SCREEN,\
-	SHADOW_GAME,\
+	HEAT_RUSH,\
+	ILL_WIND,\
+	BARRIER,\
+	BRAVE_BIRD,\
 	SUBSTITUTE,\
+	RAZOR_LEAF,\
+	ADAPTATION,\
+	VOID_MIND,\
+	PSYCHO_SHIFT,\
+	ROOST,\
+	LEAP_ATTACK,\
+	PIN_MISSILE,\
+	TEMPEST,\
 	CUT,\
 	FLY,\
 	FLASH
@@ -60,17 +64,20 @@
 ;@ pal_icon     PAL_ICON_10
 ;@ pal_alticon  PAL_ICON_11
 ;@ evo         EVOLVE_LEVEL, 24, PIDGEOTTO
-;@ evo_move    NO_MOVE
+;@ evo_move    HONE_EDGE
 ;@ evo_react   NONE
-;@ learn       6, GUST
-;@ learn       9, SAND_ATTACK
-;@ learn       14, AGILITY
-;@ learn       17, SWIFT
-;@ learn       23, WING_ATTACK
-;@ learn       28, RAZOR_LEAF
-;@ learn       32, BLITZ_STRIKE
-;@ learn       35, HONE_EDGE
-;@ learn       41, HURRICANE
-;@ learn       48, SENBONZAKURA
-;@ learn       54, DOUBLE_EDGE
-;@ learn       60, MOCKINGBIRD
+;@ learn       5, GUST
+;@ learn       8, SAND_ATTACK
+;@ learn       12, QUICK_ATTACK
+;@ learn       16, AGILITY
+;@ learn       20, WING_ATTACK
+;@ learn       28, SWIFT
+;@ learn       32, RAZOR_LEAF
+;@ learn       37, MOCKINGBIRD
+;@ learn       42, HURRICANE
+;@ learn       52, SENBONZAKURA
+;@ learn       56, TRI_ATTACK
+;@ learn       60, FOCUS_ENERGY
+;@ tutor       HURRICANE
+;@ tutor       METEOR_DRIVE
+;@ tutor       EGG_BOMB

@@ -15,6 +15,7 @@
 
 	; tm/hm learnset
 	tmhm \
+	LEAP_ATTACK,\
 	ADAPTATION,\
 	ROOST,\
 	PIN_MISSILE,\
@@ -25,7 +26,7 @@
 	DOUBLE_EDGE,\
 	AURORA_MIST,\
 	HYPER_BEAM,\
-	LOW_KICK,\
+	FINISHER,\
 	METEOR_SWEEP,\
 	BARRIER,\
 	DIG,\
@@ -34,7 +35,7 @@
 	BULK_UP,\
 	ILL_WIND,\
 	SHADOW_BALL,\
-	TWISTER,\
+	TEMPEST,\
 	DEMOLISH,\
 	BRAVE_BIRD,\
 	LIGHT_SCREEN,\
@@ -71,3 +72,6 @@
 ;@ learn       41, SLASH
 ;@ learn       48, AIR_DRILL
 ;@ learn       55, AGILITY
+;@ tutor       PISTON_KICK
+;@ tutor       HURRICANE
+;@ tutor       METEOR_DRIVE

@@ -471,10 +471,10 @@ MoveMysticCrystalBallText:
 	cp BEEDRILL
 	ld hl, .beedrillInfoText
 	jp z, .printDone
-	cp ARBOK ; Sunsette: ACID priority signature (Ekans line) - strikes first; lives in priority_moves.asm, not a remap
+	cp ARBOK ; Sunsette: FOCUS ENERGY coil-and-heal signature (Ekans line) - EkansLineFocusEnergyHeal
 	ld hl, .arbokInfoText
 	jp z, .printDone
-	cp EKANS ; Sunsette: shares ARBOK's ACID priority signature -> same info text
+	cp EKANS ; Sunsette: shares ARBOK's FOCUS ENERGY heal signature -> same info text
 	ld hl, .arbokInfoText
 	jp z, .printDone
 	cp PIDGEOT
@@ -495,7 +495,7 @@ MoveMysticCrystalBallText:
 	cp GYARADOS
 	ld hl, .riptideInfoText
 	jp z, .printDone
-	cp WEEZING ; Sunsette: SLUDGE BOMB burns instead of poisoning - custom text
+	cp WEEZING ; Sunsette: signature FLAMETHROWER gets STAB despite being POISON - custom text
 	ld hl, .weezingInfoText
 	jp z, .printDone
 	cp PIKACHU ; Sunsette: SURF WATERIFIES (effect signature, not a power remap) - custom text
@@ -509,6 +509,9 @@ MoveMysticCrystalBallText:
 	jp z, .printDone
 	cp CLEFABLE
 	ld hl, .clefairyInfoText
+	jp z, .printDone
+	cp FARFETCHD ; Sunsette: GRASS-type whose crits hit for 2x like an old NORMAL type (signature, not a remap)
+	ld hl, .farfetchdInfoText
 	jp z, .printDone
 	push de
 	cp JIGGLYPUFF
@@ -617,13 +620,16 @@ MoveMysticCrystalBallText:
 	text_far _MoveMysticRiptideText
 	text_end
 .weezingInfoText
-	text_far _MoveMysticWeezingBurnText
+	text_far _MoveMysticWeezingFlamethrowerText
 	text_end
 .surfSigInfoText
 	text_far _MoveMysticSurfSigText
 	text_end
 .clefairyInfoText
 	text_far _MoveMysticClefairyText
+	text_end
+.farfetchdInfoText
+	text_far _MoveMysticFarfetchdText
 	text_end
 .masterOfMove
 	text_far _MoveMysticMasterOfMoveText
@@ -725,7 +731,7 @@ FormulateMoveMysticMonList:
 MoveMysticMonsList:
 	db BEEDRILL, $FF
 	db ARBOK, DEX_ARBOK
-	db EKANS, DEX_EKANS ; Sunsette: shares ARBOK's ACID priority signature (parallel text entry added too)
+	db EKANS, DEX_EKANS ; Sunsette: shares ARBOK's FOCUS ENERGY heal signature (parallel text entry added too)
 	db JIGGLYPUFF, $FF
 	db WIGGLYTUFF, DEX_WIGGLYTUFF
 	db GOLDUCK, DEX_GOLDUCK
@@ -746,12 +752,13 @@ MoveMysticMonsList:
 	; Sunsette: KRABBY / KINGLER removed - CRABHAMMER is a flat 100-BP move now, no longer their signature
 	; (parallel text entries removed below to keep the tables index-parallel).
 	db SNORLAX, DEX_SNORLAX ; Sunsette: REST -> FLOURISH (GROWING) + SPEED +1
-	db KANGASKHAN, DEX_KANGASKHAN ; Sunsette: DIZZY PUNCH -> 90 BP (signature); generic power-increase path
+	db KANGASKHAN, DEX_KANGASKHAN ; Sunsette: CLOBBERCLOCK -> 90 BP (signature); generic power-increase path
 	db WEEZING, DEX_WEEZING ; Sunsette: SLUDGE BOMB now BURNS (special-cased info text)
 	db PIKACHU, DEX_PIKACHU ; Sunsette: SURF WATERIFIES once the player has surfed at the Summer Beach House
 	db RAICHU, DEX_RAICHU   ; Sunsette: ditto (parallel text entry below)
 	db CLEFAIRY, DEX_CLEFAIRY ; Sunsette: METRONOME also raises one random stat (parallel text entry below)
 	db CLEFABLE, DEX_CLEFABLE ; Sunsette: ditto
+	db FARFETCHD, DEX_FARFETCHD ; Sunsette: GRASS type with a NORMAL-style 2x crit signature (parallel text entry below)
 	db -1
 
 MoveMysticMonTextEntries:
@@ -828,4 +835,7 @@ ClefairyMoveMysticText:: ; Sunsette: index-parallel with CLEFAIRY in MoveMysticM
 	text_end
 ClefableMoveMysticText:: ; Sunsette: index-parallel with CLEFABLE; shares the epithet text
 	text_far _ClefairyMoveMysticText
+	text_end
+FarfetchdMoveMysticText:: ; Sunsette: index-parallel with FARFETCHD in MoveMysticMonsList
+	text_far _FarfetchdMoveMysticText
 	text_end

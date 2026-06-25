@@ -61,8 +61,8 @@ HazeEffect_:
 
 CureVolatileStatuses:
 	ld a, [hl]
-	; clear USING_X_ACCURACY, STAT_DOWN_IMMUNITY, GETTING_PUMPED, and SEEDED statuses
-	and ~((1 << USING_X_ACCURACY) | (1 << STAT_DOWN_IMMUNITY) | (1 << GETTING_PUMPED) | (1 << SEEDED) | (1 << NORMAL_DRAGON_IMMUNITY))
+	; clear STAT_DOWN_IMMUNITY, GETTING_PUMPED, and SEEDED statuses
+	and ~((1 << STAT_DOWN_IMMUNITY) | (1 << GETTING_PUMPED) | (1 << SEEDED))
 	ld [hli], a 
 	ld a, [hl] ; BATTSTATUS3
 	and %11110000 | (1 << TRANSFORMED) ; clear Bad Poison, Reflect and Light Screen statuses

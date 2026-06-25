@@ -382,6 +382,14 @@ _SchoolB1FBottomCenterNotebook::
 	line "switching #MON"
 	cont "or finishing the"
 	cont "battle."
+	para "PSYCHIC types stay"
+	line "too clear-headed"
+	cont "to be confused!"
+	para "Some moves make a"
+	line "#MON flinch and"
+	cont "lose its turn,"
+	cont "but DRAGONS are"
+	cont "never rattled!"
 	done
 
 _SchoolB1FLeftClassroomSign::

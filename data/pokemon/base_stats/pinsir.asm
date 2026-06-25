@@ -26,7 +26,7 @@
 	DISABLE,\
 	DOUBLE_EDGE,\
 	HYPER_BEAM,\
-	LOW_KICK,\
+	FINISHER,\
 	ZAPPERCUT,\
 	METEOR_SWEEP,\
 	BARRIER,\
@@ -73,3 +73,7 @@
 ;@ learn       45, COMBOBREAKER
 ;@ learn       49, EXTERMINATE
 ;@ learn       54, STRENGTH
+;@ tutor       CLOBBERCLOCK
+;@ tutor       PISTON_KICK
+;@ tutor       METEOR_DRIVE
+;@ tutor       SCREECH

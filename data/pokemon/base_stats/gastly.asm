@@ -23,7 +23,6 @@
 	THUNDER,\
 	PSYCHIC_M,\
 	MEGA_DRAIN,\
-	MIRAGE,\
 	BULK_UP,\
 	ILL_WIND,\
 	SHADOW_BALL,\
@@ -59,3 +58,8 @@
 ;@ learn       46, DOUBLE_TEAM
 ;@ learn       51, MAXIMIZE
 ;@ learn       57, SOULSTEALER
+;@ tutor       EXPLOSION
+;@ tutor       SOULSTEALER
+;@ tutor       TELEPORT
+;@ tutor       EGG_BOMB
+;@ tutor       SCREECH

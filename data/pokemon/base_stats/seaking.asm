@@ -15,6 +15,7 @@
 
 	; tm/hm learnset
 	tmhm \
+	LEAP_ATTACK,\
 	ROCK_ON,\
 	ADAPTATION,\
 	MUD_BOMB,\
@@ -33,7 +34,7 @@
 	REFLECT,\
 	BULK_UP,\
 	SHADOW_BALL,\
-	TWISTER,\
+	TEMPEST,\
 	LOVELY_KISS,\
 	LIGHT_SCREEN,\
 	SHADOW_GAME,\
@@ -70,3 +71,5 @@
 ;@ learn       38, METEOR_DRIVE
 ;@ learn       43, DOUBLE_EDGE
 ;@ learn       45, HYDRO_PUMP
+;@ tutor       METEOR_DRIVE
+;@ tutor       SWIFT

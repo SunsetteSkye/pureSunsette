@@ -16,6 +16,7 @@
 
 	; tm/hm learnset
 	tmhm \
+	LEAP_ATTACK,\
 	FROST_FIST,\
 	BLAZE_HAMMER,\
 	TOXIC,\
@@ -24,7 +25,7 @@
 	DISABLE,\
 	DOUBLE_EDGE,\
 	HYPER_BEAM,\
-	LOW_KICK,\
+	FINISHER,\
 	ZAPPERCUT,\
 	METEOR_SWEEP,\
 	BARRIER,\

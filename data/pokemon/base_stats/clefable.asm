@@ -1,6 +1,6 @@
 	db DEX_CLEFABLE ; pokedex id
 
-	db  95,  70,  73,  60,  95
+	db  95,  70,  83,  60,  95
 	;   hp  atk  def  spd  spc
 
 	db NORMAL, PSYCHIC_TYPE ; type
@@ -10,48 +10,55 @@
 	INCBIN "gfx/pokemon/front/clefable.pic", 0, 1 ; sprite dimensions
 	dw ClefablePicFront, ClefablePicBackSW
 
-	db TACKLE, GROWL, NO_MOVE, NO_MOVE ; level 1 learnset
+	db TACKLE, METRONOME, SING, DOUBLESLAP ; level 1 learnset
 	db GROWTH_FAST ; growth rate
 
 	; tm/hm learnset
 	tmhm \
-	ROCK_ON,\
-	ADAPTATION,\
-	FROST_FIST,\
-	BLAZE_HAMMER,\
+	DISABLE,\
+	AURORA_MIST,\
 	TOXIC,\
 	BODY_SLAM,\
-	DISABLE,\
 	DOUBLE_EDGE,\
-	AURORA_MIST,\
+	WATER_PULSE,\
+	SUPER_SOAK,\
 	ICE_BEAM,\
 	BLIZZARD,\
 	HYPER_BEAM,\
-	CALM_MIND,\
-	LOW_KICK,\
 	ZAPPERCUT,\
-	METEOR_SWEEP,\
-	BARRIER,\
-	SOLARBEAM,\ 
-	WYRM_WRATH,\
+	FROST_FIST,\
+	BLAZE_HAMMER,\
+	SEISMIC_TOSS,\
+	SOLARBEAM,\
 	THUNDERBOLT,\
 	THUNDER,\
+	MUD_BOMB,\
 	DIG,\
 	PSYCHIC_M,\
-	MIRAGE,\
-	REFLECT,\
+	FINISHER,\
+	DEMOLISH,\
 	BULK_UP,\
+	REFLECT,\
+	LIGHT_SCREEN,\
+	SUPERNOVA,\
+	FLAMETHROWER,\
+	FIRE_BLAST,\
 	ILL_WIND,\
 	SHADOW_BALL,\
-	FIRE_BLAST,\
-	DEMOLISH,\
-	VOID_MIND,\
-	LOVELY_KISS,\
-	BRAVE_BIRD,\
-	LIGHT_SCREEN,\
+	BARRIER,\
+	ENERGY_FLUX,\
 	THUNDER_WAVE,\
 	SKITTERMIND,\
+	METEOR_SWEEP,\
 	SUBSTITUTE,\
+	AQUA_RING,\
+	ADAPTATION,\
+	CALM_MIND,\
+	VOID_MIND,\
+	PSYCHO_SHIFT,\
+	LOVELY_KISS,\
+	LEAP_ATTACK,\
+	ROCK_ON,\
 	FLY,\
 	STRENGTH,\
 	FLASH
@@ -75,15 +82,18 @@
 ;@ evo_react   "It bounces up" "on springy feet!"
 ;@ evo_react   "Its wings flick," "sparkling softly!"
 ;@ evo_react   "It twirls once," "light as a puff!"
-;@ learn       13, SING
-;@ learn       15, DOUBLESLAP
-;@ learn       17, METRONOME
-;@ learn       21, PSYBEAM
-;@ learn       25, LIGHT_SCREEN
-;@ learn       28, MIMIC
-;@ learn       33, LOVELY_KISS
-;@ learn       38, PSYCHIC_M
-;@ learn       45, AURORA_MIST
-;@ learn       54, SENBONZAKURA
-;@ learn       59, TRI_ATTACK
-;@ learn       65, MINIMIZE
+;@ learn       33, EGG_BOMB
+;@ learn       40, PSYCHIC_M
+;@ learn       47, LOVELY_KISS
+;@ learn       54, MINIMIZE
+;@ learn       60, TRI_ATTACK
+;@ tutor       TRI_ATTACK
+;@ tutor       SOULSTEALER
+;@ tutor       PAY_DAY
+;@ tutor       TELEPORT
+;@ tutor       SOFTBOILED
+;@ tutor       CLOBBERCLOCK
+;@ tutor       PISTON_KICK
+;@ tutor       METEOR_DRIVE
+;@ tutor       SWIFT
+;@ tutor       EGG_BOMB

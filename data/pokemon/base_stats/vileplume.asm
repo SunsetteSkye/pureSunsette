@@ -1,6 +1,6 @@
 	db DEX_VILEPLUME ; pokedex id
 
-	db  105, 80,  85,  50, 115
+	db  75,  80,  85,  50, 100
 	;   hp  atk  def  spd  spc
 
 	db GHOST, POISON ; type
@@ -10,33 +10,41 @@
 	INCBIN "gfx/pokemon/front/vileplume.pic", 0, 1 ; sprite dimensions
 	dw VileplumePicFront, VileplumePicBackSW
 
-	db ABSORB, TACKLE, NO_MOVE, NO_MOVE ; level 1 learnset
+	db ABSORB, TACKLE, POISONPOWDER, SLEEP_POWDER ; level 1 learnset
 	db GROWTH_MEDIUM_SLOW ; growth rate
 
 	; tm/hm learnset
 	tmhm \
-	MUD_BOMB,\
-	TOXIC,\
 	HONE_EDGE,\
-	BODY_SLAM,\
 	DISABLE,\
-	DOUBLE_EDGE,\
-	HYPER_BEAM,\
-	CALM_MIND,\
-	BARRIER,\
-	ADAPTATION,\
-	SOLARBEAM,\ 
-	PSYCHIC_M,\
-	MEGA_DRAIN,\
 	SWORDS_DANCE,\
-	REFLECT,\
+	SHADOW_GAME,\
+	TOXIC,\
+	SLUDGE_BOMB,\
+	BODY_SLAM,\
+	DOUBLE_EDGE,\
+	WATER_PULSE,\
+	SUPER_SOAK,\
+	HYPER_BEAM,\
+	MEGA_DRAIN,\
+	SOLARBEAM,\
+	MUD_BOMB,\
+	PSYCHIC_M,\
+	DEMOLISH,\
 	BULK_UP,\
+	REFLECT,\
+	LIGHT_SCREEN,\
 	ILL_WIND,\
 	SHADOW_BALL,\
-	DEMOLISH,\
-	LIGHT_SCREEN,\
-	SHADOW_GAME,\
+	SHADOW_BOX,\
+	BARRIER,\
 	SUBSTITUTE,\
+	AQUA_RING,\
+	ADAPTATION,\
+	CALM_MIND,\
+	VOID_MIND,\
+	PSYCHO_SHIFT,\
+	LEECH_LIFE,\
 	CLAY_ARMOR,\
 	CUT,\
 	FLASH
@@ -60,14 +68,10 @@
 ;@ evo_react   "The funk knocks" "you back a step!"
 ;@ evo_react   "You cover your" "nose. Too late!"
 ;@ evo_react   "That stench could" "drop a SNORLAX!"
-;@ learn       7, POISONPOWDER
-;@ learn       11, ACID
-;@ learn       15, ADAPTATION
-;@ learn       17, STUN_SPORE
-;@ learn       19, MEGA_DRAIN
-;@ learn       23, PHANTASM
-;@ learn       28, SLEEP_POWDER
-;@ learn       36, SLUDGE_BOMB
-;@ learn       45, TOXIC
-;@ learn       50, SENBONZAKURA
-;@ learn       57, EMETIC_PURGE
+;@ learn       38, SLUDGE_BOMB
+;@ learn       46, SHADOW_BALL
+;@ learn       54, TOXIC
+;@ learn       60, SENBONZAKURA
+;@ tutor       SOULSTEALER
+;@ tutor       TELEPORT
+;@ tutor       SWIFT

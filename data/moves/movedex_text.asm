@@ -64,9 +64,9 @@ _MegaPunchDexEntry::
 	next "that strikes even"
 	next "airborne foes."
 
-	bage "It knocks away the"
-	next "foe's FLYING or"
-	next "FLOATING type."
+	bage "Often raises the"
+	next "user's ATTACK to"
+	next "set up a combo."
 	dex
 
 _PayDayDexEntry::
@@ -209,8 +209,8 @@ _GustDexEntry::
 	next "the <opponent>.@"
 
 	bage "30% chance to"
-	next "lower the foe's"
-	next "ACCURACY."
+	next "make the foe"
+	next "FLINCH."
 	dex
 
 _WingAttackDexEntry::
@@ -256,11 +256,15 @@ _BindDexEntry::
 	next "the foe's SPEED."
 	dex
 
-_SlamDexEntry::
-	text "A fierce twister"
+_TempestDexEntry::
+	text "A dragon tempest"
 	next "that batters even"
-	next "airborne foes.@"
-	text_jump _Generic30PercentFlinchText
+	next "airborne foes."
+
+	bage "It hits heavy"
+	next "foes harder and"
+	next "grounds flyers."
+	dex
 
 
 _VineWhipDexEntry::
@@ -425,10 +429,10 @@ _TakeDownDexEntry::
 	next "one stage."
 	dex
 
-_ThrashDexEntry::
-	text "Angrily flails"
-	next "around hitting"
-	next "anything nearby."
+_ThrashDexEntry:: ; Sunsette: displayed INDIGNATION. Byte-neutral rewrite (bank is full); falls through to the shared lasts-2-3 + confuse tail.
+	text "A blind rage"
+	next "that purges all"
+	next "status and stats."
 	; fall through
 _GenericThrashEffectText::
 	bage "Lasts 2-3 turns."
@@ -618,16 +622,17 @@ _MistDexEntry::
 	next "settles over the"
 	next "battlefield."
 
-	bage "Clears status from"
-	next "BOTH mons; the"
-	next "user's stats can't"
+	bage "Clears status and"
+	next "resets stat stages"
+	next "on both mons,"
 
-	bage "be lowered. An ICE"
-	next "user raises both"
-	next "screens; others"
+	bage "then wards each"
+	next "from new status"
+	next "and stat drops."
 
-	bage "turn to ICE and"
-	next "take a cyan coat."
+	bage "An ICE or NORMAL"
+	next "user also gains"
+	next "+1 SPEED."
 	text_jump _HidingFieldText ; Sunsette: out-of-battle repel-like hiding
 
 _WaterGunDexEntry::
@@ -741,7 +746,7 @@ _DrillPeckDexEntry::
 	next "foe's last move!"
 	dex
 
-_SubmissionDexEntry::
+_ComboBreakerDexEntry::
 	text "Breaks the foe's"
 	next "rhythm, DISABLING"
 	next "its last move."
@@ -757,29 +762,17 @@ _GenericRaisesAttack1StageText::
 	next "(+1 ATTACK)"
 	dex
 
-_LowKickDexEntry::
-	text "A low kick that"
-	next "hits harder the"
-	next "heavier the foe.@"
+; Sunsette: _FinisherDexEntry (FINISHER, ex-PIVOT STRIKE) moved to movedex_text2.asm, rewritten for the
+; Focus-Punch-like rework.
 
-	text_jump _GenericNoAdditionalEffectText
-
-_CounterDexEntry::
-	text "A secret fighting"
-	next "technique that"
-	next "drains energy"
-
-	bage "from the foe's"
-	next "fighting spirit."
-	; fall through
+; Sunsette: _ShadowBoxDexEntry (SHADOW BOX, which took the old COUNTER slot) lives in movedex_text2.asm,
+; rewritten for the brace-counter rework; it no longer falls through into _GenericAbsorbMoveText below.
+; Sunsette: dropped the "Always crits a statused foe" page - no move force-crits a statused foe anymore
+; (ABSORB / MEGA DRAIN / GIGA DRAIN / LEECH LIFE all lost it; CheckAutoCritVsStatus is fully retired).
 _GenericAbsorbMoveText::
 	bage "Restores 50% of"
 	next "inflicted damage"
-	next "to the <user>'s HP"
-
-	bage "Always crits a"
-	next "foe that has a"
-	next "status problem."
+	next "to the <user>'s HP."
 	dex
 
 _SeismicTossDexEntry::
@@ -1010,13 +1003,12 @@ _FissureDexEntry::
 	next "raise REFLECT and"
 	next "LIGHT SCREEN."
 
-	bage "GROUND users also"
-	next "heal half their"
-	next "HP. Fails if a"
+	bage "All of them heal"
+	next "half their HP, too."
 
-	bage "screen is up, or"
-	next "the user is"
-	next "airborne."
+	bage "It acts LAST, then"
+	next "must rest a turn"
+	next "to recharge."
 	dex
 
 _DigDexEntry::
@@ -1072,14 +1064,14 @@ _HypnosisDexEntry::
 	text_jump _SleepAndDrawRareTail ; Sunsette: asleep tail + invert-rarity field line
 
 _MeditateDexEntry::
-	text "Steels the user's"
-	next "mind and body."
+	text "The user empties"
+	next "its mind."
 
-	bage "Raises a LIGHT"
-	next "SCREEN and ATTACK."
-	next "(+1 ATTACK)"
+	bage "Its aim turns"
+	next "perfect and it"
+	next "shrugs off"
 
-	bage "Always goes first."
+	bage "CONFUSION."
 	dex
 
 _AgilityDexEntry::
@@ -1648,7 +1640,7 @@ _BubbleDexEntry::
 
 	text_jump _Generic30PercentConfusionText
 
-_DizzyPunchDexEntry::
+_ClobberclockDexEntry::
 	text "A dizzying flurry"
 	next "of rhythmic jabs"
 	next "that rattle the"
@@ -1735,17 +1727,14 @@ _CrabhammerDexEntry::
 
 	text_jump _GenericOftenLandsCriticalHitsText
 
-_ExplosionDexEntry::
-	text "The <user> bursts"
-	next "its stony shell in"
-	next "a painful rebirth."
+_OroclasmDexEntry::
+	text "Always strikes"
+	next "LAST, shattering"
+	next "the foe's barrier."
 
-	bage "Heavy recoil: half"
-	next "the damage dealt."
-
-	bage "A ROCK user sheds"
-	next "ROCK, surges to +6"
-	next "SPEED, and glows."
+	bage "Its 110 power then"
+	next "lands in full on"
+	next "the bared foe."
 	dex
 
 _FurySwipesDexEntry::
@@ -1841,9 +1830,9 @@ _SuperFangDexEntry::
 	bage "-sharp front"
 	next "fangs."
 
-	bage "Always does 2/3"
-	next "of the <opponent>'s"
-	next "current HP"
+	bage "Removes half the"
+	next "foe's HP, or 2/3"
+	next "on a critical hit."
 	dex
 
 _SlashDexEntry::
@@ -1929,6 +1918,19 @@ _QuickAttackDexEntry::
 	next "user is, and never"
 	cont "misses when dire."
 	dex
+
+_PsychoShiftDexEntry::
+	text "Casts the user's"
+	next "own poison, burn"
+	next "or paralysis onto"
+	cont "the foe."
+
+	bage "Also shifts the"
+	next "user's confusion,"
+	next "curing itself."
+	dex
+
+; Sunsette: _GigaDrainDexEntry lives in data/moves/movedex_text2.asm ("Movedex Text" filled its bank).
 
 _StruggleDexEntry::
 	text "A last ditch"

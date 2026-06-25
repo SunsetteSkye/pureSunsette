@@ -15,6 +15,7 @@
 
 	; tm/hm learnset
 	tmhm \
+	LEAP_ATTACK,\
 	TOXIC,\
 	BODY_SLAM,\
 	DISABLE,\
@@ -23,7 +24,7 @@
 	ICE_BEAM,\
 	BLIZZARD,\
 	HYPER_BEAM,\
-	SOLARBEAM,\ 
+	SOLARBEAM,\
 	THUNDERBOLT,\
 	THUNDER,\
 	PSYCHIC_M,\
@@ -61,3 +62,7 @@
 ;@ learn       41, SOFTBOILED
 ;@ learn       47, EGG_BOMB
 ;@ learn       54, DOUBLE_EDGE
+;@ tutor       TELEPORT
+;@ tutor       SOFTBOILED
+;@ tutor       CLOBBERCLOCK
+;@ tutor       EGG_BOMB

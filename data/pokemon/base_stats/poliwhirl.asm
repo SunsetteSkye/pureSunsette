@@ -15,37 +15,44 @@
 
 	; tm/hm learnset
 	tmhm \
-	FROST_FIST,\
-	MUD_BOMB,\
-	BLAZE_HAMMER,\
-	TOXIC,\
-	BODY_SLAM,\
+	HONE_EDGE,\
 	DISABLE,\
+	AURORA_MIST,\
+	SHADOW_GAME,\
+	TOXIC,\
+	SLUDGE_BOMB,\
+	BODY_SLAM,\
 	DOUBLE_EDGE,\
-	AQUA_RING,\
+	WATER_PULSE,\
+	SUPER_SOAK,\
 	ICE_BEAM,\
 	BLIZZARD,\
-	CALM_MIND,\
-	LOW_KICK,\
-	ZAPPERCUT,\
-	METEOR_SWEEP,\
-	BARRIER,\
-	RIPTIDE,\
+	FROST_FIST,\
+	SEISMIC_TOSS,\
+	MUD_BOMB,\
 	DIG,\
 	PSYCHIC_M,\
-	REFLECT,\
-	BULK_UP,\
-	SHADOW_BALL,\
-	TWISTER,\
+	FINISHER,\
 	DEMOLISH,\
-	VOID_MIND,\
+	BULK_UP,\
+	REFLECT,\
 	LIGHT_SCREEN,\
+	BARRIER,\
+	ENERGY_FLUX,\
 	SKITTERMIND,\
-	SHADOW_GAME,\
+	METEOR_SWEEP,\
 	SUBSTITUTE,\
+	RIPTIDE,\
+	AQUA_RING,\
+	ADAPTATION,\
+	CALM_MIND,\
+	VOID_MIND,\
+	PSYCHO_SHIFT,\
+	LEAP_ATTACK,\
+	TEMPEST,\
+	CUT,\
 	SURF,\
-	STRENGTH,\
-	FLASH
+	STRENGTH
 	; end
 
 	db BANK(PoliwhirlPicFront)
@@ -62,18 +69,25 @@
 ;@ pal_icon     PAL_ICON_34
 ;@ pal_alticon  PAL_ICON_35
 ;@ evo         EVOLVE_ITEM, WATER_STONE, 1, POLIWRATH
-;@ evo_move    NO_MOVE
+;@ evo_move    SUBMISSION
 ;@ evo_react   "Its belly spiral" "starts to whirl!"
 ;@ evo_react   "Its spiral spins" "faster and faster!"
 ;@ evo_react   "It dives in," "leaving ripples!"
 ;@ evo_react   "Its slick skin" "glistens wet!"
-;@ learn       12, SUPER_SOAK
-;@ learn       15, HYPNOSIS
-;@ learn       19, CONFUSION
-;@ learn       22, WATER_PULSE
-;@ learn       27, BODY_SLAM
-;@ learn       30, RIPTIDE
-;@ learn       36, DIZZY_PUNCH
+;@ learn       7, SUPER_SOAK
+;@ learn       11, HYPNOSIS
+;@ learn       15, CONFUSION
+;@ learn       20, WATER_PULSE
+;@ learn       25, SLAM
+;@ learn       30, DISABLE
+;@ learn       35, RIPTIDE
 ;@ learn       41, CALM_MIND
-;@ learn       45, HYDRO_PUMP
-;@ learn       52, SHADOW_BOX
+;@ learn       48, MUDSLIDE
+;@ learn       57, HYDRO_PUMP
+;@ tutor       SOULSTEALER
+;@ tutor       PAY_DAY
+;@ tutor       TELEPORT
+;@ tutor       CLOBBERCLOCK
+;@ tutor       PISTON_KICK
+;@ tutor       METEOR_DRIVE
+;@ tutor       EGG_BOMB

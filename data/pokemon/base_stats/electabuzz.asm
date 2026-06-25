@@ -15,6 +15,7 @@
 
 	; tm/hm learnset
 	tmhm \
+	LEAP_ATTACK,\
 	FROST_FIST,\
 	MUD_BOMB,\
 	PIN_MISSILE,\
@@ -27,14 +28,13 @@
 	AURORA_MIST,\
 	HYPER_BEAM,\
 	CALM_MIND,\
-	LOW_KICK,\
+	FINISHER,\
 	ZAPPERCUT,\
 	METEOR_SWEEP,\
 	BARRIER,\
 	THUNDERBOLT,\
 	THUNDER,\
 	DIG,\
-	MIRAGE,\
 	SWORDS_DANCE,\
 	REFLECT,\
 	BULK_UP,\
@@ -73,6 +73,12 @@
 ;@ learn       30, ZAPPERCUT
 ;@ learn       33, SHADOW_BOX
 ;@ learn       37, SEISMIC_TOSS
-;@ learn       42, DIZZY_PUNCH
+;@ learn       42, CLOBBERCLOCK
 ;@ learn       47, THUNDER
 ;@ learn       54, HYPER_BEAM
+;@ tutor       TELEPORT
+;@ tutor       CLOBBERCLOCK
+;@ tutor       PISTON_KICK
+;@ tutor       METEOR_DRIVE
+;@ tutor       SWIFT
+;@ tutor       SCREECH

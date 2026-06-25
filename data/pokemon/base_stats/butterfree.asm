@@ -1,6 +1,6 @@
 	db DEX_BUTTERFREE ; pokedex id
 
-	db  70,  55,  50,  80, 120
+	db  70,  55,  50,  70, 120
 	;   hp  atk  def  spd  spc
 
 	db BUG, PSYCHIC_TYPE ; type
@@ -15,37 +15,47 @@
 
 	; tm/hm learnset
 	tmhm \
-	ROOST,\
-	TOXIC,\
-	HONE_EDGE,\
 	DISABLE,\
-	DOUBLE_EDGE,\
 	AURORA_MIST,\
+	SHADOW_GAME,\
+	TOXIC,\
+	SLUDGE_BOMB,\
+	DOUBLE_EDGE,\
 	HYPER_BEAM,\
-	CALM_MIND,\
-	BARRIER,\
-	ADAPTATION,\
-	SOLARBEAM,\ 
-	RIPTIDE,\
-	PSYCHIC_M,\
+	SEISMIC_TOSS,\
+	GIGA_DRAIN,\
 	MEGA_DRAIN,\
-	SWORDS_DANCE,\
+	SOLARBEAM,\
+	MUD_BOMB,\
+	PSYCHIC_M,\
 	REFLECT,\
-	BULK_UP,\
-	SHADOW_BALL,\
-	VOID_MIND,\
-	LOVELY_KISS,\
 	LIGHT_SCREEN,\
+	ILL_WIND,\
+	SHADOW_BALL,\
+	BARRIER,\
+	ENERGY_FLUX,\
 	THUNDER_WAVE,\
 	SKITTERMIND,\
-	SHADOW_GAME,\
 	SUBSTITUTE,\
+	AQUA_RING,\
+	RAZOR_LEAF,\
+	ADAPTATION,\
+	CALM_MIND,\
+	VOID_MIND,\
+	PSYCHO_SHIFT,\
+	LOVELY_KISS,\
+	ROOST,\
+	LEAP_ATTACK,\
+	PIN_MISSILE,\
+	LEECH_LIFE,\
+	TEMPEST,\
 	CLAY_ARMOR,\
+	ROCK_ON,\
 	CUT,\
 	FLY,\
 	SURF,\
 	FLASH
-	;end
+	; end
 
 	db BANK(ButterfreePicFront)
 	db BANK(ButterfreePicFrontAlt)
@@ -65,16 +75,22 @@
 ;@ evo_react   "It flutters up," "light as air!"
 ;@ evo_react   "Scales scatter" "in a shimmer!"
 ;@ evo_react   "It loops once" "and darts away!"
-;@ learn       10, CONFUSION
 ;@ learn       12, GUST
-;@ learn       15, POISONPOWDER
-;@ learn       16, DISABLE
-;@ learn       17, PSYBEAM
-;@ learn       20, CONFUSE_RAY
-;@ learn       24, STUN_SPORE
-;@ learn       27, HURRICANE
-;@ learn       33, PSYCHIC_M
-;@ learn       35, EMETIC_PURGE
-;@ learn       45, SOULSTEALER
-;@ learn       45, SLEEP_POWDER
-;@ learn       50, CRYSTALLIZE
+;@ learn       15, PSYBEAM
+;@ learn       18, POISONPOWDER
+;@ learn       23, CONFUSE_RAY
+;@ learn       28, STUN_SPORE
+;@ learn       31, DISABLE
+;@ learn       34, PSYCHIC_M
+;@ learn       38, EMETIC_PURGE
+;@ learn       42, BUG_OFF
+;@ learn       46, SOULSTEALER
+;@ learn       49, HURRICANE
+;@ learn       52, SPORE
+;@ learn       55, CRYSTALLIZE
+;@ learn       58, TEMPEST
+;@ tutor       SOULSTEALER
+;@ tutor       TELEPORT
+;@ tutor       HURRICANE
+;@ tutor       SWIFT
+;@ tutor       EGG_BOMB

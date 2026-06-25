@@ -15,6 +15,7 @@
 
 	; tm/hm learnset
 	tmhm \
+	LEAP_ATTACK,\
 	TOXIC,\
 	DISABLE,\
 	DOUBLE_EDGE,\
@@ -30,7 +31,7 @@
 	REFLECT,\
 	BULK_UP,\
 	SHADOW_BALL,\
-	TWISTER,\
+	TEMPEST,\
 	VOID_MIND,\
 	LIGHT_SCREEN,\
 	THUNDER_WAVE,\
@@ -68,3 +69,6 @@
 ;@ learn       39, BARRIER
 ;@ learn       43, PSYCHIC_M
 ;@ learn       48, HYDRO_PUMP
+;@ tutor       EXPLOSION
+;@ tutor       TELEPORT
+;@ tutor       SWIFT

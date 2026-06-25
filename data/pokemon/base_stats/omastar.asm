@@ -33,7 +33,7 @@
 	REFLECT,\
 	BULK_UP,\
 	SHADOW_BALL,\
-	TWISTER,\
+	TEMPEST,\
 	ROCK_SLIDE,\
 	ROCK_ON,\
 	SUBSTITUTE,\
@@ -67,3 +67,8 @@
 ;@ learn       39, BODY_SLAM
 ;@ learn       43, ROCK_ON
 ;@ learn       48, HYDRO_PUMP
+;@ tutor       EXPLOSION
+;@ tutor       METEOR_DRIVE
+;@ tutor       SWIFT
+;@ tutor       EGG_BOMB
+;@ tutor       SCREECH

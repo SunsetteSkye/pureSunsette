@@ -15,23 +15,20 @@
 
 	; tm/hm learnset
 	tmhm \
-	ADAPTATION,\
-	TOXIC,\
-	HONE_EDGE,\
 	DISABLE,\
-	DOUBLE_EDGE,\
-	BARRIER,\
-	MEGA_DRAIN,\
-	SWORDS_DANCE,\
-	REFLECT,\
-	BULK_UP,\
-	LIGHT_SCREEN,\
 	SHADOW_GAME,\
+	TOXIC,\
+	DOUBLE_EDGE,\
+	MEGA_DRAIN,\
+	REFLECT,\
+	LIGHT_SCREEN,\
+	BARRIER,\
 	SUBSTITUTE,\
+	ADAPTATION,\
 	CLAY_ARMOR,\
 	CUT,\
 	FLASH
-	;end
+	; end
 
 	db BANK(CaterpiePicFront)
 	db 0
@@ -47,5 +44,5 @@
 ;@ pal_icon     $FF
 ;@ pal_alticon  $FF
 ;@ evo         EVOLVE_LEVEL, 7, METAPOD
-;@ evo_move    NO_MOVE
+;@ evo_move    HARDEN
 ;@ evo_react   NONE

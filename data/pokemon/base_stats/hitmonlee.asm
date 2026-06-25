@@ -15,6 +15,7 @@
 
 	; tm/hm learnset
 	tmhm \
+	LEAP_ATTACK,\
 	MUD_BOMB,\
 	TOXIC,\
 	HONE_EDGE,\
@@ -22,7 +23,7 @@
 	DISABLE,\
 	DOUBLE_EDGE,\
 	HYPER_BEAM,\
-	LOW_KICK,\
+	FINISHER,\
 	METEOR_SWEEP,\
 	BARRIER,\
 	EARTHQUAKE,\
@@ -48,14 +49,14 @@
 	dw 0, HitmonleePicBack
 
 ; --- Sunsette SSOT directives (parsed by tools/gen_pokemon_data.py) ---
-;@ nature       NATURE_SCRAPPY NATURE_STOLID
+;@ nature       NATURE_STOLID NATURE_SCRAPPY
 ;@ pal_battle   PAL_CAVE
 ;@ pal_altbattle PAL_LEEKMON
 ;@ pal_icon     PAL_ICON_51
 ;@ pal_alticon  PAL_ICON_52
 ;@ evo_move    NO_MOVE
 ;@ evo_react   NONE
-;@ learn       20, LOW_KICK
+;@ learn       20, FINISHER
 ;@ learn       24, STOMP
 ;@ learn       27, FOCUS_ENERGY
 ;@ learn       31, METEOR_SWEEP
@@ -63,3 +64,6 @@
 ;@ learn       41, BLITZ_STRIKE
 ;@ learn       46, METEOR_DRIVE
 ;@ learn       53, HI_JUMP_KICK
+;@ tutor       CLOBBERCLOCK
+;@ tutor       PISTON_KICK
+;@ tutor       METEOR_DRIVE

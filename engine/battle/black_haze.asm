@@ -123,7 +123,7 @@ BlackHazeFogText:
 	text_far _BlackHazeFogText
 	text_end
 
-; Sunsette: MIASMA (POISON_GAS). Priority, 0-BP, no flinch. Reached via the Haze trampoline ->
+; Sunsette: MIASMA / EMETIC PURGE. Priority, 0-BP, no flinch. Reached via the Haze trampoline ->
 ; HazeFlinchEffect_ (MIASMA_EFFECT, in ResidualEffects1 so it runs pre-damage; like Haze it does NOT run an
 ; accuracy test, so the clear always lands). A one-sided "revenge stat clear": resets ONLY the FOE's stat
 ; stages to neutral + recomputes its battle stats (Haze, foe only - ignores Substitute), then regular-poisons
@@ -227,14 +227,240 @@ MiasmaPoisonedText:
 	text_far _MiasmaPoisonedText
 	text_end
 
-; Sunsette: SENBONZAKURA (PETAL_DANCE). Damaging GRASS move; reached post-damage (hit OR KO) via the Haze
-; trampoline -> HazeFlinchEffect_ (SENBONZAKURA_EFFECT, in AlwaysHappen + SpecialEffects so it fires once,
-; even on a KO). A self-effect on the USER only: reset the user's stat stages to neutral + recompute its
-; battle stats from the unmodified copy (so any boosts OR drops it had are wiped), grant the FLOURISH regen
-; state, then raise the user's EVASION by 1. The reset runs FIRST, so evasion always ends at exactly +1 - it
-; can't be stacked turn over turn for dodge-tanking. The falling petals leave a clean slate and a single
-; veil. hWhoseTurn = the user; the move's own damage animation already played, so we don't replay it.
-; Self-contained (no newCode-local calls) so the linker can drop this section into any bank with room.
+; Sunsette: PSYCHO SHIFT (PSYCHO_SHIFT_EFFECT). PSYCHIC, 0-BP. Reached via the Haze trampoline ->
+; HazeFlinchEffect_ (in ResidualEffects1, so like Haze it runs with NO accuracy test - it always *attempts*).
+; Transfers the USER's ailments onto the TARGET and cures the user of whatever lands:
+;   - main status (PSN/BRN/PAR; carries the BADLY_POISONED toxic flag + counter). Skipped if the target is
+;     type-immune (POISON/GHOST vs poison, FIRE/ROCK vs burn) or already statused.
+;   - CONFUSION (carries the confuse counter). Skipped if the target is already confused.
+; A Substitute on the target blocks the whole move. Burn/paralysis stat penalties are applied to the target
+; and undone on the user. If nothing transfers, the move fails (the user keeps everything). hWhoseTurn = the
+; user; the target is the opposite side. Sleep/freeze never reach here (a sleeping/frozen user can't act).
+; Self-contained (only callfar's out), so the linker can float this section anywhere.
+PsychoShiftEffect_::
+	callfar PlayCurrentMoveAnimation2
+	; --- a Substitute on the target blocks the whole transfer ---
+	ldh a, [hWhoseTurn]
+	and a
+	ld hl, wEnemyBattleStatus2     ; player's turn -> target = enemy
+	jr z, .gotTargetSub
+	ld hl, wPlayerBattleStatus2
+.gotTargetSub
+	bit HAS_SUBSTITUTE_UP, [hl]
+	jp nz, .failed
+	ld c, 0                        ; c = "something landed" flag
+
+	; =================== MAIN STATUS (PSN/BRN/PAR, toxic-aware) ===================
+	ldh a, [hWhoseTurn]
+	and a
+	ld hl, wBattleMonStatus        ; user = player
+	jr z, .gotUserStatus
+	ld hl, wEnemyMonStatus
+.gotUserStatus
+	ld a, [hl]
+	and $78                        ; PSN/BRN/FRZ/PAR (mask off the sleep counter)
+	jr z, .doConfusion             ; no transferable main status
+	ld d, a                        ; d = the user's main-status bits
+
+	; target already statused?
+	ldh a, [hWhoseTurn]
+	and a
+	ld hl, wEnemyMonStatus         ; target = enemy
+	jr z, .gotTargetStatus
+	ld hl, wBattleMonStatus
+.gotTargetStatus
+	ld a, [hl]
+	and a
+	jr nz, .doConfusion            ; target already has a status -> it can't take ours
+
+	call .targetImmuneToStatus     ; carry set = target is type-immune (clobbers hl)
+	jr c, .doConfusion
+
+	; --- transfer the status onto the target ---
+	ldh a, [hWhoseTurn]
+	and a
+	ld hl, wEnemyMonStatus
+	jr z, .setTargetStatus
+	ld hl, wBattleMonStatus
+.setTargetStatus
+	ld a, d
+	ld [hl], a                     ; target now carries the user's PSN/BRN/PAR bits
+	call .transferToxic            ; carry the toxic flag + counter if the user was badly poisoned
+	; apply the burn/paralysis stat penalty to the TARGET (the variant matching the user's side hits the target)
+	ldh a, [hWhoseTurn]
+	and a
+	jr nz, .penToPlayer
+	callfar ApplyBurnAndParalysisPenaltiesToEnemy   ; user=player -> target=enemy
+	jr .penDone
+.penToPlayer
+	callfar ApplyBurnAndParalysisPenaltiesToPlayer
+.penDone
+	; undo the USER's own burn/par penalty (reads its status first), THEN clear the user's status
+	callfar UndoBurnParStats
+	ldh a, [hWhoseTurn]
+	and a
+	ld hl, wBattleMonStatus
+	jr z, .clearUserStatus
+	ld hl, wEnemyMonStatus
+.clearUserStatus
+	ld a, [hl]
+	and SLP_MASK                   ; keep sleep bits (none here), clear PSN/BRN/FRZ/PAR
+	ld [hl], a
+	call .clearUserToxic
+	ld c, 1                        ; main-status half landed
+
+	; =================== CONFUSION (carries the counter) ===================
+.doConfusion
+	ldh a, [hWhoseTurn]
+	and a
+	ld hl, wPlayerBattleStatus1    ; user
+	jr z, .gotUserConf
+	ld hl, wEnemyBattleStatus1
+.gotUserConf
+	bit CONFUSED, [hl]
+	jr z, .finish                  ; user not confused -> nothing left to shift
+	; target already confused?
+	ldh a, [hWhoseTurn]
+	and a
+	ld de, wEnemyBattleStatus1     ; target (de, so hl stays = the user ptr)
+	jr z, .gotTargetConf
+	ld de, wPlayerBattleStatus1
+.gotTargetConf
+	ld a, [de]
+	bit CONFUSED, a
+	jr nz, .finish                 ; target already confused -> it can't take ours
+	set CONFUSED, a
+	ld [de], a                     ; confuse the target
+	; copy the user's confuse counter across
+	ldh a, [hWhoseTurn]
+	and a
+	jr nz, .confFromEnemy
+	ld a, [wPlayerConfusedCounter]
+	ld [wEnemyConfusedCounter], a
+	jr .confCleared
+.confFromEnemy
+	ld a, [wEnemyConfusedCounter]
+	ld [wPlayerConfusedCounter], a
+.confCleared
+	res CONFUSED, [hl]             ; hl still = the user's BattleStatus1 -> clear the user's confusion
+	ld c, 1                        ; confusion half landed
+
+.finish
+	ld a, c
+	and a
+	jr z, .failed
+	callfar ReadPlayerMonCurHPAndStatus
+	callfar DrawPlayerHUDAndHPBar
+	callfar DrawEnemyHUDAndHPBar
+	ld hl, PsychoShiftText
+	rst _PrintText
+	ret
+.failed
+	ld hl, PsychoShiftFailText
+	rst _PrintText
+	ret
+
+; carry SET if the TARGET is type-immune to the status bits in d. PSN -> POISON/GHOST; BRN -> FIRE/ROCK;
+; PAR (and anything else) -> never type-immune. Clobbers a + hl.
+.targetImmuneToStatus
+	ldh a, [hWhoseTurn]
+	and a
+	ld hl, wEnemyMonType1          ; target = enemy
+	jr z, .gotImmTypes
+	ld hl, wBattleMonType1
+.gotImmTypes
+	bit PSN, d
+	jr nz, .immPoison
+	bit BRN, d
+	jr nz, .immBurn
+	and a                         ; not poison/burn -> never type-immune
+	ret
+.immPoison
+	ld a, [hli]
+	cp POISON
+	jr z, .immYes
+	cp GHOST
+	jr z, .immYes
+	ld a, [hl]
+	cp POISON
+	jr z, .immYes
+	cp GHOST
+	jr z, .immYes
+	and a
+	ret
+.immBurn
+	ld a, [hli]
+	cp FIRE
+	jr z, .immYes
+	cp ROCK
+	jr z, .immYes
+	ld a, [hl]
+	cp FIRE
+	jr z, .immYes
+	cp ROCK
+	jr z, .immYes
+	and a
+	ret
+.immYes
+	scf
+	ret
+
+; If the USER is badly poisoned, set BADLY_POISONED on the TARGET + copy the toxic counter. Clobbers a + hl.
+.transferToxic
+	ldh a, [hWhoseTurn]
+	and a
+	ld hl, wPlayerBattleStatus3    ; user
+	jr z, .gotUserToxFlag
+	ld hl, wEnemyBattleStatus3
+.gotUserToxFlag
+	bit BADLY_POISONED, [hl]
+	ret z                         ; user not badly poisoned -> regular poison transferred, done
+	ldh a, [hWhoseTurn]
+	and a
+	jr nz, .toxToPlayer
+	ld hl, wEnemyBattleStatus3     ; target = enemy
+	set BADLY_POISONED, [hl]
+	ld a, [wPlayerToxicCounter]
+	ld [wEnemyToxicCounter], a
+	ret
+.toxToPlayer
+	ld hl, wPlayerBattleStatus3
+	set BADLY_POISONED, [hl]
+	ld a, [wEnemyToxicCounter]
+	ld [wPlayerToxicCounter], a
+	ret
+
+; Clear the USER's BADLY_POISONED flag + toxic counter. Clobbers a + hl.
+.clearUserToxic
+	ldh a, [hWhoseTurn]
+	and a
+	jr nz, .clrToxEnemy
+	ld hl, wPlayerBattleStatus3    ; user = player
+	res BADLY_POISONED, [hl]
+	xor a
+	ld [wPlayerToxicCounter], a
+	ret
+.clrToxEnemy
+	ld hl, wEnemyBattleStatus3
+	res BADLY_POISONED, [hl]
+	xor a
+	ld [wEnemyToxicCounter], a
+	ret
+
+PsychoShiftText:
+	text_far _PsychoShiftText
+	text_end
+
+PsychoShiftFailText:
+	text_far _ButItFailedText
+	text_end
+
+; Sunsette: SENBONZAKURA (PETAL_DANCE). Damaging GRASS comeback move; reached post-damage (hit OR KO) via the
+; Haze trampoline -> HazeFlinchEffect_ (SENBONZAKURA_EFFECT, in AlwaysHappen + SpecialEffects so it fires once,
+; even on a KO). The only self-effect now is the FLOURISH regen, scaled by the desperation stage (see the rider
+; comment below). Power scaling, the "desperate power!" line and the desperate animation are handled up front by
+; the shared ComebackModifier. hWhoseTurn = the user; the move's own damage animation already played, so we don't
+; replay it. Self-contained (no newCode-local calls) so the linker can drop this section into any bank with room.
 SenbonzakuraEffect_::
 	; Sunsette: SENBONZAKURA's post-damage comeback rider. The FLOURISH regen scales with the desperation stage
 	; (GetDesperationStage): stage 0 = plain strike (no regen), stage 1 = single FLOURISH (1/16 per turn), stages
@@ -259,44 +485,6 @@ SenbonzakuraEffect_::
 .announce
 	ld hl, SenbonzakuraText
 	rst _PrintText
-	ret
-
-; Raise EVASION +1 on one side via the move-effect swap (no animation). a = side (0 = player, nonzero =
-; enemy, same sense as hWhoseTurn). Mirrors BlackHazeRaiseEvasion but +1 instead of +2; hWhoseTurn is left
-; on the raised side (= the caller's own side here, so no restore is needed).
-SenbonzakuraRaiseEvasion:
-	ldh [hWhoseTurn], a               ; StatModifierUpEffect raises hWhoseTurn's side
-	and a
-	ld hl, wPlayerMoveEffect
-	ld de, wPlayerMoveNum
-	jr z, .ptrs
-	ld hl, wEnemyMoveEffect
-	ld de, wEnemyMoveNum
-.ptrs
-	ld a, [hl]
-	push af                          ; save real move effect (SENBONZAKURA_EFFECT)
-	ld a, [de]
-	push af                          ; save real move num
-	ld a, EVASION_UP1_EFFECT
-	ld [hl], a
-	xor a
-	ld [de], a                       ; zero the move num to dodge the Minimize/substitute path
-	SetFlag FLAG_SKIP_STAT_ANIMATION
-	callfar StatModifierUpEffect
-	ResetFlag FLAG_SKIP_STAT_ANIMATION
-	; callfar clobbered hl/de - re-derive the pointers from hWhoseTurn to restore
-	ldh a, [hWhoseTurn]
-	and a
-	ld hl, wPlayerMoveEffect
-	ld de, wPlayerMoveNum
-	jr z, .restore
-	ld hl, wEnemyMoveEffect
-	ld de, wEnemyMoveNum
-.restore
-	pop af
-	ld [de], a                       ; restore move num
-	pop af
-	ld [hl], a                       ; restore move effect
 	ret
 
 SenbonzakuraText:
@@ -369,22 +557,25 @@ ClayArmorEffect_::
 	ld hl, wEnemyBattleStatus3
 .gotS3
 	bit HAS_REFLECT_UP, [hl]
-	jr nz, .fail
+	jp nz, .fail
 	bit HAS_LIGHT_SCREEN_UP, [hl]
-	jr nz, .fail
+	jp nz, .fail
 	set HAS_REFLECT_UP, [hl]
 	set HAS_LIGHT_SCREEN_UP, [hl]
 	callfar PlayCurrentMoveAnimation2
 	ld hl, ClayArmorText
 	rst _PrintText
-	; --- GROUND user heals 1/2 of max HP ---
-	ld a, d
-	cp GROUND
-	jr z, .heal
-	ld a, e
-	cp GROUND
-	ret nz
-.heal
+	; --- Sunsette: the new cost is a TEMPO cost - the user must recharge next turn (reuses Hyper Beam's
+	;     NEEDS_TO_RECHARGE bit, no new bit). Paired with the move's go-last property (core.asm turn order),
+	;     this is the speed-denominated lockout that replaced the old -2 SPEED / -2 EVASION drop. ---
+	ldh a, [hWhoseTurn]
+	and a
+	ld hl, wPlayerBattleStatus2
+	jr z, .gotRecharge
+	ld hl, wEnemyBattleStatus2
+.gotRecharge
+	set NEEDS_TO_RECHARGE, [hl]
+	; --- heal 1/2 of max HP (EVERY earthbound user now, no longer GROUND-only) ---
 	ldh a, [hWhoseTurn]
 	and a
 	ld hl, wBattleMonHP
@@ -473,60 +664,50 @@ ClayArmorFailText:
 	text_far _ButItFailedText
 	text_end
 
-; Sunsette: AURORA MIST (ETHEREAL, MIST_EFFECT). 0-BP, reached via the Haze trampoline. Always grants the
-; classic Mist effect (STAT_DOWN_IMMUNITY: the user's stats can't be lowered) and removes the major status
-; from BOTH active mons. The old NORMAL/DRAGON immunity is discarded. Then it branches on the user's type:
-;   - NON-ICE user: retypes itself to pure ICE and takes on the cyan (PAL_CYANMON) coat. (So a non-Ice mon
-;     spends its first cast becoming Ice, and a second cast to raise screens - "can be used twice".)
-;   - ICE user: raises BOTH Reflect and Light Screen. Anti-recast guard: if a screen is already up, the whole
-;     move fails (so an Ice mon can't spam it for the free status-clear).
+; Sunsette: AURORA MIST (MIST_EFFECT) - "Cleansing Aurora", the white-mage mirror of SHADOW GAME's toxic fog.
+; 0-BP, reached via the Haze trampoline. Symmetric-on-paper, asymmetric-via-type like Shadow Game, polarity
+; flipped from harm to ward:
+;   - Haze-resets BOTH sides' stat stages to neutral (the "fog rolls in" neutralizer; RockOnReset x2).
+;   - Cleanses BOTH mons: cures non-volatile status (CureUserStatus x2) + clears CONFUSION (volatile).
+;   - Sets the Mist STAT_DOWN_IMMUNITY + the UNUSED_6 "warded" flag (no new non-volatile status can land while
+;     it holds - see TargetIsWarded) on BOTH sides. The ward being SYMMETRIC (you protect the foe too) is the
+;     cost that keeps it widely distributable; only the type tilt makes it net-yours.
+;   - Asymmetric tilt: an ICE or NORMAL user gets +1 SPEED (a raise, so it survives its own Mist).
+; The old dual-screen / non-Ice-ICE-retype behavior is gone.
 AuroraMistEffect_::
-	; --- up-front fail check: an ICE user whose screens are already up does nothing ---
-	ldh a, [hWhoseTurn]
-	and a
-	ld hl, wBattleMonType1
-	jr z, .gotTypePre
-	ld hl, wEnemyMonType1
-.gotTypePre
-	ld a, [hli]
-	cp ICE
-	jr z, .iceUserPre
-	ld a, [hl]
-	cp ICE
-	jr nz, .proceed          ; non-Ice user never fails
-.iceUserPre
-	ldh a, [hWhoseTurn]
-	and a
-	ld hl, wPlayerBattleStatus3
-	jr z, .gotS3Pre
-	ld hl, wEnemyBattleStatus3
-.gotS3Pre
-	bit HAS_REFLECT_UP, [hl]
-	jr nz, .fail
-	bit HAS_LIGHT_SCREEN_UP, [hl]
-	jr nz, .fail
-.proceed
 	callfar PlayCurrentMoveAnimation2
-	; --- Mist: STAT_DOWN_IMMUNITY on the user (stats can't be lowered) ---
+	; --- Haze-reset BOTH sides' stat stages to neutral (RockOnReset recomputes battle stats) ---
+	callfar RockOnReset
 	ldh a, [hWhoseTurn]
-	and a
+	xor 1
+	ldh [hWhoseTurn], a
+	callfar RockOnReset
+	ldh a, [hWhoseTurn]
+	xor 1
+	ldh [hWhoseTurn], a
+	; --- cleanse BOTH: cure non-volatile status (flip hWhoseTurn for the foe) + clear CONFUSION on each ---
+	callfar CureUserStatus
+	ldh a, [hWhoseTurn]
+	xor 1
+	ldh [hWhoseTurn], a
+	callfar CureUserStatus
+	ldh a, [hWhoseTurn]
+	xor 1
+	ldh [hWhoseTurn], a
+	ld hl, wPlayerBattleStatus1
+	res CONFUSED, [hl]
+	ld hl, wEnemyBattleStatus1
+	res CONFUSED, [hl]
+	; --- Mist (STAT_DOWN_IMMUNITY) + the UNUSED_6 ward on BOTH sides (set AFTER the resets so they survive) ---
 	ld hl, wPlayerBattleStatus2
-	jr z, .gotS2
-	ld hl, wEnemyBattleStatus2
-.gotS2
 	set STAT_DOWN_IMMUNITY, [hl]
-	; --- remove the major status from BOTH mons (reuses CureUserStatus, flipping hWhoseTurn for the foe) ---
-	callfar CureUserStatus
-	ldh a, [hWhoseTurn]
-	xor 1
-	ldh [hWhoseTurn], a
-	callfar CureUserStatus
-	ldh a, [hWhoseTurn]
-	xor 1
-	ldh [hWhoseTurn], a
+	set BATTLESTATUS2_UNUSED_6, [hl]
+	ld hl, wEnemyBattleStatus2
+	set STAT_DOWN_IMMUNITY, [hl]
+	set BATTLESTATUS2_UNUSED_6, [hl]
 	ld hl, AuroraMistText
 	rst _PrintText
-	; --- branch on the user's type (unchanged by the status clear) ---
+	; --- asymmetric tilt: an ICE or NORMAL user gets +1 SPEED ---
 	ldh a, [hWhoseTurn]
 	and a
 	ld hl, wBattleMonType1
@@ -535,55 +716,24 @@ AuroraMistEffect_::
 .gotType
 	ld a, [hli]
 	cp ICE
-	jr z, .iceUser
+	jr z, .speedUp
+	and a                    ; NORMAL == $00
+	jr z, .speedUp
 	ld a, [hl]
 	cp ICE
-	jr z, .iceUser
-	; --- NON-ICE user: retype to pure ICE + CYANMON palette ---
-	dec hl                   ; hl -> type1
-	ld a, ICE
-	ld [hli], a              ; type1 = ICE
-	ld [hli], a              ; type2 = ICE, hl -> Flags
-	set 1, [hl]              ; force PAL_CYANMON (preserves bit 0 = alt-palette flag)
-	call RunDefaultPaletteCommand
-	ld hl, AuroraMistFrozenText
-	rst _PrintText
-	ret
-.iceUser
-	; --- ICE user: raise both screens (guard above guarantees neither is up yet) ---
-	ldh a, [hWhoseTurn]
+	jr z, .speedUp
 	and a
-	ld hl, wPlayerBattleStatus3
-	jr z, .gotS3
-	ld hl, wEnemyBattleStatus3
-.gotS3
-	set HAS_REFLECT_UP, [hl]
-	set HAS_LIGHT_SCREEN_UP, [hl]
-	ld hl, AuroraMistScreenText
-	rst _PrintText
-	ret
-.fail
-	ld hl, AuroraMistFailText
-	rst _PrintText
+	ret nz                   ; neither ICE nor NORMAL -> no speed bonus
+.speedUp
+	ld a, SPEED_UP1_EFFECT
+	callfar RaiseUserStatViaSwap ; +1 SPEED to the user ("SPEED rose!"); survives the user's own Mist (a raise)
 	ret
 
 AuroraMistText:
 	text_far _AuroraMistText
 	text_end
 
-AuroraMistFrozenText:
-	text_far _AuroraMistFrozenText
-	text_end
-
-AuroraMistScreenText:
-	text_far _AuroraMistScreenText
-	text_end
-
-AuroraMistFailText:
-	text_far _ButItFailedText
-	text_end
-
-; Sunsette: METAMORPHIC (EXPLOSION, METAMORPHIC_EFFECT). A damaging ROCK move; the Haze trampoline runs this
+; Sunsette: OROCLASM (EXPLOSION, METAMORPHIC_EFFECT). A damaging ROCK move; the Haze trampoline runs this
 ; as the post-damage effect, AND on a miss too (core.asm routes METAMORPHIC_EFFECT through .notDone like
 ; EXPLODE, so SpeciesMoveBonus still fires - the reckless user pays the cost + transforms even when it whiffs).
 ; It always costs the user a flat 1/4 of MAX HP (like SUBSTITUTE), floored at 1 so it never self-KOs. If the
@@ -591,7 +741,7 @@ AuroraMistFailText:
 ; surges to +6 SPEED, and takes on the PAL_GAMEFREAK "super-saiyan" glow (Flags bit 4). A non-Rock user just
 ; pays the HP and gets no transformation.
 MetamorphicEffect_::
-	call MetamorphicSelfCost          ; 1/4 max-HP cost (SUBSTITUTE-style), floored at 1; animated HP drain
+	call OroclasmSelfCost          ; 1/4 max-HP cost (SUBSTITUTE-style), floored at 1; animated HP drain
 	; only ROCK-type users metamorphose
 	ldh a, [hWhoseTurn]
 	and a
@@ -621,10 +771,10 @@ MetamorphicEffect_::
 	rst _PrintText
 	ret
 
-; Sunsette: deduct 1/4 of the user's MAX HP (the SUBSTITUTE cost), flooring at 1 so METAMORPHIC never
+; Sunsette: deduct 1/4 of the user's MAX HP (the SUBSTITUTE cost), flooring at 1 so OROCLASM never
 ; self-KOs, with an ANIMATED HP-bar drain (same wHPBar* / UpdateHPBar machinery the recoil effect uses).
 ; The MaxHP->HP offset is identical for the player and enemy battle structs, so one delta works either side.
-MetamorphicSelfCost:
+OroclasmSelfCost:
 	ldh a, [hWhoseTurn]
 	and a
 	ld hl, wBattleMonMaxHP
@@ -893,3 +1043,133 @@ SupernovaCoolText:
 SupernovaBurnText:
 	text_far _SupernovaBurnText
 	text_end
+
+; Sunsette: POISON FANG's toxic rider. jpfar'd from SpeciesMoveBonus (.poisonFang) when POISON FANG connects
+; (post-damage, target alive). 50% chance to BADLY-poison the target. Reuses BlackHazeBadlyPoisonSide (same
+; bank) for the apply, which already guards POISON/GHOST immunity. hWhoseTurn = the user.
+PoisonFangToxic_::
+	callfar FarBattleRandom
+	ld a, d
+	cp 50 percent + 1
+	ret nc                        ; 50%: no toxic this hit
+	; skip if the target is behind a Substitute, or already statused
+	ldh a, [hWhoseTurn]
+	and a
+	ld hl, wEnemyBattleStatus2    ; target = enemy (player's turn)
+	ld de, wEnemyMonStatus
+	jr z, .gotPtrs
+	ld hl, wPlayerBattleStatus2
+	ld de, wBattleMonStatus
+.gotPtrs
+	bit HAS_SUBSTITUTE_UP, [hl]
+	ret nz
+	ld a, [de]
+	and a
+	ret nz                        ; already statused -> no toxic
+	ldh a, [hWhoseTurn]
+	call BlackHazeBadlyPoisonSide ; badly-poison the target (no-ops on POISON/GHOST); clobbers hl/de/bc
+	; re-derive the target's status (the call clobbered de) to see whether it actually took
+	ldh a, [hWhoseTurn]
+	and a
+	ld a, [wEnemyMonStatus]
+	jr z, .checkApplied
+	ld a, [wBattleMonStatus]
+.checkApplied
+	and a
+	ret z                         ; target was immune (POISON/GHOST) -> nothing applied, no message
+	callfar PlayCurrentMoveAnimation2
+	ld hl, PoisonFangToxicText
+	rst _PrintText
+	ret
+
+PoisonFangToxicText:
+	text "It was badly"
+	line "poisoned!"
+	prompt
+
+; Sunsette: BUG OFF. 0-BP disrupt-and-pivot, jpfar'd from HazeFlinchEffect_ (in ResidualEffects1, so this runs
+; pre-damage and does its own accuracy/Substitute test, like SKITTERMIND). Confuses the target + drops its
+; SPECIAL by 1, then the USER switches out (trainer) / flees (wild), teleport-style. A Substitute blocks it.
+; hWhoseTurn = the user; the target is the opposite side.
+BugOffEffect_::
+	ldh a, [hWhoseTurn]
+	and a
+	ld hl, wEnemyBattleStatus2 ; target Sub check (player's turn -> target = enemy)
+	jr z, .gotSub
+	ld hl, wPlayerBattleStatus2
+.gotSub
+	bit HAS_SUBSTITUTE_UP, [hl]
+	jp nz, .didntAffect ; JP: BugOffEffect_'s switch logic puts .didntAffect out of jr range
+	callfar MoveHitTest ; 0-power moves skip the engine accuracy test, so run it ourselves
+	ld a, [wMoveMissed]
+	and a
+	jp nz, .didntAffect
+	callfar PlayCurrentMoveAnimation
+	; -1 SPECIAL to the target: temp-swap the user's move effect to SPECIAL_DOWN1, then callfar
+	; StatModifierDownEffect (FLAG_SKIP_STAT_ANIMATION makes it skip its own hit test + apply directly).
+	ldh a, [hWhoseTurn]
+	and a
+	ld hl, wPlayerMoveEffect
+	jr z, .gotEff
+	ld hl, wEnemyMoveEffect
+.gotEff
+	ld a, SPECIAL_DOWN1_EFFECT
+	ld [hl], a
+	SetFlag FLAG_SKIP_STAT_ANIMATION
+	SetFlag FLAG_SKIP_NPC_STAT_DOWN_DEBUFF
+	callfar StatModifierDownEffect
+	ResetFlag FLAG_SKIP_NPC_STAT_DOWN_DEBUFF
+	ResetFlag FLAG_SKIP_STAT_ANIMATION
+	; confuse the target (set the effect to CONFUSION_SIDE_EFFECT for ConfusionSideEffectSuccess's anim check)
+	ldh a, [hWhoseTurn]
+	and a
+	ld hl, wPlayerMoveEffect
+	jr z, .gotEff2
+	ld hl, wEnemyMoveEffect
+.gotEff2
+	ld a, CONFUSION_SIDE_EFFECT
+	ld [hl], a
+	callfar ConfusionSideEffectSuccess
+	; restore BUG_OFF_EFFECT
+	ldh a, [hWhoseTurn]
+	and a
+	ld hl, wPlayerMoveEffect
+	jr z, .restoreEff
+	ld hl, wEnemyMoveEffect
+.restoreEff
+	ld [hl], BUG_OFF_EFFECT
+	; --- the user bails (teleport-style): flee in the wild, switch out in a trainer battle ---
+	ldh a, [hWhoseTurn]
+	and a
+	jp nz, .enemyBail
+	ld a, [wIsInBattle]
+	dec a
+	jr z, .playerFlee          ; wild -> flee
+	callfar CheckCanForceSwitch ; trainer -> switch if a healthy benchwarmer exists
+	ret z                      ; none -> stay in (the disrupt already landed)
+	call SaveScreenTilesToBuffer1
+	callfar ChooseNextMon
+	xor a
+	ld [wPlayerMoveNum], a
+	ret
+.playerFlee
+	callfar ReadPlayerMonCurHPAndStatus
+	xor a
+	ld [wAnimationType], a
+	inc a
+	ld [wEscapedFromBattle], a ; the main loop ends the battle after the move (fled)
+	ld hl, BugOffFledText
+	rst _PrintText
+	ret
+.enemyBail
+	callfar CheckCanForceSwitch
+	ret z                      ; no healthy benchwarmer -> the enemy stays in
+	jpfar SwitchEnemyMonNoText
+.didntAffect
+	ld c, 50
+	rst _DelayFrames
+	jpfar PrintDidntAffectText
+
+BugOffFledText:
+	text "It bugged off!"
+	prompt

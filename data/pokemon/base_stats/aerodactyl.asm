@@ -15,6 +15,7 @@
 
 	; tm/hm learnset
 	tmhm \
+	LEAP_ATTACK,\
 	ADAPTATION,\
 	ROOST,\
 	PIN_MISSILE,\
@@ -27,13 +28,12 @@
 	HYPER_BEAM,\
 	WYRM_WRATH,\
 	EARTHQUAKE,\
-	MIRAGE,\
 	REFLECT,\
 	BULK_UP,\
 	ILL_WIND,\
 	SHADOW_BALL,\
 	FIRE_BLAST,\
-	TWISTER,\
+	TEMPEST,\
 	BRAVE_BIRD,\
 	SHADOW_GAME,\
 	ROCK_SLIDE,\
@@ -64,3 +64,5 @@
 ;@ learn       38, METEOR_DRIVE
 ;@ learn       44, EARTHQUAKE
 ;@ learn       49, HURRICANE
+;@ tutor       HURRICANE
+;@ tutor       METEOR_DRIVE

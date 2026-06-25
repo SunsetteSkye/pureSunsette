@@ -15,6 +15,7 @@
 
 	; tm/hm learnset
 	tmhm \
+	LEAP_ATTACK,\
 	ROCK_ON,\
 	FROST_FIST,\
 	MUD_BOMB,\
@@ -28,10 +29,10 @@
 	BLIZZARD,\
 	HYPER_BEAM,\
 	CALM_MIND,\
-	LOW_KICK,\
+	FINISHER,\
 	ZAPPERCUT,\
 	METEOR_SWEEP,\
-	SOLARBEAM,\ 
+	SOLARBEAM,\
 	THUNDERBOLT,\
 	THUNDER,\
 	EARTHQUAKE,\
@@ -73,3 +74,9 @@
 ;@ learn       51, DOUBLE_EDGE
 ;@ learn       55, PISTON_KICK
 ;@ learn       59, EXPLOSION
+;@ tutor       EXPLOSION
+;@ tutor       PAY_DAY
+;@ tutor       CLOBBERCLOCK
+;@ tutor       PISTON_KICK
+;@ tutor       METEOR_DRIVE
+;@ tutor       SCREECH

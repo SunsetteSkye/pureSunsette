@@ -67,17 +67,6 @@ CalculateRecoilDamage:
 	ret
 
 GotRecoilDamage:
-	; Sunsette: ROCK-type users shrug off half the recoil from their own moves (Take Down, Double-Edge,
-	; Submission, Struggle, ...). The min-1 floor just below still applies, so it never zeroes out.
-	push hl ; user max HP address
-	push bc ; recoil amount
-	call IsUserRockType
-	pop bc
-	pop hl
-	jr nz, .afterRockHalve
-	srl b
-	rr c ; half recoil for ROCK types
-.afterRockHalve
 	ld a, b
 	or c
 	jr nz, .updateHP
@@ -127,36 +116,3 @@ GotRecoilDamage:
 HitWithRecoilText:
 	text_far _HitWithRecoilText
 	text_end
-
-; Sunsette: z = the move's USER is a ROCK type (either of its two types), nz otherwise. Clobbers a, hl.
-; Shared by the recoil halving above and HalveCrashIfRock below.
-IsUserRockType::
-	ldh a, [hWhoseTurn]
-	and a
-	ld hl, wBattleMonType1
-	jr z, .gotTypes
-	ld hl, wEnemyMonType1
-.gotTypes
-	ld a, [hli]
-	cp ROCK
-	ret z
-	ld a, [hl]
-	cp ROCK
-	ret
-
-; Sunsette: ROCK-type users take half the crash damage from a missed Jump Kick / Hi Jump Kick (their own
-; move). wDamage already holds the crash amount (big-endian: hi at wDamage, lo at wDamage+1); halve it with
-; a min-1 floor so it still registers. No-op for non-ROCK users. callfar'd from the JUMP_KICK_EFFECT miss
-; branch in core.asm so the near-full Battle Core only spends one call.
-HalveCrashIfRock::
-	call IsUserRockType
-	ret nz
-	ld hl, wDamage
-	srl [hl] ; halve hi
-	inc hl
-	rr [hl] ; ...lo
-	ld a, [wDamage]
-	or [hl]
-	ret nz ; nonzero -> done
-	inc [hl] ; floor the crash at 1 HP
-	ret

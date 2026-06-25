@@ -15,6 +15,7 @@
 
 	; tm/hm learnset
 	tmhm \
+	LEAP_ATTACK,\
 	MUD_BOMB,\
 	TOXIC,\
 	HONE_EDGE,\
@@ -33,7 +34,7 @@
 	REFLECT,\
 	BULK_UP,\
 	SHADOW_BALL,\
-	TWISTER,\
+	TEMPEST,\
 	LIGHT_SCREEN,\
 	ROCK_SLIDE,\
 	SUBSTITUTE,\
@@ -68,3 +69,9 @@
 ;@ learn       45, ICE_BEAM
 ;@ learn       52, VENOM_DRILL
 ;@ learn       56, SPIKE_CANNON
+;@ tutor       EXPLOSION
+;@ tutor       TELEPORT
+;@ tutor       METEOR_DRIVE
+;@ tutor       SWIFT
+;@ tutor       EGG_BOMB
+;@ tutor       SCREECH

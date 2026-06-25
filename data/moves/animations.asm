@@ -12,7 +12,7 @@ AttackAnimationPointers:
 	dw FrostFistAnim
 	dw ZappercutAnim
 	dw ScratchAnim
-	dw LockjawAnim
+	dw UnderBugAnim
 	dw ExterminateAnim
 	dw RoostAnim
 	dw SwordsDanceAnim
@@ -22,7 +22,7 @@ AttackAnimationPointers:
 	dw HurricaneAnim
 	dw FlyAnimPart2
 	dw PowerBindAnim
-	dw TwisterAnim
+	dw TempestAnim
 	dw VineWhipAnim
 	dw StompAnim
 	dw DoubleKickAnim
@@ -38,7 +38,7 @@ AttackAnimationPointers:
 	dw BodySlamAnim
 	dw WrapAnim
 	dw HeatRushAnim
-	dw OutrageAnim
+	dw IndignationAnim
 	dw DoubleEdgeAnim
 	dw TailWhipAnim
 	dw PoisonStingAnim
@@ -67,8 +67,8 @@ AttackAnimationPointers:
 	dw HyperBeamAnim
 	dw PeckAnim
 	dw AirDrillAnim
-	dw FullNelsonAnim
-	dw LowKickAnim
+	dw ComboBreakerAnim
+	dw FinisherAnim
 	dw ShadowBoxAnim
 	dw SeismicTossAnim
 	dw StrengthAnim
@@ -99,8 +99,8 @@ AttackAnimationPointers:
 	dw HypnosisAnim
 	dw VoidMindAnim
 	dw AgilityAnim
-	dw ExtremespeedAnim
-	dw MadRushAnim
+	dw BlitzStrikeAnim
+	dw BloodRushAnim
 	dw TeleportAnim
 	dw PhantasmAnim
 	dw MimicAnim
@@ -112,7 +112,7 @@ AttackAnimationPointers:
 	dw SmokeScreenAnim
 	dw ConfuseRayAnim
 	dw ShellGameAnim
-	dw BunkerDownAnim
+	dw RockOnAnim
 	dw BarrierAnim
 	dw LightScreenAnim
 	dw ShadowGameAnim
@@ -147,14 +147,14 @@ AttackAnimationPointers:
 	dw BraveBirdAnim
 	dw TransformAnim
 	dw BubbleAnim
-	dw DizzyPunchAnim
+	dw ClobberclockAnim
 	dw SporeAnim
 	dw FlashAnim
 	dw SkittermindAnim
 	dw SplashAnim
 	dw AquaRingAnim
 	dw CrabHammerAnim
-	dw MetamorphicAnim
+	dw OroclasmAnim
 	dw MudClawAnim
 	dw BonemerangAnim
 	dw RestAnim
@@ -166,12 +166,28 @@ AttackAnimationPointers:
 	dw SuperFangAnim
 	dw SlashAnim
 	dw SubstituteAnim
-	dw WinterGaleAnim  ; ARTICUNO
-	dw StormDrillAnim  ; ZAPDOS
-	dw PhoenixDiveAnim ; MOLTRES
+	dw WinterGaleAnim  
+	dw StormDrillAnim  
+	dw PhoenixDiveAnim
 	dw MaximizeAnim
-	dw CrystallizeAnim ; CRYSTALLIZE
-	dw QuickAttackAnim ; QUICK_ATTACK
+	dw CrystallizeAnim
+	dw QuickAttackAnim
+	dw PsychoShiftAnim
+	dw GigaDrainAnim
+	dw SappingColdAnim
+	dw PlasmaBurnAnim
+	dw BulldozeAnim
+	dw EnergyFluxAnim
+	dw MudslideAnim
+	dw PoisonFangAnim
+	dw BugOffAnim
+	dw PsychocrisisAnim
+	dw RockSmashAnim
+	dw SuperpowerAnim
+	dw SubmissionAnim
+	dw SlamAnim
+	dw PsyshockAnim
+	dw FlutterKickAnim
 	dw StruggleAnim
 	assert_table_length NUM_ATTACKS
 	dw ShowPicAnim
@@ -253,6 +269,22 @@ MACRO battle_anim
 	ENDC
 ENDM
 
+; Sunsette: sound-selector aliases for the animation data below. battle_anim's first arg names the MOVE
+; whose sound to borrow; these let the data read GLARE / POUND (the original move names) as sound effects
+; without touching the renamed EXPLOSION / SPARK move constants. Equal to them, so the sounds are unchanged.
+DEF GLARE EQU EXPLOSION
+DEF POUND EQU SPARK
+
+; Sunsette: colour selectors for SE_RED_SCREEN_PALETTE (the screen-flood SE). The first battle_anim
+; arg is the "sound" slot, repurposed as a ramp index into ScreenFloodRamps (engine/battle/animations.asm).
+; battle_anim emits (\1 - 1), so FLOOD_x = rampIndex + 1 (the -1 lands the right index). Add a row to
+; ScreenFloodRamps AND a FLOOD_x here to add a colour. Use as: battle_anim FLOOD_BLUE, SE_RED_SCREEN_PALETTE
+DEF FLOOD_RED   EQU 1 ; ScreenFloodRamps index 0
+DEF FLOOD_BLUE  EQU 2 ; index 1
+DEF FLOOD_GREEN EQU 3 ; index 2
+DEF FLOOD_GOLD  EQU 4 ; index 3
+DEF FLOOD_WHITE EQU 5 ; index 4
+
 ; The 0 or 1 in the name of a subanim indicates whether to use tileset 0 or 1.
 ; "Both" indicates either can be used for different images using the same animation.
 
@@ -291,7 +323,7 @@ PhoenixDiveAnim:
 	battle_anim NO_MOVE, SE_LIGHT_SCREEN_PALETTE
 	battle_anim BRAVE_BIRD, SE_SQUISH_MON_PIC
 	battle_anim NO_MOVE, SE_SHOOT_BALLS_UPWARD
-	battle_anim EXPLOSION, SUBANIM_1_EXPLOSION_SMALL_ENEMY, 0, 6
+	battle_anim GLARE, SUBANIM_1_EXPLOSION_SMALL_ENEMY, 0, 6
 	battle_anim FIRE_SPIN, SUBANIM_1_FLAME_COLUMN_1, 1, 6
 	battle_anim NO_MOVE, SUBANIM_1_FLAME_COLUMN_2, 1, 6
 	battle_anim NO_MOVE, SUBANIM_1_FLAME_COLUMN_3, 1, 6
@@ -300,7 +332,37 @@ PhoenixDiveAnim:
 	db -1 ; end
 
 StruggleAnim:
-	battle_anim SPARK, SUBANIM_0_STAR_TWICE, 0, 8
+	battle_anim POUND, SUBANIM_0_STAR_TWICE, 0, 8
+	db -1 ; end
+
+RockSmashAnim: ; Sunsette: placeholder = Struggle's animation (own label; refine later)
+	battle_anim POUND, SUBANIM_0_STAR_TWICE, 0, 8
+	db -1 ; end
+
+SuperpowerAnim: ; Sunsette: placeholder = Struggle's animation (own label; refine later)
+	battle_anim POUND, SUBANIM_0_STAR_TWICE, 0, 8
+	db -1 ; end
+
+SubmissionAnim: ; Sunsette: placeholder = Struggle's animation (own label; refine later)
+	battle_anim POUND, SUBANIM_0_STAR_TWICE, 0, 8
+	db -1 ; end
+
+SlamAnim: ; Sunsette: placeholder = Struggle's animation (own label; refine later)
+	battle_anim POUND, SUBANIM_0_STAR_TWICE, 0, 8
+	db -1 ; end
+
+PsyshockAnim: ; Sunsette: placeholder = clone of PSYCHIC's animation (own label; refine later)
+	battle_anim PSYCHIC_M, SE_FLASH_SCREEN_LONG
+	battle_anim NO_MOVE, SE_WAVY_SCREEN
+	db -1 ; end
+
+; Sunsette: PSYCHO SHIFT placeholder animation (own label, Harden-style flash - refined later). A psychic
+; screen pulse; the real "ailments sliding across" anim is a future pass.
+PsychoShiftAnim:
+	battle_anim LEECH_SEED, SE_LIGHT_SCREEN_PALETTE
+	battle_anim SUPERSONIC, SUBANIM_0_SOUND_WAVE, 0, 6
+	battle_anim CONFUSION, SE_WAVY_SCREEN
+	battle_anim NO_MOVE, SE_RESET_SCREEN_PALETTE
 	db -1 ; end
 
 ; Sunsette: QUICK ATTACK base animation (stages 0/1) - the vanilla-style quick slide.
@@ -309,8 +371,7 @@ QuickAttackAnim:
 	battle_anim NO_MOVE, SE_SHOW_MON_PIC
 	db -1 ; end
 
-; Sunsette: QUICK ATTACK at desperation stage 2-3 (DESPERATE_QUICK_ATTACK_ANIM) - a carbon copy of BLITZ
-; STRIKE's ExtremespeedAnim, per design; hand-edit independently.
+; Sunsette: QUICK ATTACK at desperation stage 2-3 (DESPERATE_QUICK_ATTACK_ANIM) 
 DesperateQuickAttackAnim:
 	battle_anim QUICK_ATTACK, SE_SLIDE_MON_OFF_FAST
 	battle_anim NO_MOVE, SUBANIM_1_STAR_BIG_MOVING, 1, 6
@@ -331,7 +392,7 @@ DoubleSlapAnim:
 	db -1 ; end
 
 MachPunchAnim:
-	battle_anim EXPLOSION, SE_HIDE_MON_PIC
+	battle_anim GLARE, SE_HIDE_MON_PIC
 	battle_anim NO_MOVE, SE_LIGHT_SCREEN_PALETTE
 	battle_anim NO_MOVE, SE_DELAY_ANIMATION_10
 	battle_anim NO_MOVE, SE_RESET_SCREEN_PALETTE
@@ -349,7 +410,7 @@ ShoryukenAnim:
 	db -1 ; end
 
 PayDayAnim:
-	battle_anim SPARK, SUBANIM_0_STAR_TWICE, 0, 8 
+	battle_anim POUND, SUBANIM_0_STAR_TWICE, 0, 8 
 	battle_anim PAY_DAY, SUBANIM_0_COIN_BOUNCE, 0, 4
 	db -1 ; end
 
@@ -376,13 +437,20 @@ ScratchAnim:
 	battle_anim SCRATCH, SUBANIM_0_SCRATCHES, 0, 6
 	db -1 ; end
 
-LockjawAnim:
+UnderBugAnim:
+	battle_anim NO_MOVE, SE_MINIMIZE_MON               ; shrink the active mon
 	battle_anim UNDERBUG, SUBANIM_0_SLICE_BOTH_SIDES, 0, 8
+	battle_anim NO_MOVE, SE_DELAY_ANIMATION_10         ; (optional) hold the small sprite a beat
+	battle_anim NO_MOVE, SE_RESTORE_MON_FROM_MINIMIZE  ; put the real sprite back
 	db -1 ; end
 
 ; Sunsette: PLACEHOLDER for UNDERBUG at desperation stage 2-3 (copy of the base anim; hand-edit from here).
 DesperateUnderBugAnim:
+	battle_anim NO_MOVE, SE_MINIMIZE_MON               ; shrink the active mon
+	battle_anim NO_MOVE, SE_DARK_SCREEN_FLASH
 	battle_anim UNDERBUG, SUBANIM_0_SLICE_BOTH_SIDES, 0, 8
+	battle_anim NO_MOVE, SE_DELAY_ANIMATION_10         ; (optional) hold the small sprite a beat
+	battle_anim NO_MOVE, SE_RESTORE_MON_FROM_MINIMIZE  ; put the real sprite back
 	db -1 ; end
 
 ExterminateAnim:
@@ -444,7 +512,7 @@ PowerBindAnim:
 	battle_anim POWER_BIND, SUBANIM_0_BIND, 0, 4
 	db -1 ; end
 
-TwisterAnim:
+TempestAnim:
 	battle_anim NO_MOVE, SE_MOVE_MON_HORIZONTALLY
 	battle_anim HURRICANE, SUBANIM_1_TORNADO, 1, 6
 	battle_anim STUN_SPORE, SE_SMOKE_EVERYWHERE
@@ -464,6 +532,11 @@ StompAnim:
 	db -1 ; end
 
 DoubleKickAnim:
+	battle_anim DOUBLE_KICK, SUBANIM_0_STAR_TWICE, 0, 8
+	battle_anim DOUBLE_KICK, SUBANIM_0_STAR_TWICE, 0, 8
+	db -1 ; end
+
+FlutterKickAnim: ; Sunsette: placeholder - clones DOUBLE KICK's animation (user refines later)
 	battle_anim DOUBLE_KICK, SUBANIM_0_STAR_TWICE, 0, 8
 	battle_anim DOUBLE_KICK, SUBANIM_0_STAR_TWICE, 0, 8
 	db -1 ; end
@@ -546,10 +619,16 @@ HeatRushAnim:
 	battle_anim FLAMETHROWER, SE_FIRE_EVERYWHERE
 	db -1 ; end
 
-OutrageAnim:
+IndignationAnim:
 	battle_anim HEAT_RUSH, SE_DARK_SCREEN_FLASH
 	battle_anim FLAMETHROWER, SE_FIRE_EVERYWHERE
-	battle_anim OUTRAGE, SUBANIM_1_STAR_BIG_MOVING, 1, 6
+	battle_anim INDIGNATION, SUBANIM_1_STAR_BIG_MOVING, 1, 6
+	db -1 ; end
+
+PsychocrisisAnim: ; Sunsette: placeholder - PSYCHIC's flash + wavy distortion fused with INDIGNATION's star flurry. Refine later.
+	battle_anim PSYCHIC_M, SE_FLASH_SCREEN_LONG
+	battle_anim INDIGNATION, SUBANIM_1_STAR_BIG_MOVING, 1, 6
+	battle_anim NO_MOVE, SE_WAVY_SCREEN
 	db -1 ; end
 
 DoubleEdgeAnim:
@@ -741,10 +820,8 @@ AuroraBeamAnim:
 HyperBeamAnim:
 	battle_anim LEECH_SEED, SE_DARK_SCREEN_PALETTE
 	battle_anim NO_MOVE, SE_SPIRAL_BALLS_INWARD
-	battle_anim HYPER_BEAM, SUBANIM_0_BEAM, 0, 2
-	battle_anim NO_MOVE, SE_DARK_SCREEN_FLASH
-	battle_anim NO_MOVE, SE_DARK_SCREEN_FLASH
-	battle_anim SHORYUKEN, SUBANIM_1_STAR_BIG_MOVING, 1, 6
+	battle_anim PSYBEAM, SUBANIM_0_BEAM, 0, 2
+	battle_anim POUND, SUBANIM_1_STAR_BIG, 1, 2
 	battle_anim NO_MOVE, SE_RESET_SCREEN_PALETTE
 	db -1 ; end
 
@@ -770,24 +847,20 @@ AirDrillAnim:
 	battle_anim NO_MOVE, SE_RESET_MON_POSITION
 	db -1 ; end
 
-FullNelsonAnim:
+ComboBreakerAnim:
 	battle_anim COMBOBREAKER, SE_MOVE_MON_HORIZONTALLY
-	battle_anim NO_MOVE, SUBANIM_0_STAR_TWICE, 0, 6
-	battle_anim NO_MOVE, SE_DELAY_ANIMATION_10
+	battle_anim POUND, SUBANIM_0_STAR_TWICE, 0, 6
 	battle_anim NO_MOVE, SE_DELAY_ANIMATION_10
 	battle_anim NO_MOVE, SE_RESET_MON_POSITION
 	battle_anim REST, SE_SLIDE_MON_DOWN
 	battle_anim NO_MOVE, SE_SHOW_MON_PIC
-	battle_anim NO_MOVE, SE_LIGHT_SCREEN_PALETTE
 	battle_anim NO_MOVE, SUBANIM_0_CIRCLE_1_SQUARE_CLOSING, 1, 1
-	battle_anim NO_MOVE, SE_DARK_SCREEN_FLASH
-	battle_anim NO_MOVE, SE_RESET_SCREEN_PALETTE
 	db -1 ; end
 
 ; Sunsette: PLACEHOLDER for COMBOBREAKER at desperation stage 2-3 (copy of the base anim; hand-edit from here).
 DesperateComboBreakerAnim:
 	battle_anim COMBOBREAKER, SE_MOVE_MON_HORIZONTALLY
-	battle_anim NO_MOVE, SUBANIM_0_STAR_TWICE, 0, 6
+	battle_anim SHORYUKEN, SUBANIM_0_STAR_TWICE, 0, 6
 	battle_anim NO_MOVE, SE_DELAY_ANIMATION_10
 	battle_anim NO_MOVE, SE_DELAY_ANIMATION_10
 	battle_anim NO_MOVE, SE_RESET_MON_POSITION
@@ -799,8 +872,8 @@ DesperateComboBreakerAnim:
 	battle_anim NO_MOVE, SE_RESET_SCREEN_PALETTE
 	db -1 ; end
 
-LowKickAnim:
-	battle_anim LOW_KICK, SE_SLIDE_MON_OFF
+FinisherAnim:
+	battle_anim FINISHER, SE_SLIDE_MON_OFF
 	battle_anim NO_MOVE, SUBANIM_1_STAR_BIG_MOVING, 1, 6
 	battle_anim NO_MOVE, SE_SHOW_MON_PIC
 	db -1 ; end
@@ -874,6 +947,107 @@ MegaDrainAnim:
 	battle_anim NO_MOVE, SE_RESET_SCREEN_PALETTE
 	db -1 ; end
 
+GigaDrainAnim: ; Sunsette: placeholder - clones MEGA DRAIN's animation for now (own label, to be refined later)
+	battle_anim MEGA_DRAIN, SE_LIGHT_SCREEN_PALETTE
+	battle_anim NO_MOVE, SE_DARK_SCREEN_FLASH
+	battle_anim NO_MOVE, SUBANIM_0_CIRCLES_1_SQUARES_CENTERING_ENEMY, 0, 6
+	battle_anim NO_MOVE, SUBANIM_0_CIRCLE_1_SQUARE_TOSS_BACK, 0, 6
+	battle_anim NO_MOVE, SE_DARK_SCREEN_FLASH
+	battle_anim NO_MOVE, SE_RESET_SCREEN_PALETTE
+	db -1 ; end
+
+SappingColdAnim: ; Sunsette: placeholder - MEGA DRAIN clone (the "sapping" drain). Below the db -1 is a
+; commented palette of every ICE VFX call in the game, harvested for assembling the real anim later.
+	battle_anim MEGA_DRAIN, SE_LIGHT_SCREEN_PALETTE
+	battle_anim NO_MOVE, SE_DARK_SCREEN_FLASH
+	battle_anim NO_MOVE, SUBANIM_0_CIRCLES_1_SQUARES_CENTERING_ENEMY, 0, 6
+	battle_anim NO_MOVE, SUBANIM_0_CIRCLE_1_SQUARE_TOSS_BACK, 0, 6
+	battle_anim NO_MOVE, SE_DARK_SCREEN_FLASH
+	battle_anim NO_MOVE, SE_RESET_SCREEN_PALETTE
+	db -1 ; end
+; ===== ICE VFX PALETTE (uncomment / rearrange to build the real SAPPING COLD animation) =====
+; from FrostFist / IceBeam / Blizzard / AuroraMist / AuroraBeam / TriAttackIce:
+;	battle_anim NO_MOVE,     SE_SNOWFLAKES_EVERYWHERE             ; drifting snow
+;	battle_anim NO_MOVE,     SUBANIM_0_SPARKLES_FALLING, 0, 4     ; falling sparkles (Aurora Mist)
+;	battle_anim ROCK_THROW,  SUBANIM_0_ICE_RISE, 0, 16            ; ice crystals rising (Frost Fist / Ice Beam / Blizzard)
+;	battle_anim PAY_DAY,     SUBANIM_0_ICE_RISE, 0, 2             ; short ice rise (Tri Attack ice)
+;	battle_anim BLIZZARD,    SUBANIM_0_ICE_FALL, 0, 4             ; ice shards falling (Blizzard)
+;	battle_anim HYDRO_PUMP,  SUBANIM_0_ICE_FALL, 0, 4
+;	battle_anim ICE_BEAM,    SUBANIM_0_BEAM, 0, 3                 ; freezing beam
+;	battle_anim AURORA_BEAM, SUBANIM_0_BEAM, 0, 2
+;	battle_anim FROST_FIST,  SUBANIM_0_STAR_THRICE, 0, 6          ; frost sparkle burst
+;	battle_anim NO_MOVE,     SE_LIGHT_SCREEN_PALETTE              ; cool-blue palette on
+;	battle_anim NO_MOVE,     SE_RESET_SCREEN_PALETTE              ; palette off
+;	battle_anim NO_MOVE,     SE_DELAY_ANIMATION_10                ; timing spacer
+; ===== end ICE VFX palette =====
+
+PlasmaBurnAnim: ; Sunsette: placeholder (SPARK clone). Palette below db -1 = electric + fire attack parts.
+	battle_anim BLITZ_STRIKE, SE_SLIDE_MON_OFF
+	battle_anim THUNDER_WAVE, SUBANIM_1_LIGHTNING_BALL, 1, 2
+	battle_anim NO_MOVE, SE_SHOW_MON_PIC
+	db -1 ; end
+; ===== ELECTRIC + FIRE VFX (uncomment / assemble) =====
+;	battle_anim THUNDER_WAVE, SUBANIM_1_LIGHTNING_BALL, 1, 2    ; lightning ball
+;	battle_anim FIRE_BLAST,   SUBANIM_1_FLAME_BEAM, 1, 3        ; flame beam
+;	battle_anim NO_MOVE,      SUBANIM_1_FLAME_COLUMN_1, 1, 3
+;	battle_anim NO_MOVE,      SUBANIM_1_FLAME_COLUMN_2, 1, 3
+;	battle_anim NO_MOVE,      SUBANIM_1_FLAME_COLUMN_3, 1, 3
+;	battle_anim NO_MOVE,      SUBANIM_1_FLAME_STAR, 1, 6
+;	battle_anim SPIKE_CANNON, SE_LIGHT_SCREEN_PALETTE
+;	battle_anim NO_MOVE,      SE_RESET_SCREEN_PALETTE
+; =====
+
+BulldozeAnim: ; Sunsette: placeholder (EARTHQUAKE clone). Palette below = Earthquake + Dig parts.
+	battle_anim NO_MOVE, SE_DARKEN_MON_PALETTE
+	battle_anim NO_MOVE, SE_DARK_SCREEN_FLASH
+	battle_anim EARTHQUAKE, SE_SHAKE_SCREEN
+	battle_anim UNDERBUG, SUBANIM_0_ROCKS_FALL_ENEMY, 0, 4
+	battle_anim NO_MOVE, SE_RESET_SCREEN_PALETTE
+	db -1 ; end
+; ===== EARTHQUAKE + DIG VFX =====
+;	battle_anim EARTHQUAKE,  SE_SHAKE_SCREEN
+;	battle_anim UNDERBUG,    SUBANIM_0_ROCKS_FALL_ENEMY, 0, 4
+;	battle_anim NO_MOVE,     SUBANIM_1_STAR_BIG, 1, 2
+;	battle_anim STUN_SPORE,  SE_SMOKE_EVERYWHERE
+;	battle_anim DIG,         SUBANIM_1_STAR_BIG_MOVING, 1, 6
+;	battle_anim SAND_ATTACK, SE_SMOKE_EVERYWHERE
+;	battle_anim NO_MOVE,     SE_SLIDE_MON_UP
+; =====
+
+EnergyFluxAnim: ; Sunsette: placeholder (CALM MIND clone). Palette below = electric + psychic status parts.
+	battle_anim NO_MOVE, SE_LIGHT_SCREEN_PALETTE
+	battle_anim VOID_MIND, SUBANIM_0_CIRCLES_CENTERING, 0, 10
+	battle_anim NO_MOVE, SE_RESET_SCREEN_PALETTE
+	battle_anim BARRIER, SUBANIM_0_CIRCLE_1_SQUARE_CLOSING, 1, 6
+	battle_anim NO_MOVE, SE_LIGHT_SCREEN_FLASH
+	db -1 ; end
+; ===== ELECTRIC + PSYCHIC STATUS VFX =====
+;	battle_anim THUNDER_WAVE, SUBANIM_1_LIGHTNING_BALL, 1, 2    ; electric crackle
+;	battle_anim NO_MOVE,      SUBANIM_0_BIND, 0, 2
+;	battle_anim AGILITY,      SE_SHAKE_BACK_AND_FORTH
+;	battle_anim BARRIER,      SUBANIM_1_BARRIER, 1, 6
+;	battle_anim VOID_MIND,    SUBANIM_0_CIRCLES_CENTERING, 0, 10
+;	battle_anim NO_MOVE,      SE_LIGHT_SCREEN_FLASH
+;	battle_anim BARRIER,      SE_SHOW_MON_PIC
+; =====
+
+MudslideAnim: ; Sunsette: placeholder - SURF clone (a sweeping wave of mud). Refine later.
+	battle_anim SURF, SE_WATER_DROPLETS_EVERYWHERE
+	battle_anim HYDRO_PUMP, SUBANIM_0_WATER_COLUMNS, 0, 6
+	db -1 ; end
+
+PoisonFangAnim: ; Sunsette: placeholder (flash). Refine later (a venomous bite).
+	battle_anim POISON_STING, SE_LIGHT_SCREEN_PALETTE
+	battle_anim NO_MOVE, SE_DARK_SCREEN_FLASH
+	battle_anim NO_MOVE, SE_RESET_SCREEN_PALETTE
+	db -1 ; end
+
+BugOffAnim: ; Sunsette: placeholder (flash). Refine later (a disorienting flurry, then dip).
+	battle_anim NO_MOVE, SE_LIGHT_SCREEN_PALETTE
+	battle_anim NO_MOVE, SE_DARK_SCREEN_FLASH
+	battle_anim NO_MOVE, SE_RESET_SCREEN_PALETTE
+	db -1 ; end
+
 LeechSeedAnim:
 	battle_anim LEECH_SEED, SUBANIM_1_SEED_TOSS, 1, 6
 	battle_anim SLEEP_POWDER, SUBANIM_1_SEED_LAND, 1, 21
@@ -928,15 +1102,14 @@ SleepPowderAnim:
 	db -1 ; end
 
 SenbonzakuraAnim:
-	battle_anim SENBONZAKURA, SE_LIGHT_SCREEN_PALETTE
 	battle_anim NO_MOVE, SE_PETALS_FALLING
-	battle_anim NO_MOVE, SE_RESET_SCREEN_PALETTE
 	db -1 ; end
 
 ; Sunsette: PLACEHOLDER for SENBONZAKURA at desperation stage 2-3 (DESPERATE_SENBONZAKURA_ANIM). Seeded as a
 ; copy of SenbonzakuraAnim above so it is a hand-editing starting point; refine independently.
 DesperateSenbonzakuraAnim:
 	battle_anim SENBONZAKURA, SE_LIGHT_SCREEN_PALETTE
+	battle_anim NO_MOVE, SE_FLASH_SCREEN_LONG
 	battle_anim NO_MOVE, SE_PETALS_FALLING
 	battle_anim NO_MOVE, SE_RESET_SCREEN_PALETTE
 	db -1 ; end
@@ -1054,7 +1227,6 @@ VoidMindAnim:
 	battle_anim NO_MOVE, SE_LIGHT_SCREEN_PALETTE
 	battle_anim MEGA_DRAIN, SUBANIM_AMNESIA1, 1, 2
 	battle_anim MIRAGE, SUBANIM_AMNESIA, 0, 16
-	battle_anim NO_MOVE, SE_WAVY_SCREEN
 	battle_anim DOUBLE_TEAM, SE_SHOOT_MANY_BALLS_UPWARD
 	battle_anim NO_MOVE, SE_RESET_SCREEN_PALETTE
 	db -1 ; end
@@ -1064,7 +1236,7 @@ AgilityAnim:
 	battle_anim BARRIER, SE_SHOW_MON_PIC
 	db -1 ; end
 
-ExtremespeedAnim:
+BlitzStrikeAnim:
 	battle_anim BLITZ_STRIKE, SE_SLIDE_MON_OFF_FAST ; Sunsette: snappier slide than the shared SE_SLIDE_MON_OFF
 	battle_anim NO_MOVE, SUBANIM_1_STAR_BIG_MOVING, 1, 6
 	battle_anim NO_MOVE, SE_SHOW_MON_PIC
@@ -1072,20 +1244,31 @@ ExtremespeedAnim:
 
 ; Sunsette: PLACEHOLDER for BLITZ STRIKE at desperation stage 2-3 (copy of the base anim; hand-edit from here).
 DesperateBlitzStrikeAnim:
+	battle_anim NO_MOVE, SE_DARK_SCREEN_PALETTE
+	battle_anim NO_MOVE, SE_HIDE_HUDS
 	battle_anim BLITZ_STRIKE, SE_SLIDE_MON_OFF_FAST
+	battle_anim NO_MOVE, SE_MOVE_TARGET_TO_CENTER
+	battle_anim NO_MOVE, SE_RED_BAR_ON
 	battle_anim NO_MOVE, SUBANIM_1_STAR_BIG_MOVING, 1, 6
 	battle_anim NO_MOVE, SE_SHOW_MON_PIC
+	battle_anim NO_MOVE, SE_RED_BAR_OFF
+	battle_anim NO_MOVE, SE_RESET_TARGET_POSITION
+	battle_anim NO_MOVE, SE_SHOW_MON_PIC
+	battle_anim NO_MOVE, SE_RESTORE_HUDS
+	battle_anim NO_MOVE, SE_RESET_SCREEN_PALETTE
 	db -1 ; end
 
-MadRushAnim:
+BloodRushAnim:
 	battle_anim TAIL_WHIP, SUBANIM_2_ANGER_SYMBOL, 2, 16
 	battle_anim BLOOD_RUSH, SUBANIM_0_STAR_TWICE, 0, 6
 	db -1 ; end
 
-; Sunsette: PLACEHOLDER for BLOOD RUSH at desperation stage 2-3 (copy of the base anim; hand-edit from here).
 DesperateBloodRushAnim:
+	battle_anim NO_MOVE, SE_RED_SCREEN_PALETTE
+	battle_anim NO_MOVE, SE_WAVY_SCREEN
 	battle_anim TAIL_WHIP, SUBANIM_2_ANGER_SYMBOL, 2, 16
 	battle_anim BLOOD_RUSH, SUBANIM_0_STAR_TWICE, 0, 6
+	battle_anim NO_MOVE, SE_RESET_SCREEN_PALETTE
 	db -1 ; end
 
 FlyAnimPart1:
@@ -1190,8 +1373,9 @@ ShellGameAnim:
 	battle_anim NO_MOVE, SE_SHOW_MON_PIC
 	db -1 ; end
 
-BunkerDownAnim:
+RockOnAnim:
 	battle_anim ROCK_ON, SE_LIGHT_SCREEN_PALETTE
+	battle_anim GLARE, SUBANIM_0_HEART_1_MUSIC, 1, 6
 	battle_anim NO_MOVE, SUBANIM_0_CIRCLE_1_SQUARE_CLOSING, 0, 6
 	battle_anim NO_MOVE, SE_DARK_SCREEN_FLASH
 	battle_anim NO_MOVE, SE_RESET_SCREEN_PALETTE
@@ -1251,7 +1435,7 @@ MockingbirdAnim:
 
 SupernovaAnim:
 	battle_anim NO_MOVE, SE_LIGHT_SCREEN_PALETTE
-	battle_anim METAMORPHIC, SUBANIM_1_SELFDESTRUCT, 0, 1
+	battle_anim OROCLASM, SUBANIM_1_SELFDESTRUCT, 0, 1
 	battle_anim NO_MOVE, SE_DARK_SCREEN_FLASH
 	battle_anim NO_MOVE, SE_SHAKE_SCREEN
 	battle_anim FLAMETHROWER, SE_FIRE_EVERYWHERE
@@ -1382,7 +1566,7 @@ HiJumpKickAnim:
 ExplosionAnim:
 	battle_anim NO_MOVE, SE_DARK_SCREEN_PALETTE
 	battle_anim FOCUS_ENERGY, SE_SPIRAL_BALLS_INWARD
-	battle_anim METAMORPHIC, SUBANIM_1_SELFDESTRUCT, 0, 1
+	battle_anim OROCLASM, SUBANIM_1_SELFDESTRUCT, 0, 1
 	battle_anim NO_MOVE, SE_DARK_SCREEN_FLASH
 	battle_anim NO_MOVE, SE_SHAKE_SCREEN
 	battle_anim NO_MOVE, SE_SHAKE_SCREEN
@@ -1458,7 +1642,7 @@ HappinessSparkleAnimEnemy: ; Sunsette: same as HappinessSparkleAnim but its suba
 BraveBirdAnim:
 	battle_anim BRAVE_BIRD, SE_SQUISH_MON_PIC
 	battle_anim NO_MOVE, SE_SHOOT_BALLS_UPWARD
-	battle_anim EXPLOSION, SUBANIM_1_EXPLOSION_SMALL_ENEMY, 0, 6
+	battle_anim GLARE, SUBANIM_1_EXPLOSION_SMALL_ENEMY, 0, 6
 	battle_anim BARRIER, SE_SHOW_MON_PIC
 	db -1 ; end
 
@@ -1473,7 +1657,7 @@ BubbleAnim:
 	battle_anim BUBBLE, SUBANIM_0_WATER_BUBBLES, 0, 22
 	db -1 ; end
 
-DizzyPunchAnim:
+ClobberclockAnim:
 	battle_anim MIRAGE, SUBANIM_0_BIRDIES_CIRCLING_ENEMY, 0, 6
 	battle_anim MIRAGE, SUBANIM_0_BIRDIES_CIRCLING_ENEMY, 0, 6
 	battle_anim MIRAGE, SUBANIM_0_BIRDIES_CIRCLING_ENEMY, 0, 6
@@ -1487,15 +1671,17 @@ SporeAnim:
 
 FlashAnim:
 	battle_anim LEECH_SEED, SE_LIGHT_SCREEN_PALETTE
-	battle_anim EXPLOSION, SE_DARK_SCREEN_FLASH
+	battle_anim GLARE, SE_DARK_SCREEN_FLASH
 	battle_anim NO_MOVE, SE_DARK_SCREEN_FLASH
 	battle_anim NO_MOVE, SE_RESET_SCREEN_PALETTE
 	db -1 ; end
 
 SkittermindAnim:
-	battle_anim LEECH_SEED, SE_LIGHT_SCREEN_PALETTE
+	battle_anim NO_MOVE, SE_RED_SCREEN_PALETTE
 	battle_anim SUPERSONIC, SUBANIM_0_SOUND_WAVE, 0, 6
+	battle_anim GLARE, SE_MINIMIZE_ENEMY_MON
 	battle_anim CONFUSION, SE_WAVY_SCREEN
+	battle_anim NO_MOVE, SE_RESTORE_MON_FROM_MINIMIZE
 	battle_anim NO_MOVE, SE_RESET_SCREEN_PALETTE
 	db -1 ; end
 
@@ -1515,9 +1701,9 @@ CrabHammerAnim:
 	battle_anim CRABHAMMER, SUBANIM_0_SLICE_BOTH_SIDES, 0, 3
 	db -1 ; end
 
-MetamorphicAnim:
+OroclasmAnim:
 	battle_anim NO_MOVE, SE_LIGHT_SCREEN_PALETTE
-	battle_anim METAMORPHIC, SUBANIM_1_SELFDESTRUCT, 0, 1
+	battle_anim OROCLASM, SUBANIM_1_SELFDESTRUCT, 0, 1
 	battle_anim NO_MOVE, SE_DARK_SCREEN_FLASH
 	battle_anim NO_MOVE, SE_SHAKE_SCREEN
 	battle_anim LIGHT_SCREEN, SUBANIM_1_BARRIER, 1, 6

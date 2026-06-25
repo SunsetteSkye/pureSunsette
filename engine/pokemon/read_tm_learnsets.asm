@@ -27,7 +27,7 @@ LoadTMLearnsetIntoWram:
 .tm
 	add NUM_HMS
 .gotItemID
-	add $C4 ; TM item ID offset
+	add HM01 ; TM/HM item ID offset (base of the block)
 	ld [de], a
 	inc de
 	inc c
@@ -35,7 +35,7 @@ LoadTMLearnsetIntoWram:
 	inc b
 	ld a, b
 	cp NUM_HMS + NUM_TMS
-	assert (NUM_HMS + NUM_TMS) < 57 ; Sunsette: was < 56; CLAY ARMOR (TM51) uses the last bit -> 56 flags, fits the 7-byte field exactly
+	assert HM01 + NUM_TMS + NUM_HMS - 1 < $FF, "TM/HM item-id block runs into the $FF item-list terminator"
 	jr nz, .loop
 	ld a, c
 	ld [wDexLearnsetListCount], a

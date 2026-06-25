@@ -95,7 +95,7 @@ SelfThawOnBurnMove::
 	text_end
 
 BurnInflictingEffects:
-	db BURN_SIDE_EFFECT1, BURN_SIDE_EFFECT2, MIRAGE_EFFECT, HEAT_RUSH_EFFECT, TRI_ATTACK_EFFECT
+	db BURN_SIDE_EFFECT1, BURN_SIDE_EFFECT2, HEAT_RUSH_EFFECT, TRI_ATTACK_EFFECT
 	db SOLARBEAM_EFFECT ; Sunsette: both SolarBeam turns are "heat" enough to thaw the user
 	db DRAIN_HP_EFFECT ; Sunsette: absorbing/draining the foe's energy also thaws the user (Absorb/Mega Drain/Leech Life/Soulstealer/Counter); OK that GHOST drainers thaw too
 	db -1

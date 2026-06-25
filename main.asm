@@ -449,7 +449,6 @@ INCLUDE "engine/gfx/set_attack_animation_palette.asm"
 INCLUDE "engine/battle/exp_bar_print.asm"
 INCLUDE "engine/overworld/strength.asm"
 INCLUDE "engine/overworld/surf_strength_tracker.asm"
-INCLUDE "engine/battle/store_pkmn_levels.asm"
 INCLUDE "engine/gfx/remap_overworld_sprites.asm"
 INCLUDE "engine/battle/animations/tri_attack.asm"
 INCLUDE "engine/menus/text_multi_button_prompt.asm"
@@ -467,7 +466,6 @@ INCLUDE "engine/menus/dig.asm"
 INCLUDE "engine/battle/pp_tracker.asm"
 INCLUDE "engine/menus/world_options.asm"
 INCLUDE "engine/battle/volcano_battle_init.asm"
-INCLUDE "engine/gfx/enter_map_replace_tiles_check.asm"
 INCLUDE "engine/battle/remap_move_data.asm"
 INCLUDE "engine/battle/move_effects/conversion.asm"
 INCLUDE "engine/overworld/overworld_animation.asm"
@@ -479,10 +477,28 @@ INCLUDE "engine/battle/freeze_penalty.asm" ; Sunsette: ADDED: FREEZE halves Spec
 INCLUDE "engine/overworld/daycare_exp.asm" ; Sunsette: moved out of full bank3 - time-based daycare reward (callfar'd, bank-agnostic)
 
 INCLUDE "engine/battle/splash.asm" ; Sunsette: SPLASH MAGIKARP-signature comedy handler + its own message bank (self-contained SECTION)
-INCLUDE "engine/battle/critical_hit.asm" ; Sunsette: CriticalHitTest + helpers + high-crit table, floated out of the full Battle Core bank (self-contained SECTION); adds auto-crit-vs-status
+INCLUDE "engine/battle/critical_hit.asm" ; Sunsette: CriticalHitTest + helpers + high-crit table, floated out of the full Battle Core bank (self-contained SECTION); incl. POISON's flat crit-floor vs a statused foe (auto-crit-vs-status fully retired)
 INCLUDE "engine/battle/sleep_hit_reduction.asm" ; Sunsette: hitting a sleeping target wears down its sleep (1 round per hit, 2 per crit), applied after the turn (self-contained SECTION)
 INCLUDE "engine/battle/black_haze.asm" ; Sunsette: SHADOW GAME field effect - badly poison + EVASION +2 both sides after the Haze reset (self-contained floating SECTION; newCode is full)
 INCLUDE "data/trainers/custom_movesets.asm" ; Sunsette: floated out of full newCode into its own SECTION (callfar'd, self-contained function + data); the GymKogaMoveset addition tipped newCode over
+INCLUDE "engine/battle/arena_indicator.asm" ; Sunsette: per-arena battle-menu status glyphs (self-contained floating SECTION; newCode is full)
+
+; Sunsette: StorePKMNLevels floated out of newCode (the 3-move batch - PLASMA BURN/BULLDOZE/ENERGY FLUX -
+; tipped newCode 1 byte over). It's reached only via farcall (core.asm), so its bank is irrelevant.
+SECTION "Sunsette Store PKMN Levels", ROMX
+INCLUDE "engine/battle/store_pkmn_levels.asm"
+
+; Sunsette: the move SFX table (MoveSoundTable) floated out of the full "bank1E" battle-animation bank so
+; the move-animation bodies (incl. new-move placeholders) have room to grow. GetMoveSound (in bank1E) now
+; reads its 3-byte entries across the bank boundary, so the table's bank is irrelevant.
+SECTION "Sunsette Move Sound Table", ROMX
+INCLUDE "data/moves/sfx.asm"
+
+; Sunsette: EnterMapAnimReplaceTileBlocks floated out of the (full) newCode bank - it's reached only via a
+; single callfar (player_animations.asm), so its bank is irrelevant. The DIG/MUDSLIDE post-hit riders + the
+; Dragon/Mist stat-immunity work pushed newCode over.
+SECTION "Sunsette Enter Map Tile Replace", ROMX
+INCLUDE "engine/gfx/enter_map_replace_tiles_check.asm"
 
 ; Sunsette: ADDED: Pokemon nature reactions (sprite-pop + cry + personality line on field moves,
 ; story beats, notable wins, and evolution). Self-contained floating SECTION: logic + tables +
@@ -522,6 +538,10 @@ INCLUDE "engine/battle/comeback.asm"
 ; Sunsette: ROCK ON's escalating defensive effect, floated out of the full newCode bank (self-contained SECTION).
 INCLUDE "engine/battle/move_effects/defense_curl_effect.asm"
 
+; Sunsette: centre-stage cutscene SE bodies, floated out of bank1E (the battle-anim engine bank) to keep
+; it under 0x4000; reached via jpfar trampolines in engine/battle/animations.asm (self-contained SECTION).
+INCLUDE "engine/battle/center_stage_se.asm"
+
 SECTION "newCode2", ROMX
 
 INCLUDE "engine/overworld/learnset_scripts.asm"
@@ -554,7 +574,7 @@ INCLUDE "engine/events/move_relearner.asm" ; Sunsette: ADDED: Viridian schoolhou
 INCLUDE "engine/events/museum_exhibit_bonus.asm" ; Sunsette: ADDED: Pewter Museum exhibit "feel smarter" Special stat-EXP bonus
 INCLUDE "engine/events/family_badge_comments.asm" ; Sunsette: MOM/DAISY non-item badge acknowledgments (callfar'd from their full map banks)
 INCLUDE "engine/events/oak_legendary_comments.asm" ; Sunsette: OAK's one-time legendary remarks (callfar'd from OaksLab)
-INCLUDE "engine/battle/arbok_signature.asm" ; Sunsette: ARBOK FOCUS ENERGY (+2 SPEED) / WRAP (+2 trap turns) bonuses (callfar'd; Battle Core + newCode are full)
+INCLUDE "engine/battle/arbok_signature.asm" ; Sunsette: generic FOCUS ENERGY +1 DEF + EKANS/ARBOK FOCUS ENERGY 1/4-HP heal signature (callfar'd; Battle Core + newCode are full)
 INCLUDE "engine/battle/strength_rage_moves.asm" ; Sunsette: STRENGTH weight/Fighting power + UNLEASH RAGE post-hit (callfar'd; newCode is full)
 INCLUDE "engine/events/locked_area_lockout.asm" ; Sunsette: morale lockout - confirm before leaving a gym/Silph 2F+/Rocket pre-boss (callfar'd; moved out of full newCode)
 

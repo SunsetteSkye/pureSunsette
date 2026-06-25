@@ -1,22 +1,6 @@
+; Sunsette: vanilla Mist is DEAD. AURORA MIST routes MIST_EFFECT through the Haze trampoline to
+; AuroraMistEffect_ (which sets STAT_DOWN_IMMUNITY only); nothing dispatches this routine anymore. Its old
+; "immune to NORMAL/DRAGON moves" secondary used BattleStatus2 bit 6, now reclaimed as BATTLESTATUS2_UNUSED_6.
+; Kept as a bare ret only so the (also-orphaned) MistEffect trampoline's jpfar still resolves.
 MistEffect_:
-	ld hl, wPlayerBattleStatus2
-	ldh a, [hWhoseTurn]
-	and a
-	jr z, .mistEffect
-	ld hl, wEnemyBattleStatus2
-.mistEffect
-	bit NORMAL_DRAGON_IMMUNITY, [hl] ; is mon protected by mist?
-	jr nz, .mistAlreadyInUse
-	set STAT_DOWN_IMMUNITY, [hl] ; mon is now protected by mist (shared with guard spec)
-	set NORMAL_DRAGON_IMMUNITY, [hl] ; secondary effect of mist: immune to NORMAL and DRAGON moves
-	callfar PlayCurrentMoveAnimation
-	ld hl, ShroudedInMistText
-	jp PrintText
-.mistAlreadyInUse
-	ld c, 50
-	rst _DelayFrames
-	jpfar PrintButItFailedText_
-
-ShroudedInMistText:
-	text_far _ShroudedInMistText
-	text_end
+	ret

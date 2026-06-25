@@ -27,7 +27,7 @@
 	ICE_BEAM,\
 	BLIZZARD,\
 	HYPER_BEAM,\
-	LOW_KICK,\
+	FINISHER,\
 	METEOR_SWEEP,\
 	BARRIER,\
 	EARTHQUAKE,\
@@ -73,3 +73,6 @@
 ;@ learn       39, EXTERMINATE
 ;@ learn       44, EARTHQUAKE
 ;@ learn       50, SPIKE_CANNON
+;@ tutor       CLOBBERCLOCK
+;@ tutor       METEOR_DRIVE
+;@ tutor       EGG_BOMB

@@ -15,31 +15,35 @@
 
 	; tm/hm learnset
 	tmhm \
-	ROOST,\
-	MUD_BOMB,\
-	PIN_MISSILE,\
-	TOXIC,\
 	HONE_EDGE,\
-	BODY_SLAM,\
 	DISABLE,\
-	DOUBLE_EDGE,\
-	AURORA_MIST,\
-	HYPER_BEAM,\
-	LOW_KICK,\
-	METEOR_SWEEP,\
-	BARRIER,\
-	EARTHQUAKE,\
-	DIG,\
 	SWORDS_DANCE,\
-	REFLECT,\
+	AURORA_MIST,\
+	SHADOW_GAME,\
+	TOXIC,\
+	SLUDGE_BOMB,\
+	BODY_SLAM,\
+	QUICK_ATTACK,\
+	DOUBLE_EDGE,\
+	HYPER_BEAM,\
+	MUD_BOMB,\
+	DIG,\
+	FINISHER,\
+	DEMOLISH,\
 	BULK_UP,\
+	REFLECT,\
 	ILL_WIND,\
-	SHADOW_BALL,\
-	TWISTER,\
+	BARRIER,\
 	BRAVE_BIRD,\
 	THUNDER_WAVE,\
-	SHADOW_GAME,\
+	METEOR_SWEEP,\
 	SUBSTITUTE,\
+	VOID_MIND,\
+	ROOST,\
+	LEAP_ATTACK,\
+	PIN_MISSILE,\
+	TEMPEST,\
+	ROCK_ON,\
 	CUT,\
 	FLY,\
 	STRENGTH
@@ -63,13 +67,19 @@
 ;@ evo_react   "The left head" "squawks at others!"
 ;@ evo_react   "Three heads, one" "loud quarrel!"
 ;@ evo_react   "Its heads peck" "and bicker away!"
-;@ learn       10, DOUBLE_KICK
-;@ learn       14, STOMP
-;@ learn       17, WING_ATTACK
-;@ learn       20, MUD_BOMB
-;@ learn       23, BLOOD_RUSH
-;@ learn       26, AGILITY
-;@ learn       30, AIR_DRILL
-;@ learn       35, MOCKINGBIRD
-;@ learn       41, PISTON_KICK
-;@ learn       49, TWINEEDLE
+;@ learn       10, STOMP
+;@ learn       14, DOUBLE_KICK
+;@ learn       18, MUD_BOMB
+;@ learn       22, FOCUS_ENERGY
+;@ learn       26, BLOOD_RUSH
+;@ learn       30, PISTON_KICK
+;@ learn       35, FLUTTER_KICK
+;@ learn       40, MUDSLIDE
+;@ learn       45, SLASH
+;@ learn       50, HI_JUMP_KICK
+;@ learn       55, AIR_DRILL
+;@ learn       60, MOCKINGBIRD
+;@ tutor       TRI_ATTACK
+;@ tutor       PISTON_KICK
+;@ tutor       METEOR_DRIVE
+;@ tutor       SWIFT

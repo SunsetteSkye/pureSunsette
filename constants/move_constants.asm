@@ -26,7 +26,7 @@
 	const HURRICANE    ; 12
 	const FLY          ; 13
 	const POWER_BIND   ; 14
-	const TWISTER      ; 15
+	const TEMPEST      ; 15
 	const VINE_WHIP    ; 16
 	const STOMP        ; 17
 	const DOUBLE_KICK  ; 18
@@ -42,7 +42,7 @@
 	const BODY_SLAM    ; 22
 	const WRAP         ; 23
 	const HEAT_RUSH    ; 24
-	const OUTRAGE      ; 25
+	const INDIGNATION      ; 25
 	const DOUBLE_EDGE  ; 26
 	const TAIL_WHIP    ; 27
 	const POISON_STING ; 28
@@ -72,7 +72,7 @@
 	const PECK         ; 40
 	const AIR_DRILL    ; 41
 	const COMBOBREAKER  ; 42
-	const LOW_KICK     ; 43
+	const FINISHER     ; 43
 	const SHADOW_BOX   ; 44
 	const SEISMIC_TOSS ; 45
 	const STRENGTH     ; 46
@@ -142,7 +142,7 @@
 	const MIRAGE       ; 86
 	const SOFTBOILED   ; 87
 	const HI_JUMP_KICK ; 88
-	const EXPLOSION    ; 89 ; Sunsette: vanilla EXPLOSION (was GLARE); 250 BP NORMAL, halves target DEF, faints user
+	const EXPLOSION    ; 89 ; Sunsette: vanilla EXPLOSION; 250 BP NORMAL, halves target DEF, faints user
 	const SOULSTEALER  ; 8a
 	const EMETIC_PURGE ; 8b
 	const SHADOW_BALL  ; 8c
@@ -151,14 +151,14 @@
 	const BRAVE_BIRD   ; 8f
 	const TRANSFORM    ; 90
 	const BUBBLE       ; 91
-	const DIZZY_PUNCH  ; 92
+	const CLOBBERCLOCK  ; 92
 	const SPORE        ; 93
 	const FLASH        ; 94
 	const SKITTERMIND  ; 95
 	const SPLASH       ; 96
 	const AQUA_RING    ; 97
 	const CRABHAMMER   ; 98
-	const METAMORPHIC  ; 99
+	const OROCLASM  ; 99
 	const MUD_CLAW     ; 9a
 	const BONEMERANG   ; 9b
 	const REST         ; 9c
@@ -187,7 +187,39 @@
 	; Sunsette: QUICK ATTACK revived as the early/weak member of the comeback priority line (BLITZ STRIKE is the
 	; upgrade). Placed just before STRUGGLE so only STRUGGLE shifts (NUM_ATTACKS == STRUGGLE still holds).
 	const QUICK_ATTACK ; aa
-	const STRUGGLE     ; ab
+	; Sunsette: PSYCHO SHIFT - PSYCHIC 0-BP status move. Transfers the USER's own ailments (PSN/BRN/PAR,
+	; toxic-aware, + CONFUSION) onto the target and cures the user of whatever lands. Placed just before
+	; STRUGGLE so only STRUGGLE shifts (NUM_ATTACKS == STRUGGLE still holds). Effect = PSYCHO_SHIFT_EFFECT.
+	const PSYCHO_SHIFT ; ab
+	; Sunsette: GIGA DRAIN - GRASS 75-BP drain (DRAIN_HP_EFFECT, 50% drain like ABSORB/MEGA DRAIN). Placed
+	; just before STRUGGLE so only STRUGGLE shifts (NUM_ATTACKS == STRUGGLE still holds). No learnset yet.
+	const GIGA_DRAIN   ; ac
+	; Sunsette: SAPPING COLD - ICE drain that goes LAST and freezes if the user wasn't hit. Placed just
+	; before STRUGGLE so only STRUGGLE shifts (NUM_ATTACKS == STRUGGLE still holds).
+	const SAPPING_COLD ; ad
+	; Sunsette: PLASMA BURN (electric Scald), BULLDOZE (stock), ENERGY FLUX (capacitor setup). Placed before
+	; STRUGGLE so only STRUGGLE shifts (NUM_ATTACKS == STRUGGLE still holds).
+	const PLASMA_BURN  ; ae
+	const BULLDOZE     ; af
+	const ENERGY_FLUX  ; b0
+	const MUDSLIDE     ; b1 ; Sunsette: GROUND spread alternative to EARTHQUAKE (90/90, 50% -1 target SPEED via SpeciesMoveBonus)
+	const POISON_FANG  ; b2 ; Sunsette: POISON 50/100, 50% chance to BADLY-poison (toxic) on hit - sets up the statused condition POISON punishes
+	const BUG_OFF      ; b3 ; Sunsette: BUG 0-BP disrupt-and-pivot - confuse + -1 SPECIAL the target, then the user switches out / flees (Butterfree/Venomoth)
+	; Sunsette: PSYCHOCRISIS - PSYCHIC "INDIGNATION" (THRASH_PETAL_DANCE_EFFECT, shared with INDIGNATION). 120 BP,
+	; locks 2-3 turns, cleanses the user on activation (see ThrashPetalDanceEffect -> IndignationCleanse), and
+	; takes 1/2-damage self-recoil every turn (SpeciesMoveBonus .psychocrisisRecoil). Placed just before STRUGGLE
+	; so only STRUGGLE shifts (NUM_ATTACKS == STRUGGLE still holds). Self-confuse at lock-end hits PSYCHIC users.
+	const PSYCHOCRISIS ; b4
+	; Sunsette: ROCK SMASH (40-BP FIGHTING, chance to -1 target DEF), SUPERPOWER (120-BP FIGHTING, self -1 ATK/-1
+	; DEF on hit via SunsettePostHitSelfEffects), SUBMISSION (FIGHTING clone of DOUBLE-EDGE / RECOIL_EFFECT).
+	; Placed before STRUGGLE so only STRUGGLE shifts (NUM_ATTACKS == STRUGGLE still holds).
+	const ROCK_SMASH   ; b5
+	const SUPERPOWER   ; b6
+	const SUBMISSION   ; b7
+	const SLAM         ; b8 ; Sunsette: NEW plain NORMAL 80-BP move (vanilla SLAM's slot is now TEMPEST; this reclaims the free SLAM const). Before STRUGGLE so only STRUGGLE shifts.
+	const PSYSHOCK     ; b9 ; Sunsette: PSYCHIC (special-category) move that hits the target's physical DEFENSE (PsyshockSwapDefender in the damage calc). Before STRUGGLE so only STRUGGLE shifts.
+	const FLUTTER_KICK ; ba ; Sunsette: FLYING clone of BONEMERANG (hits twice, 30% -SPEED). No Fly/Dig bypass; FLOATING users get STAB (ShouldMoveGetStabBoost). Before STRUGGLE so only STRUGGLE shifts.
+	const STRUGGLE     ; bb
 DEF NUM_ATTACKS EQU const_value - 1
 
 DEF CANNOT_MOVE EQU $ff
@@ -256,7 +288,6 @@ DEF CANNOT_MOVE EQU $ff
 	const DESPERATE_QUICK_ATTACK_ANIM ; Sunsette: comeback family - QUICK ATTACK at stage 2-3 (copy of BLITZ STRIKE's anim)
 ;;;;;
 
-	; 45 non-move anims + 166 move anims = 201 anims
-	; 53 slots left
+	; NUM_ATTACK_ANIMS below is the authoritative count (NUM_ATTACKS move anims + the non-move anims above)
 
 DEF NUM_ATTACK_ANIMS EQU const_value - 1

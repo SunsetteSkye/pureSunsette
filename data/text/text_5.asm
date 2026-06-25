@@ -42,15 +42,14 @@ _FlashLightsAreaText::
 	line "lights the area!"
 	prompt
 
-_FullOfEnergyText::
-	text "It's full of"
-	line "energy!"
+_WindSeedsText::
+	text "An energizing wind"
+	line "seeds the area!"
 	prompt
 
 _ViridianForestDefenseText::
-	text "The FOREST makes"
-	line "<USER>'s"
-	cont "DEFENSE rise!"
+	text "The dense FOREST"
+	line "raises DEFENSE!"
 	prompt
 
 _ConfuseRayFieldText::

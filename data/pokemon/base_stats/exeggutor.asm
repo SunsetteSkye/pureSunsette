@@ -25,21 +25,20 @@
 	AQUA_RING,\
 	HYPER_BEAM,\
 	CALM_MIND,\
-	LOW_KICK,\
+	FINISHER,\
 	METEOR_SWEEP,\
 	BARRIER,\
 	ADAPTATION,\
-	SOLARBEAM,\ 
+	SOLARBEAM,\
 	EARTHQUAKE,\
 	RIPTIDE,\
 	PSYCHIC_M,\
 	MEGA_DRAIN,\
-	MIRAGE,\
 	SWORDS_DANCE,\
 	REFLECT,\
 	BULK_UP,\
 	SHADOW_BALL,\
-	TWISTER,\
+	TEMPEST,\
 	DEMOLISH,\
 	VOID_MIND,\
 	LOVELY_KISS,\
@@ -79,3 +78,7 @@
 ;@ learn       48, ADAPTATION
 ;@ learn       53, EGG_BOMB
 ;@ learn       60, SOLARBEAM
+;@ tutor       EXPLOSION
+;@ tutor       TELEPORT
+;@ tutor       PISTON_KICK
+;@ tutor       EGG_BOMB

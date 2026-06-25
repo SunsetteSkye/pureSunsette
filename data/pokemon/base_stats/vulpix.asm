@@ -15,25 +15,37 @@
 
 	; tm/hm learnset
 	tmhm \
-	MUD_BOMB,\
+	DISABLE,\
+	AURORA_MIST,\
+	SHADOW_GAME,\
 	TOXIC,\
 	BODY_SLAM,\
-	DISABLE,\
+	QUICK_ATTACK,\
 	DOUBLE_EDGE,\
-	CALM_MIND,\
-	METEOR_SWEEP,\
-	BARRIER,\
-	SOLARBEAM,\ 
+	SOLARBEAM,\
+	THUNDERBOLT,\
+	THUNDER,\
+	MUD_BOMB,\
 	DIG,\
-	MIRAGE,\
-	REFLECT,\
+	PSYCHIC_M,\
 	BULK_UP,\
-	SHADOW_BALL,\
-	SUPERNOVA,\
-	FIRE_BLAST,\
+	REFLECT,\
 	LIGHT_SCREEN,\
-	SHADOW_GAME,\
+	HEAT_RUSH,\
+	SUPERNOVA,\
+	FLAMETHROWER,\
+	FIRE_BLAST,\
+	ILL_WIND,\
+	SHADOW_BALL,\
+	BARRIER,\
+	ENERGY_FLUX,\
+	METEOR_SWEEP,\
 	SUBSTITUTE,\
+	RAZOR_LEAF,\
+	ADAPTATION,\
+	CALM_MIND,\
+	PSYCHO_SHIFT,\
+	LEAP_ATTACK,\
 	CUT,\
 	FLASH
 	; end
@@ -53,16 +65,19 @@
 ;@ pal_icon     PAL_ICON_04
 ;@ pal_alticon  PAL_ICON_13
 ;@ evo         EVOLVE_ITEM, FIRE_STONE, 1, NINETALES
-;@ evo_move    NO_MOVE
+;@ evo_move    PHANTASM
 ;@ evo_react   NONE
-;@ learn       9, LICK
-;@ learn       12, DISABLE
-;@ learn       16, BITE
-;@ learn       21, MIRAGE
-;@ learn       23, CONFUSE_RAY
-;@ learn       28, PHANTASM
-;@ learn       35, FLAMETHROWER
-;@ learn       44, HYPNOSIS
+;@ learn       6, QUICK_ATTACK
+;@ learn       10, CONFUSE_RAY
+;@ learn       13, BITE
+;@ learn       17, DISABLE
+;@ learn       22, MIRAGE
+;@ learn       27, HYPNOSIS
+;@ learn       32, REFLECT
+;@ learn       38, FLAMETHROWER
+;@ learn       44, LIGHT_SCREEN
 ;@ learn       50, PSYCHIC_M
-;@ learn       56, SOULSTEALER
-;@ learn       60, FIRE_SPIN
+;@ learn       56, FIRE_SPIN
+;@ tutor       TRI_ATTACK
+;@ tutor       TELEPORT
+;@ tutor       SWIFT

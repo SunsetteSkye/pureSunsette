@@ -1,10 +1,12 @@
 SoftboiledLearnset:
 	db MISSINGNO
+	db RATTATA
+	db RATICATE
 	db ARBOK
 	db CLEFABLE
 	db WIGGLYTUFF
 	db EXEGGCUTE
 	db CHANSEY
-	db MEW
 	db MOLTRES
+	db MEW
 	db -1

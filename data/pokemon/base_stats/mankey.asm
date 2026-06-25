@@ -15,34 +15,42 @@
 
 	; tm/hm learnset
 	tmhm \
-	ADAPTATION,\
-	FROST_FIST,\
-	MUD_BOMB,\
-	BLAZE_HAMMER,\
-	TOXIC,\
 	HONE_EDGE,\
-	BODY_SLAM,\
 	DISABLE,\
+	SWORDS_DANCE,\
+	SHADOW_GAME,\
+	TOXIC,\
+	SLUDGE_BOMB,\
+	BODY_SLAM,\
+	QUICK_ATTACK,\
 	DOUBLE_EDGE,\
-	LOW_KICK,\
+	SUPER_SOAK,\
 	ZAPPERCUT,\
-	METEOR_SWEEP,\
+	FROST_FIST,\
+	BLAZE_HAMMER,\
+	SEISMIC_TOSS,\
 	WYRM_WRATH,\
 	THUNDERBOLT,\
 	THUNDER,\
 	EARTHQUAKE,\
+	MUD_BOMB,\
 	DIG,\
-	SWORDS_DANCE,\
+	FINISHER,\
+	DEMOLISH,\
 	BULK_UP,\
+	HEAT_RUSH,\
+	SUPERNOVA,\
 	ILL_WIND,\
 	SHADOW_BALL,\
-	DEMOLISH,\
-	VOID_MIND,\
-	SHADOW_GAME,\
+	SHADOW_BOX,\
+	METEOR_SWEEP,\
 	ROCK_SLIDE,\
-	ROCK_ON,\
+	OROCLASM,\
 	SUBSTITUTE,\
+	ADAPTATION,\
+	LEAP_ATTACK,\
 	CLAY_ARMOR,\
+	ROCK_ON,\
 	CUT,\
 	STRENGTH
 	; end
@@ -62,18 +70,22 @@
 ;@ pal_icon     $FF
 ;@ pal_alticon  $FF
 ;@ evo         EVOLVE_LEVEL, 27, PRIMEAPE
-;@ evo_move    NO_MOVE
+;@ evo_move    INDIGNATION
 ;@ evo_react   NONE
-;@ learn       9, DEMOLISH
-;@ learn       12, MUD_CLAW
-;@ learn       15, SCREECH
-;@ learn       18, FOCUS_ENERGY
-;@ learn       20, LOW_KICK
-;@ learn       23, SEISMIC_TOSS
-;@ learn       25, BLOOD_RUSH
-;@ learn       27, ILL_WIND
-;@ learn       35, UNDERBUG
-;@ learn       39, MACH_PUNCH
-;@ learn       45, SHADOW_BOX
-;@ learn       51, OUTRAGE
-;@ learn       54, COMBOBREAKER
+;@ learn       6, SAND_ATTACK
+;@ learn       10, DEMOLISH
+;@ learn       14, STOMP
+;@ learn       18, MUD_BOMB
+;@ learn       22, SCREECH
+;@ learn       29, CLOBBERCLOCK
+;@ learn       34, BLOOD_RUSH
+;@ learn       39, UNDERBUG
+;@ learn       45, FOCUS_ENERGY
+;@ learn       51, SUPERPOWER
+;@ learn       57, SLASH
+;@ tutor       EXPLOSION
+;@ tutor       PAY_DAY
+;@ tutor       CLOBBERCLOCK
+;@ tutor       PISTON_KICK
+;@ tutor       METEOR_DRIVE
+;@ tutor       SCREECH

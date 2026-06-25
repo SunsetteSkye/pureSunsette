@@ -24,7 +24,7 @@
 	const GYM_KOGA_MOVESET ; Sunsette: Fuchsia gym Koga's team relies on SHADOW GAME
 	const GYM_GIOVANNI_MOVESET ; Sunsette: Viridian gym Giovanni's earthbound team runs CLAY ARMOR (FISSURE)
 	const ELITE_FOUR_LORELEI_MOVESET ; Sunsette: Indigo Lorelei - AURORA MIST + AQUA RING showcase
-	const ELITE_FOUR_BRUNO_MOVESET ; Sunsette: Indigo Bruno - CLAY ARMOR (+ METAMORPHIC on Onix) showcase
+	const ELITE_FOUR_BRUNO_MOVESET ; Sunsette: Indigo Bruno - CLAY ARMOR (+ OROCLASM on Onix) showcase
 	const ELITE_FOUR_AGATHA_MOVESET ; Sunsette: Indigo Agatha - CLAY ARMOR / SUPERNOVA / AURORA MIST / AQUA RING spread
 ; Sunsette: badge-scaled gym leader tier movesets (sets 1-7 per leader). One per tier row in parties.asm.
 	const BROCK_T1_SET
@@ -188,7 +188,7 @@ ChampArenaErikaMoveset:
 	; victreebel
 	db SLASH
 	db EGG_BOMB
-	db SUPERNOVA
+	db ILL_WIND
 	db RAZOR_LEAF
 	; tangela
 	db FLASH
@@ -233,7 +233,7 @@ ChampArenaBlaineMoveset:
 	db ROCK_SLIDE
 	db EARTHQUAKE
 	db BLAZE_HAMMER
-	db METAMORPHIC
+	db OROCLASM
 	; rapidash
 	db MIRAGE
 	db HYPER_BEAM
@@ -395,7 +395,7 @@ ChampArenaLanceMoveset:
 	; seadra
 	db WYRM_WRATH
 	db RIPTIDE
-	db FIRE_BLAST
+	db ICE_BEAM
 	db CALM_MIND
 	; dragonite 1
 	db DEMOLISH
@@ -428,7 +428,7 @@ ChampArenaKogaMoveset:
 	db ADAPTATION
 	db SHADOW_GAME ; SHADOW GAME (was MIASMA)
 	db SHADOW_BOX
-	db METAMORPHIC
+	db OROCLASM
 	; parasect
 	db SPORE
 	db TWINEEDLE
@@ -443,7 +443,7 @@ ChampArenaKogaMoveset:
 	db EGG_BOMB
 	db SHADOW_GAME ; SHADOW GAME (was MIASMA)
 	db ADAPTATION
-	db FIRE_BLAST
+	db FLAMETHROWER
 
 ChampArenaLoreleiMoveset:
 	; dewgong
@@ -484,7 +484,7 @@ ChampArenaBrockMoveset:
 	db MOCKINGBIRD
 	db PISTON_KICK
 	; kangaskhan
-	db DIZZY_PUNCH
+	db CLOBBERCLOCK
 	db MACH_PUNCH
 	db BODY_SLAM
 	db EARTHQUAKE
@@ -505,7 +505,7 @@ ChampArenaBrockMoveset:
 	db SLASH
 	; onix
 	db SHELL_GAME
-	db SUPERNOVA
+	db OROCLASM
 	db EARTHQUAKE
 	db SPIKE_CANNON
 
@@ -535,13 +535,13 @@ BrockT4Moveset: ; Golem, Rhydon, Weezing, Onix
 BrockT5Moveset: ; Golem, Rhydon, Aerodactyl, Weezing, Onix
 	db METEOR_DRIVE, EARTHQUAKE, ROCK_ON, BLAZE_HAMMER
 	db EARTHQUAKE, ROCK_SLIDE, PISTON_KICK, ICE_BEAM
-	db METEOR_DRIVE, BRAVE_BIRD, EARTHQUAKE, FIRE_BLAST
+	db METEOR_DRIVE, BRAVE_BIRD, EARTHQUAKE, ILL_WIND
 	db SLUDGE_BOMB, TOXIC, DISABLE, THUNDERBOLT
 	db METEOR_DRIVE, ROCK_ON, EARTHQUAKE, ROCK_SLIDE
 BrockT6Moveset: ; Golem, Rhydon, Aerodactyl, Kabutops, Weezing, Hardened Onix
 	db METEOR_DRIVE, EARTHQUAKE, ROCK_ON, BLAZE_HAMMER
 	db EARTHQUAKE, ROCK_SLIDE, PISTON_KICK, ICE_BEAM
-	db METEOR_DRIVE, BRAVE_BIRD, EARTHQUAKE, HYPER_BEAM
+	db METEOR_DRIVE, BRAVE_BIRD, EARTHQUAKE, ILL_WIND
 	db METEOR_DRIVE, LEECH_LIFE, SURF, SWORDS_DANCE
 	db SLUDGE_BOMB, TOXIC, DISABLE, THUNDERBOLT
 	db METEOR_DRIVE, EARTHQUAKE, ROCK_ON, SURF
@@ -550,7 +550,7 @@ BrockT7Moveset: ; Golem, Rhydon, Weezing, Kabutops, Aerodactyl, Hardened Onix
 	db EARTHQUAKE, ROCK_SLIDE, PISTON_KICK, ICE_BEAM
 	db SLUDGE_BOMB, TOXIC, DISABLE, THUNDERBOLT
 	db METEOR_DRIVE, LEECH_LIFE, SURF, SWORDS_DANCE
-	db METEOR_DRIVE, BRAVE_BIRD, EARTHQUAKE, HYPER_BEAM
+	db METEOR_DRIVE, BRAVE_BIRD, EARTHQUAKE, ILL_WIND
 	db METEOR_DRIVE, EARTHQUAKE, ROCK_ON, SURF
 
 ChampArenaAgathaMoveset:
@@ -600,17 +600,17 @@ ChampArenaGymGuideMoveset:
 	db SURF ; Sunsette: CLOYSTER cannot learn CRABHAMMER (Krabby/Kingler move); SURF is its learnable Water STAB
 	db BLIZZARD
 	db SHELL_GAME
-	db SPIKE_CANNON ; Sunsette: was GLARE (now EXPLOSION); CLOYSTER's signature spike barrage + Rock coverage
+	db SPIKE_CANNON ; Sunsette: CLOYSTER's signature spike barrage + Rock coverage
 	; alakazam
 	db PSYCHIC_M
 	db VOID_MIND
 	db RECOVER
 	db DISABLE
 	; tauros
-	db SLASH
-	db BLIZZARD
+	db STRENGTH
+	db CLAY_ARMOR
 	db EARTHQUAKE
-	db VENOM_DRILL
+	db METEOR_DRIVE
 	; missingno
 	db ROOST
 	db HI_JUMP_KICK
@@ -641,7 +641,7 @@ ChampArenaRivalMoveset1:
 	; electabuzz (Electric)
 	db THUNDERBOLT
 	db FROST_FIST
-	db DIZZY_PUNCH
+	db CLOBBERCLOCK
 	db HI_JUMP_KICK
 	; charizard
 	db ROOST
@@ -674,7 +674,7 @@ ChampArenaRivalMoveset2:
 	db FIRE_BLAST
 	db BLITZ_STRIKE
 	db DIG
-	db TWISTER
+	db TEMPEST
 	; blastoise
 	db HYDRO_PUMP
 	db SHELL_GAME
@@ -690,7 +690,7 @@ ChampArenaRivalMoveset3:
 	; kangaskhan (Normal)
 	db BODY_SLAM
 	db EARTHQUAKE
-	db DIZZY_PUNCH
+	db CLOBBERCLOCK
 	db MACH_PUNCH
 	; golem (Rock/Ground)
 	db EARTHQUAKE
@@ -769,7 +769,7 @@ EliteFourRivalMoveset1:
 	; electabuzz (Electric)
 	db THUNDERBOLT
 	db FROST_FIST
-	db DIZZY_PUNCH
+	db CLOBBERCLOCK
 	db HI_JUMP_KICK
 	; charizard
 	db ZAPPERCUT
@@ -802,7 +802,7 @@ EliteFourRivalMoveset2:
 	db FIRE_BLAST
 	db BLITZ_STRIKE
 	db DIG
-	db TWISTER
+	db TEMPEST
 	; blastoise
 	db SHELL_GAME
 	db AQUA_RING ; AQUA RING (WATER ace sustain)
@@ -818,7 +818,7 @@ EliteFourRivalMoveset3:
 	; kangaskhan (Normal)
 	db BODY_SLAM
 	db EARTHQUAKE
-	db DIZZY_PUNCH
+	db CLOBBERCLOCK
 	db MACH_PUNCH
 	; golem (Rock/Ground)
 	db EARTHQUAKE
@@ -885,8 +885,8 @@ GymKogaMoveset:
 	; weezing
 	db SHADOW_GAME
 	db SLUDGE_BOMB
-	db METAMORPHIC
-	db FIRE_BLAST
+	db OROCLASM
+	db FLAMETHROWER
 
 ; Sunsette: Viridian gym Giovanni's earthbound team showcases CLAY ARMOR (FISSURE) - his TM. Every GROUND
 ; mon raises both screens AND heals half its HP off it; the lone airborne DODRIO (Fighting/Flying) can't use
@@ -900,7 +900,7 @@ GymGiovanniMoveset:
 	db EXTERMINATE
 	; dodrio (Fighting/Flying - airborne, can't use CLAY ARMOR)
 	db AIR_DRILL
-	db TRI_ATTACK
+	db BODY_SLAM
 	db AGILITY
 	db HYPER_BEAM
 	; dugtrio (Ground)
@@ -960,7 +960,7 @@ EliteFourLoreleiMoveset:
 	db BODY_SLAM
 
 ; Sunsette: Indigo BRUNO - Fighting. CLAY ARMOR (FISSURE) on every earthbound fighter (screens; ONIX and
-; MAROWAK also heal as GROUND types) and METAMORPHIC (EXPLOSION) on ONIX, his lone ROCK mon (sheds ROCK,
+; MAROWAK also heal as GROUND types) and OROCLASM (EXPLOSION) on ONIX, his lone ROCK mon (sheds ROCK,
 ; +6 SPEED). Order: Hitmonchan, Hitmonlee, Onix, Marowak, Primeape, Machamp.
 EliteFourBrunoMoveset:
 	; hitmonchan
@@ -974,7 +974,7 @@ EliteFourBrunoMoveset:
 	db EARTHQUAKE
 	db COMBOBREAKER
 	; onix
-	db METAMORPHIC
+	db OROCLASM
 	db EARTHQUAKE
 	db ROCK_SLIDE
 	db CLAY_ARMOR
@@ -1017,7 +1017,7 @@ EliteFourAgathaMoveset:
 	; arbok
 	db CLAY_ARMOR
 	db ACID
-	db HYPNOSIS ; Sunsette: was GLARE (now EXPLOSION); ARBOK's hypnotic gaze
+	db HYPNOSIS ; Sunsette: ARBOK's hypnotic gaze
 	db SUPER_FANG
 	; parasect (Bug/GHOST)
 	db SPORE
@@ -1037,9 +1037,9 @@ SECTION "Gym Tier Movesets", ROMX ; Sunsette: own floating section so 49 badge-t
 ; matching parties.asm $FD row. T1/T2 pad unused slots with NO_MOVE. Renamed-move notes:
 ; BIDE=BULK UP, ACID_ARMOR=AQUA RING, WATERFALL=RIPTIDE, SELFDESTRUCT=SUPERNOVA, HAZE=SHADOW GAME,
 ; PSYWAVE=SKITTERMIND, PETAL_DANCE=SENBONZAKURA, NIGHT_SHADE=PHANTASM, CONSTRICT=VENOM LASH,
-; SKY_ATTACK=BRAVE BIRD, WHIRLWIND=HURRICANE, THRASH=OUTRAGE, DRAGON_RAGE=WYRM WRATH, SLAM=TWISTER,
+; SKY_ATTACK=BRAVE BIRD, WHIRLWIND=HURRICANE, THRASH=INDIGNATION, DRAGON_RAGE=WYRM WRATH, SLAM=TEMPEST,
 ; MEGA_KICK=PISTON KICK, SKULL_BASH=METEOR DRIVE, FIRE_PUNCH=BLAZE HAMMER, TAKE_DOWN=HEAT RUSH,
-; AMNESIA=CALM MIND, DREAM_EATER=SOULSTEALER, EXPLOSION=METAMORPHIC, QUICK_ATTACK=BLITZ_STRIKE,
+; AMNESIA=CALM MIND, DREAM_EATER=SOULSTEALER, EXPLOSION=OROCLASM, QUICK_ATTACK=BLITZ_STRIKE,
 ; SUBMISSION=FULL NELSON, RAZOR_WIND=ROOST.
 ; ====================================================================================
 
@@ -1088,7 +1088,7 @@ SurgeT1Moveset: ; Voltorb, Machop, Pikachu
 	db THUNDERBOLT, THUNDERSHOCK, THUNDER_WAVE, NO_MOVE
 SurgeT2Moveset: ; Voltorb, Machop, Raichu
 	db SWIFT, THUNDERSHOCK, THUNDER_WAVE, NO_MOVE
-	db LOW_KICK, DEMOLISH, SEISMIC_TOSS, NO_MOVE
+	db FINISHER, DEMOLISH, SEISMIC_TOSS, NO_MOVE
 	db THUNDERBOLT, SWIFT, THUNDER_WAVE, NO_MOVE
 SurgeT3Moveset: ; Voltorb, Magnemite, Pinsir, Raichu
 	db THUNDERBOLT, SWIFT, THUNDER_WAVE, SUPERNOVA
@@ -1134,13 +1134,13 @@ ErikaT2Moveset: ; Weepinbell, Dratini, Tangela
 	db MEGA_DRAIN, ADAPTATION, ABSORB, NO_MOVE
 ErikaT3Moveset: ; Weepinbell, Dratini, Gloom, Tangela
 	db RAZOR_LEAF, SLUDGE_BOMB, SLEEP_POWDER, STUN_SPORE
-	db WYRM_WRATH, TWISTER, BODY_SLAM, THUNDER_WAVE
+	db WYRM_WRATH, TEMPEST, BODY_SLAM, THUNDER_WAVE
 	db MEGA_DRAIN, SLUDGE_BOMB, SLEEP_POWDER, ACID
 	db RAZOR_LEAF, ADAPTATION, MEGA_DRAIN, SURF
 ErikaT4Moveset: ; Victreebel, Tangela, Dragonair, Vileplume
 	db RAZOR_LEAF, SLUDGE_BOMB, SOLARBEAM, SLEEP_POWDER
 	db RAZOR_LEAF, ADAPTATION, MEGA_DRAIN, SURF
-	db OUTRAGE, ICE_BEAM, THUNDERBOLT, WYRM_WRATH
+	db INDIGNATION, ICE_BEAM, THUNDERBOLT, WYRM_WRATH
 	db SLUDGE_BOMB, SENBONZAKURA, ADAPTATION, PHANTASM
 ErikaT5Moveset: ; Victreebel, Tangela, Pidgeot, Venusaur, Vileplume
 	db RAZOR_LEAF, SLUDGE_BOMB, SOLARBEAM, SLEEP_POWDER
@@ -1180,27 +1180,27 @@ KogaT4Moveset: ; Tentacruel, Muk, Scyther, Weezing
 	db SURF, SHADOW_GAME, ICE_BEAM, VENOM_LASH
 	db SLUDGE_BOMB, SHADOW_GAME, BODY_SLAM, VENOM_LASH
 	db SLASH, WING_ATTACK, BRAVE_BIRD, SWORDS_DANCE
-	db SLUDGE_BOMB, SHADOW_GAME, DISABLE, FIRE_BLAST
+	db SLUDGE_BOMB, SHADOW_GAME, DISABLE, FLAMETHROWER
 KogaT5Moveset: ; Tentacruel, Muk, Venomoth, Scyther, Weezing
 	db SURF, SHADOW_GAME, ICE_BEAM, VENOM_LASH
 	db SLUDGE_BOMB, SHADOW_GAME, BODY_SLAM, VENOM_LASH
 	db PSYCHIC_M, SLUDGE_BOMB, SLEEP_POWDER, SHADOW_GAME
 	db SLASH, WING_ATTACK, BRAVE_BIRD, SWORDS_DANCE
-	db SLUDGE_BOMB, SHADOW_GAME, DISABLE, FIRE_BLAST
+	db SLUDGE_BOMB, SHADOW_GAME, DISABLE, FLAMETHROWER
 KogaT6Moveset: ; Tentacruel, Muk, Venomoth, Scyther, Parasect, Weezing
 	db SURF, SHADOW_GAME, ICE_BEAM, VENOM_LASH
 	db SLUDGE_BOMB, SHADOW_GAME, BODY_SLAM, VENOM_LASH
 	db PSYCHIC_M, SLUDGE_BOMB, SLEEP_POWDER, SHADOW_GAME
 	db SLASH, WING_ATTACK, BRAVE_BIRD, SWORDS_DANCE
 	db SPORE, LEECH_LIFE, PHANTASM, SOLARBEAM
-	db SLUDGE_BOMB, SHADOW_GAME, DISABLE, FIRE_BLAST
+	db SLUDGE_BOMB, SHADOW_GAME, DISABLE, FLAMETHROWER
 KogaT7Moveset: ; Tentacruel, Muk, Venomoth, Scyther, Parasect, Floating Weezing
 	db SURF, SHADOW_GAME, ICE_BEAM, VENOM_LASH
 	db SLUDGE_BOMB, SHADOW_GAME, BODY_SLAM, VENOM_LASH
 	db PSYCHIC_M, SLUDGE_BOMB, SLEEP_POWDER, SHADOW_GAME
 	db SLASH, WING_ATTACK, BRAVE_BIRD, SWORDS_DANCE
 	db SPORE, LEECH_LIFE, PHANTASM, SOLARBEAM
-	db SLUDGE_BOMB, SHADOW_GAME, THUNDERBOLT, FIRE_BLAST
+	db SLUDGE_BOMB, SHADOW_GAME, THUNDERBOLT, FLAMETHROWER
 
 SabrinaT1Moveset: ; Abra, Psyduck, Drowzee
 	db SEISMIC_TOSS, DISABLE, REFLECT, NO_MOVE
@@ -1268,12 +1268,12 @@ BlaineT6Moveset: ; Ninetales, Magmar, Electrode, Rapidash, Golem, Arcanine
 	db BLAZE_HAMMER, FIRE_BLAST, PSYCHIC_M, SUPERNOVA
 	db THUNDERBOLT, SUPERNOVA, THUNDER, SWIFT
 	db FIRE_BLAST, PISTON_KICK, METEOR_DRIVE, MIRAGE
-	db ROCK_SLIDE, EARTHQUAKE, BLAZE_HAMMER, METAMORPHIC
+	db ROCK_SLIDE, EARTHQUAKE, BLAZE_HAMMER, OROCLASM
 	db FLAMETHROWER, FIRE_BLAST, BODY_SLAM, SUPERNOVA
 BlaineT7Moveset: ; Ninetales, Magmar, Electrode, Rapidash, Golem, Arcanine
 	db FLAMETHROWER, SUPERNOVA, PHANTASM, MIRAGE
 	db BLAZE_HAMMER, FIRE_BLAST, PSYCHIC_M, SUPERNOVA
 	db THUNDERBOLT, SUPERNOVA, THUNDER, SWIFT
 	db FIRE_BLAST, PISTON_KICK, METEOR_DRIVE, MIRAGE
-	db ROCK_SLIDE, EARTHQUAKE, BLAZE_HAMMER, METAMORPHIC
+	db ROCK_SLIDE, EARTHQUAKE, BLAZE_HAMMER, OROCLASM
 	db FLAMETHROWER, FIRE_BLAST, BODY_SLAM, SUPERNOVA

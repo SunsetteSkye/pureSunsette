@@ -241,6 +241,28 @@ PlayAnimation:
 	ret z
 	cp FIRST_SE_ID ; is this subanimation or a special effect?
 	jr c, .playSubanimation
+	cp SE_RED_SCREEN_PALETTE ; Sunsette: flood SE - takes a colour-ramp operand in the sound slot
+	jr z, .floodScreenPalette
+; Sunsette: centre-stage cutscene SEs ($C2-$C8) have their bodies in another bank (center_stage_se.asm).
+; They are always authored as `battle_anim NO_MOVE, SE_x` (no sound), so skip the stream's sound byte and
+; dispatch out-of-bank, then resume the command stream.
+	cp $C2
+	jr c, .notCenterStageSE
+	cp $C8 + 1
+	jr nc, .notCenterStageSE
+	inc hl                        ; skip the NO_MOVE sound byte
+	push hl                       ; resume ptr; .nextAnimationCommand pops it (farcall clobbers hl harmlessly)
+	farcall CenterStageSEDispatch ; a = SE id -> runs the matching *_CS body
+	jp .nextAnimationCommand
+.floodScreenPalette
+; Sunsette: read the colour-ramp index (the repurposed sound operand), then dispatch the flood
+; (body floated to center_stage_se.asm). push resume -> .nextAnimationCommand pops it.
+	ld a, [hli]                   ; ramp index (FLOOD_x - 1); hl now = next command
+	ld [wScreenFloodRamp], a
+	push hl                       ; resume ptr for .nextAnimationCommand to pop
+	farcall AnimationFloodScreenPalette_CS
+	jp .nextAnimationCommand
+.notCenterStageSE
 ; do Special Effect
 	ld c, a
 	ld de, SpecialEffectPointers
@@ -326,7 +348,7 @@ PlayAnimation:
 	inc a
 	ld [wSubAnimStepCounter], a
 ;;;;;;;;;;
-	jr .animationLoop
+	jp .animationLoop
 
 LoadSubanimation:
 	vc_hook Reduce_move_anim_flashing_Guillotine
@@ -478,6 +500,9 @@ MoveAnimationContent:
 	bit 0, a
 	call nz, SetMoveDexSeen
 	call SetAnimationPalette
+	xor a ; Sunsette: clear the global anim offset so each move starts un-shifted
+	ld [wAnimOffsetX], a
+	ld [wAnimOffsetY], a
 ;;;;;;;;;;
 	ld a, [wAnimationID]
 	and a
@@ -718,8 +743,14 @@ PlaySubanimation:
 	add hl, de
 	add hl, de
 	ld a, [hli]
+	ld b, a               ; Sunsette: base Y + global anim offset (0 for normal moves)
+	ld a, [wAnimOffsetY]
+	add b
 	ld [wBaseCoordY], a
 	ld a, [hl]
+	ld b, a               ; Sunsette: base X + global anim offset
+	ld a, [wAnimOffsetX]
+	add b
 	ld [wBaseCoordX], a
 	pop hl
 	inc hl
@@ -1337,6 +1368,10 @@ AnimationDarkScreenPalette:
 ; Changes the screen's palette to a dark palette.
 	lb bc, $6f, $6f
 	jr SetAnimationBGPalette
+
+; Sunsette: SE_RED_SCREEN_PALETTE's body (AnimationFloodScreenPalette_CS) lives in
+; center_stage_se.asm (floated out of bank1E). PlayAnimation's .floodScreenPalette farcalls it
+; with the ramp index in wScreenFloodRamp. DMG/SGB degrade to AnimationDarkScreenPalette.
 
 AnimationDarkenMonPalette:
 ; Darkens the mon sprite's palette.
@@ -2310,6 +2345,7 @@ pusho b.X ; . = 0, X = 1
 popo
 MinimizedMonSpriteEnd:
 
+
 ;;;;;;;;;; PureRGBnote: ADDED: new animation used in sludge
 AnimationSlideEnemyMonDownAndHide:
 	ld hl, AnimationSlideMonDownAndHide
@@ -2782,14 +2818,29 @@ AnimCopyRowRight:
 ;	ret
 
 GetMoveSound:
-	ld hl, MoveSoundTable
+; Sunsette: MoveSoundTable was floated out of this (full) bank into its own SECTION to make room for
+; bigger move-animation bodies, so its 3-byte entry is now read across the bank boundary. Read all three
+; bytes up front (b = sound id, d = frequency modifier, e = tempo modifier) while the table's bank is
+; loaded, then restore the previous bank before the cry/non-cry logic. GetCryData preserves de, so d/e
+; survive it.
 	ld e, a
 	ld d, 0
+	ld hl, MoveSoundTable
 	add hl, de
 	add hl, de
-	add hl, de
+	add hl, de              ; hl -> this move's 3-byte entry (in MoveSoundTable's far bank)
+	ldh a, [hLoadedROMBank]
+	push af                 ; save the caller's bank (the animation bank)
+	ld a, BANK(MoveSoundTable)
+	call SetCurBank
 	ld a, [hli]
-	ld b, a
+	ld b, a                 ; b = sound id
+	ld a, [hli]
+	ld d, a                 ; d = frequency modifier
+	ld a, [hl]
+	ld e, a                 ; e = tempo modifier
+	pop af
+	call SetCurBank         ; restore the animation bank before continuing
 	call IsCryMove
 	jr nc, .NotCryMove
 	ldh a, [hWhoseTurn]
@@ -2798,22 +2849,19 @@ GetMoveSound:
 	jr nz, .Continue
 	ld a, [wBattleMonSpecies] ; get number of current monster
 .Continue
-	push hl
-	call GetCryData
+	call GetCryData         ; returns the cry's sound id in a + sets the base freq/tempo modifiers; preserves de
 	ld b, a
-	pop hl
 	ld a, [wFrequencyModifier]
-	add [hl]
+	add d                   ; + this move's table frequency modifier
 	ld [wFrequencyModifier], a
-	inc hl
 	ld a, [wTempoModifier]
-	add [hl]
+	add e                   ; + this move's table tempo modifier
 	ld [wTempoModifier], a
 	jr .done
 .NotCryMove
-	ld a, [hli]
+	ld a, d
 	ld [wFrequencyModifier], a
-	ld a, [hli]
+	ld a, e
 	ld [wTempoModifier], a
 .done
 	ld a, b
@@ -2832,7 +2880,8 @@ IsCryMove:
 	scf
 	ret
 
-INCLUDE "data/moves/sfx.asm"
+; Sunsette: MoveSoundTable (data/moves/sfx.asm) floated to its own "Sunsette Move Sound Table" SECTION
+; (this bank was full and the move-animation bodies needed room). GetMoveSound above reads it cross-bank.
 
 CopyPicTiles:
 	ldh a, [hWhoseTurn]

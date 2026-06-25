@@ -1,7 +1,7 @@
-; Explosion has the same learnset as selfdestruct
+; Explosion learnset, tutored by the Celadon move tutor. (Was two aliased labels Explosion/Selfdestruct
+; taught as OROCLASM/SUPERNOVA; consolidated 2026-06-21 to a single move = the actual EXPLOSION.)
 ExplosionLearnset:
-SelfdestructLearnset:
-	bit_array SelfdestructLearnset
+	bit_array ExplosionLearnset
 	dbit TRUE  ; MISSINGNO  ; 0
 	dbit FALSE ; BULBASAUR  ; 1
 	dbit FALSE ; IVYSAUR    ; 2

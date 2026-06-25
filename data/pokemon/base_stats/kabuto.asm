@@ -64,4 +64,6 @@
 ;@ learn       39, METEOR_DRIVE
 ;@ learn       44, EXTERMINATE
 ;@ learn       49, EARTHQUAKE
-;@ learn       53, METAMORPHIC
+;@ learn       53, OROCLASM
+;@ tutor       METEOR_DRIVE
+;@ tutor       SCREECH

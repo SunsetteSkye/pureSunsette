@@ -15,34 +15,41 @@
 
 	; tm/hm learnset
 	tmhm \
-	FROST_FIST,\
-	MUD_BOMB,\
-	TOXIC,\
-	HONE_EDGE,\
-	BODY_SLAM,\
 	DISABLE,\
+	AURORA_MIST,\
+	TOXIC,\
+	SLUDGE_BOMB,\
+	BODY_SLAM,\
 	DOUBLE_EDGE,\
-	AQUA_RING,\
+	WATER_PULSE,\
+	SUPER_SOAK,\
 	ICE_BEAM,\
 	BLIZZARD,\
 	HYPER_BEAM,\
-	CALM_MIND,\
-	LOW_KICK,\
 	ZAPPERCUT,\
-	METEOR_SWEEP,\
-	BARRIER,\
+	FROST_FIST,\
+	SEISMIC_TOSS,\
 	EARTHQUAKE,\
-	RIPTIDE,\
+	MUD_BOMB,\
 	DIG,\
-	SWORDS_DANCE,\
-	REFLECT,\
-	BULK_UP,\
-	SHADOW_BALL,\
+	FINISHER,\
 	DEMOLISH,\
+	BULK_UP,\
+	REFLECT,\
 	LIGHT_SCREEN,\
-	SHADOW_GAME,\
-	ROCK_ON,\
+	SHADOW_BALL,\
+	SHADOW_BOX,\
+	BARRIER,\
+	METEOR_SWEEP,\
+	ROCK_SLIDE,\
+	OROCLASM,\
 	SUBSTITUTE,\
+	RIPTIDE,\
+	AQUA_RING,\
+	VOID_MIND,\
+	LEAP_ATTACK,\
+	CLAY_ARMOR,\
+	ROCK_ON,\
 	CUT,\
 	SURF,\
 	STRENGTH
@@ -68,11 +75,16 @@
 ;@ learn       6, BUBBLE
 ;@ learn       8, HARDEN
 ;@ learn       11, SUPER_SOAK
-;@ learn       14, LOW_KICK
+;@ learn       14, SEISMIC_TOSS
 ;@ learn       18, BITE
 ;@ learn       23, SHELL_GAME
 ;@ learn       28, CLAMP
-;@ learn       33, DIZZY_PUNCH
-;@ learn       35, BLOOD_RUSH
-;@ learn       42, METEOR_DRIVE
+;@ learn       33, CLOBBERCLOCK
+;@ learn       40, BLOOD_RUSH
+;@ learn       44, METEOR_DRIVE
 ;@ learn       50, HYDRO_PUMP
+;@ learn       56, SUBMISSION
+;@ tutor       CLOBBERCLOCK
+;@ tutor       PISTON_KICK
+;@ tutor       METEOR_DRIVE
+;@ tutor       EGG_BOMB

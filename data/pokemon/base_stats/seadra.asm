@@ -15,6 +15,7 @@
 
 	; tm/hm learnset
 	tmhm \
+	LEAP_ATTACK,\
 	ADAPTATION,\
 	MUD_BOMB,\
 	PIN_MISSILE,\
@@ -30,12 +31,11 @@
 	WYRM_WRATH,\
 	RIPTIDE,\
 	MEGA_DRAIN,\
-	MIRAGE,\
 	REFLECT,\
 	BULK_UP,\
 	SHADOW_BALL,\
 	FIRE_BLAST,\
-	TWISTER,\
+	TEMPEST,\
 	LOVELY_KISS,\
 	LIGHT_SCREEN,\
 	SHADOW_GAME,\
@@ -67,7 +67,7 @@
 ;@ learn       21, GUST
 ;@ learn       24, WATER_PULSE
 ;@ learn       26, AGILITY
-;@ learn       31, TWISTER
+;@ learn       31, TEMPEST
 ;@ learn       35, RIPTIDE
 ;@ learn       39, DOUBLE_TEAM
 ;@ learn       44, WYRM_WRATH

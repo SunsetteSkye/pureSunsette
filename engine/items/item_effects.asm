@@ -2022,13 +2022,11 @@ ItemUseRepelCommon:
 	jp PrintItemUseTextAndRemoveItem
 
 ; handles X Accuracy item
+; Sunsette: now raises the user's ACCURACY by one stage like the other X-stat items.
+; (Was the vanilla "always hit this battle" flag; that battle-status bit has been reclaimed.)
 ItemUseXAccuracy:
-	ld a, [wIsInBattle]
-	and a
-	jp z, ItemUseInBattle ; PureRGBnote: CHANGED: text that displays when using out of battle indicates it's for use in battle
-	ld hl, wPlayerBattleStatus2
-	set USING_X_ACCURACY, [hl] ; X Accuracy bit
-	jp PrintItemUseTextAndRemoveItem
+	ld b, ACCURACY_UP1_EFFECT
+	jr ItemUseXStatCommon
 
 ; This function is bugged and never works. It always jumps to ItemUseNotTime.
 ; The Card Key is handled in a different way. ; PureRGBnote: CHANGED: remove pointless code
@@ -2093,6 +2091,10 @@ ItemUseDireHit:
 	jp PrintItemUseTextAndRemoveItem
 
 ItemUseXStat:
+	ld a, [wCurItem]
+	sub X_ATTACK - ATTACK_UP1_EFFECT
+	ld b, a ; b = the matching stat-up move effect
+ItemUseXStatCommon: ; Sunsette: shared entry; b = the *_UP1_EFFECT to apply (X Accuracy passes ACCURACY_UP1_EFFECT)
 	ld a, [wIsInBattle]
 	and a
 	jr nz, .inBattle
@@ -2107,8 +2109,7 @@ ItemUseXStat:
 	ld a, [hl]
 	push af ; save [wPlayerMoveEffect]
 	push hl
-	ld a, [wCurItem]
-	sub X_ATTACK - ATTACK_UP1_EFFECT
+	ld a, b
 	ld [hl], a ; store player move effect
 	call PrintItemUseTextAndRemoveItem
 	ld a, XSTATITEM_ANIM ; X stat item animation ID

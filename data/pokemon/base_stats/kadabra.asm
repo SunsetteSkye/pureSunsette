@@ -15,30 +15,34 @@
 
 	; tm/hm learnset
 	tmhm \
-	FROST_FIST,\
-	BLAZE_HAMMER,\
+	DISABLE,\
+	AURORA_MIST,\
+	SHADOW_GAME,\
 	TOXIC,\
 	BODY_SLAM,\
-	DISABLE,\
 	DOUBLE_EDGE,\
-	AURORA_MIST,\
-	CALM_MIND,\
-	LOW_KICK,\
 	ZAPPERCUT,\
-	METEOR_SWEEP,\
+	FROST_FIST,\
+	BLAZE_HAMMER,\
+	SEISMIC_TOSS,\
 	DIG,\
 	PSYCHIC_M,\
-	MIRAGE,\
-	REFLECT,\
+	FINISHER,\
+	DEMOLISH,\
 	BULK_UP,\
+	REFLECT,\
+	LIGHT_SCREEN,\
 	ILL_WIND,\
 	SHADOW_BALL,\
-	DEMOLISH,\
-	VOID_MIND,\
-	LIGHT_SCREEN,\
+	SHADOW_BOX,\
+	BARRIER,\
+	ENERGY_FLUX,\
 	SKITTERMIND,\
-	SHADOW_GAME,\
+	METEOR_SWEEP,\
 	SUBSTITUTE,\
+	CALM_MIND,\
+	VOID_MIND,\
+	PSYCHO_SHIFT,\
 	FLASH
 	; end
 
@@ -57,15 +61,21 @@
 ;@ pal_alticon  $FF
 ;@ evo         EVOLVE_TRADE, 1, ALAKAZAM
 ;@ evo         EVOLVE_LEVEL, 37, ALAKAZAM
-;@ evo_move    NO_MOVE
+;@ evo_move    PSYCHO_SHIFT
 ;@ evo_react   "Its spoon bends" "as the air hums."
 ;@ evo_react   "Its spoon twists" "with a soft hum."
 ;@ evo_react   "The air ripples" "around its head."
 ;@ evo_react   "It taps its brow," "thoughts surging."
-;@ learn       16, CONFUSION
-;@ learn       20, DISABLE
+;@ learn       18, DISABLE
+;@ learn       22, METRONOME
 ;@ learn       27, PSYBEAM
-;@ learn       31, RECOVER
-;@ learn       38, PSYCHIC_M
-;@ learn       42, REFLECT
-;@ learn       54, VOID_MIND
+;@ learn       32, REFLECT
+;@ learn       38, RECOVER
+;@ learn       43, CALM_MIND
+;@ learn       48, PSYCHIC_M
+;@ learn       53, BARRIER
+;@ learn       57, VOID_MIND
+;@ learn       63, PSYSHOCK
+;@ tutor       TELEPORT
+;@ tutor       CLOBBERCLOCK
+;@ tutor       PISTON_KICK

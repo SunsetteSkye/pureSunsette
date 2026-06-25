@@ -15,26 +15,30 @@
 
 	; tm/hm learnset
 	tmhm \
-	ADAPTATION,\
-	MUD_BOMB,\
-	PIN_MISSILE,\
-	TOXIC,\
 	HONE_EDGE,\
-	BODY_SLAM,\
 	DISABLE,\
+	SHADOW_GAME,\
+	TOXIC,\
+	SLUDGE_BOMB,\
+	BODY_SLAM,\
+	QUICK_ATTACK,\
 	DOUBLE_EDGE,\
 	HYPER_BEAM,\
-	LOW_KICK,\
 	EARTHQUAKE,\
+	MUD_BOMB,\
 	DIG,\
-	BULK_UP,\
-	SHADOW_BALL,\
+	FINISHER,\
 	DEMOLISH,\
-	SHADOW_GAME,\
+	BULK_UP,\
+	HEAT_RUSH,\
+	BARRIER,\
 	ROCK_SLIDE,\
-	ROCK_ON,\
+	OROCLASM,\
 	SUBSTITUTE,\
+	ADAPTATION,\
+	PIN_MISSILE,\
 	CLAY_ARMOR,\
+	ROCK_ON,\
 	CUT,\
 	STRENGTH
 	; end
@@ -57,14 +61,15 @@
 ;@ evo_react   "Three heads pop up" "all at once!"
 ;@ evo_react   "They burrow fast," "dirt flying high!"
 ;@ evo_react   "They peek out," "then dive away!"
-;@ learn       13, MUD_CLAW
-;@ learn       15, GROWL
+;@ learn       6, MUD_CLAW
+;@ learn       10, GROWL
+;@ learn       14, ROCK_THROW
 ;@ learn       19, DIG
-;@ learn       24, ROCK_THROW
-;@ learn       30, MUD_BOMB
-;@ learn       35, SLASH
-;@ learn       39, DISABLE
-;@ learn       43, EARTHQUAKE
-;@ learn       49, ROCK_SLIDE
-;@ learn       54, AGILITY
-;@ learn       59, CLAY_ARMOR
+;@ learn       23, DISABLE
+;@ learn       28, SLASH
+;@ learn       33, AGILITY
+;@ learn       40, ROCK_SLIDE
+;@ learn       48, EARTHQUAKE
+;@ tutor       TRI_ATTACK
+;@ tutor       METEOR_DRIVE
+;@ tutor       SCREECH

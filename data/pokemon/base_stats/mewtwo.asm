@@ -27,16 +27,15 @@
 	BLIZZARD,\
 	HYPER_BEAM,\
 	CALM_MIND,\
-	LOW_KICK,\
+	FINISHER,\
 	ZAPPERCUT,\
 	METEOR_SWEEP,\
 	BARRIER,\
-	SOLARBEAM,\ 
+	SOLARBEAM,\
 	THUNDERBOLT,\
 	THUNDER,\
 	EARTHQUAKE,\
 	PSYCHIC_M,\
-	MIRAGE,\
 	REFLECT,\
 	BULK_UP,\
 	ILL_WIND,\
@@ -74,3 +73,11 @@
 ;@ learn       72, BARRIER
 ;@ learn       75, AURORA_MIST
 ;@ learn       81, CALM_MIND
+;@ tutor       EXPLOSION
+;@ tutor       TRI_ATTACK
+;@ tutor       PAY_DAY
+;@ tutor       TELEPORT
+;@ tutor       CLOBBERCLOCK
+;@ tutor       PISTON_KICK
+;@ tutor       METEOR_DRIVE
+;@ tutor       SWIFT

@@ -15,32 +15,53 @@
 
 	; tm/hm learnset
 	tmhm \
-	ADAPTATION,\
-	MUD_BOMB,\
-	PIN_MISSILE,\
-	TOXIC,\
 	HONE_EDGE,\
-	BODY_SLAM,\
 	DISABLE,\
-	DOUBLE_EDGE,\
-	BARRIER,\
-	EARTHQUAKE,\
-	DIG,\
-	MEGA_DRAIN,\
-	MIRAGE,\
 	SWORDS_DANCE,\
-	REFLECT,\
+	AURORA_MIST,\
+	SHADOW_GAME,\
+	TOXIC,\
+	SLUDGE_BOMB,\
+	BODY_SLAM,\
+	QUICK_ATTACK,\
+	DOUBLE_EDGE,\
+	WATER_PULSE,\
+	SUPER_SOAK,\
+	GIGA_DRAIN,\
+	MEGA_DRAIN,\
+	SOLARBEAM,\
+	EARTHQUAKE,\
+	MUD_BOMB,\
+	DIG,\
+	FINISHER,\
+	DEMOLISH,\
 	BULK_UP,\
+	REFLECT,\
+	LIGHT_SCREEN,\
+	HEAT_RUSH,\
+	FLAMETHROWER,\
+	FIRE_BLAST,\
 	ILL_WIND,\
 	SHADOW_BALL,\
-	DEMOLISH,\
-	LOVELY_KISS,\
-	LIGHT_SCREEN,\
-	SHADOW_GAME,\
+	SHADOW_BOX,\
+	BARRIER,\
+	THUNDER_WAVE,\
+	SKITTERMIND,\
 	ROCK_SLIDE,\
-	ROCK_ON,\
 	SUBSTITUTE,\
+	AQUA_RING,\
+	RAZOR_LEAF,\
+	ADAPTATION,\
+	CALM_MIND,\
+	VOID_MIND,\
+	PSYCHO_SHIFT,\
+	LOVELY_KISS,\
+	LEAP_ATTACK,\
+	PIN_MISSILE,\
+	LEECH_LIFE,\
+	TEMPEST,\
 	CLAY_ARMOR,\
+	ROCK_ON,\
 	CUT,\
 	STRENGTH
 	; end
@@ -60,15 +81,18 @@
 ;@ pal_icon     PAL_ICON_15
 ;@ pal_alticon  $FF
 ;@ evo         EVOLVE_LEVEL, 22, ARBOK
-;@ evo_move    NO_MOVE
+;@ evo_move    HYPNOSIS
 ;@ evo_react   NONE
 ;@ learn       7, ABSORB
-;@ learn       13, BITE
-;@ learn       19, ACID
-;@ learn       23, HYPNOSIS
-;@ learn       29, LEECH_LIFE
+;@ learn       12, BITE
+;@ learn       16, ACID
+;@ learn       24, LEECH_LIFE
+;@ learn       29, FOCUS_ENERGY
 ;@ learn       35, BLITZ_STRIKE
-;@ learn       39, FOCUS_ENERGY
-;@ learn       45, SOULSTEALER
-;@ learn       51, VENOM_LASH
-;@ learn       55, POWER_BIND
+;@ learn       40, POISON_FANG
+;@ learn       45, VENOM_LASH
+;@ learn       50, POWER_BIND
+;@ learn       55, SOULSTEALER
+;@ tutor       METEOR_DRIVE
+;@ tutor       EGG_BOMB
+;@ tutor       SCREECH

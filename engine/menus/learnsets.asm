@@ -756,14 +756,14 @@ LearnsetMonIconsOAM:
 
 ConvertTMItemIDToMove:
 	; convert item ID to tm or hm index (HMs come after TMs in the index whereas they come before them in item IDs)
-	cp $C4 + NUM_HMS
+	cp HM01 + NUM_HMS
 	jr nc, .tm
 	add NUM_TMS
 	jr .gotItemID
 .tm
 	sub NUM_HMS
 .gotItemID
-	sub $C3 ; TM/HM item offset - 1 since the below function expects the first TM to start at 1 not 0
+	sub HM01 - 1 ; TM/HM item offset - 1 since the below function expects the first TM to start at 1 not 0
 	ld [wTempTMHM], a
 	jpfar TMToMove
 

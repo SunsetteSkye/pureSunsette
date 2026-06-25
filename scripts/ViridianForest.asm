@@ -27,6 +27,7 @@ ViridianForest_TextPointers:
 	dw_const PickUp2ItemText,                   TEXT_VIRIDIANFOREST_ITEM2
 	dw_const PickUp5ItemText,                   TEXT_VIRIDIANFOREST_ITEM3
 	dw_const ViridianForestYoungster5Text,      TEXT_VIRIDIANFOREST_YOUNGSTER6
+	dw_const PickUpItemText,                    TEXT_VIRIDIANFOREST_ITEM4
 	dw_const ViridianForestTrainerTips1Text,    TEXT_VIRIDIANFOREST_TRAINER_TIPS1
 	dw_const ViridianForestUseAntidoteSignText, TEXT_VIRIDIANFOREST_USE_ANTIDOTE_SIGN
 	dw_const ViridianForestTrainerTips2Text,    TEXT_VIRIDIANFOREST_TRAINER_TIPS2

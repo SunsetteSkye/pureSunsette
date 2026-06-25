@@ -1,0 +1,20 @@
+{
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python",
+            "args": [
+              "-c",
+              "import sys,json,re; d=json.load(sys.stdin); c=d.get(\"tool_input\",{}).get(\"command\",\"\"); m=(re.search(r\"\\bmake\\b\",c) and re.search(r\"\\b(clean|tidy)\\b\",c)); print(json.dumps({\"hookSpecificOutput\":{\"hookEventName\":\"PreToolUse\",\"permissionDecision\":\"deny\",\"permissionDecisionReason\":\"BLOCKED: 'make clean' / 'make tidy' is forbidden in this repo. It deletes untracked, locally-precompiled build tools (tools/gfx, tools/scan_includes) and every generated .2bpp graphic, none of which can be rebuilt in this environment (no working native C compiler). Use plain incremental 'make' instead.\"}})) if m else None"
+            ],
+            "statusMessage": "Guarding against make clean/tidy"
+          }
+        ]
+      }
+    ]
+  }
+}

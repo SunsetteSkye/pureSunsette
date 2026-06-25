@@ -78,7 +78,7 @@ MoveEffectPointerTable:
 	dw ConfusionBigSideEffect    ; CONFUSION_BIG_SIDE_EFFECT
 	dw ConfusionSideEffect       ; CONFUSION_SIDE_EFFECT
 	dw TwoToFiveAttacksEffect    ; TWINEEDLE_EFFECT
-	dw MeditateEffect            ; MEDITATE_EFFECT
+	dw VoidMindEffect            ; VOID_MIND_EFFECT
 	dw SubstituteEffect          ; SUBSTITUTE_EFFECT
 	dw HyperBeamEffect           ; HYPER_BEAM_EFFECT
 	dw TwoToFiveAttacksEffect    ; BONEMERANG_EFFECT
@@ -106,16 +106,20 @@ MoveEffectPointerTable:
 	dw HazeEffect                ; SOLARBEAM_EFFECT ; Sunsette: also shares the Haze trampoline; HazeFlinchEffect_ dispatches it to SolarBeamEffect_ (drain+prime / release-burn / fire recoil+burn)
 	dw HazeEffect                ; MINDWIPE_EFFECT ; Sunsette: also shares the Haze trampoline; HazeFlinchEffect_ dispatches it to MindwipeEffect_ (retype BUG + gray + -1 ACC, no damage)
 	dw HazeEffect                ; ROOST_EFFECT ; Sunsette: also shares the Haze trampoline; HazeFlinchEffect_ dispatches it to RoostEffect_ (heal + natural-type/palette refresh + strip FLYING/FLOATING)
-	dw HazeEffect                ; JOLT_BOLT_EFFECT ; Sunsette: RETIRED (POUND is now SPARK / PARALYZE_SIDE_EFFECT2). Dead row kept for index stability; no move uses this effect.
+	dw HazeEffect                ; SHADOW_BOX_EFFECT ; Sunsette: shares the Haze trampoline; HazeFlinchEffect_ dispatches it to ShadowBoxEffect_ (post-damage confuse rider; the 75/35 power split + brace are handled by ShadowBoxPowerModifier + the damage-path brace)
 	dw HazeEffect                ; HOBBLE_EFFECT ; Sunsette: also shares the Haze trampoline; HazeFlinchEffect_ dispatches it to HobbleEffect_ (guaranteed -1 SPEED and -1 EVASION to the target, post-damage)
 	dw HazeEffect                ; CALM_MIND_EFFECT ; Sunsette: also shares the Haze trampoline; HazeFlinchEffect_ dispatches it to CalmMindEffect_ (+1 user SPECIAL + clear the user's own CONFUSION)
 	dw HazeEffect                ; STRENGTH_EFFECT ; Sunsette: shares the Haze trampoline; dispatched there to a no-op (ret) - the effect just needs to be nonzero so SpeciesMoveBonus runs for STRENGTH
 	dw HazeEffect                ; BLOSSOM_BLITZ_EFFECT ; Sunsette: shares the Haze trampoline; HazeFlinchEffect_ dispatches it to BlossomBlitzEffect_ (50% chance +1 user SPEED, post-damage)
-	dw HazeEffect                ; SHORYUKEN_EFFECT ; Sunsette: shares the Haze trampoline; dispatched there to a no-op (ret) - nonzero only so SpeciesMoveBonus runs the FLYING/FLOATING strip for SHORYUKEN
+	dw HazeEffect                ; TEMPEST_EFFECT ; Sunsette: shares the Haze trampoline; dispatched in HazeFlinchEffect_ -> TempestGround (strips the TARGET's FLYING/FLOATING on hit) for TEMPEST
 	dw HazeEffect                ; MIASMA_EFFECT ; Sunsette: also shares the Haze trampoline; HazeFlinchEffect_ dispatches it to MiasmaEffect_ (one-sided stat clear + regular poison, no damage)
 	dw HazeEffect                ; AQUA_RING_EFFECT ; Sunsette: also shares the Haze trampoline; HazeFlinchEffect_ dispatches it to AquaRingEffect_ (FLOURISH + DOUBLE_FLOURISH, no damage)
 	dw HazeEffect                ; CLAY_ARMOR_EFFECT ; Sunsette: also shares the Haze trampoline; HazeFlinchEffect_ dispatches it to ClayArmorEffect_ (type-gated dual screens + Ground heal, no damage)
 	dw HazeEffect                ; METAMORPHIC_EFFECT ; Sunsette: damaging move; the Haze trampoline runs post-damage (hit only) -> MetamorphicEffect_ (heavy recoil; ROCK user sheds ROCK + +6 SPEED + PAL_GAMEFREAK glow)
 	dw HazeEffect                ; SUPERNOVA_EFFECT ; Sunsette: damaging move; the Haze trampoline runs post-damage (hit only) -> SupernovaEffect_ (FIRE user: no recoil + shed FIRE + gray; non-FIRE: heavy recoil + self-burn)
-	dw HazeEffect                ; SENBONZAKURA_EFFECT ; Sunsette: damaging move; shares the Haze trampoline; HazeFlinchEffect_ dispatches it to SenbonzakuraEffect_ (reset user stats + FLOURISH + EVASION +1; runs even on a KO)
+	dw HazeEffect                ; SENBONZAKURA_EFFECT ; Sunsette: damaging move; shares the Haze trampoline; HazeFlinchEffect_ dispatches it to SenbonzakuraEffect_ (FLOURISH regen scaled by desperation stage; runs even on a KO)
+	dw HazeEffect                ; PSYCHO_SHIFT_EFFECT ; Sunsette: also shares the Haze trampoline; HazeFlinchEffect_ dispatches it to PsychoShiftEffect_ (transfer the user's status + confusion onto the target, no damage)
+	dw HazeEffect                ; SAPPING_COLD_EFFECT ; Sunsette: also shares the Haze trampoline; HazeFlinchEffect_ dispatches it to SappingColdEffect_ (drain + conditional freeze, post-damage)
+	dw HazeEffect                ; ENERGY_FLUX_EFFECT ; Sunsette: also shares the Haze trampoline; HazeFlinchEffect_ dispatches it to EnergyFluxEffect_ (0-BP capacitor setup; discharge handled in the ApplyDamage hooks)
+	dw HazeEffect                ; BUG_OFF_EFFECT ; Sunsette: also shares the Haze trampoline; HazeFlinchEffect_ dispatches it to BugOffEffect_ (confuse + SPECIAL -1, then the user switches out)
 	assert_table_length NUM_MOVE_EFFECTS

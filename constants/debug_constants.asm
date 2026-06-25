@@ -19,7 +19,7 @@ DEF DEBUG_WARP6_WHICH EQU 2
 ; PureRGBnote: These decide what pokemon appears on route 1, and what moves it has.
 ; Also decides what team and mvoes the jr trainer just above vermillion city has.
 DEF DEBUG_OPPONENT_TEST_MOVE_1 EQU SUPERNOVA
-DEF DEBUG_OPPONENT_TEST_MOVE_2 EQU METAMORPHIC
+DEF DEBUG_OPPONENT_TEST_MOVE_2 EQU OROCLASM
 DEF DEBUG_OPPONENT_LEVEL EQU 20
 DEF DEBUG_OPPONENT_SPECIES EQU BULBASAUR
 

@@ -15,35 +15,46 @@
 
 	; tm/hm learnset
 	tmhm \
-	FROST_FIST,\
-	MUD_BOMB,\
-	BLAZE_HAMMER,\
-	TOXIC,\
-	BODY_SLAM,\
 	DISABLE,\
+	AURORA_MIST,\
+	TOXIC,\
+	SLUDGE_BOMB,\
+	BODY_SLAM,\
 	DOUBLE_EDGE,\
-	AQUA_RING,\
+	WATER_PULSE,\
+	SUPER_SOAK,\
 	ICE_BEAM,\
 	BLIZZARD,\
 	HYPER_BEAM,\
-	CALM_MIND,\
-	LOW_KICK,\
-	ZAPPERCUT,\
-	METEOR_SWEEP,\
+	FROST_FIST,\
+	BLAZE_HAMMER,\
+	SEISMIC_TOSS,\
+	SOLARBEAM,\
 	EARTHQUAKE,\
-	RIPTIDE,\
+	MUD_BOMB,\
 	DIG,\
 	PSYCHIC_M,\
-	REFLECT,\
-	BULK_UP,\
-	SHADOW_BALL,\
-	FIRE_BLAST,\
-	TWISTER,\
+	FINISHER,\
 	DEMOLISH,\
-	VOID_MIND,\
+	BULK_UP,\
+	REFLECT,\
 	LIGHT_SCREEN,\
+	FLAMETHROWER,\
+	FIRE_BLAST,\
+	SHADOW_BALL,\
+	SHADOW_BOX,\
+	BARRIER,\
+	THUNDER_WAVE,\
 	SKITTERMIND,\
+	METEOR_SWEEP,\
 	SUBSTITUTE,\
+	RIPTIDE,\
+	AQUA_RING,\
+	CALM_MIND,\
+	VOID_MIND,\
+	PSYCHO_SHIFT,\
+	TEMPEST,\
+	CLAY_ARMOR,\
 	CUT,\
 	SURF,\
 	STRENGTH,\
@@ -68,12 +79,20 @@
 ;@ evo_react   "It blinks once<...>" "then nothing more."
 ;@ evo_react   "It looks around<...>" "still searching<...>"
 ;@ evo_react   "A long pause<...>" "Did it notice?"
-;@ learn       12, CONFUSION
-;@ learn       17, DISABLE
-;@ learn       20, HEADBUTT
-;@ learn       24, CLAMP
-;@ learn       28, PSYBEAM
-;@ learn       32, SHELL_GAME
-;@ learn       36, SLUDGE_BOMB
-;@ learn       41, CALM_MIND
-;@ learn       45, PSYCHIC_M
+;@ learn       8, DISABLE
+;@ learn       12, HEADBUTT
+;@ learn       16, WATER_PULSE
+;@ learn       20, PSYBEAM
+;@ learn       24, SHELL_GAME
+;@ learn       29, SLAM
+;@ learn       34, SURF
+;@ learn       39, PSYCHIC_M
+;@ learn       43, SLUDGE_BOMB
+;@ learn       48, REST
+;@ learn       55, HYDRO_PUMP
+;@ tutor       TRI_ATTACK
+;@ tutor       PAY_DAY
+;@ tutor       TELEPORT
+;@ tutor       CLOBBERCLOCK
+;@ tutor       PISTON_KICK
+;@ tutor       METEOR_DRIVE

@@ -15,36 +15,46 @@
 
 	; tm/hm learnset
 	tmhm \
-	ROCK_ON,\
-	PIN_MISSILE,\
-	TOXIC,\
 	HONE_EDGE,\
-	BODY_SLAM,\
 	DISABLE,\
-	DOUBLE_EDGE,\
-	HYPER_BEAM,\
-	CALM_MIND,\
-	BARRIER,\
-	ADAPTATION,\
-	SOLARBEAM,\ 
-	EARTHQUAKE,\
-	DIG,\
-	MEGA_DRAIN,\
 	SWORDS_DANCE,\
-	REFLECT,\
+	SHADOW_GAME,\
+	TOXIC,\
+	SLUDGE_BOMB,\
+	BODY_SLAM,\
+	DOUBLE_EDGE,\
+	WATER_PULSE,\
+	SUPER_SOAK,\
+	HYPER_BEAM,\
+	GIGA_DRAIN,\
+	MEGA_DRAIN,\
+	EARTHQUAKE,\
+	MUD_BOMB,\
+	DIG,\
+	PSYCHIC_M,\
+	DEMOLISH,\
 	BULK_UP,\
+	REFLECT,\
+	LIGHT_SCREEN,\
 	ILL_WIND,\
 	SHADOW_BALL,\
-	DEMOLISH,\
-	LIGHT_SCREEN,\
-	SHADOW_GAME,\
+	BARRIER,\
+	SKITTERMIND,\
 	ROCK_SLIDE,\
+	OROCLASM,\
 	SUBSTITUTE,\
+	AQUA_RING,\
+	ADAPTATION,\
+	CALM_MIND,\
+	VOID_MIND,\
+	PSYCHO_SHIFT,\
+	PIN_MISSILE,\
+	LEECH_LIFE,\
 	CLAY_ARMOR,\
+	ROCK_ON,\
 	CUT,\
 	STRENGTH,\
 	FLASH
-
 	; end
 
 	db BANK(ParasectPicFront)
@@ -65,13 +75,17 @@
 ;@ evo_react   "It twitches once," "then goes still."
 ;@ evo_react   "Spores drift off" "in a slow haze."
 ;@ evo_react   "The shell creaks" "as it settles."
-;@ learn       13, STUN_SPORE
+;@ learn       7, STUN_SPORE
+;@ learn       11, LEECH_LIFE
 ;@ learn       15, MEGA_DRAIN
-;@ learn       18, UNDERBUG
-;@ learn       21, SLASH
-;@ learn       25, PHANTASM
-;@ learn       28, SPORE
-;@ learn       33, LEECH_LIFE
-;@ learn       39, CRABHAMMER
-;@ learn       44, SOULSTEALER
-;@ learn       49, EXTERMINATE
+;@ learn       20, SLASH
+;@ learn       26, SPORE
+;@ learn       31, UNDERBUG
+;@ learn       37, HONE_EDGE
+;@ learn       43, SOULSTEALER
+;@ learn       49, CRABHAMMER
+;@ learn       56, EXTERMINATE
+;@ tutor       SOULSTEALER
+;@ tutor       METEOR_DRIVE
+;@ tutor       EGG_BOMB
+;@ tutor       SCREECH

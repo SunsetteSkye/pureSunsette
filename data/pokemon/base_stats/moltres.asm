@@ -10,11 +10,12 @@
 	INCBIN "gfx/pokemon/front/moltres.pic", 0, 1 ; sprite dimensions
 	dw MoltresPicFront, MoltresPicBackSW
 
-	db WING_ATTACK, FIRE_SPIN, FLAMETHROWER, NO_MOVE ; level 1 learnset
+	db WING_ATTACK, FIRE_SPIN, MIRAGE, NO_MOVE ; level 1 learnset
 	db GROWTH_SLOW ; growth rate
 
 	; tm/hm learnset
 	tmhm \
+	LEAP_ATTACK,\
 	ROOST,\
 	TOXIC,\
 	BODY_SLAM,\
@@ -24,18 +25,17 @@
 	HYPER_BEAM,\
 	CALM_MIND,\
 	BARRIER,\
-	SOLARBEAM,\ 
+	SOLARBEAM,\
 	WYRM_WRATH,\
 	THUNDERBOLT,\
 	THUNDER,\
-	MIRAGE,\
 	REFLECT,\
 	BULK_UP,\
 	ILL_WIND,\
 	SHADOW_BALL,\
 	SUPERNOVA,\
 	FIRE_BLAST,\
-	TWISTER,\
+	TEMPEST,\
 	BRAVE_BIRD,\
 	LIGHT_SCREEN,\
 	SKITTERMIND,\
@@ -66,3 +66,9 @@
 ;@ learn       60, FIRE_BLAST
 ;@ learn       65, AGILITY
 ;@ learn       70, PHOENIX_DIVE
+;@ tutor       TRI_ATTACK
+;@ tutor       TELEPORT
+;@ tutor       SOFTBOILED
+;@ tutor       HURRICANE
+;@ tutor       SWIFT
+;@ tutor       EGG_BOMB

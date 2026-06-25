@@ -15,6 +15,7 @@
 
 	; tm/hm learnset
 	tmhm \
+	LEAP_ATTACK,\
 	ROOST,\
 	PIN_MISSILE,\
 	TOXIC,\
@@ -28,12 +29,11 @@
 	BARRIER,\
 	THUNDERBOLT,\
 	THUNDER,\
-	MIRAGE,\
 	REFLECT,\
 	BULK_UP,\
 	ILL_WIND,\
 	SHADOW_BALL,\
-	TWISTER,\
+	TEMPEST,\
 	BRAVE_BIRD,\
 	LIGHT_SCREEN,\
 	THUNDER_WAVE,\
@@ -65,3 +65,8 @@
 ;@ learn       60, THUNDER
 ;@ learn       65, AGILITY
 ;@ learn       70, STORM_DRILL
+;@ tutor       TRI_ATTACK
+;@ tutor       TELEPORT
+;@ tutor       HURRICANE
+;@ tutor       SWIFT
+;@ tutor       EGG_BOMB

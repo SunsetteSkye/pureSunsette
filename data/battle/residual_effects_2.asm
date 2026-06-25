@@ -31,7 +31,7 @@ ResidualEffects2:
 ;;;;;;;;;; PureRGBnote: ADDED:
 	db ATTACK_ACCURACY_UP1_EFFECT
 	db ATTACK_DEFENSE_UP1_EFFECT
-	db MEDITATE_EFFECT
+	db VOID_MIND_EFFECT
 	db SCREECH_EFFECT
 	db FLASH_EFFECT ; Sunsette: no-damage accuracy-up (+ flinch) move
 	db SOLARBEAM_EFFECT ; Sunsette: only the 0-power CHARGE turn lands here (release is 120 BP -> normal damage path); runs SolarBeamEffect_'s charge branch (+1 SPC + FLOURISH, no damage)

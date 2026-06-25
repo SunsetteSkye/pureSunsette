@@ -15,6 +15,7 @@
 
 	; tm/hm learnset
 	tmhm \
+	LEAP_ATTACK,\
 	MUD_BOMB,\
 	PIN_MISSILE,\
 	TOXIC,\
@@ -37,6 +38,7 @@
 	ROCK_SLIDE,\
 	ROCK_ON,\
 	SUBSTITUTE,\
+	CLAY_ARMOR,\
 	CUT,\
 	SURF,\
 	STRENGTH
@@ -65,3 +67,5 @@
 ;@ learn       42, METEOR_DRIVE
 ;@ learn       48, PISTON_KICK
 ;@ learn       53, HYPER_BEAM
+;@ tutor       PISTON_KICK
+;@ tutor       METEOR_DRIVE

@@ -16,6 +16,7 @@
 
 	; tm/hm learnset
 	tmhm \
+	LEAP_ATTACK,\
 	ADAPTATION,\
 	FROST_FIST,\
 	BLAZE_HAMMER,\
@@ -26,16 +27,15 @@
 	DOUBLE_EDGE,\
 	HYPER_BEAM,\
 	CALM_MIND,\
-	LOW_KICK,\
+	FINISHER,\
 	ZAPPERCUT,\
 	METEOR_SWEEP,\
 	BARRIER,\
-	SOLARBEAM,\ 
+	SOLARBEAM,\
 	WYRM_WRATH,\
 	EARTHQUAKE,\
 	DIG,\
 	PSYCHIC_M,\
-	MIRAGE,\
 	SWORDS_DANCE,\
 	REFLECT,\
 	BULK_UP,\
@@ -83,3 +83,9 @@
 ;@ learn       43, SLUDGE_BOMB
 ;@ learn       49, FIRE_BLAST
 ;@ learn       54, TOXIC
+;@ tutor       TELEPORT
+;@ tutor       CLOBBERCLOCK
+;@ tutor       PISTON_KICK
+;@ tutor       METEOR_DRIVE
+;@ tutor       EGG_BOMB
+;@ tutor       SCREECH

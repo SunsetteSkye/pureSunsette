@@ -15,33 +15,38 @@
 
 	; tm/hm learnset
 	tmhm \
-	MUD_BOMB,\
-	PIN_MISSILE,\
-	TOXIC,\
-	HONE_EDGE,\
-	BODY_SLAM,\
 	DISABLE,\
-	DOUBLE_EDGE,\
-	AQUA_RING,\
-	CALM_MIND,\
-	LOW_KICK,\
-	METEOR_SWEEP,\
-	BARRIER,\
-	ADAPTATION,\
-	SOLARBEAM,\ 
-	DIG,\
-	MEGA_DRAIN,\
 	SWORDS_DANCE,\
-	REFLECT,\
+	SHADOW_GAME,\
+	TOXIC,\
+	SLUDGE_BOMB,\
+	BODY_SLAM,\
+	DOUBLE_EDGE,\
+	WATER_PULSE,\
+	SUPER_SOAK,\
+	GIGA_DRAIN,\
+	MEGA_DRAIN,\
+	SOLARBEAM,\
+	MUD_BOMB,\
+	DIG,\
 	BULK_UP,\
+	REFLECT,\
+	LIGHT_SCREEN,\
 	ILL_WIND,\
 	SHADOW_BALL,\
-	TWISTER,\
-	VOID_MIND,\
-	LIGHT_SCREEN,\
-	SHADOW_GAME,\
-	ROCK_ON,\
+	BARRIER,\
+	METEOR_SWEEP,\
 	SUBSTITUTE,\
+	AQUA_RING,\
+	ADAPTATION,\
+	CALM_MIND,\
+	VOID_MIND,\
+	PSYCHO_SHIFT,\
+	LEAP_ATTACK,\
+	PIN_MISSILE,\
+	LEECH_LIFE,\
+	TEMPEST,\
+	ROCK_ON,\
 	CUT,\
 	FLASH
 	; end
@@ -60,7 +65,7 @@
 ;@ pal_icon     PAL_ICON_01
 ;@ pal_alticon  $FF
 ;@ evo         EVOLVE_LEVEL, 16, IVYSAUR
-;@ evo_move    NO_MOVE
+;@ evo_move    MEGA_DRAIN
 ;@ evo_react   NONE
 ;@ learn       6, LEECH_SEED
 ;@ learn       8, VINE_WHIP
@@ -69,7 +74,11 @@
 ;@ learn       18, STUN_SPORE
 ;@ learn       21, RAZOR_LEAF
 ;@ learn       25, EMETIC_PURGE
-;@ learn       33, SLEEP_POWDER
-;@ learn       38, VENOM_LASH
-;@ learn       45, SENBONZAKURA
-;@ learn       52, TOXIC
+;@ learn       35, SLEEP_POWDER
+;@ learn       40, VENOM_LASH
+;@ learn       47, TOXIC
+;@ learn       56, SOLARBEAM
+;@ tutor       PISTON_KICK
+;@ tutor       HURRICANE
+;@ tutor       METEOR_DRIVE
+;@ tutor       EGG_BOMB

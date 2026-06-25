@@ -2,12 +2,23 @@
 ; the dojo's cryptic martial-arts style. Referenced via text_far from scripts/FightingDojo.asm, so the bank
 ; is irrelevant. (Floated section because the numbered text banks are full.)
 
-; Left scroll: FIGHTING-type mons land critical hits twice as often as anyone else.
+; Left scroll: a FIGHTING-type's crit rate scales with desperation - ordinary at full health, x2 at yellow,
+; x4 at red (its Demolish / Pivot Strike movepool covers the healthy case).
 _FightingDojoCritFightingText::
-	text "THE TRAINED BODY"
-	line "FINDS THE VITAL"
-	cont "POINT TWICE AS"
+	text "A HALE BODY"
+	line "STRIKES AS ANY"
+	cont "OTHER."
+
+	para "BUT CORNER A"
+	line "FIGHTER, AND IT"
+	cont "FINDS THE VITAL"
+	cont "POINT FAR MORE"
 	cont "OFTEN."
+
+	para "WOUNDED, ITS AIM"
+	line "ONLY SHARPENS --"
+	cont "TWICE OVER, THEN"
+	cont "FOURFOLD."
 
 	para "SUCH IS THE WAY"
 	line "OF THE FIGHTING"

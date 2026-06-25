@@ -44,7 +44,6 @@ ReadTrainer:
 ; if the first byte of trainer data is FF,
 ; - each pokemon has a specific level
 ;      (as opposed to the whole team being of the same level)
-; - if [wLoneAttackNo] != 0, one pokemon on the team has a special move
 ; else the first byte is the level of every pokemon on the team
 .IterateTrainer
 	CheckEvent EVENT_IN_FITNESS_BATTLE
@@ -87,7 +86,7 @@ ReadTrainer:
 	jr .LoopTrainerData
 .SpecialTrainer
 	call .SpecialTrainerLoop
-	jr .AddLoneMove
+	jr .FinishUp
 ;;;;;;;;;; PureRGBnote: ADDED: code that facilitates assigning custom moves to pokemon
 .CustomMovesetTrainer
 	ld a, [hli] ; which moveset will be used
@@ -105,7 +104,6 @@ ReadTrainer:
 ; - the level byte's last bit indicates whether the pokemon uses alternate palette
 ;   bit 7 (the final bit) of the level byte is only possible to be set if the level is above 127.
 ;   Since max is 100, we'll never set it. So we can use it to indicate whether the pokemon is using an alternate palette.
-; - if [wLoneAttackNo] != 0, one pokemon on the team has a special move
 	ld a, [hli]
 	and a ; have we reached the end of the trainer data?
 	ret z
@@ -130,89 +128,6 @@ ReadTrainer:
 	call AddPartyMon
 	pop hl
 	jr .SpecialTrainerLoop
-.AddLoneMove
-; PureRGBnote/Sunsette: gym leaders can give one OR MORE of their pokemon a custom move (LoneMoves).
-; wLoneAttackNo is the gym leader number (1-8); apply EVERY LoneMoves row tagged with that number.
-	ld a, [wLoneAttackNo] ; Brock is 01, Misty is 02, etc
-	and a
-	jr z, .AddTeamMove
-	cp 9
-	jr nc, .AddTeamMove ; >8 = elite four, whose movesets are already good
-	ld e, a ; e = this gym leader's number (preserved across the loop)
-	ld hl, LoneMoves
-.scanLoneMoves
-	ld a, [hl]
-	cp -1
-	jr z, .AddTeamMove ; end of table -> done
-	cp e
-	jr z, .applyLoneMove ; this row belongs to our leader
-	inc hl ; skip this 4-byte row
-	inc hl
-	inc hl
-	inc hl
-	jr .scanLoneMoves
-.applyLoneMove
-	inc hl ; past the leader-number byte
-	ld a, [hli] ; a = pokemon index (0-based)
-	ld c, [hl] ; c = move slot to overwrite
-	inc hl
-	ld b, [hl] ; b = move to give
-	inc hl ; hl -> next row
-	push hl ; preserve the table pointer across AddNTimes
-	ld d, b ; d = move (survives AddNTimes; e/d untouched by it)
-	ld b, 0 ; bc = move slot
-	ld hl, wEnemyMon1Moves
-	add hl, bc ; + the move slot
-	ld bc, PARTYMON_STRUCT_LENGTH
-	call AddNTimes ; hl += pokemon index * struct length -> the target move byte
-	ld [hl], d ; overwrite that move
-	pop hl
-	jr .scanLoneMoves
-.AddTeamMove
-; check if our trainer's team has special moves
-
-; get trainer class number
-	ld a, [wTrainerClass] ; Sunsette: raw class now (no OPP_ID_OFFSET)
-	ld b, a
-	ld hl, TeamMoves
-
-; iterate through entries in TeamMoves, checking each for our trainer class
-.IterateTeamMoves
-	ld a, [hli]
-	cp b
-	jr z, .GiveTeamMoves ; is there a match?
-	inc hl ; if not, go to the next entry
-	inc a
-	jr nz, .IterateTeamMoves
-
-; no matches found. is this trainer champion rival?
-	;ld a, b
-	;cp RIVAL3
-	;jr z, .ChampionRival
-	jr .FinishUp ; nope
-.GiveTeamMoves
-	ld a, [hl]
-	ld [wEnemyMon6Moves + 1], a ; PureRGBnote: CHANGED: elite four trainers replace their 6th pokemon's 2nd move with their special moves.
-	;jr .FinishUp
-;.ChampionRival ; give moves to his team
-; PureRGBnote: CHANGED: not necessary because champion's team already has good moves at such high level from their learnset.
-
-; pidgeot
-;	ld a, SKY_ATTACK
-;	ld [wEnemyMon1Moves + 2], a
-
-; starter
-;	ld a, [wRivalStarter]
-;	cp STARTER3
-;	ld b, MEGA_DRAIN
-;	jr z, .GiveStarterMove
-;	cp STARTER1
-;	ld b, FIRE_BLAST
-;	jr z, .GiveStarterMove
-; ld b, BLIZZARD ; must be squirtle
-;.GiveStarterMove
-;	ld a, b
-;	ld [wEnemyMon6Moves + 2], a
 .FinishUp
 ; clear wAmountMoneyWon addresses
 	xor a

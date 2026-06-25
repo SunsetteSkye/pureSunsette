@@ -10,36 +10,45 @@
 	INCBIN "gfx/pokemon/front/tentacool.pic", 0, 1 ; sprite dimensions
 	dw TentacoolPicFront, TentacoolPicBackSW
 
-	db ACID, BUBBLE, NO_MOVE, NO_MOVE ; level 1 learnset
+	db POISON_STING, BUBBLE, NO_MOVE, NO_MOVE ; level 1 learnset
 	db GROWTH_MEDIUM_SLOW ; growth rate
 
 	; tm/hm learnset
 	tmhm \
-	ADAPTATION,\
-	PIN_MISSILE,\
-	TOXIC,\
 	HONE_EDGE,\
 	DISABLE,\
-	DOUBLE_EDGE,\
-	AQUA_RING,\
-	ICE_BEAM,\
-	BLIZZARD,\
-	CALM_MIND,\
-	LOW_KICK,\
-	BARRIER,\
-	RIPTIDE,\
-	DIG,\
-	MEGA_DRAIN,\
 	SWORDS_DANCE,\
+	SHADOW_GAME,\
+	TOXIC,\
+	SLUDGE_BOMB,\
+	BODY_SLAM,\
+	DOUBLE_EDGE,\
+	WATER_PULSE,\
+	SUPER_SOAK,\
+	ZAPPERCUT,\
+	SEISMIC_TOSS,\
+	GIGA_DRAIN,\
+	MEGA_DRAIN,\
+	SOLARBEAM,\
+	THUNDERBOLT,\
+	PSYCHIC_M,\
 	REFLECT,\
-	BULK_UP,\
+	LIGHT_SCREEN,\
 	ILL_WIND,\
 	SHADOW_BALL,\
-	TWISTER,\
-	LIGHT_SCREEN,\
+	BARRIER,\
+	ENERGY_FLUX,\
+	THUNDER_WAVE,\
 	SKITTERMIND,\
-	SHADOW_GAME,\
 	SUBSTITUTE,\
+	RIPTIDE,\
+	AQUA_RING,\
+	ADAPTATION,\
+	CALM_MIND,\
+	PSYCHO_SHIFT,\
+	PIN_MISSILE,\
+	LEECH_LIFE,\
+	TEMPEST,\
 	SURF,\
 	FLASH
 	; end
@@ -59,16 +68,18 @@
 ;@ pal_icon     $FF
 ;@ pal_alticon  $FF
 ;@ evo         EVOLVE_LEVEL, 30, TENTACRUEL
-;@ evo_move    NO_MOVE
+;@ evo_move    VENOM_LASH
 ;@ evo_react   NONE
-;@ learn       7, POISON_STING
-;@ learn       13, SUPER_SOAK
-;@ learn       17, SUPERSONIC
-;@ learn       23, ACID
-;@ learn       29, POWER_BIND
-;@ learn       33, WATER_PULSE
-;@ learn       39, CONFUSE_RAY
-;@ learn       43, VENOM_LASH
-;@ learn       49, BARRIER
-;@ learn       53, SOULSTEALER
-;@ learn       59, HYDRO_PUMP
+;@ learn       7, SUPER_SOAK
+;@ learn       11, SUPERSONIC
+;@ learn       15, ACID
+;@ learn       20, POWER_BIND
+;@ learn       26, WATER_PULSE
+;@ learn       32, STUN_SPORE
+;@ learn       38, POISON_FANG
+;@ learn       44, SURF
+;@ learn       50, BARRIER
+;@ learn       57, HYDRO_PUMP
+;@ tutor       TELEPORT
+;@ tutor       EGG_BOMB
+;@ tutor       SCREECH

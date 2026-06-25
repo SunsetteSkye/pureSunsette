@@ -15,6 +15,7 @@
 
 	; tm/hm learnset
 	tmhm \
+	LEAP_ATTACK,\
 	MUD_BOMB,\
 	PIN_MISSILE,\
 	TOXIC,\
@@ -24,7 +25,7 @@
 	AURORA_MIST,\
 	HYPER_BEAM,\
 	CALM_MIND,\
-	LOW_KICK,\
+	FINISHER,\
 	METEOR_SWEEP,\
 	BARRIER,\
 	THUNDERBOLT,\
@@ -72,3 +73,6 @@
 ;@ learn       38, PIN_MISSILE
 ;@ learn       44, PHANTASM
 ;@ learn       49, THUNDER
+;@ tutor       PAY_DAY
+;@ tutor       METEOR_DRIVE
+;@ tutor       SWIFT

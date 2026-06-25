@@ -15,31 +15,40 @@
 
 	; tm/hm learnset
 	tmhm \
-	ROCK_ON,\
-	ADAPTATION,\
-	ROOST,\
-	PIN_MISSILE,\
-	TOXIC,\
 	HONE_EDGE,\
 	DISABLE,\
+	SWORDS_DANCE,\
+	AURORA_MIST,\
+	SHADOW_GAME,\
+	TOXIC,\
+	SLUDGE_BOMB,\
 	DOUBLE_EDGE,\
 	HYPER_BEAM,\
-	CALM_MIND,\
-	BARRIER,\
-	SOLARBEAM,\ 
-	PSYCHIC_M,\
+	SEISMIC_TOSS,\
+	GIGA_DRAIN,\
 	MEGA_DRAIN,\
-	MIRAGE,\
-	SWORDS_DANCE,\
-	REFLECT,\
+	SOLARBEAM,\
+	PSYCHIC_M,\
 	BULK_UP,\
+	REFLECT,\
+	LIGHT_SCREEN,\
 	ILL_WIND,\
 	SHADOW_BALL,\
-	LIGHT_SCREEN,\
+	BARRIER,\
+	ENERGY_FLUX,\
 	SKITTERMIND,\
-	SHADOW_GAME,\
 	SUBSTITUTE,\
-	CLAY_ARMOR,\
+	RAZOR_LEAF,\
+	ADAPTATION,\
+	CALM_MIND,\
+	VOID_MIND,\
+	PSYCHO_SHIFT,\
+	ROOST,\
+	LEAP_ATTACK,\
+	PIN_MISSILE,\
+	LEECH_LIFE,\
+	TEMPEST,\
+	ROCK_ON,\
 	CUT,\
 	FLY,\
 	FLASH
@@ -63,17 +72,19 @@
 ;@ evo_react   "It flutters up" "in a dusty cloud!"
 ;@ evo_react   "Its wings shimmer" "with toxic powder!"
 ;@ evo_react   "It circles once," "scales drift down!"
-;@ learn       7, ABSORB
-;@ learn       10, POISONPOWDER
-;@ learn       13, PIN_MISSILE
-;@ learn       15, STUN_SPORE
-;@ learn       16, SLEEP_POWDER
-;@ learn       18, LEECH_LIFE
-;@ learn       22, PSYBEAM
-;@ learn       27, WING_ATTACK
-;@ learn       30, AGILITY
-;@ learn       33, SLUDGE_BOMB
-;@ learn       37, SOULSTEALER
-;@ learn       37, SLEEP_POWDER
-;@ learn       42, PSYCHIC_M
-;@ learn       53, HURRICANE
+;@ learn       7, POISONPOWDER
+;@ learn       10, POISON_FANG
+;@ learn       14, STUN_SPORE
+;@ learn       18, PSYBEAM
+;@ learn       22, LEECH_LIFE
+;@ learn       26, SLEEP_POWDER
+;@ learn       31, AGILITY
+;@ learn       36, SLUDGE_BOMB
+;@ learn       42, BUG_OFF
+;@ learn       48, PSYCHIC_M
+;@ learn       54, HURRICANE
+;@ tutor       SOULSTEALER
+;@ tutor       TELEPORT
+;@ tutor       HURRICANE
+;@ tutor       SWIFT
+;@ tutor       EGG_BOMB

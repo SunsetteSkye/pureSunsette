@@ -21,7 +21,7 @@ AnimationIdSpecialEffects:
 	anim_special_effect REFLECT,               AnimationFlashScreen
 	anim_special_effect SUPERNOVA,          DoExplodeSpecialEffects
 	anim_special_effect SPORE,                 FlashScreenEveryFourFrameBlocks ; PureRGBnote: ADDED: special effect during SPORE
-	anim_special_effect METAMORPHIC,             DoExplodeSpecialEffects
+	anim_special_effect OROCLASM,             DoExplodeSpecialEffects
 	anim_special_effect ROCK_SLIDE,            DoRockSlideSpecialEffects
 	anim_special_effect TRADE_BALL_DROP_ANIM,  TradeHidePokemon
 	anim_special_effect TRADE_BALL_SHAKE_ANIM, TradeShakePokeball

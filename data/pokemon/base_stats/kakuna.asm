@@ -15,23 +15,22 @@
 
 	; tm/hm learnset
 	tmhm \
-	ADAPTATION,\
-	MUD_BOMB,\
-	PIN_MISSILE,\
-	TOXIC,\
 	HONE_EDGE,\
 	DISABLE,\
-	DOUBLE_EDGE,\
-	BARRIER,\
-	MEGA_DRAIN,\
 	SWORDS_DANCE,\
-	REFLECT,\
-	BULK_UP,\
-	ILL_WIND,\
 	SHADOW_GAME,\
-	ROCK_ON,\
+	TOXIC,\
+	DOUBLE_EDGE,\
+	MUD_BOMB,\
+	BULK_UP,\
+	REFLECT,\
+	ILL_WIND,\
+	BARRIER,\
 	SUBSTITUTE,\
+	ADAPTATION,\
+	PIN_MISSILE,\
 	CLAY_ARMOR,\
+	ROCK_ON,\
 	CUT
 	; end
 
@@ -49,7 +48,7 @@
 ;@ pal_icon     $FF
 ;@ pal_alticon  $FF
 ;@ evo         EVOLVE_LEVEL, 10, BEEDRILL
-;@ evo_move    NO_MOVE
+;@ evo_move    PIN_MISSILE
 ;@ evo_react   "It clamps shut" "with a dry rattle."
 ;@ evo_react   "Its shell stiffens" "into armor."
 ;@ evo_react   "It hangs still," "biding its time."

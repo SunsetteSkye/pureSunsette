@@ -1,6 +1,6 @@
 	db DEX_ARBOK ; pokedex id
 
-	db  85,  95,  69,  96,  70
+	db  70,  90,  69,  91,  65
 	;   hp  atk  def  spd  spc
 
 	db POISON, NORMAL ; type
@@ -15,35 +15,55 @@
 
 	; tm/hm learnset
 	tmhm \
-	ADAPTATION,\
-	MUD_BOMB,\
-	PIN_MISSILE,\
-	TOXIC,\
 	HONE_EDGE,\
-	BODY_SLAM,\
 	DISABLE,\
+	SWORDS_DANCE,\
+	AURORA_MIST,\
+	SHADOW_GAME,\
+	TOXIC,\
+	SLUDGE_BOMB,\
+	BODY_SLAM,\
+	QUICK_ATTACK,\
 	DOUBLE_EDGE,\
 	HYPER_BEAM,\
-	BARRIER,\
+	GIGA_DRAIN,\
+	MEGA_DRAIN,\
+	SOLARBEAM,\
 	WYRM_WRATH,\
 	EARTHQUAKE,\
-	RIPTIDE,\
+	MUD_BOMB,\
 	DIG,\
-	MEGA_DRAIN,\
-	MIRAGE,\
-	SWORDS_DANCE,\
-	REFLECT,\
+	FINISHER,\
+	DEMOLISH,\
 	BULK_UP,\
+	REFLECT,\
+	LIGHT_SCREEN,\
+	HEAT_RUSH,\
+	FLAMETHROWER,\
+	FIRE_BLAST,\
 	ILL_WIND,\
 	SHADOW_BALL,\
-	DEMOLISH,\
-	LOVELY_KISS,\
-	LIGHT_SCREEN,\
-	SHADOW_GAME,\
+	SHADOW_BOX,\
+	BARRIER,\
+	THUNDER_WAVE,\
+	SKITTERMIND,\
 	ROCK_SLIDE,\
-	ROCK_ON,\
+	OROCLASM,\
 	SUBSTITUTE,\
+	AQUA_RING,\
+	RAZOR_LEAF,\
+	ADAPTATION,\
+	CALM_MIND,\
+	VOID_MIND,\
+	PSYCHO_SHIFT,\
+	LOVELY_KISS,\
+	LEAP_ATTACK,\
+	PIN_MISSILE,\
+	LEECH_LIFE,\
+	TEMPEST,\
+	RIPTIDE,\
 	CLAY_ARMOR,\
+	ROCK_ON,\
 	CUT,\
 	SURF,\
 	STRENGTH
@@ -68,12 +88,16 @@
 ;@ evo_react   "Fangs bared," "it tastes the air!"
 ;@ evo_react   "Its pattern glows" "with menace!"
 ;@ learn       7, ABSORB
-;@ learn       13, BITE
-;@ learn       19, ACID
-;@ learn       23, HYPNOSIS
-;@ learn       29, LEECH_LIFE
+;@ learn       12, BITE
+;@ learn       16, ACID
+;@ learn       24, LEECH_LIFE
+;@ learn       29, FOCUS_ENERGY
 ;@ learn       35, BLITZ_STRIKE
-;@ learn       39, FOCUS_ENERGY
-;@ learn       45, SOULSTEALER
-;@ learn       51, VENOM_LASH
-;@ learn       55, POWER_BIND
+;@ learn       40, POISON_FANG
+;@ learn       45, VENOM_LASH
+;@ learn       50, POWER_BIND
+;@ learn       55, SOULSTEALER
+;@ tutor       SOFTBOILED
+;@ tutor       METEOR_DRIVE
+;@ tutor       EGG_BOMB
+;@ tutor       SCREECH

@@ -16,6 +16,7 @@
 
 	; tm/hm learnset
 	tmhm \
+	LEAP_ATTACK,\
 	FROST_FIST,\
 	MUD_BOMB,\
 	BLAZE_HAMMER,\
@@ -25,7 +26,7 @@
 	DISABLE,\
 	DOUBLE_EDGE,\
 	HYPER_BEAM,\
-	LOW_KICK,\
+	FINISHER,\
 	ZAPPERCUT,\
 	BARRIER,\
 	SWORDS_DANCE,\
@@ -61,7 +62,10 @@
 ;@ learn       24, BLAZE_HAMMER
 ;@ learn       25, FROST_FIST
 ;@ learn       26, ZAPPERCUT
-;@ learn       32, DIZZY_PUNCH
+;@ learn       32, CLOBBERCLOCK
 ;@ learn       37, SHADOW_BOX
 ;@ learn       43, MIMIC
 ;@ learn       49, SHORYUKEN
+;@ tutor       CLOBBERCLOCK
+;@ tutor       PISTON_KICK
+;@ tutor       METEOR_DRIVE

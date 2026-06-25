@@ -1589,9 +1589,6 @@ wBattleType:: db
 ; bit 7: STAB
 wDamageMultipliers:: db
 
-; which entry in LoneAttacks to use
-; it's actually the same thing as ^
-wLoneAttackNo::
 wGymLeaderNo:: db
 ; which instance of [youngster, lass, etc] is this?
 wTrainerNo:: db
@@ -1808,7 +1805,12 @@ NEXTU
 wSlotMachineAllowMatchesCounter:: db
 ENDU
 
-	ds 2 ; unused 2 bytes
+; Sunsette: global signed pixel offset added to every animation frame-block's base
+; coords (engine/battle/animations.asm). Lets impact subanimations follow a mon that
+; has been relocated (e.g. SE_MOVE_TARGET_TO_CENTER). Zeroed at the start of every move
+; animation and by SE_RESET_TARGET_POSITION, so it is inert (0,0) for normal moves.
+wAnimOffsetX:: db
+wAnimOffsetY:: db
 
 wOutwardSpiralTileMapPointer:: db
 
@@ -1816,6 +1818,9 @@ wPartyMenuAnimMonEnabled::
 ; non-zero when enabled. causes nest locations to blink on and off.
 ; the town selection cursor will blink regardless of what this value is
 wTownMapSpriteBlinkingEnabled::
+; Sunsette: colour-ramp index for SE_RED_SCREEN_PALETTE (the flood SE). Set from the battle_anim
+; operand by PlayAnimation's .floodScreenPalette handler, read by AnimationRedScreenPalette.
+wScreenFloodRamp::
 wUnusedMoveAnimByte:: db
 
 ; current destination address in OAM for frame blocks (big endian)
@@ -1895,7 +1900,8 @@ wSpriteDecodeTable1Ptr:: dw
 wCurSpecies::
 ; input for GetName
 wNameListIndex:: db
-	ds 1 ; unused lone byte
+; Sunsette 2026-06-22: reclaimed the "unused lone byte" here to offset wMonHLearnset growing
+; to 9 bytes (68 TM/HM flags after the TM55-63 batch) without overflowing WRAM bank 1.
 
 wPredefBank:: db
 
@@ -1927,7 +1933,8 @@ wMonHBackPicBank:: db ; shifts
 wMonHSpaceWorldBackPicBank:: db ; shifts
 wMonHAltFrontSprite:: dw ; shifts
 wMonHAltBackSprite:: dw ; shifts
-    ds 1 ; unused byte
+; Sunsette 2026-06-22: reclaimed the trailing "unused byte" (past BASE_DATA_SIZE, never written
+; by GetMonHeader) to help fit the widened wMonHLearnset in WRAM bank 1.
 wMonHeaderEnd::
 
 ; saved at the start of a battle and then written back at the end of the battle
@@ -2214,7 +2221,7 @@ wPokedexSeenEnd::
 
 UNION
 
-ds 20 ; 20 of the 42 bytes of space are alotted to new missable object flags
+ds 16 ; Sunsette: trimmed 20->16 (this region is fixed-budget; the movedex-seen union below outgrew its 22 as NUM_ATTACKS climbed). wExtraToggleableObjectFlags needs only 11 bytes (13 at the 98-object max), so 16 is ample headroom.
 
 NEXTU
 wOriginalGameBagItemsData::db ; this data originally started here
@@ -2229,11 +2236,11 @@ ENDU
 
 UNION
 
-ds 22 ; 22 of the 42 bytes of space are alotted to movedex seen flags
+ds 26 ; Sunsette: was 22; bumped after trimming the sibling union above (16+26 = the same 42-byte region). Documents the movedex-seen reservation; flag_array NUM_ATTACKS is the real size.
 
 NEXTU
 
-wMovedexSeen:: flag_array NUM_ATTACKS ; PureRGBnote: ADDED: flags for the movedex, uses all 22 bytes
+wMovedexSeen:: flag_array NUM_ATTACKS ; PureRGBnote: ADDED: flags for the movedex. Sunsette: now 24 bytes (NUM_ATTACKS=185); has room to ~26 bytes (208 moves) before this region needs rebalancing again.
 wMovedexSeenEnd::
 
 ENDU

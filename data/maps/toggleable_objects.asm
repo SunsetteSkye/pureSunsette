@@ -263,6 +263,7 @@ ToggleableObjectStates:
 	toggle_object_state VIRIDIANFOREST_ITEM1, ON
 	toggle_object_state VIRIDIANFOREST_ITEM2, ON
 	toggle_object_state VIRIDIANFOREST_ITEM3, ON
+	toggle_object_state VIRIDIANFOREST_ITEM4, ON
 
 	toggleable_objects_for MT_MOON_1F
 	toggle_object_state MTMOON1F_ITEM1, ON

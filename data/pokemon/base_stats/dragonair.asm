@@ -16,6 +16,7 @@
 
 	; tm/hm learnset
 	tmhm \
+	LEAP_ATTACK,\
 	ADAPTATION,\
 	TOXIC,\
 	BODY_SLAM,\
@@ -24,17 +25,16 @@
 	AURORA_MIST,\
 	ICE_BEAM,\
 	BLIZZARD,\
-	SOLARBEAM,\ 
+	SOLARBEAM,\
 	WYRM_WRATH,\
 	THUNDERBOLT,\
 	THUNDER,\
 	RIPTIDE,\
-	MIRAGE,\
 	REFLECT,\
 	BULK_UP,\
 	SHADOW_BALL,\
 	FIRE_BLAST,\
-	TWISTER,\
+	TEMPEST,\
 	LIGHT_SCREEN,\
 	THUNDER_WAVE,\
 	SUBSTITUTE,\
@@ -62,3 +62,4 @@
 ;@ evo_react   "It glides up in a" "graceful loop!"
 ;@ evo_react   "Its orbs glow" "with soft light."
 ;@ evo_react   "It twirls aloft," "mist trailing!"
+;@ tutor       METEOR_DRIVE

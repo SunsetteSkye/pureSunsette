@@ -139,7 +139,7 @@ PARTIAL early tiers:
 =====================================================================
 ## BLAINE (Fire) — sig SUPERNOVA (Fire user = no-recoil nuke; ALSO on Electrode)
 Mon pool (T3+ full):
-- Vulpix (Fire): Flamethrower · Confuse Ray · Phantasm · Quick Attack (EXTREMESPEED, +2 prio)
+- Vulpix (Fire): Flamethrower · Confuse Ray · Phantasm · Quick Attack (comeback line, +1 prio)
 - Growlithe (Fire/No): Flamethrower · Body Slam · Heat Rush · Bite
 - Arcanine (Fire/No): Flamethrower · Fire Blast · Body Slam · Supernova[sig]
 - Ponyta (Fire/Psy): Fire Blast · Fire Spin · Psychic · Heat Rush

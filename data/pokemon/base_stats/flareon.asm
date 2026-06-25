@@ -15,6 +15,7 @@
 
 	; tm/hm learnset
 	tmhm \
+	LEAP_ATTACK,\
 	MUD_BOMB,\
 	PIN_MISSILE,\
 	TOXIC,\
@@ -23,12 +24,11 @@
 	DOUBLE_EDGE,\
 	HYPER_BEAM,\
 	CALM_MIND,\
-	LOW_KICK,\
+	FINISHER,\
 	METEOR_SWEEP,\
 	BARRIER,\
-	SOLARBEAM,\ 
+	SOLARBEAM,\
 	DIG,\
-	MIRAGE,\
 	REFLECT,\
 	BULK_UP,\
 	SHADOW_BALL,\
@@ -72,3 +72,7 @@
 ;@ learn       38, PISTON_KICK
 ;@ learn       44, BLITZ_STRIKE
 ;@ learn       49, FIRE_BLAST
+;@ tutor       PAY_DAY
+;@ tutor       PISTON_KICK
+;@ tutor       METEOR_DRIVE
+;@ tutor       SWIFT

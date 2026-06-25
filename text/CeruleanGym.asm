@@ -18,7 +18,7 @@ _CeruleanGymMistyPreBattleText::
 	done
 
 _CeruleanGymMistyTM11ExplanationText::
-	text "<TM>11 teaches"
+	text "<TM>52 teaches"
 	line "AQUA RING!"
 
 	para "A veil of water"

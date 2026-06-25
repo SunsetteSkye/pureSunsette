@@ -7,25 +7,8 @@ _CeladonMart3FClerkTM18PreReceiveText::
 	cont "useful!"
 	prompt
 
-_CeladonMart3FClerkTM18ExplanationText::
-	text "<TM>09 is"
-	line "DISABLE!"
-
-	para "Trust me, I've"
-	line "been here for 30"
-	cont "years, and I know"
-	cont "all about"
-	cont "countering tough"
-	cont "opponents!"
-
-	para "If there's a move"
-	line "you can't stand"
-	cont "facing, just"
-	cont "DISABLE it."
-
-	para "It's the perfect"
-	line "counter!"
-	done
+; Sunsette: _CeladonMart3FClerkTM18ExplanationText moved to data/text/sunsette_disable_text.asm
+; ("Text 8" overflowed when the ELECTRIC-immunity caveat was added).
 
 _CeladonMart3FClerkTM18NoRoomText::
 	text "Your pack is full"

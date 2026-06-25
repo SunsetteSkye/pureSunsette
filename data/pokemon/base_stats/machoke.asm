@@ -15,28 +15,36 @@
 
 	; tm/hm learnset
 	tmhm \
-	FROST_FIST,\
-	MUD_BOMB,\
-	BLAZE_HAMMER,\
+	HONE_EDGE,\
+	DISABLE,\
+	SWORDS_DANCE,\
+	SHADOW_GAME,\
 	TOXIC,\
 	BODY_SLAM,\
-	DISABLE,\
+	QUICK_ATTACK,\
 	DOUBLE_EDGE,\
-	LOW_KICK,\
+	SUPER_SOAK,\
 	ZAPPERCUT,\
-	METEOR_SWEEP,\
+	FROST_FIST,\
+	BLAZE_HAMMER,\
+	SEISMIC_TOSS,\
 	EARTHQUAKE,\
-	DIG,\
-	BULK_UP,\
-	SHADOW_BALL,\
-	FIRE_BLAST,\
+	MUD_BOMB,\
+	FINISHER,\
 	DEMOLISH,\
-	VOID_MIND,\
-	SHADOW_GAME,\
+	BULK_UP,\
+	SUPERNOVA,\
+	FLAMETHROWER,\
+	FIRE_BLAST,\
+	SHADOW_BOX,\
+	METEOR_SWEEP,\
 	ROCK_SLIDE,\
-	ROCK_ON,\
 	SUBSTITUTE,\
+	ADAPTATION,\
+	VOID_MIND,\
+	LEAP_ATTACK,\
 	CLAY_ARMOR,\
+	ROCK_ON,\
 	CUT,\
 	STRENGTH
 	; end
@@ -61,15 +69,17 @@
 ;@ evo_react   "It strikes a pose," "muscles rippling!"
 ;@ evo_react   "It hoists unseen" "weight with ease!"
 ;@ evo_react   "Cracks its neck," "ready to lift!"
-;@ learn       15, LOW_KICK
-;@ learn       18, SEISMIC_TOSS
-;@ learn       20, BULK_UP
-;@ learn       23, COMBOBREAKER
-;@ learn       26, FOCUS_ENERGY
-;@ learn       30, POWER_BIND
-;@ learn       35, MACH_PUNCH
-;@ learn       41, SHADOW_BOX
-;@ learn       44, LEAP_ATTACK
-;@ learn       47, SHORYUKEN
-;@ learn       52, DIZZY_PUNCH
-;@ learn       56, METEOR_DRIVE
+;@ learn       7, SEISMIC_TOSS
+;@ learn       12, BULK_UP
+;@ learn       17, CLOBBERCLOCK
+;@ learn       22, COMBOBREAKER
+;@ learn       27, FOCUS_ENERGY
+;@ learn       32, STRENGTH
+;@ learn       37, SHADOW_BOX
+;@ learn       42, SHORYUKEN
+;@ learn       47, POWER_BIND
+;@ learn       52, LEAP_ATTACK
+;@ learn       58, SUBMISSION
+;@ tutor       CLOBBERCLOCK
+;@ tutor       PISTON_KICK
+;@ tutor       METEOR_DRIVE

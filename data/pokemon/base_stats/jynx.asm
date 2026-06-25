@@ -15,6 +15,7 @@
 
 	; tm/hm learnset
 	tmhm \
+	LEAP_ATTACK,\
 	FROST_FIST,\
 	BLAZE_HAMMER,\
 	TOXIC,\
@@ -26,7 +27,7 @@
 	BLIZZARD,\
 	HYPER_BEAM,\
 	CALM_MIND,\
-	LOW_KICK,\
+	FINISHER,\
 	ZAPPERCUT,\
 	METEOR_SWEEP,\
 	BARRIER,\
@@ -73,3 +74,12 @@
 ;@ learn       42, LOVELY_KISS
 ;@ learn       47, BLIZZARD
 ;@ learn       54, EGG_BOMB
+;@ tutor       TRI_ATTACK
+;@ tutor       SOULSTEALER
+;@ tutor       TELEPORT
+;@ tutor       CLOBBERCLOCK
+;@ tutor       PISTON_KICK
+;@ tutor       METEOR_DRIVE
+;@ tutor       SWIFT
+;@ tutor       EGG_BOMB
+;@ tutor       SCREECH

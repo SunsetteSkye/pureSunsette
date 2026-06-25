@@ -2,7 +2,15 @@
 ; SpecialEffectPointers associates them with effect routines (see data/battle_anims/special_effect_pointers.asm)
 	const_def $C0
 DEF FIRST_SE_ID EQU const_value
-	const_skip $9
+	const SE_MINIMIZE_ENEMY_MON         ; $C0 Sunsette: minimize the ENEMY mon (AnimationMinimizeEnemyMon); last free skip slot
+	const SE_RED_SCREEN_PALETTE         ; $C1 Sunsette: red-flood version of SE_DARK_SCREEN_PALETTE; claimed from the skip so $C8+ are unchanged
+	const SE_RED_BAR_OFF                ; $C2 Sunsette: removes the centre-stage red bar; claimed from the skip so $C8+ are unchanged
+	const SE_RED_BAR_ON                 ; $C3 Sunsette: full-width #E00000 bar behind the centred target; claimed from the skip so $C8+ are unchanged
+	const SE_RESET_TARGET_POSITION      ; $C4 Sunsette: returns the centred target to its home position; claimed from the skip so $C8+ are unchanged
+	const SE_MOVE_TARGET_TO_CENTER      ; $C5 Sunsette: moves the defender to the evolution-screen centre; claimed from the skip so $C8+ are unchanged
+	const SE_RESTORE_HUDS               ; $C6 Sunsette: rebuilds both battle info boxes (name/level/HP/status/EXP); claimed from the skip so $C8+ are unchanged
+	const SE_HIDE_HUDS                  ; $C7 Sunsette: clears both battle info boxes for a cutscene; claimed from the skip so $C8+ are unchanged
+	const SE_RESTORE_MON_FROM_MINIMIZE  ; $C8 Sunsette: reloads the real sprite to undo a temporary SE_MINIMIZE_MON; claimed from the skip so $C9+ are unchanged
 	const SE_SPIRAL_BALLS_OUTWARD       ; $C9 Sunsette: like SE_SPIRAL_BALLS_INWARD but spirals OUTWARD (MAXIMIZE); claimed from the skip so $CA+ are unchanged
 	const SE_SLIDE_MON_OFF_FAST         ; $CA Sunsette: like SE_SLIDE_MON_OFF but a faster slide (Quick Attack); claimed from the skip so $CB+ are unchanged
 ;;;;;;;;;; PureRGBnote: ADDED: new special effects

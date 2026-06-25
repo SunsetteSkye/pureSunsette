@@ -1,6 +1,6 @@
 	db DEX_ZUBAT ; pokedex id
 
-	db  40,  45,  35,  65,  50
+	db  40,  45,  35,  65,  40
 	;   hp  atk  def  spd  spc
 
 	db POISON, FLYING ; type
@@ -15,25 +15,38 @@
 
 	; tm/hm learnset
 	tmhm \
-	ADAPTATION,\
-	ROOST,\
-	TOXIC,\
 	HONE_EDGE,\
 	DISABLE,\
-	DOUBLE_EDGE,\
-	AURORA_MIST,\
-	BARRIER,\
-	MEGA_DRAIN,\
 	SWORDS_DANCE,\
+	AURORA_MIST,\
+	SHADOW_GAME,\
+	TOXIC,\
+	SLUDGE_BOMB,\
+	QUICK_ATTACK,\
+	DOUBLE_EDGE,\
+	SEISMIC_TOSS,\
+	MEGA_DRAIN,\
+	MUD_BOMB,\
+	FINISHER,\
+	DEMOLISH,\
 	BULK_UP,\
+	REFLECT,\
+	LIGHT_SCREEN,\
 	ILL_WIND,\
 	SHADOW_BALL,\
-	TWISTER,\
-	LOVELY_KISS,\
+	BARRIER,\
 	BRAVE_BIRD,\
 	SKITTERMIND,\
-	SHADOW_GAME,\
 	SUBSTITUTE,\
+	RAZOR_LEAF,\
+	ADAPTATION,\
+	CALM_MIND,\
+	PSYCHO_SHIFT,\
+	LOVELY_KISS,\
+	ROOST,\
+	LEAP_ATTACK,\
+	LEECH_LIFE,\
+	TEMPEST,\
 	CUT,\
 	FLY
 	; end
@@ -53,16 +66,19 @@
 ;@ pal_icon     $FF
 ;@ pal_alticon  $FF
 ;@ evo         EVOLVE_LEVEL, 22, GOLBAT
-;@ evo_move    NO_MOVE
+;@ evo_move    SCREECH
 ;@ evo_react   NONE
+;@ learn       6, LEECH_LIFE
 ;@ learn       10, SUPERSONIC
-;@ learn       15, LEECH_LIFE
-;@ learn       18, BITE
-;@ learn       21, WING_ATTACK
-;@ learn       25, CONFUSE_RAY
-;@ learn       28, ILL_WIND
-;@ learn       30, HYPER_FANG
-;@ learn       37, AIR_DRILL
-;@ learn       44, SOULSTEALER
-;@ learn       50, MAXIMIZE
-;@ learn       55, VENOM_DRILL
+;@ learn       15, WING_ATTACK
+;@ learn       20, ROOST
+;@ learn       25, POISON_FANG
+;@ learn       31, CONFUSE_RAY
+;@ learn       38, AIR_DRILL
+;@ learn       45, MAXIMIZE
+;@ learn       52, HYPER_FANG
+;@ learn       60, VENOM_DRILL
+;@ tutor       SOULSTEALER
+;@ tutor       HURRICANE
+;@ tutor       METEOR_DRIVE
+;@ tutor       SCREECH

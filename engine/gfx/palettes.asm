@@ -72,7 +72,7 @@ SetPal_Battle:
 	ld b, PAL_MINDWIPE
 	jr .override
 .checkGlowPlayer
-	bit 4, a ; Sunsette: METAMORPHIC -> PAL_GAMEFREAK (super-saiyan glow)
+	bit 4, a ; Sunsette: transform moves (SUPERNOVA etc.) -> PAL_GAMEFREAK (super-saiyan glow); OROCLASM no longer glows
 	jr z, .override
 	ld b, PAL_GAMEFREAK
 .override
@@ -112,7 +112,7 @@ SetPal_Battle:
 	ld c, PAL_MINDWIPE
 	jr .gotEnemyPal
 .checkGlowEnemy
-	bit 4, a ; Sunsette: METAMORPHIC -> PAL_GAMEFREAK (super-saiyan glow)
+	bit 4, a ; Sunsette: transform moves (SUPERNOVA etc.) -> PAL_GAMEFREAK (super-saiyan glow); OROCLASM no longer glows
 	jr z, .gotEnemyPal
 	ld c, PAL_GAMEFREAK
 .gotEnemyPal

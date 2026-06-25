@@ -11,11 +11,12 @@
 	INCBIN "gfx/battle/spirit_painless.pic", 0, 1 ; sprite dimensions
 	dw PainlessPicFront, WigglytuffPicBackSW
 
-	db METAMORPHIC, SUPERNOVA, HI_JUMP_KICK, DOUBLE_EDGE ; level 1 learnset
+	db OROCLASM, SUPERNOVA, HI_JUMP_KICK, DOUBLE_EDGE ; level 1 learnset
 	db GROWTH_FAST ; growth rate
 
 	; tm/hm learnset
 	tmhm \
+	LEAP_ATTACK,\
 	ROCK_ON,\
 	ADAPTATION,\
 	FROST_FIST,\
@@ -29,16 +30,15 @@
 	BLIZZARD,\
 	HYPER_BEAM,\
 	CALM_MIND,\
-	LOW_KICK,\
+	FINISHER,\
 	ZAPPERCUT,\
 	METEOR_SWEEP,\
 	BARRIER,\
-	SOLARBEAM,\ 
+	SOLARBEAM,\
 	THUNDERBOLT,\
 	THUNDER,\
 	DIG,\
 	PSYCHIC_M,\
-	MIRAGE,\
 	SWORDS_DANCE,\
 	REFLECT,\
 	BULK_UP,\

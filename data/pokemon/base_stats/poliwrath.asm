@@ -10,44 +10,54 @@
 	INCBIN "gfx/pokemon/front/poliwrath.pic", 0, 1 ; sprite dimensions
 	dw PoliwrathPicFront, PoliwrathPicBackSW
 
-	db BUBBLE, SPLASH, NO_MOVE, NO_MOVE ; level 1 learnset
+	db BUBBLE, SPLASH, SUPER_SOAK, HYPNOSIS ; level 1 learnset
 	db GROWTH_MEDIUM_SLOW ; growth rate
 
 	; tm/hm learnset
 	tmhm \
-	FROST_FIST,\
-	MUD_BOMB,\
-	BLAZE_HAMMER,\
-	TOXIC,\
-	BODY_SLAM,\
+	HONE_EDGE,\
 	DISABLE,\
+	AURORA_MIST,\
+	SHADOW_GAME,\
+	TOXIC,\
+	SLUDGE_BOMB,\
+	BODY_SLAM,\
 	DOUBLE_EDGE,\
-	AQUA_RING,\
+	WATER_PULSE,\
+	SUPER_SOAK,\
 	ICE_BEAM,\
 	BLIZZARD,\
 	HYPER_BEAM,\
-	CALM_MIND,\
-	LOW_KICK,\
-	ZAPPERCUT,\
-	METEOR_SWEEP,\
-	BARRIER,\
-	RIPTIDE,\
+	FROST_FIST,\
+	SEISMIC_TOSS,\
+	MUD_BOMB,\
 	DIG,\
 	PSYCHIC_M,\
-	REFLECT,\
-	BULK_UP,\
-	SHADOW_BALL,\
-	TWISTER,\
+	FINISHER,\
 	DEMOLISH,\
-	VOID_MIND,\
+	BULK_UP,\
+	REFLECT,\
 	LIGHT_SCREEN,\
+	SHADOW_BOX,\
+	BARRIER,\
+	ENERGY_FLUX,\
 	SKITTERMIND,\
+	METEOR_SWEEP,\
 	ROCK_SLIDE,\
-	ROCK_ON,\
+	OROCLASM,\
 	SUBSTITUTE,\
+	RIPTIDE,\
+	AQUA_RING,\
+	ADAPTATION,\
+	CALM_MIND,\
+	VOID_MIND,\
+	PSYCHO_SHIFT,\
+	LEAP_ATTACK,\
+	TEMPEST,\
+	ROCK_ON,\
+	CUT,\
 	SURF,\
-	STRENGTH,\
-	FLASH
+	STRENGTH
 	; end
 
 	db BANK(PoliwrathPicFront)
@@ -68,13 +78,14 @@
 ;@ evo_react   "It throws a jab" "splitting the air!"
 ;@ evo_react   "It sets its feet," "muscles taut!"
 ;@ evo_react   "Pounds its chest" "with a roar!"
-;@ learn       12, SUPER_SOAK
-;@ learn       15, HYPNOSIS
-;@ learn       19, CONFUSION
-;@ learn       22, WATER_PULSE
-;@ learn       27, BODY_SLAM
-;@ learn       30, RIPTIDE
-;@ learn       36, DIZZY_PUNCH
-;@ learn       41, CALM_MIND
-;@ learn       45, HYDRO_PUMP
-;@ learn       52, SHADOW_BOX
+;@ learn       40, CLOBBERCLOCK
+;@ learn       47, HYDRO_PUMP
+;@ learn       54, SHADOW_BOX
+;@ learn       60, SUPERPOWER
+;@ tutor       SOULSTEALER
+;@ tutor       PAY_DAY
+;@ tutor       TELEPORT
+;@ tutor       CLOBBERCLOCK
+;@ tutor       PISTON_KICK
+;@ tutor       METEOR_DRIVE
+;@ tutor       EGG_BOMB

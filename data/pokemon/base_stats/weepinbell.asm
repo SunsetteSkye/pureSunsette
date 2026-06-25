@@ -10,32 +10,39 @@
 	INCBIN "gfx/pokemon/front/weepinbell.pic", 0, 1 ; sprite dimensions
 	dw WeepinbellPicFront, WeepinbellPicBackSW
 
-	db VINE_WHIP, NO_MOVE, NO_MOVE, NO_MOVE ; level 1 learnset
+	db VINE_WHIP, WRAP, NO_MOVE, NO_MOVE ; level 1 learnset
 	db GROWTH_MEDIUM_SLOW ; growth rate
 
 	; tm/hm learnset
 	tmhm \
-	MUD_BOMB,\
-	PIN_MISSILE,\
-	TOXIC,\
 	HONE_EDGE,\
-	BODY_SLAM,\
 	DISABLE,\
-	DOUBLE_EDGE,\
-	AQUA_RING,\
-	CALM_MIND,\
-	BARRIER,\
-	ADAPTATION,\
-	SOLARBEAM,\ 
-	MEGA_DRAIN,\
 	SWORDS_DANCE,\
-	REFLECT,\
+	SHADOW_GAME,\
+	TOXIC,\
+	SLUDGE_BOMB,\
+	BODY_SLAM,\
+	DOUBLE_EDGE,\
+	SEISMIC_TOSS,\
+	MEGA_DRAIN,\
+	SOLARBEAM,\
+	MUD_BOMB,\
 	BULK_UP,\
+	REFLECT,\
+	LIGHT_SCREEN,\
 	ILL_WIND,\
 	SHADOW_BALL,\
-	LIGHT_SCREEN,\
-	SHADOW_GAME,\
+	BARRIER,\
+	SKITTERMIND,\
 	SUBSTITUTE,\
+	AQUA_RING,\
+	RAZOR_LEAF,\
+	ADAPTATION,\
+	CALM_MIND,\
+	VOID_MIND,\
+	PSYCHO_SHIFT,\
+	PIN_MISSILE,\
+	LEECH_LIFE,\
 	CUT,\
 	FLASH
 	; end
@@ -54,19 +61,19 @@
 ;@ pal_icon     $FF
 ;@ pal_alticon  $FF
 ;@ evo         EVOLVE_ITEM, LEAF_STONE, 1, VICTREEBEL
-;@ evo_move    NO_MOVE
+;@ evo_move    LEECH_SEED
 ;@ evo_react   "It gapes wide," "drooling, hungry!"
 ;@ evo_react   "It drips sweet sap" "from its jaws!"
 ;@ evo_react   "It sways and snaps" "at the air!"
 ;@ evo_react   "Its hook curls," "poised to strike!"
-;@ learn       13, POISONPOWDER
-;@ learn       16, ACID
-;@ learn       19, MEGA_DRAIN
-;@ learn       22, STUN_SPORE
-;@ learn       25, POWER_BIND
-;@ learn       28, RAZOR_LEAF
-;@ learn       34, SLEEP_POWDER
-;@ learn       42, VENOM_LASH
-;@ learn       48, EGG_BOMB
-;@ learn       54, LEECH_SEED
-;@ learn       58, ADAPTATION
+;@ learn       8, POISONPOWDER
+;@ learn       12, ACID
+;@ learn       16, RAZOR_LEAF
+;@ learn       20, STUN_SPORE
+;@ learn       26, POISON_FANG
+;@ learn       31, SLAM
+;@ learn       37, SLEEP_POWDER
+;@ learn       44, SOLARBEAM
+;@ learn       52, SLUDGE_BOMB
+;@ tutor       EXPLOSION
+;@ tutor       EGG_BOMB

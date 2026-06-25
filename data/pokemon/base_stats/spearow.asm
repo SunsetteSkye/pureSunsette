@@ -15,26 +15,34 @@
 
 	; tm/hm learnset
 	tmhm \
-	ADAPTATION,\
-	ROOST,\
-	PIN_MISSILE,\
-	TOXIC,\
 	HONE_EDGE,\
-	BODY_SLAM,\
 	DISABLE,\
-	DOUBLE_EDGE,\
-	AURORA_MIST,\
-	LOW_KICK,\
-	BARRIER,\
 	SWORDS_DANCE,\
-	REFLECT,\
+	AURORA_MIST,\
+	SHADOW_GAME,\
+	TOXIC,\
+	SLUDGE_BOMB,\
+	BODY_SLAM,\
+	DOUBLE_EDGE,\
+	SEISMIC_TOSS,\
+	MUD_BOMB,\
+	FINISHER,\
 	BULK_UP,\
+	REFLECT,\
 	ILL_WIND,\
 	SHADOW_BALL,\
-	TWISTER,\
+	SHADOW_BOX,\
+	BARRIER,\
 	BRAVE_BIRD,\
-	SHADOW_GAME,\
 	SUBSTITUTE,\
+	RAZOR_LEAF,\
+	ADAPTATION,\
+	CALM_MIND,\
+	VOID_MIND,\
+	ROOST,\
+	LEAP_ATTACK,\
+	PIN_MISSILE,\
+	TEMPEST,\
 	CUT,\
 	FLY
 	; end
@@ -54,16 +62,19 @@
 ;@ pal_icon     $FF
 ;@ pal_alticon  $FF
 ;@ evo         EVOLVE_LEVEL, 20, FEAROW
-;@ evo_move    NO_MOVE
+;@ evo_move    ILL_WIND
 ;@ evo_react   NONE
 ;@ learn       9, LEER
 ;@ learn       13, MUD_CLAW
 ;@ learn       18, WING_ATTACK
-;@ learn       22, ILL_WIND
-;@ learn       26, MOCKINGBIRD
-;@ learn       30, BLOOD_RUSH
+;@ learn       23, MOCKINGBIRD
+;@ learn       27, PHANTASM
 ;@ learn       33, AIR_DRILL
-;@ learn       37, PHANTASM
-;@ learn       42, AGILITY
-;@ learn       48, DOUBLE_EDGE
-;@ learn       55, SPIKE_CANNON
+;@ learn       38, BLOOD_RUSH
+;@ learn       44, CONFUSE_RAY
+;@ learn       50, SOULSTEALER
+;@ learn       56, BRAVE_BIRD
+;@ tutor       HURRICANE
+;@ tutor       METEOR_DRIVE
+;@ tutor       EGG_BOMB
+;@ tutor       SCREECH

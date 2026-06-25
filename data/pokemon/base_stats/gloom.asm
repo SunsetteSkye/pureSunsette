@@ -15,28 +15,35 @@
 
 	; tm/hm learnset
 	tmhm \
-	MUD_BOMB,\
-	TOXIC,\
 	HONE_EDGE,\
-	BODY_SLAM,\
 	DISABLE,\
-	DOUBLE_EDGE,\
-	AQUA_RING,\
-	CALM_MIND,\
-	BARRIER,\
-	ADAPTATION,\
-	SOLARBEAM,\ 
-	PSYCHIC_M,\
-	MEGA_DRAIN,\
 	SWORDS_DANCE,\
-	REFLECT,\
+	SHADOW_GAME,\
+	TOXIC,\
+	SLUDGE_BOMB,\
+	BODY_SLAM,\
+	DOUBLE_EDGE,\
+	WATER_PULSE,\
+	SUPER_SOAK,\
+	MEGA_DRAIN,\
+	SOLARBEAM,\
+	MUD_BOMB,\
+	PSYCHIC_M,\
+	DEMOLISH,\
 	BULK_UP,\
+	REFLECT,\
+	LIGHT_SCREEN,\
 	ILL_WIND,\
 	SHADOW_BALL,\
-	DEMOLISH,\
-	LIGHT_SCREEN,\
-	SHADOW_GAME,\
+	SHADOW_BOX,\
+	BARRIER,\
 	SUBSTITUTE,\
+	AQUA_RING,\
+	ADAPTATION,\
+	CALM_MIND,\
+	VOID_MIND,\
+	PSYCHO_SHIFT,\
+	LEECH_LIFE,\
 	CUT,\
 	FLASH
 	; end
@@ -54,20 +61,22 @@
 ;@ pal_altbattle PAL_0F
 ;@ pal_icon     $FF
 ;@ pal_alticon  $FF
-;@ evo         EVOLVE_ITEM, LEAF_STONE, 1, VILEPLUME
-;@ evo_move    NO_MOVE
+;@ evo         EVOLVE_ITEM, MOON_STONE, 1, VILEPLUME
+;@ evo_move    PHANTASM
 ;@ evo_react   "Oh no! The smell" "is everywhere!"
 ;@ evo_react   "You gag on the" "sudden stench!"
 ;@ evo_react   "Ugh, that reek" "hits you hard!"
 ;@ evo_react   "The stink makes" "your eyes water!"
 ;@ learn       7, POISONPOWDER
 ;@ learn       11, ACID
-;@ learn       15, ADAPTATION
-;@ learn       17, STUN_SPORE
+;@ learn       15, STUN_SPORE
 ;@ learn       19, MEGA_DRAIN
-;@ learn       23, PHANTASM
+;@ learn       23, ADAPTATION
 ;@ learn       28, SLEEP_POWDER
-;@ learn       36, SLUDGE_BOMB
-;@ learn       45, TOXIC
-;@ learn       50, SENBONZAKURA
-;@ learn       57, EMETIC_PURGE
+;@ learn       34, SLUDGE_BOMB
+;@ learn       40, TOXIC
+;@ learn       47, SOLARBEAM
+;@ learn       54, EMETIC_PURGE
+;@ tutor       SOULSTEALER
+;@ tutor       TELEPORT
+;@ tutor       SWIFT

@@ -20,7 +20,7 @@ MoveNameJumpTable::
 	dw HURRICANEName
 	dw FLYName
 	dw POWERBINDName
-	dw TWISTERName
+	dw TEMPESTName
 	dw VINEWHIPName
 	dw STOMPName
 	dw DOUBLEKICKName
@@ -36,7 +36,7 @@ MoveNameJumpTable::
 	dw BODYSLAMName
 	dw WRAPName
 	dw HEATRUSHName
-	dw OUTRAGEName
+	dw INDIGNATIONName
 	dw DOUBLEEDGEName
 	dw TAILWHIPName
 	dw POISONSTINGName
@@ -66,7 +66,7 @@ MoveNameJumpTable::
 	dw PECKName
 	dw AIRDRILLName
 	dw COMBOBREAKERName
-	dw LOWKICKName
+	dw FINISHERName
 	dw SHADOWBOXName
 	dw SEISMICTOSSName
 	dw STRENGTHName
@@ -145,14 +145,14 @@ MoveNameJumpTable::
 	dw BRAVEBIRDName
 	dw TRANSFORMName
 	dw BUBBLEName
-	dw DIZZYPUNCHName
+	dw CLOBBERCLOCKName
 	dw SPOREName
 	dw FLASHName
 	dw SKITTERMINDName
 	dw SPLASHName
 	dw AQUARINGName
 	dw CRABHAMMERName
-	dw METAMORPHICName
+	dw OROCLASMName
 	dw MUDCLAWName
 	dw BONEMERANGName
 	dw RESTName
@@ -170,6 +170,22 @@ MoveNameJumpTable::
 	dw MAXIMIZEName
 	dw CRYSTALLIZEName
 	dw QUICKATTACKName
+	dw PSYCHOSHIFTName
+	dw GIGADRAINName
+	dw SAPPINGCOLDName
+	dw PLASMABURNName
+	dw BULLDOZEName
+	dw ENERGYFLUXName
+	dw MUDSLIDEName
+	dw POISONFANGName
+	dw BUGOFFName
+	dw PSYCHOCRISISName
+	dw ROCKSMASHName
+	dw SUPERPOWERName
+	dw SUBMISSIONName
+	dw SLAMName
+	dw PSYSHOCKName
+	dw FLUTTERKICKName
 	dw STRUGGLEName
 	assert_table_length NUM_ATTACKS
 
@@ -184,7 +200,7 @@ DOUBLESLAPName:
 MACHPUNCHName:
 	db "MACH PUNCH@"
 SHORYUKENName:
-	db "SHORYUKEN@"  ; hits through FLY's invuln turn + strips the target's FLYING/FLOATING type (restored by ROOST)
+	db "SHORYUKEN@"  ; special DRAGON setup uppercut: high chance to raise the user's ATTACK; still hits through FLY's invuln turn (CheckSemiInvulnBypass)
 PAYDAYName:
 	db "PAY DAY@"
 BLAZEHAMMERName:
@@ -215,8 +231,8 @@ FLYName:
 	db "FLY@"
 POWERBINDName:
 	db "POWER BIND@"
-TWISTERName:
-	db "TWISTER@"
+TEMPESTName:
+	db "TEMPEST@"
 VINEWHIPName:
 	db "VINE WHIP@"
 STOMPName:
@@ -247,8 +263,8 @@ WRAPName:
 	db "WRAP@"
 HEATRUSHName:
 	db "HEAT RUSH@"
-OUTRAGEName:
-	db "OUTRAGE@"
+INDIGNATIONName: ; Sunsette: DRAGON thrash-lock move (const + display both INDIGNATION; was vanilla THRASH)
+	db "INDIGNATION@"
 DOUBLEEDGEName:
 	db "DOUBLE-EDGE@"
 TAILWHIPName:
@@ -307,8 +323,8 @@ AIRDRILLName:
 	db "AIR DRILL@"
 COMBOBREAKERName:
 	db "COMBOBREAKER@"
-LOWKICKName:
-	db "LOW KICK@"
+FINISHERName:
+	db "FINISHER@"
 SHADOWBOXName:
 	db "SHADOW BOX@"
 SEISMICTOSSName:
@@ -319,6 +335,22 @@ ABSORBName:
 	db "ABSORB@"
 MEGADRAINName:
 	db "MEGA DRAIN@"
+GIGADRAINName:
+	db "GIGA DRAIN@"
+SAPPINGCOLDName:
+	db "SAPPING COLD@"
+PLASMABURNName:
+	db "PLASMA BURN@"
+BULLDOZEName:
+	db "BULLDOZE@"
+ENERGYFLUXName:
+	db "ENERGY FLUX@"
+MUDSLIDEName:
+	db "MUDSLIDE@"
+POISONFANGName:
+	db "POISON FANG@"
+BUGOFFName:
+	db "BUG OFF@"
 LEECHSEEDName:
 	db "LEECH SEED@"
 ADAPTATIONName:  ; the FLOURISH name moved to the regen STATE
@@ -465,8 +497,8 @@ TRANSFORMName:
 	db "TRANSFORM@"
 BUBBLEName:
 	db "BUBBLE@"
-DIZZYPUNCHName:
-	db "DIZZY PUNCH@"
+CLOBBERCLOCKName:
+	db "CLOBBERCLOCK@"
 SPOREName:
 	db "SPORE@"
 FLASHName:
@@ -479,8 +511,8 @@ AQUARINGName:
 	db "AQUA RING@"
 CRABHAMMERName:
 	db "CRABHAMMER@"
-METAMORPHICName:
-	db "METAMORPHIC@"
+OROCLASMName:
+	db "OROCLASM@"
 MUDCLAWName:
 	db "MUD CLAW@"
 BONEMERANGName:
@@ -515,5 +547,21 @@ CRYSTALLIZEName:
 	db "CRYSTALLIZE@"
 QUICKATTACKName:
 	db "QUICK ATTACK@"
+PSYCHOSHIFTName:
+	db "PSYCHO SHIFT@"
+PSYCHOCRISISName:
+	db "PSYCHOCRISIS@"
+ROCKSMASHName:
+	db "ROCK SMASH@"
+SUPERPOWERName:
+	db "SUPERPOWER@"
+SUBMISSIONName:
+	db "SUBMISSION@"
+SLAMName:
+	db "SLAM@"
+PSYSHOCKName:
+	db "PSYSHOCK@"
+FLUTTERKICKName:
+	db "FLUTTER KICK@"
 STRUGGLEName:
 	db "STRUGGLE@"

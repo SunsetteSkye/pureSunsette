@@ -26,12 +26,11 @@
 	AURORA_MIST,\
 	HYPER_BEAM,\
 	CALM_MIND,\
-	LOW_KICK,\
+	FINISHER,\
 	ZAPPERCUT,\
 	METEOR_SWEEP,\
 	BARRIER,\
 	PSYCHIC_M,\
-	MIRAGE,\
 	REFLECT,\
 	BULK_UP,\
 	SHADOW_BALL,\
@@ -56,7 +55,7 @@
 	dw 0, HypnoPicBack
 
 ; --- Sunsette SSOT directives (parsed by tools/gen_pokemon_data.py) ---
-;@ nature       NATURE_CALCULATING NATURE_LAZY
+;@ nature       NATURE_CALCULATING NATURE_GLUTTON
 ;@ pal_battle   PAL_LEMONMON
 ;@ pal_altbattle PAL_0F
 ;@ pal_icon     $FF
@@ -75,3 +74,10 @@
 ;@ learn       43, TOXIC
 ;@ learn       48, EMETIC_PURGE
 ;@ learn       54, SOULSTEALER
+;@ tutor       TRI_ATTACK
+;@ tutor       SOULSTEALER
+;@ tutor       TELEPORT
+;@ tutor       CLOBBERCLOCK
+;@ tutor       PISTON_KICK
+;@ tutor       METEOR_DRIVE
+;@ tutor       SWIFT

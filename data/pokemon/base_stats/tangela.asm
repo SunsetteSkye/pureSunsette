@@ -28,7 +28,7 @@
 	CALM_MIND,\
 	BARRIER,\
 	ADAPTATION,\
-	SOLARBEAM,\ 
+	SOLARBEAM,\
 	RIPTIDE,\
 	MEGA_DRAIN,\
 	SWORDS_DANCE,\
@@ -70,3 +70,7 @@
 ;@ learn       44, POWER_BIND
 ;@ learn       49, HYDRO_PUMP
 ;@ learn       54, VENOM_LASH
+;@ tutor       EXPLOSION
+;@ tutor       SOULSTEALER
+;@ tutor       EGG_BOMB
+;@ tutor       SCREECH

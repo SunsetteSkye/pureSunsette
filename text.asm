@@ -345,6 +345,10 @@ SECTION "Movedex Text", ROMX
 
 INCLUDE "data/moves/movedex_text.asm"
 
+SECTION "Movedex Text 2", ROMX
+
+INCLUDE "data/moves/movedex_text2.asm"
+
 ; Sunsette: Summer Beach House (Surfing Pikachu minigame) dialogue. Floating section because the
 ; older Text banks are full; text_far pointers are bank-agnostic so it can live anywhere.
 SECTION "Sunsette Summer Beach House Text", ROMX
@@ -365,3 +369,7 @@ INCLUDE "data/text/sunsette_blackboard_text.asm"
 SECTION "Sunsette Dojo Text", ROMX
 
 INCLUDE "data/text/sunsette_dojo_text.asm"
+
+SECTION "Sunsette Disable Text", ROMX
+
+INCLUDE "data/text/sunsette_disable_text.asm"

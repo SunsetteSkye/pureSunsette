@@ -1,6 +1,6 @@
 TutorMoveLearnsets::
-; Old TM01 (was MEGA_PUNCH/SHORYUKEN; the Saffron tutor now teaches DIZZY_PUNCH with this learnset)
-INCLUDE "data/pokemon/tutor_moves/dizzy_punch.asm"
+; Old TM01 (was MEGA_PUNCH/SHORYUKEN; the Saffron tutor now teaches CLOBBERCLOCK with this learnset)
+INCLUDE "data/pokemon/tutor_moves/clobberclock.asm"
 ; Old TM04
 INCLUDE "data/pokemon/tutor_moves/whirlwind.asm"
 ; Old TM05
@@ -11,7 +11,7 @@ INCLUDE "data/pokemon/tutor_moves/pay_day.asm"
 INCLUDE "data/pokemon/tutor_moves/rage.asm"
 ; Old TM30
 INCLUDE "data/pokemon/tutor_moves/teleport.asm"
-; Old TM36 and TM47
+; Old TM47 (Explosion) - now teaches the actual EXPLOSION move (was SUPERNOVA/OROCLASM)
 INCLUDE "data/pokemon/tutor_moves/selfdestruct_explosion.asm"
 ; Old TM37
 INCLUDE "data/pokemon/tutor_moves/egg_bomb.asm"

@@ -1,6 +1,5 @@
 CeladonMoveTutorMoves::
-	dbw SUPERNOVA, SelfdestructLearnset
-	dbw METAMORPHIC,    ExplosionLearnset
+	dbw EXPLOSION,    ExplosionLearnset
 	dbw TRI_ATTACK,   TriAttackLearnset
 	dbw SOULSTEALER,  DreamEaterLearnset
 	dbw PAY_DAY,      PayDayLearnset
@@ -10,7 +9,7 @@ CeladonMoveTutorMoves::
 	db -1
 
 SaffronMoveTutorMoves::
-	dbw DIZZY_PUNCH, DizzyPunchLearnset ; Sunsette: was MEGA_PUNCH (now SHORYUKEN, tutored by the Fighting Bros Right Bro)
+	dbw CLOBBERCLOCK, ClobberclockLearnset ; Sunsette: was MEGA_PUNCH (now SHORYUKEN, tutored by the Fighting Bros Right Bro)
 	dbw PISTON_KICK,  MegaKickLearnset
 	dbw HURRICANE,  WhirlwindLearnset
 	dbw METEOR_DRIVE, SkullBashLearnset

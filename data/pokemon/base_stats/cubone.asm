@@ -27,12 +27,11 @@
 	DOUBLE_EDGE,\
 	ICE_BEAM,\
 	BLIZZARD,\
-	LOW_KICK,\
+	FINISHER,\
 	ZAPPERCUT,\
 	METEOR_SWEEP,\
 	EARTHQUAKE,\
 	DIG,\
-	MIRAGE,\
 	SWORDS_DANCE,\
 	BULK_UP,\
 	SHADOW_BALL,\
@@ -77,3 +76,8 @@
 ;@ learn       40, BONEMERANG
 ;@ learn       45, METEOR_DRIVE
 ;@ learn       50, COMBOBREAKER
+;@ tutor       TELEPORT
+;@ tutor       CLOBBERCLOCK
+;@ tutor       PISTON_KICK
+;@ tutor       METEOR_DRIVE
+;@ tutor       SCREECH

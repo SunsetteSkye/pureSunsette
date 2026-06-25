@@ -15,6 +15,10 @@ EchoingScreeches::
 	text_end
 
 _SleepEffect::
+	callfar TargetIsWarded ; Sunsette: AURORA MIST ward - a warded target can't be put to sleep
+	ld a, e
+	and a
+	ret nz
 	ld de, wEnemyMonStatus
 	ld hl, wEnemyMonMoves
 	ldh a, [hWhoseTurn]

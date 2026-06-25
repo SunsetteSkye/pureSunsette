@@ -14,32 +14,40 @@
 	db GROWTH_MEDIUM_SLOW ; growth rate
 
 	tmhm \
-	BLAZE_HAMMER,\
-	TOXIC,\
 	HONE_EDGE,\
-	BODY_SLAM,\
 	DISABLE,\
-	DOUBLE_EDGE,\
-	CALM_MIND,\
-	LOW_KICK,\
-	ZAPPERCUT,\
-	METEOR_SWEEP,\
-	BARRIER,\
-	SOLARBEAM,\ 
-	WYRM_WRATH,\
-	DIG,\
-	MIRAGE,\
 	SWORDS_DANCE,\
-	REFLECT,\
-	BULK_UP,\
-	SHADOW_BALL,\
-	SUPERNOVA,\
-	FIRE_BLAST,\
-	DEMOLISH,\
-	LIGHT_SCREEN,\
 	SHADOW_GAME,\
-	ROCK_ON,\
+	TOXIC,\
+	SLUDGE_BOMB,\
+	BODY_SLAM,\
+	QUICK_ATTACK,\
+	DOUBLE_EDGE,\
+	ZAPPERCUT,\
+	BLAZE_HAMMER,\
+	SEISMIC_TOSS,\
+	SOLARBEAM,\
+	WYRM_WRATH,\
+	MUD_BOMB,\
+	DIG,\
+	FINISHER,\
+	DEMOLISH,\
+	BULK_UP,\
+	REFLECT,\
+	LIGHT_SCREEN,\
+	HEAT_RUSH,\
+	SUPERNOVA,\
+	FLAMETHROWER,\
+	FIRE_BLAST,\
+	SHADOW_BOX,\
+	BARRIER,\
+	METEOR_SWEEP,\
+	ROCK_SLIDE,\
+	OROCLASM,\
 	SUBSTITUTE,\
+	LEAP_ATTACK,\
+	TEMPEST,\
+	ROCK_ON,\
 	CUT,\
 	STRENGTH,\
 	FLASH
@@ -59,7 +67,7 @@
 ;@ pal_icon     PAL_ICON_04
 ;@ pal_alticon  PAL_CHARMELEONALTICON
 ;@ evo         EVOLVE_LEVEL, 36, CHARIZARD
-;@ evo_move    NO_MOVE
+;@ evo_move    WYRM_WRATH
 ;@ evo_react   "It flips into" "a fiery charge!"
 ;@ evo_react   "Its claws flash," "ready to slash!"
 ;@ evo_react   "Smoke curls up" "from its nostrils!"
@@ -69,10 +77,13 @@
 ;@ learn       12, SEISMIC_TOSS
 ;@ learn       15, BELLOW
 ;@ learn       18, HEAT_RUSH
-;@ learn       23, HONE_EDGE
 ;@ learn       26, SLASH
 ;@ learn       30, SHORYUKEN
 ;@ learn       38, FLAMETHROWER
 ;@ learn       46, HYPER_BEAM
-;@ learn       54, WYRM_WRATH
+;@ learn       54, INDIGNATION
 ;@ learn       60, FIRE_BLAST
+;@ tutor       CLOBBERCLOCK
+;@ tutor       PISTON_KICK
+;@ tutor       METEOR_DRIVE
+;@ tutor       EGG_BOMB

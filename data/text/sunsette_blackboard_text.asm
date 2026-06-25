@@ -19,8 +19,9 @@ _ViridianBlackboardSleepText::
 	cont "crit cuts two!"
 
 	para "But GRASS types"
-	line "can't be put to"
-	cont "sleep at all!"
+	line "are restless --"
+	cont "they can't be put"
+	cont "to sleep at all!"
 
 	para "Use AWAKENING to"
 	line "wake them up!"

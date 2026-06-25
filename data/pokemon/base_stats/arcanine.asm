@@ -10,34 +10,42 @@
 	INCBIN "gfx/pokemon/front/arcanine.pic", 0, 1 ; sprite dimensions
 	dw ArcaninePicFront, ArcaninePicBackSW
 
-	db BITE, BELLOW, NO_MOVE, NO_MOVE ; level 1 learnset
+	db TACKLE, GROWL, EMBER, BITE ; level 1 learnset
 	db GROWTH_MEDIUM_SLOW ; growth rate
 
 	; tm/hm learnset
 	tmhm \
-	ADAPTATION,\
-	MUD_BOMB,\
+	HONE_EDGE,\
+	DISABLE,\
 	TOXIC,\
 	BODY_SLAM,\
-	DISABLE,\
+	QUICK_ATTACK,\
 	DOUBLE_EDGE,\
 	HYPER_BEAM,\
-	METEOR_SWEEP,\
-	SOLARBEAM,\ 
+	SOLARBEAM,\
 	WYRM_WRATH,\
+	MUD_BOMB,\
 	DIG,\
-	MIRAGE,\
-	REFLECT,\
+	DEMOLISH,\
 	BULK_UP,\
-	SHADOW_BALL,\
-	SUPERNOVA,\
-	FIRE_BLAST,\
-	TWISTER,\
+	REFLECT,\
 	LIGHT_SCREEN,\
-	ROCK_ON,\
+	HEAT_RUSH,\
+	SUPERNOVA,\
+	FLAMETHROWER,\
+	FIRE_BLAST,\
+	ILL_WIND,\
+	BARRIER,\
+	ENERGY_FLUX,\
+	METEOR_SWEEP,\
 	SUBSTITUTE,\
+	RAZOR_LEAF,\
+	ADAPTATION,\
+	LEAP_ATTACK,\
+	TEMPEST,\
+	ROCK_ON,\
 	CUT,\
-	SURF,\
+	FLY,\
 	STRENGTH,\
 	FLASH
 	; end
@@ -60,14 +68,11 @@
 ;@ evo_react   "It tears off fast," "a blur of fire!"
 ;@ evo_react   "It throws back its" "head and howls!"
 ;@ evo_react   "It paws the dirt," "itching to bolt!"
-;@ learn       7, BITE
-;@ learn       10, LICK
-;@ learn       15, EMBER
-;@ learn       19, BELLOW
-;@ learn       23, BLITZ_STRIKE
-;@ learn       28, HEAT_RUSH
-;@ learn       31, AGILITY
-;@ learn       36, FLAMETHROWER
-;@ learn       45, DOUBLE_EDGE
-;@ learn       52, BONEMERANG
-;@ learn       59, FIRE_BLAST
+;@ learn       35, AGILITY
+;@ learn       40, DOUBLE_EDGE
+;@ learn       46, FLAMETHROWER
+;@ learn       52, LEAP_ATTACK
+;@ learn       58, INDIGNATION
+;@ tutor       TELEPORT
+;@ tutor       PISTON_KICK
+;@ tutor       METEOR_DRIVE

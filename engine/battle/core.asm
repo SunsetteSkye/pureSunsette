@@ -350,17 +350,7 @@ MainInBattleLoop:
 	ld a, [wBattleMonStatus]
 	and SLP_MASK ; Sunsette: was (1 << FRZ) | SLP_MASK - freeze no longer blocks acting, so only sleep skips the turn
 	jr nz, .selectEnemyMove ; if so, jump
-	ld a, [wPlayerBattleStatus1]
-	and (1 << USING_TRAPPING_MOVE) ; check player is using Bide or using a multi-turn attack like wrap
-	jr nz, .selectEnemyMove ; if so, jump
-	ld a, [wEnemyBattleStatus1]
-	bit USING_TRAPPING_MOVE, a ; check if enemy is using a multi-turn attack like wrap
-	jr z, .selectPlayerMove ; if not, jump
-; enemy is using a multi-turn attack like wrap, so player is trapped and cannot execute a move
-	ld a, CANNOT_MOVE
-	ld [wPlayerSelectedMove], a
-	jr .selectEnemyMove
-.selectPlayerMove
+.selectPlayerMove ; Sunsette: trapping checks removed (USING_TRAPPING_MOVE bit reclaimed); player always selects normally
 	ld a, [wActionResultOrTookBattleTurn]
 	and a ; has the player already used the turn (e.g. by using an item, trying to run or switching pokemon)
 	jr nz, .selectEnemyMove
@@ -391,56 +381,78 @@ MainInBattleLoop:
 	sub 4
 	jr c, .noLinkBattle
 ; the link battle enemy has switched mons
-	ld a, [wPlayerBattleStatus1]
-	bit USING_TRAPPING_MOVE, a ; check if using multi-turn move like Wrap
-	jr z, .specialMoveNotUsed
-	ld a, [wPlayerMoveListIndex]
-	ld hl, wBattleMonMoves
-	ld c, a
-	ld b, 0
-	add hl, bc
-	ld a, [hl]
-	cp METRONOME ; a MIRROR MOVE check is missing, might lead to a desync in link battles
-	             ; when combined with multi-turn moves
-	jr nz, .specialMoveNotUsed
-	ld [wPlayerSelectedMove], a
-.specialMoveNotUsed
+.specialMoveNotUsed ; Sunsette: trapping-move link handling removed (USING_TRAPPING_MOVE bit reclaimed)
 	callfar SwitchEnemyMon
 ;;;;;;;;;; PureRGBnote: ADDED: multiple priority moves are checked here instead of just quick attack
 .noLinkBattle
+; Sunsette: clear the per-turn FINISHER-interrupt flag on both sides before any move resolves
+	ld hl, wPlayerBattleStatus1
+	res FINISHER_INTERRUPTED, [hl]
+	ld hl, wEnemyBattleStatus1
+	res FINISHER_INTERRUPTED, [hl]
+; Sunsette: go-last moves (FINISHER, SAPPING COLD, OROCLASM, CLAY ARMOR) resolve last (negative priority,
+; Focus-Punch style). If exactly one side committed to one, the other acts first; both go-last or neither
+; falls to normal.
+	ld a, [wPlayerSelectedMove]
+	cp FINISHER
+	jr z, .playerGoesLast
+	cp SAPPING_COLD
+	jr z, .playerGoesLast
+	cp OROCLASM
+	jr z, .playerGoesLast
+	cp CLAY_ARMOR
+	jr nz, .playerNotGoLast
+.playerGoesLast
+	ld a, [wEnemySelectedMove]
+	cp FINISHER
+	jr z, .normalOrder       ; both go last -> normal speed order
+	cp SAPPING_COLD
+	jr z, .normalOrder
+	cp OROCLASM
+	jr z, .normalOrder
+	cp CLAY_ARMOR
+	jr z, .normalOrder
+	jp .enemyMovesFirst      ; only the player goes last -> enemy first
+.playerNotGoLast
+	ld a, [wEnemySelectedMove]
+	cp FINISHER
+	jr z, .enemyGoesLast
+	cp SAPPING_COLD
+	jr z, .enemyGoesLast
+	cp OROCLASM
+	jr z, .enemyGoesLast
+	cp CLAY_ARMOR
+	jr nz, .normalOrder
+.enemyGoesLast
+	jp .playerMovesFirst     ; only the enemy goes last -> player first
+.normalOrder
 	ld a, [wPlayerSelectedMove]
 	ld c, a
-	ld a, [wBattleMonSpecies] ; Sunsette: user species, for species-gated priority (Arbok's ACID)
-	ld b, a
-	call CheckPriority
+	call CheckPriority ; Sunsette: only c (the move) matters now - the species/side threading was for the retired BUG red-HP check
 	jr nc, .playerDidNotUsePriority
 	ld a, [wEnemySelectedMove]
 	ld c, a
-	ld a, [wEnemyMonSpecies] ; Sunsette: user species, for species-gated priority (Arbok's ACID)
-	ld b, a
 	call CheckPriority
 	jr c, .bothPriority  ; both used priority -> BLITZ_STRIKE (+2) tiebreak below
 	jp .playerMovesFirst ; if player used priority and enemy didn't
 .playerDidNotUsePriority
 	ld a, [wEnemySelectedMove]
 	ld c, a
-	ld a, [wEnemyMonSpecies] ; Sunsette: user species, for species-gated priority (Arbok's ACID)
-	ld b, a
 	call CheckPriority
 	jr c, .enemyMovesFirst ; if enemy used priority and player didn't
 ;;;;;;;;;;
-;;;;;;;;;; Sunsette: BLITZ_STRIKE (+2 priority, internal QUICK_ATTACK) tiebreak. Reached only when BOTH
-;;;;;;;;;; selected moves are priority. BLITZ_STRIKE strikes before any other (+1) priority move; a mirror
-;;;;;;;;;; match, or two non-BLITZ_STRIKE priority moves, fall through to the normal speed comparison.
+;;;;;;;;;; Sunsette: BLITZ_STRIKE (+2 priority) tiebreak. Reached only when BOTH selected moves are
+;;;;;;;;;; priority. BLITZ_STRIKE strikes before any other (+1) priority move; a mirror match, or two
+;;;;;;;;;; non-BLITZ_STRIKE priority moves, fall through to the normal speed comparison.
 .bothPriority
 	ld a, [wPlayerSelectedMove]
 	cp BLITZ_STRIKE
-	jr z, .playerHasExtremeSpeed
+	jr z, .playerHasBlitzStrike
 	ld a, [wEnemySelectedMove]
 	cp BLITZ_STRIKE
 	jp z, .enemyMovesFirst ; only the enemy used BLITZ_STRIKE -> it strikes first
 	jr .compareSpeed ; both are +1 priority moves -> speed decides (original behavior)
-.playerHasExtremeSpeed
+.playerHasBlitzStrike
 	ld a, [wEnemySelectedMove]
 	cp BLITZ_STRIKE
 	jr z, .compareSpeed ; both used BLITZ_STRIKE -> speed decides
@@ -808,19 +820,8 @@ UpdateCurMonHPBar::
 	ret
 
 CheckNumAttacksLeft:
-	ld a, [wPlayerNumAttacksLeft]
-	and a
-	jr nz, .checkEnemy
-; player has 0 attacks left
-	ld hl, wPlayerBattleStatus1
-	res USING_TRAPPING_MOVE, [hl] ; player not using multi-turn attack like wrap any more
-.checkEnemy
-	ld a, [wEnemyNumAttacksLeft]
-	and a
-	ret nz
-; enemy has 0 attacks left
-	ld hl, wEnemyBattleStatus1
-	res USING_TRAPPING_MOVE, [hl] ; enemy not using multi-turn attack like wrap any more
+	; Sunsette: trapping (Wrap-style) moves removed, so there's no multi-turn counter to clear here.
+	; Kept as a ret because MainInBattleLoop still calls it on both turn paths.
 	ret
 
 HandleEnemyMonFainted:
@@ -1539,8 +1540,6 @@ EnemySendOutFirstMon:
 	ld [hl], a
 	dec a
 	ld [wAICount], a
-	ld hl, wPlayerBattleStatus1
-	res USING_TRAPPING_MOVE, [hl]
 	hlcoord 18, 0
 	ld a, 8
 	call SlideTrainerPicOffScreen
@@ -2009,8 +2008,6 @@ SendOutMon:
 	ld [wPlayerDisabledMoveNumber], a
 	ld [wPlayerMonMinimized], a
 	ld [wPlayerAdaptType], a ; Sunsette: ADAPTATION - a fresh mon has no adaptation (a = 0)
-	ld hl, wEnemyBattleStatus1
-	res USING_TRAPPING_MOVE, [hl]
 	SetEvent FLAG_SKIP_DELAY_IN_GBC_PALETTE_FUNC
 	ldh a, [hGBC]
 	and a
@@ -2300,6 +2297,7 @@ DisplayBattleMenu::
 .menuselected
 	ld [wTextBoxID], a
 	call DisplayTextBoxID
+	callfar DrawArenaBattleIndicator ; Sunsette: per-arena status glyphs in the menu box's bottom-left
  ; handle menu input if it's not the old man tutorial
 	ld a, [wBattleType]
 	ASSERT BATTLE_TYPE_OLD_MAN == 1
@@ -2552,15 +2550,6 @@ UseBagItem:
 	and a ; was the item used successfully?
 	jp z, BagWasSelected ; if not, go back to the bag menu
 
-	ld a, [wPlayerBattleStatus1]
-	bit USING_TRAPPING_MOVE, a ; is the player using a multi-turn move like wrap?
-	jr z, .checkIfMonCaptured
-	ld hl, wPlayerNumAttacksLeft
-	dec [hl]
-	jr nz, .checkIfMonCaptured
-	ld hl, wPlayerBattleStatus1
-	res USING_TRAPPING_MOVE, [hl] ; not using multi-turn move any more
-
 .checkIfMonCaptured
 	ld a, [wCapturedMonSpecies]
 	and a ; was the enemy mon captured with a ball?
@@ -2731,6 +2720,8 @@ SwitchPlayerMon:
 	ld c, 50
 	rst _DelayFrames
 	call AnimateRetreatingPlayerMon
+	xor a ; Sunsette: player's mon switched OUT (voluntary, not a faint) - if FLYING, latch a tailwind for the incoming mon
+	callfar FlyTailwindLatchIfFlying
 	ld a, [wWhichPokemon]
 	ld [wPlayerMonNumber], a
 	ld c, a
@@ -2743,6 +2734,8 @@ SwitchPlayerMon:
 	call FlagAction
 	call LoadBattleMonFromParty
 	call SendOutMon
+	xor a ; Sunsette: player's mon switched IN - apply the FLYING pivot tailwind (+1 SPEED) if one was latched
+	callfar FlyTailwindApplyIfLatched
 	call SaveScreenTilesToBuffer1
 	ld a, $2
 	ld [wCurrentMenuItem], a
@@ -3263,12 +3256,7 @@ SelectEnemyMove:
 	ld a, [wEnemyMonStatus]
 	and SLP_MASK ; Sunsette: was (1 << FRZ) | SLP_MASK - freeze no longer blocks acting, so only sleep skips the turn
 	ret nz
-	ld a, [wEnemyBattleStatus1]
-	and (1 << USING_TRAPPING_MOVE) ; using a trapping move like wrap or bide ; PureRGBnote: CHANGED: bide code removed since its effect was changed
-	ret nz
-	ld a, [wPlayerBattleStatus1]
-	bit USING_TRAPPING_MOVE, a ; caught in player's trapping move (e.g. wrap)
-	jr z, .canSelectMove
+	jr .canSelectMove ; Sunsette: trapping checks removed (USING_TRAPPING_MOVE bit reclaimed); enemy always selects normally
 .unableToSelectMove
 	ld a, $ff
 	jr .done
@@ -3591,7 +3579,7 @@ MirrorMoveCheck:
 	jr z, .notDone
 	cp EXPLODE_RECOIL_EFFECT
 	jr z, .notDone
-	cp METAMORPHIC_EFFECT ; Sunsette: METAMORPHIC's self-effects (recoil + ROCK shed/+6 SPEED/glow) still apply on a miss
+	cp METAMORPHIC_EFFECT ; Sunsette: OROCLASM's self-effects (recoil + ROCK shed/+6 SPEED/glow) still apply on a miss
 	jr z, .notDone
 	jp ExecutePlayerMoveDone ; otherwise, we're done if the move missed
 .moveDidNotMiss
@@ -3738,15 +3726,7 @@ CheckPlayerStatusConditions:
 .FrozenCheck
 ; Sunsette: FRZ no longer prevents acting - it halves the frozen mon's Special + Speed instead
 ; (HalveSpecialAndSpeedDueToFreeze, applied at switch-in and on-inflict). Just fall through.
-.HeldInPlaceCheck
-	ld a, [wEnemyBattleStatus1]
-	bit USING_TRAPPING_MOVE, a ; is enemy using a multi-turn move like wrap?
-	jp z, .FlinchedCheck
-	ld hl, CantMoveText
-	rst _PrintText
-	ld hl, ExecutePlayerMoveDone ; player can't move this turn
-	jp .returnToHL
-
+.HeldInPlaceCheck ; Sunsette: trapping removed (USING_TRAPPING_MOVE bit reclaimed); falls through to flinch check
 .FlinchedCheck
 	ld hl, wPlayerBattleStatus1
 	bit FLINCHED, [hl]
@@ -3794,6 +3774,9 @@ CheckPlayerStatusConditions:
 	rst _PrintText
 	jr .TriedToUseDisabledMoveCheck
 .IsConfused
+	ld a, [wPlayerSelectedMove] ; Sunsette: VOID MIND pushes through confusion - no self-hit roll (its effect clears the confusion). "Use the Force."
+	cp VOID_MIND
+	jr z, .TriedToUseDisabledMoveCheck
 	ld hl, IsConfusedText
 	rst _PrintText
 	xor a
@@ -3811,6 +3794,14 @@ CheckPlayerStatusConditions:
 	jr .MonHurtItselfOrFullyParalysed
 
 .TriedToUseDisabledMoveCheck
+; Sunsette: SHADOW BOX can't be used two turns running (fails like a self-disable)
+	callfar CheckComboMoveLock
+	ld a, e
+	and a
+	jr z, .checkDisabledMove
+	ld hl, ExecutePlayerMoveDone
+	jp .returnToHL
+.checkDisabledMove
 ; prevents a disabled move that was selected before being disabled from being used
 	ld a, [wPlayerDisabledMoveNumber]
 	and a
@@ -3835,8 +3826,8 @@ CheckPlayerStatusConditions:
 .MonHurtItselfOrFullyParalysed
 	ld hl, wPlayerBattleStatus1
 	ld a, [hl]
-	; clear thrashing, charging up, and trapping moves such as warp (already cleared for confusion damage)
-	and ~((1 << THRASHING_ABOUT) | (1 << CHARGING_UP) | (1 << USING_TRAPPING_MOVE)) ; PureRGBnote: CHANGED: bide code removed since its effect was changed
+	; clear thrashing and charging up (already cleared for confusion damage)
+	and ~((1 << THRASHING_ABOUT) | (1 << CHARGING_UP)) ; Sunsette: dropped reclaimed USING_TRAPPING_MOVE bit
 	ld [hl], a
 ;;;;; PureRGBnote: FIXED: in link battles only, the player doesn't stay invulnerable when they hurt themselves in confusion
 ;;;;; or get fully paralyzed while using dig/fly. In normal battles ONLY the player can have this happen because it's funny.
@@ -3866,7 +3857,7 @@ CheckPlayerStatusConditions:
 .ThrashingAboutCheck
 	bit THRASHING_ABOUT, [hl] ; is mon using thrash or petal dance?
 	jr z, .MultiturnMoveCheck
-	ld a, OUTRAGE
+	ld a, [wPlayerSelectedMove] ; Sunsette: re-run the ACTUAL locked move (INDIGNATION or PSYCHOCRISIS), not a hardcoded one. wPlayerSelectedMove persists through the lock (the move menu is skipped while thrashing).
 	ld [wPlayerMoveNum], a
 	ld hl, ThrashingAboutText
 	rst _PrintText
@@ -3887,15 +3878,7 @@ CheckPlayerStatusConditions:
 	jp .returnToHL
 
 .MultiturnMoveCheck
-	bit USING_TRAPPING_MOVE, [hl] ; is mon using multi-turn move?
-	jp z, .checkPlayerStatusConditionsDone ; if we made it this far, mon can move normally this turn
-	ld hl, AttackContinuesText
-	rst _PrintText
-	ld hl, wPlayerNumAttacksLeft
-	dec [hl] ; did multi-turn move end?
-	ld hl, GetPlayerAnimationType ; if it didn't, skip damage calculation (deal damage equal to last hit),
-	                ; DecrementPP and MoveHitTest
-; PureRGBnote: CHANGED: rage effect changed so code wasn't needed here
+	jp .checkPlayerStatusConditionsDone ; Sunsette: trapping removed; mon always moves normally this turn
 .returnToHL
 	xor a
 	ret
@@ -4114,7 +4097,6 @@ PrintMoveFailureText:
 	rst _PrintText
 	ld d, 4
 	callfar PredefShakeScreenHorizontally
-	callfar HalveCrashIfRock ; Sunsette: ROCK users take half crash damage from their own Jump Kick miss
 	ldh a, [hWhoseTurn]
 	and a
 	jp z, ApplyDamageToPlayerPokemon
@@ -4157,6 +4139,7 @@ PrintCriticalOHKOText:
 	ld h, [hl]
 	ld l, a
 	rst _PrintText
+	callfar CritCrackScreens ; Sunsette: a physical (non-Ghost) crit cracks the target's screens post-damage
 	xor a
 	ld [wCriticalHitOrOHKO], a
 .done
@@ -4394,8 +4377,8 @@ DynamicTypeCheckPlayer:
 	ld b, a
 	ld a, [wPlayerMonBaseAttack]
 	cp b
-	jr c, GetDamageVarsForPlayerAttack.specialAttack ; if base special is higher than base attack, treat the move as special
-	jr GetDamageVarsForPlayerAttack.physicalAttack ; otherwise treat it as physical
+	jp c, GetDamageVarsForPlayerAttack.specialAttack ; if base special is higher than base attack, treat the move as special
+	jp GetDamageVarsForPlayerAttack.physicalAttack ; otherwise treat it as physical
 
 ; sets b, c, d, and e for the CalculateDamage routine in the case of an attack by the player mon
 GetDamageVarsForPlayerAttack:
@@ -4408,10 +4391,11 @@ GetDamageVarsForPlayerAttack:
 	and a
 	ld d, a ; d = move power
 	ret z ; return if move power is zero
-	; PureRGBnote: CHANGED: hyper beam always attacks using special
+	; Sunsette: HYPER BEAM uses whichever of the user's Attack/Special is higher (GHOST-style dynamic
+	; category), keeping its NORMAL type. (Was forced-special under PureRGB.)
 	ld a, [wPlayerMoveEffect]
 	cp HYPER_BEAM_EFFECT
-	jr z, .specialAttack
+	jr z, DynamicTypeCheckPlayer
 	ld a, [wPlayerMoveNum] ; Sunsette: Egg Bomb is Normal-typed but attacks special
 	cp EGG_BOMB
 	jr z, .specialAttack
@@ -4423,6 +4407,8 @@ GetDamageVarsForPlayerAttack:
 	jr z, DynamicTypeCheckPlayer
 	ld a, [hl] ; a = [wPlayerMoveType]
 	cp GHOST
+	jr z, DynamicTypeCheckPlayer
+	cp TRI ; Sunsette: TRI (Tri Attack) is dynamic - reads whichever of ATK/SPECIAL is higher
 	jr z, DynamicTypeCheckPlayer
 	cp SPECIAL ; types >= SPECIAL are all special
 	jr nc, .specialAttack
@@ -4443,18 +4429,22 @@ GetDamageVarsForPlayerAttack:
 	ld a, [wCriticalHitOrOHKO]
 	and a ; check for critical hit
 	jr z, .scaleStats
-; in the case of a critical hit, reset the player's attack and the enemy's defense to their base values
+; Sunsette: on a crit, keep the favorable side of each stat change (see CritMinDefense/CritMaxOffensePtr)
 	ld c, STAT_DEFENSE
 	call GetEnemyMonStat
 	ldh a, [hProduct + 2]
 	ld b, a
 	ldh a, [hProduct + 3]
-	ld c, a
+	ld c, a                  ; bc = unmodified enemy defense
+	ld hl, wEnemyMonDefense
+	call CritMinDefense      ; bc = min(unmodified, modified) enemy defense
 	push bc
 	ld hl, wPartyMon1Attack
 	ld a, [wPlayerMonNumber]
 	ld bc, PARTYMON_STRUCT_LENGTH
 	call AddNTimes
+	ld de, wBattleMonAttack
+	call CritMaxOffensePtr   ; hl -> larger of unmodified / modified player attack
 	pop bc
 	; PureRGBnote: ADDED: critical hits no longer bypass Reflect/Light Screen
 	ld a, [wEnemyBattleStatus3]
@@ -4480,18 +4470,22 @@ GetDamageVarsForPlayerAttack:
 	ld a, [wCriticalHitOrOHKO]
 	and a ; check for critical hit
 	jr z, .scaleStats
-; in the case of a critical hit, reset the player's and enemy's specials to their base values
+; Sunsette: on a crit, keep the favorable side of each stat change (modified special carries freeze halving)
 	ld c, STAT_SPECIAL
 	call GetEnemyMonStat
 	ldh a, [hProduct + 2]
 	ld b, a
 	ldh a, [hProduct + 3]
-	ld c, a
+	ld c, a                  ; bc = unmodified enemy special
+	ld hl, wEnemyMonSpecial
+	call CritMinDefense      ; bc = min(unmodified, modified) enemy special
 	push bc
 	ld hl, wPartyMon1Special
 	ld a, [wPlayerMonNumber]
 	ld bc, PARTYMON_STRUCT_LENGTH
 	call AddNTimes
+	ld de, wBattleMonSpecial
+	call CritMaxOffensePtr   ; hl -> larger of unmodified / modified player special
 	pop bc
 	; PureRGBnote: ADDED: critical hits no longer bypass Reflect/Light Screen
 	ld a, [wEnemyBattleStatus3]
@@ -4501,6 +4495,7 @@ GetDamageVarsForPlayerAttack:
 ; this allows values with up to 10 bits (values up to 1023) to be handled
 ; anything larger will wrap around
 .scaleStats
+	call PsyshockSwapDefender ; Sunsette: PSYSHOCK -> override bc to the target's DEFENSE (no-op for any other move)
 	ld a, [hli]
 	ld l, [hl]
 	ld h, a ; hl = player's offensive stat
@@ -4529,10 +4524,9 @@ GetDamageVarsForPlayerAttack:
 	ld a, [wCriticalHitOrOHKO]
 	and a ; check for critical hit
 	jr z, .done
-	ld a, e ; Sunsette: crit now ~+50% (was +100%) -> level x1.5 instead of x2 (sla e). e<=100 so no overflow.
-	srl a
-	add e
-	ld e, a
+	push bc ; Sunsette: ScaleCritDamage's bankswitch clobbers b (the offensive stat) - preserve it
+	callfar ScaleCritDamage ; e = level x1.5, or x2 for a NORMAL-type / FARFETCH'D attacker
+	pop bc
 .done
 	ld a, 1
 	and a
@@ -4545,8 +4539,8 @@ DynamicTypeCheckEnemy:
 	ld b, a
 	ld a, [wEnemyMonBaseAttack]
 	cp b
-	jr c, GetDamageVarsForEnemyAttack.specialAttack ; if base special is higher than base attack, treat the move as special
-	jr GetDamageVarsForEnemyAttack.physicalAttack ; otherwise treat it as physical
+	jp c, GetDamageVarsForEnemyAttack.specialAttack ; if base special is higher than base attack, treat the move as special
+	jp GetDamageVarsForEnemyAttack.physicalAttack ; otherwise treat it as physical
 
 ; sets b, c, d, and e for the CalculateDamage routine in the case of an attack by the enemy mon
 GetDamageVarsForEnemyAttack:
@@ -4559,10 +4553,11 @@ GetDamageVarsForEnemyAttack:
 	ld d, a ; d = move power
 	and a
 	ret z ; return if move power is zero
-; PureRGBnote: CHANGED: hyper beam always attacks using special
+; Sunsette: HYPER BEAM uses whichever of the user's Attack/Special is higher (GHOST-style dynamic
+; category), keeping its NORMAL type. (Was forced-special under PureRGB.)
 	ld a, [wEnemyMoveEffect]
 	cp HYPER_BEAM_EFFECT
-	jr z, .specialAttack
+	jr z, DynamicTypeCheckEnemy
 	ld a, [wEnemyMoveNum] ; Sunsette: Egg Bomb is Normal-typed but attacks special
 	cp EGG_BOMB
 	jr z, .specialAttack
@@ -4574,6 +4569,8 @@ GetDamageVarsForEnemyAttack:
 	jr z, DynamicTypeCheckEnemy
 	ld a, [hl] ; a = [wEnemyMoveType]
 	cp GHOST
+	jr z, DynamicTypeCheckEnemy
+	cp TRI ; Sunsette: TRI (Tri Attack) is dynamic - reads whichever of ATK/SPECIAL is higher
 	jr z, DynamicTypeCheckEnemy
 	cp SPECIAL ; types >= SPECIAL are all special
 	jr nc, .specialAttack
@@ -4594,18 +4591,22 @@ GetDamageVarsForEnemyAttack:
 	ld a, [wCriticalHitOrOHKO]
 	and a ; check for critical hit
 	jr z, .scaleStats
-; in the case of a critical hit, reset the player's defense and the enemy's attack to their base values
+; Sunsette: on a crit, keep the favorable side of each stat change (see CritMinDefense/CritMaxOffensePtr)
 	ld hl, wPartyMon1Defense
 	ld a, [wPlayerMonNumber]
 	ld bc, PARTYMON_STRUCT_LENGTH
 	call AddNTimes
 	ld a, [hli]
 	ld b, a
-	ld c, [hl]
+	ld c, [hl]               ; bc = unmodified player defense
+	ld hl, wBattleMonDefense
+	call CritMinDefense      ; bc = min(unmodified, modified) player defense
 	push bc
 	ld c, STAT_ATTACK
 	call GetEnemyMonStat
-	ld hl, hProduct + 2
+	ld hl, hProduct + 2      ; hl -> unmodified enemy attack
+	ld de, wEnemyMonAttack
+	call CritMaxOffensePtr   ; hl -> larger of unmodified / modified enemy attack
 	pop bc
 	; PureRGBnote: ADDED: critical hits no longer bypass Reflect/Light Screen
 	ld a, [wPlayerBattleStatus3]
@@ -4631,18 +4632,22 @@ GetDamageVarsForEnemyAttack:
 	ld a, [wCriticalHitOrOHKO]
 	and a ; check for critical hit
 	jr z, .scaleStats
-; in the case of a critical hit, reset the player's and enemy's specials to their base values
+; Sunsette: on a crit, keep the favorable side of each stat change (modified special carries freeze halving)
 	ld hl, wPartyMon1Special
 	ld a, [wPlayerMonNumber]
 	ld bc, PARTYMON_STRUCT_LENGTH
 	call AddNTimes
 	ld a, [hli]
 	ld b, a
-	ld c, [hl]
+	ld c, [hl]               ; bc = unmodified player special
+	ld hl, wBattleMonSpecial
+	call CritMinDefense      ; bc = min(unmodified, modified) player special
 	push bc
 	ld c, STAT_SPECIAL
 	call GetEnemyMonStat
-	ld hl, hProduct + 2
+	ld hl, hProduct + 2      ; hl -> unmodified enemy special
+	ld de, wEnemyMonSpecial
+	call CritMaxOffensePtr   ; hl -> larger of unmodified / modified enemy special
 	pop bc
 	; PureRGBnote: ADDED: critical hits no longer bypass Reflect/Light Screen
 	ld a, [wPlayerBattleStatus3]
@@ -4652,6 +4657,7 @@ GetDamageVarsForEnemyAttack:
 ; this allows values with up to 10 bits (values up to 1023) to be handled
 ; anything larger will wrap around
 .scaleStats
+	call PsyshockSwapDefender ; Sunsette: PSYSHOCK -> override bc to the target's DEFENSE (no-op for any other move)
 	ld a, [hli]
 	ld l, [hl]
 	ld h, a ; hl = enemy's offensive stat
@@ -4680,10 +4686,9 @@ GetDamageVarsForEnemyAttack:
 	ld a, [wCriticalHitOrOHKO]
 	and a ; check for critical hit
 	jr z, .done
-	ld a, e ; Sunsette: crit now ~+50% (was +100%) -> level x1.5 instead of x2 (sla e). e<=100 so no overflow.
-	srl a
-	add e
-	ld e, a
+	push bc ; Sunsette: ScaleCritDamage's bankswitch clobbers b (the offensive stat) - preserve it
+	callfar ScaleCritDamage ; e = level x1.5, or x2 for a NORMAL-type / FARFETCH'D attacker
+	pop bc
 .done
 	ld a, $1
 	and a
@@ -4743,6 +4748,52 @@ GetEnemyMonStat:
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 	call CalcStat
 	pop de
+	ret
+
+; Sunsette: crit stat helpers. A crit honors stat changes that FAVOR the attacker and ignores ones that
+; hurt it: the offensive stat uses the higher of modified/unmodified, the defensive stat the lower.
+; (Replaces the old "reset both to unmodified" behavior, which threw away the attacker's own boosts and
+; the defender's own drops.) "Modified" = the in-battle copy, which carries stat stages plus the
+; burn/freeze penalties; "unmodified" = the stage/penalty-free stat.
+
+; in:  bc = unmodified defensive stat, hl -> stage-modified defensive stat (2-byte, big-endian)
+; out: bc = min(bc, [hl]) ; clobbers a, de, hl
+CritMinDefense:
+	ld a, [hli]
+	ld d, a       ; d = modified high
+	ld e, [hl]    ; e = modified low
+	ld a, b       ; unmodified high
+	cp d
+	jr c, .keep   ; unmod_hi < mod_hi -> unmodified is smaller
+	jr nz, .useMod ; unmod_hi > mod_hi -> modified is smaller
+	ld a, c       ; unmodified low
+	cp e
+	jr c, .keep   ; unmod_lo < mod_lo -> unmodified is smaller
+	jr z, .keep   ; equal -> either
+.useMod
+	ld b, d
+	ld c, e
+.keep
+	ret
+
+; in:  hl -> unmodified offensive stat, de -> modified offensive stat (both 2-byte, big-endian)
+; out: hl -> whichever pointer holds the larger value ; clobbers a ; preserves bc, de
+CritMaxOffensePtr:
+	ld a, [de]    ; modified high
+	cp [hl]       ; - unmodified high
+	jr c, .useUnmod ; mod_hi < unmod_hi -> unmodified is larger
+	jr nz, .useMod  ; mod_hi > unmod_hi -> modified is larger
+	inc de
+	inc hl
+	ld a, [de]    ; modified low
+	cp [hl]       ; - unmodified low
+	dec hl
+	dec de
+	jr c, .useUnmod ; mod_lo < unmod_lo -> unmodified is larger
+.useMod
+	ld h, d
+	ld l, e
+.useUnmod
 	ret
 
 CalculateDamage:
@@ -4938,7 +4989,7 @@ ApplyAttackToEnemyPokemon:
 	jp z, ApplyAttackToEnemyPokemonDone ; no attack to apply if base power is 0
 	jr ApplyDamageToEnemyPokemon
 .superFangEffect
-	call SuperFangEffect
+	callfar SuperFangEffect
 	jr ApplyDamageToEnemyPokemon
 .specialDamage
 	ld hl, wBattleMonLevel
@@ -4978,14 +5029,19 @@ ApplyAttackToEnemyPokemon:
 	ld [hl], a
 
 ApplyDamageToEnemyPokemon:
+; Sunsette: a direct damaging hit sets FINISHER_INTERRUPTED on the enemy - read by its go-last moves
+; (FINISHER -> 50 BP, SAPPING COLD -> no freeze). Cleared at turn start; harmless when no go-last move is up.
+	ld hl, wEnemyBattleStatus1
+	set FINISHER_INTERRUPTED, [hl]
 	ld hl, wDamage
 	ld a, [hli]
 	ld b, a
 	ld a, [hl]
 	or b
 	jr z, ApplyAttackToEnemyPokemonDone ; we're done if damage is 0
-	ld a, [wEnemyBattleStatus2]
-	bit HAS_SUBSTITUTE_UP, a ; does the enemy have a substitute?
+	callfar EnemySubAbsorbsHit ; Sunsette: enemy's sub absorbs the hit unless a Bug-on-Bug move hits through (side-correct vs confusion self-hits)
+	ld a, e
+	and a
 	jp nz, AttackSubstitute
 ; Sunsette: count this strike toward shortening the enemy's sleep, but only for a real player attack -
 ; the enemy's own confusion/crash self-hit also lands here (with hWhoseTurn == 1) and must not count.
@@ -5032,6 +5088,13 @@ ApplyDamageToEnemyPokemon:
 	predef UpdateHPBar ; animate the HP bar shortening
 	; Sunsette: the bond-survival message is announced LATER (after the effectiveness text), at the
 	; ExecutePlayerMove site below - not here - so it reads "super effective! ... endured the hit!"
+	; Sunsette: ENERGY FLUX discharge - if the ATTACKER (the player here) is ENERGIZED and just landed a
+	; special-typed (>= SPECIAL or GHOST) damaging hit, spend the charge. Guard on hWhoseTurn so the enemy's
+	; own confusion/crash self-hit (which also reaches here at hWhoseTurn==1) can never trigger it.
+	ldh a, [hWhoseTurn]
+	and a
+	jr nz, ApplyAttackToEnemyPokemonDone
+	callfar EnergyFluxDischarge
 ApplyAttackToEnemyPokemonDone:
 	jp DrawHUDsAndHPBars
 
@@ -5048,7 +5111,7 @@ ApplyAttackToPlayerPokemon:
 	jp z, ApplyAttackToPlayerPokemonDone
 	jr ApplyDamageToPlayerPokemon
 .superFangEffect
-	call SuperFangEffect
+	callfar SuperFangEffect
 	jr ApplyDamageToPlayerPokemon
 .specialDamage
 	ld hl, wEnemyMonLevel
@@ -5088,14 +5151,19 @@ ApplyAttackToPlayerPokemon:
 	ld [hl], a
 
 ApplyDamageToPlayerPokemon:
+; Sunsette: a direct damaging hit sets FINISHER_INTERRUPTED on the player - read by its go-last moves
+; (FINISHER -> 50 BP, SAPPING COLD -> no freeze). Cleared at turn start; harmless when no go-last move is up.
+	ld hl, wPlayerBattleStatus1
+	set FINISHER_INTERRUPTED, [hl]
 	ld hl, wDamage
 	ld a, [hli]
 	ld b, a
 	ld a, [hl]
 	or b
 	jp z, ApplyAttackToPlayerPokemonDone ; we're done if damage is 0
-	ld a, [wPlayerBattleStatus2]
-	bit HAS_SUBSTITUTE_UP, a ; does the player have a substitute?
+	callfar PlayerSubAbsorbsHit ; Sunsette: player's sub absorbs the hit unless a Bug-on-Bug move hits through (side-correct vs confusion self-hits)
+	ld a, e
+	and a
 	jp nz, AttackSubstitute
 ; Sunsette: count this strike toward shortening the player's sleep, but only for a real enemy attack -
 ; the player's own confusion/crash self-hit also lands here (with hWhoseTurn == 0) and must not count.
@@ -5166,6 +5234,16 @@ ApplyDamageToPlayerPokemon:
 	ld a, $01
 	ld [wHPBarType], a
 	predef UpdateHPBar ; animate the HP bar shortening
+	; Sunsette: ENERGY FLUX discharge - if the ATTACKER (the enemy here) is ENERGIZED and just landed a
+	; special-typed (>= SPECIAL or GHOST) damaging hit, spend the charge. Guard on hWhoseTurn==1 so the player's
+	; own confusion/crash self-hit (which also reaches here at hWhoseTurn==0) can never trigger it.
+	ldh a, [hWhoseTurn]
+	and a
+	jr z, .skipEnergyFluxDischarge
+	push hl
+	callfar EnergyFluxDischarge
+	pop hl
+.skipEnergyFluxDischarge
 	ld a, [wAffectionJustSurvived] ; Sunsette: announce the affection save after the bar drops to 1
 	and a
 	jr z, ApplyAttackToPlayerPokemonDone
@@ -5346,6 +5424,29 @@ AdjustDamageForMoveType:
 	srl b
 	rr c      ; bc = floor(0.5 * damage)
 	add hl, bc ; hl = floor(1.5 * damage)
+; Sunsette: GROUND-type attackers get 200% STAB (on both their types) instead of 150% - add the 0.5x once
+; more for a 2.0x total. No Ground mon in the roster has a strong second STAB, so this is safe to apply to
+; whichever type slot the move matched. bc still = floor(0.5 * damage); preserved across the type check.
+	push hl
+	ldh a, [hWhoseTurn]
+	and a
+	ld hl, wBattleMonType1     ; attacker = hWhoseTurn side
+	jr z, .gotStabAttacker
+	ld hl, wEnemyMonType1
+.gotStabAttacker
+	ld a, [hli]
+	cp GROUND
+	jr z, .groundStab
+	ld a, [hl]
+	cp GROUND
+	jr nz, .notGroundStab
+.groundStab
+	pop hl
+	add hl, bc ; hl = floor(1.5 * damage) + floor(0.5 * damage) ~= 2.0 * damage
+	jr .storeStab
+.notGroundStab
+	pop hl
+.storeStab
 ; store damage
 	ld a, h
 	ld [wDamage], a
@@ -5368,7 +5469,9 @@ AdjustDamageForMoveType:
 .loop
 	ld a, [hli] ; a = "attacking type" of the current type pair
 	cp $ff
-	jr z, .checkForceNeutralDamage
+	jr nz, .notTypeListEnd
+	jpfar RockCrystalSEReduction ; Sunsette: ROCK/CRYSTAL take 25% less from super-effective hits, then ret
+.notTypeListEnd
 	cp b ; does move type match "attacking type"?
 	jr nz, .nextTypePair
 	ld a, [hl] ; a = "defending type" of the current type pair
@@ -5412,46 +5515,8 @@ AdjustDamageForMoveType:
 	inc hl
 	inc hl
 	jp .loop
-;;;;; PureRGBnote: ADDED: if the target has DEFENSE CURL active, super effective moves turn into normally effective moves.
-.checkForceNeutralDamage
-	; after calculating damage, if the player has defense curl we make all super effective hits normally effective
-	ld hl, wDamageMultipliers
-	call CheckIfDefenseCurlModifierGetTurn
-	ret c
-	ld a, [hl]
-	push af
-	and %10000000
-	add EFFECTIVE
-	ld [hl], a ; set damage multipler tracker to normal effectiveness
-	pop af
-	and $7f
-	cp FOUR_TIMES_EFFECTIVE
-	call z, .halfDamage ; half to cut it in half twice to get normal damage
-.halfDamage
-	ld a, NOT_VERY_EFFECTIVE
-	ldh [hMultiplier], a
-	jr ApplyDamageMultiplier2
-
-CheckIfDefenseCurlModifierGetTurn:
-	ldh a, [hWhoseTurn]
-	and a
-	ld a, [wEnemyBattleStatus1]
-	jr z, .gotTurn
-	ld a, [wPlayerBattleStatus1]
-.gotTurn
-	ld b, a
-CheckIfDefenseCurlModifier:
-	ld a, [hl]
-	and $7f
-	cp SUPER_EFFECTIVE
-	ret c ; less than SUPER_EFFECTIVE = return
-	and a
-.doDefenseCurlCheck
-	bit DEFENSE_CURLED, b
-	ret nz
-	scf
-	ret
-;;;;;
+;;;;; Sunsette: the DEFENSE CURL "force super-effective hits to neutral" feature was removed and its
+;;;;; DEFENSE_CURLED battle-status bit reclaimed, so .checkForceNeutralDamage + CheckIfDefenseCurlModifier are gone.
 
 
 ForceTypeImmunity:
@@ -5563,7 +5628,7 @@ AIGetTypeEffectiveness:
 .loop
 	ld a, [hli]
 	cp $ff
-	jr z, .checkDefenseCurl ; if done checking type effectivenesses
+	ret z ; if done checking type effectivenesses ; Sunsette: defense-curl modifier removed (bit reclaimed)
 	cp d                      ; match the type of the move
 	jr nz, .nextTypePair1
 	ld a, [hli]
@@ -5604,18 +5669,12 @@ AIGetTypeEffectiveness:
 	;joenote - removed		ld a, [hl]
 	ld [wTypeEffectiveness], a ; store damage multiplier
 	ret
-.checkDefenseCurl
-	ld a, [wPlayerBattleStatus1]
-	ld b, a
-	ld hl, wTypeEffectiveness
-	call CheckIfDefenseCurlModifier
-	ret c
-	ld [hl], EFFECTIVE ; force normal effectiveness if the move would have been super effective
-	ret
+; Sunsette: .checkDefenseCurl removed along with the DEFENSE_CURLED bit reclaim.
 
 INCLUDE "data/types/type_matchups.asm"
 
-INCLUDE "data/battle/mist_blocked_moves.asm"
+; Sunsette: MistBlockedMoves removed - the unified MIST/DRAGON stat-drop immunity lives in
+; StatModifierDownEffect now (blocks every foe-induced drop), so the old primary-move list is gone.
 
 ; some tests that need to pass for a move to hit
 MoveHitTest::
@@ -5656,34 +5715,9 @@ MoveHitTest::
 	callfar CheckReachAndAutoHit ; carry = reachable; Z = never-miss (Bankswitch preserves both flags)
 	jp nc, .moveMissed
 	ret z ; never-miss: SWIFT_EFFECT, or PIDGEOT's signature HURRICANE (a Dig target already dodged above)
-	ldh a, [hWhoseTurn]
-	and a
-	jr nz, .enemyTurn
-; player's turn
-; this checks if the move effect is disallowed by mist
-	ld a, [wEnemyBattleStatus2]
-	bit STAT_DOWN_IMMUNITY, a ; is mon protected by mist?
-	jp z, .skipEnemyMistCheck
-	ld a, [wPlayerMoveNum]
-	call CheckIsMistBlockedMove ; PureRGBnote: CHANGED: just check mist against a list of blocked moves for simplicity
-	jr c, .moveMissed
-.skipEnemyMistCheck
-	ld a, [wPlayerBattleStatus2]
-	bit USING_X_ACCURACY, a ; is the player using X Accuracy?
-	ret nz ; if so, always hit regardless of accuracy/evasion
-	jr .calcHitChance
-.enemyTurn
-; similar to enemy mist check
-	ld a, [wPlayerBattleStatus2]
-	bit STAT_DOWN_IMMUNITY, a ; is mon protected by mist?
-	jp z, .skipPlayerMistCheck
-	ld a, [wEnemyMoveNum]
-	call CheckIsMistBlockedMove ; PureRGBnote: CHANGED: just check mist against a list of blocked moves for simplicity
-	jr c, .moveMissed
-.skipPlayerMistCheck
-	ld a, [wEnemyBattleStatus2]
-	bit USING_X_ACCURACY, a ; is the enemy using X Accuracy?
-	ret nz ; if so, always hit regardless of accuracy/evasion
+; Sunsette: MIST (and DRAGON) stat-drop immunity is now unified in StatModifierDownEffect, where it blocks
+; ALL foe-induced drops - primary stat-down moves AND secondary riders. MoveHitTest no longer special-cases
+; Mist here (the old per-turn STAT_DOWN_IMMUNITY + CheckIsMistBlockedMove miss-check was primary-only).
 .calcHitChance
 	call CalcHitChance ; scale the move accuracy according to attacker's accuracy and target's evasion
 	ld a, [wPlayerMoveAccuracy]
@@ -5715,24 +5749,11 @@ MoveHitTest::
 	ld [hl], a
 	inc a
 	ld [wMoveMissed], a
-	ldh a, [hWhoseTurn]
-	and a
-	jr z, .playerTurn
-; enemy's turn
-	ld hl, wEnemyBattleStatus1
-	res USING_TRAPPING_MOVE, [hl] ; end multi-turn attack e.g. wrap
-	ret
-.playerTurn
-	ld hl, wPlayerBattleStatus1
-	res USING_TRAPPING_MOVE, [hl] ; end multi-turn attack e.g. wrap
-	ret
-
-CheckIsMistBlockedMove:
-	ld hl, MistBlockedMoves
-	jp IsInSingleByteArray
+	ret ; Sunsette: trapping removed; nothing else to clear when a move misses
 
 ; values for player turn
 CalcHitChance:
+	callfar BugCompoundEyes ; Sunsette: a BUG-type's BUG move gets x1.5 accuracy (scales the stored accuracy in place)
 	ld hl, wPlayerMoveAccuracy
 	ldh a, [hWhoseTurn]
 	and a
@@ -5764,7 +5785,7 @@ CalcHitChance:
 ; the second iteration multiplies by the evasion ratio
 .loop
 	push bc
-	ld hl, StatModifierRatios  ; stat modifier ratios
+	ld hl, AccuracyEvasionRatios ; Sunsette: Gen-2 accuracy/evasion table (numerator 3), not the numerator-2 StatModifierRatios the stats use
 	dec b
 	sla b
 	ld c, b
@@ -5988,7 +6009,7 @@ EnemyCheckIfMirrorMoveEffect:
 	jr z, .handleExplosionMiss
 	cp EXPLODE_RECOIL_EFFECT
 	jr z, .handleExplosionMiss
-	cp METAMORPHIC_EFFECT ; Sunsette: METAMORPHIC's self-effects (recoil + ROCK shed/+6 SPEED/glow) still apply on a miss
+	cp METAMORPHIC_EFFECT ; Sunsette: OROCLASM's self-effects (recoil + ROCK shed/+6 SPEED/glow) still apply on a miss
 	jr z, .handleExplosionMiss
 	jp ExecuteEnemyMoveDone
 .moveDidNotMiss
@@ -6084,14 +6105,7 @@ CheckEnemyStatusConditions:
 	jp .enemyReturnToHL
 .checkIfFrozen
 ; Sunsette: FRZ no longer prevents acting (it halves Special + Speed instead). Fall through.
-.checkIfTrapped
-	ld a, [wPlayerBattleStatus1]
-	bit USING_TRAPPING_MOVE, a ; is the player using a multi-turn attack like wrap
-	jp z, .checkIfFlinched
-	ld hl, CantMoveText
-	rst _PrintText
-	ld hl, ExecuteEnemyMoveDone ; enemy can't move this turn
-	jp .enemyReturnToHL
+.checkIfTrapped ; Sunsette: trapping removed (USING_TRAPPING_MOVE bit reclaimed); falls through to flinch check
 .checkIfFlinched
 	ld hl, wEnemyBattleStatus1
 	bit FLINCHED, [hl] ; check if enemy mon flinched
@@ -6136,6 +6150,9 @@ CheckEnemyStatusConditions:
 	rst _PrintText
 	jp .checkIfTriedToUseDisabledMove
 .isConfused
+	ld a, [wEnemySelectedMove] ; Sunsette: VOID MIND pushes through confusion - no self-hit roll (its effect clears the confusion). "Use the Force."
+	cp VOID_MIND
+	jr z, .checkIfTriedToUseDisabledMove
 	ld hl, IsConfusedText
 	rst _PrintText
 	xor a
@@ -6191,6 +6208,14 @@ CheckEnemyStatusConditions:
 	call ApplyDamageToEnemyPokemon
 	jr .monHurtItselfOrFullyParalysed
 .checkIfTriedToUseDisabledMove
+; Sunsette: SHADOW BOX can't be used two turns running (fails like a self-disable)
+	callfar CheckComboMoveLock
+	ld a, e
+	and a
+	jr z, .checkEnemyDisabledMove
+	ld hl, ExecuteEnemyMoveDone
+	jp .enemyReturnToHL
+.checkEnemyDisabledMove
 ; prevents a disabled move that was selected before being disabled from being used
 	ld a, [wEnemyDisabledMoveNumber]
 	and a
@@ -6213,10 +6238,9 @@ CheckEnemyStatusConditions:
 .monHurtItselfOrFullyParalysed
 	ld hl, wEnemyBattleStatus1
 	ld a, [hl]
-	; clear thrashing about, charging up, and multi-turn moves such as wrap
-	; PureRGBnote: CHANGED: bide effect changed so don't need that code
+	; clear thrashing about and charging up
 	; PureRGBnote: CHANGED: invulnerability flag cleared so opponents don't get stuck in invulnerable state
-	and ~((1 << THRASHING_ABOUT) | (1 << CHARGING_UP) | (1 << USING_TRAPPING_MOVE) | (1 << INVULNERABLE))
+	and ~((1 << THRASHING_ABOUT) | (1 << CHARGING_UP) | (1 << INVULNERABLE)) ; Sunsette: dropped reclaimed USING_TRAPPING_MOVE bit
 	ld [hl], a
 	ld a, [wEnemyMoveEffect]
 	cp FLY_EFFECT
@@ -6237,7 +6261,7 @@ CheckEnemyStatusConditions:
 .checkIfThrashingAbout
 	bit THRASHING_ABOUT, [hl] ; is mon using thrash or petal dance?
 	jr z, .checkIfUsingMultiturnMove
-	ld a, OUTRAGE
+	ld a, [wEnemySelectedMove] ; Sunsette: re-run the ACTUAL locked move (INDIGNATION or PSYCHOCRISIS), not a hardcoded one. wEnemySelectedMove persists through the lock.
 	ld [wEnemyMoveNum], a
 	ld hl, ThrashingAboutText
 	rst _PrintText
@@ -6257,15 +6281,7 @@ CheckEnemyStatusConditions:
 	pop hl ; skip DecrementPP
 	jp .enemyReturnToHL
 .checkIfUsingMultiturnMove
-	bit USING_TRAPPING_MOVE, [hl] ; is mon using multi-turn move?
-	jp z, .checkEnemyStatusConditionsDone
-	ld hl, AttackContinuesText
-	rst _PrintText
-	ld hl, wEnemyNumAttacksLeft
-	dec [hl]
-	ld hl, GetEnemyAnimationType ; skip damage calculation (deal damage equal to last hit),
-	                             ; DecrementPP and MoveHitTest
-     ; PureRGBnote: Rage effect was changed, don't need the rage code that used to be here
+	jp .checkEnemyStatusConditionsDone ; Sunsette: trapping removed; mon always moves normally this turn
 .enemyReturnToHL
 	xor a ; set Z flag
 	ret
@@ -7013,7 +7029,7 @@ HandleExplodingAnimation:
 .gotTurn
 	cp SUPERNOVA
 	jr z, .isExplodingMove
-	cp METAMORPHIC
+	cp OROCLASM
 	ret nz
 .isExplodingMove
 	ld a, [de]
@@ -7374,6 +7390,12 @@ GetBackSpriteTarget:
 ;;;;;;;;;; shinpokerednote: FIXED: code for capping reflect/light screen stat boost at 999
 ; PureRGBnote: ADDED: doubles the defensive stat (bc) and caps it, for screens kept on a crit
 DoubleDefenseForScreen:
+	push bc
+	callfar IsBugUsingBugMove ; Sunsette: a BUG-type's BUG move ignores screens (don't double the defender's stat)
+	ld a, e
+	pop bc
+	and a
+	ret nz
 	sla c
 	rl b
 	jp do999StatCap
@@ -7389,6 +7411,42 @@ do999StatCap:
 	ret c ;jump to next marker if the c_flag is set. This only remains set if BC <  the cap of $03E7.
 	;else let's continue and set the 999 cap
 	lb bc, MAX_STAT_VALUE / $100 , MAX_STAT_VALUE % $100 ; $03 into high byte, $E7 into low byte which is 999
+	ret
+
+; Sunsette: PSYSHOCK support. PSYSHOCK is a PSYCHIC (special-category) move that strikes the target's physical
+; DEFENSE instead of its Special. Called at the top of .scaleStats in BOTH GetDamageVars routines, so every
+; damage calc passes through, but it no-ops unless the move in use is PSYSHOCK. When it IS, replace bc (the
+; defender's Special, just computed on the .specialAttack path) with the defender's modified DEFENSE (+Reflect,
+; capped at 999), leaving hl (the attacker's Special-stat pointer) intact for .scaleStats. hWhoseTurn = attacker.
+PsyshockSwapDefender:
+	ldh a, [hWhoseTurn]
+	and a
+	ld a, [wPlayerMoveNum]
+	jr z, .gotMove
+	ld a, [wEnemyMoveNum]
+.gotMove
+	cp PSYSHOCK
+	ret nz
+	push hl                  ; preserve the attacker's offensive-stat pointer
+	ldh a, [hWhoseTurn]
+	and a
+	ld hl, wEnemyMonDefense  ; player attacking -> defender = enemy
+	ld de, wEnemyBattleStatus3
+	jr z, .gotDefender
+	ld hl, wBattleMonDefense ; enemy attacking -> defender = player
+	ld de, wPlayerBattleStatus3
+.gotDefender
+	ld a, [hli]
+	ld b, a
+	ld c, [hl]               ; bc = defender's (modified) DEFENSE
+	ld a, [de]
+	bit HAS_REFLECT_UP, a
+	jr z, .noReflect
+	sla c
+	rl b                     ; REFLECT protects (it boosts the Defense stat Psyshock reads)
+	call do999StatCap
+.noReflect
+	pop hl
 	ret
 ;;;;;;;;;;
 
@@ -7442,20 +7500,10 @@ CheckHazeMistImmunityGetArgs:
 	ld hl, wPlayerBattleStatus2
 	; fall through
 CheckHazeMistImmunity:
-	; Sunsette: SHADOW GAME's PSYCHIC immunity was removed; only MIST's NORMAL/DRAGON immunity remains
-	cp NORMAL
-	jr z, .mistCheck
-	cp DRAGON
-	jr z, .mistCheck
-	jr .noImmunity
-.mistCheck
-	bit NORMAL_DRAGON_IMMUNITY, [hl]
-	jr nz, .immunity
-.noImmunity
-	and a ; clear carry
-	ret
-.immunity
-	scf
+	; Sunsette: the NORMAL/DRAGON Mist immunity is RETIRED - its BattleStatus2 bit (was NORMAL_DRAGON_IMMUNITY)
+	; was reclaimed (BATTLESTATUS2_UNUSED_6). Nothing ever set it once AURORA MIST stopped using vanilla Mist,
+	; so this always reported "no immunity" anyway. Kept as a stub so the type-effectiveness call sites resolve.
+	and a ; clear carry = no immunity
 	ret
 
 ; PureRGBnote: MOVED: moved from list_menu.asm to free up space in home bank

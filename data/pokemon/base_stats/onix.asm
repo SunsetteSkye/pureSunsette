@@ -27,7 +27,6 @@
 	WYRM_WRATH,\
 	EARTHQUAKE,\
 	DIG,\
-	MIRAGE,\
 	SWORDS_DANCE,\
 	BULK_UP,\
 	SHADOW_BALL,\
@@ -67,3 +66,6 @@
 ;@ learn       49, POWER_BIND
 ;@ learn       54, AGILITY
 ;@ learn       59, SPIKE_CANNON
+;@ tutor       EXPLOSION
+;@ tutor       METEOR_DRIVE
+;@ tutor       SCREECH

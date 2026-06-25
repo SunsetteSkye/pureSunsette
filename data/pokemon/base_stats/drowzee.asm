@@ -25,12 +25,11 @@
 	DOUBLE_EDGE,\
 	AURORA_MIST,\
 	CALM_MIND,\
-	LOW_KICK,\
+	FINISHER,\
 	ZAPPERCUT,\
 	METEOR_SWEEP,\
 	BARRIER,\
 	PSYCHIC_M,\
-	MIRAGE,\
 	REFLECT,\
 	BULK_UP,\
 	SHADOW_BALL,\
@@ -72,3 +71,10 @@
 ;@ learn       43, TOXIC
 ;@ learn       48, EMETIC_PURGE
 ;@ learn       54, SOULSTEALER
+;@ tutor       TRI_ATTACK
+;@ tutor       SOULSTEALER
+;@ tutor       TELEPORT
+;@ tutor       CLOBBERCLOCK
+;@ tutor       PISTON_KICK
+;@ tutor       METEOR_DRIVE
+;@ tutor       SWIFT

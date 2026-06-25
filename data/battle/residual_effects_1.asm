@@ -17,10 +17,12 @@ ResidualEffects1:
 	; Sunsette: SPLASH_EFFECT removed - SPLASH is now a user-weight DAMAGING move, so it must go through
 	; damage calc/accuracy instead of skipping them. (MAGIKARP's no-damage signature comes from the modifier
 	; forcing 0 power; SplashEffect_ prints its comedy line.)
-	db MIRAGE_EFFECT ; PureRGBnote: no-damage status move; runs its own accuracy test + animation
 	db MINDWIPE_EFFECT ; Sunsette: no-damage status move (PSYWAVE); MindwipeEffect_ runs its own accuracy test
 	db ROOST_EFFECT ; Sunsette: ROOST (RAZOR_WIND) - heal + type/palette refresh; handled by RoostEffect_
-	db MIASMA_EFFECT ; Sunsette: no-damage status move (POISON_GAS) - one-sided stat clear + poison; MiasmaEffect_ (always lands, like Haze)
+	db MIASMA_EFFECT ; Sunsette: no-damage status move (EMETIC PURGE) - one-sided stat clear + poison; MiasmaEffect_ (always lands, like Haze)
+	db PSYCHO_SHIFT_EFFECT ; Sunsette: no-damage status move (PSYCHO SHIFT) - transfers the user's status + confusion to the target; PsychoShiftEffect_ (always attempts, like Haze)
 	db AQUA_RING_EFFECT ; Sunsette: no-damage self-buff (ACID_ARMOR) - FLOURISH + DOUBLE_FLOURISH regen; AquaRingEffect_
 	db CLAY_ARMOR_EFFECT ; Sunsette: no-damage (FISSURE) - type-gated dual screens + Ground heal; ClayArmorEffect_
+	db ENERGY_FLUX_EFFECT ; Sunsette: no-damage capacitor setup (ENERGY FLUX) - type2->FLOATING + SPECIAL+2 + ENERGIZED; EnergyFluxEffect_
+	db BUG_OFF_EFFECT ; Sunsette: no-damage disrupt-and-pivot (BUG OFF) - confuse + SPECIAL -1 the target, then user switches out; BugOffEffect_
 	db -1 ; end

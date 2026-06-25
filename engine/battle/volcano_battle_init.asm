@@ -149,7 +149,7 @@ CheckPerTurnSpecialBattleEffect::
 
 ; PureRGBnote: ADDED: when battle starts in special battles something can happen, for example moltres in the volcano gets powered up by magma.
 CheckInitSpecialBattleEffect::
-	call CheckWildGrowthHealingMap ; Sunsette: ADDED: growth-healing maps give wild mons the FLOURISH regen
+	callfar CheckSafariWindEnemy ; Sunsette: WIND arena effect on the wild mon (Safari battle modes); floated to arena_indicator.asm (newCode full)
 	call CheckWildConfuseRayPalette ; Sunsette: ADDED: CONFUSE RAY makes the next wild mon use its alt palette
 	call CheckWildSurfSpeedDebuff ; Sunsette: ADDED: SURF -1 SPEED on the wild mon (non-Water/Flying)
 	call CheckWildDarknessAccuracyDebuff ; Sunsette: ADDED: dark-cave (Flash off) -2 ACCURACY on the wild mon
@@ -224,30 +224,10 @@ CheckInitSpecialBattleEffect::
 	text_far _PainlessBattleInitText
 	text_end
 
-; Sunsette: ADDED: on "growth-healing" maps, wild Pokemon enter battle with the FLOURISH
-; status (Growth's leftovers-like 1/16-per-turn regen) and announce "It's full of energy!".
-; Active on the 4 outdoor Safari Zone maps ($D9-$DC). Wild battles only (trainers unaffected).
-CheckWildGrowthHealingMap:
-	ld a, [wIsInBattle]
-	dec a ; wild battle == 1
-	ret nz
-	ld a, [wCurMap]
-	cp SAFARI_ZONE_EAST
-	ret c
-	cp SAFARI_ZONE_CENTER_REST_HOUSE
-	ret nc
-.arm
-	ld hl, wEnemyBattleStatus3
-	set FLOURISH, [hl]
-	; Sunsette: announce it here (after the flag is set). This runs in CheckInitSpecialBattleEffect,
-	; which fires AFTER "Wild X appeared!" but before the battle menu - same slot as the volcano/tower
-	; effect texts. (The earlier attempt in PrintBeginningBattleText ran before FLOURISH was set.)
-	ld hl, .fullOfEnergyText
-	rst _PrintText
-	ret
-.fullOfEnergyText
-	text_far _FullOfEnergyText
-	text_end
+; Sunsette: the WIND arena effect (Safari Zone outdoor maps, battle modes) lives in the floated
+; engine/battle/arena_indicator.asm section: CheckSafariWindEnemy (callfar'd from
+; CheckInitSpecialBattleEffect above) buffs the wild mon + prints the line, CheckSafariWindPlayer
+; (callfar'd from ApplyPlayerSendOutMapEffects above) buffs your mon. newCode is full, hence the float.
 
 ; Sunsette: ADDED: if CONFUSE RAY armed the current map (wUnusedMapVariable, set from the field
 ; menu and auto-cleared on map change), make this wild mon appear in its alternate palette by
@@ -285,10 +265,11 @@ ApplyPlayerSendOutMapEffects::
 	call CheckDarknessAccuracyDebuff ; Sunsette: dark-cave (Flash off) -2 ACCURACY on your mon
 	ld a, 1 ; target = player
 	call CheckCeruleanWaterSpeed ; Sunsette: CERULEAN pool +1 SPEED on your WATER mon
+	callfar CheckSafariWindPlayer ; Sunsette: WIND arena effect buffs YOUR mon too (Safari battle modes); floated to arena_indicator.asm
+	ld a, 1 ; target = player
+	call CheckViridianForestDefense ; Sunsette: VIRIDIAN FOREST +1 DEFENSE on your GRASS/BUG mon
 	call CheckArenaFirstMonStatus ; Sunsette: LORELEI freeze / FUCHSIA confuse on your FIRST mon only
 	ld a, [wCurMap]
-	cp VIRIDIAN_FOREST
-	jr z, .viridianGrassDefense
 	cp CELADON_GYM
 	jr z, .celadonSpores
 	; Pokemon Tower floors 3F-7F: black mist poisons the PLAYER's mon (the enemy mons here are
@@ -308,31 +289,35 @@ ApplyPlayerSendOutMapEffects::
 	ret nc ; immune / already statused -> no effect, no line
 	rst _PrintText
 	ret
-.viridianGrassDefense
-	ld a, [wBattleMonType1]
-	cp GRASS
-	jr z, .grassDefense
-	ld a, [wBattleMonType2]
-	cp GRASS
+; Sunsette: VIRIDIAN FOREST arena effect - a GRASS- or BUG-type mon entering battle gains +1 DEFENSE.
+; BOTH sides (called from the player hook above with a=1 and from EnemyOnSendOut with a=0). The dense
+; canopy hardens grass and bug alike. a: 0 = enemy, 1 = player.
+CheckViridianForestDefense:
+	ld b, a ; target
+	ld a, [wCurMap]
+	cp VIRIDIAN_FOREST
 	ret nz
-.grassDefense
-	xor a
-	ldh [hWhoseTurn], a       ; player's turn (so <USER> = the player's mon)
-	ld [wPlayerMoveNum], a    ; avoid the MINIMIZE substitute path inside StatModifierUpEffect
-	ld a, DEFENSE_UP1_EFFECT
-	ld [wPlayerMoveEffect], a
-	; print our own one-line message, and flag StatModifierUpEffect to skip its default "rose!" line
-	ld a, 1
-	ld [wRegionalStatRiseTextID], a
-	ld hl, .forestDefenseText
-	rst _PrintText
-	SetFlag FLAG_SKIP_STAT_ANIMATION
-	callfar StatModifierUpEffect
-	xor a
-	ld [wRegionalStatRiseTextID], a ; clear (also covers the no-op/maxed path that skips the text check)
-	ResetFlag FLAG_SKIP_STAT_ANIMATION
-	ret
-.forestDefenseText
+	ld a, b
+	and a
+	ld hl, wEnemyMonType1
+	jr z, .gotTypes
+	ld hl, wBattleMonType1
+.gotTypes
+	ld a, [hli]
+	cp GRASS
+	jr z, .buff
+	cp BUG
+	jr z, .buff
+	ld a, [hl]
+	cp GRASS
+	jr z, .buff
+	cp BUG
+	ret nz
+.buff
+	ld c, DEFENSE_UP1_EFFECT
+	ld hl, ViridianForestDefenseText
+	jp ApplyStatUpWithText ; print the themed line, then +1 DEFENSE on target b (suppresses the default "rose!")
+ViridianForestDefenseText:
 	text_far _ViridianForestDefenseText
 	text_end
 
@@ -714,9 +699,20 @@ ChargeMoveEvasionBoost::
 	ld [hli], a
 	dec b
 	jr nz, .resetStatsLoop
-	; --- now raise the USER's EVASION (no anim), AFTER the reset so it pins at exactly the move's value ---
+	; Sunsette: DIG no longer self-boosts EVASION. Its dive instead drops the TARGET's ACCURACY by 1 when the
+	; dig-up hit connects (SpeciesMoveBonus .digAccDrop) - an unbounded debuff that compounds across patient Dig
+	; cycles, rather than a bounded self-buff. So for DIG the stat reset above is the whole charge-turn effect.
+	ldh a, [hWhoseTurn]
+	and a
+	ld a, [wPlayerMoveNum]
+	jr z, .gotChargeMove
+	ld a, [wEnemyMoveNum]
+.gotChargeMove
+	cp DIG
+	ret z                       ; DIG: reset only, no EVASION boost (the -ACC rider is on the hit)
+	; --- FLY only: now raise the USER's EVASION (no anim), AFTER the reset so it pins at exactly +2 ---
 	; Sunsette: ChooseFlyEvasionEffect (floated bank) returns e = the EVASION_UP* effect - FLY by an already
-	; FLYING/FLOATING user -> +2; a grounded FLY user -> +1 (the type-keep popup is the trade-off); DIG -> +1.
+	; FLYING/FLOATING user -> +2; a grounded FLY user -> +1 (the type-keep popup is the trade-off).
 	callfar ChooseFlyEvasionEffect ; e = boost effect; read it into c BEFORE loading the move ptrs (which need de/hl)
 	ld c, e
 	ldh a, [hWhoseTurn]
@@ -766,6 +762,7 @@ ChargeMoveEvasionBoost::
 ; immune, paralyze<-NORMAL which that routine treats as "affects any type"), then restores both.
 SpeciesMoveBonus::
 	callfar WaterMoveCleansesTargetBurn ; Sunsette: a WATER move that connects (post-damage, target alive) washes the target's burn off
+	callfar SunsettePostHitSelfEffects ; Sunsette: per-move post-hit self-effects (PSYCHOCRISIS recoil, SUPERPOWER self -ATK/-DEF); no-op otherwise. Floated to the status-immunities bank since newCode is full.
 	ldh a, [hWhoseTurn]
 	and a
 	jr nz, .enemy
@@ -783,15 +780,15 @@ SpeciesMoveBonus::
 	; DRILL / WINTER GALE) and apply to ANY user - they are no longer a species-gated "signature" on the
 	; generic WHIRLWIND/DRILL_PECK/SKY_ATTACK. (So e.g. PHOENIX DIVE burns+regens for whoever uses it.)
 	cp PHOENIX_DIVE
-	jr z, .sky
+	jp z, .sky ; Sunsette: JR->JP - the .shoryukenAtk/.pivotDef handlers pushed these targets past JR range
 	cp STORM_DRILL
-	jr z, .drill
+	jp z, .drill
 	cp WINTER_GALE
-	jr z, .whirl
+	jp z, .whirl
 	cp BLOOD_RUSH
-	jr z, .strengthRage
+	jp z, .strengthRage
 	cp STRENGTH
-	jr z, .strengthRage
+	jp z, .strengthRage
 	cp FIRE_SPIN
 	jr z, .fireSpinBurn
 	cp WRAP
@@ -799,14 +796,33 @@ SpeciesMoveBonus::
 	cp POWER_BIND
 	jr z, .trapSpeedDrop
 	cp CLAMP
-	jr z, .clampDefUp
+	jp z, .clampDefUp ; Sunsette: JR->JP - the DIG/MUDSLIDE handlers pushed .clampDefUp out of jr range
 	cp SURF
 	jr z, .surf
 	cp UNDERBUG
 	jr z, .underbugConfuse ; Sunsette: comeback - stage-scaled confuse (0/30/100/100)
-	ret
+	cp SHORYUKEN
+	jr z, .shoryukenAtk ; Sunsette: ~80% chance to raise the USER's ATTACK +1 (special DRAGON combo setup)
+	cp DIG
+	jp z, .digAccDrop ; Sunsette: -1 ACCURACY on the target when the dig-up hit lands (JR->JP: handler is out of range)
+	cp MUDSLIDE
+	jp z, .mudslideSpeed ; Sunsette: 50% chance to drop the target's SPEED (JR->JP: handler is out of range)
+	cp POISON_FANG
+	jp z, .poisonFang ; Sunsette: 50% chance to BADLY-poison (toxic) the target on a connecting hit
+	ret ; Sunsette: FINISHER's old +1 DEF post-hit removed (it's a Focus-Punch-like nuke now)
+.poisonFang
+	jpfar PoisonFangToxic_ ; floated to black_haze (reuses BlackHazeBadlyPoisonSide); tail-call
 .underbugConfuse
 	jpfar UnderBugConfuse_
+.shoryukenAtk ; Sunsette: SHORYUKEN - on a connecting hit, ~80% chance to raise the USER's ATTACK +1, so a
+	; physical attacker can fire this special DRAGON uppercut to set up, then swing physically. RaiseUserAttackUp1
+	; is in this same bank (near call); FarBattleRandom is callfar'd (d survives the bankswitch).
+	callfar FarBattleRandom
+	ld a, d
+	cp 80 percent + 1
+	ret nc ; ~20%: no boost this time
+	call RaiseUserAttackUp1 ; +1 ATTACK ("ATTACK rose!" + recalc)
+	ret
 .surf ; Sunsette: SURF is a PIKACHU/RAICHU signature once the player has surfed at the Summer Beach
 	; House (EVENT_SURFED_WITH_DUDE) - it WATERIFIES the target (post-damage, target alive, so it
 	; matches WaterifyEffect_'s own assumptions). WaterifyEffect_ is in this same bank (a near jp).
@@ -837,6 +853,37 @@ SpeciesMoveBonus::
 	ld hl, wEnemyMoveEffect
 .restoreFlinch
 	ld [hl], FLINCH_SIDE_EFFECT2
+	ret
+.digAccDrop ; Sunsette: DIG - guaranteed -1 ACCURACY on the target when the dig-up hit connects (grit flung from
+	; erupting). Unbounded: each patient Dig cycle stacks another -1. b = target side = hWhoseTurn.
+	ldh a, [hWhoseTurn]
+	ld b, a
+	ld c, ACCURACY_DOWN1_EFFECT
+	call ApplyStatDownToTarget
+	ldh a, [hWhoseTurn] ; ApplyStatDownToTarget leaves the move effect as ACCURACY_DOWN1; put CHARGE_EFFECT back
+	and a
+	ld hl, wPlayerMoveEffect
+	jr z, .restoreDig
+	ld hl, wEnemyMoveEffect
+.restoreDig
+	ld [hl], CHARGE_EFFECT
+	ret
+.mudslideSpeed ; Sunsette: MUDSLIDE - 50% chance to drop the TARGET's SPEED by 1 (a wave of mud bogs them down).
+	callfar FarBattleRandom
+	ld a, d
+	cp 50 percent + 1
+	ret nc ; 50%: no speed drop this time
+	ldh a, [hWhoseTurn]
+	ld b, a
+	ld c, SPEED_DOWN1_EFFECT
+	call ApplyStatDownToTarget
+	ldh a, [hWhoseTurn] ; restore MUDSLIDE's effect (ApplyStatDownToTarget left it as SPEED_DOWN1)
+	and a
+	ld hl, wPlayerMoveEffect
+	jr z, .restoreMudslide
+	ld hl, wEnemyMoveEffect
+.restoreMudslide
+	ld [hl], NO_ADDITIONAL_EFFECT
 	ret
 .clampDefUp ; Sunsette: CLAMP - guaranteed +1 DEFENSE on the user (RaiseUserStatViaSwap self-restores the move effect/num)
 	ld a, DEFENSE_UP1_EFFECT
@@ -1039,16 +1086,26 @@ HazeFlinchEffect_::
 	jp z, MindwipeEffect_
 	cp ROOST_EFFECT
 	jp z, RoostEffect_
-	cp JOLT_BOLT_EFFECT ; Sunsette: RETIRED - dead branch (POUND is now SPARK / PARALYZE_SIDE_EFFECT2); no move carries JOLT_BOLT_EFFECT
-	jp z, JoltBoltEffect_
+	cp SHADOW_BOX_EFFECT ; Sunsette: SHADOW BOX's post-damage confuse rider (read foe's special -> confuse foe / whiff -> confuse self)
+	jp z, ShadowBoxEffect_
+	cp SAPPING_COLD_EFFECT ; Sunsette: SAPPING COLD - drain 1/2 + freeze the target if the user wasn't hit this turn
+	jp z, SappingColdEffect_
+	cp ENERGY_FLUX_EFFECT ; Sunsette: ENERGY FLUX - 0-BP capacitor setup (type2->FLOATING + SPECIAL+2 + ENERGIZED)
+	jr nz, .notEnergyFlux
+	jpfar EnergyFluxEffect_ ; floated to status_type_immunities.asm (newCode was full); tail-call
+.notEnergyFlux
+	cp BUG_OFF_EFFECT ; Sunsette: BUG OFF - 0-BP disrupt-and-pivot (confuse + SPECIAL -1, then user switches out)
+	jr nz, .notBugOff
+	jpfar BugOffEffect_ ; floated to black_haze.asm; tail-call
+.notBugOff
 	cp HOBBLE_EFFECT
 	jp z, HobbleEffect_
 	cp CALM_MIND_EFFECT
 	jp z, CalmMindEffect_
 	cp STRENGTH_EFFECT
 	ret z ; Sunsette: STRENGTH's effect is a no-op here; it exists only so SpeciesMoveBonus runs (the +1 ATK)
-	cp SHORYUKEN_EFFECT
-	jp z, ShoryukenGround ; Sunsette: SHORYUKEN strips the target's FLYING/FLOATING here (effect-dispatch path, post-damage, target alive - same path as HOBBLE/WATERIFY, which persists; SpeciesMoveBonus was too late and got reverted)
+	cp TEMPEST_EFFECT
+	jp z, TempestGround ; Sunsette: TEMPEST strips the target's FLYING/FLOATING here (effect-dispatch path, post-damage, target alive - same path as HOBBLE/WATERIFY, which persists; SpeciesMoveBonus was too late and got reverted)
 	cp BLOSSOM_BLITZ_EFFECT
 	jp z, BlossomBlitzEffect_
 	cp AQUA_RING_EFFECT
@@ -1067,10 +1124,10 @@ HazeFlinchEffect_::
 	ret
 .notAuroraMist
 	cp METAMORPHIC_EFFECT
-	jr nz, .notMetamorphic
-	callfar MetamorphicEffect_    ; Sunsette: METAMORPHIC (EXPLOSION) - post-damage recoil + ROCK user sheds ROCK/+6 SPEED/glow (own floating section)
+	jr nz, .notOroclasm
+	callfar MetamorphicEffect_    ; Sunsette: OROCLASM (EXPLOSION) - post-damage recoil + ROCK user sheds ROCK/+6 SPEED/glow (own floating section)
 	ret
-.notMetamorphic
+.notOroclasm
 	cp SUPERNOVA_EFFECT
 	jr nz, .notSupernova
 	callfar SupernovaEffect_      ; Sunsette: SUPERNOVA (SELFDESTRUCT) - FIRE user no-recoil/shed-FIRE/gray, non-FIRE recoil+self-burn (own floating section)
@@ -1078,12 +1135,17 @@ HazeFlinchEffect_::
 .notSupernova
 	cp SENBONZAKURA_EFFECT
 	jr nz, .notSenbonzakura
-	callfar SenbonzakuraEffect_   ; Sunsette: SENBONZAKURA (PETAL_DANCE) - reset user stats + FLOURISH + EVASION +1 (own floating section)
+	callfar SenbonzakuraEffect_   ; Sunsette: SENBONZAKURA (PETAL_DANCE) - FLOURISH regen scaled by desperation stage (own floating section)
 	ret
 .notSenbonzakura
 	cp MIASMA_EFFECT
+	jr nz, .notMiasma
+	callfar MiasmaEffect_         ; Sunsette: MIASMA / EMETIC PURGE - one-sided stat clear + poison (own floating section)
+	ret
+.notMiasma
+	cp PSYCHO_SHIFT_EFFECT
 	jr nz, .haze
-	callfar MiasmaEffect_         ; Sunsette: MIASMA (POISON_GAS) - one-sided stat clear + poison (own floating section)
+	callfar PsychoShiftEffect_    ; Sunsette: PSYCHO SHIFT - transfer the user's status + confusion onto the target (own floating section)
 	ret
 .haze
 	; Sunsette: SHADOW GAME must NOT wipe permanent (non-volatile) status. HazeEffect_ zeroes the TARGET's
@@ -1577,7 +1639,7 @@ RefreshUserNaturalTypes:
 ; Sunsette: remove FLYING ($02) and FLOATING ($12) from the TWO type bytes at hl (hl -> type1). If both are
 ; an air type (e.g. a CONVERSION'd pure-Flyer/Floater) the mon would be left typeless, so it becomes NORMAL;
 ; if only one is, the surviving type fills both slots (a clean mono-type). The CALLER sets hl to the side it
-; wants: ROOST -> the user's type1, SHORYUKEN -> the target's type1. Returns carry SET if it changed
+; wants: ROOST -> the user's type1, TEMPEST -> the target's type1. Returns carry SET if it changed
 ; something (there was an air type), carry CLEAR if neither byte was air (no change).
 StripFlyingFloating:
 	ld a, [hl]
@@ -1621,12 +1683,12 @@ StripFlyingFloating:
 	scf
 	ret
 
-; Sunsette: SHORYUKEN (MEGA_PUNCH) grounds the TARGET on a damaging hit - strips its FLYING ($02) / FLOATING
+; Sunsette: TEMPEST (was TWISTER) grounds the TARGET on a damaging hit - strips its FLYING ($02) / FLOATING
 ; ($12) type until it switches out or ROOSTs (RefreshUserNaturalTypes reloads natural types). Points hl at
 ; the TARGET's type1 (opponent of hWhoseTurn) and runs StripFlyingFloating directly on it. Only prints if a
-; type was actually stripped. Reached from SpeciesMoveBonus (post-damage, target alive); the Fly-invuln reach
-; is handled separately in CheckSemiInvulnBypass.
-ShoryukenGround:
+; type was actually stripped. Reached via the effect dispatch (TEMPEST_EFFECT -> HazeFlinchEffect_, post-damage,
+; target alive); the Fly-invuln reach is handled separately in CheckSemiInvulnBypass.
+TempestGround:
 	ldh a, [hWhoseTurn]
 	and a
 	ld hl, wEnemyMonType1   ; player attacking -> target = enemy
@@ -1635,56 +1697,111 @@ ShoryukenGround:
 .gotType
 	call StripFlyingFloating
 	ret nc                  ; target had no FLYING/FLOATING -> nothing stripped, no message
-	ld hl, ShoryukenGroundText
+	ld hl, TempestGroundText
 	rst _PrintText
 	ret
 
-ShoryukenGroundText:
-	text_far _ShoryukenGroundText
+TempestGroundText:
+	text_far _TempestGroundText
 	text_end
 
-; Sunsette: RETIRED (POUND is now SPARK / PARALYZE_SIDE_EFFECT2; this is dead, unreferenced by any move).
-; Was JOLT BOLT (POUND) post-damage side effect - a 50% chance to raise the USER's EVASION by 1.
-; Reached via the Haze trampoline -> HazeFlinchEffect_. = SwiftEffect_'s 50% roll + ChargeMoveEvasionBoost's
-; evasion-up: temp-swap the user's move effect to EVASION_UP1_EFFECT and zero its move num (dodges
-; StatModifierUpEffect's Minimize/substitute path), SetFlag FLAG_SKIP_STAT_ANIMATION, callfar
-; StatModifierUpEffect (prints the "rose!" line), then restore both. hWhoseTurn = the JOLT BOLT user.
-JoltBoltEffect_:
-	callfar FarBattleRandom ; d = random byte (de survives the bankswitch)
-	ld a, d
-	cp 50 percent + 1
-	ret nc ; 50%: no evasion boost
+; Sunsette: SHADOW BOX (GHOST 90/60-BP brace-counter). Post-damage rider reached via the Haze trampoline ->
+; HazeFlinchEffect_ (so it fires after the move's own damage, like HOBBLE/Gust). hWhoseTurn = the SHADOW BOX
+; user. It reads the FOE's SELECTED move for the turn (their intent) via FoeSelectedMoveIsSpecial:
+;   foe's move is SPECIAL-typed -> you read it right: confuse the FOE.
+;   foe's move is anything else -> you whiffed the read: confuse YOURSELF.
+; (The damage tier 75/35 was already set pre-damage by ShadowBoxPowerModifier reading the same signal, and
+; the "half damage from a Special hit" brace is applied in the damage path when the foe's Special move lands.)
+; Sunsette: SAPPING COLD (ICE drain). Post-damage rider via the Haze trampoline. SAPPING COLD goes LAST, so
+; by the time this runs the foe has acted: drain half the damage to the user (the Absorb half), then - if the
+; user took NO direct damaging hit this turn (FINISHER_INTERRUPTED clear, shared with FINISHER) - freeze the
+; target. FIRE/ICE targets and already-statused targets can't be frozen. hWhoseTurn = the SAPPING COLD user.
+SappingColdEffect_:
+	callfar DrainHPEffect_     ; heal 1/2 of wDamage to the user (+ "sucked health!" line)
 	ldh a, [hWhoseTurn]
 	and a
-	ld hl, wPlayerMoveEffect
-	ld de, wPlayerMoveNum
-	jr z, .gotPtrs
-	ld hl, wEnemyMoveEffect
-	ld de, wEnemyMoveNum
-.gotPtrs
-	ld a, [hl]
-	push af ; save the real move effect (JOLT_BOLT_EFFECT)
-	ld a, [de]
-	push af ; save the real move num (POUND)
-	ld a, EVASION_UP1_EFFECT
-	ld [hl], a
-	xor a
-	ld [de], a ; zero move num -> dodge the Minimize/substitute path
-	SetFlag FLAG_SKIP_STAT_ANIMATION
-	callfar StatModifierUpEffect ; +1 EVASION to the user
-	ResetFlag FLAG_SKIP_STAT_ANIMATION
-	ldh a, [hWhoseTurn] ; callfar clobbered hl/de - re-derive to restore
+	ld hl, wPlayerBattleStatus1
+	jr z, .gotUser
+	ld hl, wEnemyBattleStatus1
+.gotUser
+	bit FINISHER_INTERRUPTED, [hl]
+	ret nz                     ; the user was struck this turn -> the cold doesn't set in
+	; target = the side opposite hWhoseTurn
+	ldh a, [hWhoseTurn]
 	and a
-	ld hl, wPlayerMoveEffect
-	ld de, wPlayerMoveNum
-	jr z, .restore
-	ld hl, wEnemyMoveEffect
-	ld de, wEnemyMoveNum
-.restore
+	ld hl, wEnemyMonStatus
+	ld de, wEnemyMonType1
+	jr z, .gotTarget
+	ld hl, wBattleMonStatus
+	ld de, wBattleMonType1
+.gotTarget
+	ld a, [hl]
+	and a
+	ret nz                     ; target already statused -> no freeze
+	ld a, [de]
+	cp FIRE
+	ret z                      ; FIRE immune to freeze
+	cp ICE
+	ret z                      ; ICE immune to freeze
+	inc de
+	ld a, [de]
+	cp FIRE
+	ret z
+	cp ICE
+	ret z
+	callfar ClearHyperBeam
+	ld a, 1 << FRZ
+	ld [hl], a                 ; freeze the target
+	callfar HalveSpecialAndSpeedDueToFreeze
+	jpfar PrintFrozenText      ; "frozen solid!" + redraw the target's HP bar
+
+ShadowBoxEffect_:
+	call FoeSelectedMoveIsSpecial ; e = 1 if the foe's selected move is special-typed
+	ld a, e
+	and a
+	jr z, .whiffedRead
+; read the foe's Special attack -> confuse the FOE (the side opposite the user)
+	callfar ConfusionSideEffectSuccess
+	ret
+.whiffedRead
+; swung at a shadow -> confuse YOURSELF (flip hWhoseTurn so the confusion target is the user, then restore)
+	ldh a, [hWhoseTurn]
+	push af
+	xor 1
+	ldh [hWhoseTurn], a
+	callfar ConfusionSideEffectSuccess
 	pop af
-	ld [de], a ; restore move num
-	pop af
-	ld [hl], a ; restore move effect
+	ldh [hWhoseTurn], a
+	ret
+
+; Sunsette: carry/e verdict on whether the FOE's selected move this turn is special-typed (type >= SPECIAL,
+; the same boundary the damage code uses - so GHOST, and NORMAL moves like HYPER BEAM / TRI ATTACK / EGG
+; BOMB, all read as NON-special; it is purely type-based). hWhoseTurn = the SHADOW BOX user, so the foe is
+; the opposite side. Loads the foe's move into the wMoveData scratch (FarCopyData, so the live move buffers
+; are untouched) and reads its type. Returns e = 1 (special) / 0 (non-special). Clobbers a/bc/de/hl, wMoveData.
+FoeSelectedMoveIsSpecial:
+	ldh a, [hWhoseTurn]
+	and a
+	ld a, [wEnemySelectedMove] ; user = player -> foe = enemy
+	jr z, .gotMove
+	ld a, [wPlayerSelectedMove]
+.gotMove
+	and a
+	jr z, .no                  ; no move selected (sleep/flinch) -> treat as non-special
+	dec a
+	ld hl, Moves
+	ld bc, MOVE_LENGTH
+	call AddNTimes
+	ld de, wMoveData
+	ld a, BANK(Moves)
+	call FarCopyData           ; copy the move's data into scratch (no clobber of the live move buffers)
+	ld a, [wMoveData + MOVE_TYPE]
+	cp SPECIAL
+	jr c, .no                  ; type < SPECIAL -> non-special
+	ld e, 1
+	ret
+.no
+	ld e, 0
 	ret
 
 ; Sunsette: BLOSSOM BLITZ (PETAL_DANCE) - 50% chance to raise the USER's SPEED by 1 (replaces the old confuse
@@ -1881,7 +1998,7 @@ CheckSemiInvulnBypass::
 	jr z, .flyOnly
 	cp SHORYUKEN ; SHORYUKEN - an anti-air uppercut, reaches FLY users
 	jr z, .flyOnly
-	cp TWISTER ; TWISTER - a tornado that reaches FLY users
+	cp TEMPEST ; TEMPEST - a tornado that reaches FLY users
 	jr z, .flyOnly
 	and a ; no bypass -> clear carry (dodged)
 	ret
@@ -2098,6 +2215,8 @@ EnemyOnSendOut::
 	call CheckDarknessAccuracyDebuff ; Sunsette: dark-cave (Flash off) -2 ACCURACY for a trainer's mon
 	xor a ; target = enemy
 	call CheckCeruleanWaterSpeed ; Sunsette: CERULEAN pool +1 SPEED for a trainer's WATER mon
+	xor a ; target = enemy
+	call CheckViridianForestDefense ; Sunsette: VIRIDIAN FOREST +1 DEFENSE for a GRASS/BUG enemy mon
 	ret
 
 ; Sunsette: ADDED: certain maps apply an effect to the ENEMY trainer's just-sent-out mon and print

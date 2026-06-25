@@ -28,12 +28,11 @@
 	ICE_BEAM,\
 	BLIZZARD,\
 	HYPER_BEAM,\
-	LOW_KICK,\
+	FINISHER,\
 	ZAPPERCUT,\
 	METEOR_SWEEP,\
 	EARTHQUAKE,\
 	DIG,\
-	MIRAGE,\
 	SWORDS_DANCE,\
 	BULK_UP,\
 	ILL_WIND,\
@@ -59,7 +58,7 @@
 	dw 0, MarowakPicBack
 
 ; --- Sunsette SSOT directives (parsed by tools/gen_pokemon_data.py) ---
-;@ nature       NATURE_MOROSE NATURE_RAGE
+;@ nature       NATURE_RAGE NATURE_MOROSE
 ;@ pal_battle   PAL_CLAYMON
 ;@ pal_altbattle PAL_GHOSTMON
 ;@ pal_icon     PAL_ICON_49
@@ -80,3 +79,8 @@
 ;@ learn       40, BONEMERANG
 ;@ learn       45, METEOR_DRIVE
 ;@ learn       50, COMBOBREAKER
+;@ tutor       TELEPORT
+;@ tutor       CLOBBERCLOCK
+;@ tutor       PISTON_KICK
+;@ tutor       METEOR_DRIVE
+;@ tutor       SCREECH

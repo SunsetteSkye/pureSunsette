@@ -15,6 +15,7 @@
 
 	; tm/hm learnset
 	tmhm \
+	LEAP_ATTACK,\
 	MUD_BOMB,\
 	TOXIC,\
 	BODY_SLAM,\
@@ -25,7 +26,7 @@
 	BLIZZARD,\
 	HYPER_BEAM,\
 	CALM_MIND,\
-	LOW_KICK,\
+	FINISHER,\
 	METEOR_SWEEP,\
 	BARRIER,\
 	RIPTIDE,\
@@ -34,7 +35,7 @@
 	REFLECT,\
 	BULK_UP,\
 	SHADOW_BALL,\
-	TWISTER,\
+	TEMPEST,\
 	DEMOLISH,\
 	LIGHT_SCREEN,\
 	SUBSTITUTE,\
@@ -73,3 +74,6 @@
 ;@ learn       35, SLUDGE_BOMB
 ;@ learn       44, AURORA_MIST
 ;@ learn       49, HYDRO_PUMP
+;@ tutor       PAY_DAY
+;@ tutor       METEOR_DRIVE
+;@ tutor       SWIFT

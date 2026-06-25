@@ -15,31 +15,39 @@
 
 	; tm/hm learnset
 	tmhm \
-	MUD_BOMB,\
-	TOXIC,\
-	BODY_SLAM,\
+	HONE_EDGE,\
 	DISABLE,\
+	AURORA_MIST,\
+	SHADOW_GAME,\
+	TOXIC,\
+	SLUDGE_BOMB,\
+	BODY_SLAM,\
 	DOUBLE_EDGE,\
-	AQUA_RING,\
+	WATER_PULSE,\
+	SUPER_SOAK,\
 	ICE_BEAM,\
 	BLIZZARD,\
-	CALM_MIND,\
-	LOW_KICK,\
-	BARRIER,\
-	RIPTIDE,\
+	MUD_BOMB,\
 	DIG,\
 	PSYCHIC_M,\
-	REFLECT,\
+	FINISHER,\
 	BULK_UP,\
-	SHADOW_BALL,\
-	TWISTER,\
-	VOID_MIND,\
+	REFLECT,\
 	LIGHT_SCREEN,\
+	BARRIER,\
+	ENERGY_FLUX,\
 	SKITTERMIND,\
-	SHADOW_GAME,\
 	SUBSTITUTE,\
-	SURF,\
-	FLASH
+	RIPTIDE,\
+	AQUA_RING,\
+	ADAPTATION,\
+	CALM_MIND,\
+	VOID_MIND,\
+	PSYCHO_SHIFT,\
+	LEAP_ATTACK,\
+	TEMPEST,\
+	CUT,\
+	SURF
 	; end
 
 
@@ -57,15 +65,20 @@
 ;@ pal_icon     PAL_ICON_34
 ;@ pal_alticon  PAL_ICON_35
 ;@ evo         EVOLVE_LEVEL, 23, POLIWHIRL
-;@ evo_move    NO_MOVE
+;@ evo_move    BODY_SLAM
 ;@ evo_react   NONE
-;@ learn       12, SUPER_SOAK
-;@ learn       15, HYPNOSIS
-;@ learn       19, CONFUSION
-;@ learn       22, WATER_PULSE
-;@ learn       27, BODY_SLAM
-;@ learn       30, RIPTIDE
-;@ learn       36, DIZZY_PUNCH
+;@ learn       7, SUPER_SOAK
+;@ learn       11, HYPNOSIS
+;@ learn       15, CONFUSION
+;@ learn       20, WATER_PULSE
+;@ learn       25, SLAM
+;@ learn       30, DISABLE
+;@ learn       35, RIPTIDE
 ;@ learn       41, CALM_MIND
-;@ learn       45, HYDRO_PUMP
-;@ learn       52, SHADOW_BOX
+;@ learn       48, MUDSLIDE
+;@ learn       57, HYDRO_PUMP
+;@ tutor       SOULSTEALER
+;@ tutor       PAY_DAY
+;@ tutor       TELEPORT
+;@ tutor       METEOR_DRIVE
+;@ tutor       EGG_BOMB

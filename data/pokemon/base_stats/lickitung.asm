@@ -15,6 +15,7 @@
 
 	; tm/hm learnset
 	tmhm \
+	LEAP_ATTACK,\
 	ADAPTATION,\
 	FROST_FIST,\
 	MUD_BOMB,\
@@ -30,11 +31,11 @@
 	BLIZZARD,\
 	HYPER_BEAM,\
 	CALM_MIND,\
-	LOW_KICK,\
+	FINISHER,\
 	ZAPPERCUT,\
 	METEOR_SWEEP,\
 	BARRIER,\
-	SOLARBEAM,\ 
+	SOLARBEAM,\
 	WYRM_WRATH,\
 	THUNDERBOLT,\
 	THUNDER,\
@@ -84,7 +85,15 @@
 ;@ learn       20, LEECH_LIFE
 ;@ learn       23, MIMIC
 ;@ learn       28, REST
-;@ learn       31, DIZZY_PUNCH
+;@ learn       31, CLOBBERCLOCK
 ;@ learn       37, ADAPTATION
 ;@ learn       42, POWER_BIND
 ;@ learn       50, VENOM_LASH
+;@ tutor       SOULSTEALER
+;@ tutor       PAY_DAY
+;@ tutor       TELEPORT
+;@ tutor       CLOBBERCLOCK
+;@ tutor       PISTON_KICK
+;@ tutor       METEOR_DRIVE
+;@ tutor       EGG_BOMB
+;@ tutor       SCREECH

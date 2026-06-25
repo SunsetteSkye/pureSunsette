@@ -234,6 +234,7 @@ ENDM
 	const TOGGLE_VIRIDIAN_FOREST_ITEM_1        ; 64 X
 	const TOGGLE_VIRIDIAN_FOREST_ITEM_2        ; 65 X
 	const TOGGLE_VIRIDIAN_FOREST_ITEM_3        ; 66 X
+	const TOGGLE_VIRIDIAN_FOREST_ITEM_4            ; NEW X ; Sunsette: QUICK ATTACK TM ball
 
 	toggle_consts_for MT_MOON_1F
 	const TOGGLE_MT_MOON_1F_ITEM_1             ; 67 X

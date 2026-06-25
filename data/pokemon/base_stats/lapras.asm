@@ -15,6 +15,7 @@
 
 	; tm/hm learnset
 	tmhm \
+	LEAP_ATTACK,\
 	TOXIC,\
 	BODY_SLAM,\
 	DISABLE,\
@@ -26,7 +27,7 @@
 	HYPER_BEAM,\
 	CALM_MIND,\
 	BARRIER,\
-	SOLARBEAM,\ 
+	SOLARBEAM,\
 	WYRM_WRATH,\
 	THUNDERBOLT,\
 	THUNDER,\
@@ -35,7 +36,7 @@
 	REFLECT,\
 	BULK_UP,\
 	SHADOW_BALL,\
-	TWISTER,\
+	TEMPEST,\
 	LOVELY_KISS,\
 	LIGHT_SCREEN,\
 	SKITTERMIND,\
@@ -67,3 +68,6 @@
 ;@ learn       38, ICE_BEAM
 ;@ learn       46, HYDRO_PUMP
 ;@ learn       53, BLIZZARD
+;@ tutor       SOULSTEALER
+;@ tutor       METEOR_DRIVE
+;@ tutor       EGG_BOMB

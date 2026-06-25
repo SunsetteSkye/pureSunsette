@@ -15,6 +15,7 @@
 
 	; tm/hm learnset
 	tmhm \
+	LEAP_ATTACK,\
 	ROOST,\
 	TOXIC,\
 	BODY_SLAM,\
@@ -31,7 +32,7 @@
 	BULK_UP,\
 	ILL_WIND,\
 	SHADOW_BALL,\
-	TWISTER,\
+	TEMPEST,\
 	BRAVE_BIRD,\
 	LIGHT_SCREEN,\
 	SKITTERMIND,\
@@ -62,3 +63,8 @@
 ;@ learn       60, BLIZZARD
 ;@ learn       65, AGILITY
 ;@ learn       70, WINTER_GALE
+;@ tutor       TRI_ATTACK
+;@ tutor       TELEPORT
+;@ tutor       HURRICANE
+;@ tutor       SWIFT
+;@ tutor       EGG_BOMB

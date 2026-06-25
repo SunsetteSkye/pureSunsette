@@ -15,6 +15,7 @@
 
 	; tm/hm learnset
 	tmhm \
+	LEAP_ATTACK,\
 	MUD_BOMB,\
 	PIN_MISSILE,\
 	TOXIC,\
@@ -25,7 +26,7 @@
 	AQUA_RING,\
 	ICE_BEAM,\
 	BLIZZARD,\
-	LOW_KICK,\
+	FINISHER,\
 	METEOR_SWEEP,\
 	BARRIER,\
 	EARTHQUAKE,\
@@ -70,3 +71,5 @@
 ;@ learn       39, EXTERMINATE
 ;@ learn       44, EARTHQUAKE
 ;@ learn       50, SPIKE_CANNON
+;@ tutor       METEOR_DRIVE
+;@ tutor       EGG_BOMB

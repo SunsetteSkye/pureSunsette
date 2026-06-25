@@ -238,7 +238,7 @@ DexCategoryStrings:
 	db "HYPNOSIS@"
 	db "RIVER CRAB@"
 	db "PINCER@"
-	db "BALL@"
+	db "BOMBBALL@"
 	db "EGG@"
 	db "COCONUT@"
 	db "LONELY@"

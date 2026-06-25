@@ -148,12 +148,15 @@ _ViridianForestTrainerTips3Text::
 _ViridianForestTrainerTips4Text::
 	text "<TIPS>"
 
-	para "Weaken #MON"
-	line "before attempting"
-	cont "capture!"
+	para "VIRIDIAN FOREST's"
+	line "dense canopy"
+	cont "toughens GRASS"
+	cont "and BUG #MON."
 
-	para "When healthy,"
-	line "they may escape!"
+	para "Their DEFENSE"
+	line "rises in battle--"
+	cont "yours and wild"
+	cont "ones alike!"
 	done
 
 _ViridianForestLeavingSignText::

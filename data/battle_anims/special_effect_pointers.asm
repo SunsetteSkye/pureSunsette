@@ -36,6 +36,11 @@ SpecialEffectPointers:
 	special_effect SE_SPIRAL_BALLS_INWARD_FAST,  AnimationSpiralBallsInwardFast   ; $E3
 	special_effect SE_SPIRAL_BALLS_INWARD,       AnimationSpiralBallsInwardDefault; $E2
 	special_effect SE_SPIRAL_BALLS_OUTWARD,      AnimationSpiralBallsOutward      ; $C9 Sunsette: MAXIMIZE (reversed spiral)
+	special_effect SE_MINIMIZE_ENEMY_MON,        AnimationMinimizeEnemyMon       ; $C0 Sunsette: minimize the enemy mon
+	; SE_RED_SCREEN_PALETTE ($C1) is NOT here - it takes a colour-ramp operand, so PlayAnimation's
+	; .floodScreenPalette branch dispatches it directly (engine/battle/animations.asm).
+	; Sunsette: SE_$C2-$C8 (centre-stage cutscene) are dispatched out-of-bank in PlayAnimation via a
+	; range check -> CenterStageSEDispatch (engine/battle/center_stage_se.asm), not this in-bank table.
 	special_effect SE_DELAY_ANIMATION_10,        AnimationDelay10                 ; $E1
 	special_effect SE_WATER_DROPLETS_EVERYWHERE_FAST,       AnimationWaterDropletsEverywhereFast        ; $E0
 	special_effect SE_HIDE_ENEMY_MON_PIC,        AnimationHideEnemyMonPic         ; $DF

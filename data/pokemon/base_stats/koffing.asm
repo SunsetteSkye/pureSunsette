@@ -26,7 +26,6 @@
 	BARRIER,\
 	THUNDERBOLT,\
 	THUNDER,\
-	MIRAGE,\
 	REFLECT,\
 	BULK_UP,\
 	ILL_WIND,\
@@ -67,3 +66,8 @@
 ;@ learn       43, ADAPTATION
 ;@ learn       47, SLUDGE_BOMB
 ;@ learn       52, EXPLOSION
+;@ tutor       EXPLOSION
+;@ tutor       HURRICANE
+;@ tutor       METEOR_DRIVE
+;@ tutor       EGG_BOMB
+;@ tutor       SCREECH

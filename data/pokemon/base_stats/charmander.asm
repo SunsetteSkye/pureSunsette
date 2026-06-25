@@ -14,32 +14,40 @@
 	db GROWTH_MEDIUM_SLOW ; growth rate
 
 	tmhm \
-	BLAZE_HAMMER,\
-	TOXIC,\
 	HONE_EDGE,\
-	BODY_SLAM,\
 	DISABLE,\
-	DOUBLE_EDGE,\
-	CALM_MIND,\
-	LOW_KICK,\
-	ZAPPERCUT,\
-	METEOR_SWEEP,\
-	BARRIER,\
-	SOLARBEAM,\ 
-	WYRM_WRATH,\
-	DIG,\
-	MIRAGE,\
 	SWORDS_DANCE,\
-	REFLECT,\
-	BULK_UP,\
-	SHADOW_BALL,\
-	SUPERNOVA,\
-	FIRE_BLAST,\
-	DEMOLISH,\
-	LIGHT_SCREEN,\
 	SHADOW_GAME,\
-	ROCK_ON,\
+	TOXIC,\
+	SLUDGE_BOMB,\
+	BODY_SLAM,\
+	QUICK_ATTACK,\
+	DOUBLE_EDGE,\
+	ZAPPERCUT,\
+	BLAZE_HAMMER,\
+	SEISMIC_TOSS,\
+	SOLARBEAM,\
+	WYRM_WRATH,\
+	MUD_BOMB,\
+	DIG,\
+	FINISHER,\
+	DEMOLISH,\
+	BULK_UP,\
+	REFLECT,\
+	LIGHT_SCREEN,\
+	HEAT_RUSH,\
+	SUPERNOVA,\
+	FLAMETHROWER,\
+	FIRE_BLAST,\
+	SHADOW_BOX,\
+	BARRIER,\
+	METEOR_SWEEP,\
+	ROCK_SLIDE,\
+	OROCLASM,\
 	SUBSTITUTE,\
+	LEAP_ATTACK,\
+	TEMPEST,\
+	ROCK_ON,\
 	CUT,\
 	STRENGTH,\
 	FLASH
@@ -58,19 +66,22 @@
 ;@ pal_altbattle PAL_EMBERMON
 ;@ pal_icon     PAL_ICON_03
 ;@ pal_alticon  PAL_ICON_04
-;@ evo         EVOLVE_LEVEL, 6, CHARMELEON
+;@ evo_debug   EVOLVE_LEVEL, 6, CHARMELEON
 ;@ evo         EVOLVE_LEVEL, 16, CHARMELEON
-;@ evo_move    NO_MOVE
+;@ evo_move    HONE_EDGE
 ;@ evo_react   NONE
 ;@ learn       6, SMOKESCREEN
 ;@ learn       9, EMBER
 ;@ learn       12, SEISMIC_TOSS
 ;@ learn       15, BELLOW
 ;@ learn       18, HEAT_RUSH
-;@ learn       23, HONE_EDGE
 ;@ learn       26, SLASH
 ;@ learn       30, SHORYUKEN
 ;@ learn       38, FLAMETHROWER
 ;@ learn       46, HYPER_BEAM
-;@ learn       54, WYRM_WRATH
+;@ learn       54, INDIGNATION
 ;@ learn       60, FIRE_BLAST
+;@ tutor       CLOBBERCLOCK
+;@ tutor       PISTON_KICK
+;@ tutor       METEOR_DRIVE
+;@ tutor       EGG_BOMB

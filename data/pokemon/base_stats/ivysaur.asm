@@ -15,33 +15,38 @@
 
 	; tm/hm learnset
 	tmhm \
-	MUD_BOMB,\
-	PIN_MISSILE,\
-	TOXIC,\
-	HONE_EDGE,\
-	BODY_SLAM,\
 	DISABLE,\
-	DOUBLE_EDGE,\
-	AQUA_RING,\
-	CALM_MIND,\
-	LOW_KICK,\
-	METEOR_SWEEP,\
-	BARRIER,\
-	ADAPTATION,\
-	SOLARBEAM,\ 
-	DIG,\
-	MEGA_DRAIN,\
 	SWORDS_DANCE,\
-	REFLECT,\
+	SHADOW_GAME,\
+	TOXIC,\
+	SLUDGE_BOMB,\
+	BODY_SLAM,\
+	DOUBLE_EDGE,\
+	WATER_PULSE,\
+	SUPER_SOAK,\
+	GIGA_DRAIN,\
+	MEGA_DRAIN,\
+	SOLARBEAM,\
+	MUD_BOMB,\
+	DIG,\
 	BULK_UP,\
+	REFLECT,\
+	LIGHT_SCREEN,\
 	ILL_WIND,\
 	SHADOW_BALL,\
-	TWISTER,\
-	VOID_MIND,\
-	LIGHT_SCREEN,\
-	SHADOW_GAME,\
-	ROCK_ON,\
+	BARRIER,\
+	METEOR_SWEEP,\
 	SUBSTITUTE,\
+	AQUA_RING,\
+	ADAPTATION,\
+	CALM_MIND,\
+	VOID_MIND,\
+	PSYCHO_SHIFT,\
+	LEAP_ATTACK,\
+	PIN_MISSILE,\
+	LEECH_LIFE,\
+	TEMPEST,\
+	ROCK_ON,\
 	CUT,\
 	FLASH
 	; end
@@ -60,9 +65,13 @@
 ;@ pal_icon     PAL_ICON_02
 ;@ pal_alticon  $FF
 ;@ evo         EVOLVE_LEVEL, 32, VENUSAUR
-;@ evo_move    NO_MOVE
+;@ evo_move    SENBONZAKURA
 ;@ evo_react   "It hops up," "ready to go!"
 ;@ evo_react   "Its bud swells," "full of new life!"
 ;@ evo_react   "Roots burst out," "gripping the dirt!"
 ;@ evo_react   "Fresh leaves open" "into the sun!"
 ;@ learn_like  BULBASAUR
+;@ tutor       PISTON_KICK
+;@ tutor       HURRICANE
+;@ tutor       METEOR_DRIVE
+;@ tutor       EGG_BOMB

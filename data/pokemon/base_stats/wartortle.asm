@@ -15,32 +15,39 @@
 
 	; tm/hm learnset
 	tmhm \
-	FROST_FIST,\
-	MUD_BOMB,\
-	TOXIC,\
-	HONE_EDGE,\
-	BODY_SLAM,\
 	DISABLE,\
+	AURORA_MIST,\
+	TOXIC,\
+	SLUDGE_BOMB,\
+	BODY_SLAM,\
 	DOUBLE_EDGE,\
-	AQUA_RING,\
+	WATER_PULSE,\
+	SUPER_SOAK,\
 	ICE_BEAM,\
 	BLIZZARD,\
-	CALM_MIND,\
-	LOW_KICK,\
 	ZAPPERCUT,\
-	METEOR_SWEEP,\
-	BARRIER,\
-	RIPTIDE,\
+	FROST_FIST,\
+	SEISMIC_TOSS,\
+	MUD_BOMB,\
 	DIG,\
-	SWORDS_DANCE,\
-	REFLECT,\
-	BULK_UP,\
-	SHADOW_BALL,\
+	FINISHER,\
 	DEMOLISH,\
+	BULK_UP,\
+	REFLECT,\
 	LIGHT_SCREEN,\
-	SHADOW_GAME,\
-	ROCK_ON,\
+	SHADOW_BALL,\
+	SHADOW_BOX,\
+	BARRIER,\
+	METEOR_SWEEP,\
+	ROCK_SLIDE,\
+	OROCLASM,\
 	SUBSTITUTE,\
+	RIPTIDE,\
+	AQUA_RING,\
+	VOID_MIND,\
+	LEAP_ATTACK,\
+	CLAY_ARMOR,\
+	ROCK_ON,\
 	CUT,\
 	SURF,\
 	STRENGTH
@@ -59,7 +66,7 @@
 ;@ pal_icon     PAL_ICON_07
 ;@ pal_alticon  PAL_ICON_06
 ;@ evo         EVOLVE_LEVEL, 36, BLASTOISE
-;@ evo_move    NO_MOVE
+;@ evo_move    SURF
 ;@ evo_react   "It hunches down," "tail flowing."
 ;@ evo_react   "It surges up" "in a foam burst!"
 ;@ evo_react   "Its furred tail" "swishes proudly!"
@@ -67,11 +74,16 @@
 ;@ learn       6, BUBBLE
 ;@ learn       8, HARDEN
 ;@ learn       11, SUPER_SOAK
-;@ learn       14, LOW_KICK
+;@ learn       14, SEISMIC_TOSS
 ;@ learn       18, BITE
 ;@ learn       23, SHELL_GAME
 ;@ learn       28, CLAMP
-;@ learn       33, DIZZY_PUNCH
-;@ learn       35, BLOOD_RUSH
-;@ learn       42, METEOR_DRIVE
+;@ learn       33, CLOBBERCLOCK
+;@ learn       40, BLOOD_RUSH
+;@ learn       44, METEOR_DRIVE
 ;@ learn       50, HYDRO_PUMP
+;@ learn       56, SUBMISSION
+;@ tutor       CLOBBERCLOCK
+;@ tutor       PISTON_KICK
+;@ tutor       METEOR_DRIVE
+;@ tutor       EGG_BOMB

@@ -23,7 +23,7 @@ SpecialEffects:
 	db SIPHON_SNAG_EFFECT ; PureRGBnote: ADDED:
 	db HEAT_RUSH_EFFECT ; PureRGBnote: ADDED:
 	db SOLARBEAM_EFFECT ; Sunsette: kept out of the post-damage executeOtherEffects pass; it runs once via AlwaysHappenSideEffects
-	db JOLT_BOLT_EFFECT ; Sunsette: RETIRED (POUND is now SPARK / PARALYZE_SIDE_EFFECT2) - dead entry, no move uses this effect
+	; Sunsette: SHADOW_BOX_EFFECT (reused the JOLT_BOLT slot) is intentionally NOT here - like HOBBLE, its confuse rider runs post-damage on hit via executeOtherEffects
 	db BLOSSOM_BLITZ_EFFECT ; Sunsette: ditto - BLOSSOM BLITZ's 50% user SPEED-up runs once via AlwaysHappenSideEffects
 	db SENBONZAKURA_EFFECT ; Sunsette: ditto - SENBONZAKURA's self-buff runs once via AlwaysHappenSideEffects (kept out of the post-damage executeOtherEffects pass)
 	; fallthrough

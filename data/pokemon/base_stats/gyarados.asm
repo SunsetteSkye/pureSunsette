@@ -15,6 +15,7 @@
 
 	; tm/hm learnset
 	tmhm \
+	LEAP_ATTACK,\
 	TOXIC,\
 	BODY_SLAM,\
 	DISABLE,\
@@ -28,13 +29,12 @@
 	THUNDER,\
 	EARTHQUAKE,\
 	RIPTIDE,\
-	MIRAGE,\
 	REFLECT,\
 	BULK_UP,\
 	ILL_WIND,\
 	SHADOW_BALL,\
 	FIRE_BLAST,\
-	TWISTER,\
+	TEMPEST,\
 	SUBSTITUTE,\
 	SURF,\
 	STRENGTH,\
@@ -68,7 +68,10 @@
 ;@ learn       35, BLOOD_RUSH
 ;@ learn       40, RIPTIDE
 ;@ learn       45, LEAP_ATTACK
-;@ learn       50, OUTRAGE
+;@ learn       50, INDIGNATION
 ;@ learn       55, DOUBLE_EDGE
 ;@ learn       60, HYDRO_PUMP
 ;@ learn       65, HYPER_BEAM
+;@ tutor       HURRICANE
+;@ tutor       METEOR_DRIVE
+;@ tutor       EGG_BOMB

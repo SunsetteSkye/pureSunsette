@@ -15,6 +15,7 @@
 
 	; tm/hm learnset
 	tmhm \
+	LEAP_ATTACK,\
 	MUD_BOMB,\
 	TOXIC,\
 	BODY_SLAM,\
@@ -29,7 +30,7 @@
 	REFLECT,\
 	BULK_UP,\
 	SHADOW_BALL,\
-	TWISTER,\
+	TEMPEST,\
 	LOVELY_KISS,\
 	LIGHT_SCREEN,\
 	SHADOW_GAME,\
@@ -48,7 +49,7 @@
 	dw 0, SeelPicBack
 
 ; --- Sunsette SSOT directives (parsed by tools/gen_pokemon_data.py) ---
-;@ nature       NATURE_GENTLE NATURE_CAUTIOUS
+;@ nature       NATURE_PLAYFUL NATURE_LAZY
 ;@ pal_battle   PAL_PEARLMON
 ;@ pal_altbattle PAL_AQUAMON
 ;@ pal_icon     PAL_ICON_45
@@ -69,3 +70,6 @@
 ;@ learn       50, BLIZZARD
 ;@ learn       55, SWIFT
 ;@ learn       59, SHELL_GAME
+;@ tutor       PAY_DAY
+;@ tutor       METEOR_DRIVE
+;@ tutor       SWIFT

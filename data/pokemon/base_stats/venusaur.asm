@@ -15,36 +15,42 @@
 
 	; tm/hm learnset
 	tmhm \
-	MUD_BOMB,\
-	PIN_MISSILE,\
-	TOXIC,\
-	HONE_EDGE,\
-	BODY_SLAM,\
 	DISABLE,\
-	DOUBLE_EDGE,\
-	AQUA_RING,\
-	HYPER_BEAM,\
-	CALM_MIND,\
-	LOW_KICK,\
-	METEOR_SWEEP,\
-	BARRIER,\
-	ADAPTATION,\
-	SOLARBEAM,\ 
-	WYRM_WRATH,\
-	EARTHQUAKE,\
-	DIG,\
-	MEGA_DRAIN,\
 	SWORDS_DANCE,\
-	REFLECT,\
+	SHADOW_GAME,\
+	TOXIC,\
+	SLUDGE_BOMB,\
+	BODY_SLAM,\
+	DOUBLE_EDGE,\
+	WATER_PULSE,\
+	SUPER_SOAK,\
+	HYPER_BEAM,\
+	GIGA_DRAIN,\
+	MEGA_DRAIN,\
+	SOLARBEAM,\
+	EARTHQUAKE,\
+	MUD_BOMB,\
+	DIG,\
 	BULK_UP,\
+	REFLECT,\
+	LIGHT_SCREEN,\
 	ILL_WIND,\
 	SHADOW_BALL,\
-	TWISTER,\
-	VOID_MIND,\
-	LIGHT_SCREEN,\
-	SHADOW_GAME,\
-	ROCK_ON,\
+	BARRIER,\
+	METEOR_SWEEP,\
+	ROCK_SLIDE,\
+	OROCLASM,\
 	SUBSTITUTE,\
+	AQUA_RING,\
+	ADAPTATION,\
+	CALM_MIND,\
+	VOID_MIND,\
+	PSYCHO_SHIFT,\
+	LEAP_ATTACK,\
+	PIN_MISSILE,\
+	LEECH_LIFE,\
+	TEMPEST,\
+	ROCK_ON,\
 	CUT,\
 	STRENGTH,\
 	FLASH
@@ -75,7 +81,11 @@
 ;@ learn       18, STUN_SPORE
 ;@ learn       21, RAZOR_LEAF
 ;@ learn       25, EMETIC_PURGE
-;@ learn       33, SLEEP_POWDER
-;@ learn       38, VENOM_LASH
-;@ learn       45, SENBONZAKURA
-;@ learn       52, TOXIC
+;@ learn       35, SLEEP_POWDER
+;@ learn       40, VENOM_LASH
+;@ learn       47, TOXIC
+;@ learn       56, SOLARBEAM
+;@ tutor       PISTON_KICK
+;@ tutor       HURRICANE
+;@ tutor       METEOR_DRIVE
+;@ tutor       EGG_BOMB

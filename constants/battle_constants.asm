@@ -79,24 +79,24 @@ DEF EFFECTIVENESS_MASK EQU %01111111
 
 ; wPlayerBattleStatus1 or wEnemyBattleStatus1 bit flags
 	const_def
-	const DEFENSE_CURLED           ; 0 ; PureRGBnote: CHANGED: used to be bide, now it's for defense curl's super effective move resist
+	const FINISHER_INTERRUPTED   ; 0 ; Sunsette: FINISHER took a direct damaging hit this turn -> drops 150->50 BP. Cleared at turn start, set in ApplyDamageTo*Pokemon, read by FinisherPowerImpl. (Reclaimed the old DEFENSE_CURLED bit.)
 	const THRASHING_ABOUT          ; 1 ; e.g. Thrash, Petal Dance
 	const ATTACKING_MULTIPLE_TIMES ; 2 ; e.g. Double Kick, Fury Attack
 	const FLINCHED                 ; 3
 	const CHARGING_UP              ; 4 ; e.g. Fly/Dig
-	const USING_TRAPPING_MOVE      ; 5 ; e.g. Wrap
+	const ENERGIZED                ; 5 ; Sunsette: ENERGY FLUX capacitor charge is stored (was USING_TRAPPING_MOVE, reclaimed). Set by EnergyFluxEffect_; cleared on discharge (user lands a special-typed damaging hit) by EnergyFluxDischarge.
 	const INVULNERABLE             ; 6 ; first turn of Fly/Dig
 	const CONFUSED                 ; 7
 
 ; wPlayerBattleStatus2 or wEnemyBattleStatus2 bit flags
 	const_def
-	const USING_X_ACCURACY         ; 0
+	const COMBO_MOVE_USED        ; 0 ; Sunsette: a COMBO MOVE (SHADOW BOX / FINISHER / SHORYUKEN) was used last turn -> no combo move this turn. Set+checked+cleared by CheckComboMoveLock. (Reclaimed the old USING_X_ACCURACY bit.)
 	const STAT_DOWN_IMMUNITY       ; 1 ; Mist and Guard Spec primary effect
 	const GETTING_PUMPED           ; 2 ; Focus Energy
 	const DOUBLE_FLOURISH          ; 3 ; Sunsette: AQUA RING - doubles the FLOURISH regen (1/8 instead of 1/16). Reclaimed (was Haze's removed PSYCHIC_IMMUNITY).
 	const HAS_SUBSTITUTE_UP        ; 4
 	const NEEDS_TO_RECHARGE        ; 5 ; Hyper Beam
-	const NORMAL_DRAGON_IMMUNITY   ; 6 ; Mist secondary effect
+	const BATTLESTATUS2_UNUSED_6   ; 6 ; Sunsette: FREE - was NORMAL_DRAGON_IMMUNITY (vanilla Mist's NORMAL/DRAGON immunity; dead since AURORA MIST stopped using vanilla Mist). Reclaimable.
 	const SEEDED                   ; 7
 
 ; wPlayerBattleStatus3 or wEnemyBattleStatus3 bit flags
