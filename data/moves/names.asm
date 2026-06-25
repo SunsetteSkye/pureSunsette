@@ -186,6 +186,7 @@ MoveNameJumpTable::
 	dw SLAMName
 	dw PSYSHOCKName
 	dw FLUTTERKICKName
+	dw HYDROBATHName
 	dw STRUGGLEName
 	assert_table_length NUM_ATTACKS
 
@@ -563,5 +564,7 @@ PSYSHOCKName:
 	db "PSYSHOCK@"
 FLUTTERKICKName:
 	db "FLUTTER KICK@"
+HYDROBATHName:
+	db "HYDROBATH@"
 STRUGGLEName:
 	db "STRUGGLE@"

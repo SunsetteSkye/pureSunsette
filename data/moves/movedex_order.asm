@@ -70,6 +70,7 @@ MovedexOrder:
 	db HI_JUMP_KICK
 	db HONE_EDGE
 	db HURRICANE
+	db HYDROBATH
 	db HYDRO_PUMP
 	db HYPER_BEAM
 	db HYPER_FANG

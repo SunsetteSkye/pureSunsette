@@ -186,3 +186,15 @@ _PsyshockDexEntry::
 	next "hits the foe"
 	next "physically."
 	dex
+
+; Sunsette: HYDROBATH - two-turn no-damage setup. Dives invulnerable, then surfaces curing status + SPE/SPC +2.
+_HydrobathDexEntry::
+	text "The user dives"
+	next "and hides a turn,"
+	next "then bursts back"
+	next "up, renewed."
+
+	bage "It cures status,"
+	next "raising SPEED and"
+	next "SPECIAL by two."
+	dex

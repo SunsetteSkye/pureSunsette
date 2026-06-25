@@ -15,26 +15,32 @@
 
 	; tm/hm learnset
 	tmhm \
-	LEAP_ATTACK,\
-	MUD_BOMB,\
+	DISABLE,\
+	AURORA_MIST,\
 	TOXIC,\
 	BODY_SLAM,\
-	DISABLE,\
 	DOUBLE_EDGE,\
-	AQUA_RING,\
+	WATER_PULSE,\
+	SUPER_SOAK,\
 	ICE_BEAM,\
 	BLIZZARD,\
-	CALM_MIND,\
-	BARRIER,\
-	RIPTIDE,\
-	REFLECT,\
+	SOLARBEAM,\
+	MUD_BOMB,\
+	DEMOLISH,\
 	BULK_UP,\
-	SHADOW_BALL,\
-	TEMPEST,\
-	LOVELY_KISS,\
+	REFLECT,\
 	LIGHT_SCREEN,\
-	SHADOW_GAME,\
+	BARRIER,\
 	SUBSTITUTE,\
+	RIPTIDE,\
+	AQUA_RING,\
+	ADAPTATION,\
+	CALM_MIND,\
+	LOVELY_KISS,\
+	LEAP_ATTACK,\
+	PIN_MISSILE,\
+	TEMPEST,\
+	ROCK_ON,\
 	SURF,\
 	STRENGTH,\
 	FLASH
@@ -55,21 +61,21 @@
 ;@ pal_icon     PAL_ICON_45
 ;@ pal_alticon  PAL_ICON_46
 ;@ evo         EVOLVE_LEVEL, 27, DEWGONG
-;@ evo_move    NO_MOVE
+;@ evo_move    SING
 ;@ evo_react   NONE
-;@ learn       16, HEADBUTT
-;@ learn       21, AURORA_BEAM
-;@ learn       24, WATER_PULSE
-;@ learn       26, VENOM_LASH
-;@ learn       30, REST
-;@ learn       32, BODY_SLAM
-;@ learn       35, ICE_BEAM
-;@ learn       39, METEOR_DRIVE
-;@ learn       41, AURORA_MIST
-;@ learn       43, CALM_MIND
-;@ learn       50, BLIZZARD
-;@ learn       55, SWIFT
-;@ learn       59, SHELL_GAME
+;@ learn       8, HEADBUTT
+;@ learn       12, WATER_PULSE
+;@ learn       16, SAPPING_COLD
+;@ learn       20, AURORA_BEAM
+;@ learn       24, SLAM
+;@ learn       28, RIPTIDE
+;@ learn       32, REST
+;@ learn       36, ICE_BEAM
+;@ learn       40, AURORA_MIST
+;@ learn       44, HYDRO_PUMP
+;@ learn       48, CALM_MIND
+;@ learn       54, BLIZZARD
+;@ learn       60, HYDROBATH
 ;@ tutor       PAY_DAY
 ;@ tutor       METEOR_DRIVE
 ;@ tutor       SWIFT

@@ -272,4 +272,5 @@ DEF SET_PAL_DEFAULT EQU $ff
 	const PAL_CHARIZARDALT ; Sunsette: alt Charizard icon+battle (white / 787890 / 008ab2 / black)
 	const PAL_CHARMELEONALT ; Sunsette: alt Charmeleon BATTLE (white / 80c8e8 / 8090b0 / black)
 	const PAL_CHARMELEONALTICON ; Sunsette: alt Charmeleon ICON (white / f8f8f0 / 8090b0 / black)
+	const PAL_DEXFRAME ; Sunsette: Pokedex entry frame (white / 28a8f8 / d80828 / black)
 DEF NUM_SGB_PALS EQU const_value

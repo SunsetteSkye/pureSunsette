@@ -163,13 +163,21 @@ _ExeggutorDexEntry::
 	dex
 
 _LickitungDexEntry::
-	text "Its tongue can be"
-	next "extended like a"
-	next "chameleon's. It"
+	text "Its tongue is"
+	next "incredibly"
+	next "sensitive, and"
 
-	bage "leaves a tingling"
-	next "sensation when it"
-	next "licks enemies"
+	bage "toxic from rampant"
+	next "bacteria."
+	next "It knows this, so"
+
+	bage "it slurps what it"
+	next "wants for later,"
+	next "even if uneaten."
+
+	bage "Most aren't brave"
+	next "enough to eat it"
+	next "after that."
 	dex
 
 _ExeggcuteDexEntry::
@@ -2176,7 +2184,7 @@ _CharmanderDexEntry::
 
 	bage "Even so, each"
 	next "hunts alone."
-	next "No one knows why."
+	next "None know why<...>"
 	dex
 
 _SquirtleDexEntry::

@@ -188,6 +188,7 @@ MovedexEntryPointers:
 	dw SlamDexEntry
 	dw PsyshockDexEntry
 	dw FlutterKickDexEntry
+	dw HydrobathDexEntry
 	dw StruggleDexEntry
 	assert_table_length NUM_ATTACKS
 
@@ -933,6 +934,10 @@ SlamDexEntry: ; Sunsette: NEW plain NORMAL Slam (the old stale SlamDexEntry was 
 
 PsyshockDexEntry:
 	text_far _PsyshockDexEntry ; text body in movedex_text2.asm
+	text_end
+
+HydrobathDexEntry:
+	text_far _HydrobathDexEntry ; text body in movedex_text2.asm
 	text_end
 
 StruggleDexEntry:

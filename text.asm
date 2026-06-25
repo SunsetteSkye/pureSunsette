@@ -340,6 +340,11 @@ INCLUDE "data/pokemon/dex_text.asm"
 SECTION "Move Names", ROMX
 
 INCLUDE "data/moves/names.asm"
+; Sunsette 2026-06-25 FIX: _GetMoveName must be CO-LOCATED with MoveNameJumpTable above (it reads the table
+; in-bank, no bankswitch). It was in the floated "Evos Moves" section (bank $42 != $2C), so every GetMoveName
+; dereferenced garbage and CopyString ran away. Pinning it here in $2C with the table fixes the FIGHT move
+; menu crash AND the status-screen moves-page whitescreen (same root cause).
+INCLUDE "engine/pokemon/get_move_name.asm"
 
 SECTION "Movedex Text", ROMX
 

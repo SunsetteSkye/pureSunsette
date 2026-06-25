@@ -159,7 +159,6 @@ INCLUDE "engine/battle/move_effects/pay_day.asm"
 
 SECTION "Battle Engine 6", ROMX
 
-INCLUDE "engine/battle/move_effects/mist.asm"
 INCLUDE "engine/battle/move_effects/one_hit_ko.asm"
 
 
@@ -204,6 +203,13 @@ INCLUDE "engine/battle/core.asm"
 INCLUDE "engine/battle/effects.asm"
 
 INCLUDE "engine/battle/growth_regen.asm"
+
+
+; Sunsette 2026-06-25: floated (no bank pin) so the linker drops the move-effect far-dispatch table +
+; reader into any bank with room. Pulled OUT of Battle Core, which is full; see effect_dispatch.asm.
+SECTION "Move Effect Dispatch", ROMX
+
+INCLUDE "engine/battle/effect_dispatch.asm"
 
 
 SECTION "bank10", ROMX
@@ -348,7 +354,10 @@ INCLUDE "engine/pokemon/get_mon_header.asm"
 INCLUDE "engine/pokemon/evos_moves.asm"
 INCLUDE "data/pokemon/base_stats.asm"
 INCLUDE "engine/pokemon/read_level_up_learnsets.asm"
-INCLUDE "engine/pokemon/get_move_name.asm"
+; Sunsette 2026-06-25 FIX: get_move_name.asm MOVED to the "Move Names" section (text.asm). _GetMoveName reads
+; MoveNameJumpTable in-bank (no bankswitch), so it must share that table's bank ($2C). Here in the floated
+; "Evos Moves" section it landed in bank $42 and dereferenced $42:$4000 = garbage -> bad name pointer ->
+; CopyString ran away with no $50 terminator -> WRAM spray -> crashed the FIGHT move menu + status moves page.
 
 SECTION "Splash Animation", ROMX
 ; PureRGBnote: MOVED: moved from bank1C
@@ -480,6 +489,7 @@ INCLUDE "engine/battle/splash.asm" ; Sunsette: SPLASH MAGIKARP-signature comedy 
 INCLUDE "engine/battle/critical_hit.asm" ; Sunsette: CriticalHitTest + helpers + high-crit table, floated out of the full Battle Core bank (self-contained SECTION); incl. POISON's flat crit-floor vs a statused foe (auto-crit-vs-status fully retired)
 INCLUDE "engine/battle/sleep_hit_reduction.asm" ; Sunsette: hitting a sleeping target wears down its sleep (1 round per hit, 2 per crit), applied after the turn (self-contained SECTION)
 INCLUDE "engine/battle/black_haze.asm" ; Sunsette: SHADOW GAME field effect - badly poison + EVASION +2 both sides after the Haze reset (self-contained floating SECTION; newCode is full)
+INCLUDE "engine/battle/semi_invuln_reach.asm" ; Sunsette: Fly/Dig/HYDROBATH reach + auto-hit hit-test (CheckSemiInvulnBypass/CheckReachAndAutoHit), floated out of full newCode into its own SECTION (callfar'd, self-contained)
 INCLUDE "data/trainers/custom_movesets.asm" ; Sunsette: floated out of full newCode into its own SECTION (callfar'd, self-contained function + data); the GymKogaMoveset addition tipped newCode over
 INCLUDE "engine/battle/arena_indicator.asm" ; Sunsette: per-arena battle-menu status glyphs (self-contained floating SECTION; newCode is full)
 

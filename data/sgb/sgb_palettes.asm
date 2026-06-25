@@ -268,4 +268,5 @@ ENDC
 	RGB 31,31,31, 15,15,18, 00,17,22, 00,00,00 ; PAL_CHARIZARDALT ; Sunsette: alt Charizard (icon+battle) - white / 787890 / 008ab2 / black
 	RGB 31,31,31, 16,24,28, 16,18,21, 00,00,00 ; PAL_CHARMELEONALT ; Sunsette: alt Charmeleon BATTLE - white / 80c8e8 / 8090b0 / black
 	RGB 31,31,31, 30,30,29, 16,18,21, 00,00,00 ; PAL_CHARMELEONALTICON ; Sunsette: alt Charmeleon ICON - white / f8f8f0 / 8090b0 / black
+	RGB 31,31,31,  5,21,31, 27, 1, 5, 00,00,00 ; PAL_DEXFRAME ; Sunsette: Pokedex entry frame - white / 28a8f8 / d80828 / black
 	assert_table_length NUM_SGB_PALS

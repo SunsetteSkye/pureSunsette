@@ -1,6 +1,6 @@
 	db DEX_DEWGONG ; pokedex id
 
-	db  90,  70,  80,  90,  95
+	db  90,  70,  80,  70,  95
 	;   hp  atk  def  spd  spc
 
 	db WATER, ICE ; type
@@ -10,31 +10,40 @@
 	INCBIN "gfx/pokemon/front/dewgong.pic", 0, 1 ; sprite dimensions
 	dw DewgongPicFront, DewgongPicBackSW
 
-	db TACKLE, SUPER_SOAK, NO_MOVE, NO_MOVE ; level 1 learnset
+	db TACKLE, SUPER_SOAK, SING, NO_MOVE ; level 1 learnset
 	db GROWTH_MEDIUM_FAST ; growth rate
 
 	; tm/hm learnset
 	tmhm \
-	LEAP_ATTACK,\
-	MUD_BOMB,\
+	HONE_EDGE,\
+	DISABLE,\
+	SWORDS_DANCE,\
+	AURORA_MIST,\
 	TOXIC,\
 	BODY_SLAM,\
-	DISABLE,\
 	DOUBLE_EDGE,\
-	AQUA_RING,\
+	WATER_PULSE,\
+	SUPER_SOAK,\
 	ICE_BEAM,\
 	BLIZZARD,\
 	HYPER_BEAM,\
-	CALM_MIND,\
-	BARRIER,\
-	RIPTIDE,\
-	REFLECT,\
+	SOLARBEAM,\
+	MUD_BOMB,\
+	DEMOLISH,\
 	BULK_UP,\
-	SHADOW_BALL,\
-	TEMPEST,\
-	LOVELY_KISS,\
+	REFLECT,\
 	LIGHT_SCREEN,\
+	BARRIER,\
 	SUBSTITUTE,\
+	RIPTIDE,\
+	AQUA_RING,\
+	ADAPTATION,\
+	CALM_MIND,\
+	LOVELY_KISS,\
+	LEAP_ATTACK,\
+	PIN_MISSILE,\
+	TEMPEST,\
+	ROCK_ON,\
 	SURF,\
 	STRENGTH,\
 	FLASH
@@ -57,19 +66,19 @@
 ;@ evo_react   "It dives, leaving" "a frosty trail!"
 ;@ evo_react   "It barks, breath" "fogging cold!"
 ;@ evo_react   "It glides on ice" "with a happy spin!"
-;@ learn       16, HEADBUTT
-;@ learn       21, AURORA_BEAM
-;@ learn       24, WATER_PULSE
-;@ learn       26, VENOM_LASH
-;@ learn       30, REST
-;@ learn       32, BODY_SLAM
-;@ learn       35, ICE_BEAM
-;@ learn       39, METEOR_DRIVE
-;@ learn       41, AURORA_MIST
-;@ learn       43, CALM_MIND
-;@ learn       50, BLIZZARD
-;@ learn       55, SWIFT
-;@ learn       59, SHELL_GAME
+;@ learn       8, HEADBUTT
+;@ learn       12, WATER_PULSE
+;@ learn       16, SAPPING_COLD
+;@ learn       20, AURORA_BEAM
+;@ learn       24, SLAM
+;@ learn       28, RIPTIDE
+;@ learn       32, REST
+;@ learn       36, ICE_BEAM
+;@ learn       40, AURORA_MIST
+;@ learn       44, HYDRO_PUMP
+;@ learn       48, CALM_MIND
+;@ learn       54, BLIZZARD
+;@ learn       60, HYDROBATH
 ;@ tutor       PAY_DAY
 ;@ tutor       METEOR_DRIVE
 ;@ tutor       SWIFT

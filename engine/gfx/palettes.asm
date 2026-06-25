@@ -198,6 +198,18 @@ LoadPartyIconPalettes::
 	ld a, [wPartyCount]
 	and a
 	ret z
+	; Sunsette FIX: build each icon's CRAM with an IDENTITY OBP0 mapping so pixel
+	; value v -> base color v. GBPalNormal (called just before us) leaves
+	; rOBP0 = %11010000, which folds value 1 -> white and never selects shade 2 -
+	; so base color 2 (the distinguishing accent) is discarded and every icon
+	; washes to white/white/<color1>/black (e.g. Squirtle reads identical to
+	; Charmander). DMGPalToGBCPal CONVERT_OBP0 reads the live rOBP0, so force the
+	; identity here and restore it on exit (register has no direct GBC render
+	; effect; this only governs the conversion + wLastOBP0 bookkeeping).
+	ldh a, [rOBP0]
+	push af
+	ld a, %11100100 ; $E4 identity: value v -> shade v
+	ldh [rOBP0], a
 	xor a
 	ldh [hPartyIconPalIdx], a
 .loop
@@ -254,6 +266,8 @@ LoadPartyIconPalettes::
 	ld a, [wPartyCount]
 	cp b
 	jr nz, .loop
+	pop af
+	ldh [rOBP0], a ; restore the menu's OBP0 mapping
 	ret
 
 ; Sunsette: write attr byte (= row+2, the OBJ palette slot) into the 4 OAM entries

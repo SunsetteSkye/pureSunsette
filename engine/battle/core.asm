@@ -3450,6 +3450,8 @@ CheckIfPlayerNeedsToChargeUp:
 	jp z, JumpMoveEffect
 	cp FLY_EFFECT
 	jp z, JumpMoveEffect
+	cp HYDROBATH_EFFECT ; Sunsette: HYDROBATH's turn-1 dive charges via ChargeEffect (NOT its table handler, which is the turn-2 release)
+	jp z, HydrobathChargeTurn
 	jr PlayerCanExecuteMove
 
 ; in-battle stuff
@@ -5876,6 +5878,8 @@ CheckIfEnemyNeedsToChargeUp:
 	jp z, JumpMoveEffect
 	cp FLY_EFFECT
 	jp z, JumpMoveEffect
+	cp HYDROBATH_EFFECT ; Sunsette: HYDROBATH's turn-1 dive charges via ChargeEffect (NOT its table handler, which is the turn-2 release)
+	jp z, HydrobathChargeTurn
 	jr EnemyCanExecuteMove
 EnemyCanExecuteChargingMove:
 	ld hl, wEnemyBattleStatus1

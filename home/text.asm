@@ -257,7 +257,20 @@ ContText::
 	jp PlaceNextChar
 
 PlaceDexEnd::
+; PureRGBnote: CHANGED: only auto-append a period when the entry text does not
+; already end in terminal punctuation. This lets a dex entry end in its own
+; '.', '!', '?' or "..." (which places '.' tiles) without double-printing.
+	dec hl
+	ld a, [hl]
+	inc hl
+	cp '.'
+	jr z, .alreadyPunctuated
+	cp '!'
+	jr z, .alreadyPunctuated
+	cp '?'
+	jr z, .alreadyPunctuated
 	ld [hl], '.'
+.alreadyPunctuated
 	pop hl
 	ret
 

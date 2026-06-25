@@ -219,7 +219,8 @@
 	const SLAM         ; b8 ; Sunsette: NEW plain NORMAL 80-BP move (vanilla SLAM's slot is now TEMPEST; this reclaims the free SLAM const). Before STRUGGLE so only STRUGGLE shifts.
 	const PSYSHOCK     ; b9 ; Sunsette: PSYCHIC (special-category) move that hits the target's physical DEFENSE (PsyshockSwapDefender in the damage calc). Before STRUGGLE so only STRUGGLE shifts.
 	const FLUTTER_KICK ; ba ; Sunsette: FLYING clone of BONEMERANG (hits twice, 30% -SPEED). No Fly/Dig bypass; FLOATING users get STAB (ShouldMoveGetStabBoost). Before STRUGGLE so only STRUGGLE shifts.
-	const STRUGGLE     ; bb
+	const HYDROBATH    ; bb ; Sunsette: WATER two-turn no-damage setup (Goldeen/Seaking/Seel/Dewgong). Charges invulnerable like Dig but breached by ELECTRIC, not ground; surfaces to cure status + SPEED/SPECIAL +2. Before STRUGGLE so only STRUGGLE shifts.
+	const STRUGGLE     ; bc
 DEF NUM_ATTACKS EQU const_value - 1
 
 DEF CANNOT_MOVE EQU $ff

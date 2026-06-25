@@ -187,6 +187,7 @@ MoveSoundTable:
 	db SFX_BATTLE_22,          $00, $80 ; SLAM (Sunsette: the classic SLAM hit sound)
 	db SFX_PSYCHIC_M,          $00, $80 ; PSYSHOCK (Sunsette: clones PSYCHIC's tone, matching its placeholder anim)
 	db SFX_BATTLE_17,          $f0, $40 ; FLUTTER_KICK (Sunsette: clones DOUBLE KICK's sfx, matching its placeholder anim)
+	db SFX_BATTLE_2C,          $00, $80 ; HYDROBATH (Sunsette: clones SURF's water sound, matching its placeholder splash anim)
 	db SFX_BATTLE_2C,          $20, $00 ; STRUGGLE ; actually used for HAZE
 	assert_table_length NUM_ATTACKS
 	db SFX_BATTLE_0B,          $00, $80

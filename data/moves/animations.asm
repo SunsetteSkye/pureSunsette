@@ -188,6 +188,7 @@ AttackAnimationPointers:
 	dw SlamAnim
 	dw PsyshockAnim
 	dw FlutterKickAnim
+	dw HydrobathAnim
 	dw StruggleAnim
 	assert_table_length NUM_ATTACKS
 	dw ShowPicAnim
@@ -333,6 +334,10 @@ PhoenixDiveAnim:
 
 StruggleAnim:
 	battle_anim POUND, SUBANIM_0_STAR_TWICE, 0, 8
+	db -1 ; end
+
+HydrobathAnim: ; Sunsette: placeholder = a surfacing splash (own label; refine later). Played turn 2 via PlayCurrentMoveAnimation2.
+	battle_anim SURF, SE_WATER_DROPLETS_EVERYWHERE
 	db -1 ; end
 
 RockSmashAnim: ; Sunsette: placeholder = Struggle's animation (own label; refine later)

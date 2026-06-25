@@ -1,125 +1,133 @@
 MoveEffectPointerTable:
 ; entries correspond to *_EFFECT constants
-	table_width 2
-	dw BigRecoilEffect           ; BIG_RECOIL_EFFECT
-	dw PoisonEffect              ; POISON_SIDE_EFFECT1
-	dw DrainHPEffect             ; DRAIN_HP_EFFECT
-	dw FreezeBurnParalyzeEffect  ; BURN_SIDE_EFFECT1
-	dw FreezeBurnParalyzeEffect  ; FREEZE_SIDE_EFFECT1
-	dw FreezeBurnParalyzeEffect  ; PARALYZE_SIDE_EFFECT1
-	dw DoRet                     ; EXPLODE_EFFECT
-	dw DrainHPEffect             ; DREAM_EATER_EFFECT
-	dw NULL                      ; MIRROR_MOVE_EFFECT
-	dw StatModifierUpEffect      ; ATTACK_UP1_EFFECT
-	dw StatModifierUpEffect      ; DEFENSE_UP1_EFFECT
-	dw StatModifierUpEffect      ; SPEED_UP1_EFFECT
-	dw StatModifierUpEffect      ; SPECIAL_UP1_EFFECT
-	dw StatModifierUpEffect      ; ACCURACY_UP1_EFFECT
-	dw StatModifierUpEffect      ; EVASION_UP1_EFFECT
-	dw PayDayEffect              ; PAY_DAY_EFFECT
-	dw HazeEffect                ; SWIFT_EFFECT ; Sunsette: shares the Haze/Flash trampoline; the floating HazeFlinchEffect_ dispatches it to SwiftEffect_ (30% -1 EVASION). Never-miss is still handled by the hit-test.
-	dw StatModifierDownEffect    ; ATTACK_DOWN1_EFFECT
-	dw StatModifierDownEffect    ; DEFENSE_DOWN1_EFFECT
-	dw StatModifierDownEffect    ; SPEED_DOWN1_EFFECT
-	dw StatModifierDownEffect    ; SPECIAL_DOWN1_EFFECT
-	dw AccuracyDownEffect        ; ACCURACY_DOWN1_EFFECT
-	dw StatModifierDownEffect    ; EVASION_DOWN1_EFFECT
-	dw TriAttackEffect           ; TRI_ATTACK_EFFECT
-	dw HazeEffect                ; HAZE_EFFECT
-	dw TwoToFiveAttacksEffect    ; TWO_OR_THREE_ATTACKS_EFFECT
-	dw ThrashPetalDanceEffect    ; THRASH_PETAL_DANCE_EFFECT
-	dw TeleportEffect            ; TELEPORT_EFFECT
-	dw TwoToFiveAttacksEffect    ; TWO_TO_FIVE_ATTACKS_EFFECT
-	dw MirageEffect              ; MIRAGE_EFFECT
-	dw FlinchSideEffect          ; FLINCH_SIDE_EFFECT1
-	dw SleepEffect               ; SLEEP_EFFECT
-	dw PoisonEffect              ; POISON_SIDE_EFFECT2
-	dw FreezeBurnParalyzeEffect  ; BURN_SIDE_EFFECT2
-	dw FreezeBurnParalyzeEffect  ; FREEZE_SIDE_EFFECT2 ; Sunsette: 30% freeze, handled natively by the EFFECT2 path
-	dw FreezeBurnParalyzeEffect  ; PARALYZE_SIDE_EFFECT2
-	dw FlinchSideEffect          ; FLINCH_SIDE_EFFECT2
-	dw OneHitKOEffect            ; OHKO_EFFECT
-	dw ChargeEffect              ; CHARGE_EFFECT
-	dw NULL                      ; SUPER_FANG_EFFECT
-	dw NULL                      ; SPECIAL_DAMAGE_EFFECT
-	dw TrappingEffect            ; TRAPPING_EFFECT
-	dw ChargeEffect              ; FLY_EFFECT
-	dw TwoToFiveAttacksEffect    ; ATTACK_TWICE_EFFECT
-	dw NULL                      ; JUMP_KICK_EFFECT
-	dw HazeEffect                ; MIST_EFFECT ; Sunsette: AURORA MIST - shares the Haze trampoline; HazeFlinchEffect_ dispatches it to AuroraMistEffect_ (Mist stat-immunity + clear both statuses; Ice user raises both screens, non-Ice retypes to ICE + CYANMON)
-	dw FocusEnergyEffect         ; FOCUS_ENERGY_EFFECT
-	dw RecoilEffect              ; RECOIL_EFFECT
-	dw ConfusionEffect           ; CONFUSION_EFFECT
-	dw StatModifierUpEffect      ; ATTACK_UP2_EFFECT
-	dw StatModifierUpEffect      ; DEFENSE_UP2_EFFECT
-	dw StatModifierUpEffect      ; SPEED_UP2_EFFECT
-	dw StatModifierUpEffect      ; SPECIAL_UP2_EFFECT
-	dw StatModifierUpEffect      ; ACCURACY_UP2_EFFECT
-	dw StatModifierUpEffect      ; EVASION_UP2_EFFECT
-	dw HealEffect                ; HEAL_EFFECT
-	dw TransformEffect           ; TRANSFORM_EFFECT
-	dw StatModifierDownEffect    ; ATTACK_DOWN2_EFFECT
-	dw StatModifierDownEffect    ; DEFENSE_DOWN2_EFFECT
-	dw StatModifierDownEffect    ; SPEED_DOWN2_EFFECT
-	dw StatModifierDownEffect    ; SPECIAL_DOWN2_EFFECT
-	dw StatModifierDownEffect    ; ACCURACY_DOWN2_EFFECT
-	dw StatModifierDownEffect    ; EVASION_DOWN2_EFFECT
-	dw ReflectLightScreenEffect  ; LIGHT_SCREEN_EFFECT
-	dw ReflectLightScreenEffect  ; REFLECT_EFFECT
-	dw PoisonEffect              ; POISON_EFFECT
-	dw ParalyzeEffect            ; PARALYZE_EFFECT
-	dw StatModifierDownEffect    ; ATTACK_DOWN_SIDE_EFFECT
-	dw StatModifierDownEffect    ; DEFENSE_DOWN_SIDE_EFFECT
-	dw StatModifierDownEffect    ; SPEED_DOWN_SIDE_EFFECT
-	dw StatModifierDownEffect    ; SPECIAL_DOWN_SIDE_EFFECT
-	dw StatUpSideEffect          ; ATTACK_UP_SIDE_EFFECT
-	dw AccuracyAttackUpEffect    ; ATTACK_ACCURACY_UP1_EFFECT
-	dw AttackDefenseUpEffect     ; ATTACK_DEFENSE_UP1_EFFECT
-	dw ConfusionBigSideEffect    ; CONFUSION_BIG_SIDE_EFFECT
-	dw ConfusionSideEffect       ; CONFUSION_SIDE_EFFECT
-	dw TwoToFiveAttacksEffect    ; TWINEEDLE_EFFECT
-	dw VoidMindEffect            ; VOID_MIND_EFFECT
-	dw SubstituteEffect          ; SUBSTITUTE_EFFECT
-	dw HyperBeamEffect           ; HYPER_BEAM_EFFECT
-	dw TwoToFiveAttacksEffect    ; BONEMERANG_EFFECT
-	dw MimicEffect               ; MIMIC_EFFECT
-	dw NULL                      ; METRONOME_EFFECT
-	dw LeechSeedEffect           ; LEECH_SEED_EFFECT
-	dw SplashEffect              ; SPLASH_EFFECT
-	dw DisableEffect             ; DISABLE_EFFECT
-	dw WithdrawEffect            ; WITHDRAW_EFFECT
-	dw GrowthEffect              ; GROWTH_EFFECT
-	dw DefenseCurlEffect         ; DEFENSE_CURL_EFFECT
-	dw ReflectLightScreenEffect  ; ACID_ARMOR_EFFECT
-	dw ExplodeRecoilEffect       ; EXPLODE_RECOIL_EFFECT
-	dw ConversionEffect          ; CONVERSION_EFFECT
-	dw MaximizeEffect            ; MAXIMIZE_EFFECT ; Sunsette: was ACID_SIDE_EFFECT (AcidEffect, unused). MaximizeEffect is a trampoline -> jpfar MaximizeEffect_
-	dw SiphonSnagEffect          ; SIPHON_SNAG_EFFECT
-	dw HeatRushEffect            ; HEAT_RUSH_EFFECT
-	dw MegaPunchEffect           ; MEGA_PUNCH_EFFECT
-	dw ScreechEffect             ; SCREECH_EFFECT
-	dw WaterifyEffect            ; WATERIFY_EFFECT
-	dw DisableEffectCore         ; CUT_DISABLE_EFFECT ; Sunsette: runs after Cut's damage -> disable the target's last move (in Battle Core, so no trampoline needed)
-	dw NULL                      ; SPEED_UP_SIDE_EFFECT ; Sunsette: moved here from $23 (NULL handler; Meditate applies it via stat-mapping)
-	dw HazeEffect                ; FLASH_EFFECT ; Sunsette: shares Haze's Battle Core trampoline (Battle Core is full); the floating HazeFlinchEffect_ dispatches Haze vs Flash by effect
-	dw HazeEffect                ; ACCURACY_DOWN_SIDE_EFFECT ; Sunsette: also shares the Haze trampoline; HazeFlinchEffect_ dispatches it to GustAccuracyEffect_ (30% -1 ACCURACY, post-damage)
-	dw HazeEffect                ; SOLARBEAM_EFFECT ; Sunsette: also shares the Haze trampoline; HazeFlinchEffect_ dispatches it to SolarBeamEffect_ (drain+prime / release-burn / fire recoil+burn)
-	dw HazeEffect                ; MINDWIPE_EFFECT ; Sunsette: also shares the Haze trampoline; HazeFlinchEffect_ dispatches it to MindwipeEffect_ (retype BUG + gray + -1 ACC, no damage)
-	dw HazeEffect                ; ROOST_EFFECT ; Sunsette: also shares the Haze trampoline; HazeFlinchEffect_ dispatches it to RoostEffect_ (heal + natural-type/palette refresh + strip FLYING/FLOATING)
-	dw HazeEffect                ; SHADOW_BOX_EFFECT ; Sunsette: shares the Haze trampoline; HazeFlinchEffect_ dispatches it to ShadowBoxEffect_ (post-damage confuse rider; the 75/35 power split + brace are handled by ShadowBoxPowerModifier + the damage-path brace)
-	dw HazeEffect                ; HOBBLE_EFFECT ; Sunsette: also shares the Haze trampoline; HazeFlinchEffect_ dispatches it to HobbleEffect_ (guaranteed -1 SPEED and -1 EVASION to the target, post-damage)
-	dw HazeEffect                ; CALM_MIND_EFFECT ; Sunsette: also shares the Haze trampoline; HazeFlinchEffect_ dispatches it to CalmMindEffect_ (+1 user SPECIAL + clear the user's own CONFUSION)
-	dw HazeEffect                ; STRENGTH_EFFECT ; Sunsette: shares the Haze trampoline; dispatched there to a no-op (ret) - the effect just needs to be nonzero so SpeciesMoveBonus runs for STRENGTH
-	dw HazeEffect                ; BLOSSOM_BLITZ_EFFECT ; Sunsette: shares the Haze trampoline; HazeFlinchEffect_ dispatches it to BlossomBlitzEffect_ (50% chance +1 user SPEED, post-damage)
-	dw HazeEffect                ; TEMPEST_EFFECT ; Sunsette: shares the Haze trampoline; dispatched in HazeFlinchEffect_ -> TempestGround (strips the TARGET's FLYING/FLOATING on hit) for TEMPEST
-	dw HazeEffect                ; MIASMA_EFFECT ; Sunsette: also shares the Haze trampoline; HazeFlinchEffect_ dispatches it to MiasmaEffect_ (one-sided stat clear + regular poison, no damage)
-	dw HazeEffect                ; AQUA_RING_EFFECT ; Sunsette: also shares the Haze trampoline; HazeFlinchEffect_ dispatches it to AquaRingEffect_ (FLOURISH + DOUBLE_FLOURISH, no damage)
-	dw HazeEffect                ; CLAY_ARMOR_EFFECT ; Sunsette: also shares the Haze trampoline; HazeFlinchEffect_ dispatches it to ClayArmorEffect_ (type-gated dual screens + Ground heal, no damage)
-	dw HazeEffect                ; METAMORPHIC_EFFECT ; Sunsette: damaging move; the Haze trampoline runs post-damage (hit only) -> MetamorphicEffect_ (heavy recoil; ROCK user sheds ROCK + +6 SPEED + PAL_GAMEFREAK glow)
-	dw HazeEffect                ; SUPERNOVA_EFFECT ; Sunsette: damaging move; the Haze trampoline runs post-damage (hit only) -> SupernovaEffect_ (FIRE user: no recoil + shed FIRE + gray; non-FIRE: heavy recoil + self-burn)
-	dw HazeEffect                ; SENBONZAKURA_EFFECT ; Sunsette: damaging move; shares the Haze trampoline; HazeFlinchEffect_ dispatches it to SenbonzakuraEffect_ (FLOURISH regen scaled by desperation stage; runs even on a KO)
-	dw HazeEffect                ; PSYCHO_SHIFT_EFFECT ; Sunsette: also shares the Haze trampoline; HazeFlinchEffect_ dispatches it to PsychoShiftEffect_ (transfer the user's status + confusion onto the target, no damage)
-	dw HazeEffect                ; SAPPING_COLD_EFFECT ; Sunsette: also shares the Haze trampoline; HazeFlinchEffect_ dispatches it to SappingColdEffect_ (drain + conditional freeze, post-damage)
-	dw HazeEffect                ; ENERGY_FLUX_EFFECT ; Sunsette: also shares the Haze trampoline; HazeFlinchEffect_ dispatches it to EnergyFluxEffect_ (0-BP capacitor setup; discharge handled in the ApplyDamage hooks)
-	dw HazeEffect                ; BUG_OFF_EFFECT ; Sunsette: also shares the Haze trampoline; HazeFlinchEffect_ dispatches it to BugOffEffect_ (confuse + SPECIAL -1, then the user switches out)
+; Sunsette 2026-06-25: FAR-POINTER dispatch. Each entry is `dba <handler>` (db BANK, dw addr) so a handler
+; can live in ANY bank and be reached directly. This replaced the old in-bank `dw <handler>` table, which
+; (because the dispatcher did `jp hl` out of the full Battle Core bank) forced every handler to be in-bank
+; and spawned the per-effect `jpfar` stubs + the 25-deep Haze `cp`-chain trampoline (HazeEffect ->
+; HazeFlinchEffect_). Those are all gone now: every effect points straight at its real body.
+; Read by GetMoveEffectHandler (same bank); dispatched by _JumpMoveEffect (engine/battle/effects.asm).
+; `DoRet` (home) is the no-op handler for effects with no JumpMoveEffect body (handled in damage calc, etc.).
+	table_width 3
+	dba BigRecoilEffect_         ; BIG_RECOIL_EFFECT
+	dba PoisonEffect             ; POISON_SIDE_EFFECT1
+	dba DrainHPEffect_           ; DRAIN_HP_EFFECT
+	dba FreezeBurnParalyzeEffect ; BURN_SIDE_EFFECT1
+	dba FreezeBurnParalyzeEffect ; FREEZE_SIDE_EFFECT1
+	dba FreezeBurnParalyzeEffect ; PARALYZE_SIDE_EFFECT1
+	dba DoRet                    ; EXPLODE_EFFECT
+	dba DrainHPEffect_           ; DREAM_EATER_EFFECT
+	dba DoRet                    ; MIRROR_MOVE_EFFECT ; no JumpMoveEffect body (was NULL)
+	dba StatModifierUpEffect     ; ATTACK_UP1_EFFECT
+	dba StatModifierUpEffect     ; DEFENSE_UP1_EFFECT
+	dba StatModifierUpEffect     ; SPEED_UP1_EFFECT
+	dba StatModifierUpEffect     ; SPECIAL_UP1_EFFECT
+	dba StatModifierUpEffect     ; ACCURACY_UP1_EFFECT
+	dba StatModifierUpEffect     ; EVASION_UP1_EFFECT
+	dba PayDayEffect_            ; PAY_DAY_EFFECT
+	dba SwiftEffect_             ; SWIFT_EFFECT ; Sunsette: auto-hit moves, 30% -1 EVASION post-damage (never-miss via the hit-test)
+	dba StatModifierDownEffect   ; ATTACK_DOWN1_EFFECT
+	dba StatModifierDownEffect   ; DEFENSE_DOWN1_EFFECT
+	dba StatModifierDownEffect   ; SPEED_DOWN1_EFFECT
+	dba StatModifierDownEffect   ; SPECIAL_DOWN1_EFFECT
+	dba _AccuracyDownEffect      ; ACCURACY_DOWN1_EFFECT
+	dba StatModifierDownEffect   ; EVASION_DOWN1_EFFECT
+	dba TriAttackEffect          ; TRI_ATTACK_EFFECT
+	dba HazeResetFieldEffect_    ; HAZE_EFFECT ; Sunsette: stat reset (status preserved) + black-haze toxic fog
+	dba TwoToFiveAttacksEffect   ; TWO_OR_THREE_ATTACKS_EFFECT
+	dba ThrashPetalDanceEffect   ; THRASH_PETAL_DANCE_EFFECT
+	dba _TeleportEffect          ; TELEPORT_EFFECT
+	dba TwoToFiveAttacksEffect   ; TWO_TO_FIVE_ATTACKS_EFFECT
+	dba MirageEffect_            ; MIRAGE_EFFECT
+	dba FlinchSideEffect         ; FLINCH_SIDE_EFFECT1
+	dba _SleepEffect             ; SLEEP_EFFECT
+	dba PoisonEffect             ; POISON_SIDE_EFFECT2
+	dba FreezeBurnParalyzeEffect ; BURN_SIDE_EFFECT2
+	dba FreezeBurnParalyzeEffect ; FREEZE_SIDE_EFFECT2 ; Sunsette: 30% freeze, native EFFECT2 path
+	dba FreezeBurnParalyzeEffect ; PARALYZE_SIDE_EFFECT2
+	dba FlinchSideEffect         ; FLINCH_SIDE_EFFECT2
+	dba OneHitKOEffect_          ; OHKO_EFFECT
+	dba ChargeEffect             ; CHARGE_EFFECT
+	dba DoRet                    ; SUPER_FANG_EFFECT ; no JumpMoveEffect body (was NULL)
+	dba DoRet                    ; SPECIAL_DAMAGE_EFFECT ; no JumpMoveEffect body (was NULL)
+	dba TrappingEffect           ; TRAPPING_EFFECT
+	dba ChargeEffect             ; FLY_EFFECT
+	dba TwoToFiveAttacksEffect   ; ATTACK_TWICE_EFFECT
+	dba DoRet                    ; JUMP_KICK_EFFECT ; no JumpMoveEffect body (was NULL)
+	dba AuroraMistEffect_        ; MIST_EFFECT ; Sunsette: AURORA MIST - Mist stat-immunity + clear both statuses; Ice raises screens, non-Ice retypes to ICE
+	dba FocusEnergyEffect_       ; FOCUS_ENERGY_EFFECT
+	dba DefaultRecoilEffect_     ; RECOIL_EFFECT
+	dba ConfusionEffect          ; CONFUSION_EFFECT
+	dba StatModifierUpEffect     ; ATTACK_UP2_EFFECT
+	dba StatModifierUpEffect     ; DEFENSE_UP2_EFFECT
+	dba StatModifierUpEffect     ; SPEED_UP2_EFFECT
+	dba StatModifierUpEffect     ; SPECIAL_UP2_EFFECT
+	dba StatModifierUpEffect     ; ACCURACY_UP2_EFFECT
+	dba StatModifierUpEffect     ; EVASION_UP2_EFFECT
+	dba HealEffect_              ; HEAL_EFFECT
+	dba TransformEffect_         ; TRANSFORM_EFFECT
+	dba StatModifierDownEffect   ; ATTACK_DOWN2_EFFECT
+	dba StatModifierDownEffect   ; DEFENSE_DOWN2_EFFECT
+	dba StatModifierDownEffect   ; SPEED_DOWN2_EFFECT
+	dba StatModifierDownEffect   ; SPECIAL_DOWN2_EFFECT
+	dba StatModifierDownEffect   ; ACCURACY_DOWN2_EFFECT
+	dba StatModifierDownEffect   ; EVASION_DOWN2_EFFECT
+	dba ReflectLightScreenEffect_ ; LIGHT_SCREEN_EFFECT
+	dba ReflectLightScreenEffect_ ; REFLECT_EFFECT
+	dba PoisonEffect             ; POISON_EFFECT
+	dba ParalyzeEffect_          ; PARALYZE_EFFECT
+	dba StatModifierDownEffect   ; ATTACK_DOWN_SIDE_EFFECT
+	dba StatModifierDownEffect   ; DEFENSE_DOWN_SIDE_EFFECT
+	dba StatModifierDownEffect   ; SPEED_DOWN_SIDE_EFFECT
+	dba StatModifierDownEffect   ; SPECIAL_DOWN_SIDE_EFFECT
+	dba StatUpSideEffect         ; ATTACK_UP_SIDE_EFFECT
+	dba AccuracyAttackUpEffect   ; ATTACK_ACCURACY_UP1_EFFECT
+	dba AttackDefenseUpEffect    ; ATTACK_DEFENSE_UP1_EFFECT
+	dba ConfusionBigSideEffect   ; CONFUSION_BIG_SIDE_EFFECT
+	dba ConfusionSideEffect      ; CONFUSION_SIDE_EFFECT
+	dba TwoToFiveAttacksEffect   ; TWINEEDLE_EFFECT
+	dba VoidMindEffect           ; VOID_MIND_EFFECT
+	dba SubstituteEffect_        ; SUBSTITUTE_EFFECT
+	dba HyperBeamEffect          ; HYPER_BEAM_EFFECT
+	dba TwoToFiveAttacksEffect   ; BONEMERANG_EFFECT
+	dba MimicEffect              ; MIMIC_EFFECT
+	dba DoRet                    ; METRONOME_EFFECT ; no JumpMoveEffect body (was NULL)
+	dba LeechSeedEffect_         ; LEECH_SEED_EFFECT
+	dba SplashEffect_            ; SPLASH_EFFECT
+	dba DisableEffect            ; DISABLE_EFFECT
+	dba ShellGameEffect_         ; WITHDRAW_EFFECT ; Sunsette: SUBMERGE -> SHELL GAME (waterify foe, then switch out / take Reflect)
+	dba AdaptationEffect         ; GROWTH_EFFECT ; Sunsette: ADAPTATION - status cure + FLOURISH regen + adapt-to-last-hit + ATTACK +1
+	dba _DefenseCurlEffect       ; DEFENSE_CURL_EFFECT
+	dba ReflectLightScreenEffect_ ; ACID_ARMOR_EFFECT
+	dba ExplodeRecoilEffect_     ; EXPLODE_RECOIL_EFFECT
+	dba ConversionEffect         ; CONVERSION_EFFECT
+	dba MaximizeEffect_          ; MAXIMIZE_EFFECT ; Sunsette: ATTACK -> +6, EVASION/SPEED -2, slowed cry
+	dba _SiphonSnagEffect        ; SIPHON_SNAG_EFFECT
+	dba HeatRushEffect_          ; HEAT_RUSH_EFFECT
+	dba MegaPunchEffect          ; MEGA_PUNCH_EFFECT
+	dba _ScreechEffect           ; SCREECH_EFFECT
+	dba WaterifyEffect_          ; WATERIFY_EFFECT
+	dba DisableEffectCore        ; CUT_DISABLE_EFFECT ; Sunsette: after Cut's damage -> disable the target's last move
+	dba DoRet                    ; SPEED_UP_SIDE_EFFECT ; no JumpMoveEffect body (Meditate applies it via stat-mapping; was NULL)
+	dba FlashEffect_             ; FLASH_EFFECT ; Sunsette: wipe target's stat stages + -2 ACCURACY (no damage)
+	dba GustAccuracyEffect_      ; ACCURACY_DOWN_SIDE_EFFECT ; Sunsette: 30% -1 ACCURACY post-damage (Gust)
+	dba SolarBeamEffect_         ; SOLARBEAM_EFFECT ; Sunsette: drain+prime / release-burn / fire recoil+burn
+	dba MindwipeEffect_          ; MINDWIPE_EFFECT ; Sunsette: retype BUG + gray + -1 ACC, no damage
+	dba RoostEffect_             ; ROOST_EFFECT ; Sunsette: heal + natural-type/palette refresh + strip FLYING/FLOATING
+	dba ShadowBoxEffect_         ; SHADOW_BOX_EFFECT ; Sunsette: post-damage confuse rider (foe special -> confuse foe / else self)
+	dba HobbleEffect_            ; HOBBLE_EFFECT ; Sunsette: guaranteed -1 SPEED and -1 EVASION to the target, post-damage
+	dba CalmMindEffect_          ; CALM_MIND_EFFECT ; Sunsette: +1 user SPECIAL + clear the user's own CONFUSION
+	dba DoRet                    ; STRENGTH_EFFECT ; Sunsette: no-op body; effect just needs to be nonzero so SpeciesMoveBonus runs
+	dba BlossomBlitzEffect_      ; BLOSSOM_BLITZ_EFFECT ; Sunsette: 50% chance +1 user SPEED, post-damage
+	dba TempestGround            ; TEMPEST_EFFECT ; Sunsette: strips the TARGET's FLYING/FLOATING on hit
+	dba MiasmaEffect_            ; MIASMA_EFFECT ; Sunsette: one-sided stat clear + regular poison, no damage
+	dba AquaRingEffect_          ; AQUA_RING_EFFECT ; Sunsette: FLOURISH + DOUBLE_FLOURISH, no damage
+	dba ClayArmorEffect_         ; CLAY_ARMOR_EFFECT ; Sunsette: type-gated dual screens + Ground heal, no damage
+	dba MetamorphicEffect_       ; METAMORPHIC_EFFECT ; Sunsette: post-damage recoil; ROCK user sheds ROCK + +6 SPEED + glow
+	dba SupernovaEffect_         ; SUPERNOVA_EFFECT ; Sunsette: FIRE user no-recoil/shed-FIRE/gray; non-FIRE recoil + self-burn
+	dba SenbonzakuraEffect_      ; SENBONZAKURA_EFFECT ; Sunsette: FLOURISH regen scaled by desperation (runs even on a KO)
+	dba PsychoShiftEffect_       ; PSYCHO_SHIFT_EFFECT ; Sunsette: transfer the user's status + confusion onto the target
+	dba SappingColdEffect_       ; SAPPING_COLD_EFFECT ; Sunsette: drain + conditional freeze, post-damage
+	dba EnergyFluxEffect_        ; ENERGY_FLUX_EFFECT ; Sunsette: 0-BP capacitor setup (discharge in the ApplyDamage hooks)
+	dba BugOffEffect_            ; BUG_OFF_EFFECT ; Sunsette: confuse + SPECIAL -1, then the user switches out
+	dba HydrobathEffect_         ; HYDROBATH_EFFECT ; Sunsette: turn-2 release - cure status + SPEED/SPECIAL +2 (turn-1 charge via HydrobathChargeTurn)
 	assert_table_length NUM_MOVE_EFFECTS

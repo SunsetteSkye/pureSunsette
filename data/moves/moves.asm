@@ -202,5 +202,6 @@ Moves:
 	move SLAM,         NO_ADDITIONAL_EFFECT,        80, NORMAL,       100, 20 ; Sunsette: NEW plain NORMAL move
 	move PSYSHOCK,     NO_ADDITIONAL_EFFECT,        80, PSYCHIC_TYPE, 100, 10 ; Sunsette: special-category PSYCHIC move that strikes the target's physical DEFENSE (PsyshockSwapDefender; Reflect protects, not Light Screen)
 	move FLUTTER_KICK, BONEMERANG_EFFECT,           35, FLYING,        90, 15 ; Sunsette: FLYING clone of BONEMERANG - hits twice, 30% -SPEED. FLOATING users get STAB (ShouldMoveGetStabBoost); no Fly/Dig bypass.
+	move HYDROBATH,    HYDROBATH_EFFECT,             0, WATER,        100, 10 ; Sunsette: two-turn no-damage setup. Turn 1 dives invulnerable (breached only by SWIFT/ELECTRIC); turn 2 surfaces, cures the user's status + SPEED/SPECIAL +2. 0 BP; accuracy is cosmetic (release never rolls). Charge via HydrobathChargeTurn; release via HydrobathEffect_.
 	move STRUGGLE,     BIG_RECOIL_EFFECT,           50, TYPELESS,     100, 10
 	assert_table_length NUM_ATTACKS

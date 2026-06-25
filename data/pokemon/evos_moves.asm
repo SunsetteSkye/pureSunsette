@@ -1073,19 +1073,20 @@ SeelEvosMoves:
 	db EVOLVE_LEVEL, 27, DEWGONG
 	db 0
 ; Learnset
-	db 16, HEADBUTT
-	db 21, AURORA_BEAM
-	db 24, WATER_PULSE
-	db 26, VENOM_LASH
-	db 30, REST
-	db 32, BODY_SLAM
-	db 35, ICE_BEAM
-	db 39, METEOR_DRIVE
-	db 41, AURORA_MIST
-	db 43, CALM_MIND
-	db 50, BLIZZARD
-	db 55, SWIFT
-	db 59, SHELL_GAME
+	db 8, HEADBUTT
+	db 12, WATER_PULSE
+	db 16, SAPPING_COLD
+	db 20, AURORA_BEAM
+	db 24, SLAM
+	db 28, RIPTIDE
+	db 32, REST
+	db 36, ICE_BEAM
+	db 40, AURORA_MIST
+	db 44, HYDRO_PUMP
+	db 48, CALM_MIND
+	db 54, BLIZZARD
+	db 60, HYDROBATH
+	db EVO_MOVE_LEVEL, SING
 	db 0
 
 DiglettEvosMoves:
@@ -1816,19 +1817,19 @@ DewgongEvosMoves:
 ; Evolutions
 	db 0
 ; Learnset
-	db 16, HEADBUTT
-	db 21, AURORA_BEAM
-	db 24, WATER_PULSE
-	db 26, VENOM_LASH
-	db 30, REST
-	db 32, BODY_SLAM
-	db 35, ICE_BEAM
-	db 39, METEOR_DRIVE
-	db 41, AURORA_MIST
-	db 43, CALM_MIND
-	db 50, BLIZZARD
-	db 55, SWIFT
-	db 59, SHELL_GAME
+	db 8, HEADBUTT
+	db 12, WATER_PULSE
+	db 16, SAPPING_COLD
+	db 20, AURORA_BEAM
+	db 24, SLAM
+	db 28, RIPTIDE
+	db 32, REST
+	db 36, ICE_BEAM
+	db 40, AURORA_MIST
+	db 44, HYDRO_PUMP
+	db 48, CALM_MIND
+	db 54, BLIZZARD
+	db 60, HYDROBATH
 	db 0
 
 CaterpieEvosMoves:

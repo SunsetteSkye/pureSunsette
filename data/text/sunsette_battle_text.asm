@@ -187,6 +187,12 @@ _CalmMindCalmedText::
 	line "cleared its mind!"
 	prompt
 
+; Sunsette: HYDROBATH surfaces and washes the user's status away
+_HydrobathRinsedText::
+	text "The bath rinsed"
+	line "its ailments away!"
+	prompt
+
 ; Sunsette: ENERGY FLUX - the capacitor setup turn (type2->FLOATING, SPECIAL +2, ENERGIZED armed)
 _EnergyFluxChargeText::
 	text "It crackled with"

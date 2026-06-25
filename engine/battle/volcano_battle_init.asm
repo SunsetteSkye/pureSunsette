@@ -710,6 +710,8 @@ ChargeMoveEvasionBoost::
 .gotChargeMove
 	cp DIG
 	ret z                       ; DIG: reset only, no EVASION boost (the -ACC rider is on the hit)
+	cp HYDROBATH
+	ret z                       ; Sunsette: HYDROBATH: reset only, no EVASION pin (its payoff is the turn-2 SPEED/SPECIAL +2)
 	; --- FLY only: now raise the USER's EVASION (no anim), AFTER the reset so it pins at exactly +2 ---
 	; Sunsette: ChooseFlyEvasionEffect (floated bank) returns e = the EVASION_UP* effect - FLY by an already
 	; FLYING/FLOATING user -> +2; a grounded FLY user -> +1 (the type-keep popup is the trade-off).
@@ -1008,6 +1010,38 @@ RaiseUserStatViaSwap:
 	ld [hl], a ; restore move effect
 	ret
 
+; Sunsette 2026-06-25 (Phase 2 / temp-swap centralization): lower the TARGET's stat by `a` (a *_DOWN*
+; effect const) via StatModifierDownEffect's temp-swap. The DOWN counterpart of RaiseUserStatViaSwap above:
+; save the real move effect, set effect = a with FLAG_SKIP_STAT_ANIMATION (so StatModifierDownEffect skips
+; the accuracy test + the stat anim and always applies), callfar it, then RESTORE the real effect. hWhoseTurn
+; is the user; StatModifierDownEffect acts on the opponent = the target. Self-restoring, so callers no longer
+; hand-roll the save/set/restore (was duplicated verbatim in Swift/Gust/Flash; see the audit's temp-swap
+; "doesn't self-restore" hazard). Does NOT zero the move num (the DOWN path doesn't take the Minimize branch).
+LowerTargetStatViaSwap:
+	ld b, a
+	ldh a, [hWhoseTurn]
+	and a
+	ld hl, wPlayerMoveEffect
+	jr z, .set
+	ld hl, wEnemyMoveEffect
+.set
+	ld a, [hl]
+	push af ; save the real move effect
+	ld a, b
+	ld [hl], a
+	SetFlag FLAG_SKIP_STAT_ANIMATION
+	callfar StatModifierDownEffect
+	ResetFlag FLAG_SKIP_STAT_ANIMATION
+	ldh a, [hWhoseTurn] ; callfar clobbered hl - re-derive to restore the effect
+	and a
+	ld hl, wPlayerMoveEffect
+	jr z, .restore
+	ld hl, wEnemyMoveEffect
+.restore
+	pop af
+	ld [hl], a ; restore the real move effect
+	ret
+
 ; Sunsette: ADAPTATION (was the FLOURISH move; internal const GROWTH). 0-BP. GrowthEffect (Battle Core) sets
 ; the FLOURISH regen bit then jpfar's here: play the animation, CURE the user's major status (+recompute
 ; stats), then raise ATTACK by 1 via RaiseUserStatViaSwap (which self-restores the move effect/num).
@@ -1018,7 +1052,7 @@ RaiseUserStatViaSwap:
 ; Sunsette: clear the USER's (hWhoseTurn side) major status condition - both the in-battle copy AND the
 ; party copy - then recompute its modified stats so any burn/paralysis/freeze penalty is undone. No-op (and
 ; skips the recompute) if the user has no status. Volatile statuses (confusion) are NOT touched here.
-CureUserStatus:
+CureUserStatus::
 	ldh a, [hWhoseTurn]
 	and a
 	ld hl, wBattleMonStatus
@@ -1060,94 +1094,15 @@ SnorlaxRestBonus::
 	ld a, SPEED_UP1_EFFECT
 	jp RaiseUserStatViaSwap ; +1 SPEED (shared temp-swap helper)
 
-; Sunsette: shared body for HAZE_EFFECT and FLASH_EFFECT - both point at Battle Core's HazeEffect
-; trampoline (Battle Core is full, so we can't afford a second one), which jpfar's here. We dispatch on
-; the active move effect: FLASH_EFFECT branches to the Flash body below; otherwise it's Haze.
-; HAZE: reset stat stages + clear VOLATILE statuses via the engine's own HazeEffect_ (the
-; non-volatile status bytes are saved/restored around it so permanent status survives), then drop the toxic
-; fog via BlackHazeFieldEffect (badly poison + EVASION +2 both sides). Both callfar's, then ret returns to
-; HazeEffect's caller. No flinch, no priority anymore.
-HazeFlinchEffect_::
-	ldh a, [hWhoseTurn]
-	and a
-	ld a, [wPlayerMoveEffect]
-	jr z, .gotEffect
-	ld a, [wEnemyMoveEffect]
-.gotEffect
-	cp FLASH_EFFECT
-	jp z, FlashEffect_
-	cp SWIFT_EFFECT
-	jp z, SwiftEffect_
-	cp ACCURACY_DOWN_SIDE_EFFECT
-	jp z, GustAccuracyEffect_
-	cp SOLARBEAM_EFFECT
-	jp z, SolarBeamEffect_
-	cp MINDWIPE_EFFECT
-	jp z, MindwipeEffect_
-	cp ROOST_EFFECT
-	jp z, RoostEffect_
-	cp SHADOW_BOX_EFFECT ; Sunsette: SHADOW BOX's post-damage confuse rider (read foe's special -> confuse foe / whiff -> confuse self)
-	jp z, ShadowBoxEffect_
-	cp SAPPING_COLD_EFFECT ; Sunsette: SAPPING COLD - drain 1/2 + freeze the target if the user wasn't hit this turn
-	jp z, SappingColdEffect_
-	cp ENERGY_FLUX_EFFECT ; Sunsette: ENERGY FLUX - 0-BP capacitor setup (type2->FLOATING + SPECIAL+2 + ENERGIZED)
-	jr nz, .notEnergyFlux
-	jpfar EnergyFluxEffect_ ; floated to status_type_immunities.asm (newCode was full); tail-call
-.notEnergyFlux
-	cp BUG_OFF_EFFECT ; Sunsette: BUG OFF - 0-BP disrupt-and-pivot (confuse + SPECIAL -1, then user switches out)
-	jr nz, .notBugOff
-	jpfar BugOffEffect_ ; floated to black_haze.asm; tail-call
-.notBugOff
-	cp HOBBLE_EFFECT
-	jp z, HobbleEffect_
-	cp CALM_MIND_EFFECT
-	jp z, CalmMindEffect_
-	cp STRENGTH_EFFECT
-	ret z ; Sunsette: STRENGTH's effect is a no-op here; it exists only so SpeciesMoveBonus runs (the +1 ATK)
-	cp TEMPEST_EFFECT
-	jp z, TempestGround ; Sunsette: TEMPEST strips the target's FLYING/FLOATING here (effect-dispatch path, post-damage, target alive - same path as HOBBLE/WATERIFY, which persists; SpeciesMoveBonus was too late and got reverted)
-	cp BLOSSOM_BLITZ_EFFECT
-	jp z, BlossomBlitzEffect_
-	cp AQUA_RING_EFFECT
-	jr nz, .notAquaRing
-	callfar AquaRingEffect_       ; Sunsette: AQUA RING (ACID_ARMOR) - FLOURISH + DOUBLE_FLOURISH (own floating section)
-	ret
-.notAquaRing
-	cp CLAY_ARMOR_EFFECT
-	jr nz, .notClayArmor
-	callfar ClayArmorEffect_      ; Sunsette: CLAY ARMOR (FISSURE) - type-gated dual screens + Ground heal (own floating section)
-	ret
-.notClayArmor
-	cp MIST_EFFECT
-	jr nz, .notAuroraMist
-	callfar AuroraMistEffect_     ; Sunsette: AURORA MIST (ETHEREAL) - Mist immunity + clear both statuses; Ice raises screens, non-Ice retypes to ICE (own floating section)
-	ret
-.notAuroraMist
-	cp METAMORPHIC_EFFECT
-	jr nz, .notOroclasm
-	callfar MetamorphicEffect_    ; Sunsette: OROCLASM (EXPLOSION) - post-damage recoil + ROCK user sheds ROCK/+6 SPEED/glow (own floating section)
-	ret
-.notOroclasm
-	cp SUPERNOVA_EFFECT
-	jr nz, .notSupernova
-	callfar SupernovaEffect_      ; Sunsette: SUPERNOVA (SELFDESTRUCT) - FIRE user no-recoil/shed-FIRE/gray, non-FIRE recoil+self-burn (own floating section)
-	ret
-.notSupernova
-	cp SENBONZAKURA_EFFECT
-	jr nz, .notSenbonzakura
-	callfar SenbonzakuraEffect_   ; Sunsette: SENBONZAKURA (PETAL_DANCE) - FLOURISH regen scaled by desperation stage (own floating section)
-	ret
-.notSenbonzakura
-	cp MIASMA_EFFECT
-	jr nz, .notMiasma
-	callfar MiasmaEffect_         ; Sunsette: MIASMA / EMETIC PURGE - one-sided stat clear + poison (own floating section)
-	ret
-.notMiasma
-	cp PSYCHO_SHIFT_EFFECT
-	jr nz, .haze
-	callfar PsychoShiftEffect_    ; Sunsette: PSYCHO SHIFT - transfer the user's status + confusion onto the target (own floating section)
-	ret
-.haze
+; Sunsette 2026-06-25: HAZE_EFFECT's body. Was the `.haze` fallthrough of the old HazeFlinchEffect_ cp-chain
+; trampoline (which re-decoded the move effect by hand to route ~25 effects sharing one Battle Core HazeEffect
+; stub). That whole dispatcher is gone now: the far-pointer effect table (data/moves/effects_pointers.asm)
+; targets each effect's body directly, so this is just HAZE_EFFECT's own self-contained handler.
+;
+; HAZE_EFFECT's body, extracted from the old HazeFlinchEffect_ `.haze` fallthrough into
+; a standalone label so the far-dispatch table can target it directly (dba HazeResetFieldEffect_). Resets stat
+; stages + volatile status on both sides, then drops the black-haze toxic fog. Self-contained; ends in ret.
+HazeResetFieldEffect_::
 	; Sunsette: SHADOW GAME must NOT wipe permanent (non-volatile) status. HazeEffect_ zeroes the TARGET's
 	; status byte, so save BOTH mons' status bytes across the call and restore them afterward. Stat stages and
 	; volatile statuses are still reset; only sleep/poison/burn/freeze/paralysis survive. (An already-statused
@@ -1227,28 +1182,9 @@ FlashEffect_::
 	ld [hli], a
 	dec b
 	jr nz, .resetStatsLoop
-	; -2 ACCURACY on the target
-	ldh a, [hWhoseTurn]
-	and a
-	ld hl, wPlayerMoveEffect
-	jr z, .accPtr
-	ld hl, wEnemyMoveEffect
-.accPtr
+	; -2 ACCURACY on the target (self-restoring temp-swap; restores the borrowed effect byte, which is FLASH_EFFECT here)
 	ld a, ACCURACY_DOWN2_EFFECT
-	ld [hl], a
-	SetFlag FLAG_SKIP_STAT_ANIMATION
-	callfar StatModifierDownEffect ; -2 ACCURACY on the target ("fell" line, no anim, no accuracy check)
-	ResetFlag FLAG_SKIP_STAT_ANIMATION
-	; restore FLASH_EFFECT so nothing downstream misreads the borrowed effect byte
-	ldh a, [hWhoseTurn]
-	and a
-	ld hl, wPlayerMoveEffect
-	jr z, .restoreEffect
-	ld hl, wEnemyMoveEffect
-.restoreEffect
-	ld a, FLASH_EFFECT
-	ld [hl], a
-	ret
+	jp LowerTargetStatViaSwap
 
 ; Sunsette: SWIFT_EFFECT auto-hit moves (Surf/Earthquake/Blizzard/Swift) also get a 30% chance to drop the
 ; TARGET's EVASION by 1. Reached from the shared HazeEffect trampoline via the HazeFlinchEffect_ dispatcher;
@@ -1261,28 +1197,8 @@ SwiftEffect_::
 	ld a, d
 	cp 30 percent + 1
 	ret nc ; 70%: no evasion drop
-	ldh a, [hWhoseTurn]
-	and a
-	ld hl, wPlayerMoveEffect
-	jr z, .gotPtr
-	ld hl, wEnemyMoveEffect
-.gotPtr
-	ld a, [hl]
-	push af ; save the real effect (SWIFT_EFFECT)
 	ld a, EVASION_DOWN1_EFFECT
-	ld [hl], a
-	SetFlag FLAG_SKIP_STAT_ANIMATION
-	callfar StatModifierDownEffect ; -1 EVASION on the target ("fell" line, no anim, no accuracy check)
-	ResetFlag FLAG_SKIP_STAT_ANIMATION
-	ldh a, [hWhoseTurn] ; callfar clobbered hl - re-derive to restore the effect
-	and a
-	ld hl, wPlayerMoveEffect
-	jr z, .restore
-	ld hl, wEnemyMoveEffect
-.restore
-	pop af
-	ld [hl], a ; restore SWIFT_EFFECT
-	ret
+	jp LowerTargetStatViaSwap ; -1 EVASION on the target (self-restoring temp-swap)
 
 ; Sunsette: GUST's post-damage side effect - 30% chance to drop the TARGET's ACCURACY by 1. Mirrors
 ; SwiftEffect_ exactly but borrows ACCURACY_DOWN1 instead of EVASION_DOWN1. Reached from the shared
@@ -1294,28 +1210,8 @@ GustAccuracyEffect_::
 	ld a, d
 	cp 30 percent + 1
 	ret nc ; 70%: no accuracy drop
-	ldh a, [hWhoseTurn]
-	and a
-	ld hl, wPlayerMoveEffect
-	jr z, .gotPtr
-	ld hl, wEnemyMoveEffect
-.gotPtr
-	ld a, [hl]
-	push af ; save the real effect (ACCURACY_DOWN_SIDE_EFFECT)
 	ld a, ACCURACY_DOWN1_EFFECT
-	ld [hl], a
-	SetFlag FLAG_SKIP_STAT_ANIMATION
-	callfar StatModifierDownEffect ; -1 ACCURACY on the target ("fell" line, no anim, no accuracy check)
-	ResetFlag FLAG_SKIP_STAT_ANIMATION
-	ldh a, [hWhoseTurn] ; callfar clobbered hl - re-derive to restore the effect
-	and a
-	ld hl, wPlayerMoveEffect
-	jr z, .restoreGust
-	ld hl, wEnemyMoveEffect
-.restoreGust
-	pop af
-	ld [hl], a ; restore ACCURACY_DOWN_SIDE_EFFECT
-	ret
+	jp LowerTargetStatViaSwap ; -1 ACCURACY on the target (self-restoring temp-swap)
 
 ; Sunsette: SolarBeam (pseudo-charge). Reached post-damage via the Haze trampoline -> HazeFlinchEffect_.
 ; The live power was already set by SolarBeamPowerModifier (60/120/90), so the damage step is done; here
@@ -1961,113 +1857,25 @@ MaximizeText:
 	text_far _MaximizeText
 	text_end
 
-; Sunsette: decide whether the move being used can reach the target through a semi-invulnerable (Fly/Dig)
-; state. Self-contained (derives target + move from hWhoseTurn) so it's safe to callfar from MoveHitTest
-; (Battle Core is full); callfar preserves carry, so the caller branches on the result directly.
-; Returns carry SET = reachable: the target isn't semi-invulnerable, OR this move can bypass its state.
-; Returns carry CLEAR = the target dodges (semi-invulnerable in a state this move can't reach).
-; The INVULNERABLE bit is shared by Fly and Dig; wChargeMoveNum (set by ChargeEffect on the most recent
-; charger - the target mid-charge) tells which one. SWIFT bypasses both; SURF/EARTHQUAKE bypass DIG only;
-; BLIZZARD/THUNDER/WHIRLWIND bypass FLY only; anything else can't reach a semi-invuln target.
-CheckSemiInvulnBypass::
-	ldh a, [hWhoseTurn]
-	and a
-	jr nz, .enemyTurn
-	ld a, [wEnemyBattleStatus1] ; player attacking -> target is the enemy
-	bit INVULNERABLE, a
-	jr z, .reachable ; not flying/digging -> reachable
-	ld a, [wPlayerMoveNum]
-	jr .classify
-.enemyTurn
-	ld a, [wPlayerBattleStatus1]
-	bit INVULNERABLE, a
-	jr z, .reachable
-	ld a, [wEnemyMoveNum]
-.classify
-	cp SWIFT
-	jr z, .reachable ; Swift reaches both Fly and Dig
-	cp SURF
-	jr z, .digOnly
-	cp EARTHQUAKE
-	jr z, .digOnly
-	cp BLIZZARD
-	jr z, .flyOnly
-	cp THUNDER
-	jr z, .flyOnly
-	cp HURRICANE
-	jr z, .flyOnly
-	cp SHORYUKEN ; SHORYUKEN - an anti-air uppercut, reaches FLY users
-	jr z, .flyOnly
-	cp TEMPEST ; TEMPEST - a tornado that reaches FLY users
-	jr z, .flyOnly
-	and a ; no bypass -> clear carry (dodged)
-	ret
-.digOnly
-	ld a, [wChargeMoveNum]
-	cp DIG
-	jr z, .reachable
-	and a
-	ret
-.flyOnly
-	ld a, [wChargeMoveNum]
-	cp FLY
-	jr z, .reachable
-	and a
-	ret
-.reachable
-	scf
-	ret
+; Sunsette: CheckSemiInvulnBypass + CheckReachAndAutoHit (the Fly/Dig/HYDROBATH reach + auto-hit hit-test
+; helpers) were moved to their own floating section, engine/battle/semi_invuln_reach.asm, to free newCode space.
+; Both are reached from the Battle Core only via callfar, so relocating their bank is safe.
 
-; Sunsette: MoveHitTest helper (callfar'd from the full Battle Core). Combines the semi-invuln reach
-; test with the "never-miss" decision so Battle Core needs only one callfar. Returns:
-;   carry CLEAR           -> target dodged (semi-invulnerable & this move can't reach it)
-;   carry SET + Z SET     -> reachable AND auto-hits (SWIFT_EFFECT, or PIDGEOT's signature HURRICANE)
-;   carry SET + Z CLEAR   -> reachable, roll accuracy normally
-; rst _Bankswitch pops the saved bank into bc (not af), so the returned carry AND Z both survive back
-; to MoveHitTest. PIDGEOT's HURRICANE auto-hits like Swift, but since CheckSemiInvulnBypass only lets it
-; reach FLY (not DIG), a DIGging target still dodges it.
-CheckReachAndAutoHit::
-	call CheckSemiInvulnBypass ; carry = reachable
-	ret nc                     ; dodged -> return with carry clear (Z unused on this path)
+; Sunsette: HEAT RUSH's effect body, floated here out of the full Battle Core (its trampoline HeatRushEffect
+; jpfar's here) so the reclaimed bytes make room for HYDROBATH's charge hooks. Heat Rush deals damage and
+; always raises the user's SPEED by one stage (Flame-Charge style). hWhoseTurn = the user.
+HeatRushEffect_::
 	ldh a, [hWhoseTurn]
 	and a
-	ld a, [wPlayerMoveEffect]
-	jr z, .gotEffect
-	ld a, [wEnemyMoveEffect]
-.gotEffect
-	cp SWIFT_EFFECT
-	jr z, .neverMiss
-	cp DISABLE_EFFECT ; Sunsette: DISABLE proper auto-hits; a Fly/Dig target already dodged above (CheckSemiInvulnBypass). NOT CUT_DISABLE_EFFECT (those are damaging, accuracy handled in the main flow).
-	jr z, .neverMiss
-	callfar ComebackCantMiss ; Sunsette: BLITZ STRIKE / QUICK ATTACK auto-hit at desperation stage 2-3
-	ld a, e
-	and a
-	jr nz, .neverMiss
-	CheckEvent FLAG_SIGNATURE_MOVES_TURNED_OFF
-	jr nz, .rollAccuracy ; signatures off -> no Pidgeot bonus
-	ldh a, [hWhoseTurn]
-	and a
-	ld a, [wBattleMonSpecies]
-	ld b, a
-	ld a, [wPlayerMoveNum]
-	jr z, .gotMon
-	ld a, [wEnemyMonSpecies]
-	ld b, a
-	ld a, [wEnemyMoveNum]
-.gotMon
-	cp HURRICANE
-	jr nz, .rollAccuracy
-	ld a, b
-	cp PIDGEOT
-	jr nz, .rollAccuracy
-	; PIDGEOT + HURRICANE -> auto-hit
-.neverMiss
-	xor a  ; Z set, carry clear
-	scf    ; carry set; scf leaves Z untouched -> carry SET + Z SET
-	ret
-.rollAccuracy
-	or 1   ; a nonzero -> Z clear, carry clear
-	scf    ; carry set; Z untouched -> carry SET + Z CLEAR
+	ld hl, wPlayerMoveEffect
+	jr z, .next
+	ld hl, wEnemyMoveEffect
+.next
+	push hl
+	ld [hl], SPEED_UP1_EFFECT
+	callfar StatUpSideEffect
+	pop hl
+	ld [hl], HEAT_RUSH_EFFECT
 	ret
 
 ; Sunsette: stores the SecondWind heal (de = new HP, passed through the callfar from SecondWindHeal in

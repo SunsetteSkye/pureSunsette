@@ -3,6 +3,15 @@ JumpMoveEffect:
 	ld b, $1
 	ret
 
+; Sunsette 2026-06-25: FAR dispatch (replaces the old in-bank `jp hl`, which forced every handler to live
+; in the now-full Battle Core bank and spawned the jpfar stubs + the Haze cp-chain trampoline). The table
+; (MoveEffectPointerTable) and its reader (GetMoveEffectHandler) live in the floated "Move Effect Dispatch"
+; bank; each entry is a `dba` bank+address, so a handler can sit in ANY bank and be called directly.
+;
+; Two `rst _Bankswitch` (= Bankswitch: save caller bank -> switch to b -> call hl -> restore caller bank):
+;   1) call GetMoveEffectHandler in the table's bank; it returns e = handler bank, hl = handler address.
+;      Bankswitch's epilogue only clobbers af/bc, so e and hl survive (no scratch WRAM needed).
+;   2) far-call the handler itself (b = its bank, hl = its address). Handlers end in `ret`, returning here.
 _JumpMoveEffect:
 	ldh a, [hWhoseTurn]
 	and a
@@ -11,20 +20,13 @@ _JumpMoveEffect:
 	ld a, [wEnemyMoveEffect]
 .next
 	dec a ; subtract 1, there is no special effect for 00
-	add a ; x2, 16bit pointers
-	ld hl, MoveEffectPointerTable
-	ld b, 0
-	ld c, a
-	add hl, bc
-	ld a, [hli]
-	ld h, [hl]
-	ld l, a
-	jp hl ; jump to special effect handler
-
-INCLUDE "data/moves/effects_pointers.asm"
-
-SleepEffect:
-	jpfar _SleepEffect
+	ld e, a ; effect index -> e (input to GetMoveEffectHandler; survives the bankswitch)
+	ld hl, GetMoveEffectHandler
+	ld b, BANK(GetMoveEffectHandler)
+	rst _Bankswitch ; runs the reader in its bank; returns e = handler bank, hl = handler address
+	ld b, e ; handler bank
+	rst _Bankswitch ; far-call the handler (hl = address); it rets back here, Battle Core remapped
+	ret
 
 PoisonEffect:
 	callfar TargetIsWarded ; Sunsette: AURORA MIST ward - a warded target can't be poisoned
@@ -129,9 +131,6 @@ PoisonedText:
 BadlyPoisonedText:
 	text_far _BadlyPoisonedText
 	text_end
-
-DrainHPEffect:
-	jpfar DrainHPEffect_
 
 ; ExplodeEffect: ; PureRGBnote: MOVED: handled within remap_move_data.asm
 
@@ -519,7 +518,7 @@ GetSpeedPointers:
 	ld de, wEnemyMonSpeedMod
 	ret
 
-StatUpSideEffect:
+StatUpSideEffect::
 	SetFlag FLAG_SKIP_STAT_ANIMATION
 	call StatModifierUpEffect
 	ResetFlag FLAG_SKIP_STAT_ANIMATION
@@ -1096,9 +1095,6 @@ ThrashPetalDanceEffect:
 	ld a, SHRINKING_SQUARE_ANIM
 	jp PlayBattleAnimation2
 
-TeleportEffect:
-	jpfar _TeleportEffect
-
 TeleportWildPokemon::
 .rejectionSampleLoop
 	call BattleRandom
@@ -1239,10 +1235,6 @@ FlinchSideEffect:
 ;;;;;
 
 
-OneHitKOEffect:
-	jpfar OneHitKOEffect_
-
-
 ; PureRGBnote: CHANGED: modified this subroutine a bit since fly and dig are the only possibilities after changes
 ChargeEffect:
 	ld hl, wPlayerBattleStatus1
@@ -1274,6 +1266,16 @@ ChargeEffect:
 	callfar FlyKeepTypePrompt ; Sunsette: turn-1 "keep airborne?" popup (player + grounded FLY only); AFTER the evasion calc so it never affects the boost
 	ret
 
+; Sunsette: HYDROBATH's turn-1 dive. Reuses Fly/Dig's ChargeEffect (sets CHARGING_UP+INVULNERABLE, resets the
+; user's own stat stages, plays the dive-down anim, prints the dive text, and - via ChargeMoveEvasionBoost's
+; HYDROBATH guard - pins NO evasion). Then returns b nonzero so the battle loop's faint convention (b =
+; defender HP low byte, 0 = faint) reads "no faint", exactly mirroring JumpMoveEffect's epilogue. Reached only
+; from CheckIf{Player,Enemy}NeedsToChargeUp on the charge turn; the turn-2 release runs HydrobathEffect_.
+HydrobathChargeTurn::
+	call ChargeEffect
+	ld b, $1
+	ret
+
 ChargeMoveEffectText:
 	text_far _ChargeMoveEffectText
 	text_asm
@@ -1292,6 +1294,9 @@ ChargeMoveEffectText:
 	;ret z
 	cp FLY
 	ld hl, FlewUpHighText
+	ret z
+	cp HYDROBATH ; Sunsette: HYDROBATH's dive line
+	ld hl, HydrobathDoveText
 	ret z
 	cp DIG
 	ld hl, DugAHoleText
@@ -1321,29 +1326,15 @@ DugAHoleText:
 	text_far _DugAHoleText
 	text_end
 
+HydrobathDoveText:
+	text_far _HydrobathDoveText
+	text_end
+
 TrappingEffect:
 	; Sunsette: dead code. No move uses TRAPPING_EFFECT and the USING_TRAPPING_MOVE battle-status
 	; bit has been reclaimed, so the old trapping (Wrap-style) machinery is gone. Kept as a bare
 	; ret only so the TRAPPING_EFFECT slot in the effect-pointer table still resolves.
 	ret
-
-MistEffect:
-	jpfar MistEffect_
-
-FocusEnergyEffect:
-	jpfar FocusEnergyEffect_
-
-RecoilEffect:
-	jpfar DefaultRecoilEffect_
-
-WaterifyEffect: ; Sunsette: retype the surviving target to pure WATER (Water Gun / Hydro Pump)
-	jpfar WaterifyEffect_
-
-BigRecoilEffect:
-	jpfar BigRecoilEffect_ ; PureRGBnote: ADDED: recoil effect that does 1/2 of the damage done to the user
-
-ExplodeRecoilEffect:
-	jpfar ExplodeRecoilEffect_ ; PureRGBnote: ADDED: same as bigrecoileffect, but if it misses does 1/4 the health of the user in recoil still
 
 ConfusionSideEffect:
 	call BattleRandom
@@ -1415,15 +1406,6 @@ ConfusionEffectFailed:
 	ld c, 50
 	rst _DelayFrames
 	jp ConditionalPrintButItFailed
-
-MirageEffect:
-	jpfar MirageEffect_
-
-ParalyzeEffect:
-	jpfar ParalyzeEffect_
-
-SubstituteEffect:
-	jpfar SubstituteEffect_
 
 HyperBeamEffect:
 	ld hl, wPlayerBattleStatus2
@@ -1570,12 +1552,6 @@ MimicLearnedMoveText:
 	text_far _MimicLearnedMoveText
 	text_end
 
-LeechSeedEffect:
-	jpfar LeechSeedEffect_
-
-SplashEffect:
-	jpfar SplashEffect_ ; Sunsette: SPLASH is now a user-weight attack; only MAGIKARP's signature is a no-op (+ random comedy line), handled in a floating bank
-
 ;;;;;;;;;; PureRGBnote: CHANGED: this function was updated to disable the previous move used by the opponent
 ;;;;;;;;;;                       or a random one if they haven't used any move yet.
 DisableEffect:
@@ -1653,84 +1629,10 @@ MoveWasDisabledText:
 	text_far _MoveWasDisabledText
 	text_end
 
-PayDayEffect:
-	jpfar PayDayEffect_
-
 TriAttackEffect:
 	call BattleRandom
 	ld d, a
 	jpfar TriAttackEffect_
-
-HazeEffect:
-	; Sunsette: Haze clears stats (HazeEffect_) AND now rolls a 30% flinch. Both are sequenced in a
-	; floating-bank wrapper to keep Battle Core small; see HazeFlinchEffect_.
-	jpfar HazeFlinchEffect_
-
-
-; Sunsette: ADAPTATION (visible name; internal const GROWTH). Grants the FLOURISH (1/16-per-turn) regen
-; state here, then jpfar's to AdaptationEffect (roomier bank) to cure the user's status and raise its ATTACK
-; by 1. (Was the old FLOURISH move = +1 SPECIAL + regen; now +1 ATTACK + status cure + regen.)
-GrowthEffect:
-	jpfar AdaptationEffect ; Sunsette: ADAPTATION - fail-check, status cure, FLOURISH regen, and adapt-to-last-hit all live in the floated handler
-
-; PureRGBnote: ADDED: withdraw raises defense by 1 and heals around 1/3rd health. Does nothing at all if you're at full health.
-WithdrawEffect:
-	jpfar ShellGameEffect_ ; Sunsette: SUBMERGE -> SHELL GAME (waterify the opponent, then switch out / take Reflect). WithdrawGrowthEffect below is now dead code (nothing falls into it).
-
-WithdrawGrowthEffect:
-	push bc
-	ld a, [wHPBarType]
-	push af
-	push de
-	push hl
-	ld a, 3
-	ld [wHPBarType], a
-	callfar HealEffect_
-	ld a, [wHPBarType]
-	cp 3 ; if wHPBarType was unchanged the heal process failed
-	pop hl
-	pop de
-	jr z, .done
-	call IsStatMaxed
-	jr c, .done
-.continue
-	pop af
-	ld [wHPBarType], a
-	;values for the enemy's turn
-	ld de, wPlayerMoveEffect
-	ldh a, [hWhoseTurn]
-	and a
-	jr z, .next
-	; values for the player's turn
-	ld de, wEnemyMoveEffect
-.next
-	pop bc
-	ld a, b
-	ld [de], a
-	push bc
-	push de
-	SetFlag FLAG_SKIP_STAT_ANIMATION
-	call StatModifierUpEffect ; stat modifier raising function
-	ResetFlag FLAG_SKIP_STAT_ANIMATION
-	pop de
-	pop bc
-	ld a, c
-	ld [de], a
-	ret
-.done
-	pop af
-	ld [wHPBarType], a
-	pop bc
-	ret
-
-HealEffect:
-	jpfar HealEffect_
-
-TransformEffect:
-	jpfar TransformEffect_
-
-ReflectLightScreenEffect:
-	jpfar ReflectLightScreenEffect_
 
 NothingHappenedText:
 	text_far _NothingHappenedText
@@ -1890,38 +1792,6 @@ IsStatMaxed:
 	scf
 	ret
 
-DefenseCurlEffect:
-	jpfar _DefenseCurlEffect
-
-; Sunsette: MAXIMIZE (MAXIMIZE_EFFECT, was the unused ACID_SIDE_EFFECT / AcidEffect). The Battle Core
-; bank is full, so the real body lives in the volcano bank; this is just the trampoline reached from
-; the effect pointer table. MaximizeEffect_ ends in ret -> returns to JumpMoveEffect's caller.
-MaximizeEffect:
-	jpfar MaximizeEffect_
-
-AccuracyDownEffect::
-	jpfar _AccuracyDownEffect
-
-SiphonSnagEffect::
-	jpfar _SiphonSnagEffect
-
-HeatRushEffect::
-; PureRGBnote: CHANGED: Heat Rush now works like Flame Charge -- it deals damage and always
-; raises the user's Speed by one stage (no more burn / fire-only special boost).
-	ldh a, [hWhoseTurn]
-	and a
-	ld hl, wPlayerMoveEffect
-	jr z, .next
-	ld hl, wEnemyMoveEffect
-.next
-	push hl
-	ld [hl], SPEED_UP1_EFFECT
-	call StatUpSideEffect
-	pop hl
-	ld [hl], HEAT_RUSH_EFFECT
-	ret
-
-
 MegaPunchEffect::
 	ldh a, [hWhoseTurn]
 	and a
@@ -1944,9 +1814,6 @@ MegaPunchEffect::
 .done
 	ld [hl], b
 	jp FlinchSideEffect
-
-ScreechEffect:
-	jpfar _ScreechEffect
 
 FarBattleRandom::
 	call BattleRandom

@@ -1173,3 +1173,72 @@ BugOffEffect_::
 BugOffFledText:
 	text "It bugged off!"
 	prompt
+
+; Sunsette: HYDROBATH turn-2 release, floated here (newCode is full). Reached from HazeFlinchEffect_ via the
+; Haze trampoline; HYDROBATH is in ResidualEffects1, so this runs pre-"damage" with NO accuracy test - the
+; self-buff always lands once the user surfaces. HYDROBATH is 0-BP (the main flow never plays its anim), so play
+; it once, then cure the USER's major status (in-battle + party copy + recompute stats, only announced if it had
+; one) and raise SPEED and SPECIAL by 2 each. hWhoseTurn = the surfacing user. Ends in ret so JumpMoveEffect's
+; caller sees b nonzero (no faint).
+HydrobathEffect_::
+	callfar PlayCurrentMoveAnimation2 ; 0-BP move: the surfacing splash
+	ldh a, [hWhoseTurn]
+	and a
+	ld hl, wBattleMonStatus
+	jr z, .gotStatus
+	ld hl, wEnemyMonStatus
+.gotStatus
+	ld a, [hl]
+	and a
+	jr z, .noStatus
+	callfar CureUserStatus ; clears in-battle + party status, recomputes modified stats (un-halves burn/freeze/para)
+	ld hl, HydrobathRinsedText
+	rst _PrintText
+.noStatus
+	ld b, SPEED_UP2_EFFECT
+	call .raiseUserStat ; +2 SPEED (prints "SPEED rose!")
+	ld b, SPECIAL_UP2_EFFECT
+	call .raiseUserStat ; +2 SPECIAL (prints "SPECIAL rose!")
+	ret
+
+; raise the user's stat +2 (b = the *_UP2 effect). Temp-swaps the user's move effect (and zeroes the move num to
+; dodge the Minimize/Substitute path), callfar StatModifierUpEffect with FLAG_SKIP_STAT_ANIMATION (so only the
+; "rose!" text shows, no per-stat anim), then restores both. Mirrors newCode's RaiseUserStatViaSwap, reimplemented
+; here because callfar would clobber the a-register parameter.
+.raiseUserStat
+	ldh a, [hWhoseTurn]
+	and a
+	ld hl, wPlayerMoveEffect
+	ld de, wPlayerMoveNum
+	jr z, .gotPtrs
+	ld hl, wEnemyMoveEffect
+	ld de, wEnemyMoveNum
+.gotPtrs
+	ld a, [hl]
+	push af ; save move effect
+	ld a, [de]
+	push af ; save move num
+	ld a, b
+	ld [hl], a
+	xor a
+	ld [de], a
+	SetFlag FLAG_SKIP_STAT_ANIMATION
+	callfar StatModifierUpEffect
+	ResetFlag FLAG_SKIP_STAT_ANIMATION
+	ldh a, [hWhoseTurn]
+	and a
+	ld hl, wPlayerMoveEffect
+	ld de, wPlayerMoveNum
+	jr z, .restore
+	ld hl, wEnemyMoveEffect
+	ld de, wEnemyMoveNum
+.restore
+	pop af
+	ld [de], a ; restore move num
+	pop af
+	ld [hl], a ; restore move effect
+	ret
+
+HydrobathRinsedText:
+	text_far _HydrobathRinsedText
+	text_end
