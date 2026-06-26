@@ -2818,29 +2818,14 @@ AnimCopyRowRight:
 ;	ret
 
 GetMoveSound:
-; Sunsette: MoveSoundTable was floated out of this (full) bank into its own SECTION to make room for
-; bigger move-animation bodies, so its 3-byte entry is now read across the bank boundary. Read all three
-; bytes up front (b = sound id, d = frequency modifier, e = tempo modifier) while the table's bank is
-; loaded, then restore the previous bank before the cry/non-cry logic. GetCryData preserves de, so d/e
-; survive it.
-	ld e, a
-	ld d, 0
-	ld hl, MoveSoundTable
-	add hl, de
-	add hl, de
-	add hl, de              ; hl -> this move's 3-byte entry (in MoveSoundTable's far bank)
-	ldh a, [hLoadedROMBank]
-	push af                 ; save the caller's bank (the animation bank)
-	ld a, BANK(MoveSoundTable)
-	call SetCurBank
-	ld a, [hli]
-	ld b, a                 ; b = sound id
-	ld a, [hli]
-	ld d, a                 ; d = frequency modifier
-	ld a, [hl]
-	ld e, a                 ; e = tempo modifier
-	pop af
-	call SetCurBank         ; restore the animation bank before continuing
+; Sunsette FIX 2026-06-25: MoveSoundTable lives in its own far SECTION (bank $1A) while this animation
+; engine is bank $1E, so the move's 3-byte entry must be read cross-bank. The bankswitch + read is done
+; by GetMoveSoundEntry IN HOME. This function used to do the switch itself, but it executes from the ROMX
+; window ($4000-$7FFF) - switching that window to $1A meant the very next instruction was fetched from
+; $1A's bytes instead of this function's continuation -> garbage execution -> a "soft reset" to the title
+; on every move. Home stays mapped across the switch, so the read is safe there.
+; In: a = move sound index. Out: b = sound id, d = pitch modifier, e = tempo modifier (GetCryData preserves de).
+	call GetMoveSoundEntry
 	call IsCryMove
 	jr nc, .NotCryMove
 	ldh a, [hWhoseTurn]

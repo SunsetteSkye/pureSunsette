@@ -1,4 +1,4 @@
-MoveSoundTable:
+MoveSoundTable:: ; Sunsette: exported so home/GetMoveSoundEntry can read it cross-bank
 	table_width 3
 	; ID, pitch mod, tempo mod
 	db SFX_POUND,              $00, $80 ; POUND

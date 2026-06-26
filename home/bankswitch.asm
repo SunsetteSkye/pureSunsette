@@ -30,3 +30,28 @@ SetCurBank:: ; PureRGBnote: CHANGED: a lot of functions in home bank ran the nex
 
 hl_caller::
 	jp hl
+
+; Sunsette FIX 2026-06-25: read a move's 3-byte MoveSoundTable entry from its far bank ($1A), safely
+; from HOME. The animation engine's GetMoveSound (bank $1E) must NOT switch the ROMX window itself - it
+; executes from that window, so switching it returns into the wrong bank's bytes and crashes (a "soft
+; reset" to the title on every move). Home code stays mapped across the switch, so the read is safe here.
+; In: a = move sound index. Out: b = sound id, d = pitch modifier, e = tempo modifier. Clobbers a/hl.
+GetMoveSoundEntry::
+	ld e, a
+	ld d, 0
+	ld hl, MoveSoundTable
+	add hl, de
+	add hl, de
+	add hl, de              ; hl -> this move's 3-byte entry
+	ldh a, [hLoadedROMBank]
+	push af                 ; save the caller's (animation) bank
+	ld a, BANK(MoveSoundTable)
+	call SetCurBank
+	ld a, [hli]
+	ld b, a                 ; b = sound id
+	ld a, [hli]
+	ld d, a                 ; d = pitch modifier
+	ld a, [hl]
+	ld e, a                 ; e = tempo modifier
+	pop af
+	jp SetCurBank           ; restore the caller's bank, then ret
