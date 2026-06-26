@@ -5054,6 +5054,11 @@ ApplyDamageToEnemyPokemon:
 	callfar AccumulateSleepHit
 	pop hl
 .skipSleepTally
+; Sunsette FIX 2026-06-25: EnemySubAbsorbsHit (the substitute check above) does `ld hl, wEnemyBattleStatus2`,
+; clobbering hl, which still pointed at wDamage+1. The subtraction below reads the damage via [hld]/[hl], so
+; without restoring hl it subtracted wEnemyBattleStatus2/1 (battle-status bits, usually > the enemy's HP)
+; instead of the real damage -> every hit registered as lethal (Scratch one-shotting full-HP mons).
+	ld hl, wDamage + 1
 ; subtract the damage from the pokemon's current HP
 ; also, save the current HP at wHPBarOldHP
 	ld a, [hld]
@@ -5176,6 +5181,9 @@ ApplyDamageToPlayerPokemon:
 	callfar AccumulateSleepHit
 	pop hl
 .skipSleepTally
+; Sunsette FIX 2026-06-25: PlayerSubAbsorbsHit clobbered hl (was wDamage+1); restore it before the
+; subtraction below reads the damage via [hld]/[hl]. See the matching fix in ApplyDamageToEnemyPokemon.
+	ld hl, wDamage + 1
 ; subtract the damage from the pokemon's current HP
 ; also, save the current HP at wHPBarOldHP and the new HP at wHPBarNewHP
 	ld a, [hld]
