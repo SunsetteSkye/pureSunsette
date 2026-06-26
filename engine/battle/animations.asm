@@ -157,11 +157,25 @@ DrawFrameBlock:
 	ld [de], a
 	inc de
 .nextTile
+; Sunsette: hard safety bound. wShadowOAM holds exactly 40 sprites (160 bytes); the very next byte is
+; wTileMap. A corrupt animation entry could hand DrawFrameBlock a garbage frame-block pointer whose
+; "tile count" is huge, and the loop would write straight past wShadowOAMEnd into the tilemap, garbaging
+; the whole battle background. No legitimate frame block can exceed the OAM buffer, so if the write
+; pointer (de) ever reaches wShadowOAMEnd, stop this frame block here instead of overrunning.
+	ld a, d
+	cp HIGH(wShadowOAMEnd)
+	jr c, .withinOAM
+	jr nz, .frameBlockDrawn ; de is past the OAM buffer's page -> overran, stop
+	ld a, e
+	cp LOW(wShadowOAMEnd)
+	jr nc, .frameBlockDrawn ; de >= wShadowOAMEnd -> stop
+.withinOAM
 	ld a, [wFBTileCounter]
 	ld c, a
 	ld a, [wNumFBTiles]
 	cp c
 	jp nz, .loop ; go back up if there are more tiles to draw
+.frameBlockDrawn
 ; after drawing tiles
 	ld a, [wFBMode]
 	cp FRAMEBLOCKMODE_02
