@@ -140,12 +140,12 @@ DEF SET_PAL_DEFAULT EQU $ff
 	const PAL_ORCHIDMON ; Sunsette: default Ekans/Arbok coloration (white / c282cf / a13d41 / black)
 	const PAL_OLIVEMON ; Sunsette: alt Ekans/Arbok coloration (white / 90ab70 / 275854 / black)
 	const PAL_EMBERMON ; Sunsette: default Vulpix/Charmeleon coloration (white / e07039 / a94315 / black)
-	const PAL_FLAREMON ; Sunsette: default Charmander/Charizard + alt Charmeleon (white / f7bc68 / cf3f2f / black)
+	const PAL_FLAREMON ; Sunsette: default Charmander (white / f7bc68 / cf3f2f / black)
 	const PAL_GRAYVELVET ; Sunsette: alt Vulpix/Wigglytuff coloration (white / 9898ae / 464078 / black)
 	const PAL_VERDANTMON ; Sunsette: default Bulbasaur line coloration (white / 29dda8 / 30b515 / black)
 	const PAL_IVORYMON ; Sunsette: default Parasect coloration (white / efe6d6 / 84739c / black)
 	const PAL_LEAFMON ; Sunsette: alt Bulbasaur line + default Metapod/Scyther (white / 90a870 / 4e914e / black)
-	const PAL_AQUAMON ; Sunsette: default Squirtle coloration (white / a0e8e8 / a8a080 / black)
+	const PAL_AQUAMON ; Sunsette: default Lapras + alt Seel/Omanyte/Omastar coloration (white / a0e8e8 / a8a080 / black)
 	const PAL_MUDDYWATER ; Sunsette: default Blastoise coloration (white / 68a0e8 / 988870 / black)
 	const PAL_HORNETMON ; Sunsette: default Beedrill coloration (white / ffe13b / 897789 / black)
 	const PAL_NIDOMASC ; Sunsette: default NidoranM/Nidorino/Nidoking coloration (white / c7a0d6 / 507868 / black)
@@ -265,7 +265,7 @@ DEF SET_PAL_DEFAULT EQU $ff
 	const PAL_ICON_78
 	const PAL_ICON_79
 	const PAL_OLIVEMON_REV ; Sunsette: alt Koffing/Weezing - PAL_OLIVEMON with the two green mids swapped
-	const PAL_WARTORTLEMON ; Sunsette: normal Wartortle unique palette (white / b8c0f8 / 8880a8 / black)
+	const PAL_WARTORTLEMON ; Sunsette: normal Wartortle unique palette (white / b8c0f0 / 8880a8 / black)
 	const PAL_BULBAALT ; Sunsette: alt Bulbasaur icon+battle (white / 78d078 / 489048 / black)
 	const PAL_IVYALT ; Sunsette: alt Ivysaur/Venusaur icon+battle (white / 78d078 / d45c40 / black)
 	const PAL_CHARIZARDMON ; Sunsette: normal Charizard icon+battle (white / f0a060 / 008ab2 / black)
@@ -273,4 +273,6 @@ DEF SET_PAL_DEFAULT EQU $ff
 	const PAL_CHARMELEONALT ; Sunsette: alt Charmeleon BATTLE (white / 80c8e8 / 8090b0 / black)
 	const PAL_CHARMELEONALTICON ; Sunsette: alt Charmeleon ICON (white / f8f8f0 / 8090b0 / black)
 	const PAL_DEXFRAME ; Sunsette: Pokedex entry frame (white / 28a8f8 / d80828 / black)
+	const PAL_DEXDESC ; Sunsette: Pokedex description panel (blue bg / white text, reuses dex colors)
+	const PAL_AQUASAND ; Sunsette: default Squirtle battle - AQUAMON cyan + warmer unique tan (white / a0e8e8 / e0c090 / black)
 DEF NUM_SGB_PALS EQU const_value

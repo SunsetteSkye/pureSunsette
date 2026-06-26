@@ -244,7 +244,7 @@ PalPacket_Empty:          PAL_SET 0, 0, 0, 0
 PalPacket_PartyMenu:      PAL_SET PAL_MEWMON, PAL_GREENBAR, PAL_YELLOWBAR, PAL_REDBAR
 PalPacket_Black:          PAL_SET PAL_BLACK, PAL_BLACK, PAL_BLACK, PAL_BLACK
 PalPacket_TownMap:        PAL_SET PAL_TOWNMAP, 0, 0, 0
-PalPacket_Pokedex:        PAL_SET PAL_DEXFRAME, 0, 0, 0
+PalPacket_Pokedex:        PAL_SET PAL_DEXFRAME, 0, PAL_DEXDESC, 0
 PalPacket_Slots:          PAL_SET PAL_SLOTS1, PAL_SLOTS2, PAL_SLOTS3, PAL_SLOTS4
 ; Sunsette: Surfing Pikachu minigame ("Pikachu's Beach"). The minigame draws its BG with rBGP
 ; on slot 0 only, so slot 0 = ocean blue (PAL_BLUEMON: white/blue/deep-blue/black). The Pikachu

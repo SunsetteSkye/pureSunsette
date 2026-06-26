@@ -1,3 +1,16 @@
+; #############################################################################
+; ##  THIS IS THE ONE. THE ONLY PALETTE-COLOUR FILE THAT MATTERS.            ##
+; ##  `SuperPalettes` below is the single live SGB / GBC / mon colour table. ##
+; ##  GBC reads it via the SGB1 register path; SGB reads it directly. EVERY  ##
+; ##  PAL_* colour the game displays comes from HERE. To change a colour,    ##
+; ##  edit its RGB row here (positional: lines up 1:1 with the PAL_* const   ##
+; ##  order in constants/palette_constants.asm).                             ##
+; ##  This is now the ONLY palette-colour data file. Everything else GBC was ##
+; ##  deleted or inlined: sgb_palettes2 + gbc_palettes2 (dead cruft) removed, ##
+; ##  and the two GBC_OGPalettes duochromatic fallbacks were inlined into    ##
+; ##  engine/gfx/palettes.asm. The only other RGB in the tree is that file's ##
+; ##  XfadeTweenTable (seam-fade tweens), which is NOT a palette source.     ##
+; #############################################################################
 ; PureRGBnote: GREENBUILD: added sgb palettes specific to green version
 ; Default color palettes on SGB, or the palettes displayed when COLOR mode SGB1 is selected on SGB or GBC.
 
@@ -142,7 +155,7 @@ ENDC
 	RGB 31,31,31, 05,27,20, 06,22,03, 00,00,00 ; PAL_VERDANTMON ; Sunsette: default Bulbasaur line - white / 29dda8 / 30b515 / black
 	RGB 31,31,31, 29,28,26, 16,14,19, 00,00,00 ; PAL_IVORYMON ; Sunsette: default Parasect - white / efe6d6 / 84739c / black
 	RGB 31,31,31, 18,21,14, 09,18,09, 00,00,00 ; PAL_LEAFMON ; Sunsette: alt Bulbasaur line + default Metapod/Scyther - white / 90a870 / 4e914e / black
-	RGB 31,31,31, 20,29,29, 21,20,16, 00,00,00 ; PAL_AQUAMON ; Sunsette: default Squirtle - white / a0e8e8 / a8a080 / black
+	RGB 31,31,31, 20,29,29, 21,20,16, 00,00,00 ; PAL_AQUAMON ; Sunsette: default Lapras + alt Seel/Omanyte/Omastar - white / a0e8e8 / a8a080 / black
 	RGB 31,31,31, 13,20,29, 19,17,14, 00,00,00 ; PAL_MUDDYWATER ; Sunsette: default Blastoise - white / 68a0e8 / 988870 / black
 	RGB 31,31,31, 31,27,07, 17,14,17, 00,00,00 ; PAL_HORNETMON ; Sunsette: default Beedrill - white / ffe13b / 897789 / black
 	RGB 31,31,31, 24,19,26, 10,15,13, 00,00,00 ; PAL_NIDOMASC ; Sunsette: default NidoranM/Nidorino/Nidoking - white / c7a0d6 / 507868 / black
@@ -261,7 +274,7 @@ ENDC
 	RGB 31,31,31, 31,30,29, 30,22,17, 00,00,00 ; PAL_ICON_78
 	RGB 31,31,31, 31,31,30, 30,22,24, 00,00,00 ; PAL_ICON_79
 	RGB 31,31,31, 05,11,10, 18,21,14, 00,00,00 ; PAL_OLIVEMON_REV ; Sunsette: alt Koffing/Weezing - olive mids reversed (white / 275854 / 90ab70 / black)
-	RGB 31,31,31, 22,23,30, 17,16,20, 00,00,00 ; PAL_WARTORTLEMON ; Sunsette: normal Wartortle - white / b8c0f8 / 8880a8 / black
+	RGB 31,31,31, 23,24,30, 17,16,20, 00,00,00 ; PAL_WARTORTLEMON ; Sunsette: normal Wartortle - white / b8c0f0 / 8880a8 / black
 	RGB 31,31,31, 15,25,15, 09,18,09, 00,00,00 ; PAL_BULBAALT ; Sunsette: alt Bulbasaur (icon+battle) - white / 78d078 / 489048 / black
 	RGB 31,31,31, 15,25,15, 26,11,08, 00,00,00 ; PAL_IVYALT ; Sunsette: alt Ivysaur/Venusaur (icon+battle) - white / 78d078 / d45c40 / black
 	RGB 31,31,31, 29,19,12, 00,17,22, 00,00,00 ; PAL_CHARIZARDMON ; Sunsette: normal Charizard (icon+battle) - white / f0a060 / 008ab2 / black
@@ -269,4 +282,6 @@ ENDC
 	RGB 31,31,31, 16,24,28, 16,18,21, 00,00,00 ; PAL_CHARMELEONALT ; Sunsette: alt Charmeleon BATTLE - white / 80c8e8 / 8090b0 / black
 	RGB 31,31,31, 30,30,29, 16,18,21, 00,00,00 ; PAL_CHARMELEONALTICON ; Sunsette: alt Charmeleon ICON - white / f8f8f0 / 8090b0 / black
 	RGB 31,31,31,  5,21,31, 27, 1, 5, 00,00,00 ; PAL_DEXFRAME ; Sunsette: Pokedex entry frame - white / 28a8f8 / d80828 / black
+	RGB  5,21,31,  5,21,31, 27, 1, 5, 31,31,31 ; PAL_DEXDESC ; Sunsette: Pokedex description panel - blue / blue / red / white
+	RGB 31,31,31, 20,29,29, 28,24,18, 00,00,00 ; PAL_AQUASAND ; Sunsette: default Squirtle battle - white / a0e8e8 / e0c090 / black
 	assert_table_length NUM_SGB_PALS

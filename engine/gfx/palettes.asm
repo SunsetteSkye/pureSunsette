@@ -858,6 +858,9 @@ XfadeFindTween:
 	and a         ; clear carry
 	ret
 
+; NOTE: these RGB rows are NOT the palette-colour source. They are seam-fade
+; tween midpoints only. Every live PAL_* colour lives in `SuperPalettes` in
+; data/sgb/sgb_palettes.asm - that is THE ONLY file that matters for palette colours.
 ; Sunsette: precomputed HSV-midpoint "tween" palettes for the outdoor seams whose two zones differ in
 ; palette. The fade eases current -> tween -> target (two straight linear legs), so the colour follows the
 ; hue arc instead of the gray straight line. Hand-tunable DATA: edit any row's colours to taste, or delete
@@ -2126,9 +2129,34 @@ INCLUDE "data/pokemon/palettes.asm"
 INCLUDE "data/pokemon/alt_palettes.asm"
 
 INCLUDE "data/sgb/sgb_palettes.asm"
-; Sunsette: SGB2 and both GBC base-palette tables removed - everything uses SuperPalettes (SGB1) now.
-; gbc_palettes.asm is kept only for its GBC_OGPalettes duochromatic defaults.
-INCLUDE "data/gbc/gbc_palettes.asm"
+
+; Sunsette: the full per-mon/per-map colour set lives in SuperPalettes (above).
+; The two tables below are the ONLY thing the old data/gbc/gbc_palettes.asm held,
+; so they were inlined here (where they're used) and that file was deleted.
+; They are the original "duochromatic" GBC colours displayed with no per-object
+; coloring: one palette for BG + OBJ1, one for OBJ0. Loaded by the routines just
+; above and below this point (search GBC_OGPalettes_*).
+GBC_OGPalettes_BGOBJ1:
+IF DEF(_RED)
+	RGB 31,31,31, 31,16,16, 18,07,07, 00,00,00 ; BG, OBJ1
+ENDC
+IF DEF(_BLUE)
+	RGB 31,31,31, 12,20,31, 00,00,31, 00,00,00 ; BG, OBJ1
+ENDC
+IF DEF(_GREEN)
+	RGB 31,31,31, 15,31,06, 00,16,00, 00,00,00 ; BG, OBJ1
+ENDC
+
+GBC_OGPalettes_OBJ0:
+IF DEF(_RED)
+	RGB 31,31,31, 15,31,06, 00,16,00, 00,00,00 ; OBJ0
+ENDC
+IF DEF(_BLUE)
+	RGB 31,31,31, 31,16,16, 18,07,07, 00,00,00 ; OBJ0
+ENDC
+IF DEF(_GREEN)
+	RGB 31,31,31, 12,20,31, 00,00,31, 00,00,00 ; OBJ0
+ENDC
 ; Sunsette: data/sgb/sgb_border.asm removed (SGB border graphics + palettes)
 
 ;shinpokerednote: ADDED: This is a function specifically for translating the default pokeyellow pals into the GBC color buffer

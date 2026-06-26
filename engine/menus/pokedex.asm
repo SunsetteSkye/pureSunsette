@@ -624,9 +624,9 @@ ShowPokedexDataCommon:
 	ldcoord_a 0, 0
 	ld a, $65 ; upper right corner tile
 	ldcoord_a 19, 0
-	ld a, $6c ; lower left corner tile
+	ld a, $5d ; PureRGBnote: blue lower left corner (was $6c)
 	ldcoord_a 0, 17
-	ld a, $6e ; lower right corner tile
+	ld a, $5f ; PureRGBnote: blue lower right corner (was $6e)
 	ldcoord_a 19, 17
 
 	hlcoord 2, 8
@@ -638,6 +638,24 @@ ShowPokedexDataCommon:
 	hlcoord 0, 9
 	ld de, PokedexDataDividerLine
 	call PlaceString ; draw horizontal divider line
+
+; PureRGBnote: ADDED: overlay blue panel-edge tiles around the description box
+	hlcoord 0, 10
+	ld de, SCREEN_WIDTH
+	lb bc, $58, 7
+	call DrawTileLine ; left side, rows 10-16
+	hlcoord 19, 10
+	ld de, SCREEN_WIDTH
+	lb bc, $59, 7
+	call DrawTileLine ; right side, rows 10-16
+	ld a, $5a
+	ldcoord_a 0, 9 ; divider-left junction, blue bottom
+	ld a, $5c
+	ldcoord_a 19, 9 ; divider-right junction, blue bottom
+	hlcoord 1, 9
+	ld de, 1
+	lb bc, $5b, 18
+	call DrawTileLine ; divider middle, cols 1-18, blue bottom
 
 	; fall through
 
@@ -690,9 +708,9 @@ ShowNextPokemonData:
 	ld b, a
 	ld a, [wPokedexNum]
 	cp b
-	ld a, $CD ; < prompt
+	ld a, $56 ; PureRGBnote: blue-backed < prompt (was $CD)
 	jr nz, .loadLeftPrompt
-	ld a, $6f ; border tile instead
+	ld a, $5e ; PureRGBnote: blue panel bottom border (was $6f)
 .loadLeftPrompt
 	ld [hl], a
 
@@ -701,18 +719,18 @@ ShowNextPokemonData:
 	ld b, a
 	ld a, [wPokedexNum]
 	cp b
-	ld a, $CE ; > prompt
+	ld a, $57 ; PureRGBnote: blue-backed > prompt (was $CE)
 	jr nz, .loadRightPrompt
-	ld a, $6f ; border tile instead
+	ld a, $5e ; PureRGBnote: blue panel bottom border (was $6f)
 .loadRightPrompt
 	ld [hl], a
 
 	hlcoord 2, 17
-	lb bc, $6f, 16
+	lb bc, $5e, 16 ; PureRGBnote: blue panel bottom border (was $6f)
 	jr .drawBottomBorder
 .noPrevNextPrompt
 	hlcoord 1, 17
-	lb bc, $6f, 18
+	lb bc, $5e, 18 ; PureRGBnote: blue panel bottom border (was $6f)
 .drawBottomBorder
 	ld de, 1
 	call DrawTileLine ; draw bottom border

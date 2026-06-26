@@ -23,6 +23,8 @@ TextBoxGraphicsEnd::
 
 PokedexTileGraphics: INCBIN "gfx/pokedex/pokedex.2bpp"
 PokedexTileGraphicsEnd:
+PokedexPanelEdgeGraphics: INCBIN "gfx/pokedex/panel_edges.2bpp"
+PokedexPanelEdgeGraphicsEnd:
 
 WorldMapTileGraphics: INCBIN "gfx/town_map/town_map.2bpp"
 WorldMapTileGraphicsEnd:
