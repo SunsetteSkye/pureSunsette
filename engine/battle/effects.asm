@@ -807,19 +807,24 @@ StatModifierDownEffect:
 	; Sunsette: unified MIST / DRAGON stat-drop immunity. A Mist-protected or DRAGON target can't have its
 	; stats lowered BY THE FOE - this one chokepoint blocks both primary stat-down moves AND secondary riders
 	; (Aurora Beam -atk, Bulldoze -spd, etc.). Resets (Haze/Flash) write neutral directly without this routine,
-	; so they still work. callfar leaves de/hl intact; bc (target BattleStatus1) is saved across it.
+	; so they still work.
+	; Sunsette FIX 2026-06-26 (hl): TargetResistsStatDrop ends with `ld hl, wXxxBattleStatus2`, so it
+	; CLOBBERS hl - which the caller set to wXxxMonStatMods at the top and the stat-lower below relies on.
+	; Without saving it, the dec-mod ran on wEnemyBattleStatus2 instead: read 0, dec -> $FF, wrote it back,
+	; setting EVERY status bit on the target (phantom Substitute/Leech-Seed/Mist). Save hl across the callfar.
+	; (callfar/Bankswitch itself preserves de/hl; it's the callee that trashes hl. bc is the target's
+	; BattleStatus1, also saved.) The old "callfar leaves de/hl intact" comment was wrong.
+	push hl
 	push bc
 	push de
 	callfar TargetResistsStatDrop ; e = 0 none / 1 MIST / 2 DRAGON
-	; Sunsette FIX 2026-06-26: the `pop de` below restored e to the LOW BYTE of the saved move-effect
-	; pointer (wPlayerMoveEffect/wEnemyMoveEffect, $CFD3/$CFCC), clobbering the verdict that lives in e.
-	; The old code then read that garbage ($D3/$CC) as the verdict -> always non-zero -> EVERY foe
-	; stat-down move was wrongly blocked with "It's protected by MIST!" (both sides, every battle).
-	; Capture the verdict in a before the pops, and stash it in b (bc is unused on the immune path) so
-	; it survives the `ld a, [de]` read below. Same register-clobber class as the OHKO callfar bug.
+	; Sunsette FIX 2026-06-26 (e): the `pop de` below restores e to the LOW BYTE of the saved move-effect
+	; pointer ($CFD3/$CFCC), clobbering the verdict that lives in e. Capture it in a before the pops, and
+	; stash it in b (unused on the immune path) so it survives the `ld a, [de]` read below.
 	ld a, e                       ; verdict, captured before pop de clobbers e
 	pop de
 	pop bc
+	pop hl                        ; restore hl = wXxxMonStatMods for the stat-lower below
 	and a
 	jr z, .notStatDropImmune
 	ld b, a                       ; preserve verdict across the [de] read below
