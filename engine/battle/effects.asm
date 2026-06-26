@@ -811,15 +811,22 @@ StatModifierDownEffect:
 	push bc
 	push de
 	callfar TargetResistsStatDrop ; e = 0 none / 1 MIST / 2 DRAGON
+	; Sunsette FIX 2026-06-26: the `pop de` below restored e to the LOW BYTE of the saved move-effect
+	; pointer (wPlayerMoveEffect/wEnemyMoveEffect, $CFD3/$CFCC), clobbering the verdict that lives in e.
+	; The old code then read that garbage ($D3/$CC) as the verdict -> always non-zero -> EVERY foe
+	; stat-down move was wrongly blocked with "It's protected by MIST!" (both sides, every battle).
+	; Capture the verdict in a before the pops, and stash it in b (bc is unused on the immune path) so
+	; it survives the `ld a, [de]` read below. Same register-clobber class as the OHKO callfar bug.
+	ld a, e                       ; verdict, captured before pop de clobbers e
 	pop de
 	pop bc
-	ld a, e
 	and a
 	jr z, .notStatDropImmune
+	ld b, a                       ; preserve verdict across the [de] read below
 	ld a, [de]
 	cp ATTACK_DOWN_SIDE_EFFECT
 	ret nc                        ; secondary rider on an immune target -> silently skip (the move still landed)
-	ld a, e                       ; primary stat-down move -> announce why nothing happened (1 MIST / 2 DRAGON)
+	ld a, b                       ; primary stat-down move -> announce why nothing happened (1 MIST / 2 DRAGON)
 	jpfar PrintStatDropBlockedText
 .notStatDropImmune
 	ld a, [de]
