@@ -757,14 +757,14 @@ PlaySubanimation:
 	add hl, de
 	add hl, de
 	ld a, [hli]
-	ld b, a               ; Sunsette: base Y + global anim offset (0 for normal moves)
-	ld a, [wAnimOffsetY]
-	add b
-	ld [wBaseCoordY], a
-	ld a, [hl]
-	ld b, a               ; Sunsette: base X + global anim offset
+	ld e, a               ; Sunsette FIX 2026-06-26: base Y stashed in e, NOT b. bc still holds the
+	ld a, [wAnimOffsetY]  ; frame-block pointer that DrawFrameBlock reads via `ld h, b`; the old `ld b, a`
+	add e                 ; here clobbered that high byte with a base coord -> garbage pointer -> garbage
+	ld [wBaseCoordY], a   ; tile count -> OAM overran into wTileMap (the battle-background tile flood).
+	ld a, [hl]            ; e is free (the base-coord id was already consumed) and DrawFrameBlock reloads de.
+	ld e, a               ; Sunsette FIX: base X via e, not b
 	ld a, [wAnimOffsetX]
-	add b
+	add e
 	ld [wBaseCoordX], a
 	pop hl
 	inc hl
