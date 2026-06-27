@@ -35,6 +35,7 @@ SHA1 := sha1sum
 endif
 
 RGBDS ?=
+PYTHON  ?= python
 RGBASM  ?= $(RGBDS)rgbasm
 RGBFIX  ?= $(RGBDS)rgbfix
 RGBGFX  ?= $(RGBDS)rgbgfx
@@ -193,6 +194,15 @@ gfx/tilesets/%.2bpp: tools/gfx += --trim-whitespace
 gfx/tilesets/reds_house.2bpp: tools/gfx += --preserve=0x48
 
 gfx/trade/game_boy.2bpp: tools/gfx += --remove-duplicates
+
+
+### VWF font: left-packed glyphs + advance-width table, repacked from font.1bpp
+### (itself built from the source-of-truth font.png via rgbgfx). Reading the
+### 1bpp keeps the tool stdlib-only (no Pillow). Explicit rule (overrides the
+### %.1bpp catch-all below).
+gfx/font/font_vwf.1bpp: gfx/font/font.1bpp gfx/font/vwf_widths.txt tools/make_vwf_font.py
+	$(PYTHON) tools/make_vwf_font.py $< gfx/font/vwf_widths.txt gfx/font/font_vwf.1bpp gfx/font/vwf_widths.bin
+gfx/font/vwf_widths.bin: gfx/font/font_vwf.1bpp ;
 
 
 ### Catch-all graphics rules

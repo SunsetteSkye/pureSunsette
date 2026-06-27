@@ -3,104 +3,51 @@
 ; All flow into _OakLegendaryTransitionText and then his normal dex talk (see OakVisitComment).
 
 _OakBrockText::
-	text "BROCK<...>what a"
-	line "kind, hardworking"
-	cont "young man."
-
-	para "I hear he cares"
-	line "for all his"
-	cont "siblings himself."
-
-	para "Nothing like"
-	line "his<...>"
+	text "Brock<...>what a kind, hardworking young man."
+	para "I hear he cares for all his siblings himself."
+	para "Nothing like his<...>"
 	prompt
 
 _OakMistyText::
-	text "I see you've"
-	line "beaten MISTY."
-
-	para "Bit of a spitfire,"
-	line "that one."
-
-	para "Ironic, I wonder,"
-	line "given her chosen"
-	cont "type?"
+	text "I see you've beaten Misty."
+	para "Bit of a spitfire, that one."
+	para "Ironic, I wonder, given her chosen type?"
 	prompt
 
 _OakSurgeText::
-	text "SURGE! What a"
-	line "boisterous UNOVAN."
-
-	para "More disciplined"
-	line "than you'd think"
-	cont "to look at him,"
-	cont "though, <PLAYER>."
+	text "Surge! What a boisterous Unovan."
+	para "More disciplined than you'd think to look at him, though, <PLAYER>."
 	prompt
 
 _OakErikaText::
-	text "I've not visited"
-	line "young miss ERIKA's"
-	cont "gardens in awhile."
-
-	para "I'd need"
-	line "noseplugs!"
+	text "I've not visited young miss Erika's gardens in awhile."
+	para "I'd need noseplugs!"
 	prompt
 
 _OakKogaText::
-	text "I'm surprised"
-	line "neither KOGA nor"
-	cont "I have balded any"
-
-	para "in all the years"
-	line "we've known each"
-	cont "other."
+	text "I'm surprised neither Koga nor I have balded any in all the years we've known each other."
 	prompt
 
 _OakSabrinaText::
-	text "Impressed you made"
-	line "it out against"
-	cont "SABRINA."
-
-	para "But then, you did"
-	line "free the city,"
-	cont "didn't you?"
+	text "Impressed you made it out against Sabrina."
+	para "But then, you did free the city, didn't you?"
 	prompt
 
 _OakBlaineText::
-	text "Ah<...>BLAINE."
-
+	text "Ah<...>Blaine."
 	para "<...>"
-
-	para "Anyway! You know,"
-	line "it's hardly fair."
-
-	para "He got even MORE"
-	line "striking when he"
-	cont "finished balding!"
-
-	para "Academics aren't"
-	line "supposed to look"
-	cont "cooler with age!"
+	para "Anyway! You know, it's hardly fair."
+	para "He got even MORE striking when he finished balding!"
+	para "Academics aren't supposed to look cooler with age!"
 	prompt
 
 _OakGiovanniText::
-	text "I never met"
-	line "GIOVANNI myself,"
-	cont "only rumors."
-
-	para "In hindsight, it"
-	line "was always a bit"
-	cont "odd, the leader"
-	cont "being out so much."
+	text "I never met Giovanni myself, only rumors."
+	para "In hindsight, it was always a bit odd, the Leader being out so much."
 	prompt
 
 _OakChampionBadgeText::
-	text "Well, look at you!"
-	line "The newest"
-	cont "CHAMPION!"
-
-	para "Ah<...>AGATHA said"
-	line "what about me?"
-
+	text "Well, look at you! The newest Champion!"
+	para "Ah<...>Agatha said what about me?"
 	para "Er<...>"
 	prompt

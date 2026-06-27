@@ -1,77 +1,48 @@
 _VermilionGymLTSurgePostBattleAdviceText::
-	text "Haven't had a"
-	line "fight that good"
-	cont "in ages, kid!"
-
-	para "Next time we're"
-	line "both in CELADON,"
-
-	para "grab a slice with"
-	line "me at the DINER!"
+	text "Haven't had a fight that good in ages, kid!"
+	para "Next time we're both in Celadon,"
+	para "grab a slice with me at the Diner!"
 	done
 
 _VermilionGymLTSurgeThunderBadgeInfoText::
-	text "The THUNDERBADGE"
-	line "cranks up your"
-	cont "#MON's SPEED!"
-
-	para "It also lets your"
-	line "#MON FLY any"
-	cont "time, kid!"
-
-	para "You're special,"
-	line "kid! Take this!"
+	text "The Thunder Badge cranks up your <Pokemon>'s Speed!"
+	para "It also lets your <Pokemon> Fly any time, kid!"
+	para "You're special, kid! Take this!"
 	done
 
 _TM24ExplanationText::
 	text_start
 	para "@"
 	text_ram_stringbuffer
-	text " contains"
-	line "THUNDERBOLT!"
-
-	para "Teach it to an"
-	line "electric #MON!"
+	text " contains Thunderbolt!"
+	para "Teach it to an electric <Pokemon>!"
 	done
 
 _VermilionGymLTSurgeTM24NoRoomText::
-	text "Yo kid, make room"
-	line "in your pack!"
+	text "Yo kid, make room in your pack!"
 	done
 
 _VermilionGymLTSurgeReceivedThunderBadgeText::
 	text "Whoa!"
-
-	para "You're the real"
-	line "deal, kid!"
-
-	para "Fine then, take"
-	line "the THUNDERBADGE!"
+	para "You're the real deal, kid!"
+	para "Fine then, take the Thunder Badge!"
 	prompt
 
 _VermilionGymGentlemanBattleText::
-	text "When I was in the"
-	line "Army, LT.SURGE"
-	cont "was my strict CO!"
+	text "When I was in the Army, Lt. Surge was my strict CO!"
 	done
 
 _VermilionGymGentlemanEndBattleText::
-	text "Stop!"
-	line "You're very good!"
+	text "Stop! You're very good!"
 	prompt
 
 _VermilionGymGentlemanAfterBattleText::
-	text "The door won't"
-	line "open?"
-
-	para "LT.SURGE always"
-	line "was cautious!"
+	text "The door won't open?"
+	para "Lt. Surge always was cautious!"
 	done
 
 _VermilionGymSuperNerdBattleText::
-	text "I'm a lightweight,"
-	line "but I'm good with"
-	cont "electricity!"
+	text "I'm a lightweight, but I'm good with electricity!"
 	done
 
 _VermilionGymSuperNerdEndBattleText::
@@ -80,51 +51,27 @@ _VermilionGymSuperNerdEndBattleText::
 
 _VermilionGymSuperNerdAfterBattleText::
 	text "OK, I'll talk!"
-
-	para "LT.SURGE said he"
-	line "hid door switches"
-	cont "inside something!"
+	para "Lt. Surge said he hid door switches inside something!"
 	done
 
 _VermilionGymSailorBattleText::
-	text "This is no place"
-	line "for kids!"
+	text "This is no place for kids!"
 	done
 
 _VermilionGymSailorEndBattleText::
-	text "Wow!"
-	line "Surprised me!"
+	text "Wow! Surprised me!"
 	prompt
 
 _VermilionGymSailorAfterBattleText::
-	text "LT.SURGE set up"
-	line "double locks!"
-	cont "Here's a hint!"
-
-	para "When you open the"
-	line "1st lock, the 2nd"
-	cont "lock is right"
-	cont "next to it!"
+	text "Lt. Surge set up double locks! Here's a hint!"
+	para "When you open the 1st lock, the 2nd lock is right next to it!"
 	done
 
 _VermilionGymGymGuideChampInMakingText::
-	text "LT.SURGE has a"
-	line "nickname. People"
-	cont "refer to him as"
-	cont "the Lightning"
-	cont "American!"
-
-	para "SURGE drills his"
-	line "#MON in close"
-	cont "combat. They hit"
-	cont "harder here!"
-
-	para "LT.SURGE is very"
-	line "cautious!"
-
-	para "You'll have to"
-	line "break a code to"
-	cont "get to him!"
+	text "Lt. Surge has a nickname. People refer to him as the Lightning American!"
+	para "Surge drills his <Pokemon> in close combat. They hit harder here!"
+	para "Lt. Surge is very cautious!"
+	para "You'll have to break a code to get to him!"
 	done
 
 _VermilionGymGymGuideBeatLTSurgeText::
@@ -135,40 +82,26 @@ _VermilionGymGymGuideBeatLTSurgeText::
 	ld hl, .body
 	ret
 .body:
-	text "Whew! That match"
-	line "was electric!"
-
-	para "That BADGE lets"
-	line "you raise #MON"
-	cont "up to L@"
+	text "Whew! That match was electric!"
+	para "That Badge lets you raise <Pokemon> up to L@"
 	text_decimal wExpGrowthThreshold, 1, 2
 	text "!"
 	prompt
 
 _VermilionGymGuideApexChipElectricText::
-	text "For electric"
-	line "#MON, an"
-	cont "APEX CHIP will"
-	cont "simulate a vast"
-	cont "grassy steppe"
-	cont "with frequent"
-	cont "storms,lightning"
-	cont "and thunder!"
+	text "For Electric <Pokemon>, an Apex Chip will simulate a vast grassy steppe with frequent storms, lightning and thunder!"
 	prompt
 
 _VermilionGymGentlemanAfterLocksText::
 	text "There you go."
-	para "The gates opened!"
-	line "Good job!"
+	para "The gates opened! Good job!"
 	done
 
 _VermilionGymSuperNerdAfterLocksText::
-	text "Hey! You figured"
-	line "it out! Cool!"
+	text "Hey! You figured it out! Cool!"
 	done
 
 _VermilionGymSailorAfterLocksText::
-	text "You found the"
-	line "locks?"
+	text "You found the locks?"
 	para "You're sharp!"
 	done

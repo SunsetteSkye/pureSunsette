@@ -1,5 +1,3 @@
 _UndergroundPathRoute8GirlText::
-	text "The dept. store"
-	line "in CELADON has a"
-	cont "great selection!"
+	text "The dept. store in Celadon has a great selection!"
 	done

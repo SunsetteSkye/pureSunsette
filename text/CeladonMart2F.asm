@@ -1,15 +1,9 @@
 _CeladonMart2FMiddleAgedManText::
-	text "SUPER REPEL keeps"
-	line "weak #MON at"
-	cont "bay<...>"
-
-	para "Hmm, it's a more"
-	line "powerful REPEL!"
+	text "Super Repel keeps weak <Pokemon> at bay<...>"
+	para "Hmm, it's a more powerful Repel!"
 	done
 
 _CeladonMart2FGirlText::
-	text "For long outings,"
-	line "you should buy"
-	cont "REVIVE."
+	text "For long outings, you should buy Revive."
 	done
 

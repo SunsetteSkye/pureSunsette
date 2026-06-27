@@ -1,6 +1,5 @@
 _DaycareGentlemanAllRightThenText::
-	text "All right then,"
-	line "@"
+	text "All right then, @"
 	text_end
 
 _DaycareGentlemanComeAgainText::
@@ -8,13 +7,11 @@ _DaycareGentlemanComeAgainText::
 	done
 
 _DaycareGentlemanNoRoomForMonText::
-	text "You have no room"
-	line "for this #MON!"
+	text "You have no room for this <Pokemon>!"
 	done
 
 _DaycareGentlemanOnlyHaveOneMonText::
-	text "You only have one"
-	line "#MON with you."
+	text "You only have one <Pokemon> with you."
 	done
 
 ;_DaycareGentlemanCantAcceptMonWithHMText::
@@ -24,11 +21,9 @@ _DaycareGentlemanOnlyHaveOneMonText::
 ;	done
 
 _DaycareGentlemanHeresYourMonText::
-	text "Thank you! Here's"
-	line "your #MON!"
+	text "Thank you! Here's your <Pokemon>!"
 	prompt
 
 _DaycareGentlemanNotEnoughMoneyText::
-	text "Hey, you don't"
-	line "have enough ¥!"
+	text "Hey, you don't have enough ¥!"
 	done

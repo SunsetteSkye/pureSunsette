@@ -1,109 +1,80 @@
 _RockTunnelB1FCooltrainerF1BattleText::
-	text "Hikers leave twigs"
-	line "as trail markers."
+	text "Hikers leave twigs as trail markers."
 	done
 
 _RockTunnelB1FCooltrainerF1EndBattleText::
-	text "Ohhh!"
-	line "I did my best!"
+	text "Ohhh! I did my best!"
 	prompt
 
 _RockTunnelB1FCooltrainerF1AfterBattleText::
-	text "I want to go"
-	line "home!"
+	text "I want to go home!"
 	done
 
 _RockTunnelB1FHiker1BattleText::
-	text "Hahaha! Can you"
-	line "beat my power?"
+	text "Hahaha! Can you beat my power?"
 	done
 
 _RockTunnelB1FHiker1EndBattleText::
-	text "Oops!"
-	line "Out-muscled!"
+	text "Oops! Out-muscled!"
 	prompt
 
 _RockTunnelB1FHiker1AfterBattleText::
-	text "I go for power"
-	line "because I hate"
-	cont "thinking!"
+	text "I go for power because I hate thinking!"
 	done
 
 _RockTunnelB1FSuperNerd1BattleText::
-	text "You have a"
-	line "#DEX?"
-	cont "I want one too!"
+	text "You have a <poke>dex? I want one too!"
 	done
 
 _RockTunnelB1FSuperNerd1EndBattleText::
-	text "Shoot!"
-	line "I'm so jealous!"
+	text "Shoot! I'm so jealous!"
 	prompt
 
 _RockTunnelB1FSuperNerd1AfterBattleText::
-	text "When you finish"
-	line "your #DEX, can"
-	cont "I have it?"
+	text "When you finish your <poke>dex, can I have it?"
 	done
 
 _RockTunnelB1FSuperNerd2BattleText::
-	text "Do you know about"
-	line "costume players?"
+	text "Do you know about costume players?"
 	done
 
 _RockTunnelB1FSuperNerd2EndBattleText::
-	text "Well,"
-	line "that's that."
+	text "Well, that's that."
 	prompt
 
 _RockTunnelB1FSuperNerd2AfterBattleText::
-	text "Costume players"
-	line "dress up as"
-	cont "#MON for fun."
+	text "Costume players dress up as <Pokemon> for fun."
 	done
 
 _RockTunnelB1FHiker2BattleText::
-	text "My #MON"
-	line "techniques will"
-	cont "leave you crying!"
+	text "My <Pokemon> techniques will leave you crying!"
 	done
 
 _RockTunnelB1FHiker2EndBattleText::
-	text "I give!"
-	line "You're a better"
-	cont "technician!"
+	text "I give! You're a better technician!"
 	prompt
 
 _RockTunnelB1FHiker2AfterBattleText::
-	text "In mountains,"
-	line "you'll often find"
-	cont "rock-type #MON."
+	text "In mountains, you'll often find Rock-type <Pokemon>."
 	done
 
 _RockTunnelB1FCooltrainerF2BattleText::
-	text "I don't often"
-	line "come here, but I"
-	cont "will fight you."
+	text "I don't often come here, but I will fight you."
 	done
 
 _Route19Swimmer5EndBattleText::
 _RockTunnelB1FCooltrainerF2EndBattleText::
-	text "Oh!"
-	line "I lost!"
+	text "Oh! I lost!"
 	prompt
 
 _RockTunnelB1FCooltrainerF2AfterBattleText::
-	text "I like tiny"
-	line "#MON, big ones"
-	cont "are too scary!"
+	text "I like tiny <Pokemon>, big ones are too scary!"
 	done
 
 _RockTunnelB1FHiker3BattleText::
-	text "Hit me with your"
-	line "best shot!"
+	text "Hit me with your best shot!"
 	done
 
 _RockTunnelB1FHiker3EndBattleText::
-	text "Fired"
-	line "away!"
+	text "Fired away!"
 	prompt

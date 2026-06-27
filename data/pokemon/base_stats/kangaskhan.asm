@@ -62,7 +62,7 @@
 
 ; --- Sunsette SSOT directives (parsed by tools/gen_pokemon_data.py) ---
 ;@ nature       NATURE_CONSIDERATE NATURE_RAGE
-;@ pal_battle   PAL_BROWNMON2
+;@ pal_battle   PAL_KANGASKHANMON
 ;@ pal_altbattle PAL_GRANITEMON
 ;@ pal_icon     PAL_ICON_10
 ;@ pal_alticon  PAL_ICON_57

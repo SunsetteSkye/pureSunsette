@@ -1,61 +1,39 @@
 _SSAnneBowSuperNerdText::
-	text "The party's over."
-	line "The ship will be"
-	cont "departing soon."
+	text "The party's over. The ship will be departing soon."
 	done
 
 _SSAnneBowSailor1Text::
-	text "Scrubbin' decks"
-	line "is hard work..."
-	para "But out past the"
-	line "bow, in the cold"
-	cont "sea mist, I once"
-	cont "saw a bird of"
-	cont "pure ice-white"
-	cont "as a blizzard!"
-	para "Heh. Nobody"
-	line "believes an old"
-	cont "sailor."
+	text "Scrubbin' decks is hard work..."
+	para "But out past the bow, in the cold sea mist, I once saw a bird of pure ice-white as a blizzard!"
+	para "Heh. Nobody believes an old sailor."
 	done
 
 _SSAnneBowCooltrainerMText::
 	text "Urf. I feel ill."
-
-	para "I stepped out to"
-	line "get some air."
+	para "I stepped out to get some air."
 	done
 
 _SSAnneBowSailor2BattleText::
 	text "Hey matey!"
-
-	para "Let's do a little"
-	line "jig!"
+	para "Let's do a little jig!"
 	done
 
 _SSAnneBowSailor2EndBattleText::
-	text "You're"
-	line "impressive!"
+	text "You're impressive!"
 	prompt
 
 _SSAnneBowSailor2AfterBattleText::
-	text "How many kinds of"
-	line "#MON do you"
-	cont "think there are?"
+	text "How many kinds of <Pokemon> do you think there are?"
 	done
 
 _SSAnneBowSailor3BattleText::
-	text "Ahoy there!"
-	line "Are you seasick?"
+	text "Ahoy there! Are you seasick?"
 	done
 
 _SSAnneBowSailor3EndBattleText::
-	text "I was"
-	line "just careless!"
+	text "I was just careless!"
 	prompt
 
 _SSAnneBowSailor3AfterBattleText::
-	text "My Pa said there"
-	line "are 100 kinds of"
-	cont "#MON. I think"
-	cont "there are more."
+	text "My Pa said there are 100 kinds of <Pokemon>. I think there are more."
 	done

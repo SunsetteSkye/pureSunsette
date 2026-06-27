@@ -1,78 +1,40 @@
 _FuchsiaTreeDeleterText1::
-	text "Huh? <...>Oh, Yes<...>"
-	para "I'm the"
-	line "@"
+	text "Huh? <...>Oh, yes<...>"
+	para "I'm the @"
 	text_ram wTrainerName
 	text "."
-
-	para "Did you expect"
-	line "someone else?"
-
-	para "I can delete"
-	line "the most annoying"
-	cont "trees for you!"
-
+	para "Did you expect someone else?"
+	para "I can delete the most annoying trees for you!"
 	prompt
 
 _FuchsiaTreeDeleterText2::
-	text "Where should I"
-	line "delete a tree?@"
+	text "Where should I delete a tree?@"
 	text_end
 
 _FuchsiaTreeDeleterRoute2::
-	text "I can carve a"
-	line "path from"
-	cont "VIRIDIAN CITY"
-	cont "to PEWTER CITY."
-
-	para "You won't need"
-	line "to cut down any"
-	cont "trees to travel"
-	cont "between the two,"
-	cont "and can avoid"
-	cont "VIRIDIAN FOREST."
-
-	para "It'll cost you"
-	line "¥8000. Fair?@"
+	text "I can carve a path from Viridian City to Pewter City."
+	para "You won't need to cut down any trees to travel between the two, and can avoid Viridian Forest."
+	para "It'll cost you ¥8000. Fair?@"
 	text_end
 
 _FuchsiaTreeDeleterCerulean::
-	text "That tree at the"
-	line "south end of"
-	cont "CERULEAN CITY?"
-
-	para "Sure thing."
-	line "It'll run you"
-	cont "¥4000. Fair?@"
+	text "That tree at the south end of Cerulean City?"
+	para "Sure thing. It'll run you ¥4000. Fair?@"
 	text_end
 
 _FuchsiaTreeDeleterRoute9::
-	text "The tree at the"
-	line "start of the"
-	cont "route leading to"
-	cont "ROCK TUNNEL?"
-
-	para "Easy!"
-	line "It'll cost you"
-	cont "¥4000. Fair?@"
+	text "The tree at the start of the route leading to Rock Tunnel?"
+	para "Easy! It'll cost you ¥4000. Fair?@"
 	text_end
 
 _FuchsiaTreeDeleterFuchsiaCity::
-	text "Clear out every"
-	line "cuttable tree in"
-	cont "FUCHSIA CITY?"
-
-	para "That's quite"
-	line "the job! But I"
-	cont "like a challenge."
-
-	para "The fee is"
-	line "¥10000. Fair?"
+	text "Clear out every cuttable tree in Fuchsia City?"
+	para "That's quite the job! But I like a challenge."
+	para "The fee is ¥10000. Fair?"
 	done
 
 _FuchsiaTreeDeleterAlreadyDeletedText::
-	text "Already been"
-	line "deleted!"
+	text "Already been deleted!"
 	prompt
 
 _FuchsiaTreeDeleterTreeDelete::
@@ -80,57 +42,35 @@ _FuchsiaTreeDeleterTreeDelete::
 	prompt
 
 _FuchsiaTreeDeleterDoneText::
-	text "I'm here for all"
-	line "your tree needs!"
+	text "I'm here for all your tree needs!"
 	done
 
 _FuchsiaTreeDeleterFinalText::
-	text "You cleared out"
-	line "every tree worth"
-	cont "clearing out!"
-
-	para "Thanks for the"
-	line "business!@"
+	text "You cleared out every tree worth clearing out!"
+	para "Thanks for the business!@"
 	text_end
 
 _FuchsiaTreeDeleterFinalText2::
-	text "As you can see"
-	line "I have lots of"
-	cont "potted trees."
-
-	para "It's where I keep"
-	line "the trees I take"
-	cont "out until someone"
-	cont "buys them!"
-
-	para "SNORLAX loves to"
-	line "knock them over"
-	cont "when it gets"
-	cont "hungry!"
+	text "As you can see I have lots of potted trees."
+	para "It's where I keep the trees I take out until someone buys them!"
+	para "Snorlax loves to knock them over when it gets hungry!"
 	done
 
 _FuchsiaTreeDeleterSnorlax::
-	text "SNORLAX: Snooore-"
-
+	text "Snorlax: Snooore-"
 	para "<...>"
-
 	para "<...>"
-
 	para "<...>"
-
 	para "-laaaaaaaaax@"
 	text_end
 
 _FuchsiaTreeDeleterSnorlax2::
-	text "What a couch"
-	line "potato!"
+	text "What a couch potato!"
 	done
 
 _FuchsiaTreeDeleterSnorlax3::
 	text "@"
 	text_ram wTrainerName
-	text ":"
-	line "That's my SNORLAX."
-	para "Its name is"
-	line "SNOOZER."
+	text ": That's my Snorlax."
+	para "Its name is Snoozer."
 	prompt

@@ -1,14 +1,7 @@
 _CeladonMart1FReceptionistText::
-	text "Hello! Welcome to"
-	line "CELADON DEPT."
-	cont "STORE."
-
-	para "The board on the"
-	line "right describes"
-	cont "the store layout."
-
-	para "I'd love to help"
-	line "you out too!"
+	text "Hello! Welcome to Celadon Dept. Store."
+	para "The board on the right describes the store layout."
+	para "I'd love to help you out too!"
 	done
 
 _CeladonMart1FReceptionistText2::
@@ -16,70 +9,59 @@ _CeladonMart1FReceptionistText2::
 	done
 
 _CeladonMart1FCurrentFloorSignText::
-	text "1F: SERVICE"
-	line "    COUNTER"
+	text "1F: Service Counter"
 	done
 
 _CeladonMart2FCurrentFloorSignText::
-	text "Top Grade Items"
-	line "for Trainers!"
+	text "Top Grade Items for Trainers!"
 	prompt
 
 _CeladonMart2FDirectorySignText::
-	text "2F: <TRAINER>'S"
-	line "    MARKET"
+	text "2F: <TRAINER>'s Market"
 	done
 
 _CeladonMart3FCurrentFloorSignText::
-	text "3F: TV GAME SHOP"
+	text "3F: TV Game Shop"
 	done
 
 _CeladonMart4FDirectorySignText::
-	text "4F: WISEMAN GIFTS"
+	text "4F: Wiseman Gifts"
 	done
 
 _CeladonMart5FCurrentFloorSignText::
-	text "5F: DRUG STORE"
+	text "5F: Drug Store"
 	done
 
 _CeladonMartRoofCurrentFloorSignText::
-	text "ROOFTOP SQUARE:"
-	line "VENDING MACHINES"
+	text "Rooftop Square: Vending Machines"
 	done
 
 _CeladonMart1FCurrentFloorClerkText::
-	text "Where I work!"
-	line "You're here now!"
+	text "Where I work! You're here now!"
 	done
 
 _CeladonMart2FDirectoryClerkText::
-	text "So many great TMs!"
-	line "What a steal!"
+	text "So many great TMs! What a steal!"
 	done
 
 _CeladonMart3FCurrentFloorClerkText::
-	text "The floor for"
-	line "video game lovers!"
+	text "The floor for video game lovers!"
 	done
 
 _CeladonMart4FDirectoryClerkText::
-	text "Buy a gift for"
-	line "your sweetie here!"
+	text "Buy a gift for your sweetie here!"
 	done
 
 _CeladonMart5FCurrentFloorClerkText::
-	text "Vitamins for your"
-	line "cute #MON here!"
+	text "Vitamins for your cute <Pokemon> here!"
 	done
 
 _CeladonMartRoofCurrentFloorClerkText::
-	text "Relax seeing the"
-	line "CELADON skyline!"
+	text "Relax seeing the Celadon skyline!"
 	done
 
 _CeladonMartUsePhoneText::
-	text "Use the payphone?"
-	line "It costs ¥25."
+	text "Use the payphone? It costs ¥25."
 	done
 
 _GenericForgetItText::
@@ -92,8 +74,7 @@ _CeladonMartCallWhoText::
 	done
 
 _CeladonMartCallStartText::
-	text "Here we go!"
-	line "Dialing<...>"
+	text "Here we go! Dialing<...>"
 	done
 
 _CeladonMartUsePhoneCallEnd::
@@ -101,166 +82,106 @@ _CeladonMartUsePhoneCallEnd::
 	done
 
 _CeladonMartCallMomText::
-	text "MOM: <PLAYER>?!"
+	text "Mom: <PLAYER>?!"
 	para "Is that you??"
-	para "I miss"
-	line "you so much!"
-	para "How are you"
-	line "feeling?"
+	para "I miss you so much!"
+	para "How are you feeling?"
 	prompt
 
 _CeladonMartCallMomGreatText::
-	text "Of course you"
-	line "are!"
-	para "You always were"
-	line "determined."
-	para "My son is doing"
-	line "well on his big"
-	cont "#MON journey."
-	para "Stay safe and"
-	line "have fun!"
+	text "Of course you are!"
+	para "You always were determined."
+	para "My son is doing well on his big <Pokemon> journey."
+	para "Stay safe and have fun!"
 	prompt
 
 _CeladonMartCallMomBoredText::
-	text "Getting bored of"
-	line "battling?"
-	para "Well, you're in"
-	line "CELADON CITY<...>"
-	para "I heard they have"
-	line "some sort of GAME"
-	cont "CORNER there."
-	para "I know you love"
-	line "games!"
-	para "You'd probably"
-	line "have fun there."
+	text "Getting bored of battling?"
+	para "Well, you're in Celadon City<...>"
+	para "I heard they have some sort of Game Corner there."
+	para "I know you love games!"
+	para "You'd probably have fun there."
 	prompt
 
 _CeladonMartCallMomGoodIdeaText::
 	text "Perfect!"
-	para "Remember to save"
-	line "around half the"
-	cont "money you earn."
-	para "It's just a good"
-	line "rule to live by!"
-	para "Another one is"
-	line "to wear fresh"
-	cont "underwear daily."
-	para "You'd best follow"
-	line "that one too!"
+	para "Remember to save around half the money you earn."
+	para "It's just a good rule to live by!"
+	para "Another one is to wear fresh underwear daily."
+	para "You'd best follow that one too!"
 	prompt
 
 _CeladonMartCallMomGamblingText::
 	text "What??"
 	para "My son, gambling?"
 	para "Bad idea!"
-	para "Guess you'll have"
-	line "to go somewhere"
-	cont "else!"
-	para "How about"
-	line "CYCLING ROAD?"
-	para "I remember when"
-	line "DAD taught you to"
-	cont "ride a bike!"
+	para "Guess you'll have to go somewhere else!"
+	para "How about Cycling Road?"
+	para "I remember when Dad taught you to ride a bike!"
 	para "You were so cute!"
-	para "You kept falling"
-	line "over but kept on"
-	cont "trying anyway!"
+	para "You kept falling over but kept on trying anyway!"
 	para "So tenacious!"
 	prompt
 
 _CeladonMartCallMomHomesickText::
 	text "You poor thing!"
-	para "You miss your"
-	line "MOM, I knew it!"
-	para "Come by PALLET"
-	line "TOWN any time!"
-	para "I'll make you"
-	line "some food."
+	para "You miss your Mom, I knew it!"
+	para "Come by Pallet Town any time!"
+	para "I'll make you some food."
 	para "@"
 	; fall through
 _WhatWouldYouLikeText::
-	text "What would you"
-	line "like?"
+	text "What would you like?"
 	prompt
 
 _CeladonMartCallMomRiceBallsText::
 	text "Got it!"
-	para "I'll make you"
-	line "some rice balls"
-	cont "as a nice snack."
-	para "Some with"
-	line "tuna inside, and"
-	cont "some with boiled"
-	cont "eggs inside!"
-	para "I know you love"
-	line "those."
+	para "I'll make you some rice balls as a nice snack."
+	para "Some with tuna inside, and some with boiled eggs inside!"
+	para "I know you love those."
 	para "Come get them!"
 	prompt
 
 _CeladonMartCallMomJellyDonutsText::
-	text "Alright, jelly"
-	line "donuts it is!"
-	para "Just as a treat"
-	line "though!"
-	para "You mustn't have"
-	line "too much sugar."
-	para "You always had"
-	line "a sweet tooth!"
+	text "Alright, jelly donuts it is!"
+	para "Just as a treat though!"
+	para "You mustn't have too much sugar."
+	para "You always had a sweet tooth!"
 	para "Come get them!"
 	prompt
 
 _CeladonMartCallMomBrisketText::
-	text "Some of DAD's"
-	line "slow-cooked"
-	cont "brisket?"
+	text "Some of Dad's slow-cooked brisket?"
 	para "Great idea!"
 	prompt
 
 _CeladonMartCallMomBrisketText2::
-	text "He's not here"
-	line "right now, but"
-	cont "I'll use the"
-	cont "recipe he wrote"
-	cont "down."
+	text "He's not here right now, but I'll use the recipe he wrote down."
 	prompt
 
 _CeladonMartDadBrisketText::
-	text "Honey! <PLAYER>"
-	line "wants brisket"
-	cont "for dinner!"
-	para "Okay, he's on it."
-	line "Sounds good!"
+	text "Honey! <PLAYER> wants brisket for dinner!"
+	para "Okay, he's on it. Sounds good!"
 	prompt
 
 _CeladonMartCallMomBrisketText3::
-	text "I wouldn't mind"
-	line "having some"
-	cont "either."
+	text "I wouldn't mind having some either."
 	para "Come and get it!"
 	prompt
 
 _CeladonMartCallMomLasagnaText::
-	text "Oh, you just love"
-	line "your MOM's home"
-	cont "cooked lasagna!"
-	para "I'll put in extra"
-	line "cheese, just how"
-	cont "you like it!"
-	para "A growing boy"
-	line "has to eat well!"
-	para "A hearty meal"
-	line "will be waiting"
-	cont "for you at home!"
+	text "Oh, you just love your Mom's home cooked lasagna!"
+	para "I'll put in extra cheese, just how you like it!"
+	para "A growing boy has to eat well!"
+	para "A hearty meal will be waiting for you at home!"
 	prompt
 
 _CeladonMartCallMomGoodbyeText::
-	text "Goodbye <PLAYER>!"
-	line "Love you!"
+	text "Goodbye <PLAYER>! Love you!"
 	prompt
-	
+
 _CeladonMartCallMomGoodbyeSweetSon::
-	text "Oh, my son is so"
-	line "sweet. Bye bye!"
+	text "Oh, my son is so sweet. Bye bye!"
 	prompt
 
 _CeladonMartCallMomGoodbyeComplete::

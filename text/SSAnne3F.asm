@@ -1,7 +1,4 @@
 _SSAnne3FSailorText::
-	text "Our CAPTAIN is a"
-	line "sword master!"
-
-	para "He even teaches"
-	line "CUT to #MON!"
+	text "Our Captain is a sword master!"
+	para "He even teaches Cut to <Pokemon>!"
 	done

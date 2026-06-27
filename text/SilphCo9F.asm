@@ -1,7 +1,5 @@
 SilphCo9FNurseYouLookTiredText::
-	text "You look tired!"
-	line "You should take a"
-	cont "quick nap!"
+	text "You look tired! You should take a quick nap!"
 	prompt
 
 SilphCo9FNurseDontGiveUpText::
@@ -9,13 +7,11 @@ SilphCo9FNurseDontGiveUpText::
 	done
 
 SilphCo9FNurseThankYouText::
-	text "Thank you so"
-	line "much!"
+	text "Thank you so much!"
 	done
 
 _SilphCo9FRocket1BattleText::
-	text "Your #MON seem"
-	line "to adore you, kid!"
+	text "Your <Pokemon> seem to adore you, kid!"
 	done
 
 _SilphCo9FRocket1EndBattleText::
@@ -23,35 +19,25 @@ _SilphCo9FRocket1EndBattleText::
 	prompt
 
 _SilphCo9FRocket1AfterBattleText::
-	text "If I had started"
-	line "as a trainer at"
-	cont "your age<...>"
+	text "If I had started as a Trainer at your age<...>"
 	done
 
 _SilphCo9FScientistBattleText::
-	text "Your #MON have"
-	line "weak points! I"
-	cont "can nail them!"
+	text "Your <Pokemon> have weak points! I can nail them!"
 	done
 
 _SilphCo9FScientistEndBattleText::
-	text "You"
-	line "hammered me!"
+	text "You hammered me!"
 	prompt
 
 _SilphCo9FScientistAfterBattleText::
-	text "Exploiting weak"
-	line "spots does work!"
-	cont "Think about"
-	cont "element types!"
+	text "Exploiting weak spots does work! Think about element types!"
 	done
 
 _SilphCo9FRocket2EndBattleText::
-	text "Urk!"
-	line "Sisters, I lost!"
+	text "Urk! Sisters, I lost!"
 	prompt
 
 _SilphCo9FRocket2AfterBattleText::
-	text "My sisters will"
-	line "avenge me!"
+	text "My sisters will avenge me!"
 	done

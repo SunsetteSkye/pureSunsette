@@ -1,257 +1,135 @@
 _PokemonFanClubPikachuFanNormalText::
-	text "Won't you admire"
-	line "my PIKACHU's"
-	cont "adorable tail?"
+	text "Won't you admire my Pikachu's adorable tail?"
 	done
 
 _PokemonFanClubPikachuFanYoursText::
-	text "Humph! My PIKACHU"
-	line "is twice as cute"
-	cont "as yours!"
+	text "Humph! My Pikachu is twice as cute as yours!"
 	done
 
 _PokemonFanClubPikachuFanBetterText::
-	text "Pfft, my PIKACHU"
-	line "is way cuter"
-	cont "than her SEEL!"
+	text "Pfft, my Pikachu is way cuter than her Seel!"
 	done
 
 _PokemonFanClubSeelFanNormalText::
-	text "I just love my"
-	line "SEEL!"
-
-	para "It squeals when I"
-	line "hug it!"
+	text "I just love my Seel!"
+	para "It squeals when I hug it!"
 	done
 
 _PokemonFanClubSeelFanBetterText::
-	text "His PIKACHU pales"
-	line "in comparison to"
-	cont "my beautiful SEEL!"
+	text "His Pikachu pales in comparison to my beautiful Seel!"
 	done
 
 _PokemonFanClubSeelFanYoursText::
 	text "Oh dear!"
-
-	para "My SEEL is far"
-	line "more attractive"
-	cont "than yours!"
+	para "My Seel is far more attractive than yours!"
 	done
 
 _PokemonFanClubPikachuText::
-	text "PIKACHU: Chu!"
-	line "Pikachu!"
+	text "Pikachu: Chu! Pikachu!"
 	done
 
 _PokemonFanClubSeelText::
-	text "SEEL: Kyuoo!"
+	text "Seel: Kyuoo!"
 	done
 
 _PokemonFanClubChairmanIntroText::
-	text "I chair the"
-	line "#MON Fan Club!"
-
-	para "I have collected"
-	line "over 100 #MON!"
-
-	para "I'm very fussy"
-	line "when it comes to"
-	cont "#MON!"
-
+	text "I chair the <Pokemon> Fan Club!"
+	para "I have collected over 100 <Pokemon>!"
+	para "I'm very fussy when it comes to <Pokemon>!"
 	para "So<...>"
-
-	para "Did you come"
-	line "visit to hear"
-	cont "about my #MON?"
+	para "Did you come visit to hear about my <Pokemon>?"
 	done
 
 _PokemonFanClubChairmanStoryText::
-	text "Good!"
-	line "Then listen up!"
-
-	para "My favorite"
-	line "RAPIDASH<...>"
-
-	para "It<...>cute<...>"
-	line "lovely<...>smart<...>"
-	cont "plus<...>amazing<...>"
-	cont "you think so?<...>"
-	cont "oh yes<...>it<...>"
-	cont "stunning<...>"
-	cont "kindly<...>"
-	cont "love it!"
-
-	para "Hug it<...>when<...>"
-	cont "sleeping<...>warm"
-	cont "and cuddly<...>"
-	cont "spectacular<...>"
-	cont "ravishing<...>"
-	cont "<...>Oops! Look at"
-	cont "the time! I kept"
-	cont "you too long!"
-
-	para "Thanks for hearing"
-	line "me out! I want"
-	cont "you to have this!"
+	text "Good! Then listen up!"
+	para "My favorite Rapidash<...>"
+	para "It<...>cute<...>lovely<...>smart<...>plus<...>amazing<...>you think so?<...>oh yes<...>it<...>stunning<...>kindly<...>love it!"
+	para "Hug it<...>when<...>sleeping<...>warm and cuddly<...>spectacular<...>ravishing<...><...>Oops! Look at the time! I kept you too long!"
+	para "Thanks for hearing me out! I want you to have this!"
 	prompt
 
 _PokemonFanClubExplainBikeVoucherText::
 	text_start
 
-	para "Exchange that for"
-	line "a BICYCLE!"
-
-	para "Don't worry, my"
-	line "FEAROW will FLY"
-	cont "me anywhere!"
-
-	para "So, I don't need a"
-	line "BICYCLE!"
-
-	para "I hope you like"
-	line "cycling!"
+	para "Exchange that for a Bicycle!"
+	para "Don't worry, my Fearow will Fly me anywhere!"
+	para "So, I don't need a Bicycle!"
+	para "I hope you like cycling!"
 	done
 
 _PokemonFanClubNoStoryText::
-	text "Oh. Come back"
-	line "when you want to"
-	cont "hear my story!"
+	text "Oh. Come back when you want to hear my story!"
 	done
 
 _PokemonFanClubChairFinalText::
 	text "Hello, <PLAYER>!"
-
-	para "Did you come see"
-	line "me about my"
-	cont "#MON again?"
-
+	para "Did you come see me about my <Pokemon> again?"
 	para "No? Too bad!"
 	done
 
 _PokemonFanClubBagFullText::
-	text "Make room for"
-	line "this!"
+	text "Make room for this!"
 	done
 
 ; Sunsette: the fan-club receptionist gushes over how much your LEAD mon adores you.
 ; She reacts to its happiness, but as an enthusiast - not a meter. The tiers track the
 ; real thresholds (128 = HAPPINESS_SURVIVE_FLOOR, the second-wind / bond-survival band).
 _FanClubBondReadIntroText::
-	text "Welcome to the"
-	line "#MON Fan Club!"
-
-	para "Ooh, and who's"
-	line "this little"
-	cont "sweetheart with"
-	cont "you?"
+	text "Welcome to the <Pokemon> Fan Club!"
+	para "Ooh, and who's this little sweetheart with you?"
 	prompt
 
 _FanClubBondReadLowText::
-	text "Oh... it seems a"
-	line "bit shy with you"
-	cont "still."
-
-	para "Spend more days"
-	line "together! True"
-	cont "fans never quit"
-	cont "on a friendship."
+	text "Oh... it seems a bit shy with you still."
+	para "Spend more days together! True fans never quit on a friendship."
 	done
 
 _FanClubBondReadTrustText::
 	text "Aww, it likes you!"
-
-	para "You can see the"
-	line "trust growing in"
-	cont "its eyes."
-
-	para "Keep it up--that's"
-	line "what we love to"
-	cont "see here!"
+	para "You can see the trust growing in its eyes."
+	para "Keep it up, that's what we love to see here!"
 	done
 
 _FanClubBondReadBondedText::
-	text "My goodness! This"
-	line "one truly adores"
-	cont "you!"
-
-	para "A bond like that"
-	line "is a beautiful"
-	cont "thing--it'll fight"
-	cont "its heart out for"
-	cont "you!"
+	text "My goodness! This one truly adores you!"
+	para "A bond like that is a beautiful thing, it'll fight its heart out for you!"
 	done
 
 _FanClubBondReadDevotedText::
-	text "Incredible! I've"
-	line "never seen a bond"
-	cont "this strong!"
-
-	para "This #MON would"
-	line "follow you to the"
-	cont "end of time."
-
-	para "Treasure it--you"
-	line "two are the very"
-	cont "spirit of our"
-	cont "club!"
+	text "Incredible! I've never seen a bond this strong!"
+	para "This <Pokemon> would follow you to the end of time."
+	para "Treasure it, you two are the very spirit of our club!"
 	done
 
 _FanClubBondReadNoMonText::
-	text "Oh? You've no"
-	line "partner with you"
-	cont "today!"
-
-	para "Come back with a"
-	line "#MON you love!"
+	text "Oh? You've no partner with you today!"
+	para "Come back with a <Pokemon> you love!"
 	done
 
 ; Sunsette: a TEAM ROCKET girl lurking in the back corner - the SECOND WIND explainer.
 ; She plays it cool, but lets slip she's casing the "bonds help in battle" idea.
 _PokemonFanClubRocketGirlText::
-	text "<...>What? I'm not"
-	line "with TEAM ROCKET."
-
-	para "I'm just<...>here"
-	line "because I heard"
-	cont "bonds are useful"
-	cont "in battle."
-
-	para "They say a hurt"
-	line "#MON who loves"
-	cont "its trainer digs"
-	cont "deep<...>"
-
-	para "and finds a second"
-	line "wind! It recovers"
-	cont "HP, even a little"
-	cont "PP."
-
-	para "<...>Hmph. Maybe"
-	line "there's something"
-	cont "to this mushy"
-	cont "stuff after all."
+	text "<...>What? I'm not with <TEAM><ROCKET>."
+	para "I'm just<...>here because I heard bonds are useful in battle."
+	para "They say a hurt <Pokemon> who loves its trainer digs deep<...>"
+	para "and finds a second wind! It recovers HP, even a little PP."
+	para "<...>Hmph. Maybe there's something to this mushy stuff after all."
 	done
 
 _PokemonFanClubSign1Text::
-	text "Let's all listen"
-	line "politely to other"
-	cont "trainers!"
+	text "Let's all listen politely to other trainers!"
 	done
 
 _PokemonFanClubSign2Text::
-	text "If someone brags,"
-	line "brag right back!"
+	text "If someone brags, brag right back!"
 	done
 
 _PokemonFanClubChairMoreText::
 	text "Oh, <PLAYER>!"
-	para "Want to hear"
-	line "another story"
-	cont "about my RAPIDASH?"
+	para "Want to hear another story about my Rapidash?"
 	done
 
 _PokemonFanClubChairLongOne::
 	text "Okay, get ready!"
-	para "This is a long"
-	line "story!"
+	para "This is a long story!"
 	done

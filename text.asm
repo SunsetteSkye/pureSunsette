@@ -160,12 +160,12 @@ INCLUDE "text/ViridianNicknameHouse.asm"
 INCLUDE "text/ViridianGym.asm"
 INCLUDE "text/Museum1F.asm"
 INCLUDE "text/Museum2F.asm"
-INCLUDE "text/PewterGym.asm"
 
 SECTION "Text 6b", ROMX
 
 INCLUDE "text/SaffronAbandonedBuilding.asm"
 INCLUDE "text/Route17.asm" ; Sunsette: moved out of full Text 5
+INCLUDE "text/PewterGym.asm" ; Sunsette: moved out of full Text 6 (de-cap text growth)
 
 
 SECTION "Text 7", ROMX

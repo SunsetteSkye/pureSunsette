@@ -30,7 +30,7 @@ _LearnsetRude::
 	para "It's rude to beat"
 	line "a girl and not"
 	cont "walk her back to"
-	cont "a #MON CENTER."
+	cont "a <Pokemon> Center."
 	para "My poor @"
 	text_ram_line wNameBuffer
 	text "!"
@@ -66,7 +66,7 @@ _LearnsetKnowMoreThanYou::
 _LearnsetBoring::
 	text "You're boring."
 	para "You'd never train"
-	line "a cool #MON"
+	line "a cool <Pokemon>"
 	cont "like @"
 	text_ram_namebuffer
 	text "."
@@ -82,7 +82,7 @@ _LearnsetAppreciator::
 	para "The @"
 	text_ram_namebuffer
 	text_start
-	line "APPRECIATOR CLUB!"
+	line "Appreciator Club!"
 	prompt
 
 _LearnsetMastering::
@@ -106,7 +106,7 @@ _LearnsetCool::
 
 _LearnsetTough::
 	text "You'll never find"
-	line "a #MON tougher"
+	line "a <Pokemon> tougher"
 	cont "than @"
 	text_ram_namebuffer
 	text "!"
@@ -132,7 +132,7 @@ _WhileGoingBackToPkmnCenter::
 	text_ram_namebuffer
 	text " while"
 	cont "on a trip to the"
-	cont "#MON CENTER."
+	cont "<Pokemon> Center."
 	prompt
 
 _StartedTalkingAboutDetails::
@@ -221,7 +221,7 @@ _KeepReadingText::
 	done
 
 _CheckDexToSeeIt::
-	text "Check your #DEX"
+	text "Check your <poke>dex"
 	line "to read it!"
 	done
 

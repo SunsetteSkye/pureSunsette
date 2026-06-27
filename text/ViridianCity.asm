@@ -1,32 +1,19 @@
 _ViridianCityYoungster1Text::
-	text "Those # BALLs"
-	line "at your waist!"
-	cont "You have #MON!"
-
-	para "It's great that"
-	line "you can carry and"
-	cont "use #MON any"
-	cont "time, anywhere!"
+	text "Those <poke> Balls at your waist! You have <Pokemon>!"
+	para "It's great that you can carry and use <Pokemon> any time, anywhere!"
 	done
 
 _ViridianCityGambler1GymAlwaysClosedText::
-	text "This #MON GYM"
-	line "is always closed."
-
-	para "I wonder who the"
-	line "LEADER is?"
+	text "This <Pokemon> Gym is always closed."
+	para "I wonder who the Leader is?"
 	done
 
 _ViridianCityGambler1GymLeaderReturnedText::
-	text "VIRIDIAN GYM's"
-	line "LEADER returned!"
+	text "Viridian Gym's Leader returned!"
 	done
 
 _ViridianCityYoungster2YouWantToKnowAboutText::
-	text "You want to know"
-	line "about the 2 kinds"
-	cont "of caterpillar"
-	cont "#MON?"
+	text "You want to know about the 2 kinds of caterpillar <Pokemon>?"
 	done
 
 ViridianCityYoungster2OkThenText::
@@ -34,68 +21,37 @@ ViridianCityYoungster2OkThenText::
 	done
 
 ViridianCityYoungster2CaterpieAndWeedleDescriptionText::
-	text "CATERPIE has no"
-	line "poison, but"
-	cont "WEEDLE does."
-
-	para "Watch out for its"
-	line "POISON STING!"
+	text "Caterpie has no poison, but Weedle does."
+	para "Watch out for its Poison Sting!"
 	done
 
 _ViridianCityGirlHasntHadHisCoffeeYetText::
-	text "Oh Grandpa! Don't"
-	line "be so mean!"
-	cont "He hasn't had his"
-	cont "coffee yet."
+	text "Oh Grandpa! Don't be so mean! He hasn't had his coffee yet."
 	done
 
 _ViridianCityGirlWhenIGoShopText::
-	text "When I go shop in"
-	line "PEWTER CITY, I"
-	cont "have to take the"
-	cont "winding trail in"
-	cont "VIRIDIAN FOREST."
-	cont "At least it isn't"
-	cont "dim like MT.MOON."
+	text "When I go shop in Pewter City, I have to take the winding trail in Viridian Forest. At least it isn't dim like Mt. Moon."
 	done
 
 _ViridianCityOldManSleepyPrivatePropertyText::
-	text "You can't go"
-	line "through here!"
-
-	para "This is private"
-	line "property!"
+	text "You can't go through here!"
+	para "This is private property!"
 	done
 
 ViridianCityFisherYouCanHaveThisText::
-	text "Yawn!"
-	line "I must have dozed"
-	cont "off in the sun."
-
-	para "I had this dream"
-	line "about a GASTLY"
-	cont "eating my dream."
-	cont "What's this?"
-	cont "Where did this <TM>"
-	cont "come from?"
-
-	para "This is spooky!"
-	line "Here, you can"
-	cont "have this <TM>."
+	text "Yawn! I must have dozed off in the sun."
+	para "I had this dream about a Gastly eating my dream. What's this? Where did this <TM> come from?"
+	para "This is spooky! Here, you can have this <TM>."
 	prompt
 
 _ViridianCityFisherTM42ExplanationText::
-	text "<TM>58 contains"
-	line "LOVELY KISS<...>"
-	cont "<...>Snore<...>"
+	text "<TM>58 contains Lovely Kiss<...> <...>Snore<...>"
 	done
 
 _ViridianCityFisherGastlyLearnset::
 	text "Hmm?"
-	para "Describe the dream"
-	line "I had in detail?"
-	para "It was about a"
-	line "giant @"
+	para "Describe the dream I had in detail?"
+	para "It was about a giant @"
 	text_ram_namebuffer
 	text "."
 	para "Here goes<...>"
@@ -103,88 +59,51 @@ _ViridianCityFisherGastlyLearnset::
 
 
 _ViridianCityFisherTM42NoRoomText::
-	text "You have too much"
-	line "stuff already."
+	text "You have too much stuff already."
 	done
 
 _ViridianCityOldManHadMyCoffeeNowText::
-	text "Ahh, I've had my"
-	line "coffee now and I"
-	cont "feel great!"
-
-	para "Sure you can go"
-	line "through!"
-
-	para "Are you in a"
-	line "hurry?"
+	text "Ahh, I've had my coffee now and I feel great!"
+	para "Sure you can go through!"
+	para "Are you in a hurry?"
 	done
 
 _ViridianCityOldManKnowHowToCatchPokemonText::
-	text "I see you're using"
-	line "a #DEX."
-
-	para "When you catch a"
-	line "#MON, #DEX"
-	cont "is automatically"
-	cont "updated."
-
-	para "What? Don't you"
-	line "know how to catch"
-	cont "#MON?"
-
-	para "I'll show you"
-	line "how to then."
+	text "I see you're using a <poke>dex."
+	para "When you catch a <Pokemon>, <poke>dex is automatically updated."
+	para "What? Don't you know how to catch <Pokemon>?"
+	para "I'll show you how to then."
 	done
 
 _ViridianCityOldManTimeIsMoneyText::
-	text "Time is money<...>"
-	line "Go along then."
+	text "Time is money<...> Go along then."
 	done
 
 _ViridianCityOldManYouNeedToWeakenTheTargetText::
-	text "First, you need"
-	line "to weaken the"
-	cont "target #MON."
+	text "First, you need to weaken the target <Pokemon>."
 	done
 
 _ViridianCitySignText::
-	text "VIRIDIAN CITY"
-	para "The Eternally"
-	line "Green Paradise"
+	text "Viridian City"
+	para "The Eternally Green Paradise"
 	done
 
 _ViridianCityTrainerTips1Text::
 	text "<TIPS>"
-
-	para "Catch #MON"
-	line "and expand your"
-	cont "collection!"
-
-	para "The more you have,"
-	line "the easier it is"
-	cont "to fight!"
+	para "Catch <Pokemon> and expand your collection!"
+	para "The more you have, the easier it is to fight!"
 	done
 
 _ViridianCityTrainerTips2Text::
 	text "<TIPS>"
-
-	para "The battle moves"
-	line "of #MON are"
-	cont "limited by their"
-	cont "POWER POINTs, PP."
-
-	para "To replenish PP,"
-	line "rest your tired"
-	cont "#MON at a"
-	cont "#MON CENTER!"
+	para "The battle moves of <Pokemon> are limited by their Power Points, PP."
+	para "To replenish PP, rest your tired <Pokemon> at a <Pokemon> Center!"
 	done
 
 _ViridianCityGymSignText::
-	text "VIRIDIAN CITY"
-	line "#MON GYM"
+	text "Viridian City <Pokemon> Gym"
 	done
 
 _ViridianCityGymLockedText::
-	text "The GYM's doors"
-	line "are locked<...>"
+	text "The Gym's doors are locked<...>"
 	done

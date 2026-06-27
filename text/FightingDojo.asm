@@ -1,90 +1,56 @@
 _FightingDojoKarateMasterText::
 	text "Grunt!"
-
-	para "I am the KARATE"
-	line "MASTER! I am the"
-	cont "LEADER here!"
-
-	para "You wish to"
-	line "challenge us?"
-	cont "Expect no mercy!"
-
+	para "I am the Karate Master! I am the Leader here!"
+	para "You wish to challenge us? Expect no mercy!"
 	para "Fwaaa!"
 	done
 
 _FightingDojoKarateMasterDefeatedText::
-	text "Hwa!"
-	line "Arrgh! Beaten!"
+	text "Hwa! Arrgh! Beaten!"
 	prompt
 
 _FightingDojoKarateMasterIWillGiveYouAPokemonText::
-	text "Indeed, I have"
-	line "lost!"
-
-	para "But, I beseech"
-	line "you, do not take"
-	cont "our emblem as"
-	cont "your trophy!"
-
-	para "In return, I will"
-	line "give you a prized"
-	cont "fighting #MON!"
-
-	para "Choose whichever"
-	line "one you like!"
+	text "Indeed, I have lost!"
+	para "But, I beseech you, do not take our emblem as your trophy!"
+	para "In return, I will give you a prized fighting <Pokemon>!"
+	para "Choose whichever one you like!"
 	done
 
 _FightingDojoKarateMasterStayAndTrainWithUsText::
 	text "Ho!"
-
-	para "Stay and train at"
-	line "Karate with us!"
+	para "Stay and train at Karate with us!"
 	done
 
 _FightingDojoMasterTMShopText::
-	text "A true master"
-	line "shares his art."
-
-	para "These <TM>s hold"
-	line "our DOJO's finest"
-	cont "techniques."
-
-	para "Train hard with"
-	line "them!"
+	text "A true master shares his art."
+	para "These <TM>s hold our Dojo's finest techniques."
+	para "Train hard with them!"
 	prompt
 
 _FightingDojoBlackbelt1BattleText::
-	text "Hoargh! Take your"
-	line "shoes off!"
+	text "Hoargh! Take your shoes off!"
 	done
 
 _SilphCo3FRocketEndBattleText::
 _FightingDojoBlackbelt1EndBattleText::
-	text "I give"
-	line "up!"
+	text "I give up!"
 	prompt
 
 _FightingDojoBlackbelt1AfterBattleText::
-	text "You wait 'til you"
-	line "see our Master!"
-
-	para "I'm a small fry"
-	line "compared to him!"
+	text "You wait 'til you see our Master!"
+	para "I'm a small fry compared to him!"
 	done
 
 _FightingDojoBlackbelt2BattleText::
-	text "I hear you're"
-	line "good! Show me!"
+	text "I hear you're good! Show me!"
 	done
 
 _FightingDojoBlackbelt2EndBattleText::
-	text "Judge!"
-	line "1 point!"
+	text "Judge! 1 point!"
 	prompt
 
 _FightingDojoBlackbelt2AfterBattleText::
-	text "Our Master is a"
-	line "pro fighter!"
+	text "Our Master is a pro fighter!"
 	done
 
 _MachokeLearnsetText2::
@@ -92,28 +58,21 @@ _MachokeLearnsetText2::
 	text_ram_namebuffer
 	text_start
 	line "at grappling!"
-	para "I still can't"
-	line "believe that!"
+	para "I still can't believe that!"
 	para "@"
 	text_end
 
 _FightingDojoBlackbelt3BattleText::
-	text "Nothing tough"
-	line "frightens me!"
-
-	para "I break boulders"
-	line "for training!"
+	text "Nothing tough frightens me!"
+	para "I break boulders for training!"
 	done
 
 _FightingDojoBlackbelt3EndBattleText::
-	text "Yow!"
-	line "Stubbed fingers!"
+	text "Yow! Stubbed fingers!"
 	prompt
 
 _FightingDojoBlackbelt3AfterBattleText::
-	text "The only thing"
-	line "that frightens us"
-	cont "is psychic power!"
+	text "The only thing that frightens us is psychic power!"
 	done
 
 _PrimeapeLearnsetText::
@@ -121,77 +80,48 @@ _PrimeapeLearnsetText::
 	text_ram_namebuffer
 	text_start
 	line "doesn't like it."
-	para "I'm going to train"
-	line "it further so it"
-	cont "learns SONICBOOM!"
-	para "Then it'll be able"
-	line "to deal with"
-	cont "PSYCHIC #MON."
+	para "I'm going to train it further so it learns Sonic Boom!"
+	para "Then it'll be able to deal with Psychic <Pokemon>."
 	para "@"
 	text_end
 
 _FightingDojoBlackbelt4BattleText::
 	text "Hoohah!"
-
-	para "You're trespassing"
-	line "in our FIGHTING"
-	cont "DOJO!"
+	para "You're trespassing in our Fighting Dojo!"
 	done
 
 _FightingDojoBlackbelt4EndBattleText::
-	text "Oof!"
-	line "I give up!"
+	text "Oof! I give up!"
 	prompt
 
 _FightingDojoBlackbelt4AfterBattleText::
-	text "The prime fighters"
-	line "across the land"
-	cont "train here."
+	text "The prime fighters across the land train here."
 	done
 
 _FightingDojoHitmonleePokeBallText::
-	text "You want the"
-	line "hard kicking"
-	cont "HITMONLEE?"
+	text "You want the hard kicking Hitmonlee?"
 	done
 
 _FightingDojoHitmonchanPokeBallText::
-	text "You want the"
-	line "piston punching"
-	cont "HITMONCHAN?"
+	text "You want the piston punching Hitmonchan?"
 	done
 
 _FightingDojoBetterNotGetGreedyText::
-	text "Better not get"
-	line "greedy<...>"
+	text "Better not get greedy<...>"
 	done
 
 _FightingDojoKarateMasterOthersText::
-	text "Defeat the others"
-	line "if you wish to"
-	cont "challenge me!"
+	text "Defeat the others if you wish to challenge me!"
 	done
 
 _FightingDojoHitmonleeScrollText::
-	text "DO NOT FEAR HE"
-	line "WHO PRACTICES"
-	cont "10000 KICKS ONCE."
-	para "FEAR HE WHO"
-	line "PRACTICES 1 KICK"
-	cont "10000 TIMES."
-	para "It's a scroll"
-	line "with ancient"
-	cont "knowledge about"
-	cont "kick techniques."
+	text "Do not fear he who practices 10000 kicks once."
+	para "Fear he who practices 1 kick 10000 times."
+	para "It's a scroll with ancient knowledge about kick techniques."
 	done
 
 _FightingDojoHitmonchanScrollText::
-	text "ROLL WITH THE"
-	line "PUNCHES"
-	para "CAN'T HIT WHAT"
-	line "YOU CAN'T SEE"
-	para "It's a scroll"
-	line "with ancient"
-	cont "knowledge about"
-	cont "punch techniques."
+	text "Roll with the punches."
+	para "Can't hit what you can't see."
+	para "It's a scroll with ancient knowledge about punch techniques."
 	done

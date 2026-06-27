@@ -1,430 +1,256 @@
 _ErikSaraInSafariZoneText::
-	text "Oh! She's already"
-	line "in the SAFARI"
-	cont "ZONE?"
-	para "Guess I'll head"
-	line "over there!"
+	text "Oh! She's already in the Safari Zone?"
+	para "Guess I'll head over there!"
 	para "Thanks!"
 	done
 
 _SaraErikOutsideText::
-	text "Oh! He's waiting"
-	line "outside the"
-	cont "SAFARI ZONE?"
-	para "When you're done,"
-	line "could you ask him"
-	cont "to come in here?"
-	para "I already paid for"
-	line "entry, so we can"
-	cont "meet up here."
+	text "Oh! He's waiting outside the Safari Zone?"
+	para "When you're done, could you ask him to come in here?"
+	para "I already paid for entry, so we can meet up here."
 	para "Thanks!"
 	done
 
 _WereMarineBiologists:
-	para "We're marine"
-	line "biologists!"
+	para "We're marine biologists!"
 	done
 
 _SaraReunitedText::
-	text "SARA: Thanks for"
-	line "finding my"
-	cont "boyfriend!@"
+	text "Sara: Thanks for finding my boyfriend!@"
 	text_call _WereMarineBiologists
-	para "We live out on"
-	line "ROUTE 19!"
-	para "You're welcome"
-	line "to visit anytime!"
+	para "We live out on Route 19!"
+	para "You're welcome to visit anytime!"
 	prompt
 
 _SaraOkayRicky::
-	text "Come on, RICKY!"
-	line "Time to start our"
-	cont "research!"
+	text "Come on, Ricky! Time to start our research!"
 	done
 
 _ErikReunitedText::
-	text "ERIK: Thanks for"
-	line "helping me find"
-	cont "my girlfriend!@"
+	text "Erik: Thanks for helping me find my girlfriend!@"
 	text_call _WereMarineBiologists
-	para "Did you know there"
-	line "are rare DRATINI"
-	cont "in the waters of"
-	cont "the SAFARI ZONE?"
-	para "FISHERs sometimes"
-	line "catch them."
+	para "Did you know there are rare Dratini in the waters of the Safari Zone?"
+	para "Fishers sometimes catch them."
 	done
 
 _ShouldntLookNoOneHome::
-	text "No one's home, so"
-	line "it's not right to"
-	cont "poke about."
+	text "No one's home, so it's not right to poke about."
 	done
 
 _PeriscopeInitialText::
-	text "Looks like some"
-	line "sort of periscope"
-	cont "piped through"
-	cont "the glass floor."
-	para "Does it look"
-	line "underwater?"
-	para "Seems to be turned"
-	line "off currently."
+	text "Looks like some sort of periscope piped through the glass floor."
+	para "Does it look underwater?"
+	para "Seems to be turned off currently."
 	done
 
 _ErikSarasHouseNoteNotHomeText::
-	text "NOTE: We're off"
-	line "studying DRATINI"
-	cont "sightings in the"
-	cont "SAFARI ZONE!"
-	para "-SARA and ERIK"
+	text "Note: We're off studying Dratini sightings in the Safari Zone!"
+	para "-Sara and Erik"
 	done
 
 _ErikSarasHouseNoteHomeText::
-	text "RESULTS: DRATINI"
-	line "seems to enter"
-	cont "the fresh water"
-	cont "in the SAFARI"
-	cont "ZONE by swimming"
-	cont "upstream from"
-	cont "the northern"
-	cont "VERMILION SEAWAY."
-	para "Perhaps this is"
-	line "where juveniles"
-	cont "go for safety?"
+	text "Results: Dratini seems to enter the fresh water in the Safari Zone by swimming upstream from the northern Vermilion Seaway."
+	para "Perhaps this is where juveniles go for safety?"
 	done
 
 _ErikSarasHousePhoneText::
-	text "A bright blue"
-	line "rotary phone!"
-	para "MARINE SIGHTING"
-	line "HOTLINE is"
-	cont "written on it."
+	text "A bright blue rotary phone!"
+	para "Marine Sighting Hotline is written on it."
 	done
 
 _ErikSarasHouseDragonairEmailText::
-	text "<PARA>Dear SARA"
-	line "and ERIK,"
-	para "I heard from MISTY"
-	line "that she's seen"
-	cont "DRAGONAIR while"
-	cont "training at the"
-	cont "SEAFOAM ISLANDS."
-	para "Maybe you should"
-	line "take a look?"
-	para "-LORELEI"
+	text "<PARA>Dear Sara and Erik,"
+	para "I heard from Misty that she's seen Dragonair while training at the Seafoam Islands."
+	para "Maybe you should take a look?"
+	para "-Lorelei"
 	done
 
 _ErikSarasHouseLeftBookText::
-	text "SECRETS OF THE SEA@"
+	text "Secrets of the Sea@"
 	text_end
 _ErikSarasHouseLeftBookText2::
-	text "<PARA>Coral reefs have"
-	line "incredibly high"
-	cont "biodiversity."
-	para "It's theorized"
-	line "that thousands of"
-	cont "new species of"
-	cont "#MON are still"
-	cont "undiscovered in"
-	cont "these habitats."
+	text "<PARA>Coral reefs have incredibly high biodiversity."
+	para "It's theorized that thousands of new species of <Pokemon> are still undiscovered in these habitats."
 	done
 
 _ErikSarasHouseCenterBookText::
-	text "ABYSSAL SEA LIFE@"
+	text "Abyssal Sea Life@"
 	text_end
 _ErikSarasHouseCenterBookText2::
-	text "<PARA>DEEP SEA VOLCANIC"
-	line "VENTS"
-	para "A miraculous"
-	line "habitat for life"
-	cont "in the depths of"
-	cont "the ocean."
-	para "Small colonies of"
-	line "#MON bask in"
-	cont "the volcanic heat."
+	text "<PARA>Deep Sea Volcanic Vents"
+	para "A miraculous habitat for life in the depths of the ocean."
+	para "Small colonies of <Pokemon> bask in the volcanic heat."
 	done
 
 _ErikSarasHouseRightBookText::
-	text "ANCIENT OCEANS@"
+	text "Ancient Oceans@"
 	text_end
 _ErikSarasHouseRightBookText2::
-	text "<PARA>Millions of years"
-	line "in the past,"
-	para "primitive sea"
-	line "organisms named"
-	cont "OMANYTE / KABUTO"
-	cont "reigned over the"
-	cont "primordial froth."
-	para "Both fed on micro-"
-	line "organisms and"
-	cont "vegetation on"
-	cont "the sea floor."
+	text "<PARA>Millions of years in the past,"
+	para "primitive sea organisms named Omanyte / Kabuto reigned over the primordial froth."
+	para "Both fed on micro-organisms and vegetation on the sea floor."
 	done
 
 _ErikSarasHouseNorthGarbageText::
-	text "<PARA>INSTALLING YOUR"
-	line "SEAGLASS FLOORING"
+	text "<PARA>Installing Your Seaglass Flooring"
 	para "Quick start guide!"
 	done
 
 _ErikSarasHouseSouthGarbageText::
-	text "A magazine is"
-	line "in the garbage."
-	para "The front page"
-	line "is outrageous!"
-	para "HAS ERIKA"
-	line "FOUND LOVE?!"
-	cont "SCANDALOUS!"
+	text "A magazine is in the garbage."
+	para "The front page is outrageous!"
+	para "Has Erika Found Love?! Scandalous!"
 	para "<...>"
-	para "TOP 5 OUTFITS"
-	line "INSPIRED BY WATER"
-	cont "#MON!"
+	para "Top 5 Outfits Inspired by Water <Pokemon>!"
 	para "<...>"
-	para "HOW TO MAKE YOUR"
-	line "HAIR GORGEOUS!"
-	cont "WE ASKED SABRINA!"
+	para "How to Make Your Hair Gorgeous! We Asked Sabrina!"
 	para "<...>"
-	para "WOW! LT.SURGE"
-	line "CAUGHT TRAINING"
-	cont "AT THE BEACH!"
-	para "STEAMY!"
+	para "Wow! Lt. Surge Caught Training at the Beach! Steamy!"
 	done
 
 _ErikSarasHouseBookText::
-	text "MIGRATORY PATTERNS"
-	line "OF MARINE #MON"
-	para "They're reading"
-	line "this!"
+	text "Migratory Patterns of Marine <Pokemon>"
+	para "They're reading this!"
 	done
 
 _ErikSarasHousePeriscopeExplanation::
-	text "ERIK: Those are"
-	line "sea periscopes."
-	para "They're attached"
-	line "to long video"
-	cont "cables that run"
-	cont "underwater."
-	para "I turned them on"
-	line "earlier!"
+	text "Erik: Those are sea periscopes."
+	para "They're attached to long video cables that run underwater."
+	para "I turned them on earlier!"
 	para "Have a look!"
-	para "Maybe you'll see"
-	line "something cool!"
+	para "Maybe you'll see something cool!"
 	done
 
-_PeriscopeLookedThroughThe::
+_PeriscopeLookedThroughThe:
 	db "Looked into the"
 	done
 
 _ErikSarasHouseLeftPeriscopeIntro::
 	text "@"
 	text_call _PeriscopeLookedThroughThe
-	line "CORAL REEF CAMERA."
+	line "Coral Reef Camera."
 	para "<...>"
 	prompt
 
 _ErikSarasHouseRightPeriscopeIntro::
 	text "@"
 	text_call _PeriscopeLookedThroughThe
-	line "DEEP SEA CAMERA."
+	line "Deep Sea Camera."
 	para "<...>"
 	prompt
 
 _DeepSeaCameraMagikarp::
-	text "A MAGIKARP with a"
-	line "SHELLDER clamped"
-	cont "onto it is slowly"
-	cont "sinking down."
-	para "It doesn't seem"
-	line "to mind."
+	text "A Magikarp with a Shellder clamped onto it is slowly sinking down."
+	para "It doesn't seem to mind."
 	done
 
 _DeepSeaCameraTentacruel::
-	text "A TENTACRUEL is"
-	line "floating in front"
-	cont "of the viewfinder"
-	cont "menacingly."
-	para "It's emitting a"
-	line "sinister red glow."
+	text "A Tentacruel is floating in front of the viewfinder menacingly."
+	para "It's emitting a sinister red glow."
 	done
 
 _DeepSeaCameraGyarados::
-	text "Whoa! A GYARADOS"
-	line "is chomping on a"
-	cont "CLOYSTER's shell!"
+	text "Whoa! A Gyarados is chomping on a Cloyster's shell!"
 	para "Such ferocity!"
 	done
 
 _DeepSeaCameraBubbles::
-	text "Nothing but"
-	line "big bubbles!"
+	text "Nothing but big bubbles!"
 	done
 
 _CoralReefCameraStaryu::
-	text "A STARYU is hiding"
-	line "stealthily in the"
-	cont "sand near coral"
-	cont "that looks a bit"
-	cont "like a brain."
+	text "A Staryu is hiding stealthily in the sand near coral that looks a bit like a brain."
 	done
 
 _CoralReefCameraHorsea::
-	text "Many HORSEA are"
-	line "weaving in and"
-	cont "out of a distant"
-	cont "kelp forest!"
+	text "Many Horsea are weaving in and out of a distant kelp forest!"
 	done
 
 _CoralReefCameraKrabby::
-	text "A KRABBY's picking"
-	line "bits of algae off"
-	cont "of a round rock."
-	para "It's nibbling on"
-	line "the algae happily."
+	text "A Krabby's picking bits of algae off of a round rock."
+	para "It's nibbling on the algae happily."
 	done
 
 _CoralReefCameraGoldeen::
-	text "A few GOLDEEN are"
-	line "swirling around"
-	cont "gracefully."
-	para "Whoa! They quickly"
-	line "scattered!"
-	para "A VAPOREON popped"
-	line "up out of nowhere!"
+	text "A few Goldeen are swirling around gracefully."
+	para "Whoa! They quickly scattered!"
+	para "A Vaporeon popped up out of nowhere!"
 	done
 
 _SaraHouseIntroText::
-	text "SARA: Look who it"
-	line "is! Come on in!"
-	para "This is our little"
-	line "slice of paradise!"
+	text "Sara: Look who it is! Come on in!"
+	para "This is our little slice of paradise!"
 	done
 
 _ErikHouseIntroText::
-	text "ERIK: Welcome to"
-	line "our humble abode!"
-	para "Stay awhile if"
-	line "you like!"
+	text "Erik: Welcome to our humble abode!"
+	para "Stay awhile if you like!"
 	done
 
 _SaraInterestedQuestion::
-	text "SARA: Interested"
-	line "in our research?"
+	text "Sara: Interested in our research?"
 	done
 
 _ErikInterestedQuestion::
-	text "ERIK: Wanna hear"
-	line "what we're up to?"
+	text "Erik: Wanna hear what we're up to?"
 	done
 
 _SaraHouseFirstStepText::
-	text "SARA: We're looking"
-	line "into sightings of"
-	cont "DRAGONAIR at the"
-	cont "nearby SEAFOAM"
-	cont "ISLANDS."
-	para "Have you ever"
-	line "been there?"
+	text "Sara: We're looking into sightings of Dragonair at the nearby Seafoam Islands."
+	para "Have you ever been there?"
 	done
 
 _SaraSeafoamExplanationText::
-	text "SARA: The SEAFOAM"
-	line "ISLANDS are found"
-	cont "west of here, on"
-	cont "ROUTE 20."
-	para "They're a system"
-	line "of caves."
-	para "Deeper down, the"
-	line "tide flows into"
-	cont "the caves."
-	para "It's a fascinating"
-	line "marine habitat!"
+	text "Sara: The Seafoam Islands are found west of here, on Route 20."
+	para "They're a system of caves."
+	para "Deeper down, the tide flows into the caves."
+	para "It's a fascinating marine habitat!"
 	prompt
 
 _ErikDragonairResearch::
-	text "ERIK: Recently the"
-	line "lower levels of"
-	cont "SEAFOAM ISLANDS"
-	cont "have been cooled"
-	cont "by some unknown"
-	cont "phenomenon."
-	para "They're very near"
-	line "freezing cold!"
-	para "But the most"
-	line "intriguing aspect"
-	cont "we just found<...>"
-	para "For some reason"
-	line "many DRAGONAIR"
-	cont "are now gathering"
-	cont "down there."
-	para "SARA: Many are at"
-	line "unusually high"
-	cont "levels!"
-	para "At levels they"
-	line "usually would've"
-	cont "evolved!"
-	para "We're trying to"
-	line "figure out why"
-	cont "they aren't"
-	cont "evolving!"
+	text "Erik: Recently the lower levels of Seafoam Islands have been cooled by some unknown phenomenon."
+	para "They're very near freezing cold!"
+	para "But the most intriguing aspect we just found<...>"
+	para "For some reason many Dragonair are now gathering down there."
+	para "Sara: Many are at unusually high levels!"
+	para "At levels they usually would've evolved!"
+	para "We're trying to figure out why they aren't evolving!"
 	prompt
 
 _ErikWantsDragonairText::
-	text "ERIK: Maybe if we"
-	line "had a high level"
-	cont "DRAGONAIR to take"
-	cont "to the ISLANDS<...>"
-	para "SARA: Sometimes I"
-	line "regret our pledge"
-	cont "not to catch any"
-	cont "wild #MON<...>"
+	text "Erik: Maybe if we had a high level Dragonair to take to the Islands<...>"
+	para "Sara: Sometimes I regret our pledge not to catch any wild <Pokemon><...>"
 	prompt
 
 _ShowedDragonairLowLevelText::
-	text "ERIK: A DRAGONAIR!"
-	line "<...>But it's a bit"
-	cont "too low level."
-	para "Try to get it to"
-	line "at least level 45."
+	text "Erik: A Dragonair! <...>But it's a bit too low level."
+	para "Try to get it to at least level 45."
 	done
 
 _ShowedDragonairText::
-	text "SARA: Perfect!"
-	para "We can bring your"
-	line "DRAGONAIR to the"
-	cont "SEAFOAM ISLANDS!!"
-	para "But a bit of a"
-	line "warning<...>"
-	para "It might not"
-	line "evolve anymore"
-	cont "if it goes there."
-	para "Are you ready to"
-	line "go with us?"
+	text "Sara: Perfect!"
+	para "We can bring your Dragonair to the Seafoam Islands!!"
+	para "But a bit of a warning<...>"
+	para "It might not evolve anymore if it goes there."
+	para "Are you ready to go with us?"
 	done
 
 _ShowedDragonairLetsDoThis::
 	text "Alright!"
-	para "RICKY!"
-	para "Get the SCUBA"
-	line "gear!"
+	para "Ricky!"
+	para "Get the scuba gear!"
 	para "Let's do this!"
 	done
 
 _SeafoamIslandsB4FDragonairEventStartText::
-	text "SARA: Okay! Here's"
-	line "the plan!"
-	para "We'll dive down"
-	line "with @"
+	text "Sara: Okay! Here's the plan!"
+	para "We'll dive down with @"
 	text_ram_namebuffer
 	text_start
-	cont "into the water"
-	cont "and see what"
-	cont "happens!"
-	para "Ready RICKY?"
+	cont "into the water and see what happens!"
+	para "Ready Ricky?"
 	para "Ready <PLAYER>?"
-	para "ERIK: Time to wear"
-	line "your scuba diving"
-	cont "suit, <PLAYER>!"
+	para "Erik: Time to wear your scuba diving suit, <PLAYER>!"
 	prompt
 
 _SeafoamIslandsB4FDragonairEventStartText2::
@@ -432,42 +258,30 @@ _SeafoamIslandsB4FDragonairEventStartText2::
 	prompt
 
 _DragonairEventDragonairText1::
-	text "DRAGONAIR: Fwee?"
+	text "Dragonair: Fwee?"
 	done
 
 _DragonairEventDragonairText2::
-	text "DRAGONAIR: Draogh!"
+	text "Dragonair: Draogh!"
 	done
 
 _DragonairEventErikText::
-	text "ERIK: Wow! Look"
-	line "at all these"
-	cont "DRAGONAIR!"
-	para "They seem to be"
-	line "drawn to the big"
-	cont "ice crystals."
+	text "Erik: Wow! Look at all these Dragonair!"
+	para "They seem to be drawn to the big ice crystals."
 	done
 
 _DragonairEventSaraText::
-	text "SARA: Fascinating!"
-	para "Are the DRAGONAIR"
-	line "trying to build"
-	cont "resistance to the"
-	cont "icy temperatures?"
+	text "Sara: Fascinating!"
+	para "Are the Dragonair trying to build resistance to the icy temperatures?"
 	done
 
 _DragonairEventCloysterText::
-	text "Looks like this"
-	line "CLOYSTER is very"
-	cont "territorial."
+	text "Looks like this Cloyster is very territorial."
 	done
 
 _DragonairEventCloysterText2::
-	text "It won't let you"
-	line "pass without a"
-	cont "fight."
-	para "Fight it with"
-	line "your DRAGONAIR?"
+	text "It won't let you pass without a fight."
+	para "Fight it with your Dragonair?"
 	done
 
 _DragonairEventLowLevelText::
@@ -475,159 +289,91 @@ _DragonairEventLowLevelText::
 	done
 
 _DragonairEventNoPartyMenuText::
-	text "No! This is"
-	line "@"
+	text "No! This is @"
 	text_ram wBattleMonNick
 	text "'s fight!"
 	prompt
 
 _DragonairEventCloysterBeatenText::
-	text "The CLOYSTER"
-	line "acknowledges your"
-	cont "DRAGONAIR's power."
+	text "The Cloyster acknowledges your Dragonair's power."
 	para "It lets you pass."
 	done
 
 _DragonairEventTransformText::
 	text "@"
 	text_ram_namebuffer
-	text " went"
-	line "near the ice"
-	cont "crystals."
+	text " went near the ice crystals."
 	prompt
 
 _DragonairEventTransformText2::
 	text "@"
 	text_ram_namebuffer
-	text " was"
-	line "filled with the"
-	cont "freezing power of"
-	cont "winter!@"
+	text " was filled with the freezing power of winter!@"
 	sound_get_item_2
-	text "<PARA>It gained the ICE"
-	line "Type!"
-	para "Its base stats"
-	line "increased!"
+	text "<PARA>It gained the Ice type!"
+	para "Its base stats increased!"
 	prompt
 
 _DragonairEventTransformText3::
-	text "SARA: WOW! What"
-	line "a discovery!"
-	para "ERIK: I can't wait"
-	line "to record all"
-	cont "this data!"
-	para "SARA: Let's go home"
-	line "and get some food!"
+	text "Sara: WOW! What a discovery!"
+	para "Erik: I can't wait to record all this data!"
+	para "Sara: Let's go home and get some food!"
 	done
 
 _DragonairEventAlready::
-	text "It's already been"
-	line "powered up."
+	text "It's already been powered up."
 	done
 
 _DragonairEventEnd::
-	text "SARA: So DRAGONAIR"
-	line "seem to gather in"
-	cont "SEAFOAM ISLANDS"
-	cont "to acclimatize to"
-	cont "the cold."
-	para "ERIK: And in the"
-	line "process they"
-	cont "evolved new icy"
-	cont "powers! Wow!"
-	para "SARA: Usually they"
-	line "evolve into"
-	cont "DRAGONITE, which"
-	cont "hates ice!"
-	para "ERIK: The frigid"
-	line "splendor of all"
-	cont "the DRAGONAIR was"
-	cont "so beautiful!"
+	text "Sara: So Dragonair seem to gather in Seafoam Islands to acclimatize to the cold."
+	para "Erik: And in the process they evolved new icy powers! Wow!"
+	para "Sara: Usually they evolve into Dragonite, which hates ice!"
+	para "Erik: The frigid splendor of all the Dragonair was so beautiful!"
 	para "Hey, <PLAYER>!"
-	para "Take a look at"
-	line "my computer if"
-	cont "you want to check"
-	cont "your DRAGONAIR's"
-	cont "new abilities!"
+	para "Take a look at my computer if you want to check your Dragonair's new abilities!"
 	done
 
 _ErikSarasHouseComputerAfterText::
-	text "WINTER DRAGONAIR"
-	line "ANALYSIS"
-	para "DRAGON / ICE type."
-	para "BASE STATS:"
-	para "HP: 91 ATTACK: 84"
-	line "DEFENSE: 75"
-	para "SPEED: 80"
-	line "SPECIAL: 130"
+	text "Winter Dragonair Analysis"
+	para "Dragon / Ice type."
+	para "Base Stats:"
+	para "HP: 91 Attack: 84 Defense: 75"
+	para "Speed: 80 Special: 130"
 	done
 
 _ErikSarasHouseGoBackErikText::
-	text "ERIK: So what do"
-	line "you think about"
-	cont "the analysis of"
-	cont "DRAGONAIR on my"
-	cont "computer?"
-	para "Or should we go"
-	line "back for more"
-	cont "research?"
+	text "Erik: So what do you think about the analysis of Dragonair on my computer?"
+	para "Or should we go back for more research?"
 	prompt
 
 _ErikSarasHouseGoBackSaraText::
-	text "SARA: RICKY and"
-	line "I have been"
-	cont "itching to go see"
-	cont "the ice crystals!"
+	text "Sara: Ricky and I have been itching to go see the ice crystals!"
 	prompt
 
 _ErikSarasHouseGoBackQuestionText::
-	text "Do you have"
-	line "another DRAGONAIR"
-	cont "to bring to the"
-	cont "SEAFOAM ISLANDS?"
+	text "Do you have another Dragonair to bring to the Seafoam Islands?"
 	prompt
 
 _DragonairEventLeaveText::
-	text "ERIK: That darn"
-	line "CLOYSTER won't let"
-	cont "you go through!"
-	para "Want to go back"
-	line "home for now?"
+	text "Erik: That darn Cloyster won't let you go through!"
+	para "Want to go back home for now?"
 	prompt
 
 _DragonairEventHealText::
-	text "SARA: Ack!"
-	para "Why won't that"
-	line "CLOYSTER get out"
-	cont "of the way?!"
-	para "Here let me heal"
-	line "your #MON!"
+	text "Sara: Ack!"
+	para "Why won't that Cloyster get out of the way?!"
+	para "Here let me heal your <Pokemon>!"
 	prompt
 
 _DragonairEventSaraReturnText::
-	text "SARA: Ahh, I'll"
-	line "never get tired"
-	cont "of seeing these"
-	cont "graceful #MON"
-	cont "floating about."
+	text "Sara: Ahh, I'll never get tired of seeing these graceful <Pokemon> floating about."
 	done
 
 _DragonairEventErikReturnText::
-	text "ERIK: I feel such"
-	line "serenity when"
-	cont "swimming with"
-	cont "these beautiful"
-	cont "DRAGONAIR."
+	text "Erik: I feel such serenity when swimming with these beautiful Dragonair."
 	done
 
 _ErikSarasHouseSecondNoteText::
-	text "RESULTS: DRAGONAIR"
-	line "evolved special"
-	cont "abilities in the"
-	cont "presence of ice."
-	para "The source of the"
-	line "cold temperatures"
-	cont "in the SEAFOAM"
-	cont "ISLANDS is still"
-	cont "unknown."
+	text "Results: Dragonair evolved special abilities in the presence of ice."
+	para "The source of the cold temperatures in the Seafoam Islands is still unknown."
 	done

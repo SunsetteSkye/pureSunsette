@@ -88,168 +88,168 @@ ItemNameJumpTable::
 	assert_table_length NUM_ITEMS
 
 MASTERBALLName:
-	db "MASTER BALL@"
+	db "Master Ball@"
 ULTRABALLName:
-	db "ULTRA BALL@"
+	db "Ultra Ball@"
 GREATBALLName:
-	db "GREAT BALL@"
+	db "Great Ball@"
 POKEBALLName:
-	db "POKé BALL@"
+	db "<poke> Ball@"
 HYPERBALLName:
-	db "HYPER BALL@"
+	db "Hyper Ball@"
 BICYCLEName:
-	db "BICYCLE@"
+	db "Bicycle@"
 SURFBOARDName:
 	db "?????@" ; SURFBOARD
 SAFARIBALLName:
-	db "SAFARI BALL@"
+	db "Safari Ball@"
 POKEDEXName:
-	db "POKéDEX@"
+	db "<poke>dex@"
 MOONSTONEName:
-	db "MOON STONE@"
+	db "Moon Stone@"
 ANTIDOTEName:
-	db "ANTIDOTE@"
+	db "Antidote@"
 BURNHEALName:
-	db "BURN HEAL@"
+	db "Burn Heal@"
 ICEHEALName:
-	db "ICE HEAL@"
+	db "Ice Heal@"
 AWAKENINGName:
-	db "AWAKENING@"
+	db "Awakening@"
 PARLYZHEALName:
-	db "PARLYZ HEAL@"
+	db "Parlyz Heal@"
 FULLRESTOREName:
-	db "FULL RESTORE@"
+	db "Full Restore@"
 MAXPOTIONName:
-	db "MAX POTION@"
+	db "Max Potion@"
 HYPERPOTIONName:
-	db "HYPER POTION@"
+	db "Hyper Potion@"
 SUPERPOTIONName:
-	db "SUPER POTION@"
+	db "Super Potion@"
 POTIONName:
-	db "POTION@"
+	db "Potion@"
 BAITName:
-	db "BAIT@"
+	db "Bait@"
 ROCKName:
-	db "ROCK@"
+	db "Rock@"
 OLDCOINName:
-	db "OLD COIN@"
+	db "Old Coin@"
 TOPSECRETKEYName:
-	db "TOPSECRETKEY@"
+	db "TopSecretKey@"
 CAMERAName:
-	db "CAMERA@"
+	db "Camera@"
 UNUSED4Name:
-	db "UNUSED4@"
+	db "Unused4@"
 UNUSED5Name:
-	db "UNUSED5@"
+	db "Unused5@"
 UNUSED6Name:
-	db "UNUSED6@"
+	db "Unused6@"
 ESCAPEROPEName:
-	db "ESCAPE ROPE@"
+	db "Escape Rope@"
 REPELName:
-	db "REPEL@"
+	db "Repel@"
 OLDAMBERName:
-	db "OLD AMBER@"
+	db "Old Amber@"
 FIRESTONEName:
-	db "FIRE STONE@"
+	db "Fire Stone@"
 THUNDERSTONEName:
-	db "THUNDERSTONE@"
+	db "ThunderStone@"
 WATERSTONEName:
-	db "WATER STONE@"
+	db "Water Stone@"
 HPUPName:
-	db "HP UP@"
+	db "HP Up@"
 PROTEINName:
-	db "PROTEIN@"
+	db "Protein@"
 IRONName:
-	db "IRON@"
+	db "Iron@"
 CARBOSName:
-	db "CARBOS@"
+	db "Carbos@"
 CALCIUMName:
-	db "CALCIUM@"
+	db "Calcium@"
 RARECANDYName:
-	db "RARE CANDY@"
+	db "Rare Candy@"
 DOMEFOSSILName:
-	db "DOME FOSSIL@"
+	db "Dome Fossil@"
 HELIXFOSSILName:
-	db "HELIX FOSSIL@"
+	db "Helix Fossil@"
 SECRETKEYName:
-	db "SECRET KEY@"
+	db "Secret Key@"
 POCKETABRAName:
-	db "POCKET ABRA@"
+	db "Pocket Abra@"
 BIKEVOUCHERName:
-	db "BIKE VOUCHER@"
+	db "Bike Voucher@"
 XACCURACYName:
-	db "X ACCURACY@"
+	db "X Accuracy@"
 LEAFSTONEName:
-	db "LEAF STONE@"
+	db "Leaf Stone@"
 CARDKEYName:
-	db "CARD KEY@"
+	db "Card Key@"
 NUGGETName:
-	db "NUGGET@"
+	db "Nugget@"
 APEXCHIPName:
-	db "APEX CHIP@"
+	db "Apex Chip@"
 POKEDOLLName:
-	db "POKé DOLL@"
+	db "<poke> Doll@"
 FULLHEALName:
-	db "FULL HEAL@"
+	db "Full Heal@"
 REVIVEName:
-	db "REVIVE@"
+	db "Revive@"
 MAXREVIVEName:
-	db "MAX REVIVE@"
+	db "Max Revive@"
 GUARDSPECName:
-	db "GUARD SPEC.@"
+	db "Guard Spec.@"
 SUPERREPELName:
-	db "SUPER REPEL@"
+	db "Super Repel@"
 MAXREPELName:
-	db "MAX REPEL@"
+	db "Max Repel@"
 DIREHITName:
-	db "DIRE HIT@"
+	db "Dire Hit@"
 COINName:
-	db "COIN@"
+	db "Coin@"
 FRESHWATERName:
-	db "FRESH WATER@"
+	db "Fresh Water@"
 SODAPOPName:
-	db "SODA POP@"
+	db "Soda Pop@"
 LEMONADEName:
-	db "LEMONADE@"
+	db "Lemonade@"
 SSTICKETName:
-	db "S.S.TICKET@"
+	db "S.S. Ticket@"
 GOLDTEETHName:
-	db "GOLD TEETH@"
+	db "Gold Teeth@"
 XATTACKName:
-	db "X ATTACK@"
+	db "X Attack@"
 XDEFENDName:
-	db "X DEFEND@"
+	db "X Defend@"
 XSPEEDName:
-	db "X SPEED@"
+	db "X Speed@"
 XSPECIALName:
-	db "X SPECIAL@"
+	db "X Special@"
 LOSTWALLETName:
-	db "LOST WALLET@"
+	db "Lost Wallet@"
 OAKSPARCELName:
-	db "OAK's PARCEL@"
+	db "Oak's Parcel@"
 ITEMFINDERName:
-	db "ITEMFINDER@"
+	db "Itemfinder@"
 SILPHSCOPEName:
-	db "SILPH SCOPE@"
+	db "Silph Scope@"
 POKEFLUTEName:
-	db "POKé FLUTE@"
+	db "<poke> Flute@"
 LIFTKEYName:
-	db "LIFT KEY@"
+	db "Lift Key@"
 BOOSTERCHIPName:
-	db "BOOSTER CHIP@"
+	db "Booster Chip@"
 OLDRODName:
-	db "OLD ROD@"
+	db "Old Rod@"
 GOODRODName:
-	db "GOOD ROD@"
+	db "Good Rod@"
 SUPERRODName:
-	db "SUPER ROD@"
+	db "Super Rod@"
 PPUPName:
-	db "PP UP@"
+	db "PP Up@"
 ETHERName:
-	db "ETHER@"
+	db "Ether@"
 MAXETHERName:
-	db "MAX ETHER@"
+	db "Max Ether@"
 ELIXERName:
-	db "ELIXER@"
+	db "Elixer@"
 MAXELIXERName:
-	db "MAX ELIXER@"
+	db "Max Elixer@"

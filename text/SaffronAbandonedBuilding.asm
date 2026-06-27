@@ -1,6 +1,5 @@
 _SaffronCityBusinessSpaceForLease::
-	text "BUSINESS SPACE"
-	line "FOR LEASE"
+	text "Business Space for Lease"
 	done
 
 _SaffronAbandonedBuildingRocket1::
@@ -9,13 +8,11 @@ _SaffronAbandonedBuildingRocket1::
 
 _SaffronAbandonedBuildingRocket1Seriously::
 	text "Seriously?"
-	para "Why would it be"
-	line "so easy?!"
+	para "Why would it be so easy?!"
 	prompt
 
 _SaffronAbandonedBuildingRocket1Brocket::
-	text "What does that"
-	line "even mean?!"
+	text "What does that even mean?!"
 	prompt
 
 _SaffronAbandonedBuildingRocket1Sprocket::
@@ -24,11 +21,8 @@ _SaffronAbandonedBuildingRocket1Sprocket::
 	done
 
 _SaffronAbandonedBuildingRocket1Dennis::
-	text "Don't use my"
-	line "real name you"
-	cont "fool!"
-	para "Come back with"
-	line "the password!"
+	text "Don't use my real name you fool!"
+	para "Come back with the password!"
 	prompt
 
 _SaffronAbandonedBuildingRocket1GetOut::
@@ -36,68 +30,44 @@ _SaffronAbandonedBuildingRocket1GetOut::
 	done
 
 _SaffronAbandonedBuildingRocket1Guess::
-	text "Guess we're"
-	line "recruiting"
-	cont "pipsqueaks now!"
+	text "Guess we're recruiting pipsqueaks now!"
 	done
 
 _SaffronAbandonedBuildingRocket2::
-	text "This abandoned"
-	line "building was our"
-	cont "ticket to taking"
-	cont "SILPH CO!"
-	para "SAFFRON POLICE"
-	line "never expected a"
-	cont "thing!"
+	text "This abandoned building was our ticket to taking Silph Co!"
+	para "Saffron Police never expected a thing!"
 	para "Hah!"
 	done
 
 _SaffronAbandonedBuildingRocket3::
-	text "The boss's idea"
-	line "to DIG a tunnel"
-	cont "was a stroke of"
-	cont "genius!"
-	para "We've got a secret"
-	line "passage right"
-	cont "into the heart of"
-	cont "SAFFRON CITY!"
+	text "The Boss's idea to dig a tunnel was a stroke of genius!"
+	para "We've got a secret passage right into the heart of Saffron City!"
 	done
 
 _SaffronAbandonedBuildingStairs::
-	text "The stairs have"
-	line "collapsed."
-	para "No one's getting"
-	line "up there."
+	text "The stairs have collapsed."
+	para "No one's getting up there."
 	done
 
 _SaffronAbandonedBuildingSteamPipe::
-	text "Gas is billowing"
-	line "out of this pipe."
-	para "It says HELIUM"
-	line "on the side."
+	text "Gas is billowing out of this pipe."
+	para "It says helium on the side."
 	prompt
 
 _SaffronAbandonedBuildingKoffing::
-	text "It's not ready for"
-	line "so much gas yet."
+	text "It's not ready for so much gas yet."
 	done
 
 _SaffronAbandonedBuildingAlready::
-	text "It's already full"
-	line "of HELIUM."
+	text "It's already full of helium."
 	done
 
 _SaffronAbandonedBuildingWeezing::
 	text_ram_namebuffer
-	text " inhaled"
-	line "the gas coming"
-	cont "from the pipe."
+	text " inhaled the gas coming from the pipe."
 	done
 
 _SaffronAbandonedBuildingWeezing2::
 	text_ram_namebuffer
-	text ""
-	line "was filled with"
-	cont "super-light"
-	cont "HELIUM!"
+	text " was filled with super-light helium!"
 	done

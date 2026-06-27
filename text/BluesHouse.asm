@@ -1,51 +1,33 @@
 _BluesHouseDaisyRivalAtLabText::
-	text "Hi <PLAYER>!"
-	line "<RIVAL> is out at"
-	cont "Grandpa's lab."
+	text "Hi <PLAYER>! <RIVAL> is out at Grandpa's lab."
 	done
 
 _BluesHouseDaisyOfferMapText::
-	text "Grandpa asked you"
-	line "to run an errand?"
-	cont "Here, this will"
-	cont "help you!"
+	text "Grandpa asked you to run an errand? Here, this will help you!"
 	prompt
 
 _GotMapText::
-	text "<PLAYER> got a"
-	line "TOWN MAP!@"
+	text "<PLAYER> got a Town Map!@"
 	text_end
 
 _MapHelpText::
-	text "Press SELECT"
-	line "when looking at"
-	cont "your POKéDEX to"
-	cont "view the TOWN"
-	cont "MAP. Easy!"
+	text "Press SELECT when looking at your <poke>dex to view the Town Map. Easy!"
 	done
 
 _Route1Youngster1NoRoomText::
 _BluesHouseDaisyBagFullText::
-	text "You have too much"
-	line "stuff with you."
+	text "You have too much stuff with you."
 	done
 
 _BluesHouseDaisyUseMapText::
-	text "Use the TOWN MAP"
-	line "to find out where"
-	cont "you are."
-	para "Just press SELECT"
-	line "in the POKéDEX!"
+	text "Use the Town Map to find out where you are."
+	para "Just press SELECT in the <poke>dex!"
 	done
 
 _BluesHouseDaisyWalkingText::
-	text "#MON are living"
-	line "things! If they"
-	cont "get tired, give"
-	cont "them a rest!"
+	text "<Pokemon> are living things! If they get tired, give them a rest!"
 	done
 
 _BluesHouseTownMapText::
-	text "It's a big map!"
-	line "This is useful!"
+	text "It's a big map! This is useful!"
 	done

@@ -1,75 +1,27 @@
 _ViridianGymGiovanniPreBattleText::
-	text "Fwahahaha! This is"
-	line "my hideout!"
-
-	para "I planned to"
-	line "resurrect <TEAM>"
-	cont "<ROCKET> here!"
-
-	para "But, you have"
-	line "caught me again!"
-	cont "So be it! This"
-	cont "time, I'm not"
-	cont "holding back!"
-
-	para "Once more, you"
-	line "shall face"
-	cont "GIOVANNI, the"
-	cont "greatest trainer!"
+	text "Fwahahaha! This is my hideout!"
+	para "I planned to resurrect <TEAM><ROCKET> here!"
+	para "But, you have caught me again! So be it! This time, I'm not holding back!"
+	para "Once more, you shall face Giovanni, the greatest Trainer!"
 	done
 
 _ViridianGymGiovanniReceivedEarthBadgeText::
-	text "Ha!"
-	line "That was a truly"
-	cont "intense fight!"
-	cont "You have won!"
-	cont "As proof, here is"
-	cont "the EARTHBADGE!@"
+	text "Ha! That was a truly intense fight! You have won! As proof, here is the Earth Badge!@"
 	text_end
 
 _ViridianGymGiovanniPostBattleAdviceText::
-	text "Having lost, I"
-	line "cannot face my"
-	cont "underlings!"
-	cont "<TEAM><ROCKET> is"
-	cont "finished forever!"
-
-	para "I will dedicate my"
-	line "life to the study"
-	cont "of #MON!"
-
-	para "Let us meet again"
-	line "some day!"
-	cont "Farewell!@"
+	text "Having lost, I cannot face my underlings! <TEAM><ROCKET> is finished forever!"
+	para "I will dedicate my life to the study of <Pokemon>!"
+	para "Let us meet again some day! Farewell!@"
 	text_end
 
 _ViridianGymGiovanniEarthBadgeInfoText::
-	text "The EARTHBADGE is"
-	line "evidence of your"
-	cont "mastery as a"
-	cont "#MON trainer!"
-
-	para "With it, you can"
-	line "enter the #MON"
-	cont "LEAGUE!"
-
-	para "It is my gift for"
-	line "your #MON"
-	cont "LEAGUE challenge!"
-
-	para "Now your #MON"
-	line "use their full"
-	cont "SPEED to score"
-	cont "critical hits!"
-
-	para "Be warned: very"
-	line "rare #MON will"
-	cont "not ordinarily"
-	cont "score critical"
-	cont "hits!"
-
-	para "Take this <TM>"
-	line "as well!"
+	text "The Earth Badge is evidence of your mastery as a <Pokemon> Trainer!"
+	para "With it, you can enter the <Pokemon> League!"
+	para "It is my gift for your <Pokemon> League challenge!"
+	para "Now your <Pokemon> use their full Speed to score critical hits!"
+	para "Be warned: very rare <Pokemon> will not ordinarily score critical hits!"
+	para "Take this <TM> as well!"
 	done
 
 _ViridianGymGiovanniTM27ExplanationText::
@@ -77,42 +29,28 @@ _ViridianGymGiovanniTM27ExplanationText::
 
 	para "@"
 	text_ram_stringbuffer
-	text ": CLAY ARMOR!"
-	line "An earthen guard"
-	cont "that shields and"
-	cont "heals GROUND kin!"
-
-	para "I forged it when"
-	line "I ran the GYM"
-	cont "here, long ago<...>"
+	text ": Clay Armor! An earthen guard that shields and heals Ground kin!"
+	para "I forged it when I ran the Gym here, long ago<...>"
 	done
 
 _ViridianGymGiovanniTM27NoRoomText::
-	text "You do not have"
-	line "space for this!"
+	text "You do not have space for this!"
 	done
 
 _ViridianGymCooltrainerM1BattleText::
-	text "Heh! You must be"
-	line "running out of"
-	cont "steam by now!"
+	text "Heh! You must be running out of steam by now!"
 	done
 
 _ViridianGymCooltrainerM1EndBattleText::
-	text "I"
-	line "ran out of gas!"
+	text "I ran out of gas!"
 	prompt
 
 _ViridianGymCooltrainerM1AfterBattleText::
-	text "You need power to"
-	line "keep up with our"
-	cont "GYM LEADER!"
+	text "You need power to keep up with our Gym Leader!"
 	done
 
 _ViridianGymHiker1BattleText::
-	text "Rrrroar! I'm"
-	line "working myself"
-	cont "into a rage!"
+	text "Rrrroar! I'm working myself into a rage!"
 	done
 
 _ViridianGymHiker1EndBattleText::
@@ -120,31 +58,23 @@ _ViridianGymHiker1EndBattleText::
 	prompt
 
 _ViridianGymHiker1AfterBattleText::
-	text "I'm still not"
-	line "worthy!"
+	text "I'm still not worthy!"
 	done
 
 _ViridianGymRocker1BattleText::
-	text "#MON and I, we"
-	line "make wonderful"
-	cont "music together!"
+	text "<Pokemon> and I, we make wonderful music together!"
 	done
 
 _ViridianGymRocker1EndBattleText::
-	text "You are in"
-	line "perfect harmony!"
+	text "You are in perfect harmony!"
 	prompt
 
 _ViridianGymRocker1AfterBattleText::
-	text "Do you know the"
-	line "identity of our"
-	cont "GYM LEADER?"
+	text "Do you know the identity of our Gym Leader?"
 	done
 
 _ViridianGymHiker2BattleText::
-	text "Karate is the"
-	line "ultimate form of"
-	cont "martial arts!"
+	text "Karate is the ultimate form of martial arts!"
 	done
 
 _ViridianGymHiker2EndBattleText::
@@ -152,30 +82,23 @@ _ViridianGymHiker2EndBattleText::
 	prompt
 
 _ViridianGymHiker2AfterBattleText::
-	text "If my #MON"
-	line "were as good at"
-	cont "Karate as I<...>"
+	text "If my <Pokemon> were as good at Karate as I<...>"
 	done
 
 _ViridianGymCooltrainerM2BattleText::
-	text "The truly talented"
-	line "win with style!"
+	text "The truly talented win with style!"
 	done
 
 _ViridianGymCooltrainerM2EndBattleText::
-	text "I"
-	line "lost my grip!"
+	text "I lost my grip!"
 	prompt
 
 _ViridianGymCooltrainerM2AfterBattleText::
-	text "The LEADER will"
-	line "scold me!"
+	text "The Leader will scold me!"
 	done
 
 _ViridianGymHiker3BattleText::
-	text "I'm the KARATE"
-	line "KING! Your fate"
-	cont "rests with me!"
+	text "I'm the Karate King! Your fate rests with me!"
 	done
 
 _ViridianGymHiker3EndBattleText::
@@ -183,61 +106,38 @@ _ViridianGymHiker3EndBattleText::
 	prompt
 
 _ViridianGymHiker3AfterBattleText::
-	text "#MON LEAGUE?"
-	line "You? Don't get"
-	cont "cocky!"
+	text "<Pokemon> League? You? Don't get cocky!"
 	done
 
 _ViridianGymRocker2BattleText::
-	text "Your #MON will"
-	line "cower at the"
-	cont "crack of my whip!"
+	text "Your <Pokemon> will cower at the crack of my whip!"
 	done
 
 _ViridianGymRocker2EndBattleText::
-	text "Yowch!"
-	line "Whiplash!"
+	text "Yowch! Whiplash!"
 	prompt
 
 _ViridianGymRocker2AfterBattleText::
-	text "Wait! I was just"
-	line "careless!"
+	text "Wait! I was just careless!"
 	done
 
 _ViridianGymCooltrainerM3BattleText::
-	text "VIRIDIAN GYM was"
-	line "closed for a long"
-	cont "time, but now our"
-	cont "LEADER is back!"
+	text "Viridian Gym was closed for a long time, but now our Leader is back!"
 	done
 
 _ViridianGymCooltrainerM3EndBattleText::
-	text "I"
-	line "was beaten?"
+	text "I was beaten?"
 	prompt
 
 _ViridianGymCooltrainerM3AfterBattleText::
-	text "You can go onto"
-	line "#MON LEAGUE"
-	cont "only by defeating"
-	cont "our GYM LEADER!"
+	text "You can go onto <Pokemon> League only by defeating our Gym Leader!"
 	done
 
 _ViridianGymGuidePreBattleText::
-	text "Even I don't know"
-	line "VIRIDIAN LEADER's"
-	cont "identity!"
-
-	para "This will be the"
-	line "toughest of all"
-	cont "the GYM LEADERs!"
-
-	para "These trainers"
-	line "fight vicious!"
-
-	para "Their #MON land"
-	line "critical hits"
-	cont "twice as often!"
+	text "Even I don't know Viridian Leader's identity!"
+	para "This will be the toughest of all the Gym Leaders!"
+	para "These Trainers fight vicious!"
+	para "Their <Pokemon> land critical hits twice as often!"
 	done
 
 _ViridianGymGuidePostBattleText::
@@ -248,31 +148,16 @@ _ViridianGymGuidePostBattleText::
 	ld hl, .body
 	ret
 .body:
-	text "Blow me away!"
-	line "GIOVANNI was the"
-	cont "GYM LEADER here?"
-
-	para "That BADGE lets"
-	line "you raise #MON"
-	cont "up to L@"
+	text "Blow me away! Giovanni was the Gym Leader here?"
+	para "That Badge lets you raise <Pokemon> up to L@"
 	text_decimal wExpGrowthThreshold, 1, 2
 	text "!"
 	prompt
 
 _ViridianGymGuideApexChipGroundText::
-	text "For ground"
-	line "#MON, an"
-	cont "APEX CHIP will"
-	cont "simulate a sandy"
-	cont "dry badland"
-	cont "environment with"
-	cont "rolling hills"
-	cont "and burrowable"
-	cont "earth below."
-	prompt 
+	text "For Ground <Pokemon>, an Apex Chip will simulate a sandy dry badland environment with rolling hills and burrowable earth below."
+	prompt
 
 _ViridianGymGuideSeeAtPokemonLeagueText::
-	text "See you at the"
-	line "#MON LEAGUE!"
+	text "See you at the <Pokemon> League!"
 	done
-

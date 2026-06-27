@@ -1,27 +1,16 @@
 _GameCornerBeauty1Text::
 	text "Welcome!"
-
-	para "You can exchange"
-	line "your coins for"
-	cont "fabulous prizes"
-	cont "next door."
+	para "You can exchange your coins for fabulous prizes next door."
 	done
 
 _GameCornerClerk1DoYouNeedSomeGameCoinsText::
-	text "Welcome to ROCKET"
-	line "GAME CORNER!"
-
-	para "Do you need some"
-	line "game coins?"
-
-	para "It's ¥8000 for"
-	line "500 coins. Would"
-	cont "you like some?"
+	text "Welcome to Rocket Game Corner!"
+	para "Do you need some game coins?"
+	para "It's ¥8000 for 500 coins. Would you like some?"
 	done
 
 _GameCornerClerk1ThanksHereAre50CoinsText::
-	text "Thanks! Here are"
-	line "your 500 coins!"
+	text "Thanks! Here are your 500 coins!"
 	prompt
 
 _CeladonGameCornerText_another500::
@@ -29,77 +18,54 @@ _CeladonGameCornerText_another500::
 	prompt
 
 _GameCornerClerk1PleaseComePlaySometimeText::
-	text "No? Please come"
-	line "play sometime!"
+	text "No? Please come play sometime!"
 	done
 
 _GameCornerClerk1CantAffordTheCoinsText::
-	text "You can't afford"
-	line "the coins!"
+	text "You can't afford the coins!"
 	done
 
 _GameCornerClerk1CoinCaseIsFullText::
-	text "Oops! Your COIN"
-	line "CASE is full."
+	text "Oops! Your Coin Case is full."
 	done
 
 _GameCornerClerk1DontHaveCoinCaseText::
-	text "You don't have a"
-	line "COIN CASE!"
+	text "You don't have a Coin Case!"
 	done
 
 _GameCornerMiddleAgedMan1Text::
 	text "Keep this quiet."
-
-	para "It's rumored that"
-	line "this place is run"
-	cont "by <TEAM><ROCKET>."
+	para "It's rumored that this place is run by <TEAM><ROCKET>."
 	done
 
 _GameCornerBeauty2Text::
-	text "I think these"
-	line "machines have"
-	cont "different odds."
+	text "I think these machines have different odds."
 	done
 
 _GameCornerFishingGuruWantToPlayText::
-	text "Kid, do you want"
-	line "to play?"
+	text "Kid, do you want to play?"
 	prompt
 
 _GameCornerFishingGuruReceived10CoinsText::
-	text "<PLAYER> received"
-	line "10 coins!@"
+	text "<PLAYER> received 10 coins!@"
 	text_end
 
 _GameCornerFishingGuruDontNeedMyCoinsText::
-	text "You don't need my"
-	line "coins!"
+	text "You don't need my coins!"
 	done
 
 _GameCornerFishingGuruWinsComeAndGoText::
-	text "Wins seem to come"
-	line "and go."
+	text "Wins seem to come and go."
 	done
 
 _GameCornerMiddleAgedWomanText::
-	text "I'm having a"
-	line "wonderful time!"
+	text "I'm having a wonderful time!"
 	done
 
 _GameCornerGymGuideChampInMakingText::
 	text "Hey, champ!"
-
-	para "Men can't enter"
-	line "that GYM unless"
-	cont "challenging the"
-	cont "LEADER, so I'm"
-	cont "here at the slots!"
-
-	para "ERIKA uses grass-"
-	line "types. Perfume"
-	cont "in there is"
-	cont "intense!"
+	para "Men can't enter that Gym unless challenging the Leader, so I'm here at the slots!"
+	para "Erika uses grass-types. Perfume in there is intense!"
 	done
 
 _CeladonGameCornerText_gymguide::
@@ -110,90 +76,57 @@ _CeladonGameCornerText_gymguide::
 	ld hl, .body
 	ret
 .body:
-	text "I hear you beat"
-	line "ERIKA!"
-
-	para "That BADGE lets"
-	line "you raise #MON"
-	cont "up to L@"
+	text "I hear you beat Erika!"
+	para "That Badge lets you raise <Pokemon> up to L@"
 	text_decimal wExpGrowthThreshold, 1, 2
 	text "!"
 	prompt
 
 _CeladonGameCornerGymGuideApexChipGrassText::
-	text "For grass #MON,"
-	line "an APEX CHIP will"
-	cont "evoke a lush"
-	cont "green forest or"
-	cont "jungle with a"
-	cont "thick canopy and"
-	cont "endless amounts"
-	cont "of plantlife."
+	text "For grass <Pokemon>, an Apex Chip will evoke a lush green forest or jungle with a thick canopy and endless amounts of plantlife."
 	prompt
 
 _GameCornerGymGuideTheyOfferRarePokemonText::
-	text "How about this"
-	line "Game Corner?"
-
-	para "They offer rare"
-	line "#MON that can"
-	cont "be exchanged for"
-	cont "your coins."
-
-	para "But, I just can't"
-	line "seem to win!"
+	text "How about this Game Corner?"
+	para "They offer rare <Pokemon> that can be exchanged for your coins."
+	para "But, I just can't seem to win!"
 	done
 
 _GameCornerGamblerText::
-	text "Games are scary!"
-	line "It's so easy to"
-	cont "get hooked!"
+	text "Games are scary! It's so easy to get hooked!"
 	done
 
 _GameCornerClerk2WantSomeCoinsText::
-	text "What's up? Want"
-	line "some coins?"
+	text "What's up? Want some coins?"
 	prompt
 
 _GameCornerGentlemanReceived20CoinsText::
 _GameCornerClerk2Received20CoinsText::
-	text "<PLAYER> received"
-	line "20 coins!@"
+	text "<PLAYER> received 20 coins!@"
 	text_end
 
 _GameCornerClerk2YouHaveLotsOfCoinsText::
-	text "You have lots of"
-	line "coins!"
+	text "You have lots of coins!"
 	done
 
 _GameCornerClerk2INeedMoreCoinsText::
-	text "Darn! I need more"
-	line "coins for the"
-	cont "#MON I want!"
+	text "Darn! I need more coins for the <Pokemon> I want!"
 	done
 
 _GameCornerGentlemanThrowingMeOffText::
-	text "Hey, what? You're"
-	line "throwing me off!"
-	cont "Here are some"
-	cont "coins, shoo!"
+	text "Hey, what? You're throwing me off! Here are some coins, shoo!"
 	prompt
 
 _GameCornerGentlemanYouGotYourOwnCoinsText::
-	text "You've got your"
-	line "own coins!"
+	text "You've got your own coins!"
 	done
 
 _GameCornerGentlemanCloselyWatchTheReelsText::
-	text "The trick is to"
-	line "watch the reels"
-	cont "closely!"
+	text "The trick is to watch the reels closely!"
 	done
 
 _GameCornerRocketImGuardingThisPosterText::
-	text "I'm guarding this"
-	line "poster!"
-	cont "Go away, or else!"
+	text "I'm guarding this poster! Go away, or else!"
 	done
 
 _Route21Fisher1EndBattleText::
@@ -202,20 +135,14 @@ _GameCornerRocketBattleEndText::
 	prompt
 
 _GameCornerRocketAfterBattleText::
-	text "Our hideout might"
-	line "be discovered! I"
-	cont "better tell BOSS!"
+	text "Our hideout might be discovered! I better tell Boss!"
 	done
 
 _GameCornerPosterSwitchBehindPosterText::
 	text "Hey!"
-
-	para "A switch behind"
-	line "the poster!?"
-	cont "Let's push it!@"
+	para "A switch behind the poster!? Let's push it!@"
 	text_end
 
 _GameCornerOopsForgotCoinCaseText::
-	text "Oops! Forgot the"
-	line "COIN CASE!"
+	text "Oops! Forgot the Coin Case!"
 	done

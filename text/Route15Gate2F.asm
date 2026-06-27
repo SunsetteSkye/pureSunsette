@@ -1,43 +1,21 @@
 _Route15Gate2FOaksAideBoosterChipText::
-	text "A BOOSTER CHIP"
-	line "increases EXP"
-	cont "gained by all"
-	cont "your #MON!"
-	
-	para "Just slot it in"
-	line "to your POKéBALL"
-	cont "belt!"
-	
-	para "It's a bit hard"
-	line "to uninstall"
-	cont "though."
-
-	para "If you want to,"
-	line "just speak to me!"
+	text "A Booster Chip increases EXP gained by all your <Pokemon>!"
+	para "Just slot it in to your <poke> Ball belt!"
+	para "It's a bit hard to uninstall though."
+	para "If you want to, just speak to me!"
 	done
 
 _Route15Gate2FBinocularsText::
-	text "It looks like a"
-	line "small island!"
+	text "It looks like a small island!"
 	done
 
 _Route15GateUpstairsRemoveBoosterText::
-	text "Ah, I see you"
-	line "installed the"
-	cont "BOOSTER CHIP that"
-	cont "I gave you!"
-	
-	para "Is it working"
-	line "well?"
-	
-	para "Or would you like"
-	line "me to unplug it?"
-	
-	para "I'll give it back"
-	line "to you after.@"
+	text "Ah, I see you installed the Booster Chip that I gave you!"
+	para "Is it working well?"
+	para "Or would you like me to unplug it?"
+	para "I'll give it back to you after.@"
 	text_end
 
 _Route15GateUpstairsDoneText::
-	text "Done! Here's the"
-	line "BOOSTER CHIP!@"
+	text "Done! Here's the Booster Chip!@"
 	text_end

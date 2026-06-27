@@ -1,101 +1,59 @@
 _SafariZoneGateSafariZoneWorker1Text::
-	text "Welcome to the"
-	line "SAFARI ZONE!"
+	text "Welcome to the Safari Zone!"
 	done
 
 _SafariZoneGateSafariZoneWorker1WouldYouLikeToJoinText::
-	text "For just ¥500,"
-	line "you can catch all"
-	cont "the #MON you"
-	cont "want in the park!"
-
-	para "Would you like to"
-	line "join the hunt?@"
+	text "For just ¥500, you can catch all the <Pokemon> you want in the park!"
+	para "Would you like to join the hunt?@"
 	text_end
 
 _SafariZoneGateSafariZoneWorker1ThatllBe500PleaseText::
-	text "That'll be ¥500"
-	line "please!"
+	text "That'll be ¥500 please!"
 	prompt
 
 _SafariZoneEntranceWhatGame::
-	text "Which Safari Game"
-	line "would you like?@"
+	text "Which Safari Game would you like?@"
 	text_end
 
 _SafariZoneClassic::
-	text "Hunt for #MON"
-	line "to catch using"
-	cont "bait and rocks!"
-
-	para "Try to find the"
-	line "SECRET HOUSE"
-	cont "before time runs"
-	cont "out! Good luck!"
+	text "Hunt for <Pokemon> to catch using bait and rocks!"
+	para "Try to find the Secret House before time runs out! Good luck!"
 	prompt
 
 _SafariZoneEntranceSafariBallsReceived::
-	text "We only use a"
-	line "special # BALL"
-	cont "in the CLASSIC"
-	cont "Safari game."
-
-	para "<PLAYER> received"
-	line "30 SAFARI BALLs!@"
+	text "We only use a special <poke> Ball in the Classic Safari game."
+	para "<PLAYER> received 30 Safari Balls!@"
 	text_end
 
 _SafariZoneRangerHunt::
-	text "Find and defeat"
-	line "all 5 RANGERs"
-	cont "before time runs"
-	cont "out to receive an"
-	cont "amazing prize!"
-
-	para "Use your #MON"
-	line "at your leisure!"
-
-	para "Watch out for"
-	line "other trainers!"
+	text "Find and defeat all 5 Rangers before time runs out to receive an amazing prize!"
+	para "Use your <Pokemon> at your leisure!"
+	para "Watch out for other Trainers!"
 	prompt
 
 _SafariZoneFreeRoam::
-	text "Roam the SAFARI"
-	line "ZONE as much as"
-	cont "you like!"
-
-	para "Use your #MON"
-	line "at your leisure!"
-
-	para "No time limits"
-	line "and plenty of"
-	cont "trainers around!"
-
+	text "Roam the Safari Zone as much as you like!"
+	para "Use your <Pokemon> at your leisure!"
+	para "No time limits and plenty of Trainers around!"
 	para "Have fun!@"
 	text_end
 
 
 _SafariZoneEntranceText_75360::
-	text "We'll call you on"
-	line "the PA when you"
-	cont "run out of time"
-	cont "or SAFARI BALLs!"
+	text "We'll call you on the PA when you run out of time or Safari Balls!"
 	done
 
 _SafariZonePATextNoBalls::
-	text "We'll call you on"
-	line "the PA when you"
-	cont "run out of time!"
+	text "We'll call you on the PA when you run out of time!"
 	done
 
 _SafariZoneGateSafariZoneWorker1PleaseComeAgainText::
-	text "OK! Please come"
-	line "again!"
+	text "OK! Please come again!"
 	done
 
 _GenericNotEnoughMoneyText::
 _SafariZoneGateSafariZoneWorker1NotEnoughMoneyText::
-	text "Oops! Not enough"
-	line "money!"
+	text "Oops! Not enough money!"
 	done
 
 _SafariZoneGateSafariZoneWorker1LeavingEarlyText::
@@ -103,41 +61,31 @@ _SafariZoneGateSafariZoneWorker1LeavingEarlyText::
 	text_end
 
 _SafariZoneGateSafariZoneWorker1ReturnSafariBallsText::
-	text "Please return any"
-	line "SAFARI BALLs you"
-	cont "have left."
+	text "Please return any Safari Balls you have left."
 	done
 
 _GenericGoodLuckText::
 _SafariZoneGateSafariZoneWorker1GoodLuckText::
-	text "Good Luck!"
+	text "Good luck!"
 	done
 
 _SafariZoneGateSafariZoneWorker1GoodHaulComeAgainText::
-	text "Did you get a"
-	line "good haul?"
-	cont "Come again!"
+	text "Did you get a good haul? Come again!"
 	done
 
 _RangerHuntDoneFailText::
 	text "Oh, so close!"
-	para "Didn't find all"
-	line "the RANGERs?"
-
-	para "Better luck next"
-	line "time! Come again!"
+	para "Didn't find all the Rangers?"
+	para "Better luck next time! Come again!"
 	done
 
 _RangerHuntDoneSuccessText::
-	text "You beat every"
-	line "single RANGER!"
-	para "Come right this"
-	line "way!"
+	text "You beat every single Ranger!"
+	para "Come right this way!"
 	done
 
 _ReceivedHyperBallText::
-	text "Here's your well-"
-	line "earned prize!!<PARA>@"
+	text "Here's your well-earned prize!!<PARA>@"
 	text_end
 
 _SafariZoneEntranceHyperBallOwedText::
@@ -145,40 +93,21 @@ _SafariZoneEntranceHyperBallOwedText::
 	text_end
 
 _SafariZoneGateSafariZoneWorker2FirstTimeHereText::
-	text "Hi! Is it your"
-	line "first time here?"
+	text "Hi! Is it your first time here?"
 	done
 
 _SafariZoneHelp::
-	text "There are 3 types"
-	line "of Safari game."
-
+	text "There are 3 types of Safari game."
 	para "Need any info?@"
 	text_end
 
 _SafariZoneGateSafariZoneWorker2SafariZoneExplanationText::
-	text "SAFARI ZONE has 4"
-	line "zones in it."
-
-	para "Each zone has"
-	line "different kinds"
-	cont "of #MON. Use"
-	cont "SAFARI BALLs to"
-	cont "catch them!"
-
-	para "When you run out"
-	line "of time or SAFARI"
-	cont "BALLs, it's game"
-	cont "over for you!"
-
-	para "Before you go,"
-	line "open an unused"
-	cont "#MON BOX so"
-	cont "there's room for"
-	cont "new #MON!"
+	text "Safari Zone has 4 zones in it."
+	para "Each zone has different kinds of <Pokemon>. Use Safari Balls to catch them!"
+	para "When you run out of time or Safari Balls, it's game over for you!"
+	para "Before you go, open an unused <Pokemon> Box so there's room for new <Pokemon>!"
 	done
 
 _SafariZoneGateSafariZoneWorker2YoureARegularHereText::
-	text "Sorry, you're a"
-	line "regular here!"
+	text "Sorry, you're a regular here!"
 	done

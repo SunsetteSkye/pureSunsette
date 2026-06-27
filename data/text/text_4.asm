@@ -11,14 +11,14 @@ _PokemonFaintedText::
 
 _PlayerBlackedOutText::
 	text "<PLAYER> is out of"
-	line "useable #MON!"
+	line "useable <Pokemon>!"
 
 	para "<PLAYER> blacked"
 	line "out!"
 	prompt
 
 _RepelWoreOffText::
-	text "REPEL's effect"
+	text "Repel's effect"
 	line "wore off."
 	prompt
 
@@ -169,31 +169,31 @@ _ForgotAndText::
 
 _PokemonCenterWelcomeText::
 	text "Welcome to our"
-	line "#MON CENTER!"
+	line "<Pokemon> Center!"
 
 	para "We heal your"
-	line "#MON back to"
+	line "<Pokemon> back to"
 	cont "perfect health!"
 	prompt
 
 _ShallWeHealYourPokemonText::
 	text "Shall we heal your"
-	line "#MON?"
+	line "<Pokemon>?"
 	done
 
 _NeedYourPokemonText::
 	text "OK. We'll need"
-	line "your #MON."
+	line "your <Pokemon>."
 	done
 
 _PokemonCenterFastWelcomeText::
 	text "We'll heal your"
-	line "#MON quick."
+	line "<Pokemon> quick."
 	done
 
 _PokemonFightingFitText::
 	text "Thank you!"
-	line "Your #MON are"
+	line "Your <Pokemon> are"
 	cont "fighting fit!"
 	prompt
 

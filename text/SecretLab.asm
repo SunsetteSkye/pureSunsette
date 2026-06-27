@@ -30,17 +30,15 @@ _SecretLabEndBattleText2::
 	prompt
 
 _SecretLabAfterBattleText2::
-	text "The CHIEF will"
+	text "The Chief will"
 	line "deal with you!"
 	para "I'm out of here!"
 	done
 
 _SecretLabBattleText3::
-	text "CHIEF: How'd"
-	line "you get in here?"
+	text "Chief: How'd you get in here?"
 	para "<PLAYER>, eh?"
-	para "You're the CHAMP"
-	line "aren't you?"
+	para "You're the Champ aren't you?"
 	para "That civilian"
 	line "title doesn't"
 	cont "sway me at all."
@@ -58,10 +56,7 @@ _SecretLabEndBattleText3::
 	prompt
 
 _SecretLabAfterBattleText3::
-	text "LT.SURGE wasn't"
-	line "lying when he"
-	cont "said you had"
-	cont "potential!"
+	text "Lt. Surge wasn't lying when he said you had potential!"
 	para "He's always had"
 	line "a good eye for"
 	cont "quality soldiers."
@@ -188,8 +183,7 @@ _SecretLabComputer3Text::
 	done
 
 _SecretLabComputer3BText::
-	text "Hold on, is it"
-	line "MEWTWO??"
+	text "Hold on, is it Mewtwo??"
 	para "This could be"
 	line "useful info!"
 	done
@@ -212,7 +206,7 @@ _SecretLabMewMachineText::
 	done
 
 _SecretLabMewReactionText::
-	text "MEW is shuddering"
+	text "Mew is shuddering"
 	line "when it gets near"
 	cont "this smaller"
 	cont "machine."
@@ -233,7 +227,7 @@ _SecretLabMewtwoMachineText::
 	done
 
 _SecretLabMewtwoReactionText::
-	text "MEWTWO is eying"
+	text "Mewtwo is eying"
 	line "this machine with"
 	cont "a serious gaze."
 	para "It wants to go"
@@ -248,12 +242,11 @@ _SecretLabMewtwoReactionText3::
 
 _GenericWrongMonText::
 _SecretLabMewtwoReactionText4::
-	text "Wrong #MON."
+	text "Wrong <Pokemon>."
 	done
 
 _SecretLabMewtwoHereWeGoText::
-	text "MEWTWO went"
-	line "inside."
+	text "Mewtwo went inside."
 	para "Time to power"
 	line "this thing up!"
 	done
@@ -275,13 +268,11 @@ _SecretLabMewtwoTransformNormalText::
 	prompt
 
 _SecretLabMewtwoGotArmorText::
-	text "The machine put"
-	line "armor on MEWTWO!"
+	text "The machine put armor on Mewtwo!"
 	done
 
 _SecretLabMewtwoRemovedArmorText::
-	text "MEWTWO's armor was"
-	line "taken off!"
+	text "Mewtwo's armor was taken off!"
 	done
 
 _SecretLabMewtwoTransformCompleteText::

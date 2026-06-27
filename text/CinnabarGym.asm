@@ -1,24 +1,13 @@
 _CinnabarGymBlainePreBattleText::
 	text "Hah!"
-
-	para "I am BLAINE! I"
-	line "am the LEADER of"
-	cont "CINNABAR GYM!"
-
-	para "My fiery #MON"
-	line "will incinerate"
-	cont "all challengers!"
-
-	para "Hah! You better"
-	line "have BURN HEAL!"
+	para "I am Blaine! I am the Leader of Cinnabar Gym!"
+	para "My fiery <Pokemon> will incinerate all challengers!"
+	para "Hah! You better have Burn Heal!"
 	done
 
 _CinnabarGymBlaineReceivedVolcanoBadgeText::
-	text "I have"
-	line "burnt out!"
-
-	para "You have earned"
-	line "the VOLCANOBADGE!@"
+	text "I have burnt out!"
+	para "You have earned the Volcano Badge!@"
 	text_end
 
 ; Sunsette: BLAINE's random post-battle fire puns live in the floating
@@ -27,127 +16,83 @@ _CinnabarGymBlaineReceivedVolcanoBadgeText::
 
 _CinnabarGymBlaineMoltres::
 	text "It can't be<...>"
-	para "You caught the"
-	line "flaming bird"
-	cont "#MON, MOLTRES!"
-	para "A MOLTRES saved"
-	line "my life!"
-	para "It guided me out"
-	line "of a mountain"
-	cont "range when I lost"
-	cont "my way!"
+	para "You caught the flaming bird <Pokemon>, Moltres!"
+	para "A Moltres saved my life!"
+	para "It guided me out of a mountain range when I lost my way!"
 	done
 
 _CinnabarGymBlaineVolcanoBadgeInfoText::
 	text "Hah!"
-
-	para "The VOLCANOBADGE"
-	line "heightens the"
-	cont "SPECIAL abilities"
-	cont "of your #MON!"
-
-	para "Here, you can"
-	line "have this too!"
+	para "The Volcano Badge heightens the Special abilities of your <Pokemon>!"
+	para "Here, you can have this too!"
 	done
 
 _CinnabarGymBlaineTM38ExplanationText::
 	text_start
 	para "@"
 	text_ram_stringbuffer
-	text " contains"
-	line "SUPERNOVA!"
-
-	para "A FIRE #MON"
-	line "blasts it with no"
-	cont "recoil at all!"
-
-	para "NINETALES and"
-	line "ARCANINE love"
-	cont "this gift!"
+	text " contains Supernova!"
+	para "A Fire <Pokemon> blasts it with no recoil at all!"
+	para "Ninetales and Arcanine love this gift!"
 	done
 
 _CinnabarGymBlaineTM38NoRoomText::
-	text "Make room for my"
-	line "gift!"
+	text "Make room for my gift!"
 	done
 
 _CinnabarGymSuperNerd1BattleText::
-	text "Do you know how"
-	line "hot a slow burn"
-	cont "can get?"
+	text "Do you know how hot a slow burn can get?"
 	done
 
 _CinnabarGymSuperNerd1EndBattleText::
-	text "Yow!"
-	line "Hot, hot, hot!"
+	text "Yow! Hot, hot, hot!"
 	prompt
 
 _CinnabarGymSuperNerd1AfterBattleText::
-	text "It's all in the"
-	line "buildup, the"
-	cont "smoldering"
-	cont "tension, the..."
-
-	para "...ahem."
-	line "Forget I said it."
+	text "It's all in the buildup, the smoldering tension, the..."
+	para "...ahem. Forget I said it."
 	done
 
 _CinnabarGymBurglar1BattleText::
-	text "I was a thief, but"
-	line "I became straight"
-	cont "as a trainer!"
+	text "I was a thief, but I became straight as a Trainer!"
 	done
 
 _RocketHideoutB2FRocketEndBattleText::
 _CinnabarGymBurglar1EndBattleText::
-	text "I"
-	line "surrender!"
+	text "I surrender!"
 	prompt
 
 _CinnabarGymBurglar1AfterBattleText::
-	text "I can't help"
-	line "stealing other"
-	cont "people's #MON!"
+	text "I can't help stealing other people's <Pokemon>!"
 	done
 
 _CinnabarGymSuperNerd2BattleText::
-	text "Cute, but cute"
-	line "won't beat my"
-	cont "years of study!"
+	text "Cute, but cute won't beat my years of study!"
 	done
 
 _CinnabarGymSuperNerd2EndBattleText::
-	text "Wha?!"
-	line "Impossible!"
+	text "Wha?! Impossible!"
 	prompt
 
 _CinnabarGymSuperNerd2AfterBattleText::
-	text "I lost to a"
-	line "babyface?!"
-
-	para "I'll never live"
-	line "this down..."
+	text "I lost to a babyface?!"
+	para "I'll never live this down..."
 	done
 
 _CinnabarGymBurglar2BattleText::
-	text "I just like using"
-	line "fire #MON!"
+	text "I just like using fire <Pokemon>!"
 	done
 
 _CinnabarGymBurglar2EndBattleText::
-	text "Too hot"
-	line "to handle!"
+	text "Too hot to handle!"
 	prompt
 
 _CinnabarGymBurglar2AfterBattleText::
-	text "I wish there was"
-	line "a thief #MON!"
-	cont "I'd use that!"
+	text "I wish there was a thief <Pokemon>! I'd use that!"
 	done
 
 _CinnabarGymFirefighter1BattleText::
-	text "I know why BLAINE"
-	line "became a trainer!"
+	text "I know why Blaine became a Trainer!"
 	done
 
 _CinnabarGymFirefighter1EndBattleText::
@@ -155,61 +100,38 @@ _CinnabarGymFirefighter1EndBattleText::
 	prompt
 
 _CinnabarGymFirefighter1AfterBattleText::
-	text "BLAINE was lost"
-	line "in the mountains"
-	cont "when a fiery bird"
-	cont "#MON appeared."
-
-	para "Its light enabled"
-	line "BLAINE to find"
-	cont "his way down!"
+	text "Blaine was lost in the mountains when a fiery bird <Pokemon> appeared."
+	para "Its light enabled Blaine to find his way down!"
 	done
 
 _CinnabarGymBurglar3BattleText::
-	text "I've been to many"
-	line "GYMs, but this is"
-	cont "my favorite!"
+	text "I've been to many Gyms, but this is my favorite!"
 	done
 
 _CinnabarGymBurglar3EndBattleText::
-	text "Yowza!"
-	line "Too hot!"
+	text "Yowza! Too hot!"
 	prompt
 
 _CinnabarGymBurglar3AfterBattleText::
-	text "Us fire #MON"
-	line "fans like PONYTA"
-	cont "and NINETALES!"
+	text "Us fire <Pokemon> fans like Ponyta and Ninetales!"
 	done
 
 _CinnabarGymFirefighter2BattleText::
-	text "Fire is weak"
-	line "against H2O!"
+	text "Fire is weak against H2O!"
 	done
 
 _CinnabarGymFirefighter2EndBattleText::
-	text "Oh!"
-	line "Snuffed out!"
+	text "Oh! Snuffed out!"
 	prompt
 
 _CinnabarGymFirefighter2AfterBattleText::
-	text "Water beats fire!"
-	line "But, fire melts"
-	cont "ice #MON!"
+	text "Water beats fire! But, fire melts ice <Pokemon>!"
 	done
 
 _CinnabarGymGymGuideChampInMakingText::
-	text "The hot-headed"
-	line "BLAINE is a fire"
-	cont "#MON pro!"
-
-	para "The volcanic heat"
-	line "here stokes his"
-	cont "#MON's SPECIAL"
-	cont "power!"
-
-	para "You better take"
-	line "some BURN HEALs!"
+	text "The hot-headed Blaine is a fire <Pokemon> pro!"
+	para "The volcanic heat here stokes his <Pokemon>'s Special power!"
+	para "You better take some Burn Heals!"
 	done
 
 _CinnabarGymGymGuideBeatBlaineText::
@@ -220,23 +142,12 @@ _CinnabarGymGymGuideBeatBlaineText::
 	ld hl, .body
 	ret
 .body:
-	text "<PLAYER>! You beat"
-	line "that fire brand!"
-
-	para "That BADGE lets"
-	line "you raise #MON"
-	cont "up to L@"
+	text "<PLAYER>! You beat that fire brand!"
+	para "That Badge lets you raise <Pokemon> up to L@"
 	text_decimal wExpGrowthThreshold, 1, 2
 	text "!"
 	prompt
 
 _CinnabarGymGuideApexChipFireText::
-	text "An APEX CHIP will"
-	line "swiftly transport"
-	cont "a fire #MON"
-	cont "to a sweltering"
-	cont "volcano caldera,"
-	cont "with flowing lava"
-	cont "and plenty of"
-	cont "excitement!"
-	prompt 
+	text "An Apex Chip will swiftly transport a Fire <Pokemon> to a sweltering volcano caldera, with flowing lava and plenty of excitement!"
+	prompt

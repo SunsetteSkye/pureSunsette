@@ -1,76 +1,49 @@
 _MrFujisHouseSuperNerdMrFujiIsntHereText::
-	text "That's odd, MR.FUJI"
-	line "isn't here."
-	cont "Where'd he go?"
+	text "That's odd, Mr. Fuji isn't here. Where'd he go?"
 	done
 
 _MrFujisHouseSuperNerdMrFujiHadBeenPrayingText::
-	text "MR.FUJI had been"
-	line "praying alone for"
-	cont "CUBONE's mother."
+	text "Mr. Fuji had been praying alone for Cubone's mother."
 	done
 
 _MrFujisHouseLittleGirlThisIsMrFujisHouseText::
-	text "This is really"
-	line "MR.FUJI's house."
-
+	text "This is really Mr. Fuji's house."
 	para "He's really kind!"
-
-	para "He looks after"
-	line "abandoned and"
-	cont "orphaned #MON!"
+	para "He looks after abandoned and orphaned <Pokemon>!"
 	done
 
 _MrFujisHouseLittleGirlPokemonAreNiceToHugText::
-	text "It's so warm!"
-	line "#MON are so"
-	cont "nice to hug!"
+	text "It's so warm! <Pokemon> are so nice to hug!"
 	done
 
 _MrFujisHousePsyduckText::
-	text "PSYDUCK: Gwappa!@"
+	text "Psyduck: Gwappa!@"
 	text_end
 
 _MrFujisHousePsyduck2Text::
-	text "GIRL: Our PSYDUCK"
-	line "is named DUCKET."
+	text "Girl: Our Psyduck is named Ducket."
 	para "It's a bit dopey."
-	para "It fell into a"
-	line "well."
-	para "We got it out"
-	line "with a bucket!"
-	para "I'm keeping an eye"
-	line "on it so it stays"
-	cont "out of trouble!"
+	para "It fell into a well."
+	para "We got it out with a bucket!"
+	para "I'm keeping an eye on it so it stays out of trouble!"
 	done
 
 _MrFujisHouseNidorinoText::
-	text "NIDORINO: Gaoo!"
+	text "Nidorino: Gaoo!"
 	done
 
 _MrFujisHouseNidorino2Text::
-	text "That's our"
-	line "NIDORINO."
-	para "His name is SPIKE."
+	text "That's our Nidorino."
+	para "His name is Spike."
 	para "We rescued him!"
-	para "He had a leg"
-	line "injury from a big"
-	cont "rock slide on"
-	cont "ROUTE 10."
-	para "Now he's strong"
-	line "and healthy!"
+	para "He had a leg injury from a big rock slide on Route 10."
+	para "Now he's strong and healthy!"
 	done
 
 _MrFujisHouseMrFujiIThinkThisMayHelpYourQuestText::
-	text "MR.FUJI: <PLAYER>."
-
-	para "Your #DEX quest"
-	line "may fail without"
-	cont "love for your"
-	cont "#MON."
-
-	para "I think this may"
-	line "help your quest."
+	text "Mr. Fuji: <PLAYER>."
+	para "Your <poke>dex quest may fail without love for your <Pokemon>."
+	para "I think this may help your quest."
 	prompt
 
 _PokemonFanClubReceivedBikeVoucherText::
@@ -78,8 +51,7 @@ _LastTwoGurusReceivedItemText::
 _MrFujisHouseMrFujiReceivedPokeFluteText::
 _Route24CooltrainerM1ReceivedNuggetText::
 _GenericReceivedItemA::
-	text "<PLAYER> received"
-	line "a @"
+	text "<PLAYER> received a @"
 	text_ram_stringbuffer
 	text "!@"
 	text_end
@@ -87,33 +59,20 @@ _GenericReceivedItemA::
 _MrFujisHouseMrFujiPokeFluteExplanationText::
 	text_start
 
-	para "Upon hearing #"
-	line "FLUTE, sleeping"
-	cont "#MON will"
-	cont "spring awake."
-
-	para "It works on all"
-	line "sleeping #MON."
+	para "Upon hearing <poke> Flute, sleeping <Pokemon> will spring awake."
+	para "It works on all sleeping <Pokemon>."
 	done
 
 _MrFujisHouseMrFujiPokeFluteNoRoomText::
-	text "You must make"
-	line "room for this!"
+	text "You must make room for this!"
 	done
 
 _MrFujisHouseMrFujiHasMyFluteHelpedYouText::
-	text "MR.FUJI: Has my"
-	line "FLUTE helped you?"
+	text "Mr. Fuji: Has my Flute helped you?"
 	done
 
 _MrFujisHouseMrFujiPokedexText::
-	text "#MON Monthly"
-	line "Grand Prize"
-	cont "Drawing!"
-
-	para "The application"
-	line "form is<...>"
-
-	para "Gone! It's been"
-	line "clipped out!"
+	text "<Pokemon> Monthly Grand Prize Drawing!"
+	para "The application form is<...>"
+	para "Gone! It's been clipped out!"
 	done

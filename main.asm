@@ -79,6 +79,11 @@ SECTION "Font Graphics", ROMX
 INCLUDE "gfx/font.asm"
 
 
+SECTION "VWF", ROMX
+
+INCLUDE "engine/gfx/vwf.asm"
+
+
 SECTION "Battle Engine 1", ROMX
 
 INCLUDE "engine/overworld/is_player_just_outside_map.asm"

@@ -52,7 +52,7 @@
 
 ; --- Sunsette SSOT directives (parsed by tools/gen_pokemon_data.py) ---
 ;@ nature       NATURE_WISE NATURE_CAUTIOUS
-;@ pal_battle   PAL_ICON_59
+;@ pal_battle   PAL_DRATINIMON
 ;@ pal_altbattle PAL_ICON_62
 ;@ pal_icon     PAL_ICON_69
 ;@ pal_alticon  PAL_ICON_09

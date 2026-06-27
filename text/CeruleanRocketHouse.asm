@@ -1,181 +1,98 @@
 _CeruleanRocketHouse1FRocketText::
 	text "Hey!"
-	para "Haven't you made"
-	line "enough trouble"
-	cont "for me already?"
-	para "That door's"
-	line "boarded up for"
-	cont "a reason!"
-	para "Nothing to see"
-	line "here!"
+	para "Haven't you made enough trouble for me already?"
+	para "That door's boarded up for a reason!"
+	para "Nothing to see here!"
 	para "Get out!"
 	done
 
 _RocketSNESText::
-	text "What cartridge"
-	line "is in the SNES?"
+	text "What cartridge is in the SNES?"
 	para "Huh!"
-	para "It's a copy of"
-	line "TERRANIGMA."
-	para "Someone's stuck"
-	line "at Sylvain Castle"
-	cont "again!"
+	para "It's a copy of Terranigma."
+	para "Someone's stuck at Sylvain Castle again!"
 	done
 
 _CeruleanRocketHouse1FBookCaseText::
-	text "DROWZEE's SURREAL"
-	line "ADVENTURE"
-	para "A comic book"
-	line "about DROWZEE.@"
+	text "Drowzee's Surreal Adventure"
+	para "A comic book about Drowzee.@"
 	text_end
 _CeruleanRocketHouse1FBookCase2Text::
-	text "<PARA>DROWZEE's striking"
-	line "a cool pose as"
-	cont "it faces down a"
-	cont "LICKITUNG before"
-	cont "a stylish battle."
+	text "<PARA>Drowzee's striking a cool pose as it faces down a Lickitung before a stylish battle."
 	done
 
 _CeruleanRocketHouseB1FEntranceDoorSignText::
 	text "REMINDER"
-	para "Keep trap door on"
-	line "surface CLOSED!"
+	para "Keep trap door on surface closed!"
 	done
 
 _CeruleanRocketHouseB1FBottomDoorSignText::
 	text "THE LAST MACHINE"
 	para "VOIDAL TERMINAL"
 	done
-	
+
 _CeruleanRocketHouseB1FTopDoorSignText::
 	text "EMERGENCY EGRESS"
 	done
 
 _CeruleanRocketHouseB1FLeftComputerText::
-	text "OPERATION"
-	line "GUIDING HAND"
+	text "OPERATION GUIDING HAND"
 	para "-STATUS REPORT-"
 	prompt
 
 _CeruleanRocketHouseB1FLeftComputerText2::
-	text "Initial study of"
-	line "the effects of"
-	cont "radio waves on"
-	cont "#MON has"
-	cont "proven useful."
-	para "At the moment"
-	line "“automation” has"
-	cont "only been"
-	cont "attained with"
-	cont "#MON of very"
-	cont "basic brain"
-	cont "patterns."
-	para "-REDACTED- proves"
-	line "especially"
-	cont "susceptible."
+	text "Initial study of the effects of radio waves on <Pokemon> has proven useful."
+	para "At the moment “automation” has only been attained with <Pokemon> of very basic brain patterns."
+	para "-REDACTED- proves especially susceptible."
 	para "CONCLUSION:"
-	para "MORE STUDY"
-	line "NECESSARY"
+	para "MORE STUDY NECESSARY"
 	done
 
 _CeruleanRocketHouseB1FCenterComputerText::
-	text "OPERATION"
-	line "LAST MACHINE"
+	text "OPERATION LAST MACHINE"
 	para "-STATUS REPORT-"
 	prompt
 
 _CeruleanRocketHouseB1FCenterComputerText2::
-	text "Progress has been"
-	line "phenomenal."
-	para "But what we are"
-	line "seeing will soon"
-	cont "completely defy"
-	cont "comprehension."
-	para "We don't know"
-	line "what will happen"
-	cont "each time we turn"
-	cont "on the machine."
-	para "I know it will"
-	line "soon spiral out"
-	cont "of control."
-	para "PORYGON was"
-	line "simple."
-	para "MEWTWO, almost"
-	line "impossible."
-	para "We're several"
-	line "orders of"
-	cont "magnitude past"
-	cont "that now."
-	para "What might emerge"
-	line "from this machine"
-	cont "disturbs us to"
-	cont "think of."
-	para "Entity control"
-	line "is completely out"
-	cont "of the question."
-
-	para "CONCLUSION:"
-	line "PLEASE ALLOW"
-	cont "DISMANTLING!"
+	text "Progress has been phenomenal."
+	para "But what we are seeing will soon completely defy comprehension."
+	para "We don't know what will happen each time we turn on the machine."
+	para "I know it will soon spiral out of control."
+	para "Porygon was simple."
+	para "Mewtwo, almost impossible."
+	para "We're several orders of magnitude past that now."
+	para "What might emerge from this machine disturbs us to think of."
+	para "Entity control is completely out of the question."
+	para "CONCLUSION: PLEASE ALLOW DISMANTLING!"
 	done
 
 
 _CeruleanRocketHouseB1FRightComputerText::
-	text "OPERATION"
-	line "ANTEDILUVIAN RISE"
+	text "OPERATION ANTEDILUVIAN RISE"
 	para "-STATUS REPORT-"
 	prompt
 
 _CeruleanRocketHouseB1FRightComputerText2::
-	text "Exploration of"
-	line "the #MON TOWER"
-	cont "catacombs is so"
-	cont "far unsuccessful."
-	para "The so-called"
-	line "BLACK FOG eidolon"
-	cont "was not sighted"
-	cont "or detected,"
-	para "even with full"
-	line "SILPH SCOPE"
-	cont "survey squads."
-	para "ENORMO-BALL"
-	line "X1 is prepped"
-	cont "and ready for"
-	cont "usage in catacomb"
-	cont "base camp."
-	para "Catacomb diver"
-	line "zero gamma"
-	cont "disappeared in"
-	cont "exploration"
-	cont "process."
+	text "Exploration of the <Pokemon> Tower catacombs is so far unsuccessful."
+	para "The so-called BLACK FOG eidolon was not sighted or detected,"
+	para "even with full Silph Scope survey squads."
+	para "ENORMO-BALL X1 is prepped and ready for usage in catacomb base camp."
+	para "Catacomb diver zero gamma disappeared in exploration process."
 	para "Suddenly gone."
-	para "Zero gamma delved"
-	line "further into the"
-	cont "depths than any"
-	cont "other before."
-
+	para "Zero gamma delved further into the depths than any other before."
 	para "CONCLUSION:"
-	para "ADDITIONAL"
-	line "EXPLORATION"
-	cont "RECOMMENDED"
+	para "ADDITIONAL EXPLORATION RECOMMENDED"
 	done
 
 _CeruleanRocketHouseB1FMachineText::
-	text "Just what is this"
-	line "massive machine?"
-	para "It's droning with"
-	line "an ominous sound."
+	text "Just what is this massive machine?"
+	para "It's droning with an ominous sound."
 	done
 
 _CeruleanRocketHouseB1FMapText::
-	text "A blueprint of"
-	line "the SILPH CO."
-	cont "building."
-	para "This is"
-	line "official!!"
-	para "There are many"
-	line "markings added"
-	cont "in the margins."
+	text "A blueprint of the Silph Co. building."
+	para "This is official!!"
+	para "There are many markings added in the margins."
 	done
 
 _CeruleanRocketHouseB1FOptionalText::
@@ -187,61 +104,30 @@ _CeruleanRocketHouseB1FOptionalTextNo::
 	done
 
 _CeruleanRocketHouseB1FLeftPaperText::
-	text "This desk is"
-	line "suspiciously"
-	cont "clean."
-	para "The trash basket"
-	line "below is totally"
-	cont "overflowing"
-	cont "with shredded"
-	cont "paper."
+	text "This desk is suspiciously clean."
+	para "The trash basket below is totally overflowing with shredded paper."
 	done
 
 _CeruleanRocketHouseB1FRightPaperText::
-	text "An inventory list"
-	line "for <TEAM><ROCKET>"
-	cont "uniforms."
-	para "Apparently a big"
-	line "order of female"
-	cont "uniforms was"
-	cont "recently made."
+	text "An inventory list for <TEAM><ROCKET> uniforms."
+	para "Apparently a big order of female uniforms was recently made."
 	done
 
 _CeruleanRocketHouseB1FBeforeTradeText::
 	text "Sigh."
-	para "I've never seen"
-	line "this place so"
-	cont "deserted before."
+	para "I've never seen this place so deserted before."
 	para "Everyone left."
 	para "Hey<...>"
-	para "Can I ask you"
-	line "a question?"
+	para "Can I ask you a question?"
 	prompt
 
 _CeruleanRocketHouseB1FAfterTradeText::
-	text "I once asked"
-	line "GIOVANNI what"
-	cont "his goals with"
-	cont "<TEAM><ROCKET> were."
-	para "I remember what"
-	line "he said exactly:"
-
-	para "<TEAM><ROCKET> is"
-	line "but a SP<ROCKET>"
-	cont "in my POCKET!"
-	
-	para "That really"
-	line "resonated with"
-	cont "me."
-	
-	para "He's gone now"
-	line "though."
-	
-	para "So it's time"
-	line "I take the"
-	cont "SP<ROCKET> in my"
-	cont "own POCKET and"
-	cont "HOCK it."
+	text "I once asked Giovanni what his goals with <TEAM><ROCKET> were."
+	para "I remember what he said exactly:"
+	para "<TEAM><ROCKET> is but a SP<ROCKET> in my pocket!"
+	para "That really resonated with me."
+	para "He's gone now though."
+	para "So it's time I take the SP<ROCKET> in my own pocket and hock it."
 	done
 
 _CeruleanRocketHouseB1FCodeText::

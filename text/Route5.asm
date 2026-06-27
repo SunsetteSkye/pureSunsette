@@ -1,117 +1,76 @@
 _Route5UndergroundPathSignText::
-	text "UNDERGROUND PATH"
-	line "CERULEAN CITY -"
-	cont "VERMILION CITY"
+	text "Underground Path"
+	para "Cerulean City - Vermilion City"
 	done
 
 _Route5BattleText1::
-	text "I'm practicing"
-	line "some positive"
-	cont "thinking."
+	text "I'm practicing some positive thinking."
 	para "You know what?"
-	para "I'm positively"
-	line "going to beat you!"
+	para "I'm positively going to beat you!"
 	done
 
 _Route5EndBattleText1::
-	text "I'll get"
-	line "better!"
-	para "Just a matter"
-	line "of time!"
+	text "I'll get better!"
+	para "Just a matter of time!"
 	prompt
 
 _Route5AfterBattleText1::
-	text "Sometimes you'll"
-	line "fail."
-	para "But if you're"
-	line "positive about"
-	cont "your goal,"
-	cont "you'll eventually"
-	cont "achieve it!"
+	text "Sometimes you'll fail."
+	para "But if you're positive about your goal, you'll eventually achieve it!"
 	done
 
 _Route5BattleText2::
-	text "I'm practicing"
-	line "some negative"
-	cont "thinking."
+	text "I'm practicing some negative thinking."
 	para "You look tough."
-	para "There's a big"
-	line "chance I might"
-	cont "lose to you!"
+	para "There's a big chance I might lose to you!"
 	done
 
 _Route5EndBattleText2::
-	text "See!"
-	line "I told you so."
+	text "See! I told you so."
 	prompt
 
 _Route5AfterBattleText2::
-	text "When you expect"
-	line "to lose, losing"
-	cont "isn't so bad."
-	para "Both positive"
-	line "and negative"
-	cont "thinking can"
-	cont "be good things."
+	text "When you expect to lose, losing isn't so bad."
+	para "Both positive and negative thinking can be good things."
 	done
 
 _Route5CharmeleonLearnset::
-	text "Here are some"
-	line "positive aspects"
-	cont "of training a"
-	cont "@"
+	text "Here are some positive aspects of training a @"
 	text_ram_namebuffer
 	text ":"
 	prompt
 
 _Route5BattleText3::
-	text "Have you been"
-	line "to the DAYCARE?"
-	para "I'm heading"
-	line "there."
+	text "Have you been to the Daycare?"
+	para "I'm heading there."
 	done
 
 _Route5EndBattleText3::
-	text "Raising"
-	line "#MON is hard."
+	text "Raising <Pokemon> is hard."
 	prompt
 
 _Route5AfterBattleText3::
-	text "The DAYCARE can"
-	line "help raise an"
-	cont "extra #MON for"
-	cont "you."
-	para "Come back later"
-	line "and it will be"
-	cont "stronger!"
+	text "The Daycare can help raise an extra <Pokemon> for you."
+	para "Come back later and it will be stronger!"
 	done
 
 _Route5SquirtleLearnset::
 	text "I put my @"
 	text_ram_namebuffer
 	text_start
-	line "in the DAYCARE"
-	cont "while I studied"
-	cont "how to raise it!"
-	para "That's why it"
-	line "hasn't evolved!"
+	line "in the Daycare while I studied how to raise it!"
+	para "That's why it hasn't evolved!"
 	prompt
 
 _Route5BattleText4::
-	text "On the road"
-	line "again!"
+	text "On the road again!"
 	done
 
 _Route5EndBattleText4::
-	text "I'll"
-	line "keep walking."
+	text "I'll keep walking."
 	prompt
 
 _Route5AfterBattleText4::
-	text "I'll travel"
-	line "far and wide in"
-	cont "search of new"
-	cont "#MON to tame!"
-	para "This is my own"
-	line "quest!"
+	text "I'll travel far and wide in search of new <Pokemon> to tame!"
+	para "This is my own quest!"
 	done

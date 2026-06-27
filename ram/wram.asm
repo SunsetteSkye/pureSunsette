@@ -3010,3 +3010,39 @@ SECTION "Stack", WRAMX
 wStack:: db
 
 ENDSECTION
+
+
+SECTION "VWF State", WRAMX
+
+; Variable-width font compositor state (see engine/gfx/vwf.asm). The game runs
+; with SVBK=1; this section lands in WRAM bank 2 (bank 1 / WRAM0 are full), so
+; the VWF routines set SVBK=2 around their work (they only touch this state +
+; WRAM0 + VRAM, never bank-1 WRAM) and the callers restore SVBK=1.
+wVWFEnable::      db ; per-print opt-in: only set by genuine prose-dialogue paths
+wVWFActive::      db ; 0 = fixed-width path; nonzero = VWF actively compositing THIS
+                    ; print. Cleared as soon as the dialogue print finishes so the
+                    ; PlaceNextChar hooks can't hijack a later menu's PlaceString.
+wVWFBoxOpen::     db ; a VWF dialogue box is rendered + needs teardown at CloseText.
+                    ; Outlives wVWFActive (which is cleared right after the print).
+wVWFTextDepth::   db ; insert-nesting depth (accessed at SVBK=1 like the flags above).
+                    ; PlaceCommandCharacter inc/decs it around each insert's PlaceString;
+                    ; the top-level @ (depth 0) places the last buffered word, an insert's
+                    ; @ (depth>0) must NOT (it would split a mid-word insert: <poke>dex).
+wVWFPenX::        db ; pen X within the current line, in PIXELS
+wVWFLine::        db ; current line index within the prose box (0-based)
+wVWFCurPoolTile:: db ; pool tile index of the tile the pen is currently building
+wVWFTmpShift::    db ; scratch: pen sub-tile shift (penX & 7) during compositing
+wVWFCellPtr::     dw ; WRAM tilemap cell (bank 0) of the current tile
+wVWFAttrPtr::     dw ; BG-map attribute cell (bank 1) of the current tile
+; rolling 2-tile 1bpp shadow: [0..7] = current tile (accumulates), [8..15] =
+; overflow into the next tile. On a tile boundary the current half is flushed
+; to the pool, the overflow half slides down, and the top half is cleared.
+wVWFShadow::      ds 16
+; Stage-2 word-wrap: the current word's chars are buffered here (no display) and
+; measured, then composited at the next word boundary so the word can start a new line
+; if it would overflow. Inserts/compression feed this via the normal char path.
+wVWFWordWidth::   db ; accumulated pixel width of the buffered word
+wVWFWordLen::     db ; number of chars in wVWFWordBuf
+wVWFWordBuf::     ds VWF_WORD_BUFSIZE
+
+ENDSECTION

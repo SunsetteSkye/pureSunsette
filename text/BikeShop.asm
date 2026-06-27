@@ -1,147 +1,96 @@
 _BikeShopClerkWelcomeText::
-	text "Hi! Welcome to"
-	line "our BIKE SHOP."
-
-	para "Have we got just"
-	line "the BIKE for you!"
+	text "Hi! Welcome to our Bike Shop."
+	para "Have we got just the bike for you!"
 	prompt
 
 _BikeShopClerkDoYouLikeItText::
-	text "It's a cool BIKE!"
-	line "Do you want it?"
+	text "It's a cool bike! Do you want it?"
 	done
 
 _BikeShopCantAffordText::
-	text "Sorry! You can't"
-	line "afford it!"
+	text "Sorry! You can't afford it!"
 	prompt
 
 _BikeShopClerkOhThatsAVoucherText::
 	text "Oh, that's<...>"
-
-	para "A BIKE VOUCHER!"
-
+	para "A Bike Voucher!"
 	para "OK! Here you go!"
 	prompt
 
 _BikeShopExchangedVoucherText::
-	text "<PLAYER> exchanged"
-	line "the BIKE VOUCHER"
-	cont "for a BICYCLE."
-
-	para "Wild #MON can"
-	line "hardly catch you"
-	cont "while you ride a"
-	cont "bike!"
+	text "<PLAYER> exchanged the Bike Voucher for a Bicycle."
+	para "Wild <Pokemon> can hardly catch you while you ride a bike!"
 	done
 
 _BikeShopComeAgainText::
-	text "Come back again"
-	line "some time!"
+	text "Come back again some time!"
 	done
 
 _BikeShopClerkHowDoYouLikeYourBicycleText::
-	text "How do you like"
-	line "your new BICYCLE?"
-
-	para "You can take it"
-	line "on CYCLING ROAD"
-	cont "and in caves!"
-
-	para "Wild #MON can"
-	line "hardly catch you"
-	cont "while you ride!"
+	text "How do you like your new Bicycle?"
+	para "You can take it on Cycling Road and in caves!"
+	para "Wild <Pokemon> can hardly catch you while you ride!"
 	done
 
 _CeruleanGymMistyTM11NoRoomText::
 _BikeShopBagFullText::
-	text "You better make"
-	line "room for this!"
+	text "You better make room for this!"
 	done
 
 _BikeShopMiddleAgedWomanText::
-	text "A plain city BIKE"
-	line "is good enough"
-	cont "for me!"
-
-	para "You can't put a"
-	line "shopping basket"
-	cont "on an MTB!"
+	text "A plain city bike is good enough for me!"
+	para "You can't put a shopping basket on an MTB!"
 	done
 
 _BikeShopYoungsterTheseBikesAreExpensiveText::
-	text "These BIKEs are"
-	line "cool, but they're"
-	cont "way expensive!"
+	text "These bikes are cool, but they're way expensive!"
 	done
 
 _BikeShopYoungsterCoolBikeText::
-	text "Wow. Your BIKE is"
-	line "really cool!"
+	text "Wow. Your bike is really cool!"
 	done
 
 _BikeShopBasketBikeText::
-	text "This BIKE has a"
-	line "basket attached."
+	text "This bike has a basket attached."
 	para "Very practical!"
 	done
 
 _BikeShopToolboxText::
-	text "A toolbox for"
-	line "repairing BIKEs!"
-	para "Tire patches,"
-	line "a pump, hex keys,"
-	cont "tools galore!"
+	text "A toolbox for repairing bikes!"
+	para "Tire patches, a pump, hex keys, tools galore!"
 	done
 
 _BikeShopSignRightText::
-	text "WELCOME TO"
-	line "MIRACLE CYCLE!"
+	text "Welcome to Miracle Cycle!"
 	done
 
 
 _BikeShopSignLeftText::
-	text "MIRACLE CYCLE"
-	para "The trendsetter of"
-	line "the bicycle boom!"
+	text "Miracle Cycle"
+	para "The trendsetter of the bicycle boom!"
 	done
 
 _BikeShopStatsText::
-	text "Graphs and data"
-	line "comparing many"
-	cont "different BIKEs!"
-	para "Number of gears,"
-	line "shock absorption,"
-	cont "reliability<...>"
+	text "Graphs and data comparing many different bikes!"
+	para "Number of gears, shock absorption, reliability<...>"
 	done
 
 _BikeShopArcade1Text::
 	text "Whoa!"
-	para "It's EXCITEBIKE!"
-	para "This game's a"
-	line "classic!"
-	para "It's one of Dad's"
-	line "favorites!"
-	para "There's an arcade"
-	line "version?!"
-	para "And it has two-"
-	line "player mode too!"
+	para "It's Excitebike!"
+	para "This game's a classic!"
+	para "It's one of Dad's favorites!"
+	para "There's an arcade version?!"
+	para "And it has two-player mode too!"
 	done
 
 _BikeShopArcade2Text::
-	text "A freestyle BMX"
-	line "arcade game!"
-	para "Wow, the biker"
-	line "did a backflip!"
+	text "A freestyle BMX arcade game!"
+	para "Wow, the biker did a backflip!"
 	done
 
 _BikeShopArcade3Text::
-	text "An 8-bit arcade"
-	line "game starring a"
-	cont "paper delivery"
-	cont "boy on a bicycle!"
+	text "An 8-bit arcade game starring a paper delivery boy on a bicycle!"
 	para "Hah!"
-	para "He threw a"
-	line "newspaper through"
-	cont "someone's window!"
+	para "He threw a newspaper through someone's window!"
 	done

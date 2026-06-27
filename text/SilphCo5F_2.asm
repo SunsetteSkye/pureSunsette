@@ -1,62 +1,37 @@
 _SilphCo5FRockerEndBattleText::
-	text "Oh"
-	line "goodness!"
+	text "Oh goodness!"
 	prompt
 
 _SilphCo5FRockerAfterBattleText::
-	text "You're only on 5F."
-	line "It's a long way"
-	cont "to my BOSS!"
+	text "You're only on 5F. It's a long way to my Boss!"
 	done
 
 _SilphCo5FRocket2BattleText::
-	text "Show <TEAM><ROCKET>"
-	line "a little respect!"
+	text "Show <TEAM><ROCKET> a little respect!"
 	done
 
 _SilphCo5FRocket2EndBattleText::
-	text "Cough<...>"
-	line "Cough<...>"
+	text "Cough<...> Cough<...>"
 	prompt
 
 _SilphCo5FRocket2AfterBattleText::
 	text "Which reminds me."
-
-	para "KOFFING evolves"
-	line "into WEEZING!"
+	para "Koffing evolves into Weezing!"
 	done
 
 _SilphCo5FPokemonReport1Text::
-	text "It's a #MON"
-	line "REPORT!"
-
-	para "#MON LAB"
-	line "created PORYGON,"
-	cont "the first virtual"
-	cont "reality #MON."
+	text "It's a <Pokemon> Report!"
+	para "<Pokemon> Lab created Porygon, the first virtual reality <Pokemon>."
 	done
 
 _SilphCo5FPokemonReport2Text::
-	text "It's a #MON"
-	line "REPORT!"
-
-	para "Over 160 #MON"
-	line "techniques have"
-	cont "been confirmed."
+	text "It's a <Pokemon> Report!"
+	para "Over 160 <Pokemon> techniques have been confirmed."
 	done
 
 _SilphCo5FPokemonReport3Text::
-	text "It's a #MON"
-	line "REPORT!"
-
-	para "4 #MON evolve"
-	line "by trading."
-
-	para "They are:"
-	line "GRAVELER, HAUNTER"
-	cont "MACHOKE, KADABRA."
-
-	para "They can all also"
-	line "evolve normally"
-	cont "at level 37!"
+	text "It's a <Pokemon> Report!"
+	para "4 <Pokemon> evolve by trading."
+	para "They are: Graveler, Haunter, Machoke, Kadabra."
+	para "They can all also evolve normally at level 37!"
 	done

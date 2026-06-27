@@ -11,7 +11,7 @@ _CableClubNPCMakingPreparationsText::
 _UsedStrengthText::
 	text_ram_namebuffer
 	text " used"
-	line "STRENGTH.@"
+	line "Strength.@"
 	text_end
 
 _CanMoveBouldersText::
@@ -28,17 +28,17 @@ _CurrentTooFastTextEntry::
 	done
 
 _CurrentTooFastText2::
-	text "Can't SURF here!"
+	text "Can't Surf here!"
 	para "@"
 	text_jump _CurrentTooFastTextEntry
 
 _CyclingIsFunText::
 	text "Cycling is fun!"
-	line "Forget SURFing!"
+	line "Forget Surfing!"
 	prompt
 
 _FlashLightsAreaText::
-	text "A blinding FLASH"
+	text "A blinding flash"
 	line "lights the area!"
 	prompt
 
@@ -48,15 +48,15 @@ _WindSeedsText::
 	prompt
 
 _ViridianForestDefenseText::
-	text "The dense FOREST"
-	line "raises DEFENSE!"
+	text "The dense forest"
+	line "raises Defense!"
 	prompt
 
 _ConfuseRayFieldText::
 	text "An eerie light"
 	line "warps the air..."
 
-	para "The next #MON"
+	para "The next <Pokemon>"
 	line "here will look"
 	cont "strange!"
 	prompt
@@ -71,7 +71,7 @@ _WarpText::
 
 _ToLastPkmnCenterText::
 	text " to the last"
-	line "#MON CENTER?"
+	line "<Pokemon> Center?"
 	prompt
 
 _PocketAbraFlavorText1::
@@ -117,30 +117,30 @@ _PocketAbraNo::
 
 _WarpToLastPokemonCenterText::
 	text "Warp to the last"
-	line "#MON CENTER."
+	line "<Pokemon> CENTER."
 	prompt
 
 _CannotUseTeleportNowText::
 	text_ram_namebuffer
 	text " can't"
-	line "use TELEPORT now."
+	line "use Teleport now."
 	prompt
 
 _CannotFlyHereText::
 	text_ram_namebuffer
 	text " can't"
-	line "FLY here."
+	line "Fly here."
 	prompt
 
 _CannotDigHereText::
 	text_ram_namebuffer
 	text " can't"
-	line "DIG here."
+	line "Dig here."
 	prompt
 
 _CannotDigWhileSurfingText::
-	text "Can't DIG while"
-	line "SURFing on water!"
+	text "Can't Dig while"
+	line "Surfing on water!"
 	prompt
 
 _NoWhereToDigDown::
@@ -161,7 +161,7 @@ _AlreadyBrightText::
 	prompt
 
 _NewBadgeRequiredText::
-	text "No! A new BADGE"
+	text "No! A new Badge"
 	line "is required."
 	prompt
 
@@ -184,24 +184,24 @@ _GotMonText::
 
 _SentToBoxText::
 	text "There's no more"
-	line "room for #MON!"
+	line "room for <Pokemon>!"
 	cont "@"
 	text_ram wBoxMonNicks
 	text " was"
-	cont "sent to #MON"
-	cont "BOX @"
+	cont "sent to <Pokemon>"
+	cont "Box @"
 	text_ram_stringbuffer
 	text " on <PC>!"
 	prompt
 
 _BoxIsFullText::
 	text "There's no more"
-	line "room for #MON!"
+	line "room for <Pokemon>!"
 
-	para "The #MON BOX"
+	para "The <Pokemon> Box"
 	line "is full and can't"
 	cont "accept any more!"
 
-	para "Change the BOX at"
-	line "a #MON CENTER!"
+	para "Change the Box at"
+	line "a <Pokemon> Center!"
 	done

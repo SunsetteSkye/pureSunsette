@@ -1,40 +1,29 @@
 _Route9CooltrainerF1BattleText::
-	text "You have #MON"
-	line "with you!"
-	cont "You're mine!"
+	text "You have <Pokemon> with you! You're mine!"
 	done
 
 _Route9CooltrainerF1EndBattleText::
-	text "You"
-	line "deceived me!"
+	text "You deceived me!"
 	prompt
 
 _Route9CooltrainerF1AfterBattleText::
-	text "You need light to"
-	line "get through that"
-	cont "tunnel ahead."
-	para "It's too dark"
-	line "otherwise."
+	text "You need light to get through that tunnel ahead."
+	para "It's too dark otherwise."
 	done
 
 _LearnsetGloom::
 	text "My @"
 	text_ram_namebuffer
-	text " can use"
-	line "FLASH to get rid"
-	cont "of the darkness!"
+	text " can use Flash to get rid of the darkness!"
 	para "@"
 	text_end
 
 _Route9CooltrainerM1BattleText::
-	text "Who's that walking"
-	line "with those good"
-	cont "looking #MON?"
+	text "Who's that walking with those good looking <Pokemon>?"
 	done
 
 _Route9CooltrainerM1EndBattleText::
-	text "Out"
-	line "like a light!"
+	text "Out like a light!"
 	prompt
 
 _Route9CooltrainerM1AfterBattleText::
@@ -43,65 +32,47 @@ _Route9CooltrainerM1AfterBattleText::
 
 _RhyhornLearnset::
 	text "Yeah!"
-	para "Saw you eyeing my"
-	line "rough-and-tumble"
-	cont "@"
+	para "Saw you eyeing my rough-and-tumble @"
 	text_ram_namebuffer
 	text "!"
-	para "You know it's"
-	line "drop dead cool!"
+	para "You know it's drop dead cool!"
 	prompt
 
 _Route9CooltrainerM2BattleText::
-	text "I'm taking ROCK"
-	line "TUNNEL to go to"
-	cont "LAVENDER<...>"
+	text "I'm taking Rock Tunnel to go to Lavender<...>"
 	done
 
 _Route9CooltrainerM2EndBattleText::
-	text "Can't"
-	line "measure up!"
+	text "Can't measure up!"
 	prompt
 
 _Route9CooltrainerM2AfterBattleText::
-	text "Are you off to"
-	line "ROCK TUNNEL too?"
+	text "Are you off to Rock Tunnel too?"
 	done
 
 _Route9CooltrainerF2BattleText::
-	text "Don't you dare"
-	line "condescend me!"
+	text "Don't you dare condescend me!"
 	done
 
 _Route9CooltrainerF2EndBattleText::
-	text "No!"
-	line "You're too much!"
+	text "No! You're too much!"
 	prompt
 
 _Route9CooltrainerF2AfterBattleText::
-	text "You're obviously"
-	line "talented! Good"
-	cont "luck to you!"
+	text "You're obviously talented! Good luck to you!"
 	done
 
 _Route9Hiker1BattleText::
-	text "Bwahaha!"
-	line "Great! I was"
-	cont "bored, eh!"
+	text "Bwahaha! Great! I was bored, eh!"
 	done
 
 _Route9Hiker1EndBattleText::
-	text "Keep it"
-	line "coming, eh!"
-
-	para "Oh wait. I'm out"
-	line "of #MON!"
+	text "Keep it coming, eh!"
+	para "Oh wait. I'm out of <Pokemon>!"
 	prompt
 
 _Route9Hiker1AfterBattleText::
-	text "You sure had guts"
-	line "standing up to me"
-	cont "there, eh?"
+	text "You sure had guts standing up to me there, eh?"
 	done
 
 _LearnsetSandslash::
@@ -114,87 +85,63 @@ _LearnsetSandslash::
 	prompt
 
 _Route9Hiker2BattleText::
-	text "Hahaha!"
-	line "Aren't you a"
-	cont "little toughie!"
+	text "Hahaha! Aren't you a little toughie!"
 	done
 
 _Route9Hiker2EndBattleText::
-	text "What's"
-	line "that?"
+	text "What's that?"
 	prompt
 
 _Route9Hiker2AfterBattleText::
-	text "Hahaha! Kids"
-	line "should be tough!"
+	text "Hahaha! Kids should be tough!"
 	done
 
 
 _GeodudeLearnset::
-	text "Resilient and"
-	line "hardy, like my"
-	cont "@"
+	text "Resilient and hardy, like my @"
 	text_ram_namebuffer
 	text "!"
-	para "Talk about a"
-	line "classic HIKER"
-	cont "#MON choice!"
+	para "Talk about a classic Hiker <Pokemon> choice!"
 	prompt
 
 _Route9Youngster1BattleText::
-	text "I got up early"
-	line "every day to"
-	cont "raise my #MON"
-	cont "from cocoons!"
+	text "I got up early every day to raise my <Pokemon> from cocoons!"
 	done
 
 _Route9Youngster1EndBattleText::
 	text "WHAT?"
-
-	para "What a total"
-	line "waste of time!"
+	para "What a total waste of time!"
 	prompt
 
 _Route9Youngster1AfterBattleText::
-	text "I have to collect"
-	line "more than bugs to"
-	cont "get stronger<...>"
+	text "I have to collect more than bugs to get stronger<...>"
 	done
 
 _Route9Hiker3BattleText::
-	text "Hahahaha!"
-	line "Come on, dude!"
+	text "Hahahaha! Come on, dude!"
 	done
 
 _Route9Hiker3EndBattleText::
-	text "Hahahaha!"
-	line "You beat me fair!"
+	text "Hahahaha! You beat me fair!"
 	prompt
 
 _Route9Hiker3AfterBattleText::
-	text "Hahahaha!"
-	line "Us hearty guys"
-	cont "always laugh!"
+	text "Hahahaha! Us hearty guys always laugh!"
 	done
 
 _Route9Youngster2BattleText::
-	text "Go, my super bug"
-	line "#MON!"
+	text "Go, my super bug <Pokemon>!"
 	done
 
 _Route9Youngster2EndBattleText::
-	text "My"
-	line "bugs<...>"
+	text "My bugs<...>"
 	prompt
 
 _Route9Youngster2AfterBattleText::
-	text "If you don't like"
-	line "bug #MON, you"
-	cont "bug me!"
+	text "If you don't like bug <Pokemon>, you bug me!"
 	done
 
 _Route9SignText::
-	text "ROUTE 9"
-	line "CERULEAN CITY-"
-	cont "ROCK TUNNEL"
+	text "Route 9"
+	para "Cerulean City - Rock Tunnel"
 	done

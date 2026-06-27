@@ -1,14 +1,5 @@
 _Route11Gate1FGuardText::
-	text "When you catch"
-	line "lots of #MON,"
-	cont "isn't it hard to"
-	cont "think up names?"
-
-	para "In LAVENDER TOWN,"
-	line "there's a man who"
-	cont "rates #MON"
-	cont "nicknames."
-
-	para "He'll help you"
-	line "rename them too!"
+	text "When you catch lots of <Pokemon>, isn't it hard to think up names?"
+	para "In Lavender Town, there's a man who rates <Pokemon> nicknames."
+	para "He'll help you rename them too!"
 	done

@@ -385,6 +385,15 @@ PlayTrainerMusic::
 	xor a
 	ld [wAudioFadeOutControl], a
 	call StopAllMusic
+	; Sunsette: Rocket Queens get Yellow's "Meet Jessie & James" theme as their sight cue.
+	; PlaySpecialFieldMusic3 plays a 3-channel core then remaps to the (free-bank) track.
+	ld a, [wEngagedTrainerClass]
+	cp ROCKET_QUEEN
+	jr nz, .notJessieJames
+	ld hl, Music_MeetJessieJames
+	ld c, BANK(Music_MeetJessieJames)
+	jp PlaySpecialFieldMusic3
+.notJessieJames
 	ld a, BANK(Music_MeetEvilTrainer)
 	ld [wAudioROMBank], a
 	ld [wAudioSavedROMBank], a

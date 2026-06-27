@@ -1,101 +1,72 @@
 _Route2SignText::
-	text "ROUTE 2"
-	line "VIRIDIAN CITY -"
-	cont "PEWTER CITY"
+	text "Route 2"
+	para "Viridian City - Pewter City"
 	done
 
 _Route2DiglettsCaveSignText::
-	text "DIGLETT's CAVE"
+	text "Diglett's Cave"
 	done
 
 _Route2BattleText1::
-	text "This field is a"
-	line "nice place!"
-	para "So much sunnier"
-	line "than VIRIDIAN"
-	cont "FOREST."
+	text "This field is a nice place!"
+	para "So much sunnier than Viridian Forest."
 	done
 
 _Route2EndBattleText1::
-	text "I"
-	line "don't mind losing!"
+	text "I don't mind losing!"
 	prompt
 
 _Route2AfterBattleText1::
-	text "Imagine a thunder"
-	line "storm hitting"
-	cont "this field."
-	para "Wouldn't that be"
-	line "exciting!"
+	text "Imagine a thunderstorm hitting this field."
+	para "Wouldn't that be exciting!"
 	done
 
 _Route2AfterBattle1Learnset::
-	text "What do you"
-	line "think?"
-	para "Who'd be better at"
-	line "braving a storm?"
-	para "SCYTHER or PINSIR?"
+	text "What do you think?"
+	para "Who'd be better at braving a storm?"
+	para "Scyther or Pinsir?"
 	prompt
 
 _Route2AfterBattle2Learnset::
-	text "Everybody loves"
-	line "@"
+	text "Everybody loves @"
 	text_ram_namebuffer
 	text "!"
-	para "Come on! Let's"
-	line "hang out."
-	para "I'll tell you"
-	line "more about it."
+	para "Come on! Let's hang out."
+	para "I'll tell you more about it."
 	prompt
 
 _Route2BattleText2::
-	text "Amazing how"
-	line "DIGLETT'S CAVE"
-	cont "leads all the way"
-	cont "to the outskirts"
-	cont "of VIRIDIAN CITY!"
+	text "Amazing how Diglett's Cave leads all the way to the outskirts of Viridian City!"
 	done
 
 _Route2EndBattleText2::
-	text "Not"
-	line "enough DIGLETTs!"
+	text "Not enough Digletts!"
 	prompt
 
 _Route2AfterBattleText2::
-	text "Wouldn't it be"
-	line "intimidating if"
-	cont "I had an army of"
-	cont "DIGLETTs trailing"
-	cont "everywhere I go?"
+	text "Wouldn't it be intimidating if I had an army of Digletts trailing everywhere I go?"
 	done
 
 _TextNothing::
 	text ""
 	done
-	
+
 _Route2BattleText3::
-	text "Don't trod on"
-	line "the flowers!"
+	text "Don't trod on the flowers!"
 	done
 
 _Route2EndBattleText3::
-	text "Be"
-	line "careful!"
+	text "Be careful!"
 	prompt
 
 _Route2AfterBattleText3::
-	text "I come here for"
-	line "picnics."
-	para "It's a beautiful"
-	line "quiet spot to"
-	cont "relax."
+	text "I come here for picnics."
+	para "It's a beautiful quiet spot to relax."
 	done
 
 _Route2AfterBattle3Learnset::
 	text "@"
 	text_ram_namebuffer
-	text " likes"
-	line "to doze among"
-	cont "the flowers."
+	text " likes to doze among the flowers."
 	para "@"
 	text_end

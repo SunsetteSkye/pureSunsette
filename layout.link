@@ -68,7 +68,8 @@ ROMX $8
 	"Low Health Alarm (Audio Engine 2)"
 	"Audio Engine 2"
 	"Music 2"
-	"Splash Animation"
+	; "Splash Animation" floated (unpinned) so the linker drops it into any bank with room;
+	; the de-cap text growth left $8 too tight for it (overflowed by 819 bytes).
 ROMX $9
 	"Pics 1"
 ROMX $A
@@ -232,6 +233,10 @@ ROMX $3E
 	"Dex Party Icons 1"
 ROMX $3F
 	"Dex Party Icons 2"
+ROMX $40
+	; de-cap text growth filled the low banks; "Splash Animation" pinned to this empty high
+	; bank (ROM is 2MB / 128 banks) to free room for the floating text-relief sections.
+	"Splash Animation"
 WRAM0
 	"Audio RAM"
 	org $c100

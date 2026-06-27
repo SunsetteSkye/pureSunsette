@@ -1,14 +1,10 @@
 _PokemonTowerCatacombsTorchedGraveText::
-	text "HERE LIES KOKO"
-	line "THE EXEGGUTOR"
-	para "KOKO tragically"
-	line "perished in a"
-	cont "house fire."
+	text "Here Lies Koko the Exeggutor"
+	para "Koko tragically perished in a house fire."
 	; fall through
 _PokemonTowerCatacombsWavedStaff::
-	para "<PLAYER> waved the"
-	line "CHANNELER's STAFF."
-	prompt 
+	para "<PLAYER> waved the Channeler's Staff."
+	prompt
 
 _PokemonTowerCatacombsTorchedGraveText2::
 	text "NEED@"
@@ -24,9 +20,7 @@ _PokemonTowerCatacombsTorchedGraveText2::
 
 _PokemonTowerCatacombsMonSpeaksText::
 	text "Listen, child!"
-	para "The #MON's"
-	line "spirit speaks"
-	cont "through me:"
+	para "The <Pokemon>'s spirit speaks through me:"
 	para "@"
 	text_dots 3
 	text ""
@@ -34,28 +28,20 @@ _PokemonTowerCatacombsMonSpeaksText::
 
 _PokemonTowerCatacombsTorchedAfterText::
 	text ""
-	para "My trainer didn't"
-	line "own a fire"
-	cont "extinguisher!"
-	para "Why were they so"
-	line "short sighted??"
+	para "My Trainer didn't own a fire extinguisher!"
+	para "Why were they so short sighted??"
 	; fall through
 _PokemonTowerCatacombsSpiritDissipatedText::
 	para "@"
 	text_dots 3
 	text ""
-	para "The spirit"
-	line "seems satisfied."
-	para "It departed to"
-	line "the afterlife!"
+	para "The spirit seems satisfied."
+	para "It departed to the afterlife!"
 	done
 
 _PokemonTowerCatacombsChunkyGraveText::
-	text "HERE LIES ZAPPY"
-	line "THE RAICHU"
-	para "ZAPPY had a sudden"
-	line "heart attack"
-	cont "while sleeping.@"
+	text "Here Lies Zappy the Raichu"
+	para "Zappy had a sudden heart attack while sleeping.@"
 	text_jump _PokemonTowerCatacombsWavedStaff
 
 _PokemonTowerCatacombsChunkyGraveText2::
@@ -66,28 +52,19 @@ _PokemonTowerCatacombsChunkyGraveText2::
 
 _PokemonTowerCatacombsChunkyAfterText::
 	text ""
-	para "I loved my trainer"
-	line "very much!"
-	para "She gave me lots"
-	line "of yummy food!"
-	para "But I ate too"
-	line "much I think!"
+	para "I loved my Trainer very much!"
+	para "She gave me lots of yummy food!"
+	para "But I ate too much I think!"
 	para "Whoops!"
-	para "Do you have"
-	line "anything to eat?"
+	para "Do you have anything to eat?"
 	para "No?"
 	para "Oh well!"
-	para "I'll wait for my"
-	line "trainer in the"
-	cont "great beyond!@"
+	para "I'll wait for my Trainer in the great beyond!@"
 	text_jump _PokemonTowerCatacombsSpiritDissipatedText
 
 _PokemonTowerCatacombsPainlessGraveText::
-	text "HERE LIES TUFF"
-	line "THE WIGGLYTUFF"
-	para "TUFF passed away"
-	line "due to blunt"
-	cont "force trauma.@" 
+	text "Here Lies Tuff the Wigglytuff"
+	para "Tuff passed away due to blunt force trauma.@"
 	text_jump _PokemonTowerCatacombsWavedStaff
 
 _PokemonTowerCatacombsPainlessGraveText2::
@@ -104,28 +81,18 @@ _PokemonTowerCatacombsPainlessGraveText2::
 
 _PokemonTowerCatacombsPainlessAfterText::
 	text ""
-	para "My trainer made me"
-	line "fight so hard,"
-	cont "I got permanent"
-	cont "brain damage!"
-	para "I just wanted to"
-	line "make him happy!"
-	para "We should have"
-	line "known our limits!@"
+	para "My Trainer made me fight so hard, I got permanent brain damage!"
+	para "I just wanted to make him happy!"
+	para "We should have known our limits!@"
 	text_jump _PokemonTowerCatacombsSpiritDissipatedText
 
 _PokemonTowerCatacombsIrradiatedGraveText::
-	text "HERE LIES BOB"
-	line "THE HITMONCHAN"
-	para "BOB perished with"
-	line "their trainer"
-	cont "due to radiation"
-	cont "sickness.@"
+	text "Here Lies Bob the Hitmonchan"
+	para "Bob perished with their Trainer due to radiation sickness.@"
 	text_jump _PokemonTowerCatacombsWavedStaff
 
 _PokemonTowerCatacombsIrradiatedGraveText2::
-	text "WHAT IS"
-	line "HAPPENING@"
+	text "WHAT IS HAPPENING@"
 	text_dots 3
 	text ""
 	cont "TO ME??@"
@@ -135,22 +102,14 @@ _PokemonTowerCatacombsIrradiatedGraveText2::
 
 _PokemonTowerCatacombsIrradiatedAfterText::
 	text ""
-	para "My trainer and I"
-	line "trespassed in a"
-	cont "restricted cave!"
-	para "We had no idea"
-	line "it was nuclear"
-	cont "waste storage!"
-	para "We shouldn't"
-	line "have gone there!@"
+	para "My Trainer and I trespassed in a restricted cave!"
+	para "We had no idea it was nuclear waste storage!"
+	para "We shouldn't have gone there!@"
 	text_jump _PokemonTowerCatacombsSpiritDissipatedText
 
 _PokemonTowerCatacombsDarkChannelerText::
-	text "Kekeke, are you"
-	line "getting a bit too"
-	cont "spooked out?"
-	para "Want to go back"
-	line "upstairs?"
+	text "Kekeke, are you getting a bit too spooked out?"
+	para "Want to go back upstairs?"
 	done
 
 _PokemonTowerCatacombsDarkChannelerTextYes::
@@ -159,136 +118,80 @@ _PokemonTowerCatacombsDarkChannelerTextYes::
 
 _GhostMarowakAfterGiovanniText::
 	text "<PLAYER>!"
-	para "This is GHOST"
-	line "MAROWAK speaking"
-	cont "through the"
-	cont "KARATE KING."
-	para "Thank you for"
-	line "defeating <TEAM>"
-	cont "<ROCKET>."
-	para "It was my last"
-	line "wish to help get"
-	cont "rid of them."
-	para "If you could,"
-	line "please take me"
-	cont "to the basement"
-	cont "of #MON TOWER."
-	para "There I can"
-	line "finally be laid"
-	cont "to rest."
+	para "This is Ghost Marowak speaking through the Karate King."
+	para "Thank you for defeating <TEAM><ROCKET>."
+	para "It was my last wish to help get rid of them."
+	para "If you could, please take me to the basement of <Pokemon> Tower."
+	para "There I can finally be laid to rest."
 	done
 
 _ViridianGymHiker3WhatText::
 	text "Huh??"
 	para "What happened?"
-	para "How'd I get over"
-	line "here?"
+	para "How'd I get over here?"
 	done
 
 _DarkChannelerGoDownText::
-	text "Hmm? I sense a"
-	line "spirit among your"
-	cont "#MON."
-	para "Hoho! The mother"
-	line "MAROWAK?"
-	para "She wishes to be"
-	line "laid to rest at"
-	cont "her grave now,"
-	cont "is that it?"
-	para "It's downstairs"
-	line "in the catacombs."
-	para "I'll let you go"
-	line "down for this one"
-	cont "special case."
+	text "Hmm? I sense a spirit among your <Pokemon>."
+	para "Hoho! The mother Marowak?"
+	para "She wishes to be laid to rest at her grave now, is that it?"
+	para "It's downstairs in the catacombs."
+	para "I'll let you go down for this one special case."
 	para "Want to go?"
 	done
 
 _DarkChannelerCatacombsIntroText::
-	text "Just follow the"
-	line "path to reach"
-	cont "MAROWAK's grave!"
-	para "But you'll probably"
-	line "encounter some"
-	cont "restless spirits"
-	cont "along the way."
-	para "Here! Use my"
-	line "CHANNELER's STAFF."
-	para "It'll reveal and"
-	line "purify spirits"
-	cont "better than a"
-	cont "SILPH SCOPE!"
-	para "All because of the"
-	line "special hexes I"
-	cont "put on it!"
-	para "<PLAYER> borrowed"
-	line "CHANNELER's STAFF!"
+	text "Just follow the path to reach Marowak's grave!"
+	para "But you'll probably encounter some restless spirits along the way."
+	para "Here! Use my Channeler's Staff."
+	para "It'll reveal and purify spirits better than a Silph Scope!"
+	para "All because of the special hexes I put on it!"
+	para "<PLAYER> borrowed Channeler's Staff!"
 	done
 
 _TorchedOnFire::
 	text "@"
 	text_ram wEnemyMonNick
 	text_start
-	line "is consumed by"
-	cont "scorching flames!"
+	line "is consumed by scorching flames!"
 	prompt
 
 _PainlessBattleInitText::
-	text "PAINLESS won't feel"
-	line "any pain from"
-	cont "your attacks!"
+	text "Painless won't feel any pain from your attacks!"
 	prompt
 
 _IrradiatedBattleInitText::
-	text "Radiation spreads"
-	line "everywhere!"
+	text "Radiation spreads everywhere!"
 	prompt
 
 _IrradiatedGrowsLarger::
-	text "IRRADIATED twists"
-	line "and contorts,"
-	para "its body morphing"
-	line "strangely!"
+	text "Irradiated twists and contorts,"
+	para "its body morphing strangely!"
 	prompt
 
 _CatacombsCuboneText::
-	text "Looks like CUBONE"
-	line "is visiting its"
-	cont "mother's grave."
+	text "Looks like Cubone is visiting its mother's grave."
 	done
 
 _CatacombsMarowakTouchedText::
 	text "@"
 	text_ram_namebuffer
-	text " seems"
-	line "really happy!"
+	text " seems really happy!"
 	done
 
 _DarkChannelerReunionText::
-	text "What a touching"
-	line "reunion!"
+	text "What a touching reunion!"
 	para "But @"
 	text_ram_namebuffer
-	text ""
-	line "can't be laid to"
-	cont "rest yet!"
-	para "There's still a"
-	line "dark presence"
-	cont "around here!"
-	para "Once it's gone"
-	line "everything should"
-	cont "be ready!"
+	text " can't be laid to rest yet!"
+	para "There's still a dark presence around here!"
+	para "Once it's gone everything should be ready!"
 	done
 
 _PokemonTowerCatacombsTheMawGraveText::
-	text "HERE LIES A"
-	line "NOTORIOUS GOLBAT"
-	para "This GOLBAT killed"
-	line "its own trainer"
-	cont "and continued on"
-	cont "a violent spree."
-	para "It is unknown"
-	line "whether it had a"
-	cont "nickname.@"
+	text "Here Lies a Notorious Golbat"
+	para "This Golbat killed its own Trainer and continued on a violent spree."
+	para "It is unknown whether it had a nickname.@"
 	text_jump _PokemonTowerCatacombsWavedStaff
 
 _PokemonTowerCatacombsTheMawGraveText2::
@@ -296,103 +199,68 @@ _PokemonTowerCatacombsTheMawGraveText2::
 	done
 
 _PokemonTowerB1FTheMawUsedHyperBeamText::
-	text "The dark spirit"
-	line "used HYPER BEAM!"
+	text "The dark spirit used Hyper Beam!"
 	done
 
 _PokemonTowerB1FMarowakBlockedHyperBeamText::
 	text "@"
 	text_ram_namebuffer
-	text " blocked"
-	line "the HYPER BEAM"
-	cont "from hitting"
-	cont "CUBONE!"
-	para "But the beam was"
-	line "too powerful!"
+	text " blocked the Hyper Beam from hitting Cubone!"
+	para "But the beam was too powerful!"
 	para "@"
 	text_ram_namebuffer
-	text " can't"
-	line "maintain its"
-	cont "physical form"
-	cont "anymore!"
+	text " can't maintain its physical form anymore!"
 	done
 
 _PokemonTowerB1FMarowakBuffedCubone::
 	text "@"
 	text_ram_namebuffer
-	text "'s spirit"
-	line "cradled CUBONE,"
-	cont "and transferred"
-	cont "all of its power!"
-	para "CUBONE joined"
-	line "your party."
+	text "'s spirit cradled Cubone, and transferred all of its power!"
+	para "Cubone joined your party."
 	prompt
 
 _PokemonTowerB1FTheMawAttacked::
-	text "It's time to"
-	line "fight!"
-	para "The dark spirit"
-	line "attacked!"
+	text "It's time to fight!"
+	para "The dark spirit attacked!"
 	done
 
 _CubonePoweredUp::
 	text "@"
 	text_ram wTrainerName
-	text "'s spirit"
-	line "bestowed divine"
-	cont "energy on CUBONE!"
+	text "'s spirit bestowed divine energy on Cubone!"
 	prompt
 
 _CuboneGainedUltimateProtection::
-	text "CUBONE gained"
-	line "ultimate"
-	cont "protection!"
+	text "Cubone gained ultimate protection!"
 	prompt
 
 _TheMawMeltedIntoShadows::
-	text "The dark spirit"
-	line "faded into the"
-	cont "shadows, never to"
-	cont "return."
+	text "The dark spirit faded into the shadows, never to return."
 	done
 
 _GhostMarowakOneLastTime::
 	text "@"
 	text_ram wTrainerName
-	text " used"
-	line "the remnants of"
-	cont "its energy to"
-	cont "show itself one"
-	cont "last time."
+	text " used the remnants of its energy to show itself one last time."
 	prompt
 
 _PokemonTowerGhostMarowakAfterText::
 	text ""
-	para "Thank you"
-	line "<PLAYER>!"
-	para "I can finally"
-	line "rest in peace!"
-	para "I love you CUBONE!"
-	para "But it's time for"
-	line "mother to go."
+	para "Thank you <PLAYER>!"
+	para "I can finally rest in peace!"
+	para "I love you Cubone!"
+	para "But it's time for mother to go."
 	para "Don't be sad."
-	para "Enjoy life while"
-	line "you can-"
+	para "Enjoy life while you can<...>"
 	para "Goodbye<...>"
 	prompt
 
 _PokemonTowerCatacombsDoneText::
-	text "Well, thanks for"
-	line "doing my job for"
-	cont "me!"
-	para "The DARK CHANNELER"
-	line "took back her"
-	cont "CHANNELER's STAFF."
-	para "Time to go back"
-	line "upstairs!"
+	text "Well, thanks for doing my job for me!"
+	para "The Dark Channeler took back her Channeler's Staff."
+	para "Time to go back upstairs!"
 	done
 
 _PokemonTowerCatacombsGoBackDown::
-	text "Want to go"
-	line "back downstairs?"
+	text "Want to go back downstairs?"
 	done

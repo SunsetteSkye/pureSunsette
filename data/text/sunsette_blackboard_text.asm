@@ -2,14 +2,14 @@
 ; section it lived in was full). Referenced via text_far from scripts/ViridianSchoolHouse.asm, so the bank
 ; is irrelevant. Updated with the hit-shortens-sleep rule.
 _ViridianBlackboardSleepText::
-	text "A #MON can't"
+	text "A <Pokemon> can't"
 	line "attack if it's"
 	cont "asleep!"
 
 	para "It can wake up"
 	line "during battle."
 
-	para "#MON will stay"
+	para "<Pokemon> will stay"
 	line "asleep even after"
 	cont "battles."
 
@@ -18,11 +18,11 @@ _ViridianBlackboardSleepText::
 	cont "cuts a round, a"
 	cont "crit cuts two!"
 
-	para "But GRASS types"
-	line "are restless --"
+	para "But Grass types"
+	line "are restless,"
 	cont "they can't be put"
 	cont "to sleep at all!"
 
-	para "Use AWAKENING to"
+	para "Use Awakening to"
 	line "wake them up!"
 	prompt

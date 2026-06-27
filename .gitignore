@@ -43,5 +43,8 @@ tools/
 # shelved experiments kept for reference (not part of the build)
 _attempts/
 
+# source MIDIs + loop-audition scratch (the converted .asm under audio/music/ is what ships)
+audio/newmusic/
+
 # generated sprite-sheet / scratch artifacts
 build/

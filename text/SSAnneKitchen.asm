@@ -1,84 +1,58 @@
 _SSAnneKitchenCook1Text::
-	text "You, mon petit!"
-	line "We're busy here!"
-	cont "Out of the way!"
+	text "You, mon petit! We're busy here! Out of the way!"
 	done
 
 _SSAnneKitchenCook2Text::
-	text "I saw an odd ball"
-	line "in the trash."
+	text "I saw an odd ball in the trash."
 	done
 
 _SSAnneKitchenCook3Text::
-	text "I'm so busy I'm"
-	line "getting dizzy!"
+	text "I'm so busy I'm getting dizzy!"
 	done
 
 _SSAnneKitchenCook4Text::
-	text "Hum-de-hum-de-"
-	line "ho<...>"
-
-	para "I peel spuds"
-	line "every day!"
-	cont "Hum-hum<...>"
+	text "Hum-de-hum-de-ho<...>"
+	para "I peel spuds every day! Hum-hum<...>"
 	done
 
 _SSAnneKitchenCook5Text::
-	text "Did you hear about"
-	line "SNORLAX?"
-
-	para "All it does is"
-	line "eat and sleep!"
+	text "Did you hear about Snorlax?"
+	para "All it does is eat and sleep!"
 	done
 
 _SSAnneKitchenCook6Text::
 	text "Snivel<...>Sniff<...>"
-
-	para "I only get to"
-	line "peel onions<...>"
-	cont "Snivel<...>"
+	para "I only get to peel onions<...> Snivel<...>"
 	done
 
 _SSAnneKitchenCook7MainCourseIsText::
-	text "Er-hem! Indeed I"
-	line "am le CHEF!"
-
+	text "Er-hem! Indeed I am le Chef!"
 	para "Le main course is:"
 	prompt
 
 SSAnneKitchenCook7SalmonDuSaladText::
 	text "Salmon du Salad!"
-
-	para "Les guests may"
-	line "gripe it's fish"
-	cont "again, however!"
+	para "Les guests may gripe it's fish again, however!"
 	done
 
 SSAnneKitchenCook7EelsAuBarbecueText::
 	text "Eels au Barbecue!"
-
-	para "Les guests will"
-	line "mutiny, I fear."
+	para "Les guests will mutiny, I fear."
 	done
 
 SSAnneKitchenCook7PrimeBeefSteakText::
 	text "Prime Beef Steak!"
-
-	para "But, have I enough"
-	line "fillets du beef?"
+	para "But, have I enough fillets du beef?"
 	done
 
 _SSAnneKitchenWaiter::
-	text "Would you like"
-	line "something to eat?"
+	text "Would you like something to eat?"
 	done
 
 _SSAnneKitchenWaiterHaveSeat::
-	text "Then have a seat"
-	line "right here."
+	text "Then have a seat right here."
 	done
 
 _SSAnneKitchenWaiterComingRightUp::
-	text "Great choice!"
-	line "Coming right up!"
+	text "Great choice! Coming right up!"
 	done

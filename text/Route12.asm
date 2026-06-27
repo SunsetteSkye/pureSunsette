@@ -1,84 +1,62 @@
 _Route12SnorlaxText::
-	text "A sleeping #MON"
-	line "blocks the way!"
+	text "A sleeping <Pokemon> blocks the way!"
 	done
 
 _Route12SnorlaxWokeUpText::
-	text "SNORLAX woke up!"
-
-	para "It attacked in a"
-	line "grumpy rage!"
+	text "Snorlax woke up!"
+	para "It attacked in a grumpy rage!"
 	done
 
 _Route12SnorlaxCalmedDownText::
-	text "SNORLAX calmed"
-	line "down! With a big"
-	cont "yawn, it returned"
-	cont "to the mountains!"
+	text "Snorlax calmed down! With a big yawn, it returned to the mountains!"
 	done
 
 _Route12Fisher1BattleText::
-	text "Yeah! I got a"
-	line "bite, here!"
+	text "Yeah! I got a bite, here!"
 	done
 
 _Route12Fisher1EndBattleText::
-	text "Tch!"
-	line "Just a small fry!"
+	text "Tch! Just a small fry!"
 	prompt
 
 _Route12Fisher1AfterBattleText::
-	text "Hang on! My line's"
-	line "snagged!"
+	text "Hang on! My line's snagged!"
 	done
 
 _LearnsetGoldeen::
-	text "I usually have"
-	line "@"
+	text "I usually have @"
 	text_ram_namebuffer
-	text " use"
-	cont "SUPERSONIC to"
-	cont "unsnag it."
-	para "Gotta love"
-	line "@"
+	text " use Supersonic to unsnag it."
+	para "Gotta love @"
 	text_ram_namebuffer
 	text "!"
 	para "@"
 	text_end
 
 _Route12Fisher2BattleText::
-	text "Be patient!"
-	line "Fishing is a"
-	cont "waiting game!"
+	text "Be patient! Fishing is a waiting game!"
 	done
 
 _Route12Fisher2EndBattleText::
-	text "That"
-	line "one got away!"
+	text "That one got away!"
 	prompt
 
 _Route12Fisher2AfterBattleText::
-	text "With a better ROD,"
-	line "I could catch"
-	cont "better #MON!"
+	text "With a better rod, I could catch better <Pokemon>!"
 	done
 
 _LearnsetTentacool::
-	text "Not just a bunch"
-	line "of @"
+	text "Not just a bunch of @"
 	text_ram_namebuffer
 	text "!"
 	para "<...>"
-	para "Well actually,"
-	line "I think TENTACOOL"
-	cont "is kind of rad."
+	para "Well actually, I think Tentacool is kind of rad."
 	para "Do you agree?"
 	para "@"
 	text_end
 
 _Route12CooltrainerMBattleText::
-	text "Have you found a"
-	line "MOON STONE?"
+	text "Have you found a Moon Stone?"
 	done
 
 _Route12CooltrainerMEndBattleText::
@@ -86,14 +64,11 @@ _Route12CooltrainerMEndBattleText::
 	prompt
 
 _Route12CooltrainerMAfterBattleText::
-	text "I could have made"
-	line "my #MON evolve"
-	cont "with MOON STONE!"
+	text "I could have made my <Pokemon> evolve with Moon Stone!"
 	done
 
 _Route12SuperNerdBattleText::
-	text "Electricity is my"
-	line "specialty!"
+	text "Electricity is my specialty!"
 	done
 
 _Route12SuperNerdEndBattleText::
@@ -101,179 +76,126 @@ _Route12SuperNerdEndBattleText::
 	prompt
 
 _Route12SuperNerdAfterBattleText::
-	text "Water conducts"
-	line "electricity, so"
-	cont "you should zap"
-	cont "sea #MON!"
+	text "Water conducts electricity, so you should zap sea <Pokemon>!"
 	done
 
 _Route12Fisher3BattleText::
-	text "The FISHING FOOL"
-	line "vs. #MON KID!"
+	text "The Fishing Fool vs. <Pokemon> Kid!"
 	done
 
 _Route12Fisher3EndBattleText::
-	text "Too"
-	line "much!"
+	text "Too much!"
 	prompt
 
 _Route12Fisher3AfterBattleText::
-	text "You beat me at"
-	line "#MON, but I'm"
-	cont "good at fishing!"
+	text "You beat me at <Pokemon>, but I'm good at fishing!"
 	done
 
 _SeadraLearnset::
-	text "It's not every day"
-	line "you meet someone"
-	cont "who can catch a"
-	cont "@"
+	text "It's not every day you meet someone who can catch a @"
 	text_ram_namebuffer
 	text "!"
-	para "They live pretty"
-	line "deep underwater!"
+	para "They live pretty deep underwater!"
 	para "So elusive!"
-	para "So!" 
-	line "#MON KID,"
+	para "So! <Pokemon> Kid,"
 	para "@"
 	text_end
 
 _Route12Fisher4BattleText::
-	text "I'd rather be"
-	line "working!"
+	text "I'd rather be working!"
 	done
 
 _Route12Fisher4EndBattleText::
-	text "It's"
-	line "not easy<...>"
+	text "It's not easy<...>"
 	prompt
 
 _Route12Fisher4AfterBattleText::
-	text "It's all right."
-	line "Losing doesn't"
-	cont "bug me any more."
+	text "It's all right. Losing doesn't bug me any more."
 	done
 
 _Route12Fisher5BattleText::
-	text "You never know"
-	line "what you could"
-	cont "catch!"
+	text "You never know what you could catch!"
 	done
 
 _Route12Fisher5EndBattleText::
-	text "Lost"
-	line "it!"
+	text "Lost it!"
 	prompt
 
 _Route12Fisher5AfterBattleText::
-	text "I catch MAGIKARP"
-	line "all the time, but"
-	cont "they're so weak!"
+	text "I catch Magikarp all the time, but they're so weak!"
 	done
 
 _Route12BattleText8::
-	text "The FISHERs here"
-	line "told me legends"
-	cont "of sea monsters!"
+	text "The Fishers here told me legends of sea monsters!"
 	done
 
 _Route12EndBattleText8::
-	text "Keep"
-	line "your eyes on the"
-	cont "water!"
+	text "Keep your eyes on the water!"
 	prompt
 
 _Route12AfterBattleText8::
-	text "Taming a sea"
-	line "monster would be"
-	cont "amazing to see!"
-	para "Can FISHERs do"
-	line "such a thing?"
+	text "Taming a sea monster would be amazing to see!"
+	para "Can Fishers do such a thing?"
 	done
 
 _ShellderLearnset::
-	text "I heard SHELLDER"
-	line "evolves into a"
-	cont "#MON with"
-	cont "monstrously good"
-	cont "stats!"
-	para "That's why I"
-	line "got one!"
+	text "I heard Shellder evolves into a <Pokemon> with monstrously good stats!"
+	para "That's why I got one!"
 	para "@"
 	text_end
 
 
 _Route12BattleText9::
-	text "Some #MON"
-	line "can breathe"
-	cont "underwater!"
+	text "Some <Pokemon> can breathe underwater!"
 	done
 
 _Route12EndBattleText9::
-	text "Don't"
-	line "fall in!"
+	text "Don't fall in!"
 	prompt
 
 _Route12AfterBattleText9::
-	text "Breathing"
-	line "underwater<...>"
-	para "I'd love to be"
-	line "able to do that!"
-	para "I'll stick to"
-	line "scuba diving for"
-	cont "now though!"
+	text "Breathing underwater<...>"
+	para "I'd love to be able to do that!"
+	para "I'll stick to scuba diving for now though!"
 	done
 
 _Route12SignText::
-	text "ROUTE 12"
-	line "North to LAVENDER"
+	text "Route 12"
+	para "North to Lavender"
 	done
 
 _Route12SportFishingSignText::
-	text "SPORT FISHING AREA"
+	text "Sport Fishing Area"
 	done
 
 _SnorlaxWentBackToSleepText::
-	text "Looking bored,"
-	line "SNORLAX went back"
-	cont "to sleep."
+	text "Looking bored, Snorlax went back to sleep."
 	done
 
 _Route12MetronomeGamblerText::
-	text "I'll show you the"
-	line "power of my luck!"
+	text "I'll show you the power of my luck!"
 	done
 
 _Route12MetronomeGamblerEndBattleText::
-	text "My luck"
-	line "lost to skill!"
+	text "My luck lost to skill!"
 	para "Hey pal!"
-	para "How about I teach"
-	line "METRONOME to your"
-	cont "#MON?"
+	para "How about I teach Metronome to your <Pokemon>?"
 	para "It's fun!"
 	prompt
 
 _Route12MetronomeGamblerMetronomeTeachText::
-	text "A roll of the dice"
-	line "is all it takes"
-	cont "to change a life!"
+	text "A roll of the dice is all it takes to change a life!"
 	para "So how about it?"
-	para "Shall I teach a"
-	line "#MON METRONOME?"
+	para "Shall I teach a <Pokemon> Metronome?"
 	done
 
 _Route12MetronomeGamblerMetronomeTeach2Text::
-	text "Go and spread the"
-	line "METRONOME chaos!"
-	para "And come back if"
-	line "you want me to"
-	cont "teach it again!"
+	text "Go and spread the Metronome chaos!"
+	para "And come back if you want me to teach it again!"
 	done
 
 _Route12MetronomeGamblerNoDitto::
-	text "DITTO?!"
+	text "Ditto?!"
 	para "No need!"
-	para "It's already a"
-	line "randomness master!"
+	para "It's already a randomness master!"
 	done

@@ -85,7 +85,11 @@ DisplayTextID::
 	push de
 	ret ; ret to de (generic script)
 .continue2
+	ld a, 1
+	ld [wVWFEnable], a ; this is genuine NPC/sign prose: allow the VWF path
 	call PrintText_NoCreatingTextBox
+	xor a
+	ld [wVWFEnable], a
 AfterDisplayingTextID::
 	ld a, [wDoNotWaitForButtonPressAfterDisplayingText]
 	and a
@@ -149,6 +153,14 @@ DisplayFlashWoreOffText::
 	jr CloseTextDisplay
 
 CloseTextDisplayPart1:
+	ld a, [wVWFBoxOpen] ; tear down any VWF prose box (clear bank-1 attrs/cells).
+	and a               ; wVWFActive is cleared right after each print, so the box's
+	jr z, .noVWF        ; teardown is tracked separately by wVWFBoxOpen.
+	xor a
+	ld [wVWFBoxOpen], a
+	ld [wVWFActive], a
+	farcall VWFEndBox
+.noVWF
 	ld a, [wCurMap]
 	call SwitchToMapRomBank
 	ld a, $90

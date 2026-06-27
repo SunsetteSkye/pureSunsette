@@ -1,38 +1,17 @@
 _LoreleisRoomLoreleiBeforeBattleText::
-	text "Welcome to"
-	line "#MON LEAGUE!"
-
-	para "I am LORELEI of"
-	line "the ELITE FOUR!"
-
-	para "No one can best"
-	line "me when it comes"
-	cont "to icy #MON!"
-
-	para "Freezing moves"
-	line "are powerful!"
-
-	para "Your #MON will"
-	line "be at my mercy"
-	cont "when they are"
-	cont "frozen solid!"
-
-	para "Hahaha!"
-	line "Are you ready?"
+	text "Welcome to <Pokemon> League!"
+	para "I am Lorelei of the Elite Four!"
+	para "No one can best me when it comes to icy <Pokemon>!"
+	para "Freezing moves are powerful!"
+	para "Your <Pokemon> will be at my mercy when they are frozen solid!"
+	para "Hahaha! Are you ready?"
 	done
 
 _LoreleisRoomLoreleiEndBattleText::
-	text "How"
-	line "dare you!"
+	text "How dare you!"
 	prompt
 
 _LoreleisRoomLoreleiAfterBattleText::
-	text "You're better"
-	line "than I thought!"
-	cont "Go on ahead!"
-
-	para "You only got a"
-	line "taste of #MON"
-	cont "LEAGUE power!"
+	text "You're better than I thought! Go on ahead!"
+	para "You only got a taste of <Pokemon> League power!"
 	done
-

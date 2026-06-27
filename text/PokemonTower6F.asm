@@ -1,33 +1,22 @@
 _PokemonTower6FGhostWasCubonesMotherText::
-	text "The GHOST was the"
-	line "restless soul of"
-	cont "CUBONE's mother!"
+	text "The ghost was the restless soul of Cubone's mother!"
 	done
 
 _PokemonTower6FSoulWasCalmedText::
-	text "The mother's soul"
-	line "was calmed."
+	text "The mother's soul was calmed."
 	prompt
 
 _PokemonTower2Text_toAfterlife::
-	text "It departed to"
-	line "the afterlife!"
+	text "It departed to the afterlife!"
 	done
 
 _PokemonTower2Text_Caught::
-	text "It wants to"
-	line "fight alongside"
-	cont "you against"
-	cont "<TEAM><ROCKET>!"
-	para "This is its"
-	line "final wish before"
-	cont "departing to the"
-	cont "afterlife!"
+	text "It wants to fight alongside you against <TEAM><ROCKET>!"
+	para "This is its final wish before departing to the afterlife!"
 	done
 
 _PokemonTower6FChanneler1BattleText::
-	text "Give<...>me<...>"
-	line "blood<...>"
+	text "Give<...>me<...> blood<...>"
 	done
 
 _PokemonTower6FChanneler1EndBattleText::
@@ -35,8 +24,7 @@ _PokemonTower6FChanneler1EndBattleText::
 	prompt
 
 _PokemonTower6FChanneler1AfterBattleText::
-	text "I feel anemic and"
-	line "weak<...>"
+	text "I feel anemic and weak<...>"
 	done
 
 _PokemonTower6FChanneler2BattleText::
@@ -44,19 +32,15 @@ _PokemonTower6FChanneler2BattleText::
 	done
 
 _PokemonTower6FChanneler2EndBattleText::
-	text "Some-"
-	line "thing fell out!"
+	text "Something fell out!"
 	prompt
 
 _PokemonTower6FChanneler2AfterBattleText::
-	text "Hair didn't fall"
-	line "out! It was an"
-	cont "evil spirit!"
+	text "Hair didn't fall out! It was an evil spirit!"
 	done
 
 _PokemonTower6FChanneler3BattleText::
-	text "Ke<...>ke<...>ke<...>"
-	line "ke<...>ke<...>ke!!"
+	text "Ke<...>ke<...>ke<...> ke<...>ke<...>ke!!"
 	done
 
 _PokemonTower6FChanneler3EndBattleText::
@@ -64,11 +48,9 @@ _PokemonTower6FChanneler3EndBattleText::
 	prompt
 
 _PokemonTower6FChanneler3AfterBattleText::
-	text "What's going on"
-	line "here?"
+	text "What's going on here?"
 	done
 
 _PokemonTower6FBeGoneText::
-	text "Be gone<...>"
-	line "Intruders<...>"
+	text "Be gone<...> Intruders<...>"
 	done

@@ -1,49 +1,21 @@
 _LavenderMartBaldingGuyText::
-	text "I'm searching for"
-	line "items that raise"
-	cont "the abilities of"
-	cont "#MON during a"
-	cont "single battle."
-
-	para "X ATTACK, X"
-	line "DEFEND, X SPEED"
-	cont "and X SPECIAL are"
-	cont "what I'm after."
-
-	para "Do you know where"
-	line "I can get them?"
+	text "I'm searching for items that raise the abilities of <Pokemon> during a single battle."
+	para "X Attack, X Defend, X Speed and X Special are what I'm after."
+	para "Do you know where I can get them?"
 	done
 
 _LavenderMartCooltrainerMReviveText::
-	text "You know REVIVE?"
-	line "It revives any"
-	cont "fainted #MON!"
+	text "You know Revive? It revives any fainted <Pokemon>!"
 	done
 
 _LavenderMartCooltrainerMNuggetText::
-	text "I found a NUGGET"
-	line "in the mountains."
-
-	para "I thought it was"
-	line "useless, but it"
-	cont "sold for ¥5000!"
+	text "I found a Nugget in the mountains."
+	para "I thought it was useless, but it sold for ¥5000!"
 	done
 
 _LavenderMartTMKidFlavor::
-	text "<PARA>Me and my dad"
-	line "were on our way"
-	cont "to CELADON CITY"
-	cont "when he got food"
-	cont "poisoning!"
-	
-	para "Can you believe"
-	line "it?"
-	
-	para "Must have been"
-	line "the barbecue eel"
-	cont "he had on the"
-	cont "S.S. ANNE."
-
-	para "He's recovering"
-	line "in the hotel.@"
+	text "<PARA>Me and my dad were on our way to Celadon City when he got food poisoning!"
+	para "Can you believe it?"
+	para "Must have been the barbecue eel he had on the S.S. Anne."
+	para "He's recovering in the hotel.@"
 	text_end

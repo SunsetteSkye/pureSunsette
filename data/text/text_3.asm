@@ -5,7 +5,7 @@ _FileDataDestroyedText::
 
 _WouldYouLikeToSaveText::
 	text "Would you like to"
-	line "SAVE the game?"
+	line "save the game?"
 	done
 
 _GameSavedText::
@@ -39,7 +39,7 @@ _SortNotEnough::
 
 _WhenYouChangeBoxText::
 	text "When you change a"
-	line "#MON BOX, data"
+	line "<Pokemon> Box, data"
 	cont "will be saved."
 
 	para "Is that okay?"
@@ -52,17 +52,17 @@ _SkippedForever::
 
 _ChooseABoxText::
 	text "Choose a"
-	line "<PKMN> BOX.@"
+	line "<PKMN> Box.@"
 	text_end
 
 _ChooseABoxDataWillSaveText::
-	text "Choose a <PKMN> BOX."
+	text "Choose a <PKMN> Box."
 	line "Game will save.@"
 	text_end
 
 _RenameCurrentBoxText::
 	text "Rename the current"
-	line "BOX?"
+	line "Box?"
 	done
 
 _EvolvedText::
@@ -93,7 +93,7 @@ _IsEvolvingText::
 
 ; Sunsette: ADDED: shown when an evolution adds a brand-new species to the Pokedex.
 _NewDexDataEvolvedText::
-	text "New #DEX data"
+	text "New <poke>dex data"
 	line "will be added for"
 	cont "@"
 	text_ram_namebuffer
@@ -271,7 +271,7 @@ _ButItFailedText::
 
 _AlreadyDisabledText:: ; Sunsette: Disable/Cut/Submission vs a mon that already has a move disabled
 	text "They're already"
-	line "DISABLED!"
+	line "disabled!"
 	prompt
 
 _DidntAffectText::
@@ -292,17 +292,17 @@ _ParalyzedMayNotAttackText::
 
 _SubstituteText::
 	text "It created a"
-	line "SUBSTITUTE!"
+	line "Substitute!"
 	prompt
 
 _HasSubstituteText::
 	text "<USER>"
-	line "has a SUBSTITUTE!"
+	line "has a Substitute!"
 	prompt
 
 _TooWeakSubstituteText::
 	text "Too weak to make"
-	line "a SUBSTITUTE!"
+	line "a Substitute!"
 	prompt
 
 _CoinsScatteredText::
@@ -336,14 +336,14 @@ _ConversionChooseModeText::
 	prompt
 
 _StatusChangesEliminatedText::
-	text "All STATUS changes"
+	text "All status changes"
 	line "are eliminated!"
 	prompt
 
 _ImmuneToPsychicText::
 	text "<USER> is"
 	line "now immune to"
-	cont "PSYCHIC-type!"
+	cont "Psychic-type!"
 	prompt
 
 _StartedSleepingEffect::
@@ -449,5 +449,5 @@ _LetOutAScreechText::
 	text "But wait! At the"
 	line "last moment,"
 	para "<TARGET> let"
-	line "out a SCREECH!"
+	line "out a Screech!"
 	prompt

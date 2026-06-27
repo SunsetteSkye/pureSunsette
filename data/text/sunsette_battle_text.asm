@@ -3,8 +3,8 @@
 
 ; Per-gym enemy-trainer mon buff lines (printed in place of the default "X's STAT rose!")
 _PewterGymBuffText::
-	text "The ROCKS here"
-	line "are SPECIAL!"
+	text "The rocks here"
+	line "are Special!"
 	prompt
 
 _VermilionGymBuffText::
@@ -30,19 +30,19 @@ _SaffronGymBuffText::
 	prompt
 
 _CinnabarGymBuffText::
-	text "They have SPECIAL"
+	text "They have Special"
 	line "knowledge!"
 	prompt
 
 ; Sunsette: VIRIDIAN arena - the vicious trainers (and Giovanni) crit twice as often; this telegraphs it
 _ViridianGymBuffText::
-	text "These #MON aim"
+	text "These <Pokemon> aim"
 	line "for weak spots!"
 	prompt
 
 ; Sunsette: CERULEAN arena - the pool gives WATER mons (both sides) +1 SPEED
 _CeruleanGymBuffText::
-	text "WATER #MON swim"
+	text "Water <Pokemon> swim"
 	line "faster here!"
 	prompt
 
@@ -112,12 +112,12 @@ _ABitDarkToSeeText::
 	prompt
 
 _FlashAttractsText::
-	text "The FLASH drew out"
-	line "a wild #MON!"
+	text "The Flash drew out"
+	line "a wild <Pokemon>!"
 	prompt
 
 _MysticFieldText::
-	text "Rare #MON are"
+	text "Rare <Pokemon> are"
 	line "drawn out here!"
 	prompt
 
@@ -130,7 +130,7 @@ _UsedFlamethrowerText::
 _StartHidingText::
 	text "You stirred up"
 	line "cover! Wild"
-	cont "#MON lose your"
+	cont "<Pokemon> lose your"
 	cont "trail!"
 	prompt
 
@@ -146,20 +146,20 @@ _KeepHidingText::
 ; Sunsette: FLASH-in-cave run-out (FlashWoreOffPrompt). The fade line always shows; "use again?" follows
 ; only if a party mon still knows FLASH.
 _FlashFadedText::
-	text "Your FLASH"
+	text "Your Flash"
 	line "flickered out,"
 	cont "and the dark"
 	cont "swallowed you!"
 	prompt
 
 _FlashUseAgainText::
-	text "Use FLASH again?"
+	text "Use Flash again?"
 	done
 
 ; Sunsette: WATERIFY_EFFECT (Water Gun / Hydro Pump retype the target to WATER)
 _WaterifiedText::
 	text "Drenched! It is"
-	line "now a WATER type!"
+	line "now a Water type!"
 	prompt
 
 ; Sunsette: CONVERSION retypes the user to match the move it just copied (Mimic + retype)
@@ -172,7 +172,7 @@ _ConvertedTypeText::
 _MindwipedText::
 	text "Its mind went"
 	line "blank! It is now"
-	cont "a BUG type!"
+	cont "a Bug type!"
 	prompt
 
 ; Sunsette: MOCKINGBIRD (was MIRROR MOVE) copies all the foe's stat-stage changes onto the user
@@ -317,7 +317,7 @@ _AuroraMistText::
 ; Sunsette: AURORA MIST - a non-ICE user freezes over and becomes an ICE type (cyan coat)
 _AuroraMistFrozenText::
 	text "Frostbitten! It is"
-	line "now an ICE type!"
+	line "now an Ice type!"
 	prompt
 
 ; Sunsette: AURORA MIST - an ICE user raises both Reflect and Light Screen
@@ -329,7 +329,7 @@ _AuroraMistScreenText::
 ; Sunsette: OROCLASM (EXPLOSION) - a ROCK user breaks its shell, sheds ROCK, and surges to +6 SPEED
 _MetamorphicText::
 	text "The shell broke!"
-	line "SPEED unleashed!"
+	line "Speed unleashed!"
 	prompt
 
 ; Sunsette: SUPERNOVA (SELFDESTRUCT) - a FIRE user burns out, shedding its FIRE type (no recoil)
@@ -400,9 +400,9 @@ _MoveMysticSnorlaxText::
 	text "Its deep slumber"
 	line "is restorative!"
 
-	para "After a REST it"
+	para "After a Rest it"
 	line "munches leftovers"
-	cont "and gets a SPEED"
+	cont "and gets a Speed"
 	cont "boost!"
 	done
 
@@ -431,11 +431,11 @@ _RaichuMoveMysticText::
 
 _MoveMysticSurfSigText::
 	text "It learned to ride"
-	line "with the DUDE!"
+	line "with the Dude!"
 
-	para "Its SURF now soaks"
+	para "Its Surf now soaks"
 	line "the foe, turning"
-	cont "them to WATER!"
+	cont "them to Water!"
 	done
 
 ; Sunsette: CLEFAIRY/CLEFABLE - METRONOME also raises one of the user's stats at random. Shared epithet
@@ -446,7 +446,7 @@ _ClefairyMoveMysticText::
 	prompt
 
 _MoveMysticClefairyText::
-	text "Its METRONOME is"
+	text "Its Metronome is"
 	line "charmed with luck!"
 
 	para "Each use also"
@@ -466,14 +466,14 @@ _MoveMysticFarfetchdText::
 	line "like a born"
 	cont "swordsman!"
 
-	para "It may be a GRASS"
+	para "It may be a Grass"
 	line "type, but it finds"
 	cont "the vital points."
 
 	para "Its critical hits"
-	line "strike for DOUBLE,"
-	cont "like a NORMAL"
-	cont "#MON's blows!"
+	line "strike for double,"
+	cont "like a Normal"
+	cont "<Pokemon>'s blows!"
 	done
 
 ; Sunsette: SEAKING (and the GOLDEEN/GYARADOS line) - RIPTIDE always raises the user's SPEED.
@@ -482,9 +482,9 @@ _MoveMysticRiptideText::
 	line "currents like no"
 	cont "other!"
 
-	para "Its RIPTIDE always"
+	para "Its Riptide always"
 	line "raises its own"
-	cont "SPEED!"
+	cont "Speed!"
 	done
 
 ; Sunsette: WEEZING - its signature FLAMETHROWER gets STAB (1.5x) even though Weezing is POISON, not FIRE.
@@ -492,18 +492,18 @@ _MoveMysticWeezingFlamethrowerText::
 	text "Its toxic gases"
 	line "ignite with ease!"
 
-	para "Its FLAMETHROWER"
+	para "Its Flamethrower"
 	line "blazes with"
 	cont "borrowed power!"
 
 	para "It strikes as if"
-	line "WEEZING were a"
-	cont "FIRE-type itself!"
+	line "Weezing were a"
+	cont "Fire-type itself!"
 	done
 
 ; Sunsette: shared by EKANS + ARBOK (the line's FOCUS ENERGY coil-and-heal signature).
 _MoveMysticArbokText::
-	text "Its FOCUS ENERGY"
+	text "Its Focus Energy"
 	line "is no mere coil!"
 
 	para "It mends a"

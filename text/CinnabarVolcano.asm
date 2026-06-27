@@ -1,208 +1,137 @@
 _CinnabarVolcanoBombRocksText::
-	text "These rocks are"
-	line "blocking the lava"
-	cont "from flowing out."
-	para "Smash them with"
-	line "a #MON?"
+	text "These rocks are blocking the lava from flowing out."
+	para "Smash them with a <Pokemon>?"
 	done
 
 _CinnabarVolcanoBombRocksTextDoneJump::
 	para "@"
 _CinnabarVolcanoBombRocksTextDone::
-	text "Lava's flowing out"
-	line "of the volcano."
+	text "Lava's flowing out of the volcano."
 	done
 
 _CinnabarVolcanoProspectorGreetingNotMetText::
 	text "Hey kid!"
-	para "This place is"
-	line "dangerous!"
-	para "What are you doing"
-	line "here?"
-	para "Huh! You've got"
-	line "strong #MON!"
+	para "This place is dangerous!"
+	para "What are you doing here?"
+	para "Huh! You've got strong <Pokemon>!"
 	prompt
 
 _CinnabarVolcanoProspectorGreetingMetText::
-	text "PROSPECTOR: Hey"
-	line "kid!"
-	para "Imagine meeting"
-	line "you again here!"
-	para "You came at a"
-	line "great time!"
-	para "You've got strong"
-	line "#MON!"
+	text "Prospector: Hey kid!"
+	para "Imagine meeting you again here!"
+	para "You came at a great time!"
+	para "You've got strong <Pokemon>!"
 	prompt
 
 _CinnabarVolcanoProspectorStrongMonsText::
-	text "It's too hot in"
-	line "CINNABAR VOLCANO"
-	cont "for the average"
-	cont "explorer."
-	para "Maybe you can help"
-	line "us out in here!"
-	para "But first you'll"
-	line "need to put on"
-	cont "one of these-"
+	text "It's too hot in Cinnabar Volcano for the average explorer."
+	para "Maybe you can help us out in here!"
+	para "But first you'll need to put on one of these<...>"
 	prompt
 
 _CinnabarVolcanoProspectorLavaSuitText::
-	text "It's a LAVA SUIT!"
-	para "It'll protect you"
-	line "from the heat!"
-	para "It's like an oven"
-	line "in there!"
-	para "Here try this"
-	line "one on!"
+	text "It's a Lava Suit!"
+	para "It'll protect you from the heat!"
+	para "It's like an oven in there!"
+	para "Here try this one on!"
 	prompt
 
 _CinnabarVolcanoProspectorLetsGo::
 	text "Lookin' good!"
-	para "Alright,"
-	line "follow me!"
+	para "Alright, follow me!"
 	done
 
 _CinnabarVolcanoProspectorHeresProblem::
-	text "Alright kid, here's"
-	line "the problem-"
+	text "Alright kid, here's the problem<...>"
 	prompt
 
 _CinnabarVolcanoProspectorLavaExplain::
-	text "There's too much"
-	line "lava here in the"
-	cont "main lava cone!"
-	para "It usually flows"
-	line "out underwater."
-	para "If we don't drain"
-	line "out all the lava,"
-	para "the volcano will"
-	line "erupt soon!"
-	para "The lava must be"
-	line "clogged up below."
-	para "You've got to clear"
-	line "those blockages!"
+	text "There's too much lava here in the main lava cone!"
+	para "It usually flows out underwater."
+	para "If we don't drain out all the lava,"
+	para "the volcano will erupt soon!"
+	para "The lava must be clogged up below."
+	para "You've got to clear those blockages!"
 	prompt
 
 _CinnabarVolcanoProspectorBlowRocks::
-	text "Rocks that look"
-	line "like this one"
-	cont "create blockages!"
-	para "Find the blockages"
-	line "and blow them up,"
-	para "smash them, melt"
-	line "them down<...>"
-	para "Just do anything"
-	line "to destroy them!"
+	text "Rocks that look like this one create blockages!"
+	para "Find the blockages and blow them up,"
+	para "smash them, melt them down<...>"
+	para "Just do anything to destroy them!"
 	prompt
 
 _CinnabarVolcanoGiveDrill::
-	text "You'll need to"
-	line "dig down deeper"
-	cont "into the volcano!"
-	para "There isn't any"
-	line "way down yet, so"
-	cont "take a DRILL!"
+	text "You'll need to dig down deeper into the volcano!"
+	para "There isn't any way down yet, so take a Drill!"
 	prompt
 
 _CinnabarVolcanoGotDrill::
-	text "<PLAYER> got a"
-	line "POWER DRILL!"
+	text "<PLAYER> got a Power Drill!"
 	done
 
 _CinnabarVolcanoDrill::
-	text "Press SELECT to"
-	line "use your DRILL."
-	para "You can drill a"
-	line "hole down where"
-	cont "you see cracks!"
-	para "But it'll take"
-	line "a lot of fuel to"
-	cont "dig down."
-	para "If you run out,"
-	line "just pop 3 RUBIES"
-	cont "into the DRILL!"
-	para "You should be"
-	line "able to find lots"
-	cont "of them here!"
+	text "Press SELECT to use your Drill."
+	para "You can drill a hole down where you see cracks!"
+	para "But it'll take a lot of fuel to dig down."
+	para "If you run out, just pop 3 Rubies into the Drill!"
+	para "You should be able to find lots of them here!"
 	prompt
 
 _CinnabarVolcanoFriend::
-	text "This guy with his"
-	line "ARCANINE'll clear"
-	cont "the west side."
+	text "This guy with his Arcanine'll clear the west side."
 	prompt
 
 _CinnabarVolcanoYouClearEast::
-	text "You clear the"
-	line "east side!"
-	para "Oh and one last"
-	line "thing."
-	para "It's too hot for"
-	line "most #MON!"
-	para "Stick to FIRE,ROCK"
-	line "and GROUND-types."
-	para "They're the only"
-	line "ones who can take"
-	cont "this heat!"
+	text "You clear the east side!"
+	para "Oh and one last thing."
+	para "It's too hot for most <Pokemon>!"
+	para "Stick to Fire, Rock and Ground-types."
+	para "They're the only ones who can take this heat!"
 	prompt
 
 _ExplodeRocksExplosionText::
 	text_ram_namebuffer
-	text " used"
-	line "EXPLOSION to"
-	cont "blow up rock!"
+	text " used Explosion to blow up rock!"
 	done
 
 _ExplodeRocksSelfdestructText::
 	text_ram_namebuffer
-	text " used"
-	line "SELFDESTRUCT to"
-	cont "blow up rock!"
+	text " used Selfdestruct to blow up rock!"
 	done
 
 _ShatteredRocksSkullBashText::
 	text_ram_namebuffer
-	text " smashed"
-	line "the rocks with"
-	cont "METEOR DRIVE!"
+	text " smashed the rocks with Meteor Drive!"
 	done
 
 _ShatteredRocksText::
 	text_ram_namebuffer
-	text " smashed"
-	line "the rocks with"
-	cont "a powerful blow!"
+	text " smashed the rocks with a powerful blow!"
 	done
 
 _MeltedRocksText::
 	text_ram_namebuffer
-	text " melted"
-	line "the rocks with"
-	cont "superheated fire!"
+	text " melted the rocks with superheated fire!"
 	done
 
 _RocksGoneText::
-	text "The lava flow was"
-	line "unclogged!"
+	text "The lava flow was unclogged!"
 	done
 
 _WhereRubiesText::
-	text "Time to find"
-	line "some RUBIES for"
-	cont "the DRILL!"
-	para "They should be"
-	line "on this floor!"
+	text "Time to find some Rubies for the Drill!"
+	para "They should be on this floor!"
 	done
 
 _FoundRubyText::
-	text "<PLAYER> found"
-	line "a RUBY!"
+	text "<PLAYER> found a Ruby!"
 	done
 
 _RubyTwoMoreToGoText::
 	text "Two@"
 	text_jump _MoreToGoText
-	
+
 _MoreToGoText:
 	text_end
 	text " more to go!"
@@ -213,20 +142,16 @@ _RubyOneMoreToGoText::
 	text_jump _MoreToGoText
 
 _RubyGotAllOfThemText::
-	text "<PLAYER> inserted"
-	line "the 3 RUBIES into"
-	cont "the DRILL."
+	text "<PLAYER> inserted the 3 Rubies into the Drill."
 	done
 
 _RubyGoodToGo::
-	text "The DRILL entered"
-	line "power mode!"
-	para "Time to dig down"
-	line "to the next floor!"
+	text "The Drill entered power mode!"
+	para "Time to dig down to the next floor!"
 	done
 
 _ItsRhydon::
-	text "It's a RHYDON."
+	text "It's a Rhydon."
 	para "It looks bored."
 	prompt
 
@@ -239,89 +164,64 @@ _RhydonGotOnBack::
 	done
 
 _GotRocksalts::
-	text "<PLAYER> found"
-	line "ROCK SALTS!"
+	text "<PLAYER> found Rock Salts!"
 	done
 
 _GotLimestone::
-	text "<PLAYER> found"
-	line "LIMESTONE!"
+	text "<PLAYER> found Limestone!"
 	done
 
 _ItsGraveler::
-	text "It's a GRAVELER."
-	para "It's enjoying a"
-	line "massage from the"
-	cont "flowing lava."
-	para "It looks a bit"
-	line "hungry."
+	text "It's a Graveler."
+	para "It's enjoying a massage from the flowing lava."
+	para "It looks a bit hungry."
 	done
 
 _GiveGravelerRockSalts::
-	text "Give it ROCK SALTS"
-	line "to eat?"
+	text "Give it Rock Salts to eat?"
 	done
 
 _GravelerMunching::
-	text "The GRAVELER is"
-	line "munching on the"
-	cont "ROCK SALTS."
+	text "The Graveler is munching on the Rock Salts."
 	para "Looks satisfied!"
 	done
 
 _ItsSickRhydon::
-	text "It's another"
-	line "RHYDON."
-	para "This one seems"
-	line "to have an upset"
-	cont "stomach."
+	text "It's another Rhydon."
+	para "This one seems to have an upset stomach."
 	done
 
 _GiveRhydonLimestone::
-	text "Give it some"
-	line "crushed LIMESTONE"
-	cont "to cure its"
-	cont "indigestion?"
+	text "Give it some crushed Limestone to cure its indigestion?"
 	done
 
 _RhydonGrinded::
-	text "<PLAYER> ground"
-	line "the LIMESTONE to"
-	cont "a fine powder"
-	cont "with the DRILL."
+	text "<PLAYER> ground the Limestone to a fine powder with the Drill."
 	done
 
 _GotAntacidText::
-	text "The LIMESTONE"
-	line "became ANTACID!"
+	text "The Limestone became Antacid!"
 	done
 
 _GaveRhydonAntacid::
-	text "The sick RHYDON"
-	line "swallowed the"
-	cont "ANTACID."
+	text "The sick Rhydon swallowed the Antacid."
 	prompt
 
 _RhydonResting::
-	text "The sick RHYDON"
-	line "will feel better,"
-	cont "but needs rest!"
+	text "The sick Rhydon will feel better, but needs rest!"
 	done
 
 _MagmarBoss::
-	text "A big MAGMAR is"
-	line "blocking the way."
+	text "A big Magmar is blocking the way."
 	done
 
 _MagmarFight::
-	text "It looks very"
-	line "aggressive."
+	text "It looks very aggressive."
 	para "Fight it?"
 	done
 
 _VolcanoBattleBurnText::
-	text "The volcano's"
-	line "too hot for @"
+	text "The volcano's too hot for @"
 	text_ram_cont wBattleMonNick
 	text "!"
 	prompt
@@ -332,8 +232,7 @@ _LetsDoThis::
 	done
 
 _MagmarBattleInit::
-	text "A veil of magma"
-	line "covers @"
+	text "A veil of magma covers @"
 	text_ram wEnemyMonNick
 	text "!"
 	para "It powered up!"
@@ -347,149 +246,93 @@ _EnemyMonWasDefeatedText::
 	prompt
 
 _MagmarDefeat::
-	text "MAGMAR conceded"
-	line "defeat and moved"
-	cont "to let you pass."
+	text "Magmar conceded defeat and moved to let you pass."
 	done
 
 _UhohVolcano::
-	text "Uh oh. The lava"
-	line "is about to burst"
-	cont "through the whole"
-	cont "eastern wall!"
-	para "Gotta get behind"
-	line "cover quick!"
+	text "Uh oh. The lava is about to burst through the whole eastern wall!"
+	para "Gotta get behind cover quick!"
 	done
 
 _VolcanoBlockagesGone::
-	text "Wow! That should"
-	line "drain any excess"
-	cont "lava!"
-	para "<PLAYER> cleared"
-	line "all blockages!"
+	text "Wow! That should drain any excess lava!"
+	para "<PLAYER> cleared all blockages!"
 	done
 
 _VolcanoGoBackMainFloor::
 	text_start
-	para "Let's see how"
-	line "they did back"
-	cont "up at the top."
+	para "Let's see how they did back up at the top."
 	done
 
 _VolcanoBlaineJoinUs::
-	text "Nice of you"
-	line "to join us!"
+	text "Nice of you to join us!"
 	done
 
 _VolcanoProspectorDone::
 	text "Whoa!"
 	para "What did you do?"
-	para "The lava is"
-	line "draining out"
-	cont "like crazy!!"
+	para "The lava is draining out like crazy!!"
 	para "Look!"
 	prompt
 
 _VolcanoProspectorDone2::
-	text "Well, that should"
-	line "stop an eruption!"
-	para "Let's get out"
-	line "of here, kid!"
-	para "I'm sweating like"
-	line "an ODDISH at a"
-	cont "salad bar!"
+	text "Well, that should stop an eruption!"
+	para "Let's get out of here, kid!"
+	para "I'm sweating like an Oddish at a salad bar!"
 	done
 
 _VolcanoProspectorPhew::
-	text "Phew, we can"
-	line "finally get out"
-	cont "of these suits!"
+	text "Phew, we can finally get out of these suits!"
 	prompt
 
 _VolcanoProspectorRightBlaine::
 	text "Glad I got them!"
-	para "They came in"
-	line "handy!"
-	para "Even though you"
-	line "and BLAINE did"
-	cont "all the work!"
+	para "They came in handy!"
+	para "Even though you and Blaine did all the work!"
 	prompt
 
 _VolcanoBlaineMessage1::
-	text "BLAINE: Well that"
-	line "should keep the"
-	cont "eruption at bay."
-	para "That heat is"
-	line "something else!"
-	para "Thought I might"
-	line "catch a glimpse"
-	cont "of a fiery bird"
-	cont "#MON I saw"
-	cont "many years ago."
+	text "Blaine: Well that should keep the eruption at bay."
+	para "That heat is something else!"
+	para "Thought I might catch a glimpse of a fiery bird <Pokemon> I saw many years ago."
 	para "Oh well!"
-	para "Maybe I'll see"
-	line "it again someday!"
+	para "Maybe I'll see it again someday!"
 	prompt
 
 _VolcanoBlaineMessageNotDone::
-	text "<PLAYER> was your"
-	line "name, correct?"
+	text "<PLAYER> was your name, correct?"
 	para "Great work!"
-	para "I hope you come"
-	line "to challenge me"
-	cont "at CINNABAR GYM!"
-	para "That is, if you"
-	line "can get in!"
-	para "Hah! Until next"
-	line "time!"
+	para "I hope you come to challenge me at Cinnabar Gym!"
+	para "That is, if you can get in!"
+	para "Hah! Until next time!"
 	done
 
 _VolcanoBlaineMessageGymDone::
-	text "We meet again,"
-	line "<PLAYER>!"
-	para "This young buck"
-	line "was one of the"
-	cont "two trainers who"
-	cont "trounced me at"
-	cont "the GYM recently!"
+	text "We meet again, <PLAYER>!"
+	para "This young buck was one of the two Trainers who trounced me at the Gym recently!"
 	para "Keep at it, boy!"
-	para "Hah! Until next"
-	line "time!"
+	para "Hah! Until next time!"
 	done
 
 _VolcanoProspectorAfterMessage::
-	text "I'll be here for"
-	line "a while, doing"
-	cont "what I do best-"
+	text "I'll be here for a while, doing what I do best<...>"
 	para "prospecting!"
-	para "You saw all those"
-	line "RUBIES!"
-	para "You can use that"
-	line "LAVA SUIT as much"
-	cont "as you like, kid!"
+	para "You saw all those Rubies!"
+	para "You can use that Lava Suit as much as you like, kid!"
 	done
 
 _VolcanoAvoidWestSide::
-	text "Someone's taking"
-	line "care of the west"
-	cont "side already."
-	para "Gotta clear the"
-	line "blockages on the"
-	cont "other side!"
+	text "Someone's taking care of the west side already."
+	para "Gotta clear the blockages on the other side!"
 	done
 
 _VolcanoGetToIt::
-	text "I'll keep an eye"
-	line "on the amount of"
-	cont "lava up here."
-	para "I'd join you, but I"
-	line "don't have #MON"
-	cont "to bring with me!"
+	text "I'll keep an eye on the amount of lava up here."
+	para "I'd join you, but I don't have <Pokemon> to bring with me!"
 	prompt
 
 _VolcanoNeedSomeInfo::
-	text "Hmm<...>do you need"
-	line "more info?"
+	text "Hmm<...>do you need more info?"
 	done
 
 _VolcanoGetToIt2::
@@ -497,101 +340,68 @@ _VolcanoGetToIt2::
 	done
 
 _FailedDrillFloorText::
-	text "The DRILL doesn't"
-	line "have enough fuel!"
-	para "Find 3 RUBIES"
-	line "to fuel it up!"
+	text "The Drill doesn't have enough fuel!"
+	para "Find 3 Rubies to fuel it up!"
 	done
 
 _CinnabarVolcanoFloor2WarpTilesText::
-	text "Whoa! What are"
-	line "those?"
-	para "Looks like the"
-	line "lava flow opened"
-	cont "up the ground"
-	cont "over there!"
+	text "Whoa! What are those?"
+	para "Looks like the lava flow opened up the ground over there!"
 	done
 
 _CinnabarVolcanoWestMagmar1Text::
-	text "Many MAGMAR are"
-	line "relaxing in the"
-	cont "lava flow."
+	text "Many Magmar are relaxing in the lava flow."
 	done
 
 _CinnabarVolcanoWestMagmar1QuestionText::
-	text "It looks like"
-	line "there's room for"
-	cont "one more!"
+	text "It looks like there's room for one more!"
 	prompt
 
 _CinnabarVolcanoWestMagmar2Text::
-	text "MAGMAR: Fwoo?"
+	text "Magmar: Fwoo?"
 	done
 
 _CinnabarVolcanoWestMagmar3Text::
-	text "MAGMAR: Fshaa!"
+	text "Magmar: Fshaa!"
 	done
 
 _CinnabarVolcanoWestLavaFlowText::
-	text "This is where"
-	line "BLAINE cleared a"
-	cont "lava blockage.@"
+	text "This is where Blaine cleared a lava blockage.@"
 	text_jump _CinnabarVolcanoBombRocksTextDoneJump
 
 _CinnabarVolcanoWestMagmarTransformText1::
 	text "@"
 	text_ram_namebuffer
-	text " looks"
-	line "excited for a"
-	cont "lava bath!"
+	text " looks excited for a lava bath!"
 	done
 
 _CinnabarVolcanoWestMagmarTransformText2::
 	text "@"
 	text_ram_namebuffer
-	text " did a"
-	line "cannonball into"
-	cont "the lava pool!"
+	text " did a cannonball into the lava pool!"
 	done
 
 _CinnabarVolcanoWestMagmarTransformText3::
-	text "Volcanic power"
-	line "radiated through"
-	cont "@"
+	text "Volcanic power radiated through @"
 	text_ram_namebuffer
 	text "!"
 	done
 
 _MagmarEventAlready::
-	text "It's already"
-	line "filled with the"
-	cont "burning heat"
-	cont "of the volcano."
+	text "It's already filled with the burning heat of the volcano."
 	done
 
 _CinnabarVolcanoWestMagmarTransformText4::
-	text "<PARA>It became so"
-	line "scorchingly hot,"
-	cont "all water near it"
-	cont "will vaporize!"
+	text "<PARA>It became so scorchingly hot, all water near it will vaporize!"
 	para "@"
 	text_ram_namebuffer
-	text " became"
-	line "immune to WATER,"
-	cont "FIRE, and"
-	cont "ELECTRIC moves!"
-	para "The tectonic power"
-	line "of the volcano"
-	cont "flows through it!"
-	para "GROUND-type moves"
-	line "will get bonus"
-	cont "damage!"
+	text " became immune to Water, Fire, and Electric moves!"
+	para "The tectonic power of the volcano flows through it!"
+	para "Ground-type moves will get bonus damage!"
 	done
 
 _Route21CinnabarVolcanoSignText::
-	text "CINNABAR VOLCANO"
-	para "DANGER!"
-	para "DO NOT ENTER"
-	line "WITHOUT HEAT-"
-	cont "RESISTANT KIT!"
+	text "Cinnabar Volcano"
+	para "Danger!"
+	para "Do Not Enter Without Heat-Resistant Kit!"
 	done

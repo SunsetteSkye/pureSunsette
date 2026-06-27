@@ -1,146 +1,60 @@
 _ChampionsRoomRivalIntroText::
 	text "<RIVAL>: Hey!"
-
-	para "I was looking"
-	line "forward to seeing"
-	cont "you, <PLAYER>!"
-
-	para "My rival should"
-	line "be strong to keep"
-	cont "me sharp!"
-
-	para "While working on"
-	line "#DEX, I looked"
-	cont "all over for"
-	cont "powerful #MON!"
-
-	para "Not only that, I"
-	line "assembled teams"
-	cont "that would beat"
-	cont "any #MON type!"
-
+	para "I was looking forward to seeing you, <PLAYER>!"
+	para "My rival should be strong to keep me sharp!"
+	para "While working on <poke>dex, I looked all over for powerful <Pokemon>!"
+	para "Not only that, I assembled teams that would beat any <Pokemon> type!"
 	para "And now!"
-
-	para "I'm the #MON"
-	line "LEAGUE champion!"
-
-	para "<PLAYER>! Do you"
-	line "know what that"
-	cont "means?"
-
+	para "I'm the <Pokemon> League Champion!"
+	para "<PLAYER>! Do you know what that means?"
 	para "I'll tell you!"
-
-	para "I am the most"
-	line "powerful trainer"
-	cont "in the world!"
+	para "I am the most powerful Trainer in the world!"
 	done
 
 _RivalDefeatedText::
-	text "NO!"
-	line "That can't be!"
-	cont "You beat my best!"
-
-	para "After all that"
-	line "work to become"
-	cont "LEAGUE champ?"
-
-	para "My reign is over"
-	line "already?"
-	cont "It's not fair!"
+	text "NO! That can't be! You beat my best!"
+	para "After all that work to become League champ?"
+	para "My reign is over already? It's not fair!"
 	prompt
 
 _RivalVictoryText::
-	text "Hahaha!"
-	line "I won, I won!"
-
-	para "I'm too good for"
-	line "you, <PLAYER>!"
-
-	para "You did well to"
-	line "even reach me,"
-	cont "<RIVAL>, the"
-	cont "#MON genius!"
-
-	para "Nice try, loser!"
-	line "Hahaha!"
+	text "Hahaha! I won, I won!"
+	para "I'm too good for you, <PLAYER>!"
+	para "You did well to even reach me, <RIVAL>, the <Pokemon> genius!"
+	para "Nice try, loser! Hahaha!"
 	prompt
 
 _ChampionsRoomRivalAfterBattleText::
-	text "Why?"
-	line "Why did I lose?"
-
-	para "I never made any"
-	line "mistakes raising"
-	cont "my #MON<...>"
-
-	para "Darn it! You're"
-	line "the new #MON"
-	cont "LEAGUE champion!"
-
-	para "Although I don't"
-	line "like to admit it."
+	text "Why? Why did I lose?"
+	para "I never made any mistakes raising my <Pokemon><...>"
+	para "Darn it! You're the new <Pokemon> League Champion!"
+	para "Although I don't like to admit it."
 	done
 
 _ChampionsRoomOakText::
-	text "OAK: <PLAYER>!"
+	text "Oak: <PLAYER>!"
 	done
 
 _ChampionsRoomOakCongratulatesPlayerText::
-	text "OAK: So, you won!"
-	line "Congratulations!"
-	cont "You're the new"
-	cont "#MON LEAGUE"
-	cont "champion!"
-
-	para "You've grown up so"
-	line "much since you"
-	cont "first left with"
-	cont "@"
+	text "Oak: So, you won! Congratulations! You're the new <Pokemon> League Champion!"
+	para "You've grown up so much since you first left with @"
 	text_ram_namebuffer
 	text "!"
-
-	para "<PLAYER>, you have"
-	line "come of age!"
+	para "<PLAYER>, you have come of age!"
 	done
 
 _ChampionsRoomOakDisappointedWithRivalText::
-	text "OAK: <RIVAL>! I'm"
-	line "disappointed!"
-
-	para "I came when I"
-	line "heard you beat"
-	cont "the ELITE FOUR!"
-
-	para "But, when I got"
-	line "here, you had"
-	cont "already lost!"
-
-	para "<RIVAL>! Do you"
-	line "understand why"
-	cont "you lost?"
-
-	para "You have forgotten"
-	line "to treat your"
-	cont "#MON with"
-	cont "trust and love!"
-
-	para "Without them, you"
-	line "will never become"
-	cont "a champ again!"
+	text "Oak: <RIVAL>! I'm disappointed!"
+	para "I came when I heard you beat the Elite Four!"
+	para "But, when I got here, you had already lost!"
+	para "<RIVAL>! Do you understand why you lost?"
+	para "You have forgotten to treat your <Pokemon> with trust and love!"
+	para "Without them, you will never become a champ again!"
 	done
 
 _ChampionsRoomOakComeWithMeText::
-	text "OAK: <PLAYER>!"
-
-	para "You understand"
-	line "that your victory"
-	cont "was not just your"
-	cont "own doing!"
-
-	para "The bond you share"
-	line "with your #MON"
-	cont "is marvelous!"
-
-	para "<PLAYER>!"
-	line "Come with me!"
+	text "Oak: <PLAYER>!"
+	para "You understand that your victory was not just your own doing!"
+	para "The bond you share with your <Pokemon> is marvelous!"
+	para "<PLAYER>! Come with me!"
 	done

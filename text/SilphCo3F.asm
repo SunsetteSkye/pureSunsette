@@ -1,41 +1,28 @@
 _SilphCo3FSilphWorkerMWhatShouldIDoText::
-	text "I work for SILPH."
-	line "What should I do?"
+	text "I work for Silph. What should I do?"
 	done
 
 _SilphCo3FSilphWorkerMYouSavedUsText::
-	text "<PLAYER>! You and"
-	line "your #MON"
-	cont "saved us!"
+	text "<PLAYER>! You and your <Pokemon> saved us!"
 	done
 
 _SilphCo3FRocketBattleText::
-	text "Quit messing with"
-	line "us, kid!"
+	text "Quit messing with us, kid!"
 	done
 
 _SilphCo3FRocketAfterBattleText::
-	text "A hint? You can"
-	line "open doors with a"
-	cont "CARD KEY!"
+	text "A hint? You can open doors with a Card Key!"
 	done
 
 _SilphCo3FScientistBattleText::
-	text "I support <TEAM>"
-	line "<ROCKET> more than"
-	cont "I support SILPH!"
+	text "I support <TEAM><ROCKET> more than I support Silph!"
 	done
 
 _SilphCo3FScientistEndBattleText::
-	text "You"
-	line "really got me!"
+	text "You really got me!"
 	prompt
 
 _SilphCo3FScientistAfterBattleText::
 	text "Humph<...>"
-
-	para "<TEAM><ROCKET> said"
-	line "that if I helped"
-	cont "them, they'd let"
-	cont "me study #MON!"
+	para "<TEAM><ROCKET> said that if I helped them, they'd let me study <Pokemon>!"
 	done

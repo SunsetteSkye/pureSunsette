@@ -3,9 +3,7 @@ _VictoryRoad2FMoltresBattleText::
 	text_end
 
 _VictoryRoad2FHikerBattleText::
-	text "VICTORY ROAD is"
-	line "the final test"
-	cont "for trainers!"
+	text "Victory Road is the final test for trainers!"
 	done
 
 _VictoryRoad2FHikerEndBattleText::
@@ -13,79 +11,55 @@ _VictoryRoad2FHikerEndBattleText::
 	prompt
 
 _VictoryRoad2FHikerAfterBattleText::
-	text "If you get stuck,"
-	line "try moving some"
-	cont "boulders around!"
+	text "If you get stuck, try moving some boulders around!"
 	done
 
 _VictoryRoad2FSuperNerd1BattleText::
-	text "Ah, so you wish"
-	line "to challenge the"
-	cont "ELITE FOUR?"
+	text "Ah, so you wish to challenge the Elite Four?"
 	done
 
 _VictoryRoad2FSuperNerd1EndBattleText::
-	text "You"
-	line "got me!"
+	text "You got me!"
 	prompt
 
 _VictoryRoad2FSuperNerd1AfterBattleText::
-	text "<RIVAL> also came"
-	line "through here!"
+	text "<RIVAL> also came through here!"
 	done
 
 _VictoryRoad2FCooltrainerMBattleText::
-	text "Come on!"
-	line "I'll whip you!"
+	text "Come on! I'll whip you!"
 	done
 
 _VictoryRoad2FCooltrainerMEndBattleText::
-	text "I got"
-	line "whipped!"
+	text "I got whipped!"
 	prompt
 
 _VictoryRoad2FCooltrainerMAfterBattleText::
-	text "They say a bird"
-	line "of living flame"
-	cont "once nested here."
-	para "The very SPIRIT"
-	line "of VICTORY!"
-	para "Make it through,"
-	line "and maybe you'll"
-	cont "feel its fire."
+	text "They say a bird of living flame once nested here."
+	para "The very SPIRIT of VICTORY!"
+	para "Make it through, and maybe you'll feel its fire."
 	done
 
 _VictoryRoad2FSuperNerd2BattleText::
-	text "If you can get"
-	line "through here, you"
-	cont "can go meet the"
-	cont "ELITE FOUR!"
+	text "If you can get through here, you can go meet the Elite Four!"
 	done
 
 _VictoryRoad2FSuperNerd2EndBattleText::
-	text "No!"
-	line "Unbelievable!"
+	text "No! Unbelievable!"
 	prompt
 
 _VictoryRoad2FSuperNerd2AfterBattleText::
-	text "I can beat you"
-	line "when it comes to"
-	cont "knowledge about"
-	cont "#MON!"
+	text "I can beat you when it comes to knowledge about <Pokemon>!"
 	done
 
 _VictoryRoad2FSuperNerd3BattleText::
-	text "Is VICTORY ROAD"
-	line "too tough?"
+	text "Is Victory Road too tough?"
 	done
 
 _VictoryRoad2FSuperNerd3EndBattleText::
-	text "Well"
-	line "done!"
+	text "Well done!"
 	prompt
 
 _VictoryRoad2FSuperNerd3AfterBattleText::
-	text "Many trainers give"
-	line "up the challenge"
-	cont "here."
+	text "Many trainers give up the challenge here."
 	done

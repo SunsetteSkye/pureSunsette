@@ -1,6 +1,5 @@
 _CeladonBackAlleyCircleBiker1Text::
-	text "What're you"
-	line "lookin' at?"
+	text "What're you lookin' at?"
 	done
 
 _CeladonBackAlleyCircleBiker2Text::
@@ -8,46 +7,35 @@ _CeladonBackAlleyCircleBiker2Text::
 	done
 
 _CeladonBackAlleyCircleBiker3Text::
-	text "Heh, you admiring"
-	line "my motorbike?"
+	text "Heh, you admiring my motorbike?"
 	done
 
 _CeladonBackAlleyCircleGamblerText::
-	text "Any bets on the"
-	line "next fight?"
+	text "Any bets on the next fight?"
 	done
 
 _CeladonBackAlleyCircleRocker1Text::
-	text "Join the circle"
-	line "and fight!"
+	text "Join the circle and fight!"
 	done
 
 _CeladonBackAlleyCircleRocker2Text::
-	text "Ready to rock"
-	line "and roll!"
+	text "Ready to rock and roll!"
 	done
 
 _CeladonBackAlleyCircleLeftBikerText::
-	text "This alley's our"
-	line "turf!"
-	para "NO <ROCKET>s"
-	line "ALLOWED!"
+	text "This alley's our turf!"
+	para "No <ROCKET>s allowed!"
 	done
 
 _CeladonBackAlleyCircleRightRockerText::
-	text "I want to join"
-	line "the BATTLE CLUB,"
-	para "but I'm trying to"
-	line "come up with a"
-	cont "battle cry first."
+	text "I want to join the Battle Club,"
+	para "but I'm trying to come up with a battle cry first."
 	para "How about this:"
-	para "Time to ROCK OUT"
-	line "with ARBOK OUT!"
+	para "Time to rock out with Arbok out!"
 	done
 
 _CeladonBackAlleyCircleRightRockerThinkText::
-	text "What do you think?"
-	line "Was it cool?"
+	text "What do you think? Was it cool?"
 	done
 
 _CeladonBackAlleyCircleRightRockerYesText::
@@ -55,21 +43,16 @@ _CeladonBackAlleyCircleRightRockerYesText::
 	done
 
 _CeladonBackAlleyCircleRightRockerNoText::
-	text "Back to the"
-	line "drawing board!"
+	text "Back to the drawing board!"
 	done
 
 _CeladonBackAlleyCircleHooliganText::
-	text "BACK ALLEY"
-	line "BATTLE CLUB!"
+	text "Back Alley Battle Club!"
 	prompt
 
 _CeladonBackAlleyCircleHooliganExplainText::
-	text "We allow #MON"
-	line "under level 32!"
-	para "We hype them up so"
-	line "much they'll earn"
-	cont "triple EXP!"
+	text "We allow <Pokemon> under level 32!"
+	para "We hype them up so much they'll earn triple EXP!"
 	prompt
 
 _CeladonBackAlleyCircleHooliganBattleText::
@@ -77,18 +60,15 @@ _CeladonBackAlleyCircleHooliganBattleText::
 	done
 
 _CeladonBackAlleyOpponentBikerIntro1::
-	text "I'm the steel"
-	line "lord on wheels!"
+	text "I'm the steel lord on wheels!"
 	done
 
 _CeladonBackAlleyOpponentBikerIntro2::
-	text "I've got a date"
-	line "with a BEAUTY!"
+	text "I've got a date with a Beauty!"
 	done
 
 _CeladonBackAlleyOpponentBikerIntro3::
-	text "Four strokes of"
-	line "fury coming down!"
+	text "Four strokes of fury coming down!"
 	done
 
 _CeladonBackAlleyOpponentBikerIntro4::
@@ -97,120 +77,89 @@ _CeladonBackAlleyOpponentBikerIntro4::
 	done
 
 _CeladonBackAlleyOpponentCueBallIntro1::
-	text "How do you like my"
-	line "WEEPINBELL belt"
-	cont "buckle?"
+	text "How do you like my Weepinbell belt buckle?"
 	done
 
 _CeladonBackAlleyOpponentCueBallIntro2::
-	text "Don't chicken out"
-	line "now!"
+	text "Don't chicken out now!"
 	done
 
 _CeladonBackAlleyOpponentCueBallIntro3::
-	text "Nice #MON"
-	line "you've got there."
+	text "Nice <Pokemon> you've got there."
 	para "Can I have them?"
 	done
 
 _CeladonBackAlleyOpponentCueBallIntro4::
-	text "I'm hungrier than"
-	line "a SNORLAX!"
+	text "I'm hungrier than a Snorlax!"
 	done
 
 _CeladonBackAlleyOpponentRockerIntro1::
-	text "No fate! Only the"
-	line "power of will!"
+	text "No fate! Only the power of will!"
 	done
-	
+
 _CeladonBackAlleyOpponentRockerIntro2::
-	text "Hear this cry of"
-	line "a restless soul!"
+	text "Hear this cry of a restless soul!"
 	done
-	
+
 _CeladonBackAlleyOpponentRockerIntro3::
-	text "I prefer guitar"
-	line "battles."
+	text "I prefer guitar battles."
 	para "Oh well! Let's go!"
 	done
-	
+
 _CeladonBackAlleyOpponentRockerIntro4::
-	text "RAOH!"
-	line "YAOW!"
-	para "I specialize in"
-	line "growled vocals!"
+	text "RAOH! YAOW!"
+	para "I specialize in growled vocals!"
 	done
 
 _CeladonBackAlleyOpponentGamblerIntro1::
-	text "I'm the break-"
-	line "dancing GAMBLER!"
-	para "Hit that funky"
-	line "music!"
+	text "I'm the break-dancing Gambler!"
+	para "Hit that funky music!"
 	done
-	
+
 _CeladonBackAlleyOpponentGamblerIntro2::
-	text "Want to see a"
-	line "magic trick?"
-	para "Your #MON's"
-	line "HP will disappear!"
+	text "Want to see a magic trick?"
+	para "Your <Pokemon>'s HP will disappear!"
 	done
-	
+
 _CeladonBackAlleyOpponentGamblerIntro3::
-	text "It's snake eyes"
-	line "for you!"
+	text "It's snake eyes for you!"
 	done
-	
+
 _CeladonBackAlleyOpponentGamblerIntro4::
-	text "Don't gamble"
-	line "with your life!"
+	text "Don't gamble with your life!"
 	para "That's my job!"
 	done
 
 _CeladonBackAlleyKoffingGraffiti::
-	text "Spray painted"
-	line "graffiti art of"
-	cont "a KOFFING!"
-	para "Wow! So detailed."
-	line "What a frown!"
+	text "Spray painted graffiti art of a Koffing!"
+	para "Wow! So detailed. What a frown!"
 	done
 
 _CeladonSeniorHouseGrampsText::
-	text "Nothing like a"
-	line "good book!"
-	para "My wife and I"
-	line "love to read!"
-	para "We've got a"
-	line "beautiful library!"
+	text "Nothing like a good book!"
+	para "My wife and I love to read!"
+	para "We've got a beautiful library!"
 	done
 
 _CeladonSeniorHouseGrannyText::
-	text "Oh, looks like the"
-	line "boys out back are"
-	cont "playing again!"
-	para "I should bake them"
-	line "some cookies!"
+	text "Oh, looks like the boys out back are playing again!"
+	para "I should bake them some cookies!"
 	done
 
 _CeladonRuffianHouseHooliganText::
-	text "Not much to see"
-	line "here kid."
-	para "But check out"
-	line "back!"
-	para "That's where the"
-	line "real action is!"
+	text "Not much to see here kid."
+	para "But check out back!"
+	para "That's where the real action is!"
 	done
 
 _CeladonRuffianHouseRockerText::
 	text "Damn!"
-	para "This place is"
-	line "a dump!"
+	para "This place is a dump!"
 	done
 
 _CeladonRuffianHouseBikerText::
-	text "Only I'm permitted"
-	line "to bike indoors!"
-	para "Got a problem"
-	line "with that?"
+	text "Only I'm permitted to bike indoors!"
+	para "Got a problem with that?"
 	done
 
 ; TODO: add back in?

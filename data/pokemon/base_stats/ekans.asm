@@ -76,9 +76,9 @@
 
 ; --- Sunsette SSOT directives (parsed by tools/gen_pokemon_data.py) ---
 ;@ nature       NATURE_CALCULATING NATURE_CRUEL
-;@ pal_battle   PAL_ORCHIDMON
-;@ pal_altbattle PAL_OLIVEMON
-;@ pal_icon     PAL_ICON_15
+;@ pal_battle   PAL_EKANSMON
+;@ pal_altbattle PAL_REDMON
+;@ pal_icon     $FF
 ;@ pal_alticon  $FF
 ;@ evo         EVOLVE_LEVEL, 22, ARBOK
 ;@ evo_move    HYPNOSIS

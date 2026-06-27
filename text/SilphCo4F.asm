@@ -1,17 +1,13 @@
 _SilphCo4FSilphWorkerMImHidingText::
-	text "Sssh! Can't you"
-	line "see I'm hiding?"
+	text "Sssh! Can't you see I'm hiding?"
 	done
 
 _SilphCo4FSilphWorkerMTeamRocketIsGoneText::
-	text "Huh? <TEAM><ROCKET>"
-	line "is gone?"
+	text "Huh? <TEAM><ROCKET> is gone?"
 	done
 
 _SilphCo4FRocket1BattleText::
-	text "<TEAM><ROCKET> has"
-	line "taken command of"
-	cont "SILPH CO.!"
+	text "<TEAM><ROCKET> has taken command of Silph Co.!"
 	done
 
 _SilphCo4FRocket1EndBattleText::
@@ -19,26 +15,19 @@ _SilphCo4FRocket1EndBattleText::
 	prompt
 
 _SilphCo4FRocket1AfterBattleText::
-	text "Fwahahaha!"
-	line "My BOSS has been"
-	cont "after this place!"
+	text "Fwahahaha! My Boss has been after this place!"
 	done
 
 _SilphCo4FScientistBattleText::
-	text "My #MON are my"
-	line "loyal soldiers!"
+	text "My <Pokemon> are my loyal soldiers!"
 	done
 
 _SilphCo4FScientistEndBattleText::
-	text "Darn!"
-	line "You weak #MON!"
+	text "Darn! You weak <Pokemon>!"
 	prompt
 
 _SilphCo4FScientistAfterBattleText::
-	text "The doors are"
-	line "electronically"
-	cont "locked! A CARD"
-	cont "KEY opens them!"
+	text "The doors are electronically locked! A Card Key opens them!"
 	done
 
 _SilphCo4FRocket2BattleText::
@@ -46,11 +35,9 @@ _SilphCo4FRocket2BattleText::
 	done
 
 _SilphCo4FRocket2EndBattleText::
-	text "Who"
-	line "are you?"
+	text "Who are you?"
 	prompt
 
 _SilphCo4FRocket2AfterBattleText::
-	text "I better tell the"
-	line "BOSS on 11F!"
+	text "I better tell the Boss on 11F!"
 	done

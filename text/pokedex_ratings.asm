@@ -1,118 +1,78 @@
 _DexCompletionText::
-	text "#DEX comp-"
-	line "letion is:"
+	text "<poke>dex completion is:"
 
 	para "@"
 	text_decimal hDexRatingNumMonsSeen, 1, 3
-	text " #MON seen"
+	text " <Pokemon> seen"
 	line "@"
 	text_decimal hDexRatingNumMonsOwned, 1, 3
-	text " #MON owned"
+	text " <Pokemon> owned"
 
-	para "PROF.OAK's"
-	line "Rating:"
+	para "Prof. Oak's Rating:"
 	prompt
 
 _DexRatingText_Own0To9::
-	text "You still have"
-	line "lots to do."
-	cont "Look for #MON"
-	cont "in grassy areas!"
+	text "You still have lots to do. Look for <Pokemon> in grassy areas!"
 	done
 
 _DexRatingText_Own10To19::
-	text "You're on the"
-	line "right track!"
-	cont "Get a FLASH HM"
-	cont "from my AIDE!"
+	text "You're on the right track! Get a Flash HM from my Aide!"
 	done
 
 _DexRatingText_Own20To29::
-	text "You still need"
-	line "more #MON!"
-	cont "Try to catch"
-	cont "other species!"
+	text "You still need more <Pokemon>! Try to catch other species!"
 	done
 
 _DexRatingText_Own30To39::
-	text "Good, you're"
-	line "trying hard!"
-	cont "Get an ITEMFINDER"
-	cont "from my AIDE!"
+	text "Good, you're trying hard! Get an Itemfinder from my Aide!"
 	done
 
 _DexRatingText_Own40To49::
-	text "Very good!"
-	line "Go fish for some"
-	cont "marine #MON!"
+	text "Very good! Go fish for some marine <Pokemon>!"
 	done
 
 _DexRatingText_Own50To59::
-	text "Ho! This is"
-	line "getting even"
-	cont "better!"
+	text "Ho! This is getting even better!"
 	done
 
 _DexRatingText_Own60To69::
-	text "Wonderful!"
-	line "Do you like to"
-	cont "collect things?"
+	text "Wonderful! Do you like to collect things?"
 	done
 
 _DexRatingText_Own70To79::
-	text "Looking good!"
-	line "Go find my AIDE"
-	cont "when you get 80!"
+	text "Looking good! Go find my Aide when you get 80!"
 	done
 
 _DexRatingText_Own80To89::
-	text "You finally got at"
-	line "least 80 species!"
-	cont "Be sure to get a"
-	cont "BOOSTER CHIP from"
-	cont "my AIDE!"
+	text "You finally got at least 80 species! Be sure to get a Booster Chip from my Aide!"
 	done
 
 _DexRatingText_Own90To99::
-	text "I'm impressed!"
-	line "It must have been"
-	cont "difficult to do!"
+	text "I'm impressed! It must have been difficult to do!"
 	done
 
 _DexRatingText_Own100To109::
-	text "I can't believe"
-	line "how good you are!"
-	para "You finally got at"
-	line "least 100 species!"
+	text "I can't believe how good you are!"
+	para "You finally got at least 100 species!"
 	done
 
 _DexRatingText_Own110To119::
-	text "You even have the"
-	line "evolved forms of"
-	cont "#MON! Super!"
+	text "You even have the evolved forms of <Pokemon>! Super!"
 	done
 
 _DexRatingText_Own120To129::
-	text "Excellent! Trade"
-	line "with friends to"
-	cont "get some more!"
+	text "Excellent! Trade with friends to get some more!"
 	done
 
 _DexRatingText_Own130To139::
-	text "Outstanding!"
-	line "You've become a"
-	cont "real pro at this!"
+	text "Outstanding! You've become a real pro at this!"
 	done
 
 _DexRatingText_Own140To149::
-	text "I have nothing"
-	line "left to say!"
-	cont "You're the"
-	cont "authority now!"
+	text "I have nothing left to say! You're the authority now!"
 	done
 
 _DexRatingText_Own150To151::
 	text "Congratulations!"
-	para "Your #DEX is"
-	line "entirely complete!"
+	para "Your <poke>dex is entirely complete!"
 	done

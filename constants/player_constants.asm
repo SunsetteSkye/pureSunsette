@@ -1,31 +1,31 @@
 DEF NUM_PLAYER_NAMES EQU 3
 
 IF DEF(_RED)
-DEF PLAYERNAME1 EQUS "RED"
-DEF PLAYERNAME2 EQUS "ASH"
-DEF PLAYERNAME3 EQUS "MERRIAM" ; Sunsette: third name fixed across versions
+DEF PLAYERNAME1 EQUS "Red"
+DEF PLAYERNAME2 EQUS "Ash"
+DEF PLAYERNAME3 EQUS "Merriam" ; Sunsette: third name fixed across versions
 
-DEF RIVALNAME1 EQUS "BLUE"
-DEF RIVALNAME2 EQUS "GARY"
-DEF RIVALNAME3 EQUS "WEBSTER" ; Sunsette: third name fixed across versions
+DEF RIVALNAME1 EQUS "Blue"
+DEF RIVALNAME2 EQUS "Gary"
+DEF RIVALNAME3 EQUS "Webster" ; Sunsette: third name fixed across versions
 ENDC
 
 IF DEF(_BLUE)
-DEF PLAYERNAME1 EQUS "BLUE"
-DEF PLAYERNAME2 EQUS "GARY"
-DEF PLAYERNAME3 EQUS "MERRIAM" ; Sunsette: third name fixed across versions
+DEF PLAYERNAME1 EQUS "Blue"
+DEF PLAYERNAME2 EQUS "Gary"
+DEF PLAYERNAME3 EQUS "Merriam" ; Sunsette: third name fixed across versions
 
-DEF RIVALNAME1 EQUS "RED"
-DEF RIVALNAME2 EQUS "ASH"
-DEF RIVALNAME3 EQUS "WEBSTER" ; Sunsette: third name fixed across versions
+DEF RIVALNAME1 EQUS "Red"
+DEF RIVALNAME2 EQUS "Ash"
+DEF RIVALNAME3 EQUS "Webster" ; Sunsette: third name fixed across versions
 ENDC
 
 IF DEF(_GREEN) ; PureRGBnote: GREENBUILD: default names specific to pokemon green
-DEF PLAYERNAME1 EQUS "GREEN"
-DEF PLAYERNAME2 EQUS "ASH"
-DEF PLAYERNAME3 EQUS "MERRIAM" ; Sunsette: third name fixed across versions
+DEF PLAYERNAME1 EQUS "Green"
+DEF PLAYERNAME2 EQUS "Ash"
+DEF PLAYERNAME3 EQUS "Merriam" ; Sunsette: third name fixed across versions
 
-DEF RIVALNAME1 EQUS "BLUE"
-DEF RIVALNAME2 EQUS "GARY"
-DEF RIVALNAME3 EQUS "WEBSTER" ; Sunsette: third name fixed across versions
+DEF RIVALNAME1 EQUS "Blue"
+DEF RIVALNAME2 EQUS "Gary"
+DEF RIVALNAME3 EQUS "Webster" ; Sunsette: third name fixed across versions
 ENDC

@@ -1,35 +1,22 @@
 _FuchsiaCityYoungster1Text::
-	text "Did you try the"
-	line "SAFARI GAME? Some"
-	cont "#MON can only"
-	cont "be caught there."
+	text "Did you try the Safari Game? Some <Pokemon> can only be caught there."
 	done
 
 _FuchsiaCityYoungster1TextColor::
-	text "Many have unique"
-	line "colors too!"
+	text "Many have unique colors too!"
 	done
 
 _FuchsiaCityGamblerText::
-	text "SAFARI ZONE has a"
-	line "zoo in front of"
-	cont "the entrance."
-
-	para "Out back is the"
-	line "SAFARI GAME for"
-	cont "catching #MON."
+	text "Safari Zone has a zoo in front of the entrance."
+	para "Out back is the Safari Game for catching <Pokemon>."
 	done
 
 _FuchsiaCityErikText::
-	text "ERIK: Where's"
-	line "SARA? I said I'd"
-	cont "meet her here."
+	text "Erik: Where's Sara? I said I'd meet her here."
 	done
 
 _FuchsiaCityYoungster2Text::
-	text "That item ball in"
-	line "there is really a"
-	cont "#MON."
+	text "That item ball in there is really a <Pokemon>."
 	done
 
 _FuchsiaCityPokemonText::
@@ -37,86 +24,63 @@ _FuchsiaCityPokemonText::
 	done
 
 _FuchsiaCitySignText::
-	text "FUCHSIA CITY"
-	para "Behold! It's"
-	line "Passion Pink!"
+	text "Fuchsia City"
+	para "Behold! It's Passion Pink!"
 	done
 
 _FuchsiaCitySafariGameSignText::
-	text "SAFARI GAME"
-	line "#MON-U-CATCH!"
+	text "Safari Game"
+	para "<Pokemon>-U-Catch!"
 	done
 
 _FuchsiaCityWardensHomeSignText::
-	text "SAFARI ZONE"
-	line "WARDEN's HOME"
+	text "Safari Zone"
+	para "Warden's Home"
 	done
 
 _FuchsiaCitySafariZoneSignText::
-	text "#MON PARADISE"
-	line "SAFARI ZONE"
+	text "<Pokemon> Paradise"
+	para "Safari Zone"
 	done
 
 _FuchsiaCityGymSignText::
-	text "FUCHSIA CITY"
-	line "#MON GYM"
-	cont "LEADER: KOGA"
-
-	para "The Poisonous"
-	line "Ninja Master"
+	text "Fuchsia City <Pokemon> Gym Leader: Koga"
+	para "The Poisonous Ninja Master"
 	done
 
 _FuchsiaCityChanseySignText::
-	text "Name: CHANSEY"
-
-	para "Catching one is"
-	line "all up to chance."
+	text "Name: Chansey"
+	para "Catching one is all up to chance."
 	prompt
 
 _FuchsiaCityVoltorbSignText::
-	text "Name: VOLTORB"
-
-	para "The very image of"
-	line "a # BALL."
+	text "Name: Voltorb"
+	para "The very image of a <poke> Ball."
 	prompt
 
 _FuchsiaCityKangaskhanSignText::
-	text "Name: KANGASKHAN"
-
-	para "A maternal #MON"
-	line "that raises its"
-	cont "young in a pouch"
-	cont "on its belly."
+	text "Name: Kangaskhan"
+	para "A maternal <Pokemon> that raises its young in a pouch on its belly."
 	prompt
 
 _FuchsiaCitySlowpokeSignText::
-	text "Name: SLOWPOKE"
-
-	para "Friendly and very"
-	line "slow moving."
+	text "Name: Slowpoke"
+	para "Friendly and very slow moving."
 	prompt
 
 _FuchsiaCityLaprasSignText::
-	text "Name: LAPRAS"
-
-	para "A.K.A. the king"
-	line "of the seas."
+	text "Name: Lapras"
+	para "A.K.A. the king of the seas."
 	prompt
 
 _FuchsiaCityFossilSignOmanyteText::
-	text "Name: OMANYTE"
-
-	para "A #MON that"
-	line "was resurrected"
-	cont "from a fossil."
+	text "Name: Omanyte"
+	para "A <Pokemon> that was resurrected from a fossil."
 	prompt
 
 _FuchsiaCityFossilSignKabutoText::
-	text "Name: KABUTO"
-
-	para "A #MON that"
-	line "was resurrected"
-	cont "from a fossil."
+	text "Name: Kabuto"
+	para "A <Pokemon> that was resurrected from a fossil."
 	prompt
 
 _FuchsiaCityFossilSignUndeterminedText::
@@ -124,19 +88,12 @@ _FuchsiaCityFossilSignUndeterminedText::
 	done
 
 _FuchsiaCityFossilFanText::
-	text "This fossil"
-	line "#MON is really"
-	cont "shy."
-
-	para "It stays in its"
-	line "shell all day."
+	text "This fossil <Pokemon> is really shy."
+	para "It stays in its shell all day."
 	done
 
 _FuchsiaCityFossilFanText2::
-	text "But if you wait"
-	line "quietly, it"
-	cont "occasionally"
-	cont "peeks out!"
+	text "But if you wait quietly, it occasionally peeks out!"
 	done
 
 _FuchsiaCityFossilFanText3::
@@ -144,11 +101,8 @@ _FuchsiaCityFossilFanText3::
 	done
 
 _FuchsiaCitySoMuchInfo::
-	text "So much info"
-	line "about @"
+	text "So much info about @"
 	text_ram_namebuffer
 	text "!"
-	para "Its ecology,"
-	line "physiology,"
-	cont "anatomy<...>"
+	para "Its ecology, physiology, anatomy<...>"
 	done

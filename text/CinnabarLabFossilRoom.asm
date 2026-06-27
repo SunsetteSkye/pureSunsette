@@ -1,14 +1,8 @@
 _CinnabarLabFossilRoomScientist1Text::
 	text "Hiya!"
-
-	para "I am important"
-	line "doctor!"
-
-	para "I study here rare"
-	line "#MON fossils!"
-
-	para "You! Have you a"
-	line "fossil for me?"
+	para "I am important doctor!"
+	para "I study here rare <Pokemon> fossils!"
+	para "You! Have you a fossil for me?"
 	prompt
 
 _CinnabarLabFossilRoomScientist1NoFossilsText::
@@ -16,19 +10,13 @@ _CinnabarLabFossilRoomScientist1NoFossilsText::
 	done
 
 _CinnabarLabFossilRoomScientist1GoForAWalkText::
-	text "I take a little"
-	line "time!"
-
-	para "You go for walk a"
-	line "little while!"
+	text "I take a little time!"
+	para "You go for walk a little while!"
 	done
 
 _CinnabarLabFossilRoomScientist1FossilIsBackToLifeText::
 	text "Where were you?"
-
-	para "Your fossil is"
-	line "back to life!"
-
+	para "Your fossil is back to life!"
 	para "It was @"
 	text_ram_stringbuffer
 	text_start
@@ -36,52 +24,32 @@ _CinnabarLabFossilRoomScientist1FossilIsBackToLifeText::
 	prompt
 
 _CinnabarLabFossilRoomScientist1SeesFossilText::
-	text "Oh! That is"
-	line "@"
+	text "Oh! That is @"
 	text_ram_namebuffer
 	text "!"
-
-	para "It is fossil of"
-	line "@"
+	para "It is fossil of @"
 	text_ram_stringbuffer
-	text ", a"
-	cont "#MON that is"
-	cont "already extinct!"
-
-	para "My Resurrection"
-	line "Machine will make"
-	cont "that #MON live"
-	cont "again!"
+	text ", a <Pokemon> that is already extinct!"
+	para "My Resurrection Machine will make that <Pokemon> live again!"
 	done
 
 _CinnabarLabFossilRoomScientist1TakesFossilText::
-	text "So! You hurry and"
-	line "give me that!"
-
-	para "<PLAYER> handed"
-	line "over @"
+	text "So! You hurry and give me that!"
+	para "<PLAYER> handed over @"
 	text_ram_namebuffer
 	text "!"
 	prompt
 
 _CinnabarLabFossilRoomScientist1GoForAWalkText2::
-	text "I take a little"
-	line "time!"
-
-	para "You go for walk a"
-	line "little while!"
+	text "I take a little time!"
+	para "You go for walk a little while!"
 	done
 
 _CinnabarLabFossilRoomScientist1ComeAgainText::
-	text "Aiyah! You come"
-	line "again!"
+	text "Aiyah! You come again!"
 	done
 
 _CinnabarLabFossilRoomDeskPapersText::
-	text "NEXT RESEARCH"
-	line "TARGET:"
-	para "Perform a deep"
-	line "study on how"
-	cont "PONYTA survives"
-	cont "with fiery mane."
+	text "Next Research Target:"
+	para "Perform a deep study on how Ponyta survives with fiery mane."
 	done

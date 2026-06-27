@@ -1,26 +1,16 @@
 _MoveMysticIntro::
-	text "I am the"
-	line "MOVE MYSTIC!"
-	para "Certain #MON"
-	line "have hidden"
-	cont "talents!"
-	para "I can scry for"
-	line "their secrets in"
-	cont "my crystal ball!"
-	para "But only if"
-	line "you've seen the"
-	cont "#MON before!"
+	text "I am the Move Mystic!"
+	para "Certain <Pokemon> have hidden talents!"
+	para "I can scry for their secrets in my crystal ball!"
+	para "But only if you've seen the <Pokemon> before!"
 	prompt
 
 _MoveMysticAgain::
-	text "You've returned to"
-	line "the MOVE MYSTIC!"
+	text "You've returned to the Move Mystic!"
 	prompt
 
 _MoveMysticQuestion::
-	text "What #MON"
-	line "shall I divine"
-	cont "the secrets of?"
+	text "What <Pokemon> shall I divine the secrets of?"
 	prompt
 
 _MoveMysticLookDeep::
@@ -156,35 +146,22 @@ _MoveMysticLovesMoveText::
 	prompt
 
 _MoveMysticBeedrillText::
-	text "Its venom runs"
-	line "thick and potent!"
-
-	para "Its TWINEEDLE"
-	line "POISONS the foe"
-	cont "40% of the time."
+	text "Its venom runs thick and potent!"
+	para "Its Twineedle poisons the foe 40% of the time."
 	done
 
 _MoveMysticPidgeotText::
-	text "It rules the"
-	line "skies with"
-	cont "peerless aim!"
-	para "Its signature"
-	line "HURRICANE never"
-	cont "misses its mark!"
+	text "It rules the skies with peerless aim!"
+	para "Its signature Hurricane never misses its mark!"
 	done
 
 _MoveMysticBlastoiseText::
-	text "Its cannons fire"
-	line "with deadly aim!"
-	para "METEOR DRIVE and"
-	line "HYDRO PUMP both"
-	cont "gain 100%"
-	cont "ACCURACY!"
+	text "Its cannons fire with deadly aim!"
+	para "Meteor Drive and Hydro Pump both gain 100% Accuracy!"
 	done
 
 _MoveMysticAccuracy85::
-	text "Its ACCURACY"
-	line "increases to 85%!"
+	text "Its Accuracy increases to 85%!"
 	done
 
 _MoveMysticJigglyWigglyOnlyLevel20Text::
@@ -194,25 +171,14 @@ _MoveMysticJigglyWigglyOnlyLevel20Text::
 	done
 
 _GenericMovePowerIncreasesText::
-	text "Its POWER"
-	line "increases to @"
+	text "Its Power increases to @"
 	text_decimal w2CharStringBuffer, 1, 3
 	text "!"
 	done
 
 _MoveMysticInfoText::
-	text "If ON, a new house"
-	line "will be available"
-	cont "in SAFFRON CITY."
-	para "The MOVE MYSTIC"
-	line "here will tell"
-	cont "you about #MON"
-	cont "SIGNATURE MOVEs."
-	para "Some #MON will"
-	line "have bonus power"
-	cont "or accuracy when"
-	cont "using some moves."
-	para "If turned OFF,"
-	line "these bonuses are"
-	cont "turned off too."
+	text "If ON, a new house will be available in Saffron City."
+	para "The Move Mystic here will tell you about <Pokemon> signature moves."
+	para "Some <Pokemon> will have bonus power or accuracy when using some moves."
+	para "If turned OFF, these bonuses are turned off too."
 	prompt

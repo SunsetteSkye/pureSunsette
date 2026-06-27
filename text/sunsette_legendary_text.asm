@@ -4,144 +4,58 @@
 ; transition line (printed after any of them) eases Oak back toward his usual dialogue.
 
 _OakMoltresText::
-	text "<PLAYER>! Is that"
-	line "MOLTRES data?!"
-
-	para "The fire bird! Its"
-	line "flame is said to"
-	cont "be the spirit"
-	cont "of victory."
-
-	para "Bound to the sun"
-	line "in the old myths,"
-	cont "of course<...>"
-
-	para "the solstice"
-	line "blaze<...>reborn"
-	cont "from embers<...>"
-	cont "a sky set aflame"
-	cont "<...>and the"
-	cont "people would<...>"
-	cont "oh, the songs"
-	cont "they sang<...>"
+	text "<PLAYER>! Is that Moltres data?!"
+	para "The fire bird! Its flame is said to be the spirit of victory."
+	para "Bound to the sun in the old myths, of course<...>"
+	para "the solstice blaze<...>reborn from embers<...>a sky set aflame<...>and the people would<...>oh, the songs they sang<...>"
 	prompt
 
 _OakArticunoText::
-	text "<PLAYER>! ARTICUNO"
-	line "data! Remarkable!"
-
-	para "The bird of ice."
-	line "Legend says it"
-	cont "appears to those"
-	cont "soon to perish<...>"
-
-	para "lost travelers"
-	line "in the peaks<...>"
-	cont "a final mercy<...>"
-	cont "or an omen<...>"
-	cont "the cold before"
-	cont "the<...>well<...>"
-	cont "the last sight,"
-	cont "some say<...>"
+	text "<PLAYER>! Articuno data! Remarkable!"
+	para "The bird of ice. Legend says it appears to those soon to perish<...>"
+	para "lost travelers in the peaks<...>a final mercy<...>or an omen<...>the cold before the<...>well<...>the last sight, some say<...>"
 	prompt
 
 _OakZapdosText::
-	text "<PLAYER>! Is that"
-	line "ZAPDOS data?!"
-
-	para "The thunder bird!"
-	line "Feared by most,"
-	cont "but you know,"
-
-	para "in the arid lands"
-	line "they adore it<...>"
-
-	para "for its storms"
-	line "bring the rains"
-	cont "<...>life to the"
-	cont "desert<...>a good"
-	cont "omen<...>first"
-	cont "drops<...>the smell"
-	cont "of wet earth<...>"
-	cont "they'd dance<...>"
+	text "<PLAYER>! Is that Zapdos data?!"
+	para "The thunder bird! Feared by most, but you know,"
+	para "in the arid lands they adore it<...>"
+	para "for its storms bring the rains<...>life to the desert<...>a good omen<...>first drops<...>the smell of wet earth<...>they'd dance<...>"
 	prompt
 
 _OakMewText::
-	text "<PLAYER>! You have"
-	line "MEW data?!"
-
-	para "I never thought"
-	line "I'd see it! There"
-	cont "were hardly any"
-	cont "pictures, even in"
-	cont "the diaries after"
-	cont "it was found."
-
-	para "A cheerful little"
-	line "thing, isn't it?"
-
-	para "Makes you wonder"
-	line "how long they hid"
-	cont "out there, and we"
-	cont "never knew."
+	text "<PLAYER>! You have Mew data?!"
+	para "I never thought I'd see it! There were hardly any pictures, even in the diaries after it was found."
+	para "A cheerful little thing, isn't it?"
+	para "Makes you wonder how long they hid out there, and we never knew."
 	prompt
 
 _OakMewtwoText::
-	text "So<...>MEWTWO."
-
-	para "I just finished"
-	line "reviewing that"
-	cont "data."
-
+	text "So<...>Mewtwo."
+	para "I just finished reviewing that data."
 	para "<...>"
-
-	para "Humans can be"
-	line "wonderful,"
-	cont "<PLAYER>."
-
-	para "And we can be"
-	line "quite cruel, too."
+	para "Humans can be wonderful, <PLAYER>."
+	para "And we can be quite cruel, too."
 	prompt
 
 _OakLegendaryTransitionText::
-	text "<...>but I'm sure"
-	line "that's not what"
-	cont "you're here for!"
-
+	text "<...>but I'm sure that's not what you're here for!"
 	para "Don't mind me!"
 	prompt
 
 ; Sunsette: OAK's one-time remark after you've fought either SNORLAX (fond reminiscence, hastily
 ; covered with PROF.ELM's unevolved-form hypothesis). Not a "caught" trigger - see OakVisitComment.
 _OakSnorlaxText::
-	text "SNORLAX<...>ahh."
-
-	para "It reminds me of"
-	line "an old assistant"
-	cont "of mine."
-
-	para "A big, sleepy"
-	line "soul. I remember"
-	cont "him fondly<...>"
-
-	para "Er! That is,"
-	line "PROF.ELM thinks"
-	cont "there may be an"
-	cont "unevolved form."
-
+	text "Snorlax<...>ahh."
+	para "It reminds me of an old assistant of mine."
+	para "A big, sleepy soul. I remember him fondly<...>"
+	para "Er! That is, Prof. Elm thinks there may be an unevolved form."
 	para "Yes. Anyway!"
 	prompt
 
 ; Sunsette: OAK's one-time remark on getting HM03 (SURF)
 _OakSurfText::
-	text "The HM for SURF!"
-
-	para "Did you know I"
-	line "have a cousin who"
-	cont "loves to SURF?"
-
-	para "Lives all the way"
-	line "in ALOLA. Quite"
-	cont "good at it, I"
-	cont "hear!"
+	text "The HM for Surf!"
+	para "Did you know I have a cousin who loves to Surf?"
+	para "Lives all the way in Alola. Quite good at it, I hear!"
 	prompt

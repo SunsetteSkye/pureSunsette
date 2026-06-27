@@ -3,7 +3,7 @@
 ; so the bank is irrelevant.
 _CeladonMart3FClerkTM18ExplanationText::
 	text "<TM>02 is"
-	line "DISABLE!"
+	line "Disable!"
 
 	para "Trust me, I've"
 	line "been here for 30"
@@ -15,14 +15,14 @@ _CeladonMart3FClerkTM18ExplanationText::
 	para "If there's a move"
 	line "you can't stand"
 	cont "facing, just"
-	cont "DISABLE it."
+	cont "Disable it."
 
 	para "It's the perfect"
 	line "counter!"
 
 	para "...'cept against"
-	line "ELECTRIC types."
+	line "Electric types."
 	cont "Too live-wired to"
-	cont "pin down. DISABLE"
+	cont "pin down. Disable"
 	cont "just slides off!"
 	done

@@ -1,170 +1,124 @@
 _Route14CooltrainerM1BattleText::
-	text "You need to use"
-	line "<TM>s to teach good"
-	cont "moves to #MON!"
+	text "You need to use <TM>s to teach good moves to <Pokemon>!"
 	done
 
 _Route14CooltrainerM1EndBattleText::
-	text "Not"
-	line "good enough!"
+	text "Not good enough!"
 	prompt
 
 _Route14CooltrainerM1AfterBattleText::
-	text "You have some HMs"
-	line "right?"
-	para "HM moves can be"
-	line "replaced just"
-	cont "like other moves"
-	cont "can, anytime,"
-	cont "anywhere!"
+	text "You have some HMs right?"
+	para "HM moves can be replaced just like other moves can, anytime, anywhere!"
 	para "No worries!"
 	done
 
 _Route14CooltrainerM2BattleText::
-	text "My bird #MON"
-	line "should be ready"
-	cont "for battle."
+	text "My bird <Pokemon> should be ready for battle."
 	done
 
 _Route14CooltrainerM2EndBattleText::
-	text "Not"
-	line "ready yet!"
+	text "Not ready yet!"
 	prompt
 
 _Route14CooltrainerM2AfterBattleText::
-	text "They need to learn"
-	line "better moves."
+	text "They need to learn better moves."
 	done
 
 _Route14CooltrainerM3BattleText::
-	text "<TM>s are on sale"
-	line "in CELADON!"
-	cont "But, only a few"
-	cont "people have HMs!"
+	text "<TM>s are on sale in Celadon! But, only a few people have HMs!"
 	done
 
 _Route14CooltrainerM3EndBattleText::
-	text "Aww,"
-	line "bummer!"
+	text "Aww, bummer!"
 	prompt
 
 _Route14CooltrainerM3AfterBattleText::
-	text "Teach #MON"
-	line "moves of the same"
-	cont "element type for"
-	cont "more power."
+	text "Teach <Pokemon> moves of the same element type for more power."
 	done
 
 _Route14CooltrainerM4BattleText::
-	text "Have you taught"
-	line "your bird #MON"
-	cont "how to FLY?"
+	text "Have you taught your bird <Pokemon> how to Fly?"
 	done
 
 _Route14CooltrainerM4EndBattleText::
-	text "Shot"
-	line "down in flames!"
+	text "Shot down in flames!"
 	prompt
 
 _Route14CooltrainerM4AfterBattleText::
-	text "Bird #MON are"
-	line "my true love!"
+	text "Bird <Pokemon> are my true love!"
 	done
 
 _Route14CooltrainerM5BattleText::
-	text "Have you heard of"
-	line "the legendary"
-	cont "#MON?"
+	text "Have you heard of the legendary <Pokemon>?"
 	done
 
 _Route14CooltrainerM5EndBattleText::
-	text "Why?"
-	line "Why'd I lose?"
+	text "Why? Why'd I lose?"
 	prompt
 
 _Route14CooltrainerM5AfterBattleText::
-	text "The 3 legendary"
-	line "#MON are all"
-	cont "birds of prey."
+	text "The 3 legendary <Pokemon> are all birds of prey."
 	done
 
 _LegendaryBirdLearnsetAn::
 	text "WHAT?!?"
-	para "You caught an"
-	line "@"
+	para "You caught an @"
 	text_ram_namebuffer
 	text "?!"
 	prompt
 
 _LegendaryBirdLearnsetA::
 	text "WHAT?!?"
-	para "You caught a"
-	line "@"
+	para "You caught a @"
 	text_ram_namebuffer
 	text "?!"
 	prompt
 
 _LegendaryBirdLearnset::
 	text "You're a legend!"
-	para "That's one of the"
-	line "legendary birds!"
+	para "That's one of the legendary birds!"
 	para "Can I see it?!"
-	para "I'll tell you"
-	line "everything I know"
-	cont "about it!"
+	para "I'll tell you everything I know about it!"
 	done
 
 _Route14CooltrainerM6BattleText::
-	text "Ugh, fine."
-	line "Let's just get"
-	cont "this over with!"
+	text "Ugh, fine. Let's just get this over with!"
 	done
 
 _Route14CooltrainerM6EndBattleText::
-	text "I"
-	line "knew it!"
+	text "I knew it!"
 	prompt
 
 _Route14CooltrainerM6AfterBattleText::
-	text "Winning, losing,"
-	line "it doesn't matter"
-	cont "in the long run!"
+	text "Winning, losing, it doesn't matter in the long run!"
 	done
 
 _Route14Biker1BattleText::
-	text "Ugh, finally!"
-	line "Let's just go!"
+	text "Ugh, finally! Let's just go!"
 	done
 
 _Route14Biker1EndBattleText::
-	text "Lame."
-	line "So over it."
+	text "Lame. So over it."
 	prompt
 
 _Route14Biker1AfterBattleText::
-	text "What? Spit it"
-	line "out already."
+	text "What? Spit it out already."
 	done
 
 _Route14Biker2BattleText::
-	text "Ehh, you'll do."
-	line "I'm bored."
+	text "Ehh, you'll do. I'm bored."
 	done
 
 _Route14Biker2EndBattleText::
-	text "Huh?"
-	line "No way."
+	text "Huh? No way."
 	prompt
 
 _Route14Biker2AfterBattleText::
-	text "Raisin' #MON's"
-	line "such a drag, hon."
+	text "Raisin' <Pokemon>'s such a drag, hon."
 	done
 
 _Route14Biker3BattleText::
-	text "We ride out here"
-	line "because there's"
-	cont "more room!"
+	text "We ride out here because there's more room!"
 	done
 
 _Route14Biker3EndBattleText::
@@ -172,50 +126,36 @@ _Route14Biker3EndBattleText::
 	prompt
 
 _Route14Biker3AfterBattleText::
-	text "It's cool you"
-	line "made your #MON"
-	cont "so strong!"
-
-	para "Might is right!"
-	line "And you know it!"
+	text "It's cool you made your <Pokemon> so strong!"
+	para "Might is right! And you know it!"
 	done
 
 _Route14Biker4BattleText::
-	text "#MON fight?"
-	line "Cool! Rumble!"
+	text "<Pokemon> fight? Cool! Rumble!"
 	done
 
 _Route14Biker4EndBattleText::
-	text "Blown"
-	line "away!"
+	text "Blown away!"
 	prompt
 
 _Route14Biker4AfterBattleText::
-	text "You know who'd"
-	line "win, you and me"
-	cont "one on one!"
+	text "You know who'd win, you and me one on one!"
 	done
 
 _Route14BattleText11::
-	text "Initiate"
-	line "power dive!"
+	text "Initiate power dive!"
 	done
 
 _Route14EndBattleText11::
-	text "Pull"
-	line "up!"
+	text "Pull up!"
 	prompt
 
 _Route14AfterBattleText11::
-	text "Looks like we"
-	line "lost another one,"
-	cont "flyboys."
+	text "Looks like we lost another one, flyboys."
 	done
 
 _Route14BattleText12::
-	text "Lots of burly"
-	line "BIKERs here,"
-	cont "aren't there?"
+	text "Lots of burly Bikers here, aren't there?"
 	done
 
 _Route14EndBattleText12::
@@ -223,25 +163,17 @@ _Route14EndBattleText12::
 	prompt
 
 _Route14AfterBattleText12::
-	text "I've seen those"
-	line "BIKERs around"
-	cont "here before."
-	para "They might look"
-	line "scary, but they"
-	cont "are actually nice"
-	cont "guys."
-	done	
+	text "I've seen those Bikers around here before."
+	para "They might look scary, but they are actually nice guys."
+	done
 
 _Route14SignText::
-	text "ROUTE 14"
-	line "West to FUCHSIA"
-	cont "CITY"
+	text "Route 14"
+	para "West to Fuchsia City"
 	done
 
 _Route14Text12::
 	text "<TIPS>"
-	para "Press SELECT to"
-	line "use your BICYCLE."
-	para "Make sure to keep"
-	line "it in your bag."
+	para "Press SELECT to use your Bicycle."
+	para "Make sure to keep it in your bag."
 	done

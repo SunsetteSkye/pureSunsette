@@ -1,77 +1,48 @@
 SilphCo2FSilphWorkerFPleaseTakeThisText::
-	text "Eeek!"
-	line "No! Stop! Help!"
-
-	para "Oh, you're not"
-	line "with <TEAM><ROCKET>."
-	cont "I thought<...>"
-	cont "I'm sorry. Here,"
-	cont "please take this!"
+	text "Eeek! No! Stop! Help!"
+	para "Oh, you're not with <TEAM><ROCKET>. I thought<...> I'm sorry. Here, please take this!"
 	prompt
 
 _SilphCo2FSilphWorkerFTM50ExplanationText::
-	text "<TM>50 is"
-	line "SUBSTITUTE!"
-
-	para "A decoy will"
-	line "replace your"
-	cont "#MON."
-	para "It'll take damage"
-	line "instead!"
-	para "Kind of like an"
-	line "imposter<...>"
-
-	para "Many of my SILPH"
-	line "team members were"
-	cont "imposters!"
-	
-	para "They were just"
-	line "<ROCKET> spies!"
-	cont "Those snakes!"
-
+	text "<TM>50 is Substitute!"
+	para "A decoy will replace your <Pokemon>."
+	para "It'll take damage instead!"
+	para "Kind of like an imposter<...>"
+	para "Many of my Silph team members were imposters!"
+	para "They were just <ROCKET> spies! Those snakes!"
 	para "Be careful."
 	done
 
 _SilphCo2FSilphWorkerFTM50NoRoomText::
-	text "You don't have any"
-	line "room for this."
+	text "You don't have any room for this."
 	done
 
 _SilphCo2FScientist1BattleText::
-	text "Help! I'm a SILPH"
-	line "employee."
+	text "Help! I'm a Silph employee."
 	done
 
 _SilphCo2FScientist1EndBattleText::
-	text "How"
-	line "did you know I"
-	cont "was a <ROCKET>?"
+	text "How did you know I was a <ROCKET>?"
 	prompt
 
 _SilphCo2FScientist1AfterBattleText::
-	text "I work for both"
-	line "SILPH and <TEAM>"
-	cont "<ROCKET>!"
+	text "I work for both Silph and <TEAM><ROCKET>!"
 	done
 
 _SilphCo2FScientist2BattleText::
-	text "It's off limits"
-	line "here! Go home!"
+	text "It's off limits here! Go home!"
 	done
 
 _SilphCo2FScientist2EndBattleText::
-	text "You're"
-	line "good."
+	text "You're good."
 	prompt
 
 _SilphCo2FScientist2AfterBattleText::
-	text "Can you solve the"
-	line "maze in here?"
+	text "Can you solve the maze in here?"
 	done
 
 _SilphCo2FRocket1BattleText::
-	text "No kids are"
-	line "allowed in here!"
+	text "No kids are allowed in here!"
 	done
 
 _SilphCo2FRocket1EndBattleText::
@@ -79,17 +50,12 @@ _SilphCo2FRocket1EndBattleText::
 	prompt
 
 _SilphCo2FRocket1AfterBattleText::
-	text "Diamond shaped"
-	line "tiles are"
-	cont "teleport blocks!"
-
-	para "They're hi-tech"
-	line "transporters!"
+	text "Diamond shaped tiles are teleport blocks!"
+	para "They're hi-tech transporters!"
 	done
 
 _SilphCo2FRocket2BattleText::
-	text "Hey kid! What are"
-	line "you doing here?"
+	text "Hey kid! What are you doing here?"
 	done
 
 _SilphCo2FRocket2EndBattleText::
@@ -97,7 +63,5 @@ _SilphCo2FRocket2EndBattleText::
 	prompt
 
 _SilphCo2FRocket2AfterBattleText::
-	text "SILPH CO. will"
-	line "be merged with"
-	cont "<TEAM><ROCKET>!"
+	text "Silph Co. will be merged with <TEAM><ROCKET>!"
 	done

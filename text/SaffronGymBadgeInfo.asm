@@ -1,15 +1,8 @@
 ; Sunsette: Sabrina's badge info text (her badge is now named the SOULBADGE), relocated here to keep
 ; Text 9 in budget. Reached cross-bank via text_far from scripts/SaffronGym.asm.
 _SaffronGymSabrinaMarshBadgeInfoText::
-	text "The SOULBADGE is"
-	line "proof of your"
-	cont "psychic bond"
-	cont "with #MON!"
-
-	para "It lets #MON"
-	line "TELEPORT like FLY"
-	cont "from anywhere,"
-	cont "even indoors!"
+	text "The Soul Badge is proof of your psychic bond with <Pokemon>!"
+	para "It lets <Pokemon> Teleport like Fly from anywhere, even indoors!"
 	text_asm
 	ld b, POCKET_ABRA
 	call IsItemInBag
@@ -18,12 +11,8 @@ _SaffronGymSabrinaMarshBadgeInfoText::
 	ld hl, .withAbra
 	ret
 .withAbra:
-	para "Oh- I sense your"
-	line "ABRA's question."
-
-	para "Yes! It can do"
-	line "the same!"
+	para "Oh, I sense your Abra's question."
+	para "Yes! It can do the same!"
 .takeTM:
-	para "Wait, please take"
-	line "this <TM> with you!"
+	para "Wait, please take this <TM> with you!"
 	done

@@ -1,27 +1,18 @@
 _GameCornerPrizeRoomBaldingGuyText::
-	text "I sure do fancy"
-	line "that PORYGON!"
-
-	para "But, it's hard to"
-	line "win at slots!"
+	text "I sure do fancy that Porygon!"
+	para "But, it's hard to win at slots!"
 	done
 
 _GameCornerPrizeRoomGamblerText::
-	text "I had a major"
-	line "haul today!"
+	text "I had a major haul today!"
 	done
 
 _GameCornerPrizeRoomPrizeMasterText::
-	text "They call me"
-	line "the @"
+	text "They call me the @"
 	text_ram wTrainerName
 	text "!"
-	para "I've purchased one"
-	line "of every prize!"
-	para "That's why they"
-	line "gave me this"
-	cont "commemorative"
-	cont "paper crown!"
+	para "I've purchased one of every prize!"
+	para "That's why they gave me this commemorative paper crown!"
 	para "Jealous?"
 	prompt
 
@@ -32,88 +23,62 @@ _GameCornerPrizeRoomPrizeMasterAgainText::
 	prompt
 
 _GameCornerPrizeRoomInfoText::
-	text "Show me one of the"
-	line "prize #MON!"
-	para "I'll fill you in"
-	line "about it!"
-	para "So, got any prize"
-	line "#MON to show?"
+	text "Show me one of the prize <Pokemon>!"
+	para "I'll fill you in about it!"
+	para "So, got any prize <Pokemon> to show?"
 	done
 
 _GameCornerPrizeRoomLetsSeeText::
-	text "Woohoo!"
-	line "Which one?"
+	text "Woohoo! Which one?"
 	prompt
 
 _JynxPrizeKingText::
 	text "@"
 	text_ram_namebuffer
-	text " is a"
-	line "powerful and fast"
-	cont "#MON that"
-	cont "is great with"
-	cont "SPECIAL attacks!"
+	text " is a powerful and fast <Pokemon> that is great with Special attacks!"
 	done
 
 _ElectabuzzPrizeKingText::
 	text "@"
 	text_ram_namebuffer
-	text " can"
-	line "dish out both"
-	cont "strong PHYSICAL"
-	cont "or SPECIAL moves!"
-	para "It can heal with"
-	line "SHADOW BOX!"
+	text " can dish out both strong Physical or Special moves!"
+	para "It can heal with Shadow Box!"
 	done
 
 _TangelaPrizeKingText::
 	text "@"
 	text_ram_namebuffer
-	text " has"
-	line "crazy DEFENSE!"
-	para "It learns SPORE"
-	line "and SOULSTEALER!"
-	para "On top of that,"
-	line "BUNKER DOWN!"
-	para "What else could"
-	line "you want?!"
+	text " has crazy Defense!"
+	para "It learns Spore and Soulstealer!"
+	para "On top of that, Rock On!"
+	para "What else could you want?!"
 	done
 
 _DratiniPrizeKingText::
 	text "@"
 	text_ram_namebuffer
-	text " is a rare"
-	line "DRAGON #MON."
+	text " is a rare Dragon <Pokemon>."
 	para "It may seem weak,"
-	para "But if you evolve"
-	line "it, it'll become"
-	cont "unstoppable!"
+	para "But if you evolve it, it'll become unstoppable!"
 	done
 
 _DittoPrizeKingText::
 	text "@"
 	text_ram_namebuffer
-	text " can do only"
-	line "one thing:"
-	para "Transform into a"
-	line "copy of your foe!"
+	text " can do only one thing:"
+	para "Transform into a copy of your foe!"
 	done
 
 _PorygonPrizeKingText::
 	text "@"
 	text_ram_namebuffer
 	text " huh."
-	para "So you managed to"
-	line "get one as well."
-	para "That makes only"
-	line "two people ever!"
+	para "So you managed to get one as well."
+	para "That makes only two people ever!"
 	para "@"
 	text_ram_namebuffer
-	text " gets some"
-	line "crazy good moves!"
-	para "TRI ATTACK"
-	line "and CONVERSION"
-	cont "are insane!"
+	text " gets some crazy good moves!"
+	para "Tri Attack and Conversion are insane!"
 	done
 
 _PrizeKingGotAnotherText::

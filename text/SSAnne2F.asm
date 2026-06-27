@@ -1,64 +1,31 @@
 _SSAnne2FWaiterText::
-	text "This ship, she is"
-	line "a luxury liner"
-	cont "for trainers!"
-
-	para "At every port, we"
-	line "hold parties with"
-	cont "invited trainers!"
+	text "This ship, she is a luxury liner for Trainers!"
+	para "At every port, we hold parties with invited Trainers!"
 	done
 
 _SSAnne2FRivalText::
-	text "<RIVAL>: Bonjour!"
-	line "<PLAYER>!"
-
-	para "Imagine seeing"
-	line "you here!"
-
-	para "<PLAYER>, were you"
-	line "really invited?"
-
-	para "So how's your"
-	line "#DEX coming?"
-
-	para "I already caught"
-	line "40 kinds, pal!"
-
-	para "Different kinds"
-	line "are everywhere!"
-
-	para "Crawl around in"
-	line "grassy areas!"
+	text "<RIVAL>: Bonjour! <PLAYER>!"
+	para "Imagine seeing you here!"
+	para "<PLAYER>, were you really invited?"
+	para "So how's your <poke>dex coming?"
+	para "I already caught 40 kinds, pal!"
+	para "Different kinds are everywhere!"
+	para "Crawl around in grassy areas!"
 	done
 
 _SSAnne2FRivalDefeatedText::
 	text "Humph!"
-
-	para "At least you're"
-	line "raising your"
-	cont "#MON!"
+	para "At least you're raising your <Pokemon>!"
 	prompt
 
 _SSAnne2FRivalVictoryText::
-	text "<PLAYER>!"
-	line "What are you,"
-	cont "seasick?"
-
-	para "You should shape"
-	line "up, pal!"
+	text "<PLAYER>! What are you, seasick?"
+	para "You should shape up, pal!"
 	prompt
 
 _SSAnne2FRivalCutMasterText::
-	text "<RIVAL>: I heard"
-	line "there was a CUT"
-	cont "master on board."
-
-	para "But, he was just a"
-	line "seasick, old man!"
-
-	para "But, CUT itself is"
-	line "really useful!"
-
-	para "You should go see"
-	line "him! Smell ya!"
+	text "<RIVAL>: I heard there was a Cut master on board."
+	para "But, he was just a seasick, old man!"
+	para "But, Cut itself is really useful!"
+	para "You should go see him! Smell ya!"
 	done

@@ -1,7 +1,5 @@
 _Route18CooltrainerM1BattleText::
-	text "I always check"
-	line "every grassy area"
-	cont "for new #MON."
+	text "I always check every grassy area for new <Pokemon>."
 	done
 
 _Route18CooltrainerM1EndBattleText::
@@ -9,40 +7,30 @@ _Route18CooltrainerM1EndBattleText::
 	prompt
 
 _Route18CooltrainerM1AfterBattleText::
-	text "I wish I had a"
-	line "BIKE!"
+	text "I wish I had a bike!"
 	done
 
 _Route18CooltrainerM2BattleText::
-	text "Kurukkoo!"
-	line "How do you like"
-	cont "my bird call?"
+	text "Kurukkoo! How do you like my bird call?"
 	done
 
 _Route18CooltrainerM2EndBattleText::
-	text "I"
-	line "had to bug you!"
+	text "I had to bug you!"
 	prompt
 
 _Route18CooltrainerM2AfterBattleText::
-	text "I also collect sea"
-	line "#MON on"
-	cont "weekends!"
+	text "I also collect sea <Pokemon> on weekends!"
 	done
 
 _Route18AerodactylLearnsetText::
-	text "Bet you didn't"
-	line "expect me to have"
-	cont "an @"
+	text "Bet you didn't expect me to have an @"
 	text_ram_namebuffer
 	text "!"
-	para "I revived it from"
-	line "OLD AMBER!"
+	para "I revived it from Old Amber!"
 	prompt
 
 _Route18CooltrainerM3BattleText::
-	text "This is my turf!"
-	line "Get out of here!"
+	text "This is my turf! Get out of here!"
 	done
 
 _Route18CooltrainerM3EndBattleText::
@@ -50,15 +38,12 @@ _Route18CooltrainerM3EndBattleText::
 	prompt
 
 _Route18CooltrainerM3AfterBattleText::
-	text "This is my fave"
-	line "#MON hunting"
-	cont "area!"
+	text "This is my fave <Pokemon> hunting area!"
 	done
 
 _Route18BattleText4::
 	text "Out of the way!!"
-	para "How do I stop"
-	line "this thing!?"
+	para "How do I stop this thing!?"
 	done
 
 _Route18EndBattleText4::
@@ -66,20 +51,13 @@ _Route18EndBattleText4::
 	prompt
 
 _Route18AfterBattleText4::
-	text "I guess taming"
-	line "a BICYCLE isn't"
-	cont "like taming"
-	cont "#MON."
-	para "I'm still"
-	line "learning how to"
-	cont "ride this."
+	text "I guess taming a Bicycle isn't like taming <Pokemon>."
+	para "I'm still learning how to ride this."
 	done
 
 _Route18BattleText5::
-	text "Ride like the"
-	line "wind!"
-	para "Speed is king!"
-	line "Rock is life!"
+	text "Ride like the wind!"
+	para "Speed is king! Rock is life!"
 	done
 
 _Route18EndBattleText5::
@@ -87,33 +65,23 @@ _Route18EndBattleText5::
 	prompt
 
 _Route18AfterBattleText5::
-	text "Live fast and"
-	line "lose hard."
-	para "That's what I"
-	line "always say!"
+	text "Live fast and lose hard."
+	para "That's what I always say!"
 	done
 
 _Route18SignText::
-	text "ROUTE 18"
-	line "CELADON CITY -"
-	cont "FUCHSIA CITY"
+	text "Route 18"
+	para "Celadon City - Fuchsia City"
 	done
 
 _Route18CyclingRoadSignText::
-	text "CYCLING ROAD"
-	line "No pedestrians"
-	cont "permitted!"
+	text "Cycling Road"
+	para "No pedestrians permitted!"
 	done
 
 _Route18TipsSign::
 	text "<TIPS>"
-	para "Press SELECT"
-	line "when viewing a"
-	cont "#MON's STATS"
-	cont "to view STAT EXP!"
-	para "STAT EXP is raised"
-	line "by battling and"
-	cont "using vitamins!"
-	para "More EXP means"
-	line "a higher STAT!"
+	para "Press SELECT when viewing a <Pokemon>'s Stats to view Stat EXP!"
+	para "Stat EXP is raised by battling and using vitamins!"
+	para "More EXP means a higher Stat!"
 	done

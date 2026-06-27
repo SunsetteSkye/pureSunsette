@@ -1,52 +1,35 @@
 ; CUTE BALL event
 
 _Route2JigglypuffText::
-	text "A JIGGLYPUFF is"
-	line "sitting on a tree"
-	cont "branch, singing"
-	cont "gently."
+	text "A Jigglypuff is sitting on a tree branch, singing gently."
 	done
 
 _Route2JigglypuffCameraText::
-	text "This is a good"
-	line "subject for a"
-	cont "photo!"
+	text "This is a good subject for a photo!"
 	prompt
 
 _Route2JigglypuffPeacefulText::
 	text "So cute!"
-	para "It looks so happy"
-	line "and content!"
+	para "It looks so happy and content!"
 	prompt
 
 ; FOREST BALL event
 
 _Route5BugCatcherText::
-	text "I'm just a lowly"
-	line "BUG CATCHER"
-	cont "tendin' a field!"
-	para "Nothin' like a"
-	line "straw hat and a"
-	cont "good day's work!"
-	para "I work for the"
-	line "DAYCARE."
+	text "I'm just a lowly Bug Catcher tendin' a field!"
+	para "Nothin' like a straw hat and a good day's work!"
+	para "I work for the Daycare."
 	done
 
 _Route5BugCatcherCameraText::
-	text "Wow! That's"
-	line "a cool CAMERA!"
-	para "Take a picture"
-	line "of me, would ya?"
-	para "Get this wild"
-	line "BULBASAUR too!"
-	para "It keeps following"
-	line "me around!"
+	text "Wow! That's a cool Camera!"
+	para "Take a picture of me, would ya?"
+	para "Get this wild Bulbasaur too!"
+	para "It keeps following me around!"
 	prompt
 
 _Route5BugCatcherBulbasaurText::
-	text "Hoho! BULBASAUR"
-	line "is curious about"
-	cont "the CAMERA!"
+	text "Hoho! Bulbasaur is curious about the Camera!"
 	prompt
 
 _PerfectPhotoText::
@@ -54,14 +37,11 @@ _PerfectPhotoText::
 	done
 
 _PerfectPhotoBallDesignerText::
-	text "The #BALL"
-	line "DESIGNER will"
-	cont "want to see this!"
+	text "The <poke> Ball Designer will want to see this!"
 	prompt
 
 _NoPhotosText::
-	text "Nothing cool to"
-	line "photograph here."
+	text "Nothing cool to photograph here."
 	prompt
 
 _PhotosToTurnIn::
@@ -69,166 +49,117 @@ _PhotosToTurnIn::
 	text_decimal w2CharStringBuffer, 1, 2
 	text " photo@"
 	text_pluralize w2CharStringBuffer
-	text " to show"
-	line "to the DESIGNER."
+	text " to show to the Designer."
 	prompt
 
 _PhotoOpText::
-	text "Feels like there's"
-	line "something good to"
-	cont "photograph here!"
+	text "Feels like there's something good to photograph here!"
 	prompt
 
 _Route6ShadowText::
-	text "There's a #MON"
-	line "swimming around"
-	cont "underwater."
+	text "There's a <Pokemon> swimming around underwater."
 	done
 
 _Route6CameraText::
-	text "Time to wait to"
-	line "snap a pic of"
-	cont "this swimming"
-	cont "#MON!"
+	text "Time to wait to snap a pic of this swimming <Pokemon>!"
 	prompt
 
 _Route6PsyduckText::
-	text "Oh! It's a"
-	line "PSYDUCK!"
+	text "Oh! It's a Psyduck!"
 	prompt
 
 
 _Route6Psyduck2Text::
 	text "Amazing!"
-	para "It's looking at"
-	line "its reflection in"
-	cont "the pond water!"
+	para "It's looking at its reflection in the pond water!"
 	prompt
 
 _Route8JolteonCameraText::
-	text "Yes! A photo of a"
-	line "JOLTEON would be"
-	cont "perfect!"
+	text "Yes! A photo of a Jolteon would be perfect!"
 	prompt
 
 _Route8JolteonText::
-	text "A JOLTEON sits"
-	line "on top of the"
-	cont "SAFFRON CITY GATE."
+	text "A Jolteon sits on top of the Saffron City Gate."
 	done
 
 _Route8JolteonCameraAngleText::
-	text "There's a #MON"
-	line "on the roof of"
-	cont "this building!"
-	para "Can't see it"
-	line "well from here!"
-	para "Maybe from the"
-	line "other side?"
+	text "There's a <Pokemon> on the roof of this building!"
+	para "Can't see it well from here!"
+	para "Maybe from the other side?"
 	done
 
 _Route8JolteonCameraAbsorbingText::
-	text "Fascinating! It's"
-	line "absorbing energy"
-	para "from SAFFRON CITY"
-	line "power lines!"
+	text "Fascinating! It's absorbing energy from Saffron City power lines!"
 	prompt
 
 _Route10FlareonText::
-	text "A FLAREON is"
-	line "relaxing on the"
-	cont "cliffside."
+	text "A Flareon is relaxing on the cliffside."
 	done
 
 _Route10FlareonCameraText::
-	text "Got a good angle"
-	line "for a photo of"
-	cont "the FLAREON!"
+	text "Got a good angle for a photo of the Flareon!"
 	prompt
 
 _Route10FlareonPoseText::
-	text "Ah! That's a"
-	line "great pose!"
+	text "Ah! That's a great pose!"
 	prompt
 
 _Route10FlareonMajesticText::
 	text "WOW! So majestic!"
-	para "Fiery cinders are"
-	line "floating down!"
+	para "Fiery cinders are floating down!"
 	prompt
 
 ; TRI BALL event
 
 _PorygonNothingMuch::
-	text "Nothing much to"
-	line "see here<...>"
+	text "Nothing much to see here<...>"
 	prompt
 
 _PorygonOnScreen::
 	text "Huh?!"
-	para "A PORYGON suddenly"
-	line "appeared on the"
-	cont "screen!"
-	para "Did it travel"
-	line "via cyberspace?"
+	para "A Porygon suddenly appeared on the screen!"
+	para "Did it travel via cyberspace?"
 	done
 
 _PorygonCameraText::
-	text "May as well take"
-	line "a picture of this"
-	cont "weird PORYGON"
-	cont "screen!"
+	text "May as well take a picture of this weird Porygon screen!"
 	prompt
 
 _PorygonVirtualWorldText::
-	text "It's in its own"
-	line "little virtual"
-	cont "world!"
+	text "It's in its own little virtual world!"
 	prompt
 
 ; BOULDER BALL event
 
 _FossilCameraText::
-	text "Photos of fossils"
-	line "are always cool!"
+	text "Photos of fossils are always cool!"
 	prompt
 
 _MysteriousFossilsText::
-	text "What mysterious"
-	line "ancient relics!"
+	text "What mysterious ancient relics!"
 	prompt
 
 ; SUBZERO BALL events
 
 _UseCameraArticunoDragonair::
-	text "WOW! Need to take"
-	line "a picture of this"
-	cont "rare #MON!"
+	text "WOW! Need to take a picture of this rare <Pokemon>!"
 	prompt
 
 _UseCameraArticunoDragonairAurora::
-	text "Its icy powers are"
-	line "bending light"
-	cont "into aurora!"
+	text "Its icy powers are bending light into aurora!"
 	para "Ethereal glory!"
 	prompt
 
 _UseCameraSurfing::
-	text "Can't hold the"
-	line "CAMERA straight"
-	cont "while SURFing!"
+	text "Can't hold the Camera straight while Surfing!"
 	prompt
 
 _SeafoamIslandsB4FDragonairText::
-	text "Huh? A DRAGONAIR"
-	line "is floating here!"
+	text "Huh? A Dragonair is floating here!"
 	done
 
 _SeafoamIslandsB4FDragonairText2::
-	text "Could it be"
-	line "investigating"
-	para "ARTICUNO's previous"
-	line "territory?"
+	text "Could it be investigating Articuno's previous territory?"
 	done
 
 ; MIND BALL events
@@ -239,185 +170,135 @@ _AbraCameraEventFakeNothing::
 	prompt
 
 _AbraCameraEventSleep::
-	text "An ABRA just"
-	line "TELEPORTed in!"
-	para "Snap a picture"
-	line "quick!"
+	text "An Abra just Teleported in!"
+	para "Snap a picture quick!"
 	prompt
 
 _AbraCameraEventSnoozing::
-	text "It's having a"
-	line "snooze beneath"
-	cont "the tree!"
+	text "It's having a snooze beneath the tree!"
 	para "Looks comfy!"
 	prompt
 
 ; TORNADO BALL events
 
 _Route13PidgeotText::
-	text "A PIDGEOT is"
-	line "perched on a"
-	cont "lone tree."
+	text "A Pidgeot is perched on a lone tree."
 	done
 
 _UseCameraPidgeotText::
-	text "PIDGEOT is a"
-	line "gorgeous bird!"
+	text "Pidgeot is a gorgeous bird!"
 	para "Photo time!"
 	prompt
 
 _PidgeotPlumageText::
-	text "Cool! PIDGEOT"
-	line "took wing!"
-	para "Look at that"
-	line "magnificent"
-	cont "plumage!"
+	text "Cool! Pidgeot took wing!"
+	para "Look at that magnificent plumage!"
 	prompt
 
 ; VENOM BALL events
 
 _GrimerCameraText::
-	text "Whoa! What's"
-	line "that?!"
+	text "Whoa! What's that?!"
 	prompt
 
 _GrimerCrazyText::
-	text "Crazy! A GRIMER"
-	line "is living under"
-	cont "the sewer grate!"
+	text "Crazy! A Grimer is living under the sewer grate!"
 	prompt
 
 _GrimerCameraStandingOnSewerGrate::
-	text "Is there something"
-	line "in this sewer"
-	cont "grate?"
-	para "Move down off of"
-	line "standing on it"
-	cont "and check again!"
+	text "Is there something in this sewer grate?"
+	para "Move down off of standing on it and check again!"
 	prompt
 
 _GrimerEventGirlText::
-	text "I'm off to shop"
-	line "in CELADON CITY!"
+	text "I'm off to shop in Celadon City!"
 	para "Like my outfit?"
-	para "I had it tailored"
-	line "over there!"
+	para "I had it tailored over there!"
 	done
 
 ; SPOOKY BALL
 
 _GastlyCameraText::
-	text "GIRL: Oh, you"
-	line "want to take my"
-	cont "picture?"
+	text "Girl: Oh, you want to take my picture?"
 	para "Hehehe. Okay!"
-	para "Just don't get"
-	line "freaked out!"
+	para "Just don't get freaked out!"
 	prompt
 
 _GastlyYikesText::
 	text "YIKES!"
-	para "There's a GASTLY"
-	line "right in front"
-	cont "of the CAMERA!"
-	para "GIRL: Hahaha!"
-	para "Did my GASTLY"
-	line "scare you?"
-	para "It was hiding"
-	line "from view!"
+	para "There's a Gastly right in front of the Camera!"
+	para "Girl: Hahaha!"
+	para "Did my Gastly scare you?"
+	para "It was hiding from view!"
 	prompt
 
 ; CLEAVE BALL
 
 _ScytherCameraText::
-	text "Can't see anything"
-	line "here<...>"
+	text "Can't see anything here<...>"
 	para "<...>"
 	para "Wait!"
-	para "Something is"
-	line "coming!"
+	para "Something is coming!"
 	prompt
 
 _ScytherCoolText::
 	text "Awesome!!"
-	para "A SCYTHER's flying"
-	line "low at high speed"
-	cont "over the grass!"
+	para "A Scyther's flying low at high speed over the grass!"
 	prompt
 
 ; ANGEL BALL
 
 _LassCameraText::
-	text "Oh, you want to"
-	line "take my picture?"
-	para "Only if I can"
-	line "take yours too!"
+	text "Oh, you want to take my picture?"
+	para "Only if I can take yours too!"
 	para "Hehe!"
-	para "Take a pic of me"
-	line "and my CLEFAIRY!"
+	para "Take a pic of me and my Clefairy!"
 	prompt
 
 _LassCuteText::
-	text "Ah! The lovely"
-	line "LASS is smiling!"
-	para "Your heart is"
-	line "beating fast!"
+	text "Ah! The lovely Lass is smiling!"
+	para "Your heart is beating fast!"
 	prompt
 
 ; BOMB BALL
 
 _Route16MankeyText::
-	text "A MANKEY's hanging"
-	line "off of a tree."
+	text "A Mankey's hanging off of a tree."
 	done
 
 _Route16MankeyText2::
-	text "It's glaring at"
-	line "you angrily."
+	text "It's glaring at you angrily."
 	done
 
 _MankeyCameraText::
-	text "This MANKEY is"
-	line "seething!"
-	para "Such emotion"
-	line "warrants a photo!"
+	text "This Mankey is seething!"
+	para "Such emotion warrants a photo!"
 	prompt
 
 _MankeyScowlText::
-	text "Now that's a"
-	line "scowl!"
+	text "Now that's a scowl!"
 	prompt
 
 _GamblerCameraText::
-	text "GAMBLER: A photo?"
-	para "I'm not exactly"
-	line "photogenic!"
-	para "Here! This'll be"
-	line "cool!"
-	para "Try to get an"
-	line "action shot of"
-	cont "my dice throw!"
+	text "Gambler: A photo?"
+	para "I'm not exactly photogenic!"
+	para "Here! This'll be cool!"
+	para "Try to get an action shot of my dice throw!"
 	para "Ready?"
 	para "Go! Huah!"
 	done
 
 _GamblerArtText::
 	text "Perfect form!"
-	para "It's like an art"
-	line "piece on luck!"
+	para "It's like an art piece on luck!"
 	para "That'll be ¥5000!"
-	para "Huah ha ha!"
-	line "Just kidding!"
+	para "Huah ha ha! Just kidding!"
 	prompt
 
 _LastBallPhotoHintNotUnlocked::
-	text "Find the other 15"
-	line "photos to unlock"
-	cont "this last photo."
+	text "Find the other 15 photos to unlock this last photo."
 	prompt
 
 _CameraDisabled::
-	text "The BALLDESIGN"
-	line "option has to be"
-	cont "ON to use this."
+	text "The BALLDESIGN option has to be ON to use this."
 	prompt

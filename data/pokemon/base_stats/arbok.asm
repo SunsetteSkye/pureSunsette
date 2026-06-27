@@ -78,9 +78,9 @@
 
 ; --- Sunsette SSOT directives (parsed by tools/gen_pokemon_data.py) ---
 ;@ nature       NATURE_CALCULATING NATURE_CRUEL
-;@ pal_battle   PAL_ORCHIDMON
-;@ pal_altbattle PAL_OLIVEMON
-;@ pal_icon     PAL_ICON_15
+;@ pal_battle   PAL_ARBOKMON
+;@ pal_altbattle PAL_EMBERMON
+;@ pal_icon     $FF
 ;@ pal_alticon  $FF
 ;@ evo_move    NO_MOVE
 ;@ evo_react   "Its hood snaps" "wide with a hiss!"

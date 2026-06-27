@@ -1,116 +1,76 @@
 _Route4CooltrainerF1Text::
-	text "Ouch! I tripped"
-	line "over a rocky"
-	cont "#MON, GEODUDE!"
+	text "Ouch! I tripped over a rocky <Pokemon>, Geodude!"
 	done
 
 _Route4CooltrainerF2BattleText::
-	text "I came to get my"
-	line "mushroom #MON!"
+	text "I came to get my mushroom <Pokemon>!"
 	done
 
 _Route4CooltrainerF2EndBattleText::
-	text "Oh! My cute"
-	line "mushroom #MON!"
+	text "Oh! My cute mushroom <Pokemon>!"
 	prompt
 
 _Route4CooltrainerF2AfterBattleText::
-	text "There might not"
-	line "be any more"
-	cont "mushrooms here."
-
-	para "I think I got"
-	line "them all."
+	text "There might not be any more mushrooms here."
+	para "I think I got them all."
 	done
 
 _Route4MtMoonSignText::
-	text "MT.MOON"
-	line "Tunnel Entrance"
+	text "Mt. Moon"
+	para "Tunnel Entrance"
 	done
 
 _Route4SignText::
-	text "ROUTE 4"
-	line "MT.MOON -"
-	cont "CERULEAN CITY"
+	text "Route 4"
+	para "Mt. Moon - Cerulean City"
 	done
 
 _Route4BattleText2::
-	text "Trying to butt"
-	line "in on our battle?"
-	para "I'll take you"
-	line "all on!"
+	text "Trying to butt in on our battle?"
+	para "I'll take you all on!"
 	done
 
 _Route4EndBattleText2::
-	text "I"
-	line "overextended!"
+	text "I overextended!"
 	prompt
 
 _Route4AfterBattleText2::
-	text "This is a great"
-	line "open place to"
-	cont "train with my"
-	cont "rival!"
+	text "This is a great open place to train with my rival!"
 	done
 
 _Route4BattleText3::
-	text "You want a piece"
-	line "of me too?"
+	text "You want a piece of me too?"
 	para "Get in here!"
 	done
 
 _Route4EndBattleText3::
-	text "You're"
-	line "on my list!"
+	text "You're on my list!"
 	prompt
 
 _Route4AfterBattleText3::
-	text "Even though we're"
-	line "rivals, when we"
-	cont "battle together"
-	cont "we both improve!"
+	text "Even though we're rivals, when we battle together we both improve!"
 	done
 
 _Route4BattleText4::
-	text "I'm on a journey"
-	line "to MT.MOON to"
-	cont "catch some rare"
-	cont "#MON."
+	text "I'm on a journey to Mt. Moon to catch some rare <Pokemon>."
 	done
 
 _Route4EndBattleText4::
-	text "Almost"
-	line "made it!"
+	text "Almost made it!"
 	prompt
 
 _Route4AfterBattleText4::
-	text "Luckily you took"
-	line "me down near a"
-	cont "#MON CENTER"
-	cont "or I would've"
-	cont "turned back!"
+	text "Luckily you took me down near a <Pokemon> Center or I would've turned back!"
 	done
 
 _Route4Text8::
 	text "<TIPS>"
-	para "Press LEFT D-PAD"
-	line "at the top of the"
-	cont "ITEM menu to"
-	cont "jump to the"
-	cont "bottom and back."
-
-	para "This works with"
-	line "<PC> menus as well!"
+	para "Press LEFT D-Pad at the top of the ITEM menu to jump to the bottom and back."
+	para "This works with <PC> menus as well!"
 	done
 
 _Route4Text9::
 	text "<TIPS>"
-	para "You can hold up"
-	line "to 30 items."
-	para "If you run out"
-	line "of item space,"
-	cont "press START in"
-	cont "the ITEM menu to"
-	cont "deposit an item"
-	cont "to your <PC>!"
+	para "You can hold up to 30 items."
+	para "If you run out of item space, press START in the ITEM menu to deposit an item to your <PC>!"
 	done

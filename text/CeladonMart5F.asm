@@ -1,25 +1,12 @@
 _CeladonMart5FGentlemanText::
-	text "#MON ability"
-	line "enhancers can be"
-	cont "bought only here."
-
-	para "Use CALCIUM to"
-	line "increase SPECIAL"
-	cont "abilities."
-
-	para "Use CARBOS to"
-	line "increase SPEED."
+	text "<Pokemon> ability enhancers can be bought only here."
+	para "Use Calcium to increase Special abilities."
+	para "Use Carbos to increase Speed."
 	done
 
 _CeladonMart5FSailorText::
-	text "I'm here for"
-	line "#MON ability"
-	cont "enhancers."
-
-	para "PROTEIN increases"
-	line "ATTACK power."
-
-	para "IRON increases"
-	line "DEFENSE!"
+	text "I'm here for <Pokemon> ability enhancers."
+	para "Protein increases Attack power."
+	para "Iron increases Defense!"
 	done
 

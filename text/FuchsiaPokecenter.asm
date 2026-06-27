@@ -1,20 +1,9 @@
 _FuchsiaPokecenterRockerText::
-	text "You can't win"
-	line "with just one"
-	cont "strong #MON."
-
-	para "It's tough, but"
-	line "you have to raise"
-	cont "them evenly."
+	text "You can't win with just one strong <Pokemon>."
+	para "It's tough, but you have to raise them evenly."
 	done
 
 _FuchsiaPokecenterCooltrainerFText::
-	text "There's a narrow"
-	line "trail west of"
-	cont "VIRIDIAN CITY."
-
-	para "It goes to #MON"
-	line "LEAGUE HQ."
-	cont "The HQ governs"
-	cont "all trainers."
+	text "There's a narrow trail west of Viridian City."
+	para "It goes to <Pokemon> League HQ. The HQ governs all Trainers."
 	done

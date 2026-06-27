@@ -1,43 +1,24 @@
 _VermilionOldRodHouseFishingGuruDoYouLikeToFishText::
-	text "I'm the FISHING"
-	line "GURU's older"
-	cont "brother!@"
+	text "I'm the Fishing Guru's older brother!@"
 	text_end
 
 _VermilionOldRodHouseISimplyLoveFishing::
-	text "<PARA>I simply Looove"
-	line "fishing!"
-
-	para "Do you like to"
-	line "fish?"
+	text "<PARA>I simply Looove fishing!"
+	para "Do you like to fish?"
 	done
 
 _VermilionOldRodHouseFishingGuruTakeThisText::
-	text "Grand! I like"
-	line "your style!"
-
-	para "Take this and"
-	line "fish, young one!<PARA>@"
+	text "Grand! I like your style!"
+	para "Take this and fish, young one!<PARA>@"
 	text_end
 
 _VermilionOldRodHouseFishingGuruHowAreTheFishBitingText::
-	text "Hello there,"
-	line "<PLAYER>!"
-
-	para "How are the fish"
-	line "biting?@"
+	text "Hello there, <PLAYER>!"
+	para "How are the fish biting?@"
 	text_end
 
 _VermilionOldRodHouseGoodRodInfo::
-	text "<PARA>That GOOD ROD I"
-	line "gave you is a"
-	cont "reliable piece!"
-
-	para "Try using it"
-	line "in lakes or"
-	cont "the ocean."
-
-	para "It can hook lots"
-	line "of different"
-	cont "#MON!"
+	text "<PARA>That Good Rod I gave you is a reliable piece!"
+	para "Try using it in lakes or the ocean."
+	para "It can hook lots of different <Pokemon>!"
 	done

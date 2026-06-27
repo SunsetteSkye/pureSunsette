@@ -1,22 +1,17 @@
 _Route17Biker1BattleText::
-	text "There's no money"
-	line "in fighting kids!"
+	text "There's no money in fighting kids!"
 	done
 
 _Route17Biker1EndBattleText::
-	text "Burned"
-	line "out!"
+	text "Burned out!"
 	prompt
 
 _Route17Biker1AfterBattleText::
-	text "Good stuff is"
-	line "lying around on"
-	cont "CYCLING ROAD!"
+	text "Good stuff is lying around on Cycling Road!"
 	done
 
 _Route17Biker2BattleText::
-	text "What do you want,"
-	line "kiddo?"
+	text "What do you want, kiddo?"
 	done
 
 _Route17Biker2EndBattleText::
@@ -24,36 +19,25 @@ _Route17Biker2EndBattleText::
 	prompt
 
 _Route17Biker2AfterBattleText::
-	text "Us bikers got a"
-	line "legend, kid."
-	para "A thunderbird,"
-	line "wild and free,"
-	cont "cracklin' with"
-	cont "raw voltage."
-	para "The pure ESSENCE"
-	line "of punk! THAT'S"
-	cont "the dream!"
+	text "Us bikers got a legend, kid."
+	para "A thunderbird, wild and free, cracklin' with raw voltage."
+	para "The pure ESSENCE of punk! THAT'S the dream!"
 	done
 
 _Route17Biker3BattleText::
-	text "You headin' down"
-	line "to FUCHSIA, kid?"
+	text "You headin' down to Fuchsia, kid?"
 	done
 
 _Route17Biker3EndBattleText::
-	text "Crash and"
-	line "burn!"
+	text "Crash and burn!"
 	prompt
 
 _Route17Biker3AfterBattleText::
-	text "Nothin' beats"
-	line "bombin' downhill"
-	cont "full throttle!"
+	text "Nothin' beats bombin' downhill full throttle!"
 	done
 
 _Route17Biker4BattleText::
-	text "We're BIKERs!"
-	line "Highway stars!"
+	text "We're Bikers! Highway stars!"
 	done
 
 _Route17Biker4EndBattleText::
@@ -61,65 +45,49 @@ _Route17Biker4EndBattleText::
 	prompt
 
 _Route17Biker4AfterBattleText::
-	text "Are you looking"
-	line "for adventure?"
+	text "Are you looking for adventure?"
 	done
 
 _Route17Biker5BattleText::
-	text "Let ELECTRODE"
-	line "electrify you!"
+	text "Let Electrode electrify you!"
 	done
 
 _Route17Biker5EndBattleText::
-	text "Grounded"
-	line "out!"
+	text "Grounded out!"
 	prompt
 
 _Route17Biker5AfterBattleText::
-	text "Got my ELECTRODE"
-	line "at the abandoned"
-	cont "POWER PLANT."
+	text "Got my Electrode at the abandoned Power Plant."
 	done
 
 _LearnsetElectrode::
-	text "It wasn't easy"
-	line "to catch one"
-	cont "before it used"
-	cont "EXPLOSION."
-	para "I had to use a"
-	line "HYPER BALL!"
+	text "It wasn't easy to catch one before it used Explosion."
+	para "I had to use a Hyper Ball!"
 	para "@"
 	text_end
 
 _Route17Biker6BattleText::
-	text "My #MON won't"
-	line "evolve! Why?"
+	text "My <Pokemon> won't evolve! Why?"
 	done
 
 _Route17Biker6EndBattleText::
-	text "Why,"
-	line "you!"
+	text "Why, you!"
 	prompt
 
 _Route17Biker6AfterBattleText::
-	text "Maybe some #MON"
-	line "need element"
-	cont "STONEs to evolve."
+	text "Maybe some <Pokemon> need element Stones to evolve."
 	done
 
 _Route17Biker7BattleText::
-	text "I need a little"
-	line "exercise!"
+	text "I need a little exercise!"
 	done
 
 _Route17Biker7EndBattleText::
-	text "Whew!"
-	line "Good workout!"
+	text "Whew! Good workout!"
 	prompt
 
 _Route17Biker7AfterBattleText::
-	text "I'm sure I lost"
-	line "weight there!"
+	text "I'm sure I lost weight there!"
 	done
 
 _Route17Biker8BattleText::
@@ -131,13 +99,11 @@ _Route17Biker8EndBattleText::
 	prompt
 
 _Route17Biker8AfterBattleText::
-	text "Be ready to fight"
-	line "for your beliefs!"
+	text "Be ready to fight for your beliefs!"
 	done
 
 _Route17Biker9BattleText::
-	text "Cute BIKE, kid."
-	line "How's she ride?"
+	text "Cute bike, kid. How's she ride?"
 	done
 
 _Route17Biker9EndBattleText::
@@ -145,71 +111,48 @@ _Route17Biker9EndBattleText::
 	prompt
 
 _Route17Biker9AfterBattleText::
-	text "This slope'll"
-	line "throw ya if you"
-	cont "can't handle it."
+	text "This slope'll throw ya if you can't handle it."
 	done
 
 _Route17Biker10BattleText::
-	text "Welcome to the"
-	line "Gym of Hard"
-	cont "Knocks, kid!"
+	text "Welcome to the Gym of Hard Knocks, kid!"
 	done
 
 _Route17Biker10EndBattleText::
-	text "Class..."
-	line "dismissed?!"
+	text "Class... dismissed?!"
 	prompt
 
 _Route17Biker10AfterBattleText::
-	text "No GYM LEADER"
-	line "runs a tougher"
-	cont "class than me."
+	text "No Gym Leader runs a tougher class than me."
 	done
 
 _Route17NoticeSign1Text::
 	text "It's a notice!"
-
-	para "Watch out for"
-	line "discarded items!"
+	para "Watch out for discarded items!"
 	done
 
 _Route17TrainerTips1Text::
 	text "<TIPS>"
-
-	para "All #MON are"
-	line "unique."
-
-	para "Even #MON of"
-	line "the same type and"
-	cont "level grow at"
-	cont "different rates."
+	para "All <Pokemon> are unique."
+	para "Even <Pokemon> of the same type and level grow at different rates."
 	done
 
 _Route17TrainerTips2Text::
 	text "<TIPS>"
-
-	para "Press the A or B"
-	line "Button to stay in"
-	cont "place while on a"
-	cont "slope."
+	para "Press the A or B Button to stay in place while on a slope."
 	done
 
 _Route17SignText::
-	text "ROUTE 17"
-	line "CELADON CITY -"
-	cont "FUCHSIA CITY"
+	text "Route 17"
+	para "Celadon City - Fuchsia City"
 	done
 
 _Route17NoticeSign2Text::
 	text "It's a notice!"
-
-	para "Don't throw the"
-	line "game, throw #"
-	cont "BALLs instead!"
+	para "Don't throw the game, throw <poke> Balls instead!"
 	done
 
 _Route17CyclingRoadEndsSignText::
-	text "CYCLING ROAD"
-	line "Slope ends here!"
+	text "Cycling Road"
+	para "Slope ends here!"
 	done

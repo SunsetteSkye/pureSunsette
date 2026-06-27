@@ -1,42 +1,17 @@
 _VermilionMartCooltrainerMText::
-	text "There are evil"
-	line "people who will"
-	cont "use #MON for"
-	cont "criminal acts."
-
-	para "<TEAM><ROCKET>"
-	line "traffics in rare"
-	cont "#MON."
-
-	para "They also abandon"
-	line "#MON that they"
-	cont "consider not to"
-	cont "be popular or"
-	cont "useful."
+	text "There are evil people who will use <Pokemon> for criminal acts."
+	para "<TEAM><ROCKET> traffics in rare <Pokemon>."
+	para "They also abandon <Pokemon> that they consider not to be popular or useful."
 	done
 
 _VermilionMartCooltrainerFText::
-	text "I think #MON"
-	line "can be good or"
-	cont "evil. It depends"
-	cont "on the trainer."
+	text "I think <Pokemon> can be good or evil. It depends on the Trainer."
 	done
 
 _VermilionMartTMKidFlavor::
-	text "<PARA>The clerk here"
-	line "thinks copying"
-	cont "and selling <TM>s"
-	cont "is wrong!"
-
-	para "Little do they"
-	line "know that my dad"
-	cont "helped create"
-	cont "the software for"
-	cont "<TM>s!"
-
-	para "He gave my little"
-	line "“business” his"
-	cont "approval!@"
+	text "<PARA>The clerk here thinks copying and selling <TM>s is wrong!"
+	para "Little do they know that my dad helped create the software for <TM>s!"
+	para "He gave my little “business” his approval!@"
 	text_end
 
 _TMKidWantSomeTMsText::

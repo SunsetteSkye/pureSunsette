@@ -69,7 +69,7 @@
 ;@ nature       NATURE_LAZY NATURE_DITZ
 ;@ pal_battle   PAL_BLUSHMON
 ;@ pal_altbattle PAL_MAGENTAMON
-;@ pal_icon     PAL_ICON_40
+;@ pal_icon     PAL_CREAMPINKMON
 ;@ pal_alticon  PAL_ICON_41
 ;@ evo         EVOLVE_LEVEL, 28, SLOWBRO
 ;@ evo_move    CLAMP

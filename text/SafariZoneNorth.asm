@@ -1,224 +1,120 @@
 _SafariZoneNorthRestHouseSignText::
-	text "REST HOUSE"
+	text "Rest House"
 	done
 
 _SafariZoneNorthTrainerTips1Text::
 	text "<TIPS>"
-
-	para "The SECRET HOUSE"
-	line "is still ahead!"
+	para "The Secret House is still ahead!"
 	done
 
 _SafariZoneNorthSignText::
-	text "AREA 2"
+	text "Area 2"
 	done
 
 _SafariZoneNorthTrainerTips2Text::
 	text "<TIPS>"
-
-	para "GHOST type moves"
-	line "are dynamic!"
-	para "They can do either"
-	line "physical or"
-	cont "special damage!"
-	para "If a #MON's"
-	line "base SPECIAL is"
-	cont "higher than its"
-	cont "base ATTACK,"
-	para "GHOST attacks"
-	line "will do special"
-	cont "damage!"
-	para "Otherwise, they"
-	line "do physical"
-	cont "damage."
+	para "Ghost type moves are dynamic!"
+	para "They can do either physical or special damage!"
+	para "If a <Pokemon>'s base Special is higher than its base Attack,"
+	para "Ghost attacks will do special damage!"
+	para "Otherwise, they do physical damage."
 	done
 
 _SafariZoneNorthTrainerTips3Text::
 	text "<TIPS>"
-
-	para "Win a free HM for"
-	line "finding the"
-	cont "SECRET HOUSE!"
+	para "Win a free HM for finding the Secret House!"
 	done
 
 _SafariZoneNorthRangerText::
-	text "Here I am!"
-	line "RANGER number 3!"
-	cont "Let's dance!"
+	text "Here I am! Ranger number 3! Let's dance!"
 	done
 
 _SafariZoneNorthRangerEndBattleText::
-	text "Wow,"
-	line "powerful #MON!"
+	text "Wow, powerful <Pokemon>!"
 	prompt
 
 _SafariZoneNorthRangerAfterBattleText::
-	text "I'm in charge of"
-	line "monitoring the"
-	cont "population of"
-	cont "CHANSEY we have"
-	cont "here."
-
-	para "Sadly they were"
-	line "dwindling in"
-	cont "number for years."
-
-	para "But we've made"
-	line "great progress!"
-
-	para "They're bouncing"
-	line "back!"
+	text "I'm in charge of monitoring the population of Chansey we have here."
+	para "Sadly they were dwindling in number for years."
+	para "But we've made great progress!"
+	para "They're bouncing back!"
 	done
 
 _SafariZoneNorthJugglerText::
-	text "I'm a POKé BALL"
-	line "collector!"
+	text "I'm a <poke> Ball collector!"
 	done
 
 _SafariZoneNorthJugglerEndBattleText::
-	text "Yeah,"
-	line "battling wasn't"
-	cont "ever my forté."
+	text "Yeah, battling wasn't ever my forté."
 	prompt
 
 _SafariZoneNorthJugglerAfterBattleText::
-	text "The prize for"
-	line "completing the"
-	cont "RANGER HUNT game"
-	cont "is supposed to be"
-	cont "a special type of"
-	cont "# BALL."
-
-	para "Not available"
-	line "anywhere else!"
-
+	text "The prize for completing the Ranger Hunt game is supposed to be a special type of <poke> Ball."
+	para "Not available anywhere else!"
 	para "A real rarity!"
-
-	para "That sounds right"
-	line "up my alley."
+	para "That sounds right up my alley."
 	done
 
 _SafariZoneNorthCooltrainerMText::
-	text "This empty field"
-	line "is perfect for"
-	cont "training!"
+	text "This empty field is perfect for training!"
 	done
 
 _SafariZoneNorthCooltrainerMEndBattleText::
 	text "Ah!"
-	para "The great"
-	line "outdoors!"
+	para "The great outdoors!"
 	prompt
 
 _SafariZoneNorthCooltrainerMAfterBattleText::
-	text "The feel of wind"
-	line "in your hair!"
-
-	para "The earthy smell"
-	line "in the air after"
-	cont "rain!"
-
-	para "The beams of"
-	line "sunlight shining"
-	cont "through foliage!"
-
-	para "With my #MON"
-	line "at my side, this"
-	cont "is the essence of"
-	cont "adventure!"
+	text "The feel of wind in your hair!"
+	para "The earthy smell in the air after rain!"
+	para "The beams of sunlight shining through foliage!"
+	para "With my <Pokemon> at my side, this is the essence of adventure!"
 	done
 
 _SafariZoneNorthSuperNerdText::
 	text "Huh?!"
-	para "My ITEMFINDER is"
-	line "going ballistic!"
+	para "My Itemfinder is going ballistic!"
 	done
 
 _SafariZoneNorthSuperNerdEndBattleText::
-	text "Aw..."
-	line "The real treasure"
-	cont "was the cute boy"
-	cont "in front of me!"
+	text "Aw... The real treasure was the cute boy in front of me!"
 	prompt
 
 _SafariZoneNorthSuperNerdAfterBattleText::
 	text "But seriously..."
-
-	para "You wouldn't"
-	line "believe the pure"
-	cont "treasure I found"
-	cont "with this thing!"
-
-	para "NUGGETs, PROTEIN,"
-	line "even once a pair"
-	cont "of... Heehee."
-
+	para "You wouldn't believe the pure treasure I found with this thing!"
+	para "Nuggets, Protein, even once a pair of... Heehee."
 	para "Nevermind!"
-
 	para "(What a weirdo!)"
 	done
 
 _SafariZoneNorthEngineerText::
-	text "See this REST"
-	line "HOUSE?"
+	text "See this Rest House?"
 	para "I designed it!"
 	done
 
 _SafariZoneNorthEngineerEndBattleText::
-	text "Oh"
-	line "well!"
+	text "Oh well!"
 	prompt
 
 _SafariZoneNorthEngineerAfterBattleText::
-	text "I designed and"
-	line "built all the"
-	cont "REST HOUSEs in"
-	cont "the SAFARI ZONE."
-
-	para "They are supposed"
-	line "to make people"
-	cont "feel welcome to"
-	cont "the outdoors."
-
-	para "They provide just"
-	line "the basics for a"
-	cont "remote cottage"
-	cont "style feel!"
-
-	para "If I ever see"
-	line "a <PC> or healing"
-	cont "machine in one"
-	cont "of them, I'm"
-	cont "quitting!"
+	text "I designed and built all the Rest Houses in the Safari Zone."
+	para "They are supposed to make people feel welcome to the outdoors."
+	para "They provide just the basics for a remote cottage style feel!"
+	para "If I ever see a <PC> or healing machine in one of them, I'm quitting!"
 	done
 
 _SafariZoneNorthManiacText::
-	text "#MANIAC code!"
-	line "Tenet one!"
-
-	para "Always battle"
-	line "someone who looks"
-	cont "cool!"
+	text "<poke>Maniac code! Tenet one!"
+	para "Always battle someone who looks cool!"
 	done
 
 _SafariZoneNorthManiacEndBattleText::
-	text "Tenet"
-	line "two! Always lose"
-	cont "with style!"
+	text "Tenet two! Always lose with style!"
 	prompt
 
 _SafariZoneNorthManiacAfterBattleText::
-	text "#MANIAC code!"
-	line "Tenet three!"
-
-	para "If you lose to a"
-	line "trainer, they're"
-	cont "now considered"
-	cont "your pal!"
-
-	para "--You and the"
-	line "#MANIAC did"
-	cont "the secret cool-"
-	cont "dudes-only"
-	cont "handshake!"
+	text "<poke>Maniac code! Tenet three!"
+	para "If you lose to a Trainer, they're now considered your pal!"
+	para "You and the <poke>Maniac did the secret cool-dudes-only handshake!"
 	done

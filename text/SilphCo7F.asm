@@ -1,213 +1,119 @@
 _SilphCo7FSilphWorkerM1HaveThisPokemonText::
-	text "Oh! Hi! You're"
-	line "not a <ROCKET>! You"
-	cont "came to save us?"
-	cont "Why, thank you!"
-
-	para "I want you to"
-	line "have this #MON"
-	cont "for saving us."
+	text "Oh! Hi! You're not a <ROCKET>! You came to save us? Why, thank you!"
+	para "I want you to have this <Pokemon> for saving us."
 	prompt
 
 _SilphCo7FSilphWorkerM1LaprasDescriptionText::
-	text "It's LAPRAS. It's"
-	line "very intelligent."
-
-	para "We kept it in our"
-	line "lab, but it will"
-	cont "be much better"
-	cont "off with you!"
-
-	para "I think you will"
-	line "be a good trainer"
-	cont "for LAPRAS!"
-
-	para "It's a good"
-	line "swimmer. It'll"
-	cont "give you a lift!"
+	text "It's Lapras. It's very intelligent."
+	para "We kept it in our lab, but it will be much better off with you!"
+	para "I think you will be a good Trainer for Lapras!"
+	para "It's a good swimmer. It'll give you a lift!"
 	done
 
 _SilphCo7FSilphWorkerM1IsOurPresidentOkText::
-	text "<TEAM><ROCKET>'s"
-	line "BOSS went to the"
-	cont "boardroom! Is our"
-	cont "PRESIDENT OK?"
+	text "<TEAM><ROCKET>'s Boss went to the boardroom! Is our President OK?"
 	done
 
 _SilphCo7FSilphWorkerM1SavedText::
-	text "Saved at last!"
-	line "Thank you!"
+	text "Saved at last! Thank you!"
 	done
 
 _SilphCo7FSilphWorkerM2AfterTheMasterBallText::
-	text "<TEAM><ROCKET> was"
-	line "after the MASTER"
-	cont "BALL, and our"
-	cont "APEX CHIP tech!"
+	text "<TEAM><ROCKET> was after the Master Ball, and our Apex Chip tech!"
 	done
 
 _SilphCo7FSilphWorkerM2CancelledMasterBallText::
-	text "We mothballed the"
-	line "MASTER BALL and"
-	cont "APEX CHIP lines."
-
-	para "Both, thanks to"
-	line "<TEAM><ROCKET>."
+	text "We mothballed the Master Ball and Apex Chip lines."
+	para "Both, thanks to <TEAM><ROCKET>."
 	done
 
 _SilphCo7FSilphWorkerM3ItWouldBeBadText::
-	text "It would be bad"
-	line "if <TEAM><ROCKET>"
-	cont "took over SILPH"
-	cont "or our #MON!"
+	text "It would be bad if <TEAM><ROCKET> took over Silph or our <Pokemon>!"
 	done
 
 _SilphCo7FSilphWorkerM3YouChasedOffTeamRocketText::
-	text "Wow! You chased"
-	line "off <TEAM><ROCKET>"
-	cont "all by yourself?"
+	text "Wow! You chased off <TEAM><ROCKET> all by yourself?"
 	done
 
 _SilphCo7FSilphWorkerM4ItsReallyDangerousHereText::
-	text "You! It's really"
-	line "dangerous here!"
-	cont "You came to save"
-	cont "me? You can't!"
+	text "You! It's really dangerous here! You came to save me? You can't!"
 	done
 
 _SilphCo7FSilphWorkerM4SafeAtLastText::
-	text "Safe at last!"
-	line "Oh thank you!"
+	text "Safe at last! Oh thank you!"
 	done
 
 _SilphCo7FRocket1BattleText::
-	text "Oh ho! I smell a"
-	line "little rat!"
+	text "Oh ho! I smell a little rat!"
 	done
 
 _SilphCo7FRocket1EndBattleText::
-	text "Lights"
-	line "out!"
+	text "Lights out!"
 	prompt
 
 _SilphCo7FRocket1AfterBattleText::
-	text "You won't find my"
-	line "BOSS by just"
-	cont "scurrying around!"
+	text "You won't find my Boss by just scurrying around!"
 	done
 
 _SilphCo7FScientistBattleText::
 	text "Heheh!"
-
-	para "You mistook me for"
-	line "a SILPH worker?"
-
-	para "I once helped"
-	line "create the"
-	cont "ULTIMATE #MON!"
-
-	para "With TEAM ROCKET,"
-	line "I'll do it again!"
+	para "You mistook me for a Silph worker?"
+	para "I once helped create the ultimate <Pokemon>!"
+	para "With <TEAM><ROCKET>, I'll do it again!"
 	done
 
 _SilphCo7FScientistEndBattleText::
-	text "I'm"
-	line "done!"
+	text "I'm done!"
 	prompt
 
 _SilphCo7FScientistAfterBattleText::
-	text "Despite your age,"
-	line "you are a skilled"
-	cont "trainer!"
+	text "Despite your age, you are a skilled Trainer!"
 	done
 
 _SilphCo7FRocket2EndBattleText::
-	text "Ack!"
-	line "Sisters, I lost!"
+	text "Ack! Sisters, I lost!"
 	prompt
 
 _SilphCo7FRocket2AfterBattleText::
-	text "Doesn't matter."
-	line "My sisters will"
-	cont "repay the favor!"
+	text "Doesn't matter. My sisters will repay the favor!"
 	done
 
 _SilphCo7FRocket3BattleText::
-	text "A child intruder?"
-	line "That must be you!"
+	text "A child intruder? That must be you!"
 	done
 
 _SilphCo7FRocket3EndBattleText::
-	text "Fine!"
-	line "I lost!"
+	text "Fine! I lost!"
 	prompt
 
 _SilphCo7FRocket3AfterBattleText::
-	text "Go on home"
-	line "before my BOSS"
-	cont "gets ticked off!"
+	text "Go on home before my Boss gets ticked off!"
 	done
 
 _SilphCo7FRivalText::
-	text "<RIVAL>: What"
-	line "kept you <PLAYER>?"
+	text "<RIVAL>: What kept you <PLAYER>?"
 	done
 
 _SilphCo7FRivalWaitedHereText::
-	text "<RIVAL>: Hahaha!"
-	line "I thought you'd"
-	cont "turn up if I"
-	cont "waited here!"
-
-	para "I guess <TEAM>"
-	line "<ROCKET> slowed you"
-	cont "down! Not that I"
-	cont "care!"
-
-	para "I saw you in"
-	line "SAFFRON, so I"
-	cont "decided to see if"
-	cont "you got better!"
+	text "<RIVAL>: Hahaha! I thought you'd turn up if I waited here!"
+	para "I guess <TEAM><ROCKET> slowed you down! Not that I care!"
+	para "I saw you in Saffron, so I decided to see if you got better!"
 	done
 
 _SilphCo7FRivalDefeatedText::
-	text "Oh ho!"
-	line "So, you are ready"
-	cont "for BOSS <ROCKET>!"
+	text "Oh ho! So, you are ready for Boss <ROCKET>!"
 	prompt
 
 _SilphCo7FRivalVictoryText::
-	text "How can"
-	line "I put this?"
-
-	para "You're not good"
-	line "enough to play"
-	cont "with us big boys!"
+	text "How can I put this?"
+	para "You're not good enough to play with us big boys!"
 	prompt
 
 _SilphCo7FRivalGoodLuckToYouText::
 	text "Well, <PLAYER>!"
-
-	para "I'm moving on up"
-	line "and ahead!"
-
-	para "By checking my"
-	line "#DEX, I'm"
-	cont "starting to see"
-	cont "what's strong and"
-	cont "how they evolve!"
-
-	para "I'm going to the"
-	line "#MON LEAGUE"
-	cont "to boot out the"
-	cont "ELITE FOUR!"
-
-	para "I'll become the"
-	line "world's most"
-	cont "powerful trainer!"
-
-	para "<PLAYER>, well"
-	line "good luck to you!"
-	cont "Don't sweat it!"
-	cont "Smell ya!"
+	para "I'm moving on up and ahead!"
+	para "By checking my <poke>dex, I'm starting to see what's strong and how they evolve!"
+	para "I'm going to the <Pokemon> League to boot out the Elite Four!"
+	para "I'll become the world's most powerful Trainer!"
+	para "<PLAYER>, well good luck to you! Don't sweat it! Smell ya!"
 	done

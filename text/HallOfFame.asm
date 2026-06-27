@@ -1,28 +1,8 @@
 _HallOfFameOakText::
-	text "OAK: Er-hem!"
-	line "Congratulations"
-	cont "<PLAYER>!"
-
-	para "This floor is the"
-	line "#MON HALL OF"
-	cont "FAME!"
-
-	para "#MON LEAGUE"
-	line "champions are"
-	cont "honored for their"
-	cont "exploits here!"
-
-	para "Their #MON are"
-	line "also recorded in"
-	cont "the HALL OF FAME!"
-
-	para "<PLAYER>! You have"
-	line "endeavored hard"
-	cont "to become the new"
-	cont "LEAGUE champion!"
-
-	para "Congratulations,"
-	line "<PLAYER>, you and"
-	cont "your #MON are"
-	cont "HALL OF FAMERs!"
+	text "Oak: Er-hem! Congratulations <PLAYER>!"
+	para "This floor is the <Pokemon> Hall of Fame!"
+	para "<Pokemon> League Champions are honored for their exploits here!"
+	para "Their <Pokemon> are also recorded in the Hall of Fame!"
+	para "<PLAYER>! You have endeavored hard to become the new League Champion!"
+	para "Congratulations, <PLAYER>, you and your <Pokemon> are Hall of Famers!"
 	done

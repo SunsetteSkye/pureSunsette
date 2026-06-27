@@ -1,12 +1,7 @@
 _RocketHideoutB2FRocketBattleText::
-	text "BOSS said you can"
-	line "see GHOSTs with"
-	cont "the SILPH SCOPE!"
+	text "Boss said you can see ghosts with the Silph Scope!"
 	done
 
 _RocketHideoutB2FRocketAfterBattleText::
-	text "The <TEAM><ROCKET>"
-	line "HQ has 4 basement"
-	cont "floors. Can you"
-	cont "reach the BOSS?"
+	text "The <TEAM><ROCKET> HQ has 4 basement floors. Can you reach the Boss?"
 	done

@@ -1,114 +1,81 @@
 _SSAnneB1FRoomsMachokeText::
-	text "MACHOKE: Gwoh!"
-	line "Goggoh!@"
+	text "Machoke: Gwoh! Goggoh!@"
 	text_end
 
 _SSAnneB1FRoomsSailor1BattleText::
-	text "You know what they"
-	line "say about sailors"
-	cont "and fighting!"
+	text "You know what they say about sailors and fighting!"
 	done
 
 _SSAnneB1FRoomsSailor1EndBattleText::
-	text "Right!"
-	line "Good fight, mate!"
+	text "Right! Good fight, mate!"
 	prompt
 
 _SSAnneB1FRoomsSailor1AfterBattleText::
-	text "Haha! Want to be"
-	line "a sailor, mate?"
+	text "Haha! Want to be a sailor, mate?"
 	done
 
 _SSAnneB1FRoomsSailor2BattleText::
-	text "My sailor's pride"
-	line "is at stake!"
+	text "My sailor's pride is at stake!"
 	done
 
 _SSAnneB1FRoomsSailor2EndBattleText::
-	text "Your"
-	line "spirit sank me!"
+	text "Your spirit sank me!"
 	prompt
 
 _SSAnneB1FRoomsSailor2AfterBattleText::
-	text "Did you see the"
-	line "FISHING GURU in"
-	cont "VERMILION CITY?"
+	text "Did you see the Fishing Guru in Vermilion City?"
 	done
 
 _SSAnneB1FRoomsSailor3BattleText::
-	text "Us sailors have"
-	line "#MON too!"
+	text "Us sailors have <Pokemon> too!"
 	done
 
 _SSAnneB1FRoomsSailor3EndBattleText::
-	text "OK,"
-	line "you're not bad."
+	text "OK, you're not bad."
 	prompt
 
 _SSAnneB1FRoomsSailor3AfterBattleText::
-	text "We caught all our"
-	line "#MON while"
-	cont "out at sea!"
+	text "We caught all our <Pokemon> while out at sea!"
 	done
 
 _SSAnneB1FRoomsSailor4BattleText::
-	text "I like feisty"
-	line "kids like you!@"
+	text "I like feisty kids like you!@"
 	text_end
 
 _SSAnneB1FRoomsSailor4EndBattleText::
-	text "Argh!"
-	line "Lost it!"
+	text "Argh! Lost it!"
 	prompt
 
 _SSAnneB1FRoomsSailor4AfterBattleText::
-	text "Sea #MON live"
-	line "in deep water."
-	cont "You'll need a ROD!"
+	text "Sea <Pokemon> live in deep water. You'll need a rod!"
 	done
 
 _SSAnneB1FRoomsSailor5BattleText::
-	text "Matey, you're"
-	line "walking the plank"
-	cont "if you lose!"
+	text "Matey, you're walking the plank if you lose!"
 	done
 
 _SSAnneB1FRoomsSailor5EndBattleText::
-	text "Argh!"
-	line "Beaten by a kid!"
+	text "Argh! Beaten by a kid!"
 	prompt
 
 _SSAnneB1FRoomsSailor5AfterBattleText::
-	text "Jellyfish some-"
-	line "times drift into"
-	cont "the ship."
+	text "Jellyfish sometimes drift into the ship."
 	done
 
 _SSAnneB1FRoomsFisherBattleText::
-	text "Hello stranger!"
-	line "Stop and chat!"
-
-	para "I love #MON"
-	line "from the sea!"
+	text "Hello stranger! Stop and chat!"
+	para "I love <Pokemon> from the sea!"
 	done
 
 _SSAnneB1FRoomsFisherEndBattleText::
-	text "Darn!"
-	line "I let that one"
-	cont "get away!"
+	text "Darn! I let that one get away!"
 	prompt
 
 _SSAnneB1FRoomsFisherAfterBattleText::
-	text "I was going to"
-	line "make you my"
-	cont "assistant too!"
+	text "I was going to make you my assistant too!"
 	done
 
 _SSAnneB1FRoomsSuperNerdText::
-	text "My buddy, MACHOKE,"
-	line "is super strong!"
-
-	para "He has enough"
-	line "STRENGTH to move"
-	cont "big rocks!"
+	text "My buddy, Machoke, is super strong!"
+	para "He has enough Strength to move big rocks!"
 	done

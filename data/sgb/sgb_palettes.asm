@@ -140,24 +140,24 @@ ENDC
 	RGB 31,31,31, 30,22,17, 18,07,11, 00,00,00 ; PAL_ROCKETSISTER ; Sunsette: white / f7b58c / 953a58 / black (ROCKET SISTER front sprite)
 	RGB 31,31,31, 00,00,00, 00,00,00, 00,00,00 ; PAL_EVOTEXTBOX ; Sunsette: white bg + pure black for all line/text shades (evolution textbox)
 	RGB 31,31,31, 27,22,17, 15,08,04, 00,00,00 ; PAL_BROWNMON2 ; Sunsette: default Pidgey line - white / dbb88a / 7f3f23 / black
-	RGB 31,31,31, 30,26,15, 21,08,08, 00,00,00 ; PAL_BROWNGOLDMON ; Sunsette: alt Pidgey / default Raichu - white / f7d77f / b04545 / black
+	RGB 31,31,31, 30,26,15, 23,15,12, 00,00,00 ; PAL_BROWNGOLDMON ; Sunsette: default Pidgeot battle - white / f7d77f / c07860 / black
 	RGB 31,31,31, 19,21,24, 20,08,08, 00,00,00 ; PAL_STEELMON ; Sunsette: default Spearow/Fearow - white / 98a8c0 / a04040 / black
 	RGB 31,31,31, 25,18,12, 13,09,14, 00,00,00 ; PAL_TANMON ; Sunsette: alt Spearow/Fearow - white / c89060 / 6b4d75 / black
 	RGB 31,31,31, 16,15,18, 10,06,09, 00,00,00 ; PAL_MAUVEMON ; Sunsette: alt Rattata/Raticate - white / 857a91 / 51304d / black
 	RGB 31,31,31, 31,26,11, 26,14,09, 00,00,00 ; PAL_GOLDMON ; Sunsette: default Raichu - white / f8d058 / d07048 / black
 	RGB 31,31,31, 31,29,00, 13,23,31, 00,00,00 ; PAL_THUNDERMON ; Sunsette: alt Pikachu/Raichu - white / f8e800 / 68b8f8 / black
-	RGB 31,31,31, 29,18,13, 21,17,24, 00,00,00 ; PAL_SOFTVIOSCAR ; Sunsette: default Butterfree / alt Venomoth - white / e89068 / a888c0 / black
-	RGB 31,31,31, 24,16,25, 20,07,08, 00,00,00 ; PAL_ORCHIDMON ; Sunsette: default Ekans/Arbok - white / c282cf / a13d41 / black
-	RGB 31,31,31, 18,21,14, 05,11,10, 00,00,00 ; PAL_OLIVEMON ; Sunsette: alt Ekans/Arbok - white / 90ab70 / 275854 / black
+	RGB 31,31,31, 29,18,13, 21,17,24, 00,00,00 ; PAL_SOFTVIOSCAR ; Sunsette: default Venonat / alt Venomoth+Nidoqueen+Weedle - white / e89068 / a888c0 / black
+	RGB 31,31,31, 30,25,11, 21,14,22, 00,00,00 ; PAL_EKANSMON ; Sunsette: default Ekans battle + icon - white / f8d058 / b070b8 / black
+	RGB 31,31,31, 18,21,14, 05,11,10, 00,00,00 ; PAL_OLIVEMON ; OBSOLETE / UNUSED - free to repurpose (was alt Ekans/Arbok + alt Machop line)
 	RGB 31,31,31, 27,14,07, 21,08,03, 00,00,00 ; PAL_EMBERMON ; Sunsette: default Vulpix/Charmeleon - white / e07039 / a94315 / black
 	RGB 31,31,31, 30,23,13, 25,08,06, 00,00,00 ; PAL_FLAREMON ; Sunsette: default Charmander/Charizard + alt Charmeleon - white / f7bc68 / cf3f2f / black
 	RGB 31,31,31, 18,18,21, 09,08,15, 00,00,00 ; PAL_GRAYVELVET ; Sunsette: alt Vulpix/Wigglytuff - white / 9898ae / 464078 / black
 	RGB 31,31,31, 05,27,20, 06,22,03, 00,00,00 ; PAL_VERDANTMON ; Sunsette: default Bulbasaur line - white / 29dda8 / 30b515 / black
 	RGB 31,31,31, 29,28,26, 16,14,19, 00,00,00 ; PAL_IVORYMON ; Sunsette: default Parasect - white / efe6d6 / 84739c / black
 	RGB 31,31,31, 18,21,14, 09,18,09, 00,00,00 ; PAL_LEAFMON ; Sunsette: alt Bulbasaur line + default Metapod/Scyther - white / 90a870 / 4e914e / black
-	RGB 31,31,31, 20,29,29, 21,20,16, 00,00,00 ; PAL_AQUAMON ; Sunsette: default Lapras + alt Seel/Omanyte/Omastar - white / a0e8e8 / a8a080 / black
+	RGB 31,31,31, 20,29,29, 21,20,16, 00,00,00 ; PAL_AQUAMON ; Sunsette: alt Seel/Omanyte/Omastar - white / a0e8e8 / a8a080 / black
 	RGB 31,31,31, 13,20,29, 19,17,14, 00,00,00 ; PAL_MUDDYWATER ; Sunsette: default Blastoise - white / 68a0e8 / 988870 / black
-	RGB 31,31,31, 31,27,07, 17,14,17, 00,00,00 ; PAL_HORNETMON ; Sunsette: default Beedrill - white / ffe13b / 897789 / black
+	RGB 31,31,31, 30,26,15, 09,19,17, 00,00,00 ; PAL_SNORLAXMON ; Sunsette: default Snorlax battle - white / f7d67b GameFreak-light / 48a088 / black
 	RGB 31,31,31, 24,19,26, 10,15,13, 00,00,00 ; PAL_NIDOMASC ; Sunsette: default NidoranM/Nidorino/Nidoking - white / c7a0d6 / 507868 / black
 	RGB 31,31,31, 30,27,28, 27,19,20, 00,00,00 ; PAL_BLUSHMON ; Sunsette: default Clefairy/Clefable/Jigglypuff/Wigglytuff - white / f0d8e0 / d898a0 / black
 	RGB 31,31,31, 30,27,28, 28,15,21, 00,00,00 ; PAL_ROSEMON ; Sunsette: default Mr. Mime - white / f0d8e0 / e078a8 / black
@@ -168,7 +168,7 @@ ENDC
 	RGB 31,31,31, 29,28,26, 17,08,04, 00,00,00 ; PAL_MOCHAMON ; Sunsette: default Mankey/Primeape - white / efe6d6 / 8b3e20 / black
 	RGB 31,31,31, 29,28,23, 16,10,07, 00,00,00 ; PAL_SANDMON ; Sunsette: alt Sandshrew/Sandslash - white / f1e7ba / 845038 / black
 	RGB 31,31,31, 29,26,16, 25,13,16, 00,00,00 ; PAL_AMBERMON ; Sunsette: default Abra/Kadabra/Alakazam - white / f0d880 / d06c80 / black
-	RGB 31,31,31, 16,21,21, 13,11,09, 00,00,00 ; PAL_SLATEMON ; Sunsette: default Machop/Machoke/Machamp - white / 86aaaf / 6c594d / black
+	RGB 31,31,31, 20,21,21, 13,11,09, 00,00,00 ; PAL_SLATEMON ; Sunsette: default Machop/Machoke/Machamp - white / a8b0b0 / 6c594d / black
 	RGB 31,31,31, 19,26,16, 11,15,25, 00,00,00 ; PAL_KELPMON ; Sunsette: ex-SLOTS3 mon colors - white / 98d080 / 5878c8 / black
 	RGB 31,31,31, 17,26,30, 25,07,05, 00,00,00 ; PAL_CORALMON ; Sunsette: ex-SLOTS4 mon colors - white / 88d0f0 / c83828 / black
 	RGB 31,31,31, 16,16,15, 11,10,09, 00,00,00 ; PAL_GRANITEMON ; Sunsette: default Geodude/Graveler - white / 82817a / 5b514a / black
@@ -204,11 +204,11 @@ ENDC
 	RGB 31,31,31, 31,29,24, 13,20,29, 00,00,00 ; PAL_ICON_08
 	RGB 31,31,31, 31,31,30, 29,16,22, 00,00,00 ; PAL_ICON_09
 	RGB 31,31,31, 31,31,27, 21,14, 7, 00,00,00 ; PAL_ICON_10
-	RGB 31,31,31, 31,28,21, 21, 8, 8, 00,00,00 ; PAL_ICON_11
+	RGB 31,31,31, 31,31,30, 21, 8, 8, 00,00,00 ; PAL_ICON_11
 	RGB 31,31,31, 31,31,30, 26,20,28, 00,00,00 ; PAL_ICON_12
 	RGB 31,31,31, 31,31,30, 16,16,18, 00,00,00 ; PAL_ICON_13
 	RGB 31,31,31, 31,31,30, 26,19,15, 00,00,00 ; PAL_ICON_14
-	RGB 31,31,31, 31,26,11, 26,20,28, 00,00,00 ; PAL_ICON_15
+	RGB 31,31,31, 31,26,11, 26,20,28, 00,00,00 ; PAL_ICON_15 ; OBSOLETE / UNUSED - free to repurpose (was Ekans/Arbok icon)
 	RGB 31,31,31, 31,31,30, 31,26,10, 00,00,00 ; PAL_ICON_16
 	RGB 31,31,31, 31,31,30, 30,28,23, 00,00,00 ; PAL_ICON_17
 	RGB 31,31,31, 31,31,30, 22,26,30, 00,00,00 ; PAL_ICON_18
@@ -229,11 +229,11 @@ ENDC
 	RGB 31,31,31, 30,29,25, 23,11,10, 00,00,00 ; PAL_ICON_33
 	RGB 31,31,31, 31,31,30, 11,13,17, 00,00,00 ; PAL_ICON_34
 	RGB 31,31,31, 31,31,30, 10,16, 9, 00,00,00 ; PAL_ICON_35
-	RGB 31,31,31, 23,21,19, 16,21,21, 00,00,00 ; PAL_ICON_36
+	RGB 31,31,31, 23,21,19, 20,21,21, 00,00,00 ; PAL_ICON_36 ; Sunsette: Machop line icon - white / bdad9c tan / a8b0b0 / black
 	RGB 31,31,31, 28,25,20, 18,21,14, 00,00,00 ; PAL_ICON_37
 	RGB 31,31,31, 17,12, 9, 27, 6, 3, 00,00,00 ; PAL_ICON_38
 	RGB 31,31,31, 29,30,31, 24,20,30, 00,00,00 ; PAL_ICON_39
-	RGB 31,31,31, 31,30,28, 27,19,20, 00,00,00 ; PAL_ICON_40
+	RGB 31,31,31, 31,31,30, 18,22,27, 00,00,00 ; PAL_DRATINIMON ; Sunsette: default Dratini battle - white / fafaf0 / 98b8e0 / black
 	RGB 31,31,31, 31,30,28, 30,22,28, 00,00,00 ; PAL_ICON_41
 	RGB 31,31,31, 30,31,31, 18,22,20, 00,00,00 ; PAL_ICON_42
 	RGB 31,31,31, 31,31,30, 30,26,16, 00,00,00 ; PAL_ICON_43
@@ -262,7 +262,7 @@ ENDC
 	RGB 31,31,31, 31,31,30, 27,26,24, 00,00,00 ; PAL_ICON_66
 	RGB 31,31,31, 31,31,30, 30,26,15, 00,00,00 ; PAL_ICON_67
 	RGB 31,31,31, 30,30,28, 17,26,30, 00,00,00 ; PAL_ICON_68
-	RGB 31,31,31, 31,31,30, 12,17,26, 00,00,00 ; PAL_ICON_69
+	RGB 31,31,31, 31,31,30, 18,22,27, 00,00,00 ; PAL_ICON_69 ; Sunsette: default Dratini icon - white / fafaf0 / 98b8e0 / black
 	RGB 31,31,31, 31,31,30, 29,28,26, 00,00,00 ; PAL_ICON_70
 	RGB 31,31,31, 31,31,30, 17,26,30, 00,00,00 ; PAL_ICON_71
 	RGB 31,31,31, 31,31,30, 19,26,16, 00,00,00 ; PAL_ICON_72
@@ -284,4 +284,13 @@ ENDC
 	RGB 31,31,31,  5,21,31, 27, 1, 5, 00,00,00 ; PAL_DEXFRAME ; Sunsette: Pokedex entry frame - white / 28a8f8 / d80828 / black
 	RGB  5,21,31,  5,21,31, 27, 1, 5, 31,31,31 ; PAL_DEXDESC ; Sunsette: Pokedex description panel - blue / blue / red / white
 	RGB 31,31,31, 20,29,29, 28,24,18, 00,00,00 ; PAL_AQUASAND ; Sunsette: default Squirtle battle - white / a0e8e8 / e0c090 / black
+	RGB 31,31,31, 29,22,18, 23,15,12, 00,00,00 ; PAL_PIDGEOTTOMON ; Sunsette: default Pidgeotto battle - white / ecb890 / c07860 / black
+	RGB 31,31,31, 25,20,20, 23,15,12, 00,00,00 ; PAL_PIDGEYMON ; Sunsette: default Pidgey battle - white / c8a0a0 / c07860 / black
+	RGB 31,31,31, 18,26,31, 27, 5,14, 00,00,00 ; PAL_BUTTERFREEMON ; Sunsette: default Butterfree battle - white / 90d0f8 / d82870 / black
+	RGB 31,31,31, 30,22,24, 18,26,31, 00,00,00 ; PAL_BUTTERFREEALT ; Sunsette: alt Butterfree battle - white / f0b0c0 / 90d0f8 / black
+	RGB 31,31,31, 30,28,25, 15,25,31, 00,00,00 ; PAL_LAPRASMON ; Sunsette: default Lapras battle - white / f0e0c8 / 78c8f8 / black
+	RGB 31,31,31, 30,28,25, 30,22,24, 00,00,00 ; PAL_CREAMPINKMON ; Sunsette: alt Lapras battle + Slowpoke/Slowbro icons - white /f0e0c8 /  f0b0c0 / black
+	RGB 31,31,31, 24,21,17, 17,14,17, 00,00,00 ; PAL_KANGASKHANMON ; Sunsette: default Kangaskhan battle - white / c8b088 / 887088 / black
+	RGB 31,31,31, 27,23,16, 16,07,04, 00,00,00 ; PAL_PIDGEOTMON ; Sunsette: alt Pidgeotto + Pidgeot battle - white / e0c080 / 803820 / black
+	RGB 31,31,31, 24,16,25, 22,00,00, 00,00,00 ; PAL_ARBOKMON ; Sunsette: default Arbok battle - white / c282cf / b80000 / black
 	assert_table_length NUM_SGB_PALS

@@ -1,54 +1,42 @@
 _Route19CooltrainerM1BattleText::
-	text "Have to warm up"
-	line "before my swim!"
+	text "Have to warm up before my swim!"
 	done
 
 _Route19CooltrainerM1EndBattleText::
-	text "All"
-	line "warmed up!"
+	text "All warmed up!"
 	prompt
 
 _Route19CooltrainerM1AfterBattleText::
-	text "Thanks, kid! I'm"
-	line "ready for a swim!"
+	text "Thanks, kid! I'm ready for a swim!"
 	done
 
 _Route19CooltrainerM2BattleText::
-	text "Wait! You'll have"
-	line "a heart attack!"
+	text "Wait! You'll have a heart attack!"
 	done
 
 _Route19CooltrainerM2EndBattleText::
-	text "Ooh!"
-	line "That's chilly!"
+	text "Ooh! That's chilly!"
 	prompt
 
 _Route19CooltrainerM2AfterBattleText::
-	text "Watch out for"
-	line "TENTACOOL!"
-	para "My awesome PINSIR"
-	line "takes them out"
-	cont "while SURFing!"
+	text "Watch out for Tentacool!"
+	para "My awesome Pinsir takes them out while Surfing!"
 	done
 
 _Route19Swimmer1BattleText::
-	text "I love swimming!"
-	line "What about you?"
+	text "I love swimming! What about you?"
 	done
 
 _Route19Swimmer1EndBattleText::
-	text "Belly"
-	line "flop!"
+	text "Belly flop!"
 	prompt
 
 _Route19Swimmer1AfterBattleText::
-	text "I can beat #MON"
-	line "at swimming!"
+	text "I can beat <Pokemon> at swimming!"
 	done
 
 _Route19Swimmer2BattleText::
-	text "What's beyond the"
-	line "horizon?"
+	text "What's beyond the horizon?"
 	done
 
 _Route19Swimmer2EndBattleText::
@@ -56,14 +44,11 @@ _Route19Swimmer2EndBattleText::
 	prompt
 
 _Route19Swimmer2AfterBattleText::
-	text "I see a couple of"
-	line "islands!"
+	text "I see a couple of islands!"
 	done
 
 _Route19Swimmer3BattleText::
-	text "I tried diving"
-	line "for #MON, but"
-	cont "it was a no go!"
+	text "I tried diving for <Pokemon>, but it was a no go!"
 	done
 
 _Route19Swimmer3EndBattleText::
@@ -71,40 +56,31 @@ _Route19Swimmer3EndBattleText::
 	prompt
 
 _Route19Swimmer3AfterBattleText::
-	text "You have to fish"
-	line "for sea #MON!"
+	text "You have to fish for sea <Pokemon>!"
 	done
 
 _Route19Swimmer4BattleText::
-	text "I look at the"
-	line "sea to forget!"
+	text "I look at the sea to forget!"
 	done
 
 _Route19Swimmer4EndBattleText::
-	text "Ooh!"
-	line "Traumatic!"
+	text "Ooh! Traumatic!"
 	prompt
 
 _Route19Swimmer4AfterBattleText::
-	text "I'm looking at the"
-	line "sea to forget!"
+	text "I'm looking at the sea to forget!"
 	done
 
 _Route19Swimmer5BattleText::
-	text "Oh, I just love"
-	line "your ride! Can I"
-	cont "have it if I win?"
+	text "Oh, I just love your ride! Can I have it if I win?"
 	done
 
 _Route19Swimmer5AfterBattleText::
-	text "It's still a long"
-	line "way to go to"
-	cont "SEAFOAM ISLANDS."
+	text "It's still a long way to go to Seafoam Islands."
 	done
 
 _Route19Swimmer6BattleText::
-	text "Swimming's great!"
-	line "Sunburns aren't!"
+	text "Swimming's great! Sunburns aren't!"
 	done
 
 _Route19Swimmer6EndBattleText::
@@ -112,45 +88,34 @@ _Route19Swimmer6EndBattleText::
 	prompt
 
 _Route19Swimmer6AfterBattleText::
-	text "My boy friend"
-	line "wanted to swim to"
-	cont "SEAFOAM ISLANDS."
+	text "My boy friend wanted to swim to Seafoam Islands."
 	done
 
 _Route19Swimmer7BattleText::
-	text "These waters are"
-	line "treacherous!"
+	text "These waters are treacherous!"
 	done
 
 _Route19Swimmer7EndBattleText::
-	text "Ooh!"
-	line "Dangerous!"
+	text "Ooh! Dangerous!"
 	prompt
 
 _Route19Swimmer7AfterBattleText::
-	text "I got a cramp!"
-	line "Glub, glub<...>"
+	text "I got a cramp! Glub, glub<...>"
 	done
 
 _Route19Swimmer8BattleText::
-	text "I swam here, but"
-	line "I'm tired."
+	text "I swam here, but I'm tired."
 	done
 
 _Route19Swimmer8EndBattleText::
-	text "I'm"
-	line "exhausted<...>"
+	text "I'm exhausted<...>"
 	prompt
 
 _Route19Swimmer8AfterBattleText::
-	text "Swimming fast will"
-	line "tire #mon too."
-	cont "Careful holding"
-	cont "down the B BUTTON!"
+	text "Swimming fast will tire <Pokemon> too. Careful holding down the B Button!"
 	done
 
 _Route19SignText::
-	text "SEA ROUTE 19"
-	line "FUCHSIA CITY -"
-	cont "SEAFOAM ISLANDS"
+	text "Sea Route 19"
+	para "Fuchsia City - Seafoam Islands"
 	done

@@ -1,26 +1,15 @@
 _CeruleanMartCooltrainerMText::
-	text "Use REPEL to keep"
-	line "bugs and weak"
-	cont "#MON away."
-
-	para "Put your strongest"
-	line "#MON at the"
-	cont "top of the list"
-	cont "for best results!"
+	text "Use Repel to keep bugs and weak <Pokemon> away."
+	para "Put your strongest <Pokemon> at the top of the list for best results!"
 	done
 
 _CeruleanMartCooltrainerFText::
-	text "Have you seen any"
-	line "RARE CANDY?"
-
-	para "It's supposed to"
-	line "make #MON go"
-	cont "up one level!"
+	text "Have you seen any Rare Candy?"
+	para "It's supposed to make <Pokemon> go up one level!"
 	done
 
 _TMKidGreet::
-	text "Yo! It's me!"
-	line "The <TM> Pirate!"
+	text "Yo! It's me! The <TM> Pirate!"
 	prompt
 
 _TMKidQuick::
@@ -28,9 +17,6 @@ _TMKidQuick::
 	done
 
 _CeruleanMartTMKidFlavor::
-	text "<PARA>Me and my dad"
-	line "travel a lot!"
-	para "You'll likely see"
-	line "me at MARTs in"
-	cont "other places too!@"
+	text "<PARA>Me and my dad travel a lot!"
+	para "You'll likely see me at Marts in other places too!@"
 	text_end

@@ -1,51 +1,32 @@
 _RockTunnel1FHiker1BattleText::
-	text "Bah! I've wandered"
-	line "these tunnels for"
-	cont "days, I reckon!"
-	para "Which way is OUT,"
-	line "kid?!"
+	text "Bah! I've wandered these tunnels for days, I reckon!"
+	para "Which way is OUT, kid?!"
 	done
 
 _RockTunnel1FHiker1EndBattleText::
-	text "Doh!"
-	line "You win!"
+	text "Doh! You win!"
 	prompt
 
 _RockTunnel1FHiker1AfterBattleText::
-	text "Y'know, a GYM"
-	line "LEADER got lost"
-	cont "in peaks like"
-	cont "these once."
-	para "A bird wreathed"
-	line "in flame led him"
-	cont "to safety, they"
-	cont "say."
-	para "...Bah. Just an"
-	line "old hiker's tale."
+	text "Y'know, a Gym Leader got lost in peaks like these once."
+	para "A bird wreathed in flame led him to safety, they say."
+	para "...Bah. Just an old hiker's tale."
 	done
 
 _RockTunnel1FHiker2BattleText::
-	text "Hmm. Maybe I'm"
-	line "lost in here<...>"
+	text "Hmm. Maybe I'm lost in here<...>"
 	done
 
 _RockTunnel1FHiker2EndBattleText::
-	text "Ease up!"
-	line "What am I doing?"
-	cont "Which way is out?"
+	text "Ease up! What am I doing? Which way is out?"
 	prompt
 
 _RockTunnel1FHiker2AfterBattleText::
-	text "That sleeping"
-	line "#MON on ROUTE"
-	cont "12 forced me to"
-	cont "take this detour."
+	text "That sleeping <Pokemon> on Route 12 forced me to take this detour."
 	done
 
 _RockTunnel1FHiker3BattleText::
-	text "Outsiders like"
-	line "you need to show"
-	cont "me some respect!"
+	text "Outsiders like you need to show me some respect!"
 	done
 
 _RockTunnel1FHiker3EndBattleText::
@@ -53,73 +34,58 @@ _RockTunnel1FHiker3EndBattleText::
 	prompt
 
 _RockTunnel1FHiker3AfterBattleText::
-	text "You're talented"
-	line "enough to hike!"
+	text "You're talented enough to hike!"
 	done
 
 _RockTunnel1FSuperNerdBattleText::
-	text "#MON fight!"
-	line "Ready, go!"
+	text "<Pokemon> fight! Ready, go!"
 	done
 
 _RockTunnel1FSuperNerdEndBattleText::
-	text "Game"
-	line "over!"
+	text "Game over!"
 	prompt
 
 _RockTunnel1FSuperNerdAfterBattleText::
-	text "Oh well, I'll get"
-	line "a ZUBAT as I go!"
+	text "Oh well, I'll get a Zubat as I go!"
 	done
 
 _RockTunnel1FCooltrainerF1BattleText::
-	text "Eek! Don't try"
-	line "anything funny in"
-	cont "the dark!"
+	text "Eek! Don't try anything funny in the dark!"
 	done
 
 _RockTunnel1FCooltrainerF1EndBattleText::
-	text "It"
-	line "was too dark!"
+	text "It was too dark!"
 	prompt
 
 _RockTunnel1FCooltrainerF1AfterBattleText::
-	text "I saw a MACHOP"
-	line "in this tunnel!"
+	text "I saw a Machop in this tunnel!"
 	done
 
 _RockTunnel1FCooltrainerF2BattleText::
-	text "I came this far"
-	line "for #MON!"
+	text "I came this far for <Pokemon>!"
 	done
 
 _RockTunnel1FCooltrainerF2EndBattleText::
-	text "I'm"
-	line "out of #MON!"
+	text "I'm out of <Pokemon>!"
 	prompt
 
 _RockTunnel1FCooltrainerF2AfterBattleText::
-	text "You looked cute"
-	line "and harmless!"
+	text "You looked cute and harmless!"
 	done
 
 _RockTunnel1FCooltrainerF3BattleText::
-	text "You have #MON!"
-	line "Let's start!"
+	text "You have <Pokemon>! Let's start!"
 	done
 
 _RockTunnel1FCooltrainerF3EndBattleText::
-	text "You"
-	line "play hard!"
+	text "You play hard!"
 	prompt
 
 _RockTunnel1FCooltrainerF3AfterBattleText::
-	text "Whew! I'm all"
-	line "sweaty now!"
+	text "Whew! I'm all sweaty now!"
 	done
 
 _RockTunnel1FSignText::
-	text "ROCK TUNNEL"
-	line "CERULEAN CITY -"
-	cont "LAVENDER TOWN"
+	text "Rock Tunnel"
+	para "Cerulean City - Lavender Town"
 	done

@@ -1,12 +1,9 @@
 _Route18Gate1FGuardYouNeedABicycleText::
-	text "You need a BICYCLE"
-	line "for CYCLING ROAD!"
+	text "You need a Bicycle for Cycling Road!"
 	done
 
 _Route18Gate1FGuardCyclingRoadUphillText::
-	text "CYCLING ROAD is"
-	line "all uphill from"
-	cont "here."
+	text "Cycling Road is all uphill from here."
 	done
 
 _Route18Gate1FGuardExcuseMeText::

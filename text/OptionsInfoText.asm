@@ -1,24 +1,14 @@
 _TextSpeedInfoText::
-	text "Decides how fast"
-	line "text will print"
-	cont "on the screen."
+	text "Decides how fast text will print on the screen."
 	prompt
 
 _BattleAnimationInfoText::
-	text "If turned OFF,"
-	line "in battle attacks"
-	cont "will not have any"
-	cont "visual effects."
+	text "If turned OFF, in battle attacks will not have any visual effects."
 	prompt
 
 _BattleStyleInfoText::
-	text "In SHIFT mode you"
-	line "can switch out to"
-	cont "another #MON"
-	cont "after defeating"
-	cont "an <opponent>'s."
-	para "SHIFT mode is a"
-	line "bit easier."
+	text "In SHIFT mode you can switch out to another <Pokemon> after defeating an <opponent>'s."
+	para "SHIFT mode is a bit easier."
 	prompt
 
 ; Sunsette: dead COLOR option info text, commented out to reclaim ROM space
@@ -48,95 +38,55 @@ _BattleStyleInfoText::
 
 _AltPkmnColorsInfoText::
 	text "If turned ON,"
-	para "In some areas"
-	line "you will find"
-	cont "regional color"
-	cont "variant #MON."
+	para "In some areas you will find regional color variant <Pokemon>."
 	prompt
 
 _MusicInfoText::
-	text "If OG+, New music"
-	line "and sound effects"
-	cont "will play in"
-	cont "some places."
+	text "If OG+, new music and sound effects will play in some places."
 	prompt
 
 _AudioPanInfoText::
-	text "If ON, stereo"
-	line "audio is"
-	cont "simulated."
+	text "If ON, stereo audio is simulated."
 	prompt
 
 _BikeSongInfoText::
-	text "Decides if the"
-	line "bicycle music"
-	cont "plays when riding"
-	cont "your BICYCLE."
+	text "Decides if the bicycle music plays when riding your Bicycle."
 	prompt
 
 _GBCFadeInfoText::
-	text "If ON and playing"
-	line "on GBC, smoother"
-	cont "fade transitions"
-	cont "are used."
+	text "If ON and playing on GBC, smoother fade transitions are used."
 	prompt
 
 _EXPBarText::
-	text "If ON, A small EXP"
-	line "tracker displays"
-	cont "in battle."
+	text "If ON, a small EXP tracker displays in battle."
 	prompt
 
 _NPCEVsText::
-	text "If ON, <opponent>"
-	line "trainer #MON"
-	cont "will receive stat"
-	cont "EXP in battles."
-	para "Battles will be a"
-	line "bit harder."
+	text "If ON, <opponent> trainer <Pokemon> will receive stat EXP in battles."
+	para "Battles will be a bit harder."
 	prompt
 
 _NPCPPText::
-	text "If ON, <opponent>s"
-	line "can run out of PP"
-	cont "for their MOVEs."
-	para "Battles will be a"
-	line "bit easier."
+	text "If ON, <opponent>s can run out of PP for their moves."
+	para "Battles will be a bit easier."
 	prompt
 
 _BackSpriteText::
-	text "Decides which back"
-	line "sprites will"
-	cont "display in battle"
-	para "OG: Original"
-	line "blocky sprites."
-	para "SW97: Spaceworld"
-	line "higher resolution"
-	cont "back sprites."
-	para "Most spaceworld"
-	line "sprites have been"
-	cont "tweaked visually."
-	para "Some were even"
-	line "totally remade."
+	text "Decides which back sprites will display in battle"
+	para "OG: Original blocky sprites."
+	para "SW97: Spaceworld higher resolution back sprites."
+	para "Most Spaceworld sprites have been tweaked visually."
+	para "Some were even totally remade."
 	prompt
 
 _IconsOptionText::
-	text "If OG+ New sprites"
-	line "will show up for"
-	cont "#MON in the"
-	cont "party menu and"
-	cont "in the overworld."
-	para "Also gives new"
-	line "unique sprites to"
-	cont "some gym leaders."
-	para "Meaning the small"
-	line "16×16 sprites."
+	text "If OG+ new sprites will show up for <Pokemon> in the party menu and in the overworld."
+	para "Also gives new unique sprites to some Gym Leaders."
+	para "Meaning the small 16×16 sprites."
 	prompt
 
 _FrontSpriteText::
-	text "Press A to enter"
-	line "the front sprite"
-	cont "option menus."
+	text "Press A to enter the front sprite option menus."
 	prompt
 
 ;_FrontSpriteGenericText::
@@ -158,76 +108,38 @@ _FrontSpriteText::
 ;	prompt
 
 _VolcanoInfoText::
-	text "If ON, a new cave"
-	line "will show up on"
-	cont "the sea route"
-	cont "between PALLET"
-	cont "and CINNABAR."
-	para "This is an area"
-	line "inspired by beta"
-	cont "development code."
-	para "You can catch a"
-	line "MOLTRES earlier"
-	cont "here and find"
-	cont "other new events."
+	text "If ON, a new cave will show up on the sea route between Pallet and Cinnabar."
+	para "This is an area inspired by beta development code."
+	para "You can catch a Moltres earlier here and find other new events."
 	prompt
 
 _LearnsetsInfoText::
-	text "If ON and you"
-	line "have the MOVEDEX,"
-	para "you can unlock"
-	line "learnset info by"
-	cont "raising your"
-	cont "#MON to a high"
-	cont "level or by"
-	cont "talking to other"
-	cont "<TRAINER>s."
+	text "If ON and you have the Movedex,"
+	para "you can unlock learnset info by raising your <Pokemon> to a high level or by talking to other <TRAINER>s."
 	prompt
 
 _IntroInfoText::
-	text "You can skip the"
-	line "intro animation"
-	cont "when booting up"
-	cont "the game."
+	text "You can skip the intro animation when booting up the game."
 	prompt
 
 _FlashingInfoText::
-	text "If LESS, flashing"
-	line "animations will"
-	cont "be reduced."
+	text "If LESS, flashing animations will be reduced."
 	prompt
 
 _UnitsInfoText::
-	text "Switch between"
-	line "metric / imperial"
-	cont "units used in the"
-	cont "#DEX entries."
+	text "Switch between metric / imperial units used in the <poke>dex entries."
 	prompt
 
 _CatchupInfoText::
-	text "If ON, clubs in"
-	line "which you can"
-	cont "train low level"
-	cont "#MON to a set"
-	cont "level limit will"
-	cont "show up in:"
-	para "SAFFRON, CELADON,"
-	line "+ VERMILION CITY."
-	para "Won't really be"
-	line "needed unless you"
-	cont "switch #MON in"
-	cont "your team a lot."
+	text "If ON, clubs in which you can train low level <Pokemon> to a set level limit will show up in:"
+	para "Saffron, Celadon, + Vermilion City."
+	para "Won't really be needed unless you switch <Pokemon> in your team a lot."
 	prompt
 
 _TitleInfoText::
-	text "You can change the"
-	line "title screen to"
-	cont "an updated one."
+	text "You can change the title screen to an updated one."
 	prompt
 
 _PauseMusicInfoText::
-	text "If OFF, resumes"
-	line "area music after"
-	cont "battle instead"
-	cont "of restarting it."
+	text "If OFF, resumes area music after battle instead of restarting it."
 	prompt

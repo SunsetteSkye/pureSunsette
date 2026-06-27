@@ -1,166 +1,80 @@
 _PewterGymBrockPostBattleAdviceText::
 	text "<...>"
-
-	para "ROCK ON is how"
-	line "rock endures."
-
-	para "Raise your guard,"
-	line "steady your aim,"
-	cont "then turn what"
-	cont "struck you aside."
-
-	para "(<...>He's still"
-	line "staring. Is he"
-	cont "blushing?)"
+	para "Rock On is how rock endures."
+	para "Raise your guard, steady your aim, then turn what struck you aside."
+	para "(<...>He's still staring. Is he blushing?)"
 	done
 
 _PewterGymBrockWaitTakeThisText::
-	text "Wait! Take this"
-	line "with you!"
+	text "Wait! Take this with you!"
 	done
 
 _TM34ExplanationText::
 	text_start
 
-	para "A <TM> contains a"
-	line "technique that"
-	cont "can be taught to"
-	cont "#MON!"
-
-	para "A <TM> is good only"
-	line "once! So when you"
-	cont "use one to teach"
-	cont "a new technique,"
-	cont "pick the #MON"
-	cont "carefully!"
-
+	para "A <TM> contains a technique that can be taught to <Pokemon>!"
+	para "A <TM> is good only once! So when you use one to teach a new technique, pick the <Pokemon> carefully!"
 	para "@"
 	text_ram_stringbuffer
-	text " is ROCK ON!"
-
-	para "It makes #MON"
-	line "steady as a rock."
-
-	para "In dire straits,"
-	line "it unleashes"
-	cont "their hardcore"
-	cont "defensive power."
-
-	para "It works different"
-	line "for #MON with"
-	cont "a Special type,"
-	cont "like your starter."
-
-	para "I'm no good at"
-	line "explanations..."
-
-	para "The headmaster at"
-	line "the VIRIDIAN"
-	cont "TRAINERS' SCHOOL"
-	cont "could help if"
-	cont "you're confused."
+	text " is Rock On!"
+	para "It makes <Pokemon> steady as a rock."
+	para "In dire straits, it unleashes their hardcore defensive power."
+	para "It works different for <Pokemon> with a Special type, like your starter."
+	para "I'm no good at explanations..."
+	para "The headmaster at the Viridian Trainers' School could help if you're confused."
 	done
 
 _GenericNoRoomText::
 _PewterGymTM34NoRoomText::
-	text "You don't have"
-	line "room for this!"
+	text "You don't have room for this!"
 	done
 
 _PewterGymBrockReceivedBoulderBadgeText::
-	text "I took"
-	line "you for granted."
-
-	para "As proof of your"
-	line "victory, here's"
-	cont "the BOULDERBADGE!"
-
-	para "<PLAYER> received"
-	line "the BOULDERBADGE!@"
+	text "I took you for granted."
+	para "As proof of your victory, here's the Boulder Badge!"
+	para "<PLAYER> received the Boulder Badge!@"
 	text_end
 
 _PewterGymBrockBoulderBadgeInfoText::
 	text_start
 
-	para "That's an official"
-	line "#MON LEAGUE"
-	cont "BADGE!"
-
-	para "Its bearer's"
-	line "#MON grow"
-	cont "faster, and hit"
-	cont "a bit harder!"
-
-	para "The technique"
-	line "FLASH can now be"
-	cont "used any time!"
+	para "That's an official <Pokemon> League Badge!"
+	para "Its bearer's <Pokemon> grow faster, and hit a bit harder!"
+	para "The technique Flash can now be used any time!"
 	prompt
 
 _PewterGymCooltrainerMBattleText::
-	text "Stop right there,"
-	line "kid!"
-
-	para "You're still light"
-	line "years from facing"
-	cont "BROCK!"
+	text "Stop right there, kid!"
+	para "You're still light years from facing Brock!"
 	done
 
 _PewterGymCooltrainerMEndBattleText::
 	text "Darn!"
-
-	para "Light years isn't"
-	line "time! It measures"
-	cont "distance!"
+	para "Light years isn't time! It measures distance!"
 	prompt
 
 _PewterGymCooltrainerMAfterBattleText::
-	text "You're pretty hot,"
-	line "but not as hot"
-	cont "as BROCK!"
+	text "You're pretty hot, but not as hot as Brock!"
 	done
 
 _PewterGymGuidePreAdviceText::
-	text "Hiya! I can tell"
-	line "you have what it"
-	cont "takes to become a"
-	cont "#MON champ!"
-
-	para "I'm no trainer,"
-	line "but I can tell"
-	cont "you how to win!"
-
-	para "Let me take you"
-	line "to the top!"
+	text "Hiya! I can tell you have what it takes to become a <Pokemon> champ!"
+	para "I'm no Trainer, but I can tell you how to win!"
+	para "Let me take you to the top!"
 	done
 
 _PewterGymGuideBeginAdviceText::
-	text "All right! Let's"
-	line "get happening!"
+	text "All right! Let's get happening!"
 	prompt
 
 _PewterGymGuideAdviceText::
-	text "A GYM is an arena!"
-	line "One type, bending"
-	cont "the field to"
-	cont "fight harder!"
-
-	para "Here it's the"
-	line "ROCK-type. Tough"
-	cont "on FIRE and lots"
-	cont "of common types,"
-	cont "but with severe"
-	cont "weaknesses!"
-
-	para "The arena hides"
-	line "some of those"
-	cont "weaknesses, but"
-	cont "not all!"
+	text "A Gym is an arena! One type, bending the field to fight harder!"
+	para "Here it's the Rock-type. Tough on Fire and lots of common types, but with severe weaknesses!"
+	para "The arena hides some of those weaknesses, but not all!"
 	done
 
 _PewterGymGuideFreeServiceText::
-	text "It's a free"
-	line "service! Let's"
-	cont "get happening!"
+	text "It's a free service! Let's get happening!"
 	prompt
 
 _PewterGymGuidePostBattleText::
@@ -171,74 +85,35 @@ _PewterGymGuidePostBattleText::
 	ld hl, .body
 	ret
 .body:
-	text "Just as I thought!"
-	line "You're #MON"
-	cont "champ material!"
-
-	para "A BADGE lets you"
-	line "raise #MON to"
-	cont "a higher level"
-	cont "before they slow."
-
-	para "Right now, that's"
-	line "about L@"
+	text "Just as I thought! You're <Pokemon> champ material!"
+	para "A Badge lets you raise <Pokemon> to a higher level before they slow."
+	para "Right now, that's about L@"
 	text_decimal wExpGrowthThreshold, 1, 2
 	text "!"
-
-	para "Keep climbing,"
-	line "champ in the"
-	cont "making!"
+	para "Keep climbing, champ in the making!"
 	done
 
 _PewterGymGuideApexChipText::
-	text "I want you"
-	line "to have these!"
+	text "I want you to have these!"
 	prompt
 
 _ReceivedApexChipsText::
-	text "<PLAYER> received"
-	line "2 APEX CHIPs!@"
+	text "<PLAYER> received 2 Apex Chips!@"
 	text_end
 
 _ApexChipExplanationText::
 	text_start
 
-	para "The APEX CHIP is a"
-	line "special microchip"
-	cont "I developed."
-	
-	para "You install it"
-	line "onto a #MON's"
-	cont "# Ball."
-
-	para "It simulates the"
-	line "natural wild"
-	cont "environment of"
-	cont "a #MON inside"
-	cont "its # Ball!"
-
-	para "It makes #MON"
-	line "happy,"
-	para "and helps achieve"
-	line "max potential!"
-
-	para "Use them on your"
-	line "best #MON!"
-
-	para "For Rock-type"
-	line "#MON, an APEX"
-	cont "CHIP simulates"
-	cont "a jagged craggy"
-	cont "ridge with cave"
-	cont "systems and steep"
-	cont "mountain terrain."
+	para "The Apex Chip is a special microchip I developed."
+	para "You install it onto a <Pokemon>'s <poke> Ball."
+	para "It simulates the natural wild environment of a <Pokemon> inside its <poke> Ball!"
+	para "It makes <Pokemon> happy, and helps achieve max potential!"
+	para "Use them on your best <Pokemon>!"
+	para "For Rock-type <Pokemon>, an Apex Chip simulates a jagged craggy ridge with cave systems and steep mountain terrain."
 	prompt
 
 _AlreadyReceivedApexChipsText::
-	text "Talk to me at"
-	line "the next GYM!"
-	para "If you defeat the"
-	line "GYM LEADER,"
-	para "I'll give you more"
-	line "APEX CHIPs!"
+	text "Talk to me at the next Gym!"
+	para "If you defeat the Gym Leader,"
+	para "I'll give you more Apex Chips!"
 	done

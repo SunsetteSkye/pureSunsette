@@ -1,74 +1,45 @@
 _PokemonTower1FReceptionistText::
-	text "#MON TOWER was"
-	line "erected in the"
-	cont "memory of #MON"
-	cont "that had died."
-
-	para "Our gift shop is"
-	line "closed for now,"
-	cont "owing to some"
-	cont "trouble today."
+	text "<Pokemon> Tower was erected in the memory of <Pokemon> that had died."
+	para "Our gift shop is closed for now, owing to some trouble today."
 	done
 
 _PokemonTower1FMiddleAgedWomanText::
-	text "Did you come to"
-	line "pay respects?"
-	cont "Bless you!"
+	text "Did you come to pay respects? Bless you!"
 	done
 
 _PokemonTower1FBaldingGuyText::
-	text "I came to pray"
-	line "for my CLEFAIRY."
-
-	para "Sniff! I can't"
-	line "stop crying<...>"
+	text "I came to pray for my Clefairy."
+	para "Sniff! I can't stop crying<...>"
 	done
 
 _PokemonTower1FGirlText::
-	text "My GROWLITHE<...>"
-	line "Why did you die?"
+	text "My Growlithe<...> Why did you die?"
 	done
 
 _PokemonTower1FGirl2Text::
 	text "Sniff<...>"
 	para "What's that?"
-	para "You want to hear"
-	line "about my darling"
-	cont "@"
+	para "You want to hear about my darling @"
 	text_ram_namebuffer
 	text "?"
 	prompt
 
 _PokemonTower1FChannelerText::
-	text "I am a CHANNELER!"
-	line "There are spirits"
-	cont "up to mischief!"
+	text "I am a Channeler! There are spirits up to mischief!"
 	done
 
 _PokemonTower1FRocketText::
-	text "Scram! No one's"
-	line "going downstairs!"
+	text "Scram! No one's going downstairs!"
 	prompt
 
 _PokemonTower1FRocketText2::
-	text "Here's a better"
-	line "idea:"
-	para "Why don't you"
-	line "head west to"
-	cont "CELADON CITY's"
-	cont "GAME CORNER?"
-	para "Spend lots of"
-	line "money while you're"
-	cont "there!"
-	para "Hyuck hyuck"
-	line "hyuck hyuck!"
+	text "Here's a better idea:"
+	para "Why don't you head west to Celadon City's Game Corner?"
+	para "Spend lots of money while you're there!"
+	para "Hyuck hyuck hyuck hyuck!"
 	done
 
 _PokemonTower1FRocketText3::
-	text "We've got an"
-	line "operation going!"
-	para "Until the boys"
-	line "come back from"
-	cont "the upper floors"
-	cont "I ain't moving!"
+	text "We've got an operation going!"
+	para "Until the boys come back from the upper floors I ain't moving!"
 	done

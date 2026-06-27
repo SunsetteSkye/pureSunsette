@@ -1,50 +1,34 @@
 _Route3Text1::
-	text "Whew<...> I better"
-	line "take a rest<...>"
-	cont "Groan<...>"
-
-	para "That tunnel from"
-	line "CERULEAN takes a"
-	cont "lot out of you!"
+	text "Whew<...> I better take a rest<...> Groan<...>"
+	para "That tunnel from Cerulean takes a lot out of you!"
 	done
 
 _Route3Youngster1BattleText::
-	text "Hey! I met you in"
-	line "VIRIDIAN FOREST!"
+	text "Hey! I met you in Viridian Forest!"
 	done
 
 _Route3Youngster1EndBattleText::
-	text "You"
-	line "beat me again!"
+	text "You beat me again!"
 	prompt
 
 _Route3Youngster1AfterBattleText::
-	text "There are other"
-	line "kinds of #MON"
-	cont "than those found"
-	cont "in the forest!"
+	text "There are other kinds of <Pokemon> than those found in the forest!"
 	done
 
 _Route3Youngster2BattleText::
-	text "Hi! I like shorts!"
-	line "They're comfy and"
-	cont "easy to wear!"
+	text "Hi! I like shorts! They're comfy and easy to wear!"
 	done
 
 _Route3Youngster2EndBattleText::
-	text "I don't"
-	line "believe it!"
+	text "I don't believe it!"
 	prompt
 
 _Route3Youngster2AfterBattleText::
-	text "I always wear"
-	line "shorts, even in"
-	cont "winter!"
+	text "I always wear shorts, even in winter!"
 	done
 
 _Route3Youngster2AfterBattleText2::
-	text "Do you like"
-	line "shorts?"
+	text "Do you like shorts?"
 	done
 
 _Route3Youngster2AfterBattleText3Yes::
@@ -52,10 +36,8 @@ _Route3Youngster2AfterBattleText3Yes::
 	done
 
 _Route3Youngster2AfterBattleText3Yes2::
-	text "Here's some info"
-	line "about RATTATA-"
-	para "from shorts fan"
-	line "to shorts fan!"
+	text "Here's some info about Rattata,"
+	para "from shorts fan to shorts fan!"
 	prompt
 
 _Route3Youngster2AfterBattleText3No::
@@ -63,43 +45,31 @@ _Route3Youngster2AfterBattleText3No::
 	done
 
 _Route3CooltrainerF1BattleText::
-	text "You looked at me,"
-	line "didn't you?"
+	text "You looked at me, didn't you?"
 	done
 
 _Route3CooltrainerF1EndBattleText::
-	text "You're"
-	line "mean!"
+	text "You're mean!"
 	prompt
 
 _Route3CooltrainerF1AfterBattleText::
-	text "Quit staring if"
-	line "you don't want to"
-	cont "fight!"
+	text "Quit staring if you don't want to fight!"
 	done
 
 _Route3Youngster3BattleText::
-	text "Are you a trainer?"
-	line "Let's fight!"
+	text "Are you a Trainer? Let's fight!"
 	done
 
 _Route3Youngster3EndBattleText::
-	text "If I"
-	line "had new #MON I"
-	cont "would've won!"
+	text "If I had new <Pokemon> I would've won!"
 	prompt
 
 _Route3Youngster3AfterBattleText::
-	text "If a #MON BOX"
-	line "on the <PC> gets"
-	cont "full, just switch"
-	cont "to another BOX!"
+	text "If a <Pokemon> Box on the <PC> gets full, just switch to another Box!"
 	done
 
 _Route3CooltrainerF2BattleText::
-	text "That look you"
-	line "gave me, it's so"
-	cont "intriguing!"
+	text "That look you gave me, it's so intriguing!"
 	done
 
 _Route3CooltrainerF2EndBattleText::
@@ -107,47 +77,35 @@ _Route3CooltrainerF2EndBattleText::
 	prompt
 
 _Route3CooltrainerF2AfterBattleText::
-	text "Avoid fights by"
-	line "not letting"
-	cont "people see you!"
+	text "Avoid fights by not letting people see you!"
 	done
 
 _Route3Youngster4BattleText::
-	text "Hey! You're not"
-	line "wearing shorts!"
+	text "Hey! You're not wearing shorts!"
 	done
 
 _Route3Youngster4EndBattleText::
-	text "Lost!"
-	line "Lost! Lost!"
+	text "Lost! Lost! Lost!"
 	prompt
 
 _Route3Youngster4AfterBattleText::
-	text "Are you storing"
-	line "your #MON on"
-	cont "<PC>? Each BOX can"
-	cont "hold 20 #MON!"
+	text "Are you storing your <Pokemon> on <PC>? Each Box can hold 20 <Pokemon>!"
 	done
 
 _Route3Youngster5BattleText::
-	text "You can fight my"
-	line "new #MON!"
+	text "You can fight my new <Pokemon>!"
 	done
 
 _Route3Youngster5EndBattleText::
-	text "Done"
-	line "like dinner!"
+	text "Done like dinner!"
 	prompt
 
 _Route3Youngster5AfterBattleText::
-	text "Trained #MON"
-	line "are stronger than"
-	cont "the wild ones!"
+	text "Trained <Pokemon> are stronger than the wild ones!"
 	done
 
 _Route3CooltrainerF3BattleText::
-	text "Eek! Did you"
-	line "touch me?"
+	text "Eek! Did you touch me?"
 	done
 
 _Route3CooltrainerF3EndBattleText::
@@ -155,29 +113,21 @@ _Route3CooltrainerF3EndBattleText::
 	prompt
 
 _Route3CooltrainerF3AfterBattleText::
-	text "ROUTE 4 is at the"
-	line "foot of MT.MOON."
+	text "Route 4 is at the foot of Mt. Moon."
 	done
 
 _Route3CooltrainerF3AfterBattleText2::
 	text "But @"
 	text_ram_namebuffer
 	text_start
-	line "and I met here"
-	cont "on ROUTE 3!"
-	para "What a sweet"
-	line "memory."
-	para "Did you know it"
-	line "floats high to"
-	cont "dodge ground"
-	cont "attacks?"
-	para "Though that leaves"
-	line "it in trouble"
-	cont "with birds..."
+	line "and I met here on Route 3!"
+	para "What a sweet memory."
+	para "Did you know it floats high to dodge Ground attacks?"
+	para "Though that leaves it in trouble with birds..."
 	para "@"
 	text_end
 
 _Route3SignText::
-	text "ROUTE 3"
-	line "MT.MOON AHEAD"
+	text "Route 3"
+	para "Mt. Moon ahead"
 	done

@@ -1,67 +1,41 @@
 _CeladonMansion3FProgrammerText::
-	text "Me? I'm the"
-	line "programmer!"
+	text "Me? I'm the programmer!"
 	done
 
 _CeladonMansion3FGraphicArtistText::
-	text "I'm the graphic"
-	line "artist!"
-	cont "I drew you!"
+	text "I'm the graphic artist! I drew you!"
 	done
 
 _CeladonMansion3FWriterText::
-	text "I wrote the story!"
-	line "Isn't ERIKA cute?"
-
-	para "I like MISTY a"
-	line "lot too!"
-
-	para "Oh, and SABRINA,"
-	line "I like her!"
+	text "I wrote the story! Isn't Erika cute?"
+	para "I like Misty a lot too!"
+	para "Oh, and Sabrina, I like her!"
 	done
 
 _CeladonMansion3FGameDesignerText::
 	text "Is that right?"
-
-	para "I'm the game"
-	line "designer!"
-
-	para "Filling up your"
-	line "#DEX is tough,"
-	cont "but don't quit!"
-
-	para "When you finish,"
-	line "come tell me!"
+	para "I'm the game designer!"
+	para "Filling up your <poke>dex is tough, but don't quit!"
+	para "When you finish, come tell me!"
 	done
 
 _CeladonMansion3FGameDesignerCompletedDexText::
-	text "Wow! Excellent!"
-	line "You completed"
-	cont "your #DEX!"
-	cont "Congratulations!"
-	cont "<...>@"
+	text "Wow! Excellent! You completed your <poke>dex! Congratulations! <...>@"
 	text_end
 
 _CeladonMansion3FGameProgramPCText::
-	text "It's the game"
-	line "program! Messing"
-	cont "with it could bug"
-	cont "out the game!"
+	text "It's the game program! Messing with it could bug out the game!"
 	done
 
 _CeladonMansion3FPlayingGamePCText::
-	text "Someone's playing"
-	line "a game instead of"
-	cont "working!"
+	text "Someone's playing a game instead of working!"
 	done
 
 _CeladonMansion3FGameScriptPCText::
-	text "It's the script!"
-	line "Better not look"
-	cont "at the ending!"
+	text "It's the script! Better not look at the ending!"
 	done
 
 _CeladonMansion3FDevRoomSignText::
-	text "GAME FREAK"
-	line "Development Room"
+	text "Game Freak"
+	para "Development Room"
 	done

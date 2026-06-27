@@ -1,62 +1,41 @@
 _CeladonHotelGrannyText::
-	text "#MON? No, this"
-	line "is a hotel for"
-	cont "people."
-
+	text "<Pokemon>? No, this is a hotel for people."
 	para "We're full up."
 	done
 
 _CeladonHotelBeautyText::
-	text "I'm on vacation"
-	line "with my brother"
-	cont "and boyfriend."
-
-	para "CELADON is such a"
-	line "pretty city!"
+	text "I'm on vacation with my brother and boyfriend."
+	para "Celadon is such a pretty city!"
 	done
 
 _CeladonHotelSuperNerdText::
-	text "Why did she bring"
-	line "her brother?"
+	text "Why did she bring her brother?"
 	done
 
 _CeladonChannelerIntro::
-	text "My job is to"
-	line "drive out evil"
-	cont "spirits."
-	para "I'm here on"
-	line "reports of a"
-	cont "ghostly computer."
-	para "Have you seen"
-	line "one?"
+	text "My job is to drive out evil spirits."
+	para "I'm here on reports of a ghostly computer."
+	para "Have you seen one?"
 	done
 
 _CeladonChannelerNo1::
-	text "Keep your eyes"
-	line "open!"
-	para "It could be"
-	line "anywhere in here!"
+	text "Keep your eyes open!"
+	para "It could be anywhere in here!"
 	done
 
 _CeladonChannelerQ2::
-	text "Really?!"
-	line "Did you use it?!"
+	text "Really?! Did you use it?!"
 	done
 
 _CeladonHotelBattleText1::
-	text "You need to be"
-	line "exorcized!!"
+	text "You need to be exorcized!!"
 	done
 
 _CeladonHotelEndBattleText1::
-	text "Begone"
-	line "evil spirits!"
+	text "Begone evil spirits!"
 	prompt
 
 _CeladonHotelAfterBattleText1::
-	text "This ghostly"
-	line "computer is a"
-	cont "tough one."
-	para "But I'll drive"
-	line "it away someday!"
+	text "This ghostly computer is a tough one."
+	para "But I'll drive it away someday!"
 	done

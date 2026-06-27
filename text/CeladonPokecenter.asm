@@ -1,12 +1,7 @@
 _CeladonPokecenterGentlemanText::
-	text "# FLUTE awakens"
-	line "#MON with a"
-	cont "sound that only"
-	cont "they can hear!"
+	text "<poke> Flute awakens <Pokemon> with a sound that only they can hear!"
 	done
 
 _CeladonPokecenterBeautyText::
-	text "I rode uphill on"
-	line "CYCLING ROAD from"
-	cont "FUCHSIA!"
+	text "I rode uphill on Cycling Road from Fuchsia!"
 	done

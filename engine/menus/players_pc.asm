@@ -18,6 +18,9 @@ PlayerPC::
 
 PlayerPCMenu:
 	xor a
+	ld [wVWFActive], a ; PC menu prints options via PlaceString at its own coords, not
+	                   ; the VWF dialogue box; clear any stale wVWFActive so PlaceNextChar
+	                   ; doesn't hijack the options into the VWF pool (empty-menu bug)
 	ld [wListMenuHoverTextType], a ; PureRGBnote: ADDED: this list menu can't have TMs so turn off that flag so it doesn't even check to display
 	ld a, [wParentMenuItem]
 	ld [wCurrentMenuItem], a

@@ -1,64 +1,42 @@
 _LavenderTownLittleGirlDoYouBelieveInGhostsText::
-	text "Do you believe in"
-	line "GHOSTs?"
+	text "Do you believe in ghosts?"
 	done
 
 _LavenderTownLittleGirlSoThereAreBelieversText::
-	text "Really? So there"
-	line "are believers<...>"
+	text "Really? So there are believers<...>"
 	done
 
 _LavenderTownLittleGirlHaHaGuessNotText::
-	text "Hahaha, I guess"
-	line "not."
-
-	para "That white hand"
-	line "on your shoulder,"
-	cont "it's not real."
+	text "Hahaha, I guess not."
+	para "That white hand on your shoulder, it's not real."
 	done
 
 _LavenderTownCooltrainerMText::
-	text "This town is known"
-	line "as the grave site"
-	cont "of #MON."
-
-	para "Memorial services"
-	line "are held in"
-	cont "#MON TOWER."
+	text "This town is known as the grave site of <Pokemon>."
+	para "Memorial services are held in <Pokemon> Tower."
 	done
 
 _LavenderTownSuperNerdText::
-	text "GHOSTs appeared"
-	line "in #MON TOWER."
-
-	para "I think they're"
-	line "the spirits of"
-	cont "#MON that the"
-	cont "<ROCKET>s killed."
+	text "Ghosts appeared in <Pokemon> Tower."
+	para "I think they're the spirits of <Pokemon> that the <ROCKET>s killed."
 	done
 
 _LavenderTownSignText::
-	text "LAVENDER TOWN"
-	para "The Noble"
-	line "Purple Town"
+	text "Lavender Town"
+	para "The Noble Purple Town"
 	done
 
 _LavenderTownSilphScopeSignText::
-	text "New SILPH SCOPE!"
-
-	para "Make the Invisible"
-	line "Plain to See!"
-
-	para "SILPH CO."
+	text "New Silph Scope!"
+	para "Make the Invisible Plain to See!"
+	para "Silph Co."
 	done
 
 _LavenderTownPokemonHouseSignText::
-	text "LAVENDER VOLUNTEER"
-	line "#MON HOUSE"
+	text "Lavender Volunteer <Pokemon> House"
 	done
 
 _LavenderTownPokemonTowerSignText::
-	text "May the Souls of"
-	line "#MON Rest Easy"
-	cont "#MON TOWER"
+	text "May the Souls of <Pokemon> Rest Easy"
+	para "<Pokemon> Tower"
 	done

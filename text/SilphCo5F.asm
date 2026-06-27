@@ -1,19 +1,13 @@
 _SilphCo5FSilphWorkerMThatsYouRightText::
-	text "<TEAM><ROCKET> is"
-	line "in an uproar over"
-	cont "some intruder."
-	cont "That's you right?"
+	text "<TEAM><ROCKET> is in an uproar over some intruder. That's you right?"
 	done
 
 _SilphCo5FSilphWorkerMYoureOurHeroText::
-	text "<TEAM><ROCKET> took"
-	line "off! You're our"
-	cont "hero! Thank you!"
+	text "<TEAM><ROCKET> took off! You're our hero! Thank you!"
 	done
 
 _SilphCo5FRocket1BattleText::
-	text "I heard a kid was"
-	line "wandering around."
+	text "I heard a kid was wandering around."
 	done
 
 _SilphCo5FRocket1EndBattleText::
@@ -21,31 +15,21 @@ _SilphCo5FRocket1EndBattleText::
 	prompt
 
 _SilphCo5FRocket1AfterBattleText::
-	text "It's not smart"
-	line "to pick a fight"
-	cont "with <TEAM><ROCKET>!"
+	text "It's not smart to pick a fight with <TEAM><ROCKET>!"
 	done
 
 _SilphCo5FScientistBattleText::
-	text "We study #"
-	line "BALL technology"
-	cont "on this floor!"
+	text "We study <poke> Ball technology on this floor!"
 	done
 
 _SilphCo5FScientistEndBattleText::
-	text "Dang!"
-	line "Blast it!"
+	text "Dang! Blast it!"
 	prompt
 
 _SilphCo5FScientistAfterBattleText::
-	text "We worked on the"
-	line "ultimate #"
-	cont "BALL which would"
-	cont "catch anything!"
+	text "We worked on the ultimate <poke> Ball which would catch anything!"
 	done
 
 _SilphCo5FRockerBattleText::
-	text "Whaaat? There"
-	line "shouldn't be any"
-	cont "children here?"
+	text "Whaaat? There shouldn't be any children here?"
 	done

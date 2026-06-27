@@ -3,7 +3,10 @@
 ; Control characters (see home/text.asm)
 
 	charmap "<NULL>",    $00
-	DEF FIRST_TEXT_SHORCUT_ID EQU $3F
+	DEF FIRST_TEXT_SHORCUT_ID EQU $3C ; Sunsette: extended DOWN into 3 unused kana codes
+	charmap "<Pokemon>", $3C ; Sunsette: "Pokémon" (CAPITAL P) for SENTENCE STARTS
+	charmap "<poke>",    $3D ; Sunsette: "Poké" (initial-cap, lowercase é) for de-capped compounds (Poké Ball, PokéDex)
+	charmap "<pokemon>", $3E ; Sunsette: "pokémon" (lowercase) for de-capped prose. # / #MON stay UPPERCASE for menus/place names.
 	charmap "or",        $3F ; PureRGBnote: ADDED: single byte version of or
 	charmap "ing",       $40 ; PureRGBnote: ADDED: single byte version of ing
 	charmap "the",       $41 ; PureRGBnote: ADDED: single byte version of the

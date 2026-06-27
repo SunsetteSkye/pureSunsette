@@ -1,10 +1,29 @@
 GameCorner_Script:
 	call GameCornerSelectLuckySlotMachine
 	call GameCornerSetRocketHideoutDoorTile
+	call GameCornerPlayMusic
 	call EnableAutoTextBoxDrawing
 	ld hl, GameCorner_ScriptPointers
 	ld a, [wGameCornerCurScript]
 	jp CallFunctionInTable
+
+; Sunsette: with the OG+ music option on, swap to the new game-corner theme. PlaySpecialFieldMusic3
+; plays a 3-channel core then remaps channels 1-3 to Music_GameCornerNew and sets wSpecialMusicBank,
+; so the data can live in a floated bank (not an audio-engine bank). Re-checked each frame so it
+; re-applies after the floor's Rocket battle; wReplacedMapMusic is cleared on map change, so it
+; re-arms on re-entry. Shared by the prize room (it callfar's this).
+GameCornerPlayMusic::
+	ld a, [wOptions2]
+	bit BIT_MUSIC, a
+	ret z ; OG+ option off -> keep the vanilla game-corner / Celadon music
+	ld a, [wReplacedMapMusic]
+	cp MUSIC_GAME_CORNER_NEW
+	ret z ; already remapped
+	ld a, MUSIC_GAME_CORNER_NEW
+	ld [wReplacedMapMusic], a
+	ld hl, Music_GameCornerNew
+	ld c, BANK(Music_GameCornerNew)
+	jp PlaySpecialFieldMusic3 ; home routine: 3-channel core + remap + wSpecialMusicBank = c
 
 GameCornerSelectLuckySlotMachine:
 	ld hl, wCurrentMapScriptFlags

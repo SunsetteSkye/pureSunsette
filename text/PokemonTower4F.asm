@@ -1,21 +1,17 @@
 _PokemonTower4FChanneler1BattleText::
-	text "GHOST! No!"
-	line "Kwaaah!"
+	text "Ghost! No! Kwaaah!"
 	done
 
 _PokemonTower4FChanneler1EndBattleText::
-	text "Where"
-	line "is the GHOST?"
+	text "Where is the ghost?"
 	prompt
 
 _PokemonTower4FChanneler1AfterBattleText::
-	text "I must have been"
-	line "dreaming<...>"
+	text "I must have been dreaming<...>"
 	done
 
 _PokemonTower4FChanneler2BattleText::
-	text "Be cursed with"
-	line "me! Kwaaah!"
+	text "Be cursed with me! Kwaaah!"
 	done
 
 _PokemonTower4FChanneler2EndBattleText::
@@ -23,23 +19,17 @@ _PokemonTower4FChanneler2EndBattleText::
 	prompt
 
 _PokemonTower4FChanneler2AfterBattleText::
-	text "We can't crack"
-	line "the identity of"
-	cont "the GHOSTs."
+	text "We can't crack the identity of the ghosts."
 	done
 
 _PokemonTower4FChanneler3BattleText::
-	text "Huhuhu<...>"
-	line "Beat me not!"
+	text "Huhuhu<...> Beat me not!"
 	done
 
 _PokemonTower4FChanneler3EndBattleText::
-	text "Huh?"
-	line "Who? What?"
+	text "Huh? Who? What?"
 	prompt
 
 _PokemonTower4FChanneler3AfterBattleText::
-	text "May the departed"
-	line "souls of #MON"
-	cont "rest in peace<...>"
+	text "May the departed souls of <Pokemon> rest in peace<...>"
 	done

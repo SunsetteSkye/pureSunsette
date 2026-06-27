@@ -1,76 +1,53 @@
 _MtMoon1FHikerBattleText::
-	text "WHOA! You shocked"
-	line "me! Oh, you're"
-	cont "just a kid!"
+	text "Whoa! You shocked me! Oh, you're just a kid!"
 	done
 
 _MtMoon1FHikerEndBattleText::
-	text "Wow!"
-	line "Shocked again!"
+	text "Wow! Shocked again!"
 	prompt
 
 _MtMoon1FHikerAfterBattleText::
-	text "Kids like you"
-	line "shouldn't be"
-	cont "here!"
+	text "Kids like you shouldn't be here!"
 	done
 
 _MtMoon1FYoungster1BattleText::
-	text "Did you come to"
-	line "explore too?"
+	text "Did you come to explore too?"
 	done
 
 _MtMoon1FYoungster1EndBattleText::
-	text "Losing"
-	line "stinks!"
+	text "Losing stinks!"
 	prompt
 
 _MtMoon1FYoungster1AfterBattleText::
-	text "I came down here"
-	line "to show off to"
-	cont "girls."
+	text "I came down here to show off to girls."
 	done
 
 _MtMoon1FCooltrainerF1BattleText::
-	text "Wow! It's way"
-	line "darker in here"
-	cont "than I thought!"
+	text "Wow! It's way darker in here than I thought!"
 	done
 
 _MtMoon1FCooltrainerF1EndBattleText::
-	text "How do you"
-	line "get out of here?"
+	text "How do you get out of here?"
 	prompt
 
 _MtMoon1FCooltrainerF1AfterBattleText::
-	text "My girlfriend has"
-	line "an HM for the"
-	cont "dark, but she's"
-	cont "still in"
-	cont "VIRIDIAN FOREST!"
+	text "My girlfriend has an HM for the dark, but she's still in Viridian Forest!"
 	done
 
 _MtMoon1FSuperNerdBattleText::
-	text "Kyaa! Don't sneak"
-	line "up on my sketches!"
+	text "Kyaa! Don't sneak up on my sketches!"
 	done
 
 _MtMoon1FSuperNerdEndBattleText::
-	text "Kyaa!"
-	line "My #MON had no"
-	cont "chemistry!"
+	text "Kyaa! My <Pokemon> had no chemistry!"
 	prompt
 
 _MtMoon1FSuperNerdAfterBattleText::
-	text "I need #MON"
-	line "with better"
-	cont "dynamics..."
+	text "I need <Pokemon> with better dynamics..."
 	done
 
 _MtMoon1FCooltrainerF2BattleText::
-	text "What? I'm waiting"
-	line "for my friends to"
-	cont "find me here."
+	text "What? I'm waiting for my friends to find me here."
 	done
 
 _MtMoon1FCooltrainerF2EndBattleText::
@@ -78,44 +55,31 @@ _MtMoon1FCooltrainerF2EndBattleText::
 	prompt
 
 _MtMoon1FCooltrainerF2AfterBattleText::
-	text "I heard there are"
-	line "some very rare"
-	cont "fossils here."
+	text "I heard there are some very rare fossils here."
 	done
 
 _MtMoon1FYoungster2BattleText::
-	text "Suspicious men"
-	line "are in the cave."
-	cont "What about you?"
+	text "Suspicious men are in the cave. What about you?"
 	done
 
 _MtMoon1FYoungster2EndBattleText::
-	text "You"
-	line "got me!"
+	text "You got me!"
 	prompt
 
 _MtMoon1FYoungster2AfterBattleText::
-	text "I saw them! I'm"
-	line "sure they're from"
-	cont "<TEAM><ROCKET>!"
+	text "I saw them! I'm sure they're from <TEAM><ROCKET>!"
 	done
 
 _MtMoon1FYoungster3BattleText::
-	text "Go through this"
-	line "cave to get to"
-	cont "CERULEAN CITY!"
+	text "Go through this cave to get to Cerulean City!"
 	done
 
 _MtMoon1FYoungster3EndBattleText::
-	text "I"
-	line "lost."
+	text "I lost."
 	prompt
 
 _MtMoon1FYoungster3AfterBattleText::
-	text "ZUBAT is tough!"
-	line "But, it can be"
-	cont "useful if you"
-	cont "catch one."
+	text "Zubat is tough! But, it can be useful if you catch one."
 	done
 
 ; Sunsette: _MtMoon1FBewareZubatSign moved to text/sunsette_overworld_text.asm (Text 1 bank was full)

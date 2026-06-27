@@ -1,59 +1,34 @@
 _MtMoonPokecenterYoungsterText::
-	text "I've 6 # BALLs"
-	line "set in my belt."
-
-	para "At most, you can"
-	line "carry 6 #MON."
+	text "I've 6 <poke> Balls set in my belt."
+	para "At most, you can carry 6 <Pokemon>."
 	done
 
 _MtMoonPokecenterGentlemanText::
-	text "<TEAM><ROCKET>"
-	line "attacks CERULEAN"
-	cont "citizens<...>"
-
-	para "<TEAM><ROCKET> is"
-	line "always in the"
-	cont "news!"
+	text "<TEAM><ROCKET> attacks Cerulean citizens<...>"
+	para "<TEAM><ROCKET> is always in the news!"
 	done
 
 _MtMoonPokecenterMagikarpSalesmanIGotADealText::
-	text "MAN: Hello, there!"
-	line "Have I got a deal"
-	cont "just for you!"
-
-	para "A special golden"
-	line "MAGIKARP! The"
-	cont "luckiest of all"
-	cont "fish!"
-
-	para "Yours for just"
-	line "¥500! What do"
-	cont "you say?"
+	text "Man: Hello, there! Have I got a deal just for you!"
+	para "A special golden Magikarp! The luckiest of all fish!"
+	para "Yours for just ¥500! What do you say?"
 	done
 
 _MtMoonPokecenterMagikarpSalesmanNoText::
-	text "No? I'm only"
-	line "doing this as a"
-	cont "favor to you!"
+	text "No? I'm only doing this as a favor to you!"
 	done
 
 _MtMoonPokecenterMagikarpSalesmanNoMoneyText::
-	text "You'll need more"
-	line "money than that!"
+	text "You'll need more money than that!"
 	done
 
 _MtMoonPokecenterMagikarpSalesmanNoRefundsText::
-	text "MAN: Well, I don't"
-	line "give refunds!"
+	text "Man: Well, I don't give refunds!"
 	done
 
 _MtMoonPokecenterMagikarpSalesmanArentYouGladText::
 	text "WHAT?"
-	para "It evolved into"
-	line "GYARADOS?!"
-	para "Aren't you glad"
-	line "you bought it?"
-	para "I've heard many"
-	line "legends about"
-	cont "that #MON!"
+	para "It evolved into Gyarados?!"
+	para "Aren't you glad you bought it?"
+	para "I've heard many legends about that <Pokemon>!"
 	prompt

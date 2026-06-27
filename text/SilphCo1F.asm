@@ -1,71 +1,46 @@
 _SilphCo1FLinkReceptionistText::
 	text "Welcome!"
-
-	para "The PRESIDENT is"
-	line "in the boardroom"
-	cont "on 11F!"
+	para "The President is in the boardroom on 11F!"
 	done
 
 _SilphCo1FBattleText1::
 	text "Trying to escape?"
-	para "<TEAM><ROCKET> is"
-	line "going down!"
+	para "<TEAM><ROCKET> is going down!"
 	done
 
 _SilphCo1FEndBattleText1::
-	text "Oh,"
-	line "you're not a"
-	cont "<ROCKET>?"
+	text "Oh, you're not a <ROCKET>?"
 	prompt
 
 _SilphCo1FAfterBattleText1::
-	text "The police force"
-	line "is cleaning up"
-	cont "the streets."
-	para "We're here to"
-	line "clean out the"
-	cont "<ROCKET>s in their"
-	cont "stead."
-	para "But I guess our"
-	line "job is already"
-	cont "done!"
+	text "The police force is cleaning up the streets."
+	para "We're here to clean out the <ROCKET>s in their stead."
+	para "But I guess our job is already done!"
 	done
 
 _SilphCo1FBattleText2::
-	text "Looks like you"
-	line "did our job for"
-	cont "us!"
-	para "Now I need"
-	line "something to do!"
+	text "Looks like you did our job for us!"
+	para "Now I need something to do!"
 	done
 
 _SilphCo1FEndBattleText2::
-	text "So"
-	line "crazy!"
+	text "So crazy!"
 	prompt
 
 _SilphCo1FAfterBattleText2::
-	text "Did you take"
-	line "down <TEAM><ROCKET>"
-	cont "here all on your"
-	cont "own?!"
+	text "Did you take down <TEAM><ROCKET> here all on your own?!"
 	done
 
 _SilphCo1FBattleText3::
-	text "Hold it right"
-	line "there!"
+	text "Hold it right there!"
 	done
 
 _SilphCo1FEndBattleText3::
-	text "Wait,"
-	line "you're not one of"
-	cont "them?"
+	text "Wait, you're not one of them?"
 	prompt
 
 _SilphCo1FAfterBattleText3::
-	text "I was ready to"
-	line "kick some <ROCKET>"
-	cont "behind in battle!"
+	text "I was ready to kick some <ROCKET> behind in battle!"
 	done
 
 _SilphCo1FBattleText4::
@@ -73,20 +48,13 @@ _SilphCo1FBattleText4::
 	done
 
 _SilphCo1FEndBattleText4::
-	text "H-"
-	line "hmm?!"
+	text "H-hmm?!"
 	prompt
 
 _SilphCo1FAfterBattleText4::
-	text "You'd better"
-	line "get out of here."
-	para "Some crazy <ROCKET>"
-	line "on FIREFIGHTER"
-	cont "#MON battles"
-	cont "are about to"
-	cont "happen."
+	text "You'd better get out of here."
+	para "Some crazy <ROCKET> on Firefighter <Pokemon> battles are about to happen."
 	para "Wait a minute<...>"
-	para "All the <ROCKET>s"
-	line "left?!"
+	para "All the <ROCKET>s left?!"
 	para "It can't be<...>"
 	done

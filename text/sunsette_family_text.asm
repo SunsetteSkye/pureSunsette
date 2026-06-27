@@ -5,229 +5,123 @@
 
 ; --- MOM (RARE CANDY each) ---
 _MomMilestoneBoulderText::
-	text "The BOULDER BADGE!"
-	line "So you'll be off"
-	cont "to MT.MOON next?"
-
-	para "Hmm... I think"
-	line "LUCY's daughter"
-	cont "had a FLASH HM."
-	
-	para "But she went to"
-	line "the FOREST a bit"
-	cont "ago already."
-
-	para "Here, take this"
-	line "for the road!"
+	text "The Boulder Badge! So you'll be off to Mt. Moon next?"
+	para "Hmm... I think Lucy's daughter had a Flash HM."
+	para "But she went to the Forest a bit ago already."
+	para "Here, take this for the road!"
 	prompt
 
 _MomMilestoneThunderText::
-	text "The THUNDER BADGE!"
-	line "Your father and I"
-	cont "are so proud of"
-	cont "you, <PLAYER>!"
-
-	para "You've grown up"
-	line "so much. Here's a"
-	cont "little something."
+	text "The Thunder Badge! Your father and I are so proud of you, <PLAYER>!"
+	para "You've grown up so much. Here's a little something."
 	prompt
 
 _MomMilestoneMarshText::
-	text "The MARSH BADGE!"
-
-	para "A ninja gym"
-	line "leader? I can't..."
-
+	text "The Marsh Badge!"
+	para "A ninja Gym Leader? I can't..."
 	para "BELIEVE IT!"
-
-	para "Ahaha! Oh, listen"
-	line "to me. Here you"
-	cont "go, sweetheart."
+	para "Ahaha! Oh, listen to me. Here you go, sweetheart."
 	prompt
 
 _MomMilestoneVolcanoText::
-	text "The VOLCANO BADGE!"
-
-	para "Is BLAINE STILL a"
-	line "gym leader? My,"
-	cont "after all these"
-	cont "years!"
-
-	para "Time flies. Take"
-	line "this, <PLAYER>."
+	text "The Volcano Badge!"
+	para "Is Blaine STILL a Gym Leader? My, after all these years!"
+	para "Time flies. Take this, <PLAYER>."
 	prompt
 
 _MomMilestoneChampionText::
-	text "<PLAYER>! The"
-	line "CHAMPION! I can"
-	cont "hardly believe it!"
-
-	para "What a summer this"
-	line "has turned out to"
-	cont "be!"
-
-	para "A summer to"
-	line "remember, for"
-	cont "certain!"
+	text "<PLAYER>! The Champion! I can hardly believe it!"
+	para "What a summer this has turned out to be!"
+	para "A summer to remember, for certain!"
 	prompt
 
 _MomMilestoneGotCandyText::
-	text "<PLAYER> got a"
-	line "RARE CANDY!"
+	text "<PLAYER> got a Rare Candy!"
 	done
 
 ; Mom's Champion gift handoff (a MASTER BALL - she's coy about what it is). sound_get_item_1 in the wrapper.
 _MomChampionGiftText::
-	text "They haven't"
-	line "started making"
-	cont "these public yet,"
-
-	para "but your dad"
-	line "pulled a few"
-	cont "favors!"
-
-	para "We thought it'd"
-	line "make a nice gift"
-	cont "for the occasion!"
-
-	para "By the way, I"
-	line "heard the Company"
-	cont "PRESIDENT wants"
-	cont "to see you."
-
-	para "I wonder what"
-	line "that's about?"
+	text "They haven't started making these public yet,"
+	para "but your dad pulled a few favors!"
+	para "We thought it'd make a nice gift for the occasion!"
+	para "By the way, I heard the Company President wants to see you."
+	para "I wonder what that's about?"
 	done
 
 ; MOM's one-time acknowledgments for the badges she doesn't gift for (no item)
 _MomCommentCascadeText::
-	text "The CASCADE BADGE!"
-	line "You're doing"
-	cont "wonderfully, dear!"
+	text "The Cascade Badge! You're doing wonderfully, dear!"
 	prompt
 
 _MomCommentRainbowText::
-	text "The RAINBOW BADGE!"
-	line "Such a pretty"
-	cont "one. Keep it up!"
+	text "The Rainbow Badge! Such a pretty one. Keep it up!"
 	prompt
 
 _MomCommentSoulText::
-	text "The SOUL BADGE!"
-	line "My, you're really"
-	cont "something!"
+	text "The Soul Badge! My, you're really something!"
 	prompt
 
 _MomCommentEarthText::
-	text "The EARTH BADGE!"
-	line "All of them now?"
-	cont "I'm so proud!"
+	text "The Earth Badge! All of them now? I'm so proud!"
 	prompt
 
 ; --- DAISY (PP UP each) ---
 _DaisyMilestoneCascadeText::
-	text "The CASCADE BADGE!"
-
-	para "Wow, you came all"
-	line "this way just to"
-	cont "see me?"
-
-	para "Hee hee... Here,"
-	line "a little reward."
+	text "The Cascade Badge!"
+	para "Wow, you came all this way just to see me?"
+	para "Hee hee... Here, a little reward."
 	prompt
 
 _DaisyMilestoneRainbowText::
-	text "The RAINBOW BADGE!"
-
-	para "...Why do you"
-	line "smell like women's"
-	cont "perfume, <PLAYER>?"
-
+	text "The Rainbow Badge!"
+	para "...Why do you smell like women's perfume, <PLAYER>?"
 	para "...Hmph. Here."
 	prompt
 
 _DaisyMilestoneSoulText::
-	text "The SOUL BADGE!"
-	line "Isn't she kinda"
-	cont "scary?"
-
-	para "...So she had a"
-	line "whip, huh?"
-	cont "I'll remember"
-	cont "that."
+	text "The Soul Badge! Isn't she kinda scary?"
+	para "...So she had a whip, huh? I'll remember that."
 	prompt
 
 _DaisyMilestoneEarthText::
-	text "The EARTH BADGE!"
-	line "That's all eight!"
-
-	para "Wait... what was"
-	line "that about the"
-	cont "VIRIDIAN leader?"
-
+	text "The Earth Badge! That's all eight!"
+	para "Wait... what was that about the Viridian Leader?"
 	para "TEAM ROCKET?!"
-
-	para "Wait, YOU saved"
-	line "SAFFRON CITY?!"
-
-	para "You HAVE to tell"
-	line "me everything!"
+	para "Wait, YOU saved Saffron City?!"
+	para "You HAVE to tell me everything!"
 	prompt
 
 _DaisyMilestoneChampionText::
-	text "So, you're the"
-	line "CHAMPION now."
-
-	para "What are you doing"
-	line "with the rest of"
-	cont "your summer?"
-
-	para "Because I've got a"
-	line "few ideas..."
-
-	para "Here. A little"
-	line "something from me"
-	cont "to you."
-
-	para "Now come on,"
-	line "before <RIVAL> gets"
-	cont "home and starts"
-	cont "whining."
+	text "So, you're the Champion now."
+	para "What are you doing with the rest of your summer?"
+	para "Because I've got a few ideas..."
+	para "Here. A little something from me to you."
+	para "Now come on, before <RIVAL> gets home and starts whining."
 	prompt
 
 _DaisyMilestoneGotTMText::
-	text "<PLAYER> received"
-	line "@"
+	text "<PLAYER> received @"
 	text_ram_stringbuffer
 	text "!"
 	done
 
 _DaisyMilestoneGotPPUpText::
-	text "<PLAYER> got a"
-	line "PP UP!"
+	text "<PLAYER> got a PP Up!"
 	done
 
 ; DAISY's one-time acknowledgments for the badges she doesn't gift for (no item)
 _DaisyCommentBoulderText::
-	text "The BOULDER BADGE?"
-	line "Heh. Off to a"
-	cont "start, then."
+	text "The Boulder Badge? Heh. Off to a start, then."
 	prompt
 
 _DaisyCommentThunderText::
-	text "The THUNDER BADGE."
-	line "You're getting"
-	cont "tougher, <PLAYER>."
+	text "The Thunder Badge. You're getting tougher, <PLAYER>."
 	prompt
 
 _DaisyCommentMarshText::
-	text "The MARSH BADGE?"
-	line "Color me a little"
-	cont "impressed."
+	text "The Marsh Badge? Color me a little impressed."
 	prompt
 
 _DaisyCommentVolcanoText::
-	text "The VOLCANO BADGE!"
-	line "Nearly there now,"
-	cont "aren't you?"
+	text "The Volcano Badge! Nearly there now, aren't you?"
 	prompt

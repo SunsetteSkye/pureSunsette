@@ -1,60 +1,41 @@
 _CeladonMansion1FMeowthText::
-	text "MEOWTH: Meow!@"
+	text "Meowth: Meow!@"
 	text_end
 
 _CeladonMansion1FGrannyText::
-	text "My dear #MON"
-	line "keep me company."
-
-	para "MEOWTH even brings"
-	line "money home!"
+	text "My dear <Pokemon> keep me company."
+	para "Meowth even brings money home!"
 	done
 
 _CeladonMansion1FClefairyText::
-	text "CLEFAIRY: Pi"
-	line "pippippi!@"
+	text "Clefairy: Pi pippippi!@"
 	text_end
 
 _CeladonMansion1FNidoranFText::
-	text "NIDORAN: Kya"
-	line "kyaoo!@"
+	text "Nidoran: Kya kyaoo!@"
 	text_end
 
 _CeladonMansion1FManagersSuiteSignText::
-	text "CELADON MANSION"
-	line "Manager's Suite"
+	text "Celadon Mansion"
+	para "Manager's Suite"
 	done
 
 _CeladonMansion1FBookCaseLeftText::
-	text "THE SUNNY SIDE:"
-	line "EXEGGCUTE's STORY"
-	para "A children's fable"
-	line "about EXEGGCUTE.@"
+	text "The Sunny Side: Exeggcute's Story"
+	para "A children's fable about Exeggcute.@"
 	text_end
 
 _CeladonMansion1FBookCaseLeft2Text::
-	text "<PARA>All 6 of them"
-	line "finally team up!"
-	para "They calm a raging"
-	line "TAUROS with each"
-	cont "of their own"
-	cont "unique skills."
+	text "<PARA>All 6 of them finally team up!"
+	para "They calm a raging Tauros with each of their own unique skills."
 	done
 
 _CeladonMansion1FBookCaseRightText::
-	text "THREE HEADS ARE"
-	line "BETTER THAN TWO"
-	para "A legend about"
-	line "DODRIO.@"
+	text "Three Heads Are Better Than Two"
+	para "A legend about Dodrio.@"
 	text_end
 
 _CeladonMansion1FBookCaseRight2Text::
-	text "<PARA>Two of DODRIO's"
-	line "heads just ignore"
-	cont "the third, who"
-	cont "jokes around."
-	para "It turns out this"
-	line "goofy head's idea"
-	cont "was needed to"
-	cont "save the flock."
+	text "<PARA>Two of Dodrio's heads just ignore the third, who jokes around."
+	para "It turns out this goofy head's idea was needed to save the flock."
 	done

@@ -1,0 +1,13 @@
+# VWF advance-width overrides (pixels), keyed by char code $80..$FF.
+# Anything not listed is auto-measured by tools/make_vwf_font.py as
+# (ink width + 1px gap). Use this file only to pin glyphs the heuristic
+# gets wrong, or to widen/tighten specific glyphs to taste.
+#
+# Reference (constants/charmap.asm): 'A'=$80 .. 'Z'=$99, 'a'=$A0 .. 'z'=$B9,
+# 'e-acute'=$BA, combos 'd=$BB 'll=$BC 's=$BD 't=$BE 'v=$BF, "'"=$E0,
+# '-'=$E3, 'r=$E4 'm=$E5, '?'=$E6 '!'=$E7 '.'=$E8, '0'=$F6 .. '9'=$FF.
+#
+# (Space $7F is not in this range; the compositor advances it by
+#  VWF_SPACE_WIDTH in engine/gfx/vwf.asm.)
+
+# --- overrides below (none yet; tune after the first playtest) ---

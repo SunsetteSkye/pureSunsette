@@ -11,6 +11,17 @@ MACRO farcall
 	rst _Bankswitch ; pureRGBnote: CHANGED: using a rst vector here saves a bunch of space
 ENDM
 
+; farcall into a VWF routine with WRAM bank 2 selected (the VWF state lives
+; there because bank 1/WRAM0 are full). Restores SVBK=1 on return. Only reached
+; on GBC behind a wVWFActive gate, so the SVBK writes are GBC-only. Preserves de.
+MACRO vwf_farcall
+	ld a, 2
+	ldh [rSVBK], a
+	farcall \1
+	ld a, 1
+	ldh [rSVBK], a
+ENDM
+
 MACRO callfar
 	ld hl, \1
 	ld b, BANK(\1)

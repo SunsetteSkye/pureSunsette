@@ -52,10 +52,10 @@
 
 ; --- Sunsette SSOT directives (parsed by tools/gen_pokemon_data.py) ---
 ;@ nature       NATURE_STOLID NATURE_CRUEL
-;@ pal_battle   PAL_BLUEMON
-;@ pal_altbattle PAL_CYANMON
-;@ pal_icon     PAL_ICON_76
-;@ pal_alticon  PAL_ICON_18
+;@ pal_battle   PAL_CYANMON
+;@ pal_altbattle PAL_BLUEMON
+;@ pal_icon     PAL_ICON_18
+;@ pal_alticon  PAL_ICON_76
 ;@ evo_move    NO_MOVE
 ;@ evo_react   NONE
 ;@ learn       51, HURRICANE

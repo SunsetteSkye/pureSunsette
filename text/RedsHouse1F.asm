@@ -1,55 +1,30 @@
 _RedsHouse1FMomWakeUpText::
-	text "MOM: Right."
-	line "All boys leave"
-	cont "home some day."
-	cont "It said so on TV."
-
-	para "PROF.OAK, next"
-	line "door, is looking"
-	cont "for you."
+	text "Mom: Right. All boys leave home some day. It said so on TV."
+	para "Prof. Oak was looking for you earlier. Why don't you head next door?"
 	done
 
 ; Sunsette: Mom gives 5 Poke Balls the first time you're home after getting the #DEX (pre-first-badge)
 _RedsHouse1FMomBallsPreText::
-	text "MOM: Oh, so"
-	line "THAT'S what PROF."
-	cont "OAK wanted your"
-	cont "help with?"
-
-	para "Rather silly of"
-	line "him not to give"
-	cont "you # BALLs!"
-
-	para "Here, take these"
-	line "with you."
+	text "Mom: Oh, so THAT'S what Prof. Oak wanted your help with?"
+	para "Rather silly of him not to give you <poke> Balls!"
+	para "Here, take these with you."
 	prompt
 
 _RedsHouse1FMomBallsReceivedText::
-	text "<PLAYER> got 5"
-	line "# BALLs"
-	cont "from MOM!"
+	text "<PLAYER> got 5 <poke> Balls from Mom!"
 	done
 
 _RedsHouse1FMomYouShouldRestText::
-	text "MOM: <PLAYER>!"
-	line "You should take a"
-	cont "quick rest."
+	text "Mom: <PLAYER>! You should take a quick rest."
 	prompt
 
 _RedsHouse1FMomLookingGreatText::
-	text "MOM: Oh good!"
-	line "You and your"
-	cont "#MON are"
-	cont "looking great!"
-	cont "Take care now!"
+	text "Mom: Oh good! You and your <Pokemon> are looking great!"
+	para "Take care now!"
 	done
 
 _RedsHouse1FTVStandByMeMovieText::
-	text "There's a movie"
-	line "on TV. Four boys"
-	cont "are walking on"
-	cont "railroad tracks."
-
+	text "There's a movie on TV. Four boys are walking on railroad tracks."
 	para "I better go too."
 	done
 
@@ -58,16 +33,10 @@ _RedsHouse1FTVWrongSideText::
 	done
 
 _DadHealText1::
-	text "DAD: <PLAYER>!"
-	line "Let's sit down and"
-	cont "talk, maybe play"
-	cont "some SNES."
+	text "Dad: <PLAYER>! Let's sit down and talk, maybe play some SNES."
 	prompt
 
 _DadHealText2::
-	text "DAD: Looks like"
-	line "you're raring to"
-	cont "go! Good stuff."
-	para "Get back out"
-	line "there, son!"
+	text "Dad: Looks like you're raring to go! Good stuff."
+	para "Get back out there, son!"
 	done

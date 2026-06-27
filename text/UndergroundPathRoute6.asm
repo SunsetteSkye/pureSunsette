@@ -1,5 +1,3 @@
 _UndergroundPathRoute6GirlText::
-	text "People often lose"
-	line "things in that"
-	cont "UNDERGROUND PATH."
+	text "People often lose things in that Underground Path."
 	done

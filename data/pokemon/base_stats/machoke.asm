@@ -59,7 +59,7 @@
 ; --- Sunsette SSOT directives (parsed by tools/gen_pokemon_data.py) ---
 ;@ nature       NATURE_STOLID NATURE_CONSIDERATE
 ;@ pal_battle   PAL_SLATEMON
-;@ pal_altbattle PAL_OLIVEMON
+;@ pal_altbattle PAL_CREAMPINKMON
 ;@ pal_icon     PAL_ICON_36
 ;@ pal_alticon  PAL_ICON_37
 ;@ evo         EVOLVE_TRADE, 1, MACHAMP

@@ -1,145 +1,87 @@
 _FuchsiaGymKogaPostBattleAdviceText::
-	text "A fine result."
-	line "I congratulate"
-	cont "you."
-
-	para "Naturally, a true"
-	line "ninja shows only"
-	cont "what he wishes"
-	cont "to be seen<...>"
-
-	para "<...>and keeps the"
-	line "rest unseen."
+	text "A fine result. I congratulate you."
+	para "Naturally, a true ninja shows only what he wishes to be seen<...>"
+	para "<...>and keeps the rest unseen."
 	done
 
 _FuchsiaGymKogaSoulBadgeInfoText::
-	text "Now that you have"
-	line "the MARSHBADGE,"
-	cont "the DEFENSE of"
-	cont "your #MON"
-	cont "increases!"
-
-	para "It also lets you"
-	line "SURF outside of"
-	cont "battle!"
-
-	para "Ah! Take this"
-	line "too!"
+	text "Now that you have the Marsh Badge, the Defense of your <Pokemon> increases!"
+	para "It also lets you Surf outside of battle!"
+	para "Ah! Take this too!"
 	done
 
 _FuchsiaGymKogaTM06ExplanationText::
 	text_start
 	para "@"
 	text_ram_stringbuffer
-	text " contains"
-	line "SHADOW GAME!"
-
-	para "It is a secret"
-	line "technique over"
-	cont "400 years old!"
+	text " contains Shadow Game!"
+	para "It is a secret technique over 400 years old!"
 	done
 
 _FuchsiaGymKogaTM06NoRoomText::
-	text "Make space for"
-	line "this, child!"
+	text "Make space for this, child!"
 	done
 
 _FuchsiaGymJuggler1BattleText::
-	text "Strength isn't"
-	line "the key for"
-	cont "#MON!"
-
+	text "Strength isn't the key for <Pokemon>!"
 	para "It's strategy!"
-
-	para "I'll show you how"
-	line "strategy can beat"
-	cont "brute strength!"
+	para "I'll show you how strategy can beat brute strength!"
 	done
 
 _FuchsiaGymJuggler1EndBattleText::
-	text "What?"
-	line "Extraordinary!"
+	text "What? Extraordinary!"
 	prompt
 
 _FuchsiaGymJuggler1AfterBattleText::
-	text "So, you mix brawn"
-	line "with brains?"
-	cont "Good strategy!"
+	text "So, you mix brawn with brains? Good strategy!"
 	done
 
 _FuchsiaGymJuggler2BattleText::
-	text "I wanted to become"
-	line "a ninja, so I"
-	cont "joined this GYM!"
+	text "I wanted to become a ninja, so I joined this Gym!"
 	done
 
 _FuchsiaGymJuggler2EndBattleText::
-	text "I'm done"
-	line "for!"
+	text "I'm done for!"
 	prompt
 
 _FuchsiaGymJuggler2AfterBattleText::
-	text "I will keep on"
-	line "training under"
-	cont "KOGA, my ninja"
-	cont "master!"
+	text "I will keep on training under Koga, my ninja master!"
 	done
 
 _FuchsiaGymJuggler3BattleText::
-	text "Let's see you"
-	line "beat my special"
-	cont "techniques!"
+	text "Let's see you beat my special techniques!"
 	done
 
 _FuchsiaGymJuggler3EndBattleText::
-	text "You"
-	line "had me fooled!"
+	text "You had me fooled!"
 	prompt
 
 _FuchsiaGymJuggler3AfterBattleText::
-	text "I like poison and"
-	line "sleep techniques,"
-	cont "as they linger"
-	cont "after battle!"
+	text "I like poison and sleep techniques, as they linger after battle!"
 	done
 
 _FuchsiaGymTamer1BattleText::
 	text "Stop right there!"
-
-	para "Our invisible"
-	line "walls have you"
-	cont "frustrated?"
+	para "Our invisible walls have you frustrated?"
 	done
 
 _FuchsiaGymTamer1EndBattleText::
-	text "Whoa!"
-	line "He's got it!"
+	text "Whoa! He's got it!"
 	prompt
 
 _FuchsiaGymTamer1AfterBattleText::
-	text "You impressed me!"
-	line "Here's a hint!"
-
-	para "Look very closely"
-	line "for gaps in the"
-	cont "invisible walls!"
+	text "You impressed me! Here's a hint!"
+	para "Look very closely for gaps in the invisible walls!"
 	done
 
 _FuchsiaGymTamer1AfterBattleGymDefeatedText::
-	text "I've never seen a"
-	line "ninja master lose"
-	cont "until today!"
+	text "I've never seen a ninja master lose until today!"
 	para "You're insane!"
 	done
 
 _FuchsiaGymTamer2BattleText::
-	text "I also study the"
-	line "way of the ninja"
-	cont "with master KOGA!"
-
-	para "Ninja have a long"
-	line "history of using"
-	cont "animals!"
+	text "I also study the way of the ninja with master Koga!"
+	para "Ninja have a long history of using animals!"
 	done
 
 _FuchsiaGymTamer2EndBattleText::
@@ -147,47 +89,27 @@ _FuchsiaGymTamer2EndBattleText::
 	prompt
 
 _FuchsiaGymTamer2AfterBattleText::
-	text "I still have much"
-	line "to learn!"
+	text "I still have much to learn!"
 	done
 
 _FuchsiaGymJuggler4BattleText::
-	text "Master KOGA comes"
-	line "from a long line"
-	cont "of ninjas!"
-
-	para "What did you"
-	line "descend from?"
+	text "Master Koga comes from a long line of ninjas!"
+	para "What did you descend from?"
 	done
 
 _FuchsiaGymJuggler4EndBattleText::
-	text "Dropped"
-	line "my balls!"
+	text "Dropped my balls!"
 	prompt
 
 _FuchsiaGymJuggler4AfterBattleText::
-	text "Where there is"
-	line "light, there is"
-	cont "shadow!"
-
-	para "Light and shadow!"
-	line "Which do you"
-	cont "choose?"
+	text "Where there is light, there is shadow!"
+	para "Light and shadow! Which do you choose?"
 	done
 
 _FuchsiaGymGymGuideChampInMakingText::
-	text "FUCHSIA GYM is"
-	line "riddled with"
-	cont "invisible walls!"
-
-	para "Those same walls"
-	line "confuse your lead"
-	cont "#MON as the"
-	cont "battle begins!"
-
-	para "You have to find"
-	line "gaps in the walls"
-	cont "to reach him!"
+	text "Fuchsia Gym is riddled with invisible walls!"
+	para "Those same walls confuse your lead <Pokemon> as the battle begins!"
+	para "You have to find gaps in the walls to reach him!"
 	done
 
 _FuchsiaGymGymGuideBeatKogaText::
@@ -198,23 +120,12 @@ _FuchsiaGymGymGuideBeatKogaText::
 	ld hl, .body
 	ret
 .body:
-	text "It's amazing how"
-	line "ninja can terrify"
-	cont "even now!"
-
-	para "That BADGE lets"
-	line "you raise #MON"
-	cont "up to L@"
+	text "It's amazing how ninja can terrify even now!"
+	para "That Badge lets you raise <Pokemon> up to L@"
 	text_decimal wExpGrowthThreshold, 1, 2
 	text "!"
 	prompt
 
 _FuchsiaGymGuideApexChipPoisonText::
-	text "For poison"
-	line "#MON, an"
-	cont "APEX CHIP will"
-	cont "conjure up images"
-	cont "of a dark,"
-	cont "totally overgrown"
-	cont "mangrove swamp."
+	text "For Poison <Pokemon>, an Apex Chip will conjure up images of a dark, totally overgrown mangrove swamp."
 	prompt

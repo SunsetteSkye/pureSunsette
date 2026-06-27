@@ -1,198 +1,132 @@
 _MtMoonB2FDomeFossilYouWantText::
-	text "You want the"
-	line "DOME FOSSIL?"
+	text "You want the Dome Fossil?"
 	done
 
 _MtMoonB2FHelixFossilYouWantText::
-	text "You want the"
-	line "HELIX FOSSIL?"
+	text "You want the Helix Fossil?"
 	done
 
 _MtMoonB2FReceivedFossilText::
-	text "<PLAYER> got the"
-	line "@"
+	text "<PLAYER> got the @"
 	text_ram_stringbuffer
 	text "!@"
 	text_end
 
 _MtMoonB2FYouHaveNoRoomText::
-	text "Look, you've got"
-	line "no room for this.@"
+	text "Look, you've got no room for this.@"
 	text_end
 
 _MtMoonB2FSuperNerdTheyreBothMineText::
 	text "Hey, hands off!"
-
-	para "I found these"
-	line "fossils, and"
-	cont "they're a pair!"
+	para "I found these fossils, and they're a pair!"
 	done
 
 _MtMoonB2FSuperNerdOkIllShareText::
-	text "OK!"
-	line "I'll share!"
+	text "OK! I'll share!"
 	prompt
 
 _MtMoonB2fSuperNerdEachTakeOneText::
-	text "We'll each take"
-	line "one!"
-	cont "No being greedy!"
+	text "We'll each take one! No being greedy!"
 	done
 
 _MtMoonB2FSuperNerdTheresAPokemonLabText::
-	text "Far away, on"
-	line "CINNABAR ISLAND,"
-	cont "there's a #MON"
-	cont "LAB."
-
-	para "They do research"
-	line "on regenerating"
-	cont "fossils."
+	text "Far away, on Cinnabar Island, there's a <Pokemon> Lab."
+	para "They do research on regenerating fossils."
 	prompt
 
 _MtMoon3TextSuperNerdGiveFossil::
-	text "I plan on taking"
-	line "my fossil there!"
-
+	text "I plan on taking my fossil there!"
 	para "Tell you what:"
-
-	para "If you give me"
-	line "your fossil too,"
-	cont "I can bring it"
-	cont "to the lab and"
-	cont "see if it can be"
-	cont "regenerated!"
-
+	para "If you give me your fossil too, I can bring it to the lab and see if it can be regenerated!"
 	para "How about it?@"
 	text_end
 
 _MtMoon3TextSuperNerdNoFossil::
-	text "Looks like you"
-	line "don't have your"
-	cont "fossil in your"
-	cont "bag. Go get it!"
-	done	
+	text "Looks like you don't have your fossil in your bag. Go get it!"
+	done
 
 _MtMoon3TextSuperNerdGaveHelix::
-	text "<PLAYER> gave the"
-	line "HELIX FOSSIL to"
-	cont "the SUPER NEET!"
+	text "<PLAYER> gave the Helix Fossil to the Super Neet!"
 	done
 
 _MtMoon3TextSuperNerdGaveDome::
-	text "<PLAYER> gave the"
-	line "DOME FOSSIL to"
-	cont "the SUPER NEET!"
+	text "<PLAYER> gave the Dome Fossil to the Super Neet!"
 	done
 
 _MtMoon3TextSuperNerdGaveFossil::
-	text "Eee, perfect!"
-	line "I'll revive them"
-	cont "as a pair!"
+	text "Eee, perfect! I'll revive them as a pair!"
 	prompt
 
 _MtMoon3TextSuperNerdKeptFossil::
 	text "No worries!"
-	para "It's your fossil"
-	line "after all."
+	para "It's your fossil after all."
 	done
 
 _MtMoon3TextSuperNerdGaveFossilEnd::
-	text "Meet me in"
-	line "SAFFRON CITY."
-	
-	para "I'll tell you"
-	line "the results!"
+	text "Meet me in Saffron City."
+	para "I'll tell you the results!"
 	done
 
 _MtMoon3TextSuperNerdLookingForMoreFossils::
-	text "Hey! I'm hunting"
-	line "for more fossils."
-
-	para "No luck yet..."
-	line "oh well."
-
-	para "I live for the"
-	line "hunt!"
+	text "Hey! I'm hunting for more fossils."
+	para "No luck yet... oh well."
+	para "I live for the hunt!"
 	done
 
 _MtMoonB2FSuperNerdThenThisIsMineText::
-	text "All right. Then"
-	line "this is mine!@"
+	text "All right. Then this is mine!@"
 	text_end
 
 _MtMoonB2FRocket1BattleText::
-	text "<TEAM><ROCKET> will"
-	line "find the fossils,"
-	cont "revive and sell"
-	cont "them for cash!"
+	text "<TEAM><ROCKET> will find the fossils, revive and sell them for cash!"
 	done
 
 _MtMoonB2FRocket1EndBattleText::
-	text "Urgh!"
-	line "Now I'm mad!"
+	text "Urgh! Now I'm mad!"
 	prompt
 
 _MtMoonB2FRocket1AfterBattleText::
-	text "You made me mad!"
-	line "<TEAM><ROCKET> will"
-	cont "blacklist you!"
+	text "You made me mad! <TEAM><ROCKET> will blacklist you!"
 	done
 
 _MtMoonB2FRocket2BattleText::
-	text "We, <TEAM><ROCKET>,"
-	line "are #MON"
-	cont "gangsters!"
+	text "We, <TEAM><ROCKET>, are <Pokemon> gangsters!"
 	done
 
 _MtMoonB2FRocket2EndBattleText::
-	text "I blew"
-	line "it!"
+	text "I blew it!"
 	prompt
 
 _MtMoonB2FRocket2AfterBattleText::
-	text "Darn it all! My"
-	line "associates won't"
-	cont "stand for this!"
+	text "Darn it all! My associates won't stand for this!"
 	done
 
 _MtMoonB2FRocket3BattleText::
-	text "We're pulling a"
-	line "big job here!"
-	cont "Get lost, kid!"
+	text "We're pulling a big job here! Get lost, kid!"
 	done
 
 _MtMoonB2FRocket3EndBattleText::
-	text "So, you"
-	line "are good."
+	text "So, you are good."
 	prompt
 
 _MtMoonB2FRocket3AfterBattleText::
-	text "If you find a"
-	line "fossil, give it"
-	cont "to me and scram!"
+	text "If you find a fossil, give it to me and scram!"
 	done
 
 _MtMoonB2FRocket4BattleText::
-	text "Little kids"
-	line "should leave"
-	cont "grown-ups alone!"
+	text "Little kids should leave grown-ups alone!"
 	done
 
 _MtMoonB2FRocket4EndBattleText::
-	text "I'm"
-	line "steamed!"
+	text "I'm steamed!"
 	prompt
 
 _MtMoonB2FRocket4AfterBattleText::
-	text "#MON lived"
-	line "here long before"
-	cont "people came."
+	text "<Pokemon> lived here long before people came."
 	done
 
 _MtMoonB2fRocket4AfterBattleLearnsetText::
-	text "So kid, how'd you"
-	line "like my @"
+	text "So kid, how'd you like my @"
 	text_ram_namebuffer
 	text "?"
 	para "Pretty scary, huh?"

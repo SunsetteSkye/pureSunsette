@@ -37,7 +37,7 @@
 	const PAL_ICON_37
 	const PAL_ICON_38
 	const PAL_ICON_39
-	const PAL_ICON_40
+	const PAL_DRATINIMON
 	const PAL_ICON_41
 	const PAL_ICON_42
 	const PAL_ICON_43

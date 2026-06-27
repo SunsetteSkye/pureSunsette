@@ -475,11 +475,26 @@ SECTION "Music 5", ROMX
 INCLUDE "audio/play_battle_music.asm"
 INCLUDE "audio/music/tcg2/fort2.asm"
 INCLUDE "audio/music/tcg2/herecomesteamgr.asm"
+INCLUDE "audio/music/teamrocketbattle.asm" ; Sunsette: Rocket grunt/queen battle theme (special-music piggyback)
+INCLUDE "audio/music/elitefourbattle.asm" ; Sunsette: Elite Four battle theme (special-music piggyback)
+INCLUDE "audio/music/dragonsden.asm" ; Sunsette: wild Mewtwo battle theme (special-music piggyback)
+INCLUDE "audio/music/legendarybirds.asm" ; Sunsette: wild Articuno/Zapdos/Moltres theme (special-music piggyback)
 INCLUDE "audio/music/unused_beta_tracks/battle_victory_guide.asm"
 INCLUDE "audio/music/unused_beta_tracks/rest_at_house.asm"
 INCLUDE "audio/music/unusedsong.asm"
 INCLUDE "audio/music/unused_beta_tracks/route3_early.asm"
 INCLUDE "audio/music/safarizone.asm"
+
+; Sunsette: game-corner / prize-room theme. Played via PlaySpecialFieldMusic3 (sets wSpecialMusicBank),
+; so the data can live in ANY bank, not just an audio-engine bank. This section is intentionally NOT
+; pinned in layout.link, so the linker floats it into the free high banks (uses the spare ~1MB).
+SECTION "Game Corner Music", ROMX
+INCLUDE "audio/music/gamecornernew.asm"
+
+; Sunsette: Yellow's "Meet Jessie & James" theme, Rocket Queen sight/pre-battle cue. Floated into
+; free ROM and played via PlaySpecialFieldMusic3 (wSpecialMusicBank), so it needs no audio-engine bank.
+SECTION "Meet Jessie James Music", ROMX
+INCLUDE "audio/music/meetjessiejames.asm"
 
 SECTION "New Engine 3 SFX", ROMX
 

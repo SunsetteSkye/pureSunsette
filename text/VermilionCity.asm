@@ -1,63 +1,41 @@
 _VermilionCityBeautyText::
-	text "We're careful"
-	line "about pollution!"
-
-	para "We've heard GRIMER"
-	line "multiplies in"
-	cont "toxic sludge!"
+	text "We're careful about pollution!"
+	para "We've heard Grimer multiplies in toxic sludge!"
 	done
 
 _VermilionCityGambler1DidYouSeeText::
-	text "Did you see S.S."
-	line "ANNE moored in"
-	cont "the harbor?"
+	text "Did you see S.S. Anne moored in the harbor?"
 	done
 
 _VermilionCityGambler1SSAnneDepartedText::
-	text "So, S.S.ANNE has"
-	line "departed!"
-
-	para "She'll be back in"
-	line "about a year."
+	text "So, S.S. Anne has departed!"
+	para "She'll be back in about a year."
 	done
 
 _VermilionCitySailor1WelcomeToSSAnneText::
-	text "Welcome to S.S."
-	line "ANNE!"
+	text "Welcome to S.S. Anne!"
 	done
 
 _VermilionCitySailor1DoYouHaveATicketText::
-	text "Welcome to S.S."
-	line "ANNE!"
-
-	para "Excuse me, do you"
-	line "have a ticket?"
+	text "Welcome to S.S. Anne!"
+	para "Excuse me, do you have a ticket?"
 	prompt
 
 _VermilionCitySailor1FlashedTicketText::
-	text "<PLAYER> flashed"
-	line "the S.S.TICKET!"
-
-	para "Great! Welcome to"
-	line "S.S.ANNE!"
+	text "<PLAYER> flashed the S.S. Ticket!"
+	para "Great! Welcome to S.S. Anne!"
 	done
 
 _VermilionCity1OhItsYouText::
 	text "Oh! <PLAYER>!"
-	para "You're a friend"
-	line "of the CAPTAIN!"
+	para "You're a friend of the Captain!"
 	para "Come on through!"
 	done
 
 _VermilionCitySailor1YouNeedATicketText::
-	text "<PLAYER> doesn't"
-	line "have the needed"
-	cont "S.S.TICKET."
-
+	text "<PLAYER> doesn't have the needed S.S. Ticket."
 	para "Sorry!"
-
-	para "You need a ticket"
-	line "to get aboard."
+	para "You need a ticket to get aboard."
 	done
 
 _VermilionCitySailor1ShipSetSailText::
@@ -65,138 +43,89 @@ _VermilionCitySailor1ShipSetSailText::
 	done
 
 _VermilionCityGambler2Text::
-	text "I'm putting up a"
-	line "building on this"
-	cont "plot of land."
-
-	para "My #MON is"
-	line "tamping the land."
+	text "I'm putting up a building on this plot of land."
+	para "My <Pokemon> is tamping the land."
 	done
 
 _VermilionCityMachopText::
-	text "MACHOP: Guoh!"
-	line "Gogogoh!@"
+	text "Machop: Guoh! Gogogoh!@"
 	text_end
 
 _VermilionCityMachopStompingTheLandFlatText::
 	text_start
-	para "A MACHOP is"
-	line "stomping the land"
-	cont "flat."
+	para "A Machop is stomping the land flat."
 	done
 
 _VermilionCitySailor2Text::
-	text "S.S.ANNE is a"
-	line "famous luxury"
-	cont "cruise ship."
-
-	para "We visit VERMILION"
-	line "once a year."
+	text "S.S. Anne is a famous luxury cruise ship."
+	para "We visit Vermilion once a year."
 	done
 
 _VermilionCitySignText::
-	text "VERMILION CITY"
-	para "The Port of"
-	line "Exquisite Sunsets"
+	text "Vermilion City"
+	para "The Port of Exquisite Sunsets"
 	done
 
 _VermilionCityNoticeSignText::
-	text "NOTICE!"
-
-	para "ROUTE 12 may be"
-	line "blocked off by a"
-	cont "sleeping #MON."
-
-	para "Detour through"
-	line "ROCK TUNNEL to"
-	cont "LAVENDER TOWN."
-
-	para "VERMILION POLICE"
+	text "Notice!"
+	para "Route 12 may be blocked off by a sleeping <Pokemon>."
+	para "Detour through Rock Tunnel to Lavender Town."
+	para "Vermilion Police"
 	done
 
 _VermilionCityPokemonFanClubSignText::
-	text "#MON FAN CLUB"
-	line "All #MON fans"
-	cont "welcome!"
+	text "<Pokemon> Fan Club"
+	para "All <Pokemon> fans welcome!"
 	done
 
 _VermilionCityGymSignText::
-	text "VERMILION CITY"
-	line "#MON GYM"
-	cont "LEADER: LT.SURGE"
-
-	para "The Lightning"
-	line "American!"
+	text "Vermilion City <Pokemon> Gym Leader: Lt. Surge"
+	para "The Lightning American!"
 	done
 
 _VermilionCityHarborSignText::
-	text "VERMILION HARBOR"
+	text "Vermilion Harbor"
 	done
 
 _VermilionCityText15::
-	text "The S.S.ANNE"
-	line "is back!"
-	
-	para "After a long"
-	line "journey it's"
-	cont "back in port."
+	text "The S.S. Anne is back!"
+	para "After a long journey it's back in port."
 	done
 
 _VermilionCityDockBeautyGreeting::
-	text "Ack!! You found"
-	line "my top secret"
-	cont "suntanning dock!"
-	para "Don't tell anyone"
-	line "I'm here!"
+	text "Ack!! You found my top secret suntanning dock!"
+	para "Don't tell anyone I'm here!"
 	para "Take this!"
 	prompt
 
 _VermilionCityDockBeautyEndText::
-	text "This is where I"
-	line "come to relax and"
-	cont "get a beautiful"
-	cont "tan!"
-	para "I love the peace"
-	line "and the calm"
-	cont "sound of the"
-	cont "gentle waves."
+	text "This is where I come to relax and get a beautiful tan!"
+	para "I love the peace and the calm sound of the gentle waves."
 	done
 
 _VermilionCityTradeHouseGameboyKidText::
-	text "Trade you my"
-	line "FARFETCH'D?"
-	para "Why would I ever"
-	line "do that?!"
-	para "DUX is my best"
-	line "#MON!"
-	para "Go catch your"
-	line "own."
+	text "Trade you my Farfetch'd?"
+	para "Why would I ever do that?!"
+	para "Dux is my best <Pokemon>!"
+	para "Go catch your own."
 	done
 
 _VermilionCityTradeHouseGameboyKidLearnsetText::
-	text "Hey! Can't you"
-	line "see I'm busy?"
+	text "Hey! Can't you see I'm busy?"
 	para "Here!"
-	para "Take my notes from"
-	line "training DUX!"
+	para "Take my notes from training Dux!"
 	prompt
 
 _VermilionCityTradeHouseDUXText::
-	text "DUX: Quack!"
+	text "Dux: Quack!"
 	done
 
 _VermilionCityTradeHouseDUX2Text::
-	text "It hands you a"
-	line "sprig of onion."
-	para "Looks like it has"
-	line "extras!"
+	text "It hands you a sprig of onion."
+	para "Looks like it has extras!"
 	done
 
-
 _VermilionCityTradeHouseClipboardText::
-	text "Secret tips for"
-	line "the video game"
-	cont "he's playing."
-	para "He must've phoned"
-	line "NINTENDO HOTLINE!"
+	text "Secret tips for the video game he's playing."
+	para "He must've phoned Nintendo Hotline!"
 	done

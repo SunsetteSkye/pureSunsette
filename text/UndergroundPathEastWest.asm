@@ -1,39 +1,27 @@
 _UndergroundPathWestEastBattleText1::
-	text "CELADON CITY?"
-	para "Another meeting"
-	line "over there?!"
+	text "Celadon City?"
+	para "Another meeting over there?!"
 	done
 
 _UndergroundPathWestEastEndBattleText1::
-	text "O-"
-	line "okay<...>"
+	text "O-okay<...>"
 	prompt
 
 _UndergroundPathWestEastAfterBattleText1::
-	text "I want to shop at"
-	line "the dept. store"
-	cont "in CELADON but<...>"
-
-	para "There are so many"
-	line "rough looking"
-	cont "people there."
+	text "I want to shop at the dept. store in Celadon but<...>"
+	para "There are so many rough looking people there."
 	done
 
 _UndergroundPathWestEastBattleText2::
-	text "My colleague and"
-	line "I are running"
-	cont "late!"
+	text "My colleague and I are running late!"
 	done
 
 _UndergroundPathWestEastEndBattleText2::
-	text "Let's"
-	line "hurry!"
+	text "Let's hurry!"
 	prompt
- 
+
 _UndergroundPathWestEastAfterBattleText2::
-	text "After the meeting"
-	line "I'm going to hit"
-	cont "the slots!"
+	text "After the meeting I'm going to hit the slots!"
 	para "Woohoo!"
 	done
 
@@ -47,10 +35,6 @@ _UndergroundPathWestEastEndBattleText3::
 	prompt
 
 _UndergroundPathWestEastAfterBattleText3::
-	text "I'm trying to"
-	line "count the tiles"
-	cont "along the length"
-	cont "of this path."
-	para "But it's making"
-	line "me dizzy!"
+	text "I'm trying to count the tiles along the length of this path."
+	para "But it's making me dizzy!"
 	done

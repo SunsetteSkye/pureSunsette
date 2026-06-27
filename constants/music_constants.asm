@@ -258,3 +258,4 @@ DEF SFX_STOP_ALL_MUSIC EQU $ff
 	const MUSIC_SECRET_LAB2
 	const MUSIC_HERE_COMES_TEAM_GR
 	const MUSIC_SAFARI_ZONE_EXPANDED
+	const MUSIC_GAME_CORNER_NEW ; Sunsette: remapped game-corner / prize-room theme (OG+ option)

@@ -1,62 +1,30 @@
 _PokemonTower7FMrFujiRescueText::
-	text "MR.FUJI: Heh? You"
-	line "came to save me?"
-
-	para "Thank you. But, I"
-	line "came here of my"
-	cont "own free will."
-
-	para "I came to calm"
-	line "the soul of"
-	cont "CUBONE's mother."
-
-	para "...So many souls"
-	line "I could not save."
-
-	para "Even one born of"
-	line "dreams, long ago,"
-	cont "rare as a mirage."
-
-	para "Forgive an old"
-	line "man's mutterings.@"
+	text "Mr. Fuji: Heh? You came to save me?"
+	para "Thank you. But, I came here of my own free will."
+	para "I came to calm the soul of Cubone's mother."
+	para "...So many souls I could not save."
+	para "Even one born of dreams, long ago, rare as a mirage."
+	para "Forgive an old man's mutterings.@"
 	text_end
 
 _PokemonTower7FMrFujiCaughtText::
-	text "<PARA>Its spirit is"
-	line "still restless."
-
-	para "Its soul will"
-	line "roam this world"
-	cont "forever until you"
-	cont "help it to exact"
-	cont "vengeance."
-
-	para "A grim task, to"
-	line "be sure."
-
+	text "<PARA>Its spirit is still restless."
+	para "Its soul will roam this world forever until you help it to exact vengeance."
+	para "A grim task, to be sure."
 	para "Come.@"
 	text_end
 
 _PokemonTower7FMrFujiAfterlifeText::
-	text "<PARA>I think MAROWAK's"
-	line "spirit has gone"
-	cont "to the afterlife." 
-
-	para "I must thank you"
-	line "for your kind"
-	cont "concern!@"
+	text "<PARA>I think Marowak's spirit has gone to the afterlife."
+	para "I must thank you for your kind concern!@"
 	text_end
 
 _PokemonTower7FMrFujiFollowMeText::
-	text "<PARA>Follow me to my"
-	line "home, #MON"
-	cont "HOUSE at the foot"
-	cont "of this tower."
+	text "<PARA>Follow me to my home, <Pokemon> House at the foot of this tower."
 	done
 
 _PokemonTower7FRocket1BattleText::
-	text "What do you want?"
-	line "Why are you here?"
+	text "What do you want? Why are you here?"
 	done
 
 _PokemonTower7FRocket1EndBattleText::
@@ -64,45 +32,31 @@ _PokemonTower7FRocket1EndBattleText::
 	prompt
 
 _PokemonTower7FRocket1AfterBattleText::
-	text "I'm not going to"
-	line "forget this!"
+	text "I'm not going to forget this!"
 	done
 
 _PokemonTower7FRocket2BattleText::
-	text "This old guy came"
-	line "and complained"
-	cont "about us harming"
-	cont "useless #MON!"
-
-	para "We're talking it"
-	line "over as adults!"
+	text "This old guy came and complained about us harming useless <Pokemon>!"
+	para "We're talking it over as adults!"
 	done
 
 _PokemonTower7FRocket2EndBattleText::
-	text "Please!"
-	line "No more!"
+	text "Please! No more!"
 	prompt
 
 _PokemonTower7FRocket2AfterBattleText::
-	text "#MON are only"
-	line "good for making"
-	cont "money!"
-
-	para "Stay out of our"
-	line "business!"
+	text "<Pokemon> are only good for making money!"
+	para "Stay out of our business!"
 	done
 
 _PokemonTower7FRocket3BattleText::
-	text "You're not saving"
-	line "anyone, kid!"
+	text "You're not saving anyone, kid!"
 	done
 
 _PokemonTower7FRocket3EndBattleText::
-	text "Don't"
-	line "fight us <ROCKET>s!"
+	text "Don't fight us <ROCKET>s!"
 	prompt
 
 _PokemonTower7FRocket3AfterBattleText::
-	text "You're not getting"
-	line "away with this!"
+	text "You're not getting away with this!"
 	done

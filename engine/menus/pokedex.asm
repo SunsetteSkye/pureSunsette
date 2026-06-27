@@ -660,6 +660,11 @@ ShowPokedexDataCommon:
 	; fall through
 
 ShowNextPokemonData:
+	; The dex prints via PlaceString / TextCommandProcessor at its own coords, never
+	; the VWF dialogue box (rows 14/16). A stale wVWFActive=1 would make PlaceNextChar
+	; hijack the dex text into the VWF pool and garble it -- hard-clear it here.
+	xor a
+	ld [wVWFActive], a
 	ld hl, wPokedexDataFlags
 	res BIT_POKEDEX_WHICH_SPRITE_SHOWING, [hl]
 	ld a, [wPokedexNum] ; pokemon ID
@@ -775,6 +780,28 @@ ShowNextPokemonData:
 	push de
 	push hl
 
+	; Blank the description box (rows 11-16) WHILE the screen is still whited out (from
+	; GBPalWhiteOut above), so the Delay3 below propagates the cleared cells to VRAM
+	; before GBPalNormal reveals the page. Otherwise page 1 briefly shows stale tiles
+	; left in VRAM by the previous dialogue (the "ABCDEFGH" flash) until the description
+	; text overwrites them. hl is saved on the stack (pop hl later) so clobbering it here
+	; is fine; pages 2-4 already clear themselves via the page-break.
+	hlcoord 1, 11
+	ld de, SCREEN_WIDTH
+	ld c, 6 ; rows 11..16
+.clearDescBox
+	push hl
+	ld b, SCREEN_WIDTH - 2
+	ld a, " "
+.clearDescRow
+	ld [hli], a
+	dec b
+	jr nz, .clearDescRow
+	pop hl
+	add hl, de
+	dec c
+	jr nz, .clearDescBox
+
 	call Delay3
 	call GBPalNormal
 	call GetMonHeader ; load pokemon picture location
@@ -864,6 +891,14 @@ ShowNextPokemonData:
 	pop hl ; pop de into hl
 	push hl
 	inc hl ; hl = address of pokedex description text
+	; The dex description prints at (1,11) via TextCommandProcessor, NOT the VWF box.
+	; Hard-clear BOTH flags right here so a stale/re-set wVWFActive can't make
+	; PlaceNextChar composite the first chars into the pool (the "ABCDEFG" garbage).
+	xor a
+	ld [wVWFActive], a
+	ld [wVWFEnable], a
+	ld [wVWFBoxOpen], a ; also disarm the scroll gate (wVWFBoxOpen) so a stale box flag
+	                    ; can't page-clear a scrolling dex description
 	bccoord 1, 11
 	ld a, %10
 	ldh [hClearLetterPrintingDelayFlags], a

@@ -1,31 +1,14 @@
 _SaffronMartSuperNerdText::
-	text "MAX REPEL lasts"
-	line "longer than SUPER"
-	cont "REPEL for keeping"
-	cont "weaker #MON"
-	cont "away!"
+	text "Max Repel lasts longer than Super Repel for keeping weaker <Pokemon> away!"
 	done
 
 _SaffronMartCooltrainerFText::
-	text "REVIVE is costly,"
-	line "but it revives"
-	cont "fainted #MON!"
+	text "Revive is costly, but it revives fainted <Pokemon>!"
 	done
 
 _SaffronMartTMKidFlavor::
-	text "<PARA>My dad snuck"
-	line "into SAFFRON GYM"
-	cont "when <TEAM><ROCKET>"
-	cont "wasn't looking!"
-
-	para "I'm selling <TM>s"
-	line "to <TEAM><ROCKET>"
-	cont "actually."
-
-	para "Except they're"
-	line "blanks, and only"
-	cont "teach SPLASH!"
-
-	para "Take that," 
-	line "thieves!@"
+	text "<PARA>My dad snuck into Saffron Gym when <TEAM><ROCKET> wasn't looking!"
+	para "I'm selling <TM>s to <TEAM><ROCKET> actually."
+	para "Except they're blanks, and only teach Splash!"
+	para "Take that, thieves!@"
 	text_end

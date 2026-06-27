@@ -1,118 +1,72 @@
 _TypeGuysHouseTypeGuySleepingText::
 	text "Zzzzz<...>"
 	para "Snort<...>"
-	para "No mom<...>don't"
-	line "hit the lights<...>"
+	para "No mom<...>don't hit the lights<...>"
 	done
 
 _TypeGuysHouseTypeGuyAwakeText::
-	text "Why'd you turn the"
-	line "lights on?!"
-	para "Can't someone get"
-	line "some shuteye"
-	cont "around here?"
-	para "I'm a #MON"
-	line "master you know!"
-	para "Been one for more"
-	line "than 25 years!"
+	text "Why'd you turn the lights on?!"
+	para "Can't someone get some shuteye around here?"
+	para "I'm a <Pokemon> master you know!"
+	para "Been one for more than 25 years!"
 	prompt
 
 _TypeGuysHouseTypeGuyAwakeText2::
-	text "Folks these days"
-	line "have got it good!"
-
-	para "Tell you what,"
-	line "have a look at my"
-	cont "old <TM> stash."
-
-	para "See anything you"
-	line "fancy?"
+	text "Folks these days have got it good!"
+	para "Tell you what, have a look at my old <TM> stash."
+	para "See anything you fancy?"
 	done
 
 _TypeGuysHouseTypeGuyDoneText::
-	text "That's more like"
-	line "it! Have fun!"
+	text "That's more like it! Have fun!"
 	done
 
 _TypeGuysHouseTypeGuyFineText::
 	text "Hmph! Fine."
-	para "Keep your blasted"
-	line "newfangled TYPEs!"
+	para "Keep your blasted newfangled types!"
 	done
 
 _TypeGuysHouseTooDarkText::
-	text "It's too dark to"
-	line "see anything!"
+	text "It's too dark to see anything!"
 	done
 
 _TypeGuysHouseShortBookCaseSideText::
-	text "There's a big"
-	line "sticker on the"
-	cont "side."
-	para "It's a big image"
-	line "of a SANDSHREW."
-	para "It says"
-	line "MONOTYPES RULE!"
+	text "There's a big sticker on the side."
+	para "It's a big image of a Sandshrew."
+	para "It says Monotypes Rule!"
 	done
 
 _TypeGuysHouseShortBookCaseText::
-	text "NURTURING HOBBY"
-	line "COMMUNITIES@"
+	text "Nurturing Hobby Communities@"
 	text_end
 _TypeGuysHouseShortBookCaseText2::
-	text "<PARA>In hobbies,"
-	line "purists carry"
-	cont "tradition and aid"
-	cont "newcomers."
-	para "This helps pass"
-	line "down high levels"
-	cont "of knowledge that"
-	cont "traditionalists"
-	cont "often possess."
-	para "However being too"
-	line "overbearing can"
-	cont "stifle creativity."
+	text "<PARA>In hobbies, purists carry tradition and aid newcomers."
+	para "This helps pass down high levels of knowledge that traditionalists often possess."
+	para "However being too overbearing can stifle creativity."
 	done
 
 _TypeGuysHouseSculptureText::
-	text "#MON TOURNEY"
-	line "CHAMP 1973"
-	para "This trophy is"
-	line "prestigious!"
+	text "<Pokemon> Tourney Champ 1973"
+	para "This trophy is prestigious!"
 	para "Huh!"
-	para "It's covered in"
-	line "a layer of dust."
+	para "It's covered in a layer of dust."
 	done
 
 _TypeGuysHouseRightTallBookcaseText::
-	text "INDIGO PLATEAU"
-	line "HISTORY@"
+	text "Indigo Plateau History@"
 	text_end
 _TypeGuysHouseRightTallBookcaseText2::
-	text "<PARA>CHAMPs, even"
-	line "former ones, are"
-	cont "commonly offered"
-	cont "room and board"
-	cont "within #MON"
-	cont "LEAGUE if they"
-	cont "so desire."
+	text "<PARA>Champs, even former ones, are commonly offered room and board within <Pokemon> League if they so desire."
 	done
 
 _TypeGuysHouseLeftTallBookcaseText::
-	text "ROCKSTAR'S GUIDE"
-	line "TO GEODUDE@"
+	text "Rockstar's Guide to Geodude@"
 	text_end
 _TypeGuysHouseLeftTallBookcaseText2::
-	text "<PARA>Older GEODUDE"
-	line "have bodies that"
-	cont "are very smooth."
-	para "This is due to"
-	line "long years of"
-	cont "wear and tear."
-	para "The smoother the"
-	line "GEODUDE,"
-	para "the calmer its"
-	line "demeanour."
+	text "<PARA>Older Geodude have bodies that are very smooth."
+	para "This is due to long years of wear and tear."
+	para "The smoother the Geodude,"
+	para "the calmer its demeanour."
 	done
 
 _TypeGuysHouseTypeGuysComputerText::

@@ -1,64 +1,27 @@
 _CeladonGymErikaPreBattleText::
-	text "Hello. Lovely"
-	line "weather isn't it?"
-	cont "It's so pleasant."
-
-	para "<...>Oh dear<...>"
-	line "I must have dozed"
-	cont "off. Welcome."
-
-	para "My name is ERIKA."
-	line "I am the LEADER"
-	cont "of CELADON GYM."
-
-	para "I teach the art of"
-	line "flower arranging."
-	cont "My #MON are of"
-	cont "the grass-type."
-
-	para "Oh, I'm sorry, I"
-	line "had no idea that"
-	cont "you wished to"
-	cont "challenge me."
-
-	para "Very well, but I"
-	line "shall not lose."
+	text "Hello. Lovely weather isn't it? It's so pleasant."
+	para "<...>Oh dear<...> I must have dozed off. Welcome."
+	para "My name is Erika. I am the Leader of Celadon Gym."
+	para "I teach the art of flower arranging. My <Pokemon> are of the Grass-type."
+	para "Oh, I'm sorry, I had no idea that you wished to challenge me."
+	para "Very well, but I shall not lose."
 	done
 
 _CeladonGymErikaReceivedRainbowBadgeText::
-	text "Oh!"
-	line "I concede defeat."
-
-	para "You are remarkably"
-	line "strong."
-
-	para "I must confer you"
-	line "the RAINBOWBADGE."
+	text "Oh! I concede defeat."
+	para "You are remarkably strong."
+	para "I must confer you the Rainbow Badge."
 	prompt
 
 _CeladonGymErikaPostBattleAdviceText::
-	text "You<...> You seem"
-	line "destined to join"
-	cont "the cycle of life"
-	cont "and death."
-
-	para "For some time"
-	line "yet, I think."
+	text "You<...> You seem destined to join the cycle of life and death."
+	para "For some time yet, I think."
 	done
 
 _CeladonGymRainbowBadgeInfoText::
-	text "The RAINBOWBADGE"
-	line "lets #MON use"
-	cont "STRENGTH in and"
-	cont "out of battle."
-
-	para "It also boosts how"
-	line "much vitamins"
-	cont "strengthen your"
-	cont "#MON!"
-
-	para "Please also take"
-	line "this with you."
+	text "The Rainbow Badge lets <Pokemon> use Strength in and out of battle."
+	para "It also boosts how much vitamins strengthen your <Pokemon>!"
+	para "Please also take this with you."
 	done
 
 _TM21ExplanationText::
@@ -66,95 +29,60 @@ _TM21ExplanationText::
 
 	para "@"
 	text_ram_stringbuffer
-	text " contains"
-	line "ADAPTATION."
-
-	para "The user braces,"
-	line "curing its status"
-	cont "then halving the"
-	cont "damage it takes"
-	cont "from the type"
-	cont "that last hit it."
+	text " contains Adaptation."
+	para "The user braces, curing its status then halving the damage it takes from the type that last hit it."
 	done
 
 _CeladonGymTM21NoRoomText::
-	text "You should make"
-	line "room for this."
+	text "You should make room for this."
 	done
 
 _CeladonGymBattleText2::
-	text "Hey! No boys"
-	line "allowed in--"
-
-	para "...Oh my. Aren't"
-	line "YOU a darling"
-	cont "thing? Still,"
-	cont "rules are rules!"
+	text "Hey! No boys allowed in<...>"
+	para "...Oh my. Aren't YOU a darling thing? Still, rules are rules!"
 	done
 
 _CeladonGymEndBattleText2::
-	text "You're"
-	line "too rough!"
+	text "You're too rough!"
 	prompt
 
 _CeladonGymAfterBattleText2::
-	text "Bleaah!"
-	line "I hope ERIKA"
-	cont "wipes you out!"
+	text "Bleaah! I hope Erika wipes you out!"
 	done
 
 _CeladonGymAfterBattleText2GymDefeated::
-	text "Whoa!?"
-	line "You beat ERIKA?!"
-	para "You're cooler than"
-	line "I thought!"
+	text "Whoa!? You beat Erika?!"
+	para "You're cooler than I thought!"
 	done
 
 _CeladonGymBattleText3::
-	text "I was getting"
-	line "bored... ooh, and"
-	cont "what a CUTE one"
-	cont "they sent me!"
+	text "I was getting bored... ooh, and what a CUTE one they sent me!"
 	done
 
 _CeladonGymEndBattleText3::
-	text "My"
-	line "makeup!"
+	text "My makeup!"
 	prompt
 
 _CeladonGymAfterBattleText3::
-	text "Grass-type #MON"
-	line "are tough against"
-	cont "the water-type!"
-
-	para "They also have an"
-	line "edge on rock and"
-	cont "ground #MON!"
+	text "Grass-type <Pokemon> are tough against the Water-type!"
+	para "They also have an edge on Rock and Ground <Pokemon>!"
 	done
 
 _CeladonGymBattleText4::
-	text "Aren't you the"
-	line "peeping Tom?"
-
-	para "...Too pretty to"
-	line "be a creep. Fine,"
-	cont "let's battle!"
+	text "Aren't you the peeping Tom?"
+	para "...Too pretty to be a creep. Fine, let's battle!"
 	done
 
 _CeladonGymEndBattleText4::
-	text "I'm"
-	line "in shock!"
+	text "I'm in shock!"
 	prompt
 
 _CeladonGymAfterBattleText4::
-	text "Oh, you weren't"
-	line "peeping? We get a"
-	cont "lot of gawkers!"
+	text "Oh, you weren't peeping? We get a lot of gawkers!"
 	done
 
 _CeladonGymBattleText5::
-	text "You're cuter than"
-	line "my flowers, hon!"
+	text "You're cuter than my flowers, hon!"
 	done
 
 _RocketHideoutB4FRocket3EndBattleText::
@@ -163,73 +91,44 @@ _CeladonGymEndBattleText5::
 	prompt
 
 _CeladonGymAfterBattleText5::
-	text "We love grass-"
-	line "type #MON at"
-	cont "our GYM!"
-
-	para "We also use them"
-	line "for making flower"
-	cont "arrangements!"
+	text "We love Grass-type <Pokemon> at our Gym!"
+	para "We also use them for making flower arrangements!"
 	done
 
 _CeladonGymBattleText6::
-	text "Love the look,"
-	line "sweetie! But no"
-	cont "bugs or fire"
-	cont "#MON in here!"
+	text "Love the look, sweetie! But no bugs or fire <Pokemon> in here!"
 	done
 
 _CeladonGymEndBattleText6::
-	text "Oh!"
-	line "You!"
+	text "Oh! You!"
 	prompt
 
 _CeladonGymAfterBattleText6::
-	text "Our LEADER, ERIKA,"
-	line "might be quiet,"
-	cont "but she's also"
-	cont "very skilled!"
+	text "Our Leader, Erika, might be quiet, but she's also very skilled!"
 	done
 
 _CeladonGymBattleText7::
-	text "Aren't you just"
-	line "adorable! Pleased"
-	cont "to meet you. My"
-	cont "hobby is #MON"
-	cont "training."
+	text "Aren't you just adorable! Pleased to meet you. My hobby is <Pokemon> training."
 	done
 
 _CeladonGymEndBattleText7::
-	text "Oh!"
-	line "Splendid!"
+	text "Oh! Splendid!"
 	prompt
 
 _CeladonGymAfterBattleText7::
-	text "I have a blind"
-	line "date coming up."
-	cont "I have to learn"
-	cont "to be polite."
+	text "I have a blind date coming up. I have to learn to be polite."
 	done
 
 _CeladonGymBattleText8::
-	text "Welcome to CELADON"
-	line "GYM, gorgeous!"
-
-	para "Out-pretty us all"
-	line "you like! But"
-	cont "don't underrate"
-	cont "girl power!"
+	text "Welcome to Celadon Gym, gorgeous!"
+	para "Out-pretty us all you like! But don't underrate girl power!"
 	done
 
 _CeladonGymEndBattleText8::
-	text "Oh!"
-	line "Beaten!"
+	text "Oh! Beaten!"
 	prompt
 
 _CeladonGymAfterBattleText8::
-	text "I didn't bring my"
-	line "best #MON!"
-
-	para "Wait 'til next"
-	line "time!"
+	text "I didn't bring my best <Pokemon>!"
+	para "Wait 'til next time!"
 	done

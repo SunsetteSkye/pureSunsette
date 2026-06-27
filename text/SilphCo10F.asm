@@ -4,39 +4,29 @@ _SilphCo10FSilphWorkerFImScaredText::
 	done
 
 _SilphCo10FSilphWorkerFQuietAboutMyCryingText::
-	text "Please keep quiet"
-	line "about my crying!"
+	text "Please keep quiet about my crying!"
 	done
 
 _SilphCo10FRocketBattleText::
-	text "Welcome to the"
-	line "10F! So good of"
-	cont "you to join me!"
+	text "Welcome to the 10F! So good of you to join me!"
 	done
 
 _SilphCo10FRocketEndBattleText::
-	text "I'm"
-	line "stunned!"
+	text "I'm stunned!"
 	prompt
 
 _SilphCo10FRocketAfterBattleText::
-	text "Nice try, but the"
-	line "boardroom is up"
-	cont "one more floor!"
+	text "Nice try, but the boardroom is up one more floor!"
 	done
 
 _SilphCo10FScientistBattleText::
-	text "Enough of your"
-	line "silly games!"
+	text "Enough of your silly games!"
 	done
 
 _SilphCo10FScientistEndBattleText::
-	text "No"
-	line "continues left!"
+	text "No continues left!"
 	prompt
 
 _SilphCo10FScientistAfterBattleText::
-	text "Are you satisfied"
-	line "with beating me?"
-	cont "Then go on home!"
+	text "Are you satisfied with beating me? Then go on home!"
 	done

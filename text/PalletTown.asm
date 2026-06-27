@@ -1,59 +1,31 @@
 _PalletTownOakHeyWaitDontGoOutText::
-	text "OAK: Hey! Wait!"
-	line "Don't go out!@"
+	text "Oak: Hey! Wait! Don't go out!@"
 	text_end
 
 _PalletTownOakItsUnsafeText::
-	text "OAK: It's unsafe!"
-	line "Wild #MON live"
-	cont "in tall grass!"
-
-	para "You need your own"
-	line "#MON for your"
-	cont "protection."
-	cont "I know!"
-
-	para "Here, come with"
-	line "me!"
+	text "Oak: It's unsafe! Wild <Pokemon> live in tall grass!"
+	para "You need your own <Pokemon> for your protection. I know!"
+	para "Here, come with me!"
 	done
 
 _PalletTownGirlText::
-	text "Nice shoes! You"
-	line "can run in those,"
-	cont "right?"
-
-	para "Though I hear if"
-	line "you run in tall"
-	cont "grass, many more"
-	cont "wild #MON will"
-	cont "attack you."
+	text "Nice shoes! You can run in those, right?"
+	para "Though I hear if you run in tall grass, many more wild <Pokemon> will attack you."
 	done
 
 _PalletTownFisherText::
-	text "Technology is"
-	line "incredible!"
-
-	para "You can now store"
-	line "and recall items"
-	cont "and #MON as"
-	cont "data via <PC>!"
-	
-	para "You can even"
-	line "store items any"
-	cont "time by pressing"
-	cont "START on the"
-	cont "items menu!"
+	text "Technology is incredible!"
+	para "You can now store and recall items and <Pokemon> as data via <PC>!"
+	para "You can even store items any time by pressing START on the items menu!"
 	done
 
 _PalletTownOaksLabSignText::
-	text "OAK #MON"
-	line "RESEARCH LAB"
+	text "Oak <Pokemon> Research Lab"
 	done
 
 _PalletTownSignText::
-	text "PALLET TOWN"
-	para "Shades of your"
-	line "journey await!"
+	text "Pallet Town"
+	para "Shades of your journey await!"
 	done
 
 _PalletTownPlayersHouseSignText::

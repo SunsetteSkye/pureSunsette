@@ -8,65 +8,43 @@ _PowerPlantZapdosBattleText::
 
 _PowerPlantOpenGateText::
 	text "Tripped a breaker!"
-	para "Electricity was"
-	line "cut off somewhere."
+	para "Electricity was cut off somewhere."
 	done
 
 _PowerPlantElectricityText::
-	text "Electrical arcs"
-	line "are blocking the"
-	cont "way forward."
-	para "Is there any way"
-	line "to shut off the"
-	cont "power?"
+	text "Electrical arcs are blocking the way forward."
+	para "Is there any way to shut off the power?"
 	done
 
 _ZapdosFlewAway::
-	text "The huge #MON"
-	line "caused a power"
-	cont "outage!"
-	para "It flew through"
-	line "a hole up to the"
-	cont "roof!"
+	text "The huge <Pokemon> caused a power outage!"
+	para "It flew through a hole up to the roof!"
 	para "Gotta follow it!"
 	done
 
 _PowerPlantRoofDarkCloudsText::
-	text "Huh? Dark clouds"
-	line "are rolling in."
-	para "A thunderstorm"
-	line "is coming!"
+	text "Huh? Dark clouds are rolling in."
+	para "A thunderstorm is coming!"
 	done
 
 _PowersOutCantUse::
-	text "It's not working"
-	line "because of the"
-	cont "power outage."
+	text "It's not working because of the power outage."
 	done
 
 _PowerCameBackText::
-	text "Looks like the"
-	line "power's back!"
+	text "Looks like the power's back!"
 	done
 
 _MagnetText::
-	text "This magnet seems"
-	line "to have powerful"
-	cont "electromagnetic"
-	cont "waves running"
-	cont "through it."
+	text "This magnet seems to have powerful electromagnetic waves running through it."
 	prompt
 
 _MagnetMagnemiteText::
-	text "It won't be able"
-	line "to deal with such"
-	cont "high magnetism"
-	cont "yet."
+	text "It won't be able to deal with such high magnetism yet."
 	done
 
 _MagnetFloatingMagnetonText::
-	text "It's already been"
-	line "supercharged."
+	text "It's already been supercharged."
 	done
 
 _PowerPlantComputer1::
@@ -90,31 +68,22 @@ _PowerPlantComputer4::
 
 _MagnetMagnetonText1::
 	text_ram_namebuffer
-	text " went"
-	line "close to the"
-	cont "magnet."
+	text " went close to the magnet."
 	done
 
 _MagnetMagnetonText2::
 	text_ram_namebuffer
-	text "'s"
-	line "antigravity power"
-	cont "was supercharged!"
+	text "'s antigravity power was supercharged!"
 	done
 
 _MagnetMagnetonText3::
 	text_start
-	para "It can float"
-	line "higher now."
+	para "It can float higher now."
 	para "@"
 	text_ram_namebuffer
-	text " became"
-	line "immune to GROUND"
-	cont "type attacks!"
+	text " became immune to Ground type attacks!"
 	done
 
 _PowerPlantRoofSignText::
-	text "BEWARE OF VOLTAGE"
-	line "HAZARDS FROM ROOF"
-	cont "TRANSFORMERS"
+	text "Beware of Voltage Hazards from Roof Transformers"
 	done

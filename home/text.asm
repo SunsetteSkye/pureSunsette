@@ -53,6 +53,20 @@ PlaceNextChar::
 	ld a, [de]
 	cp '@'
 	jr nz, .NotTerminator
+	ld a, [wVWFActive] ; VWF: place the last buffered word + finalize its tile so they show
+	and a
+	jr z, .terminate
+	push de
+	ld a, [wVWFTextDepth]
+	and a
+	jr nz, .flushTileOnly ; inside an insert: DON'T place the word (a mid-word insert like
+	                      ; <poke>dex / <PLAYER>! must keep buffering across this @)
+	call VWFFlushWordPaged ; TOP-LEVEL string end: place the last word now (during the crawl,
+	                       ; before any tail delay) so a scripted text's final word shows
+.flushTileOnly
+	vwf_farcall VWFFlushCurrent
+	pop de
+.terminate
 	ld b, h
 	ld c, l
 	pop hl
@@ -81,6 +95,27 @@ PlaceNextChar::
 	jp_bc
 .no
 	pop hl
+	ld a, [wVWFActive]
+	and a
+	jr z, .fixedChar
+	; VWF Stage 2: BUFFER the char for word-wrap (no display yet); a space flushes the
+	; buffered word, measuring it so it can start a new line if it would overflow. The
+	; char is read HERE in the text's bank + SVBK=1; the VWF routines run at SVBK=2 via
+	; vwf_farcall and never deref [de]. hl/bc are vestigial in VWF mode.
+	ld a, [de]
+	cp ' '
+	jr z, .vwfSpace
+	push de
+	ld e, a
+	vwf_farcall VWFAddChar
+	pop de
+	call PrintLetterDelay
+	jp NextChar
+.vwfSpace
+	call VWFFlushWordPaged ; a space ends a word -> place it (wrap + auto-page if needed)
+	call PrintLetterDelay
+	jp NextChar
+.fixedChar
 	ld a, [de]
 	ld [hli], a
 	call PrintLetterDelay
@@ -105,6 +140,9 @@ NextChar::
 ; because it greatly reduces text data size if certain commonly used phrases are parameterized.
 ; must match the order of the charmap shortcuts and no gaps are allowed
 TextShortcutCommandJumpTable:
+	dw CapPokemonChar   ; $3C <Pokemon> -> "Pokémon" (de-cap, sentence start)
+	dw LowerPokeChar    ; $3D <poke>    -> "Poké"    (de-cap)
+	dw LowerPokemonChar ; $3E <pokemon> -> "pokémon" (de-cap)
 	dw OrChar
 	dw IngChar
 	dw TheChar
@@ -148,12 +186,18 @@ TextShortcutCommandJumpTable:
 	; "for"
 
 LineChar::
+	ld a, [wVWFActive]
+	and a
+	jp nz, VWFTextLineBreak ; jp not jr: the auto-page VWFFlushCurrent pushed this past jr range
 	pop hl
 	hlcoord 1, 16
 	push hl
 	jp NextChar
 
 NextCharCmd::
+	ld a, [wVWFActive]
+	and a
+	jr nz, VWFTextLineBreak
 	ld bc, 2 * SCREEN_WIDTH
 	ldh a, [hUILayoutFlags]
 	bit 2, a
@@ -165,10 +209,61 @@ NextCharCmd::
 	push hl
 	jp NextChar
 
+; Flush the buffered word, AUTO-PAGING if it overflows the full 2-line box. VWFFlushWord
+; sets wUnusedFlag=1 when the word won't fit on the last line (and leaves it buffered);
+; here we show the ▼, wait, clear, start a fresh page (KEEPING the buffer), and re-flush.
+; Preserves de.
+VWFFlushWordPaged:
+	push de
+	vwf_farcall VWFFlushWord
+	ld a, [wUnusedFlag]
+	and a
+	jr nz, .page
+	pop de
+	ret
+.page
+	vwf_farcall VWFFlushCurrent ; flush the last placed word's PARTIAL tile so its final
+	                            ; char shows before the page waits (auto-page parity with
+	                            ; the <PARA>/prompt/done paths). Without this the last word
+	                            ; on a full page loses its trailing glyph ("It"->"I").
+	ld a, '▼'
+	ldcoord_a 18, 16
+	call ProtectedDelay3
+	call ManualTextScroll
+	ld a, ' '
+	ldcoord_a 18, 16
+	vwf_farcall VWFEndBox
+	vwf_farcall VWFNewPage ; fresh page, but keep the overflowed word buffered
+	vwf_farcall VWFFlushWord ; now it fits at line 0
+	pop de
+	ret
+
+VWFTextLineBreak: ; VWF Stage-2 REFLOW: in-paragraph <LINE>/<NEXT> are now SOFT. Just
+	; flush the pending word and let the NEXT word auto-wrap to the proportional width;
+	; the hand-placed break was sized for the fixed-width box and is too short under VWF,
+	; so it degrades to a word separator (a leading space). <PARA>/<CONT> stay HARD pages.
+	call VWFFlushWordPaged
+	jp NextChar
+
+VWFTextPauseClear: ; VWF <PARA>/<CONT>: show all text, wait, clear, restart
+	push de
+	call VWFFlushWordPaged ; place the pending buffered word before paging
+	vwf_farcall VWFFlushCurrent
+	ld a, '▼'
+	ldcoord_a 18, 16
+	call ProtectedDelay3
+	call ManualTextScroll
+	ld a, ' '
+	ldcoord_a 18, 16
+	vwf_farcall VWFEndBox
+	vwf_farcall VWFInitPool
+	pop de
+	jp NextChar
+
 MACRO print_name
 	push de
 	ld de, \1
-	jr PlaceCommandCharacter
+	jp PlaceCommandCharacter ; jp not jr: adding inserts pushed the far handlers out of jr range
 ENDM
 	
 
@@ -197,7 +292,11 @@ PlaceMoveUsersName::
 	; fallthrough
 
 PlaceCommandCharacter::
+	ld hl, wVWFTextDepth ; entering an insert's nested PlaceString: its terminating @ must
+	inc [hl]             ; NOT place the buffered word (only the top-level @, depth 0, does)
 	call PlaceString
+	ld hl, wVWFTextDepth
+	dec [hl]
 	ld h, b
 	ld l, c
 	pop de
@@ -213,6 +312,9 @@ PCChar::      print_name PCCharText
 RocketChar::  print_name RocketCharText
 PlacePOKe::   print_name PlacePOKeText
 PlacePKMN::   print_name PlacePKMNText
+CapPokemonChar::   print_name CapPokemonText   ; Sunsette: <Pokemon> -> "Pokémon" (de-cap, sentence start)
+LowerPokeChar::    print_name LowerPokeText    ; Sunsette: <poke>    -> "Poké"    (de-cap)
+LowerPokemonChar:: print_name LowerPokemonText ; Sunsette: <pokemon> -> "pokémon" (de-cap)
 TeamChar::    print_name TeamCharText
 ThreeDotsChar:: print_name ThreeDotsText
 TrainerTipsChar:: print_name TrainerTipsText
@@ -232,6 +334,9 @@ TeamCharText::    db "TEAM @"
 RocketCharText::  db "ROCKET@"
 EnemyText::       db "Enemy @"
 ThreeDotsText::   db "...@"
+CapPokemonText::   db "Pokémon@" ; Sunsette: <Pokemon> -> "Pokémon" (capital, sentence start)
+LowerPokeText::    db "Poké@"    ; Sunsette: <poke>    -> "Poké"    (initial-cap, lowercase é)
+LowerPokemonText:: db "pokémon@" ; Sunsette: <pokemon> -> "pokémon" (lowercase)
 TrainerTipsText:: db "<TRAINER> TIPS@"
 OpponentText::    db "opponent@"
 TheText::         db "t","he@" ; have to separate with a comma to avoid it entering the same macro again
@@ -245,6 +350,9 @@ IsText::          db "i","s@" ; have to separate with a comma to avoid it enteri
 ;	text_end
 
 ContText::
+	ld a, [wVWFActive]
+	and a
+	jp nz, VWFTextPauseClear
 	push de
 	ld b, h
 	ld c, l
@@ -275,6 +383,14 @@ PlaceDexEnd::
 	ret
 
 PromptText::
+	ld a, [wVWFActive]
+	and a
+	jr z, .notVWF
+	push de
+	call VWFFlushWordPaged ; place the last buffered word before the prompt arrow
+	vwf_farcall VWFFlushCurrent ; show all text before the prompt arrow
+	pop de
+.notVWF
 	ld a, [wLinkState]
 	cp LINK_STATE_BATTLING
 	jp z, .ok
@@ -287,6 +403,14 @@ PromptText::
 	ldcoord_a 18, 16
 
 DoneText::
+	ld a, [wVWFActive]
+	and a
+	jr z, .notVWF
+	push de
+	call VWFFlushWordPaged ; place the last buffered word for text ending in `done`
+	vwf_farcall VWFFlushCurrent ; flush the last tile for text ending in `done`
+	pop de
+.notVWF
 	pop hl
 	ld de, TextScriptEndingText
 	dec de
@@ -298,6 +422,9 @@ TextScriptEndingText::
 	text_end
 
 Paragraph::
+	ld a, [wVWFActive]
+	and a
+	jp nz, VWFTextPauseClear
 	push de
 	ld a, '▼'
 	ldcoord_a 18, 16
@@ -347,6 +474,15 @@ MultiButtonPageChar::
 
 
 _ContText::
+	; VWF has no scrolling (Stage 1): ScrollTextUpOneLine moves the wTileMap box up
+	; without updating the VWF pen, which sprays pool tiles onto the map (rows 4/5)
+	; over a multi-`cont` speech. Route to the page-clear path instead (like Paragraph).
+	; Gate on wVWFBoxOpen (a VWF box is rendered = pool tiles present), NOT wVWFActive:
+	; wVWFActive is cleared the instant the print returns, but the box still holds pool
+	; tiles until CloseTextDisplay, so a later scroll would still drag them up the map.
+	ld a, [wVWFBoxOpen]
+	and a
+	jp nz, VWFTextPauseClear
 	ld a, '▼'
 	ldcoord_a 18, 16
 	call ProtectedDelay3
@@ -368,6 +504,25 @@ _ContTextNoPause::
 ; first time, copy the two rows of text to the "in between" rows that are usually empty
 ; second time, copy the bottom row of text into the top row of text
 ScrollTextUpOneLine::
+	; VWF has no scrolling (Stage 1). The scroll copies the box rows UP in wTileMap,
+	; which drags the box's bank-1 pool tiles up the visible map (uncleared) -> the
+	; "letters at rows 4/5" garbage. Tear down + restart the VWF box instead (page
+	; behaviour), and skip the wTileMap copy entirely. Gate on wVWFBoxOpen (box is
+	; rendered), NOT wVWFActive: the latter is cleared the moment the print returns
+	; while the box's pool tiles linger, so a post-print scroll would still drag them.
+	ld a, [wVWFBoxOpen]
+	and a
+	jr z, .doScroll
+	push hl
+	push de
+	push bc
+	vwf_farcall VWFEndBox
+	vwf_farcall VWFInitPool
+	pop bc
+	pop de
+	pop hl
+	ret
+.doScroll
 	hlcoord 0, 14 ; top row of text
 	decoord 0, 13 ; empty line above text
 	ld b, SCREEN_WIDTH * 3

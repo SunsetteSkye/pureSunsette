@@ -3,44 +3,23 @@ _FossilGuyNeverMet::
 	done
 
 _FossilGuyGreeting::
-	text "You found me!"
-	line "This is great!"
-
-	para "I'm that girl"
-	line "from MT.MOON!"
-
-	para "We found those"
-	line "two fossils."
-
+	text "You found me! This is great!"
+	para "I'm that girl from Mt. Moon!"
+	para "We found those two fossils."
 	para "This is my house!"
-
-	para "Make yourself at"
-	line "home!"
+	para "Make yourself at home!"
 	prompt
 
 _FossilGuyWhereFossilText::
-	text "Where's that fossil"
-	line "you picked up?"
-
-	para "Do you still"
-	line "have it?"
-
+	text "Where's that fossil you picked up?"
+	para "Do you still have it?"
 	para "Show it to me!"
 	done
 
 _FossilGuyHaveFossil::
-	text "Oh, you've still"
-	line "got your fossil?"
-
-	para "I can go to"
-	line "CINNABAR ISLAND"
-	cont "and revive it for"
-	cont "you if you like."
-
-	para "My teleporter can"
-	line "send me straight"
-	cont "there!"
-
+	text "Oh, you've still got your fossil?"
+	para "I can go to Cinnabar Island and revive it for you if you like."
+	para "My teleporter can send me straight there!"
 	para "Sound good?"
 	done
 
@@ -51,86 +30,42 @@ _FossilGuyDenied::
 
 _FossilGuyGaveFossil::
 	text "Excellent!"
-
-	para "Another test"
-	line "subject!"
-
-	para "I'll bring it"
-	line "into the lab!"
-
-	para "Come back in a"
-	line "bit to see how"
-	cont "it went!"
+	para "Another test subject!"
+	para "I'll bring it into the lab!"
+	para "Come back in a bit to see how it went!"
 	done
 
 _FossilGuyCameBackFossil::
-	text "About that fossil"
-	line "you gave me."
-
-	para "Not to burst your"
-	line "bubble, but<...>"
-
+	text "About that fossil you gave me."
+	para "Not to burst your bubble, but<...>"
 	para "<...>"
-
 	para "<...>."
-
 	para "<...>.."
-
-	para "We revived it"
-	line "perfectly into"
-	cont "a rare #MON!!!"
-
+	para "We revived it perfectly into a rare <Pokemon>!!!"
 	para "Here you go!"
 	prompt
 
 _FossilGuyGreetingEnd::
-	text "I'm researching"
-	line "how to revive"
-	cont "#MON from"
-	cont "pieces of AMBER."
+	text "I'm researching how to revive <Pokemon> from pieces of amber."
 	done
 
 _FossilGuyHaveOldAmber::
-	text "Is that AMBER?!"
-	line "Wow, look at it!"
-
-	para "Looks like it"
-	line "contains well-"
-	cont "preserved DNA!!"
-
-	para "That's perfect"
-	line "for my research!"
-
-	para "Let me take it"
-	line "to CINNABAR LAB."
-
-	para "I'll see if we"
-	line "can revive a"
-	cont "#MON from the"
-	cont "DNA inside!"
+	text "Is that amber?! Wow, look at it!"
+	para "Looks like it contains well-preserved DNA!!"
+	para "That's perfect for my research!"
+	para "Let me take it to Cinnabar Lab."
+	para "I'll see if we can revive a <Pokemon> from the DNA inside!"
 	done
 
 _FossilGuyGiveOldAmber::
-	text "Now we're"
-	line "cooking!"
-
-	para "I'm off to"
-	line "CINNABAR ISLAND"
-	cont "through my"
-	cont "teleporter."
-
-	para "Come back in a"
-	line "bit, I work fast"
-	cont "when I'm excited!"
+	text "Now we're cooking!"
+	para "I'm off to Cinnabar Island through my teleporter."
+	para "Come back in a bit, I work fast when I'm excited!"
 	done
 
 _FossilGuyGiveAerodactyl::
-	text "This is my best"
-	line "work yet!"
-
-	para "Feast your eyes"
-	line "on it!"
-
+	text "This is my best work yet!"
+	para "Feast your eyes on it!"
 	para "Ta-dah!"
 	prompt
 
@@ -139,111 +74,55 @@ _FossilGuyComeBackLater::
 	done
 
 _FossilGuyEndingText::
-	text "Research isn't"
-	line "about recognition"
-	cont "or awards."
-
-	para "It's about"
-	line "helping the world"
-	cont "learn new things!"
-
-	para "Always look for"
-	line "answers, even if"
-	cont "no one's ever"
-	cont "found one before!"
-
+	text "Research isn't about recognition or awards."
+	para "It's about helping the world learn new things!"
+	para "Always look for answers, even if no one's ever found one before!"
 	para "Remember that!"
 	done
 
 _FossilGuyGoToCinnabarText::
-	text "Huh? You've got"
-	line "another fossil?"
-
-	para "Sorry, my"
-	line "teleporter's on"
-	cont "the fritz."
-
-	para "I can't go to"
-	line "CINNABAR LAB"
-	cont "until i fix it."
-
-	para "You'll have to"
-	line "go there"
-	cont "yourself!"
+	text "Huh? You've got another fossil?"
+	para "Sorry, my teleporter's on the fritz."
+	para "I can't go to Cinnabar Lab until I fix it."
+	para "You'll have to go there yourself!"
 	done
 
 _FossilGuysTeleporterText::
-	text "WARNING!"
-	
-	para "Experimental"
-	line "teleporter!"
-
-	para "Enter at your"
-	line "own risk!"
+	text "Warning!"
+	para "Experimental teleporter!"
+	para "Enter at your own risk!"
 	done
 
 _FossilGuysPosterText::
-	text "A detailed"
-	line "oil painting of"
-	cont "a prehistoric"
-	cont "#MON!"
-
+	text "A detailed oil painting of a prehistoric <Pokemon>!"
 	para "Looks fierce!"
 	done
 
 _FossilGuysPaperText::
-	text "On behalf of the"
-	line "FUCHSIA CITY ZOO,"
-	cont "we would like to"
-	cont "thank you for"
-	cont "your generous"
-	cont "donation."
+	text "On behalf of the Fuchsia City Zoo, we would like to thank you for your generous donation."
 	prompt
 
 _FossilGuysPaperTextOmanyte::
-	text "Your research"
-	line "into reviving"
-	cont "an OMANYTE will"
-	cont "not go unnoticed."
+	text "Your research into reviving an Omanyte will not go unnoticed."
 	done
 
 _FossilGuysPaperTextKabuto::
-	text "Your research"
-	line "into reviving"
-	cont "a KABUTO will"
-	cont "not go unnoticed."
+	text "Your research into reviving a Kabuto will not go unnoticed."
 	done
 
 _FossilGuysRock::
-	text "A colorful"
-	line "crystal geode!"
-
-	para "There's an"
-	line "engraving:"
-
-	para "PALEONTOLOGY CLUB"
-
-	para "MOST VALUABLE"
-	line "DISCOVERY AWARD"
+	text "A colorful crystal geode!"
+	para "There's an engraving:"
+	para "Paleontology Club"
+	para "Most Valuable Discovery Award"
 	done
 
 _FossilGuysComputer1::
-	text "A very nice"
-	line "computer!"
-
+	text "A very nice computer!"
 	para "What's this?"
-
-	para "Her desktop"
-	line "background<...>"
-
-	para "It's fan art of"
-	line "BROCK and SURGE"
-	cont "gazing into each"
-	cont "other's eyes!"
-
-	para "They look more"
-	line "handsome than you"
-	cont "remember."
+	para "Her desktop background<...>"
+	para "It's fan art of Brock and Surge gazing into each other's eyes!"
+	para "They look more handsome than you remember."
 	prompt
 
 _FossilGuysComputer2::
@@ -251,33 +130,21 @@ _FossilGuysComputer2::
 	text_end
 
 _FossilGuysDesk::
-	text "Blueprints for a"
-	line "device labelled"
-	cont "CINNABAR LAB"
-	cont "FOSSIL CLONER"
-
-	para "To the right"
-	line "there is another"
-	cont "set of prints:"
-
-	para "LONG DISTANCE"
-	line "TELEPORTER"
+	text "Blueprints for a device labelled Cinnabar Lab Fossil Cloner"
+	para "To the right there is another set of prints:"
+	para "Long Distance Teleporter"
 	done
 
 _FossilGuysCat1::
-	text "BASTET: Meow!@"
+	text "Bastet: Meow!@"
 	text_end
 
 _FossilGuysCat2::
-	text "That's my MEOWTH."
-	para "Her name is"
-	line "BASTET."
+	text "That's my Meowth."
+	para "Her name is Bastet."
 	done
 
 _FossilGuysCat3::
-	text "She's really good"
-	line "at finding old"
-	cont "coins!"
-	para "She's like a"
-	line "metal detector!"
+	text "She's really good at finding old coins!"
+	para "She's like a metal detector!"
 	done

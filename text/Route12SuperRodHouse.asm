@@ -1,48 +1,26 @@
 _Route12GuruIntro::
-	text "I'm the FISHING"
-	line "GURU's younger"
-	cont "brother!"
+	text "I'm the Fishing Guru's younger brother!"
 	prompt
 
 _Route12GuruEnd::
-	text "Hello there,"
-	line "<PLAYER>!"
-
-	para "Use the SUPER ROD"
-	line "in any water!"
-	cont "You can catch"
-	cont "different kinds"
-	cont "of #MON.@"
+	text "Hello there, <PLAYER>!"
+	para "Use the Super Rod in any water! You can catch different kinds of <Pokemon>.@"
 	text_end
 
 _Route12GuruColor::
-	text "Depending on"
-	line "where you fish,"
-	cont "you may even find"
-	cont "differently"
-	cont "colored #MON!"
-
-	para "Try fishing"
-	line "wherever you can!"
+	text "Depending on where you fish, you may even find differently colored <Pokemon>!"
+	para "Try fishing wherever you can!"
 	done
 
 _LastTwoGurusFishingGuideReceived::
-	text "<PLAYER> received"
-	line "a FISHING GUIDE!@"
+	text "<PLAYER> received a Fishing Guide!@"
 	text_end
 
 _LastTwoGurusFishingGuideInfo::
-	text "Since you have"
-	line "a FISHING GUIDE"
-	cont "of your own, your"
-	cont "#DEX will show"
-	cont "fishing locations"
-	cont "of #MON in it!"
+	text "Since you have a Fishing Guide of your own, your <poke>dex will show fishing locations of <Pokemon> in it!"
 	done
 
 _FishingGuideBookText::
 	text "It's a big book."
-	para "It says FISHING"
-	line "GUIDE in big"
-	cont "letters."
+	para "It says Fishing Guide in big letters."
 	done

@@ -1,19 +1,14 @@
 _CeladonMartRoofLittleGirlGiveHerWhichDrinkText::
-	text "Give her which"
-	line "drink?"
+	text "Give her which drink?"
 	done
 
 _CeladonMartRoofLittleGirlYayText::
 	text "Yay!"
-
 	para "@"
 	text_ram_namebuffer
 	text "!"
-
 	para "Thank you!"
-
-	para "You can have this"
-	line "from me!@"
+	para "You can have this from me!@"
 	text_end
 
 _CeladonMartRoofLittleGirlTM13ExplanationText::
@@ -21,11 +16,8 @@ _CeladonMartRoofLittleGirlTM13ExplanationText::
 
 	para "@"
 	text_ram_stringbuffer
-	text " contains"
-	line "ICE BEAM!"
-
-	para "It can freeze the"
-	line "target sometimes!@"
+	text " contains Ice Beam!"
+	para "It can freeze the target sometimes!@"
 	text_end
 
 _CeladonMartRoofLittleGirlTM48ExplanationText::
@@ -33,11 +25,8 @@ _CeladonMartRoofLittleGirlTM48ExplanationText::
 
 	para "@"
 	text_ram_stringbuffer
-	text " contains"
-	line "ROCK SLIDE!"
-
-	para "It can spook the"
-	line "target sometimes!@"
+	text " contains Rock Slide!"
+	para "It can spook the target sometimes!@"
 	text_end
 
 _CeladonMartRoofLittleGirlTM49ExplanationText::
@@ -45,37 +34,25 @@ _CeladonMartRoofLittleGirlTM49ExplanationText::
 
 	para "@"
 	text_ram_stringbuffer
-	text " contains"
-	line "BULK UP!"
-	para "Raise attack and"
-	line "defense at the"
-	cont "same time!@"
+	text " contains Bulk Up!"
+	para "Raise attack and defense at the same time!@"
 	text_end
 
 _CeladonMartRoofLittleGirlNoRoomText::
-	text "You don't have"
-	line "space for this!@"
+	text "You don't have space for this!@"
 	text_end
 
 _CeladonMartRoofLittleGirlImNotThirstyText::
-	text "No thank you!"
-	line "I'm not thirsty"
-	cont "after all!@"
+	text "No thank you! I'm not thirsty after all!@"
 	text_end
 
 _CeladonMartRoofSuperNerdText::
-	text "My sister chugs a"
-	line "drink mid-battle"
-	cont "to cure confusion"
-	cont "and reset stats!"
-
+	text "My sister chugs a drink mid-battle to cure confusion and reset stats!"
 	para "Show-off<...>"
 	done
 
 _CeladonMartRoofLittleGirlImThirstyText::
-	text "I'm thirsty!"
-	line "I want something"
-	cont "to drink!"
+	text "I'm thirsty! I want something to drink!"
 	done
 
 _CeladonMartRoofLittleGirlGiveHerADrinkText::
@@ -83,13 +60,11 @@ _CeladonMartRoofLittleGirlGiveHerADrinkText::
 	done
 
 _VendingMachineText1::
-	text "A vending machine!"
-	line "Here's the menu!"
+	text "A vending machine! Here's the menu!"
 	prompt
 
 _VendingMachineText4::
-	text "Oops, not enough"
-	line "money!"
+	text "Oops, not enough money!"
 	done
 
 _VendingMachineText5::
@@ -100,8 +75,7 @@ _VendingMachineText5::
 	done
 
 _VendingMachineText6::
-	text "There's no more"
-	line "room for stuff!"
+	text "There's no more room for stuff!"
 	done
 
 _VendingMachineText7::
@@ -109,6 +83,5 @@ _VendingMachineText7::
 	done
 
 _VendingMachineText8::
-	text "That's enough"
-	line "of that!"
+	text "That's enough of that!"
 	done

@@ -1,169 +1,89 @@
 _SafariZoneEastRestHouseSignText::
-	text "REST HOUSE"
+	text "Rest House"
 	done
 
 _SafariZoneEastTrainerTipsText::
 	text "<TIPS>"
-
-	para "The remaining time"
-	line "declines only"
-	cont "while you walk!"
+	para "The remaining time declines only while you walk!"
 	done
 
 _SafariZoneEastSignText::
-	text "AREA 1"
-	line "WEST: CENTER AREA"
+	text "Area 1"
+	para "West: Center Area"
 	done
 
 _SafariZoneEastRangerText::
-	text "Oh my goodness!"
-	line "It seems you've"
-	cont "found me!"
-
-	para "I'm RANGER number"
-	line "2! I've been"
-	cont "waiting for you."
+	text "Oh my goodness! It seems you've found me!"
+	para "I'm Ranger number 2! I've been waiting for you."
 	done
 
 _SafariZoneEastRangerEndBattleText::
-	text "Have"
-	line "a lovely day!"
+	text "Have a lovely day!"
 	prompt
 
 _SafariZoneEastRangerAfterBattleText::
-	text "You did great!"
-	line "I love seeing"
-	cont "skilled trainers"
-	cont "battle."
-
-	para "I'll battle you"
-	line "anytime."
+	text "You did great! I love seeing skilled Trainers battle."
+	para "I'll battle you anytime."
 	done
 
 _SafariZoneEastPsychicText::
-	text "The tall grass"
-	line "bows deeply to"
-	cont "my telekinesis."
-
-	para "A lone trainer"
-	line "approaches, all"
-	cont "but cowering at"
-	cont "the sight of my"
-	cont "abilities."
+	text "The tall grass bows deeply to my telekinesis."
+	para "A lone Trainer approaches, all but cowering at the sight of my abilities."
 	done
 
 _SafariZoneEastPsychicEndBattleText::
-	text "Now"
-	line "humiliated, I"
-	cont "resign myself to"
-	cont "a state of silent"
-	cont "contemplation."
+	text "Now humiliated, I resign myself to a state of silent contemplation."
 	prompt
 
 _SafariZoneEastPsychicAfterBattleText::
-	text "I continued to"
-	line "make a mental"
-	cont "note of my total"
-	cont "failure as the"
-	cont "trainer looked on"
-	cont "in disgust."
+	text "I continued to make a mental note of my total failure as the Trainer looked on in disgust."
 	done
 
 _SafariZoneEastRockerText::
-	text "My band needs"
-	line "another mascot!"
-	para "What's the"
-	line "biggest, baddest"
-	cont "#MON this"
-	cont "place has to"
-	cont "offer?"
+	text "My band needs another mascot!"
+	para "What's the biggest, baddest <Pokemon> this place has to offer?"
 	done
 
 _SafariZoneEastRockerEndBattleText::
-	text "Heavy"
-	line "metal never dies!"
+	text "Heavy metal never dies!"
 	prompt
 
 _SafariZoneEastRockerAfterBattleText::
-	text "I set my whip on"
-	line "fire when I"
-	cont "play heavy metal"
-	cont "on stage!"
-
-	para "Pyrotechnics and"
-	line "300BPM are our"
-	cont "mainstays!"
-
-	para "That's why I've"
-	line "got ELECTRODE!"
-
-	para "Fast and furious"
-	line "is how we play!"
-
-	para "Never give up on"
-	line "your dreams, kid!"
+	text "I set my whip on fire when I play heavy metal on stage!"
+	para "Pyrotechnics and 300BPM are our mainstays!"
+	para "That's why I've got Electrode!"
+	para "Fast and furious is how we play!"
+	para "Never give up on your dreams, kid!"
 	done
 
 _SafariZoneEastCooltrainerMText::
-	text "I have a huge"
-	line "crush on one"
-	cont "of the SAFARI"
-	cont "ZONE RANGERs."
+	text "I have a huge crush on one of the Safari Zone Rangers."
 	done
 
 _SafariZoneEastCooltrainerMEndBattleText::
-	text "I'm"
-	line "blinded by love!"
+	text "I'm blinded by love!"
 	prompt
 
 _SafariZoneEastCooltrainerMAfterBattleText::
-	text "RANGER number 2"
-	line "is the cutest."
-
-	para "What a lovely"
-	line "girl<...>"
-
-	para "I'm way too"
-	line "nervous to flirt"
-	cont "with her after"
-	cont "we battle."
-
-	para "Do you have any"
-	line "tips for romance?"
+	text "Ranger number 2 is the cutest."
+	para "What a lovely girl<...>"
+	para "I'm way too nervous to flirt with her after we battle."
+	para "Do you have any tips for romance?"
 	done
 
 _SafariZoneEastEngineerText::
-	text "Who's the"
-	line "nincompoop who"
-	cont "designed this"
-	cont "REST HOUSE?"
+	text "Who's the nincompoop who designed this Rest House?"
 	done
 
 _SafariZoneEastEngineerEndBattleText::
-	text "Quiet!"
-	line "I'm thinking."
+	text "Quiet! I'm thinking."
 	prompt
 
 _SafariZoneEastEngineerAfterBattleText::
-	text "Rain pools on"
-	line "the flat roof"
-	cont "and leaks inside."
-
-	para "Just because it"
-	line "doesn't rain much"
-	cont "here doesn't mean"
-	cont "that's okay!"
-
-	para "I can't believe"
-	line "this!"
-
-	para "The sheer lack of"
-	line "foresight!"
-
-	para "Alright, so be it."
-	line "It's fixing time!"
-
-	para "I'm going to make"
-	line "this REST HOUSE"
-	cont "my work of art!"
+	text "Rain pools on the flat roof and leaks inside."
+	para "Just because it doesn't rain much here doesn't mean that's okay!"
+	para "I can't believe this!"
+	para "The sheer lack of foresight!"
+	para "Alright, so be it. It's fixing time!"
+	para "I'm going to make this Rest House my work of art!"
 	done

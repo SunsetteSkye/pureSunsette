@@ -1,19 +1,11 @@
 _SafariZoneWestRestHouseScientistText::
-	text "Tossing ROCKs at"
-	line "#MON might"
-	cont "make them run,"
-	cont "but they'll be"
-	cont "easier to catch."
+	text "Tossing Rocks at <Pokemon> might make them run, but they'll be easier to catch."
 	done
 
 _SafariZoneWestRestHouseCooltrainerMText::
-	text "Using BAIT will"
-	line "make #MON"
-	cont "easier to catch."
+	text "Using Bait will make <Pokemon> easier to catch."
 	done
 
 _SafariZoneWestRestHouseSilphWorkerFText::
-	text "I hiked a lot, but"
-	line "I didn't see any"
-	cont "#MON I wanted."
+	text "I hiked a lot, but I didn't see any <Pokemon> I wanted."
 	done

@@ -1,107 +1,69 @@
 _ProspectorsHousePaperText1::
 	text "It's a note."
-	para "Gone digging on"
-	line "ROUTE 8!"
+	para "Gone digging on Route 8!"
 	done
 
 _ProspectorsHouseBoomboxText1::
-	text "Shouldn't touch it"
-	line "without asking!"
+	text "Shouldn't touch it without asking!"
 	done
 
 _ProspectorsHouseBoomboxText2::
-	text "<PLAYER> switched"
-	line "the boombox @"
+	text "<PLAYER> switched the boombox @"
 	text_end
 
 _ProspectorsHouseBoomboxOn::
-	text "ON."
+	text "on."
 	done
 
 _ProspectorsHouseBoomboxOff::
-	text "OFF."
+	text "off."
 	done
 
 _ProspectorsHousePaperText2::
-	text "A topographical"
-	line "TOWN MAP with"
-	cont "many lines marked"
-	cont "between cities."
-	para "TUNNEL MAP is"
-	line "written on it."
+	text "A topographical Town Map with many lines marked between cities."
+	para "Tunnel Map is written on it."
 	done
 
 _ProspectorsHouseProspectorText1::
-	text "Look who it is!"
-	line "Thanks again kid!"
-	para "You really helped"
-	line "me dig deep for"
-	cont "those diamonds!"
+	text "Look who it is! Thanks again kid!"
+	para "You really helped me dig deep for those diamonds!"
 	done
 
 _ProspectorsHouseProspectorText2::
-	text "I see you can"
-	line "FLY between towns"
-	cont "now!"
-	para "Believe it or"
-	line "not, you can DIG"
-	cont "between them too!"
-	para "We've got a great"
-	line "tunnel system"
-	cont "below the region!"
-	para "CELADON's tunnel"
-	line "starts in my"
-	cont "house! Hahaha!"
-	para "Let me teach you"
-	line "how to dig down"
-	cont "to the tunnels."
+	text "I see you can Fly between towns now!"
+	para "Believe it or not, you can Dig between them too!"
+	para "We've got a great tunnel system below the region!"
+	para "Celadon's tunnel starts in my house! Hahaha!"
+	para "Let me teach you how to dig down to the tunnels."
 	prompt
 
 _ProspectorsHouseProspectorText3::
-	text "Have a look at"
-	line "this map!"
+	text "Have a look at this map!"
 	prompt
 
 _ProspectorsHouseProspectorText4::
-	text "<PLAYER> learned"
-	line "how to DIG"
-	cont "between towns!"
+	text "<PLAYER> learned how to Dig between towns!"
 	done
 
 _ProspectorsHouseBookcase1Text::
-	text "UNDERGROUND"
-	line "#MON HABITATS@"
+	text "Underground <Pokemon> Habitats@"
 	text_end
 
 _ProspectorsHouseBookcase1Text2::
-	text "<PARA>Often DIGLETT"
-	line "live in tunnels"
-	cont "left by burrowing"
-	cont "ONIX."
-	para "DIGLETT tends to"
-	line "burrow in search"
-	cont "of tree roots to"
-	cont "nibble on."
+	text "<PARA>Often Diglett live in tunnels left by burrowing Onix."
+	para "Diglett tends to burrow in search of tree roots to nibble on."
 	done
 
 _ProspectorsHouseBookcase2Text::
-	text "A large chunk"
-	line "of gold NUGGET!"
+	text "A large chunk of gold Nugget!"
 	done
 
 _ProspectorsHouseBookcase3Text::
-	text "IGNEOUS ROCKS OF"
-	line "CINNABAR VOLCANO@"
+	text "Igneous Rocks of Cinnabar Volcano@"
 	text_end
 
 _ProspectorsHouseBookcase3Text2::
 	text "<PARA>Obsidian:"
-	line "A black glass"
-	cont "formed by rapidly"
-	cont "cooled lava."
-	para "Rarely, deposits"
-	line "can also be found"
-	cont "near where male"
-	cont "MAGMAR fought for"
-	cont "dominance."
+	para "A black glass formed by rapidly cooled lava."
+	para "Rarely, deposits can also be found near where male Magmar fought for dominance."
 	done

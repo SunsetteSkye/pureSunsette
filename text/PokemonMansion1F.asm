@@ -1,7 +1,5 @@
 _PokemonMansion1FScientistBattleText::
-	text "Who are you? There"
-	line "shouldn't be"
-	cont "anyone here."
+	text "Who are you? There shouldn't be anyone here."
 	done
 
 _PokemonMansion1FScientistEndBattleText::
@@ -9,74 +7,54 @@ _PokemonMansion1FScientistEndBattleText::
 	prompt
 
 _PokemonMansion1FScientistAfterBattleText::
-	text "A key? I don't"
-	line "know what you're"
-	cont "talking about."
+	text "A key? I don't know what you're talking about."
 	done
 
 _Mansion1BattleText2::
 	text "Shh!"
-	para "I'm hiding from"
-	line "the FIREFIGHTERs!"
+	para "I'm hiding from the firefighters!"
 	done
 
 _Mansion1EndBattleText2::
-	text "Keep"
-	line "quiet!"
+	text "Keep quiet!"
 	prompt
 
 _Mansion1AfterBattleText2::
-	text "Those do-gooders"
-	line "will undoubtedly"
-	cont "kick me out!"
-	para "Just think of how"
-	line "much loot must be"
-	cont "in this place!"
+	text "Those do-gooders will undoubtedly kick me out!"
+	para "Just think of how much loot must be in this place!"
 	done
 
 _Mansion1BattleText3::
-	text "This building is"
-	line "off limits!"
-	para "Don't make me"
-	line "throw you out!"
+	text "This building is off limits!"
+	para "Don't make me throw you out!"
 	done
 
 _Mansion1EndBattleText3::
-	text "Carry"
-	line "on then."
+	text "Carry on then."
 	prompt
 
 _Mansion1AfterBattleText3::
-	text "This place is"
-	line "abandoned and"
-	cont "full of fire"
-	cont "hazards."
-	para "Keep your eyes"
-	line "open!" 
+	text "This place is abandoned and full of fire hazards."
+	para "Keep your eyes open!"
 	para "Watch your step!"
-	para "And above all,"
-	line "stay safe!"
+	para "And above all, stay safe!"
 	done
 
 _Mansion1BattleText4::
 	text "Hey!"
-	para "Did you close"
-	line "that door on me?"
+	para "Did you close that door on me?"
 	done
 
 _Mansion1EndBattleText4::
-	text "I'm"
-	line "out of here!"
+	text "I'm out of here!"
 	prompt
 
 _Mansion1AfterBattleText4::
-	text "Be careful not"
-	line "to get trapped!"
+	text "Be careful not to get trapped!"
 	done
 
 _PokemonMansion1FSwitchText::
 	text "A secret switch!"
-
 	para "Press it?"
 	done
 

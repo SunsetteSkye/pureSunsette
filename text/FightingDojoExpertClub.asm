@@ -4,33 +4,22 @@ _FightingDojoMasterGoodChoice::
 
 _FightingDojoMasterJustATest::
 	text "So!"
-	para "You passed our"
-	line "entrance test."
-	para "Yes, that's right,"
-	line "it was a test!"
-	para "This DOJO is for"
-	line "newcomers."
+	para "You passed our entrance test."
+	para "Yes, that's right, it was a test!"
+	para "This Dojo is for newcomers."
 	prompt
 
 _FightingDojoMasterJustATest2::
-	text "Our true DOJO is"
-	line "behind these"
-	cont "scrolls!"
-	para "To enter you must"
-	line "do one more feat."
-	para "Beat the ninja"
-	line "master KOGA in"
-	cont "FUCHSIA CITY!"
+	text "Our true Dojo is behind these scrolls!"
+	para "To enter you must do one more feat."
+	para "Beat the ninja master Koga in Fuchsia City!"
 	done
 
 _FightingDojoMasterGotBadge::
 	text "That pink sheen!"
-	para "You've got the"
-	line "MARSHBADGE!"
-	para "So you beat"
-	line "KOGA."
-	para "Have a look at"
-	line "our true DOJO!"
+	para "You've got the Marsh Badge!"
+	para "So you beat Koga."
+	para "Have a look at our true Dojo!"
 	prompt
 
 _FightingDojoMasterOpenUp::
@@ -38,19 +27,12 @@ _FightingDojoMasterOpenUp::
 	done
 
 _FightingDojoExpertRulesSign::
-	text "Here, your #MON"
-	line "can undergo<...>"
-	para "EXPERT SUPER"
-	line "HEAVY TRAINING!"
-_FightingDojoExpertRulesSignJump:	
-	para "Just have them"
-	line "wear our special"
-	cont "training weights!"
-	para "#MON under lvl"
-	line "45 will receive"
-	cont "triple EXP!"
-	para "Above level 45"
-	line "receive 0 EXP."
+	text "Here, your <Pokemon> can undergo<...>"
+	para "Expert Super Heavy Training!"
+_FightingDojoExpertRulesSignJump:
+	para "Just have them wear our special training weights!"
+	para "<Pokemon> under lvl 45 will receive triple EXP!"
+	para "Above level 45 receive 0 EXP."
 	done
 
 _FightingDojoSparringGuysLeftText::
@@ -60,72 +42,56 @@ _FightingDojoSparringGuysLeftText::
 
 _FightingDojoSparringGuysRightText::
 	text "Always remember:"
-	para "NO kicking below"
-	line "the belt!"
+	para "NO kicking below the belt!"
 	done
 
 _FightingDojoSparringmonsNidokingText::
-	text "NIDOKING: Nidoooh!"
+	text "Nidoking: Nidoooh!"
 	done
 
 _FightingDojoSparringmonsMachampText::
-	text "MACHAMP: Muuuah!"
+	text "Machamp: Muuuah!"
 	done
 
 _FightingDojoSparringmonsText::
-	text "A NIDOKING and a"
-	line "MACHAMP grapple"
-	cont "fiercely."
+	text "A Nidoking and a Machamp grapple fiercely."
 	done
 
 _FightingDojoExpertClubClerkText::
-	text "Welcome to the"
-	line "FIGHTING DOJO"
-	cont "EXPERT CLUB!"
+	text "Welcome to the Fighting Dojo Expert Club!"
 	prompt
 
 _FightingDojoExpertClubClerkIntroText::
-	text "A great place"
-	line "for heavy #MON"
-	cont "training!@"
+	text "A great place for heavy <Pokemon> training!@"
 	text_jump _FightingDojoExpertRulesSignJump
 
 _FightingDojoExpertClubClerkBattleText::
-	text "HUAGH! Ready for"
-	line "HEAVY training?"
+	text "HUAGH! Ready for HEAVY training?"
 	done
 
 _FightingDojoOpponentBlackbeltIntro1::
-	text "HYAH!"
-	line "ROUNDHOUSE KICK!"
+	text "HYAH! ROUNDHOUSE KICK!"
 	done
 
 _FightingDojoOpponentBlackbeltIntro2::
-	text "HONESTY!"
-	line "INTEGRITY!"
-	cont "SELF-RESPECT!"
+	text "HONESTY! INTEGRITY! SELF-RESPECT!"
 	done
 
 _FightingDojoOpponentBlackbeltIntro3::
-	text "I just levelled up"
-	line "from a BROWNBELT!"
+	text "I just levelled up from a Brownbelt!"
 	done
 
 _FightingDojoOpponentBlackbeltIntro4::
-	text "Check out my"
-	line "battle stance!"
-	para "Tsha!"
-	line "Come at me!"
+	text "Check out my battle stance!"
+	para "Tsha! Come at me!"
 	done
 
 _FightingDojoOpponentFistFighterIntro1::
-	text "Put up your hands!"
-	line "Give me energy!"
+	text "Put up your hands! Give me energy!"
 	done
 
 _FightingDojoOpponentFistFighterIntro2::
-	text "Whoever blinks"
-	line "first loses!"
+	text "Whoever blinks first loses!"
 	done
 
 _FightingDojoOpponentFistFighterIntro3::
@@ -133,25 +99,21 @@ _FightingDojoOpponentFistFighterIntro3::
 	done
 
 _FightingDojoOpponentFistFighterIntro4::
-	text "I fight by pure"
-	line "instinct!"
+	text "I fight by pure instinct!"
 	done
 
 _FightingDojoOpponentTamerIntro1::
 	text "Mmm!"
-	para "This root beer"
-	line "lollipop rules!"
+	para "This root beer lollipop rules!"
 	done
 
 _FightingDojoOpponentTamerIntro2::
-	text "What's a TAMER's"
-	line "favorite food?"
-	para "WHIP'd cream!"
+	text "What's a Tamer's favorite food?"
+	para "Whip'd cream!"
 	done
 
 _FightingDojoOpponentTamerIntro3::
-	text "My #MON are"
-	line "born to be wild!"
+	text "My <Pokemon> are born to be wild!"
 	done
 
 _FightingDojoOpponentTamerIntro4::
@@ -159,29 +121,22 @@ _FightingDojoOpponentTamerIntro4::
 	done
 
 _FightingDojoOpponentCooltrainerFIntro1::
-	text "I'm here to kick"
-	line "some butt!"
+	text "I'm here to kick some butt!"
 	done
 
 _FightingDojoOpponentCooltrainerFIntro2::
-	text "What makes a"
-	line "COOLTRAINER cool?"
-	para "A great fashion"
-	line "sense!"
+	text "What makes a Cooltrainer cool?"
+	para "A great fashion sense!"
 	done
 
 _FightingDojoOpponentCooltrainerFIntro3::
-	text "Do you appreciate"
-	line "a good ponytail?"
+	text "Do you appreciate a good ponytail?"
 	done
 
 _FightingDojoOpponentCooltrainerFIntro4::
-	text "Ohohoho! You dare"
-	line "challenge a high-"
-	cont "class girl?"
+	text "Ohohoho! You dare challenge a high-class girl?"
 	done
 
 _FightingDojoBuddhaStatueText::
-	text "A bronze statue."
-	line "It looks pensive."
+	text "A bronze statue. It looks pensive."
 	done

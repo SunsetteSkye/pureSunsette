@@ -1,135 +1,71 @@
 _CeruleanGymMistyPreBattleText::
-	text "Hi, you're a new"
-	line "face!"
-
-	para "Trainers who want"
-	line "to turn pro have"
-	cont "to have a policy"
-	cont "about #MON!"
-
-	para "What is your"
-	line "approach when you"
-	cont "catch #MON?"
-
-	para "My policy is an"
-	line "all-out offensive"
-	cont "with water-type"
-	cont "#MON!"
+	text "Hi, you're a new face!"
+	para "Trainers who want to turn pro have to have a policy about <Pokemon>!"
+	para "What is your approach when you catch <Pokemon>?"
+	para "My policy is an all-out offensive with Water-type <Pokemon>!"
 	done
 
 _CeruleanGymMistyTM11ExplanationText::
-	text "<TM>52 teaches"
-	line "AQUA RING!"
-
-	para "A veil of water"
-	line "mends your team"
-	cont "each turn!"
+	text "<TM>52 teaches Aqua Ring!"
+	para "A veil of water mends your team each turn!"
 	done
 
 _CeruleanGymMistyPostBattleText::
-	text "Listen! GYM"
-	line "LEADERS don't go"
-	cont "all out on some"
-	cont "newbie!"
-
-	para "Don't go getting"
-	line "full of hot air,"
-	cont "boy<...>"
-
-	para "<...>or I'll soak"
-	line "you good!"
+	text "Listen! Gym Leaders don't go all out on some newbie!"
+	para "Don't go getting full of hot air, boy<...>"
+	para "<...>or I'll soak you good!"
 	done
 
 _CeruleanGymMistyCascadeBadgeInfoText::
-	text "The CASCADEBADGE"
-	line "lets you use CUT"
-	cont "any time!"
-
-	para "You can CUT down"
-	line "small bushes to"
-	cont "open new paths!"
-
-	para "It also doubles"
-	line "the power of your"
-	cont "POTIONs!"
-
-	para "You can also have"
-	line "my favorite <TM>!"
+	text "The Cascade Badge lets you use Cut any time!"
+	para "You can Cut down small bushes to open new paths!"
+	para "It also doubles the power of your Potions!"
+	para "You can also have my favorite <TM>!"
 	done
 
 _CeruleanGymMistyReceivedCascadeBadgeText::
-	text "Wow!"
-	line "You're too much!"
-
-	para "Truth is, I held"
-	line "back. A rookie"
-	cont "isn't ready for"
-	cont "my HYDRO PUMPs."
-
-	para "Face me again as"
-	line "a pro<...> I won't"
-	cont "go easy twice."
-
+	text "Wow! You're too much!"
+	para "Truth is, I held back. A rookie isn't ready for my Hydro Pumps."
+	para "Face me again as a pro<...> I won't go easy twice."
 	para "All right!"
-
-	para "You can have the"
-	line "CASCADEBADGE to"
-	cont "show you beat me!@"
+	para "You can have the Cascade Badge to show you beat me!@"
 	text_end
 
 _CeruleanGymBattleText1::
-	text "I'm more than good"
-	line "enough for you!"
-
-	para "MISTY can wait!"
+	text "I'm more than good enough for you!"
+	para "Misty can wait!"
 	done
 
 _CeruleanGymEndBattleText1::
-	text "You"
-	line "overwhelmed me!"
+	text "You overwhelmed me!"
 	prompt
 
 _CeruleanGymAfterBattleText1::
-	text "You have to face"
-	line "other trainers to"
-	cont "find out how good"
-	cont "you really are."
+	text "You have to face other Trainers to find out how good you really are."
 	done
 
 _CeruleanGymBattleText2::
 	text "Splash!"
-
-	para "I'm first up!"
-	line "Let's do it!"
+	para "I'm first up! Let's do it!"
 	done
 
 _CeruleanGymEndBattleText2::
-	text "That"
-	line "can't be!"
+	text "That can't be!"
 	prompt
 
 _CeruleanGymAfterBattleText2::
-	text "MISTY is going to"
-	line "keep improving!"
-
-	para "She won't lose to"
-	line "someone like you!"
+	text "Misty is going to keep improving!"
+	para "She won't lose to someone like you!"
 	done
 
 _GymGuideChampInMakingText::
-	text "Yo! Champ in"
-	line "making!<PARA>@"
+	text "Yo! Champ in making!<PARA>@"
 	text_end
 
 _CeruleanGymGymGuideChampInMakingText::
 	text "Here's my advice!"
-
-	para "MISTY floods this"
-	line "GYM into a pool!"
-
-	para "WATER #MON on"
-	line "BOTH sides swim"
-	cont "faster here!"
+	para "Misty floods this Gym into a pool!"
+	para "Water <Pokemon> on both sides swim faster here!"
 	done
 
 _CeruleanGymGymGuideBeatMistyText::
@@ -140,28 +76,17 @@ _CeruleanGymGymGuideBeatMistyText::
 	ld hl, .body
 	ret
 .body:
-	text "You beat MISTY!"
-	line "What'd I tell ya?"
-
-	para "You and me kid, we"
-	line "make a good team!"
-
-	para "That BADGE lets"
-	line "you raise #MON"
-	cont "up to L@"
+	text "You beat Misty! What'd I tell ya?"
+	para "You and me kid, we make a good team!"
+	para "That Badge lets you raise <Pokemon> up to L@"
 	text_decimal wExpGrowthThreshold, 1, 2
 	text "!"
 	prompt
 
 _GymGuideMoreApexChipText::
-	text "I've got two more"
-	line "APEX CHIPs, here!"
+	text "I've got two more Apex Chips, here!"
 	prompt
 
 _CeruleanGymGuideApexChipWaterText::
-	text "For water #MON,"
-	line "an APEX CHIP will"
-	cont "evoke a beautiful"
-	cont "ocean or river"
-	cont "biome."
+	text "For Water <Pokemon>, an Apex Chip will evoke a beautiful ocean or river biome."
 	prompt

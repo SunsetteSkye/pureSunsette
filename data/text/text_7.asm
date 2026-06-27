@@ -270,23 +270,23 @@ _AfterTrade3Text::
 
 _NothingToCutText::
 	text "There isn't"
-	line "anything to CUT!"
+	line "anything to Cut!"
 	prompt
 
 _UsedCutText::
 	text_ram_namebuffer
 	text " hacked"
-	line "away with CUT!"
+	line "away with Cut!"
 	prompt
 
 _ItemUseWildMonText::
 	text "This can only"
 	line "be used on wild"
-	cont "#MON."
+	cont "<Pokemon>."
 	prompt
 
 _NoPokeDollsOnSpiritsText::
-	text "A # DOLL won't"
+	text "A <poke> Doll won't"
 	line "distract this"
 	cont "violent spirit!"
 	prompt

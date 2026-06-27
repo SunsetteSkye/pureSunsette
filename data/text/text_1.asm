@@ -4,22 +4,22 @@ _CardKeySuccessText1::
 
 _CardKeySuccessText2::
 	text_start
-	line "The CARD KEY"
+	line "The Card Key"
 	cont "opened the door!"
 	done
 
 _CardKeyFailText::
 	text "Darn! It needs a"
-	line "CARD KEY!"
+	line "Card Key!"
 	done
 
 _CardKeyDoneText::
-	text "All the CARD KEY"
+	text "All the Card Key"
 	line "doors have been"
 	cont "opened!"
-	
+
 	para "Don't need this"
-	line "CARD KEY anymore."
+	line "Card Key anymore."
 
 	para "<PLAYER> left it"
 	line "in the card slot!"
@@ -55,7 +55,7 @@ _ExclamationText::
 
 _BoulderText::
 	text "This requires"
-	line "STRENGTH to move!"
+	line "Strength to move!"
 	done
 
 _StrengthActive::
@@ -66,12 +66,12 @@ _StrengthActive::
 _MartSignText::
 	text "All your item"
 	line "needs fulfilled!"
-	cont "#MON MART"
+	cont "<Pokemon> Mart"
 	done
 
 _PokeCenterSignText::
-	text "Heal Your #MON!"
-	line "#MON CENTER"
+	text "Heal Your <Pokemon>!"
+	line "<Pokemon> Center"
 	done
 
 _FoundItemText::
@@ -97,13 +97,13 @@ _NoMoreRoomForItemText::
 
 _OaksAideHiText::
 	text "Hi! Remember me?"
-	line "I'm PROF.OAK's"
-	cont "AIDE!"
+	line "I'm Prof. Oak's"
+	cont "Aide!"
 
 	para "If you caught @"
 	text_decimal hOaksAideRequirement, 1, 3
 	text_start
-	line "kinds of #MON,"
+	line "kinds of <Pokemon>,"
 	cont "I'm supposed to"
 	cont "give you this"
 	cont "@"
@@ -115,7 +115,7 @@ _OaksAideHiText::
 	cont "least @"
 	text_decimal hOaksAideRequirement, 1, 3
 	text " kinds of"
-	cont "#MON?"
+	cont "<Pokemon>?"
 	done
 
 _OaksAideUhOhText::
@@ -124,7 +124,7 @@ _OaksAideUhOhText::
 	cont "caught only @"
 	text_decimal hOaksAideNumMonsOwned, 1, 3
 	text_start
-	cont "kinds of #MON!"
+	cont "kinds of <Pokemon>!"
 
 	para "You need @"
 	text_decimal hOaksAideRequirement, 1, 3
@@ -152,7 +152,7 @@ _OaksAideHereYouGoText::
 	line "caught @"
 	text_decimal hOaksAideNumMonsOwned, 1, 3
 	text " kinds"
-	cont "of #MON!"
+	cont "of <Pokemon>!"
 	cont "Congratulations!"
 
 	para "Here you go!"
@@ -177,34 +177,34 @@ _OaksAideNoRoomText::
 _ConversionEnteredAttackModeText::
 	text "<USER>"
 	line "converted to"
-	cont "ATTACK mode!"
+	cont "Attack mode!"
 	prompt
 
 _ConversionEnteredDefenseModeText::
 	text "<USER>"
 	line "converted to"
-	cont "DEFENSE mode!"
+	cont "Defense mode!"
 	prompt
 
 _ConversionAlreadyDefenseModeText::
 	text "<USER> is"
 	line "already in"
-	cont "DEFENSE mode."
+	cont "Defense mode."
 	prompt
 
 _FuchsiaMeetingRoomOaksAideGreeting::
 	text "Hey <PLAYER>!"
 	line "How's it going?"
-	para "I'm one of PROF."
-	line "OAK's AIDEs!"
+	para "I'm one of Prof."
+	line "Oak's Aides!"
 	para "If you've caught 50"
-	line "or more #MON,"
+	line "or more <Pokemon>,"
 	para "I'll upgrade"
-	line "your TOWN MAP!"
+	line "your Town Map!"
 	prompt
 
 _FuchsiaMeetingRoomOaksAideHowMany::
-	text "How many #MON"
+	text "How many <Pokemon>"
 	line "have you caught?"
 	prompt
 
@@ -221,28 +221,28 @@ _FuchsiaMeetingRoomOaksAideEnough::
 	text "@"
 	text_decimal wNumSetBits, 1, 3
 	text "? Fantastic!"
-	line "MAP upgrade time!"
+	line "Map upgrade time!"
 	para "A new function"
 	line "will be added."
 	para "It'll have wild"
-	line "#MON data for"
+	line "<Pokemon> data for"
 	cont "each area!"
 	para "Just press A on an"
 	line "area to check."
 	para "Alright let's see"
-	line "your MAP<...>"
+	line "your Map<...>"
 	done
 
 
 _FuchsiaMeetingRoomOaksAideNoTownmap::
 	text "What?!"
 	para "You don't have a"
-	line "TOWN MAP?"
+	line "Town Map?"
 	para "Head back to"
-	line "PALLET TOWN and"
+	line "Pallet Town and"
 	cont "ask around!"
 	para "I'm sure someone'll"
-	line "give you a MAP!"
+	line "give you a Map!"
 	done
 
 _FuchsiaMeetingRoomOaksAideGoodLuck::

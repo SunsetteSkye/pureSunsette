@@ -1,41 +1,19 @@
 _SaffronGymSabrinaText::
-	text "I had a vision of"
-	line "your arrival!"
-
-	para "I have had psychic"
-	line "powers since I"
-	cont "was a child."
-
-	para "I first learned"
-	line "to bend spoons"
-	cont "with my mind."
-
-	para "I dislike fight-"
-	line "ing, but if you"
-	cont "wish, I will show"
-	cont "you my powers!"
+	text "I had a vision of your arrival!"
+	para "I have had psychic powers since I was a child."
+	para "I first learned to bend spoons with my mind."
+	para "I dislike fighting, but if you wish, I will show you my powers!"
 	done
 
 _SaffronGymSabrinaReceivedMarshBadgeText::
-	text "I'm"
-	line "shocked!"
-	cont "But, a loss is a"
-	cont "loss."
-
-	para "I admit I didn't"
-	line "work hard enough"
-	cont "to win!"
-
-	para "You earned the"
-	line "SOULBADGE!@"
+	text "I'm shocked! But, a loss is a loss."
+	para "I admit I didn't work hard enough to win!"
+	para "You earned the Soul Badge!@"
 	text_end
 
 _SaffronGymSabrinaStopBotheringText::
-	text "<...>What is it"
-	line "now?"
-
-	para "Will you stop"
-	line "bothering me?"
+	text "<...>What is it now?"
+	para "Will you stop bothering me?"
 	done
 
 _SaffronGymSabrinaThankYouText::
@@ -46,32 +24,20 @@ _TM46ExplanationText::
 	text_start
 	para "@"
 	text_ram_stringbuffer
-	text " is SKITTERMIND!"
-	para "Empty the foe's"
-	line "mind of all that"
-	cont "it is!"
-	para "It forgets what"
-	line "it is, left a"
-	cont "mere BUG."
-	para "Confusion"
-	line "clouds it."
+	text " is Skittermind!"
+	para "Empty the foe's mind of all that it is!"
+	para "It forgets what it is, left a mere bug."
+	para "Confusion clouds it."
 	done
 
 _SaffronGymSabrinaTM46NoRoomText::
-	text "Your pack is full"
-	line "of other items!"
+	text "Your pack is full of other items!"
 	done
 
 _SaffronGymGuideChampInMakingText::
-	text "SABRINA's #MON"
-	line "use psychic power"
-	cont "instead of force!"
-
-	para "A psychic barrier"
-	line "seals your PACK."
-
-	para "No items the"
-	line "whole fight!"
+	text "Sabrina's <Pokemon> use psychic power instead of force!"
+	para "A psychic barrier seals your pack."
+	para "No items the whole fight!"
 	done
 
 _SaffronGymGuideBeatSabrinaText::
@@ -82,66 +48,40 @@ _SaffronGymGuideBeatSabrinaText::
 	ld hl, .body
 	ret
 .body:
-	text "Psychic power,"
-	line "huh?"
-
-	para "If I had that, I'd"
-	line "make a bundle at"
-	cont "the slots!"
-
-	para "That BADGE lets"
-	line "you raise #MON"
-	cont "up to L@"
+	text "Psychic power, huh?"
+	para "If I had that, I'd make a bundle at the slots!"
+	para "That Badge lets you raise <Pokemon> up to L@"
 	text_decimal wExpGrowthThreshold, 1, 2
 	text "!"
 	prompt
 
 _SaffronGymGuideApexChipPsychicText::
-	text "For psychic"
-	line "#MON, an"
-	cont "APEX CHIP will"
-	cont "replicate a calm"
-	cont "silent area of"
-	cont "meditation, like"
-	cont "a temple or a"
-	cont "beach at sunset."
-	prompt 
+	text "For Psychic <Pokemon>, an Apex Chip will replicate a calm silent area of meditation, like a temple or a beach at sunset."
+	prompt
 
 _SaffronGymChanneler1BattleText::
-	text "SABRINA is younger"
-	line "than I, but I"
-	cont "respect her!"
+	text "Sabrina is younger than I, but I respect her!"
 	done
 
 _SaffronGymChanneler1EndBattleText::
-	text "Not"
-	line "good enough!"
+	text "Not good enough!"
 	prompt
 
 _SaffronGymChanneler1AfterBattleText::
-	text "In a battle of"
-	line "equals, the one"
-	cont "with the stronger"
-	cont "will wins!"
-
-	para "If you wish"
-	line "to beat SABRINA,"
-	cont "focus on winning!"
+	text "In a battle of equals, the one with the stronger will wins!"
+	para "If you wish to beat Sabrina, focus on winning!"
 	done
 
 _SaffronGymYoungster1BattleText::
-	text "Does our unseen"
-	line "power scare you?"
+	text "Does our unseen power scare you?"
 	done
 
 _SaffronGymYoungster1EndBattleText::
-	text "I never"
-	line "foresaw this!"
+	text "I never foresaw this!"
 	prompt
 
 _SaffronGymYoungster1AfterBattleText::
-	text "Psychic #MON"
-	line "fear only bugs@"
+	text "Psychic <Pokemon> fear only bugs@"
 	text_end
 
 _SaffronGymYoungster1AfterBattleText3::
@@ -149,93 +89,59 @@ _SaffronGymYoungster1AfterBattleText3::
 	done
 
 _SaffronGymChanneler2BattleText::
-	text "#MON take on"
-	line "the appearance of"
-	cont "their trainers."
-
-	para "Your #MON must"
-	line "be tough, then!"
+	text "<Pokemon> take on the appearance of their Trainers."
+	para "Your <Pokemon> must be tough, then!"
 	done
 
 _SaffronGymChanneler2EndBattleText::
-	text "I knew"
-	line "it!"
+	text "I knew it!"
 	prompt
 
 _SaffronGymChanneler2AfterBattleText::
-	text "I must teach"
-	line "better techniques"
-	cont "to my #MON!"
+	text "I must teach better techniques to my <Pokemon>!"
 	done
 
 _SaffronGymYoungster2BattleText::
-	text "You know that"
-	line "power alone isn't"
-	cont "enough!"
+	text "You know that power alone isn't enough!"
 	done
 
 _SaffronGymYoungster2EndBattleText::
-	text "I don't"
-	line "believe this!"
+	text "I don't believe this!"
 	prompt
 
 _SaffronGymYoungster2AfterBattleText::
-	text "SABRINA just wiped"
-	line "out the KARATE"
-	cont "MASTER next door!"
+	text "Sabrina just wiped out the Karate Master next door!"
 	done
 
 _SaffronGymChanneler3BattleText::
-	text "You and I, our"
-	line "#MON shall"
-	cont "fight!"
+	text "You and I, our <Pokemon> shall fight!"
 	done
 
 _SaffronGymChanneler3EndBattleText::
-	text "I lost"
-	line "after all!"
+	text "I lost after all!"
 	prompt
 
 _SaffronGymChanneler3AfterBattleText::
-	text "I knew that this"
-	line "was going to take"
-	cont "place."
+	text "I knew that this was going to take place."
 	done
 
 _SaffronGymYoungster3BattleText::
-	text "SABRINA is young,"
-	line "but she's also"
-	cont "our LEADER!"
-
-	para "You won't reach"
-	line "her easily!"
+	text "Sabrina is young, but she's also our Leader!"
+	para "You won't reach her easily!"
 	done
 
 _SaffronGymYoungster3EndBattleText::
-	text "I lost"
-	line "my concentration!"
+	text "I lost my concentration!"
 	prompt
 
 _SaffronGymYoungster3AfterBattleText::
-	text "There used to be"
-	line "2 #MON GYMs in"
-	cont "SAFFRON."
-
-	para "The FIGHTING DOJO"
-	line "next door lost"
-	cont "its GYM status"
-	cont "when we went and"
-	cont "creamed them!"
+	text "There used to be 2 <Pokemon> Gyms in Saffron."
+	para "The Fighting Dojo next door lost its Gym status when we went and creamed them!"
 	done
 
 _SaffronGymYoungster4BattleText::
-	text "SAFFRON #MON"
-	line "GYM is famous for"
-	cont "its psychics!"
-
-	para "You want to see"
-	line "SABRINA!"
-	cont "I can tell!"
+	text "Saffron <Pokemon> Gym is famous for its psychics!"
+	para "You want to see Sabrina! I can tell!"
 	done
 
 _SaffronGymYoungster4EndBattleText::
@@ -243,7 +149,5 @@ _SaffronGymYoungster4EndBattleText::
 	prompt
 
 _SaffronGymYoungster4AfterBattleText::
-	text "That's right! I"
-	line "used telepathy to"
-	cont "read your mind!"
+	text "That's right! I used telepathy to read your mind!"
 	done

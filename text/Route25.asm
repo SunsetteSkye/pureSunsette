@@ -1,183 +1,128 @@
 _Route25Youngster1BattleText::
-	text "Local trainers"
-	line "come here to"
-	cont "practice!"
+	text "Local Trainers come here to practice!"
 	done
 
 _Route25Youngster1EndBattleText::
-	text "You're"
-	line "decent."
+	text "You're decent."
 	prompt
 
 _Route25Youngster1AfterBattleText::
-	text "All #MON have"
-	line "weaknesses. It's"
-	cont "best to raise"
-	cont "different kinds."
+	text "All <Pokemon> have weaknesses. It's best to raise different kinds."
 	done
 
 _Route25Youngster2BattleText::
-	text "Dad took me to a"
-	line "great party on"
-	cont "S.S.ANNE at"
-	cont "VERMILION CITY!"
+	text "Dad took me to a great party on S.S. Anne at Vermilion City!"
 	done
 
 _Route25Youngster2EndBattleText::
-	text "I'm"
-	line "not mad!"
+	text "I'm not mad!"
 	prompt
 
 _Route25Youngster2AfterBattleText::
-	text "On S.S.ANNE, I"
-	line "saw trainers from"
-	cont "around the world."
+	text "On S.S. Anne, I saw Trainers from around the world."
 	done
 
 _Route25CooltrainerMBattleText::
-	text "I'm a cool guy."
-	line "I've got a girl"
-	cont "friend!"
+	text "I'm a cool guy. I've got a girl friend!"
 	done
 
 _Route25CooltrainerMEndBattleText::
-	text "Aww,"
-	line "darn<...>"
+	text "Aww, darn<...>"
 	prompt
 
 _Route25CooltrainerMAfterBattleText::
-	text "Oh well. My girl"
-	line "will cheer me up."
+	text "Oh well. My girl will cheer me up."
 	done
 
 _Route25CooltrainerF1BattleText::
-	text "Hi! My boyfriend"
-	line "is cool!"
+	text "Hi! My boyfriend is cool!"
 	done
 
 _Route25CooltrainerF1EndBattleText::
-	text "I was in"
-	line "bad condition!"
+	text "I was in bad condition!"
 	prompt
 
 _Route25CooltrainerF1AfterBattleText::
-	text "I wish my guy was"
-	line "as good as you!"
+	text "I wish my guy was as good as you!"
 	done
 
 _Route25Youngster3BattleText::
-	text "I knew I had to"
-	line "fight you!"
+	text "I knew I had to fight you!"
 	done
 
 _Route25Youngster3EndBattleText::
-	text "I knew"
-	line "I'd lose too!"
+	text "I knew I'd lose too!"
 	prompt
 
 _Route25Youngster3AfterBattleText::
-	text "If your #MON"
-	line "gets confused or"
-	cont "falls asleep,"
-	cont "switch it!"
+	text "If your <Pokemon> gets confused or falls asleep, switch it!"
 	done
 
 _Route25CooltrainerF2BattleText::
-	text "My friend has a"
-	line "cute #MON."
-	cont "I'm so jealous!"
+	text "My friend has a cute <Pokemon>. I'm so jealous!"
 	done
 
 _Route25CooltrainerF2EndBattleText::
-	text "I'm"
-	line "not so jealous!"
+	text "I'm not so jealous!"
 	prompt
 
 _Route25CooltrainerF2AfterBattleText::
-	text "You came from MT."
-	line "MOON? May I have"
-	cont "a CLEFAIRY?"
+	text "You came from Mt. Moon? May I have a Clefairy?"
 	done
 
 _Route25Hiker1BattleText::
-	text "I just got down"
-	line "from MT.MOON,"
-	cont "but I'm ready!"
+	text "I just got down from Mt. Moon, but I'm ready!"
 	done
 
 _Route25Hiker1EndBattleText::
-	text "You"
-	line "worked hard!"
+	text "You worked hard!"
 	prompt
 
 _Route25Hiker1AfterBattleText::
-	text "Drat!"
-	line "A ZUBAT bit me"
-	cont "back in there."
+	text "Drat! A Zubat bit me back in there."
 	done
 
 _Route25Hiker2BattleText::
-	text "I'm off to see a"
-	line "#MON collector"
-	cont "at the cape!"
+	text "I'm off to see a <Pokemon> collector at the cape!"
 	done
 
 _Route25Hiker2EndBattleText::
-	text "You"
-	line "got me."
+	text "You got me."
 	prompt
 
 _Route25Hiker2AfterBattleText::
-	text "The collector has"
-	line "many rare kinds"
-	cont "of #MON."
+	text "The collector has many rare kinds of <Pokemon>."
 	done
 
 _Route25Hiker3BattleText::
-	text "You're going to"
-	line "see BILL? First,"
-	cont "let's fight!"
+	text "You're going to see Bill? First, let's fight!"
 	done
 
 _Route25Hiker3EndBattleText::
-	text "You're"
-	line "something."
+	text "You're something."
 	prompt
 
 _Route25Hiker3AfterBattleText::
-	text "The trail below"
-	line "is a shortcut to"
-	cont "CERULEAN CITY."
+	text "The trail below is a shortcut to Cerulean City."
 	done
 
 _MankeyLearnsetText::
 	text "@"
 	text_ram_namebuffer
-	text " and I hike"
-	line "it every day!"
+	text " and I hike it every day!"
 	para "@"
 	text_ram_namebuffer
-	text " is always"
-	line "brimming with"
-	cont "energy!"
+	text " is always brimming with energy!"
 	para "@"
 	text_end
 
 _Route25BillSignText::
-	text "SEA COTTAGE"
-	line "BILL lives here!"
+	text "Sea Cottage"
+	para "Bill lives here!"
 	done
 
 _Route25Text12::
 	text "<TIPS>"
-	para "Hold both the"
-	line "A and B Buttons" 
-	cont "while standing"
-	cont "still."
-	para "Then press any" 
-	line "direction on the" 
-	cont "D-PAD to change"
-	cont "the direction"
-	cont "you're facing"
-	cont "without walking."
+	para "Hold both the A and B Buttons while standing still."
+	para "Then press any direction on the D-Pad to change the direction you're facing without walking."
 	done

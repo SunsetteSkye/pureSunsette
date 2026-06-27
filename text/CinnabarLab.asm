@@ -1,29 +1,23 @@
 _CinnabarLabFishingGuruText::
-	text "We study #MON"
-	line "extensively here."
-
-	para "People often bring"
-	line "us rare #MON"
-	cont "for examination."
+	text "We study <Pokemon> extensively here."
+	para "People often bring us rare <Pokemon> for examination."
 	done
 
 _CinnabarLabPhotoText::
-	text "A photo of the"
-	line "LAB's founder,"
-	cont "DR.FUJI!"
+	text "A photo of the lab's founder, Dr. Fuji!"
 	done
 
 _CinnabarLabMeetingRoomSignText::
-	text "#MON LAB"
-	line "Meeting Room"
+	text "<Pokemon> Lab"
+	para "Meeting Room"
 	done
 
 _CinnabarLabRAndDSignText::
-	text "#MON LAB"
-	line "R-and-D Room"
+	text "<Pokemon> Lab"
+	para "R-and-D Room"
 	done
 
 _CinnabarLabTestingRoomSignText::
-	text "#MON LAB"
-	line "Testing Room"
+	text "<Pokemon> Lab"
+	para "Testing Room"
 	done

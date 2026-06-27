@@ -1,36 +1,19 @@
 _CeruleanTrashedHouseFishingGuruTheyStoleATMText::
-	text "Those miserable"
-	line "<ROCKET>s!"
-
-	para "Look what they"
-	line "did here!"
-
-	para "They stole a <TM>"
-	line "for teaching"
-	cont "#MON how to"
-	cont "DIG holes!"
-
-	para "That cost me a"
-	line "bundle, it did!"
+	text "Those miserable <ROCKET>s!"
+	para "Look what they did here!"
+	para "They stole a <TM> for teaching <Pokemon> how to Dig holes!"
+	para "That cost me a bundle, it did!"
 	done
 
 _CeruleanTrashedHouseFishingGuruWhatsLostIsLostText::
-	text "I figure what's"
-	line "lost is lost!"
-
-	para "I decided to teach"
-	line "DIGLETT how to"
-	cont "DIG without a <TM>!"
+	text "I figure what's lost is lost!"
+	para "I decided to teach Diglett how to Dig without a <TM>!"
 	done
 
 _CeruleanTrashedHouseGirlText::
-	text "<TEAM><ROCKET> must"
-	line "be trying to DIG"
-	cont "their way into no"
-	cont "good!"
+	text "<TEAM><ROCKET> must be trying to dig their way into no good!"
 	done
 
 _CeruleanTrashedHouseWallHoleText::
-	text "<TEAM><ROCKET> left"
-	line "a way out!"
+	text "<TEAM><ROCKET> left a way out!"
 	done

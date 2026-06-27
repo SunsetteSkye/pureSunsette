@@ -1,18 +1,18 @@
 _ItemUseBallText00::
 	text "It dodged the"
-	line "thrown BALL!"
+	line "thrown Ball!"
 
-	para "This #MON"
+	para "This <Pokemon>"
 	line "can't be caught!"
 	prompt
 
 _ItemUseBallText01::
 	text "You missed the"
-	line "#MON!"
+	line "<Pokemon>!"
 	prompt
 
 _ItemUseBallText02::
-	text "Darn! The #MON"
+	text "Darn! The <Pokemon>"
 	line "broke free!"
 	prompt
 
@@ -38,7 +38,7 @@ _ItemUseBallText07::
 	text_ram wBoxMonNicks
 	text " was"
 	line "transferred to"
-	cont "BILL's <PC>!"
+	cont "Bill's <PC>!"
 	prompt
 
 _ItemUseBallText08::
@@ -49,7 +49,7 @@ _ItemUseBallText08::
 	prompt
 
 _NoBoxSlotsLeftText::
-	text "BOX @"
+	text "Box @"
 	text_ram wBoxNumString
 	text" is now"
 	line "full."
@@ -60,13 +60,13 @@ _NoBoxSlotsLeftText::
 _BoxSlotsLeftText::
 	text_ram w2CharStringBuffer
 	text " slots left in"
-	line "BOX @"
+	line "Box @"
 	text_ram wBoxNumString
 	text ".@"
 	text_end
 
 _ItemUseBallText06::
-	text "New #DEX data"
+	text "New <poke>dex data"
 	line "will be added for"
 	cont "@"
 	text_ram wEnemyMonNick
@@ -92,7 +92,7 @@ _LavaSurfingText::
 
 _ApexChipPutOnPokeballText::
 	text "You installed the"
-	line "APEX CHIP on"
+	line "Apex Chip on"
 	para "@"
 	text_ram_namebuffer
 	text "'s"
@@ -120,7 +120,7 @@ _ApexChipDVsMaxedText::
 
 _ApexChipAlreadyUsedText::
 	text "There's already"
-	line "an APEX CHIP"
+	line "an Apex Chip"
 	para "installed on"
 	line "@"
 	text_ram_namebuffer
@@ -130,11 +130,11 @@ _ApexChipAlreadyUsedText::
 
 _BoosterChipInstalledText::
 	text "You plugged the"
-	line "BOOSTER CHIP into"
-	cont "your POKéBALL"
+	line "Booster Chip into"
+	cont "your <poke> Ball"
 	cont "belt."
 
-	para "All #MON will"
+	para "All <Pokemon> will"
 	line "gain boosted EXP!@"
 	text_end
 
@@ -160,17 +160,17 @@ _RareCandyNoEffectText::
 
 _ThrewBaitText::
 	text "<PLAYER> threw"
-	line "some BAIT."
+	line "some Bait."
 	done
 
 _ThrewRockText::
 	text "<PLAYER> threw a"
-	line "ROCK."
+	line "Rock."
 	done
 
 _PlayedFluteNoEffectText::
-	text "Played the #"
-	line "FLUTE."
+	text "Played the <poke>"
+	line "Flute."
 
 	para "Now, that's a"
 	line "catchy tune!"
@@ -178,12 +178,12 @@ _PlayedFluteNoEffectText::
 
 _FluteWokeUpText::
 	text "All sleeping"
-	line "#MON woke up."
+	line "<Pokemon> woke up."
 	prompt
 
 _PlayedFluteHadEffectText::
 	text "<PLAYER> played the"
-	line "# FLUTE.@"
+	line "<poke> Flute.@"
 	text_end
 
 _CoinCaseNumCoinsText::
@@ -194,13 +194,13 @@ _CoinCaseNumCoinsText::
 	prompt
 
 _ItemfinderFoundItemText::
-	text "Yes! ITEMFINDER"
+	text "Yes! Itemfinder"
 	line "indicates there's"
 	cont "an item nearby."
 	prompt
 
 _ItemfinderFoundNothingText::
-	text "Nope! ITEMFINDER"
+	text "Nope! Itemfinder"
 	line "isn't responding."
 	prompt
 
@@ -248,7 +248,7 @@ _TeachMachineMoveText::
 	para "Teach @"
 	text_ram_stringbuffer
 	text_start
-	line "to a #MON?"
+	line "to a <Pokemon>?"
 	done
 
 _MonCannotLearnMachineMoveText::
@@ -266,7 +266,7 @@ _MonCannotLearnMachineMoveText::
 	prompt
 
 _ItemUseNotTimeText::
-	text "OAK: <PLAYER>!"
+	text "Oak: <PLAYER>!"
 	line "This isn't the"
 	cont "time to use that!"
 	prompt
@@ -280,7 +280,7 @@ _ItemUseValuableText::
 _TopSecretKeyText::
 	text "This key looks"
 	line "similar to the"
-	cont "SECRET KEY."
+	cont "Secret Key."
 	para "It's a lot more"
 	line "worn though."
 	para "Is it from the"
@@ -299,7 +299,7 @@ _ItemUseFossilText::
 _ItemUseInBattleText::
 	text "This can only"
 	line "be used during"
-	cont "a #MON battle."
+	cont "a <Pokemon> battle."
 	prompt
 
 _ItemUseNotYoursToUseText::
@@ -309,7 +309,7 @@ _ItemUseNotYoursToUseText::
 
 _ThrowBallAtTrainerMonText1::
 	text "The trainer"
-	line "blocked the BALL!"
+	line "blocked the Ball!"
 	prompt
 
 _ThrowBallAtTrainerMonText2::
@@ -322,14 +322,14 @@ _NoCyclingAllowedHereText::
 	prompt
 
 _NoSurfingHereText::
-	text "No SURFing on"
+	text "No Surfing on"
 	line "@"
 	text_ram_namebuffer
 	text " here!"
 	prompt
 
 _BoxFullCannotThrowBallText::
-	text "The #MON BOX"
+	text "The <Pokemon> Box"
 	line "is full! Can't"
 	cont "use that item!"
 	prompt

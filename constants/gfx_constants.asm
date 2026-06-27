@@ -1,5 +1,27 @@
 DEF TILE_1BPP_SIZE EQU TILE_SIZE / 2 ; bytes
 
+; --- Variable-width font (VWF) compositor (engine/gfx/vwf.asm) ---
+; Prose cells fetch their composited tile from VRAM bank 1 (attribute bit 3)
+; using BG palette 0 (the standard text palette).
+DEF VWF_ATTR EQU $08 ; OAM/BG attribute: bit 3 = VRAM bank 1, palette 0
+; Pool tiles use tile numbers $80..$FF, which map to $8800..$8FFF under BOTH the
+; $8000-unsigned and $8800-signed BG/window addressing modes (the overlap
+; region). So the pool lives at bank-1 $8800 and a cell's tile byte = $80+index.
+DEF VWF_TILE_BASE EQU $80
+DEF VWF_SPACE_WIDTH EQU 3 ; advance for ' ' ($7F), which has no packed glyph
+DEF VWF_FIRST_CODE EQU $80 ; first char code present in the packed font
+DEF VWF_WORD_BUFSIZE EQU 24 ; Stage-2: max chars buffered per word for wrap (>24 glyphs
+                            ; can't fit a line; a longer word is force-flushed)
+; Dialogue/battle message box prose region (Stage 1: 2 lines, no scroll).
+DEF VWF_DLG_COLS      EQU 18 ; cells per line (cols 1..18). Only the LAST line reserves
+                            ; col 18 for the ▼ "more" arrow (row 16); VWFFlushWord drops
+                            ; one column of budget on the last line. Top line uses all 18.
+DEF VWF_DLG_LINEWIDTH EQU VWF_DLG_COLS * 8 ; line width in pixels (top line)
+DEF VWF_DLG_STARTCOL  EQU 1
+DEF VWF_DLG_ROW0      EQU 14 ; screen row of line 0
+DEF VWF_DLG_ROWSTEP   EQU 2  ; rows between text lines (matches vanilla spacing)
+DEF VWF_DLG_LINES     EQU 2
+
 DEF BLOCK_WIDTH EQU 4 ; tiles
 DEF BLOCK_HEIGHT EQU BLOCK_WIDTH ; tiles
 DEF SCREEN_BLOCK_WIDTH EQU 6 ; blocks

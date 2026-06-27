@@ -1,106 +1,64 @@
 _Museum2FYoungsterText::
-	text "MOON STONE?"
-
-	para "What's so special"
-	line "about it?"
+	text "Moon Stone?"
+	para "What's so special about it?"
 	done
 
 _Museum2FGrampsText::
 	text "July 20, 1969!"
-
-	para "The 1st lunar"
-	line "landing!"
-
-	para "I bought a color"
-	line "TV to watch it!"
+	para "The 1st lunar landing!"
+	para "I bought a color TV to watch it!"
 	done
 
 _Museum2FScientistText::
-	text "We have a space"
-	line "exhibit now."
+	text "We have a space exhibit now."
 	done
 
 _Museum2FBrunetteGirlText::
-	text "I want a PIKACHU!"
-	line "It's so cute!"
-
-	para "I asked my Daddy"
-	line "to catch me one!"
+	text "I want a Pikachu! It's so cute!"
+	para "I asked my Daddy to catch me one!"
 	done
 
 _Museum2FHikerText::
-	text "Yeah, a PIKACHU"
-	line "soon, I promise!"
+	text "Yeah, a Pikachu soon, I promise!"
 	done
 
 _Museum2FSpaceShuttleSignText::
-	text "SPACE SHUTTLE"
-	line "COLUMBIA"
+	text "Space Shuttle Columbia"
 	done
 
 _Museum2FMoonStoneSignText::
-	text "Meteorite that"
-	line "fell on MT.MOON."
-	cont "(MOON STONE?)"
+	text "Meteorite that fell on Mt. Moon. (Moon Stone?)"
 	done
 
 _Museum2FWalletKid1::
-	text "What's this?"
-	line "A wallet? Huh!"
-	cont "Whoever dropped"
-	cont "it was loaded!"
-
-	para "I could buy a"
-	line "MAGIKARP with"
-	cont "this much!@"
+	text "What's this? A wallet? Huh! Whoever dropped it was loaded!"
+	para "I could buy a Magikarp with this much!@"
 	text_end
 
 _Museum2FWalletKidBattle::
-	text "Give it back?"
-	line "Yeah right!"
-	
-	para "How do I know"
-	line "it's your wallet?"
-
-	para "Tell you what,"
-	line "if you beat me"
-	cont "in a battle,"
-	cont "it's yours."
+	text "Give it back? Yeah right!"
+	para "How do I know it's your wallet?"
+	para "Tell you what, if you beat me in a battle, it's yours."
 	done
 
 _Museum2FWalletKidBattleAfter::
-	text "Not"
-	line "cool!"
+	text "Not cool!"
 	prompt
 
 _Museum2FWalletKidWalletGive::
-	text "Alright alright!"
-	line "Just take it!"
-
-	para "Wish I was old"
-	line "enough to get"
-	cont "one of those"
-	cont "starter #MON!@"
+	text "Alright alright! Just take it!"
+	para "Wish I was old enough to get one of those starter <Pokemon>!@"
 	text_end
 
 _GenericReceivedTheText::
 _Museum2FReceivedLostWalletText::
-	text "<PLAYER> received"
-	line "the @"
+	text "<PLAYER> received the @"
 	text_ram_stringbuffer
 	text "!"
 	done
 
 _Museum2FWalletKidEnd::
-	text "My mom wouldn't"
-	line "have let me keep"
-	cont "someone else's"
-	cont "wallet anyway."
-
-	para "I had a great"
-	line "battle though."
-
-	para "So I consider"
-	line "this adventure"
-	cont "a win!"
+	text "My mom wouldn't have let me keep someone else's wallet anyway."
+	para "I had a great battle though."
+	para "So I consider this adventure a win!"
 	done

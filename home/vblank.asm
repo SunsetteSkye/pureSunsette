@@ -5,7 +5,24 @@ VBlank::
 	push de
 	push hl
 
+	; WRAM-bank safety: VBlank can fire while the main loop is at SVBK=2 (VWF dialogue
+	; compositing toggles SVBK=2 to reach the bank-2 VWF state). VBlank work writes WRAMX
+	; vars -- e.g. UpdateMovingBgTiles writes wMovingBGTilesCounter2 @ $d087, which ALIASES
+	; bank-2 wVWFCellPtr -- so at SVBK=2 it corrupts the floated VWF state (pool-tile
+	; garbage sprayed over the map during animated cutscenes). Force SVBK=1 for the whole
+	; handler; stash the entry bank in bit 7 of the saved-ROM-bank byte (ROM banks are
+	; 0-127, so bit 7 is free) and restore it before reti so an interrupted SVBK=2 window
+	; resumes on the correct WRAM bank.
+	ldh a, [rSVBK]
+	ld b, a ; b = entry SVBK (1 or 2)
+	ld a, 1
+	ldh [rSVBK], a
+
 	ldh a, [hLoadedROMBank]
+	bit 1, b ; entry SVBK == 2 ?
+	jr z, .svbkWas1
+	set 7, a ; remember "entry SVBK was 2" in the free high bit of the saved bank
+.svbkWas1
 	ld [wVBlankSavedROMBank], a
 
 ;;;;;;;;;; shinpokerednote: ADDED: set the correct backed-up bank if vblank happened during a DelayFrame function
@@ -77,6 +94,14 @@ VBlank::
 	call z, ReadJoypad
 
 	ld a, [wVBlankSavedROMBank]
+	bit 7, a ; entry SVBK was 2? (the marker bit; res below does NOT touch flags)
+	res 7, a ; strip the marker -> real ROM bank
+	jr z, .svbkRestored ; entry SVBK was 1: already there
+	ld c, a
+	ld a, 2
+	ldh [rSVBK], a ; restore entry SVBK=2 before the (bank-2) register pops + reti
+	ld a, c
+.svbkRestored
 	call SetCurBank
 
 	pop hl

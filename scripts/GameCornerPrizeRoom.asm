@@ -1,4 +1,5 @@
 GameCornerPrizeRoom_Script:
+	callfar GameCornerPlayMusic ; Sunsette: same OG+ game-corner theme remap as the main floor
 	jp EnableAutoTextBoxDrawing
 
 GameCornerPrizeRoom_TextPointers:

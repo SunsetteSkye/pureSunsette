@@ -26,8 +26,8 @@ IconPalettes:
 	db PAL_ICON_14      ; 20 RATICATE
 	db $FF              ; 21 SPEAROW
 	db $FF              ; 22 FEAROW
-	db PAL_ICON_15      ; 23 EKANS
-	db PAL_ICON_15      ; 24 ARBOK
+	db $FF              ; 23 EKANS
+	db $FF              ; 24 ARBOK
 	db $FF              ; 25 PIKACHU
 	db $FF              ; 26 RAICHU
 	db PAL_ICON_16      ; 27 SANDSHREW
@@ -82,8 +82,8 @@ IconPalettes:
 	db $FF              ; 76 GOLEM
 	db PAL_ICON_32      ; 77 PONYTA
 	db PAL_ICON_32      ; 78 RAPIDASH
-	db PAL_ICON_40      ; 79 SLOWPOKE
-	db PAL_ICON_40      ; 80 SLOWBRO
+	db PAL_CREAMPINKMON ; 79 SLOWPOKE
+	db PAL_CREAMPINKMON ; 80 SLOWBRO
 	db PAL_ICON_42      ; 81 MAGNEMITE
 	db PAL_ICON_42      ; 82 MAGNETON
 	db $FF              ; 83 FARFETCHD
@@ -147,7 +147,7 @@ IconPalettes:
 	db PAL_ICON_64      ; 141 KABUTOPS
 	db $FF              ; 142 AERODACTYL
 	db PAL_ICON_75      ; 143 SNORLAX
-	db PAL_ICON_76      ; 144 ARTICUNO
+	db PAL_ICON_18      ; 144 ARTICUNO
 	db PAL_ICON_77      ; 145 ZAPDOS
 	db $FF              ; 146 MOLTRES
 	db PAL_ICON_69      ; 147 DRATINI
@@ -303,7 +303,7 @@ IconPalettesAlt:
 	db PAL_ICON_52      ; 141 KABUTOPS
 	db $FF              ; 142 AERODACTYL
 	db PAL_ICON_10      ; 143 SNORLAX
-	db PAL_ICON_18      ; 144 ARTICUNO
+	db PAL_ICON_76      ; 144 ARTICUNO
 	db $FF              ; 145 ZAPDOS
 	db $FF              ; 146 MOLTRES
 	db PAL_ICON_09      ; 147 DRATINI

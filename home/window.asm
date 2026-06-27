@@ -290,5 +290,67 @@ PrintText::
 	call UpdateSpritesAndDelay3
 	pop hl
 PrintText_NoCreatingTextBox::
+; Stage 1: route ONLY opt-in prose dialogue (wVWFEnable, set by DisplayTextID's
+; NPC/sign text path) through the variable-width font, and only on GBC outside
+; battle. PrintText is shared by menus/intro/system text, so a broad gate here
+; would mis-composite those and corrupt VRAM -- the opt-in flag scopes it tight.
+; NOTE: battle VWF was SHELVED (see git branch battle-vwf-shelf + the VWF memory
+; file) -- it fought the battle's HP-bar/type/anim/VDMA-attribute rendering. Battle
+; text stays fixed-width until battle VWF is redesigned on a proven foundation.
+	xor a
+	ld [wVWFActive], a
+	ld a, [wVWFEnable]
+	and a
+	jr z, .noVWF
+	ldh a, [hGBC]
+	and a
+	jr z, .noVWF
+	ld a, [wIsInBattle]
+	and a
+	jr nz, .noVWF
+	ld a, 1
+	ld [wVWFActive], a
+	ld [wVWFBoxOpen], a ; box is rendered; CloseTextDisplay tears it down via this flag
+	xor a
+	ld [wVWFTextDepth], a ; reset insert-nesting depth for this top-level print
+	push hl
+	push de ; VWFInitPool clobbers de, but TextCommandProcessor needs it (TX_FAR)
+	vwf_farcall VWFInitPool
+	pop de
+	pop hl
+	jr .noTeardown ; VWF box freshly set up -- DON'T fall into the fixed-width teardown
+	               ; below (it would clear wVWFBoxOpen + EndBox the box we just opened,
+	               ; disarming the scroll gate so post-print scrolls spray pool tiles).
+.noVWF
+	; This print is FIXED-WIDTH (non-prose menu/system text). A prior VWF dialogue
+	; may have left bank-1 (pool) attributes + pool tile bytes on the message box;
+	; fixed-width font printed over them fetches pool tiles = garbage (the PC-withdraw
+	; / "what will you do" bug). The wVWFBoxOpen flag proved unreliable across menu
+	; re-entry, so just blank the box UNCONDITIONALLY here on GBC overworld. (Battle
+	; has no VWF box -- shelved -- and uses its own box palette, so skip it there.)
+	ldh a, [hGBC]
+	and a
+	jr z, .noTeardown
+	ld a, [wIsInBattle]
+	and a
+	jr nz, .noTeardown
+	xor a
+	ld [wVWFBoxOpen], a
+	push hl
+	push de
+	vwf_farcall VWFEndBox
+	pop de
+	pop hl
+.noTeardown
 	bccoord 1, 14
-	jp TextCommandProcessor
+	call TextCommandProcessor
+	; The dialogue print (incl. name inserts + cont/para) is done. Clear wVWFActive
+	; so the PlaceNextChar VWF hooks stop firing -- otherwise a menu/screen drawn
+	; afterward (PC submenus, Pokedex) that prints via PlaceString/TextCommandProcessor
+	; at its OWN coords gets hijacked into the VWF box. The box stays rendered;
+	; wVWFBoxOpen drives its teardown at close. Preserve regs the caller may use.
+	push af
+	xor a
+	ld [wVWFActive], a
+	pop af
+	ret

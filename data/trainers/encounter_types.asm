@@ -14,6 +14,8 @@ EvilTrainerList::
 	db OPP_SCIENTIST
 	db OPP_GIOVANNI
 	db OPP_ROCKET
+	; Sunsette: ROCKET_QUEEN handled earlier in trainer_sight (its own "Meet Jessie & James" cue),
+	; so it is intentionally NOT in this list.
 	; db OPP_CUE_BALL ?
 	; db OPP_BURGLAR ?
 	db -1 ; end

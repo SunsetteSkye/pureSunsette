@@ -1,31 +1,18 @@
 _RockTunnelPokecenterGentlemanText::
-	text "The element types"
-	line "of #MON make"
-	cont "them stronger"
-	cont "than some types"
-	cont "and weaker than"
-	cont "others!"
+	text "The element types of <Pokemon> make them stronger than some types and weaker than others!"
 	done
 
 _RockTunnelPokecenterFisherText::
-	text "I sold a useless"
-	line "NUGGET for ¥5000!"
+	text "I sold a useless Nugget for ¥5000!"
 	done
 
 _RockTunnelCharityNurseText1::
-	text "Welcome to our"
-	line "#MON CENTER!"
-	para "Would you like to"
-	line "donate ¥3000 to"
-	cont "helping sick"
-	cont "#MON?"
+	text "Welcome to our <Pokemon> Center!"
+	para "Would you like to donate ¥3000 to helping sick <Pokemon>?"
 	done
 
 _RockTunnelCharityNurseText2::
 	text "How generous!"
-	para "Here's a #MON"
-	line "CENTER secret:"
-	para "Hold B before"
-	line "talking to the"
-	cont "nurse!"
+	para "Here's a <Pokemon> Center secret:"
+	para "Hold B before talking to the nurse!"
 	done

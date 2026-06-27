@@ -1,152 +1,101 @@
 _SaffronCityRocket1Text::
-	text "What do you want?"
-	line "Get lost!"
+	text "What do you want? Get lost!"
 	done
 
 _SaffronCityRocket2Text::
-	text "BOSS said he'll"
-	line "take this town!"
+	text "Boss said he'll take this town!"
 	done
 
 _SaffronCityRocket3Text::
-	text "Get out of the"
-	line "way!"
+	text "Get out of the way!"
 	done
 
 _SaffronCityRocket4Text::
-	text "SAFFRON belongs"
-	line "to <TEAM><ROCKET>!"
+	text "Saffron belongs to <TEAM><ROCKET>!"
 	done
 
 _SaffronCityRocket5Text::
-	text "Being evil makes"
-	line "me feel so alive!"
+	text "Being evil makes me feel so alive!"
 	done
 
 _SaffronCityRocket6Text::
-	text "Ow! Watch where"
-	line "you're walking!"
+	text "Ow! Watch where you're walking!"
 	done
 
 _SaffronCityRocket7Text::
-	text "With SILPH under"
-	line "control, we can"
-	cont "exploit #MON"
-	cont "around the world!"
+	text "With Silph under control, we can exploit <Pokemon> around the world!"
 	done
 
 _SaffronCityScientistText::
-	text "You beat <TEAM>"
-	line "<ROCKET> all alone?"
-	cont "That's amazing!"
+	text "You beat <TEAM><ROCKET> all alone? That's amazing!"
 	done
 
 _SaffronCitySilphWorkerMText::
-	text "Yeah! <TEAM><ROCKET>"
-	line "is gone!"
-	cont "It's safe to go"
-	cont "out again!"
+	text "Yeah! <TEAM><ROCKET> is gone! It's safe to go out again!"
 	done
 
 _SaffronCitySilphWorkerFText::
-	text "People should be"
-	line "flocking back to"
-	cont "SAFFRON now."
+	text "People should be flocking back to Saffron now."
 	done
 
 _SaffronCityGentlemanText::
-	text "I flew here on my"
-	line "PIDGEOT when I"
-	cont "read about SILPH."
-
-	para "It's already over?"
-	line "I missed the"
-	cont "media action."
+	text "I flew here on my Pidgeot when I read about Silph."
+	para "It's already over? I missed the media action."
 	done
 
 _SaffronCityPidgeotText::
-	text "PIDGEOT: Bi bibii!@"
+	text "Pidgeot: Bi bibii!@"
 	text_end
 
 _SaffronCityRockerText::
-	text "I saw <ROCKET>"
-	line "BOSS escaping"
-	cont "SILPH's building."
+	text "I saw <ROCKET> Boss escaping Silph's building."
 	done
 
 _SaffronCityRocket8Text::
-	text "I'm a security"
-	line "guard."
-
-	para "Suspicious kids I"
-	line "don't allow in!"
+	text "I'm a security guard."
+	para "Suspicious kids I don't allow in!"
 	done
 
 _SaffronCityRocket9Text::
-	text "<...>"
-	line "Snore<...>"
-
-	para "Hah! He's taking"
-	line "a snooze!"
+	text "<...> Snore<...>"
+	para "Hah! He's taking a snooze!"
 	done
 
 _SaffronCitySignText::
-	text "SAFFRON CITY"
-	para "Shining, Golden"
-	line "Land of Commerce"
+	text "Saffron City"
+	para "Shining, Golden Land of Commerce"
 	done
 
 _SaffronCityFightingDojoSignText::
-	text "FIGHTING DOJO"
+	text "Fighting Dojo"
 	done
 
 _SaffronCityGymSignText::
-	text "SAFFRON CITY"
-	line "#MON GYM"
-	cont "LEADER: SABRINA"
-
-	para "The Master of"
-	line "Psychic #MON!"
+	text "Saffron City <Pokemon> Gym Leader: Sabrina"
+	para "The Master of Psychic <Pokemon>!"
 	done
 
 _SaffronCityTrainerTips1Text::
 	text "<TIPS>"
-
-	para "FULL HEAL cures"
-	line "all ailments like"
-	cont "sleep and burns."
-
-	para "It costs a bit"
-	line "more, but it's"
-	cont "more convenient."
+	para "Full Heal cures all ailments like sleep and burns."
+	para "It costs a bit more, but it's more convenient."
 	done
 
 _SaffronCityTrainerTips2Text::
 	text "<TIPS>"
-
-	para "New GREAT BALL"
-	line "offers improved"
-	cont "capture rates."
-
-	para "Try it on those"
-	line "hard-to-catch"
-	cont "#MON."
+	para "New Great Ball offers improved capture rates."
+	para "Try it on those hard-to-catch <Pokemon>."
 	done
 
 _SaffronCitySilphCoSignText::
-	text "SILPH CO."
-	line "OFFICE BUILDING →"
+	text "Silph Co. Office Building →"
 	done
 
 _SaffronCityMrPsychicsHouseSignText::
-	text "MR.PSYCHIC's"
-	line "HOUSE"
+	text "Mr. Psychic's House"
 	done
 
 _SaffronCitySilphCoLatestProductSignText::
-	text "SILPH's latest"
-	line "product!"
-
-	para "Release to be"
-	line "determined<...>"
+	text "Silph's latest product!"
+	para "Release to be determined<...>"
 	done

@@ -1,46 +1,21 @@
 _SaffronGateGuardGeeImThirstyText::
-	text "I'm on guard duty."
-	line "Gee, I'm so"
-	cont "thirsty<...>"
-
-	para "My stats can't be"
-	line "any lower!"
-
-	para "Oh wait there,"
-	line "the road's closed."
+	text "I'm on guard duty. Gee, I'm so thirsty<...>"
+	para "My stats can't be any lower!"
+	para "Oh wait there, the road's closed."
 	done
 
 _SaffronGateGuardImParchedText::
-	text "Whoa, boy!"
-	line "I'm parched!"
-	cont "<...>"
-	cont "Huh? I can have"
-	cont "this drink?"
-	cont "Gee, thanks!@"
+	text "Whoa, boy! I'm parched! <...> Huh? I can have this drink? Gee, thanks!@"
 	text_end
 
 _SaffronGateGuardYouCanGoOnThroughText::
 	text_start
 
-	para "<...>"
-	line "Glug glug<...>"
-	cont "<...>"
-	cont "Gulp<...>"
-
-	para "A drink clears"
-	line "your head in a"
-	cont "pinch!"
-
-	para "If you want to go"
-	cont "to SAFFRON CITY<...>"
-	cont "<...>"
-	cont "You can go on"
-	cont "through. I'll"
-	cont "share this with"
-	cont "the other guards!"
+	para "<...> Glug glug<...> <...> Gulp<...>"
+	para "A drink clears your head in a pinch!"
+	para "If you want to go to Saffron City<...> <...> You can go on through. I'll share this with the other guards!"
 	done
 
 _SaffronGateGuardThanksForTheDrinkText::
-	text "Hi, thanks for"
-	line "the cool drinks!"
+	text "Hi, thanks for the cool drinks!"
 	done

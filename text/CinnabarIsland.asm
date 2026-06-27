@@ -1,43 +1,29 @@
 _CinnabarIslandDoorIsLockedText::
-	text "The door is"
-	line "locked<...>"
+	text "The door is locked<...>"
 	done
 
 _CinnabarIslandGirlText::
-	text "CINNABAR GYM's"
-	line "BLAINE is an odd"
-	cont "man who has lived"
-	cont "here for decades."
+	text "Cinnabar Gym's Blaine is an odd man who has lived here for decades."
 	done
 
 _CinnabarIslandGamblerText::
-	text "Scientists conduct"
-	line "experiments in"
-	cont "the burned out"
-	cont "building."
+	text "Scientists conduct experiments in the burned out building."
 	done
 
 _CinnabarIslandSignText::
-	text "CINNABAR ISLAND"
-	para "The Fiery Town of"
-	line "Burning Desire"
+	text "Cinnabar Island"
+	para "The Fiery Town of Burning Desire"
 	done
 
 _CinnabarIslandPokemonLabSignText::
-	text "#MON LAB"
+	text "<Pokemon> Lab"
 	done
 
 _CinnabarIslandGymSignText::
-	text "CINNABAR ISLAND"
-	line "#MON GYM"
-	cont "LEADER: BLAINE"
-
-	para "The Hot-Headed"
-	line "Quiz Master!"
+	text "Cinnabar Island <Pokemon> Gym Leader: Blaine"
+	para "The Hot-Headed Quiz Master!"
 	done
 
 _UnlockedCinnabarGymDoorText::
-	text "<PLAYER> unlocked"
-	line "the door with the"
-	cont "SECRET KEY!"
-	done	
+	text "<PLAYER> unlocked the door with the Secret Key!"
+	done
