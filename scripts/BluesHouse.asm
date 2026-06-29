@@ -367,11 +367,8 @@ AddTeaAffectionToParty:
 	ld b, a ; count
 	ld c, 0 ; slot
 .loop
-	push bc
-	ld b, 0
-	ld hl, wPartyMonHappiness
-	add hl, bc ; &happiness[slot]
-	pop bc
+	ld a, c
+	affection_addr ; hl = &affection[slot] (preserves bc/de)
 	ld a, [hl]
 	add 10
 	jr nc, .store

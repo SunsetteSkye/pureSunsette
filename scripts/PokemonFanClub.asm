@@ -220,9 +220,10 @@ PokemonFanClubChairmanText:
 ChairName::
 	db "CLUB CHAIR@"
 
-; Sunsette: the receptionist gushes over the lead party mon's bond. She reads
-; wPartyMonHappiness (slot 0) and reacts in tiers, but in warm fan-club voice rather
-; than a clinical readout. 128 = HAPPINESS_SURVIVE_FLOOR (the second-wind / bond band).
+; Sunsette: the receptionist gushes over the lead party mon's bond. She reads the lead
+; mon's affection (origin field MON_ORIGIN_AFFECTION, via affection_addr slot 0) and reacts
+; in tiers, but in warm fan-club voice rather than a clinical readout. 128 =
+; HAPPINESS_SURVIVE_FLOOR (the second-wind / bond band).
 PokemonFanClubReceptionistText:
 	text_asm
 	ld a, [wPartyCount]
@@ -230,7 +231,9 @@ PokemonFanClubReceptionistText:
 	jr z, .noMon
 	ld hl, .introText
 	rst _PrintText
-	ld a, [wPartyMonHappiness] ; lead mon (slot 0)
+	xor a
+	affection_addr ; lead mon (slot 0)
+	ld a, [hl]
 	ld hl, .devotedText
 	cp 200
 	jr nc, .print

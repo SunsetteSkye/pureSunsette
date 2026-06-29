@@ -1,15 +1,17 @@
 ; Sunsette: happiness / affection system - storage primitives and helpers.
-; Happiness is a per-party-slot value (0-255) in wPartyMonHappiness, saved with the
-; main data via repurposed unused save bytes (so pre-feature saves stay valid).
+; Happiness is a per-party-slot value (0-255) stored in the per-mon ORIGIN field
+; (MON_ORIGIN_AFFECTION inside the repurposed OT-name array wPartyMonOT). Because it
+; lives in the saved party/box data, affection now persists per-mon (incl. boxed mons)
+; and the old standalone wPartyMonHappiness array + boxed-happiness SRAM cache are gone. The
+; party-data shuffle code (_RemovePokemon shift, party-menu swap, box<->party copy)
+; keeps it aligned for free, so the old Shift/Swap/Withdrawn helpers are now no-ops.
 
 DEF HAPPINESS_MAX           EQU 255
 DEF HAPPINESS_DEFAULT       EQU 70  ; neutral base + one-time seed for old saves + non-Apex withdrawal
 DEF HAPPINESS_STARTER       EQU 100 ; starter + Route 1 captures
 DEF HAPPINESS_LEGENDARY     EQU 35  ; the six legendaries when caught (head start; Apex withdrawal overrides)
-DEF HAPPINESS_SEED_MAGIC    EQU $2A ; marker that this save's happiness is initialized
+DEF HAPPINESS_SEED_MAGIC    EQU $2B ; marker that this save's happiness is initialized (bumped: affection moved into the OT/origin field, re-seed once)
 DEF HAPPINESS_SURVIVE_FLOOR EQU 128 ; min happiness for the survival / 3rd-PP effects
-DEF HAPPINESS_CACHE_SIZE    EQU 8   ; recently-boxed mons remembered (soft cache)
-DEF HAPPINESS_CACHE_ENTRY   EQU 5   ; species + DV lo + DV hi + level + happiness
 DEF HAPPINESS_STEP_INTERVAL EQU 128 ; overworld steps per +1 party-wide
 DEF HAPPINESS_LEVELUP_GAIN  EQU 3
 DEF HAPPINESS_FAINT_LOSS    EQU 1
@@ -23,35 +25,30 @@ MaybeSeedHappiness::
 	ld a, [wHappinessSeedFlag]
 	cp HAPPINESS_SEED_MAGIC
 	ret z
-	ld hl, wPartyMonHappiness
+; seed every party slot's origin field: affection = default, location = "Traded"
+; (a pre-feature / migrated mon has no recorded caught location). The OT-name bytes
+; that used to live here are overwritten.
+	ld hl, wPartyMonOT + MON_ORIGIN_AFFECTION
 	ld c, PARTY_LENGTH
-	ld a, HAPPINESS_DEFAULT
 .loop
-	ld [hli], a
+	ld a, HAPPINESS_DEFAULT
+	ld [hl], a            ; MON_ORIGIN_AFFECTION
+	inc hl
+	ld a, ORIGIN_TRADED
+	ld [hl], a            ; MON_ORIGIN_LOCATION
+	dec hl
+	ld de, NAME_LENGTH
+	add hl, de            ; next mon's origin field
 	dec c
 	jr nz, .loop
-; clear the boxed-happiness cache (species 0 = empty) and reset its ring index
-	call EnableSRAMBank0
-	ld hl, sHappinessCache
-	ld c, HAPPINESS_CACHE_SIZE * HAPPINESS_CACHE_ENTRY
-	xor a
-.clearCache
-	ld [hli], a
-	dec c
-	jr nz, .clearCache
-	xor a
-	ld [sHappinessCacheNext], a
-	call DisableSRAM
 	ld a, HAPPINESS_SEED_MAGIC
 	ld [wHappinessSeedFlag], a
 	ret
 
-; a = party slot (0-5) -> hl = &wPartyMonHappiness[slot]. Clobbers de.
+; a = party slot (0-5) -> hl = &that mon's affection byte (in its origin field).
+; Clobbers a; preserves bc and de.
 GetHappinessAddr::
-	ld e, a
-	ld d, 0
-	ld hl, wPartyMonHappiness
-	add hl, de
+	affection_addr
 	ret
 
 ; Raise party slot a's happiness by c (clamped to HAPPINESS_MAX).
@@ -82,13 +79,28 @@ LoseHappiness::
 SetNewMonBaseHappiness::
 	ld a, [wMonDataLocation]
 	and %1111
-	ret nz ; enemy party -> no happiness
+	ret nz ; enemy party -> no origin data
 	call .computeBase
 	ld c, a
 	ldh a, [hNewPartyLength]
 	dec a ; slot of the new mon
-	call GetHappinessAddr
-	ld [hl], c
+	call GetHappinessAddr ; hl = &affection; preserves bc/de
+	ld [hl], c            ; MON_ORIGIN_AFFECTION
+	inc hl                ; MON_ORIGIN_LOCATION
+; record where this mon came from: the current map, or "Traded" (AddPartyMon sets
+; bit 7 of wMonDataLocation for a mon received via an in-game trade).
+	ld a, [wMonDataLocation]
+	bit 7, a
+	jr nz, .traded
+	ld a, [wCurMap]
+	jr .storeLoc
+.traded
+	ld a, ORIGIN_TRADED
+.storeLoc
+	ld [hl], a            ; MON_ORIGIN_LOCATION
+	inc hl
+	xor a
+	ld [hl], a           ; MON_ORIGIN_COOLDOWN = 0 (fresh party flag bits)
 	ret
 .computeBase
 	ld a, [wCurPartySpecies]
@@ -116,191 +128,22 @@ SetNewMonBaseHappiness::
 	ld a, HAPPINESS_SURVIVE_FLOOR ; Sunsette: 128 - the starter begins in the bond-survival band
 	ret
 
-; Sunsette: set happiness for a mon just withdrawn into the party (box/daycare -> party).
-; Apex (max genes, matching the in-game APEX check) -> 70 + level; otherwise -> 70.
-; Expects wLoadedMon = the withdrawn mon and wPartyCount = the post-add party count.
+; Sunsette: affection now lives in each mon's ORIGIN field (inside the OT-name data),
+; so the engine's own party-data shuffles keep it aligned for free and these three
+; former helpers are no-ops:
+;   - withdrawal: the box->party copy already brings the mon's origin field (so its
+;     affection persists across a PC trip - no Apex recompute, no SRAM cache needed);
+;   - removal: _RemovePokemon already shifts the OT array down with the rest;
+;   - party-menu swap: the swap already exchanges the two OT entries.
 SetWithdrawnMonHappiness::
-	ld a, [wPartyCount]
-	dec a ; the withdrawn mon is the last party slot
-	push af
-	call LookupBoxedMonHappiness ; a = slot in; carry + a = happiness if recently boxed
-	jr nc, .notCached
-	ld c, a
-	pop af
-	call GetHappinessAddr
-	ld [hl], c
-	ret
-.notCached
-	ld hl, wLoadedMonDVs
-	ld a, [hli]
-	xor [hl] ; 0 when both DV bytes match -> the game's "Apex" condition
-	ld a, HAPPINESS_DEFAULT ; (ld does not disturb the z flag from xor)
-	jr nz, .store
-	ld a, [wLoadedMonLevel]
-	add HAPPINESS_DEFAULT ; 70 + level (<= 170, no overflow)
-.store
-	ld c, a
-	pop af
-	call GetHappinessAddr
-	ld [hl], c
-	ret
-
-; Sunsette: shift the happiness array down over a removed PARTY slot so happiness
-; stays aligned with the mons after a deposit/removal. No-op for box removals.
 ShiftHappinessForRemoval::
-	ld a, [wRemoveMonFromBox]
-	and a
-	ret nz ; box removal - party happiness is unaffected
-	call CacheBoxedMonHappiness ; stash this mon's happiness in case it's withdrawn again soon
-	ld a, [wWhichPokemon]
-	ld e, a
-	ld d, 0
-	ld hl, wPartyMonHappiness
-	add hl, de ; hl = &happiness[removed slot]
-	ld a, PARTY_LENGTH - 1
-	sub e ; entries after the removed slot
-	ret z ; removed the last slot -> nothing to shift
-	ld b, a
-.loop
-	inc hl
-	ld a, [hl]
-	dec hl
-	ld [hli], a ; happiness[j] = happiness[j+1]
-	dec b
-	jr nz, .loop
-	ret
-
-; Sunsette: swap two party slots' happiness when the party menu reorders mons,
-; so affection follows the mon rather than the slot.
 SwapPartyMonHappiness::
-	ld a, [wSwappedMenuItem]
-	call GetHappinessAddr
-	push hl
-	ld a, [wCurrentMenuItem]
-	call GetHappinessAddr
-	pop de ; de = &happiness[wSwappedMenuItem]
-	ld a, [de]
-	ld b, [hl]
-	ld [hl], a
-	ld a, b
-	ld [de], a
 	ret
 
-; --- Boxed-happiness cache (Sunsette) -------------------------------------------
-; A small ring of recently-boxed mons so a quick PC deposit/withdraw doesn't reset
-; affection. Keyed by species + DVs + level (level is frozen in the box). Lives in
-; SRAM bank 0 free space, so it persists with the save.
-
-EnableSRAMBank0:
-	ld a, RAMG_SRAM_ENABLE
-	ld [rRAMG], a
-	ld a, BMODE_ADVANCED
-	ld [rBMODE], a
-	xor a
-	ld [rRAMB], a
-	ret
-
-DisableSRAM:
-	xor a
-	ld [rBMODE], a
-	ld [rRAMG], a
-	ret
-
-; a = party slot. Writes {species, DV lo, DV hi, level} to wHappinessKeyScratch[0..3].
-BuildPartyMonKey:
-	ld hl, wPartyMons
-	ld bc, PARTYMON_STRUCT_LENGTH
-	call AddNTimes ; hl = &party mon (a consumed)
-	ld de, wHappinessKeyScratch
-	ld a, [hl] ; species (MON_SPECIES = 0)
-	ld [de], a
-	inc de
-	push hl
-	ld bc, MON_DVS
-	add hl, bc
-	ld a, [hli]
-	ld [de], a ; DV lo
-	inc de
-	ld a, [hl]
-	ld [de], a ; DV hi
-	inc de
-	pop hl
-	ld bc, MON_LEVEL
-	add hl, bc
-	ld a, [hl]
-	ld [de], a ; level
-	ret
-
-; Stash the about-to-be-removed party mon (wWhichPokemon) into the cache ring.
-CacheBoxedMonHappiness:
-	ld a, [wWhichPokemon]
-	call BuildPartyMonKey
-	ld a, [wWhichPokemon]
-	call GetHappinessAddr
-	ld a, [hl]
-	ld [wHappinessKeyScratch + 4], a ; 5th entry byte = happiness
-	call EnableSRAMBank0
-	ld a, [sHappinessCacheNext]
-	cp HAPPINESS_CACHE_SIZE
-	jr c, .indexOk
-	xor a ; defensive: bad/garbage index -> start at 0
-.indexOk
-	ld hl, sHappinessCache
-	ld bc, HAPPINESS_CACHE_ENTRY
-	call AddNTimes ; hl = &ring[next]
-	ld de, wHappinessKeyScratch
-	ld b, HAPPINESS_CACHE_ENTRY
-.copy
-	ld a, [de]
-	ld [hli], a
-	inc de
-	dec b
-	jr nz, .copy
-	ld a, [sHappinessCacheNext]
-	inc a
-	cp HAPPINESS_CACHE_SIZE
-	jr c, .store
-	xor a
-.store
-	ld [sHappinessCacheNext], a
-	jp DisableSRAM
-
-; a = party slot of a just-withdrawn mon. If its key is in the cache, returns carry
-; set + a = the remembered happiness (and invalidates the entry). Else carry clear.
-LookupBoxedMonHappiness:
-	call BuildPartyMonKey ; wHappinessKeyScratch[0..3] = key
-	call EnableSRAMBank0
-	ld hl, sHappinessCache
-	ld c, HAPPINESS_CACHE_SIZE
-.entryLoop
-	push hl ; entry base
-	ld de, wHappinessKeyScratch
-	ld b, 4
-.cmp
-	ld a, [de]
-	cp [hl]
-	jr nz, .noMatch
-	inc de
-	inc hl
-	dec b
-	jr nz, .cmp
-	ld a, [hl] ; happiness (offset 4)
-	ld b, a
-	pop hl
-	ld [hl], 0 ; invalidate this entry (species 0)
-	call DisableSRAM
-	ld a, b
-	scf
-	ret
-.noMatch
-	pop hl
-	ld de, HAPPINESS_CACHE_ENTRY
-	add hl, de
-	dec c
-	jr nz, .entryLoop
-	call DisableSRAM
-	and a ; carry clear -> not cached
-	ret
+; The boxed-happiness SRAM cache that used to live here is REMOVED. Boxed mons now carry
+; their affection in their own origin field (MON_ORIGIN_AFFECTION), copied in/out by
+; MoveMon, so a quick PC trip no longer floors affection and no cache is needed. This
+; reclaimed sHappinessCache (41 SRAM save bytes) + wHappinessKeyScratch (5 WRAM bytes).
 
 ; --- Phase 2 gain/loss entry points (Sunsette) ----------------------------------
 ; All farcall-safe: they take no register parameters (farcall clobbers a), reading
@@ -567,11 +410,8 @@ PressureDrainEnemyMove::
 	call ClampedDrainPP ; base Pressure (hl preserved)
 	jr c, .wornOut
 	ld a, [wPlayerMonNumber]
-	ld c, a
-	ld b, 0
 	push hl
-	ld hl, wPartyMonHappiness
-	add hl, bc
+	affection_addr ; hl = &affection (clobbers a, preserves bc/de)
 	ld a, [hl]
 	pop hl
 	cp HAPPINESS_SURVIVE_FLOOR ; 128

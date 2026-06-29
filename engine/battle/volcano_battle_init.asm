@@ -229,7 +229,7 @@ CheckInitSpecialBattleEffect::
 ; CheckInitSpecialBattleEffect above) buffs the wild mon + prints the line, CheckSafariWindPlayer
 ; (callfar'd from ApplyPlayerSendOutMapEffects above) buffs your mon. newCode is full, hence the float.
 
-; Sunsette: ADDED: if CONFUSE RAY armed the current map (wUnusedMapVariable, set from the field
+; Sunsette: ADDED: if CONFUSE RAY armed the current map (wFieldMoveArmedFlags, set from the field
 ; menu and auto-cleared on map change), make this wild mon appear in its alternate palette by
 ; setting bit 0 of wEnemyMonFlags (read by SET_PAL_BATTLE -> AltMonsterPalettes). Consumes the
 ; flag so only this one encounter is affected. Note: the alt palette itself still respects the
@@ -238,7 +238,7 @@ CheckWildConfuseRayPalette:
 	ld a, [wIsInBattle]
 	dec a ; wild battle == 1
 	ret nz
-	ld hl, wUnusedMapVariable
+	ld hl, wFieldMoveArmedFlags
 	bit 0, [hl] ; bit 0 = CONFUSE RAY armed
 	ret z
 	res 0, [hl] ; consume: next encounter only
@@ -1861,21 +1861,32 @@ MaximizeText:
 ; helpers) were moved to their own floating section, engine/battle/semi_invuln_reach.asm, to free newCode space.
 ; Both are reached from the Battle Core only via callfar, so relocating their bank is safe.
 
-; Sunsette: HEAT RUSH's effect body, floated here out of the full Battle Core (its trampoline HeatRushEffect
-; jpfar's here) so the reclaimed bytes make room for HYDROBATH's charge hooks. Heat Rush deals damage and
-; always raises the user's SPEED by one stage (Flame-Charge style). hWhoseTurn = the user.
+; Sunsette: HEAT UP's (was HEAT RUSH) effect body, floated here out of the full Battle Core (its trampoline
+; HeatRushEffect jpfar's here) so the reclaimed bytes make room for HYDROBATH's charge hooks. HEAT UP deals
+; damage, grants the user FLOURISH regen, and braces it (ADAPTATION-style) against WATER if it's a FIRE-type
+; (Fire already resists Ice, so it braces its real weakness) or ICE otherwise. Self-thaw stays automatically
+; (HEAT_RUSH_EFFECT is in BurnInflictingEffects). No more +SPEED. hWhoseTurn = the user.
 HeatRushEffect_::
+	call SetUserFlourish            ; Sunsette: HEAT UP grants FLOURISH regen (replaced the old +1 SPEED)
+; pick the brace type: a FIRE user braces WATER (its real weakness); everyone else braces ICE
 	ldh a, [hWhoseTurn]
 	and a
-	ld hl, wPlayerMoveEffect
-	jr z, .next
-	ld hl, wEnemyMoveEffect
-.next
-	push hl
-	ld [hl], SPEED_UP1_EFFECT
-	callfar StatUpSideEffect
-	pop hl
-	ld [hl], HEAT_RUSH_EFFECT
+	ld hl, wBattleMonType1
+	jr z, .gotTypePtr
+	ld hl, wEnemyMonType1
+.gotTypePtr
+	ld a, [hli]
+	cp FIRE
+	jr z, .fireUser
+	ld a, [hl]
+	cp FIRE
+	jr z, .fireUser
+	ld a, ICE
+	jr .gotBrace
+.fireUser
+	ld a, WATER
+.gotBrace
+	callfar BraceUserAgainstType    ; a = brace type -> store (type+1, latest-wins) + announce it
 	ret
 
 ; Sunsette: stores the SecondWind heal (de = new HP, passed through the callfar from SecondWindHeal in

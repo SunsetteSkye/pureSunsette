@@ -315,6 +315,12 @@ ResetTargetPosition_CS::
 	ret z
 	ld d, 11              ; BGMapAttributes_Battle (1-based packet) -> restore normal attributes
 	farcall LoadBGMapAttributes
+	; Sunsette: re-assert VWF box attrs after the reload so a live message's pool tiles don't
+	; flash as bank-0 font (the "alphabet" flash). Only touches pool cells; keeps the text.
+	ld a, [wVWFBoxOpen]
+	and a
+	ret z
+	vwf_farcall VWFReapplyBoxAttrs
 	ret
 .resetDefender
 	hlcoord 7, 2

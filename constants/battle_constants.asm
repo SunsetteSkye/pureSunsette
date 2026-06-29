@@ -96,7 +96,7 @@ DEF EFFECTIVENESS_MASK EQU %01111111
 	const DOUBLE_FLOURISH          ; 3 ; Sunsette: AQUA RING - doubles the FLOURISH regen (1/8 instead of 1/16). Reclaimed (was Haze's removed PSYCHIC_IMMUNITY).
 	const HAS_SUBSTITUTE_UP        ; 4
 	const NEEDS_TO_RECHARGE        ; 5 ; Hyper Beam
-	const BATTLESTATUS2_UNUSED_6   ; 6 ; Sunsette: FREE - was NORMAL_DRAGON_IMMUNITY (vanilla Mist's NORMAL/DRAGON immunity; dead since AURORA MIST stopped using vanilla Mist). Reclaimable.
+	const STATUS_WARDED            ; 6 ; Sunsette: AURORA MIST status-ward - blocks any new non-volatile status (checked via TargetIsWarded at PoisonEffect/FreezeBurnParalyze/_SleepEffect); set on BOTH sides, lasts until switch like Mist. (Reclaimed the old NORMAL_DRAGON_IMMUNITY bit.)
 	const SEEDED                   ; 7
 
 ; wPlayerBattleStatus3 or wEnemyBattleStatus3 bit flags

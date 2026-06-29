@@ -370,11 +370,11 @@ StartMenu_Pokemon::
 	text_far _NotHealthyEnoughText
 	text_end
 ; Sunsette: ADDED: CONFUSE RAY arms the next wild encounter on this map to appear in its
-; alternate palette. wUnusedMapVariable is repurposed as the armed flag; it is auto-cleared on
+; alternate palette. wFieldMoveArmedFlags is repurposed as the armed flag; it is auto-cleared on
 ; map change (ClearVariablesOnEnterMap), so the effect only lasts while you stay on this map.
 ; No badge required. CheckWildConfuseRayPalette (volcano_battle_init.asm) consumes the flag.
 .confuseRay
-	ld hl, wUnusedMapVariable
+	ld hl, wFieldMoveArmedFlags
 	set 0, [hl] ; bit 0 = CONFUSE RAY armed (Growth-invert uses bit 1)
 	ld hl, .confuseRayText
 	rst _PrintText
@@ -387,10 +387,10 @@ StartMenu_Pokemon::
 	text_end
 ; Sunsette: METRONOME / SING / HYPNOSIS invert wild-encounter rarity (rare<->common) until you change maps.
 ; (This was GROWTH/FLOURISH's field move; relocated here, all three share this handler. renamed to .mystic.)
-; Arms wUnusedMapVariable bit 1 (cleared on map change by ClearVariablesOnEnterMap); TryDoWildEncounter
+; Arms wFieldMoveArmedFlags bit 1 (cleared on map change by ClearVariablesOnEnterMap); TryDoWildEncounter
 ; flips the rolled encounter slot while it's set. No badge required.
 .mystic
-	ld hl, wUnusedMapVariable
+	ld hl, wFieldMoveArmedFlags
 	set 1, [hl] ; bit 1 = MYSTIC-invert armed (cleared on map change with the byte) (FLOURISH)
 	ld hl, .mysticText
 	rst _PrintText
@@ -524,13 +524,13 @@ StartMenu_Item::
 	jp RedisplayStartMenu
 .choseItem
 ;;;;;;;;;; PureRGBnote: ADDED: code to facilitate depositing an item from the item menu directly to PC.
-;;;;;;;;;;                     wUnusedC000 is set when we pressed start in the item list.
-	ld a, [wUnusedC000]
+;;;;;;;;;;                     wSharedScratch is set when we pressed start in the item list.
+	ld a, [wSharedScratch]
 	and a
 	jr z, .noStartButton
 	callfar DepositItemFromItemMenu
 	xor a
-	ld [wUnusedC000], a
+	ld [wSharedScratch], a
 	jp ItemMenuLoop
 .noStartButton
 ;;;;;;;;;;

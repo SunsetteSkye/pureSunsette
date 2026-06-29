@@ -197,7 +197,7 @@ LineChar::
 NextCharCmd::
 	ld a, [wVWFActive]
 	and a
-	jr nz, VWFTextLineBreak
+	jp nz, VWFTextLineBreak ; jp not jr: the auto-page branch pushed this past jr range
 	ld bc, 2 * SCREEN_WIDTH
 	ldh a, [hUILayoutFlags]
 	bit 2, a
@@ -209,33 +209,87 @@ NextCharCmd::
 	push hl
 	jp NextChar
 
-; Flush the buffered word, AUTO-PAGING if it overflows the full 2-line box. VWFFlushWord
-; sets wUnusedFlag=1 when the word won't fit on the last line (and leaves it buffered);
-; here we show the ▼, wait, clear, start a fresh page (KEEPING the buffer), and re-flush.
-; Preserves de.
-VWFFlushWordPaged:
+; Flush the buffered word, ADVANCING the box if it overflows the last line. VWFFlushWord
+; leaves the word buffered and sets wVWFPageAction to the action the active box wants:
+;   1 = SCROLL up one line (dialogue/battle 2-line box), 2 = PAGE (clear + restart at line 0,
+;   the Pokedex/Movedex multi-line box). Either way we show the ▼, wait, then act and re-flush
+; the still-buffered word on the freed line / fresh page. Preserves de.
+VWFFlushWordPaged::
 	push de
 	vwf_farcall VWFFlushWord
-	ld a, [wUnusedFlag]
+	ld a, [wVWFPageAction]
 	and a
-	jr nz, .page
+	jr nz, .overflow
 	pop de
 	ret
-.page
+.overflow
 	vwf_farcall VWFFlushCurrent ; flush the last placed word's PARTIAL tile so its final
-	                            ; char shows before the page waits (auto-page parity with
-	                            ; the <PARA>/prompt/done paths). Without this the last word
-	                            ; on a full page loses its trailing glyph ("It"->"I").
+	                            ; char shows before the wait (parity with the <PARA>/prompt/
+	                            ; done paths). Without this the last word on a full screen
+	                            ; loses its trailing glyph ("It"->"I").
+	ld a, [wVWFPageAction]
+	cp 2
+	jr z, .pageWait ; mode 1 (dex/movedex): blinking arrow drawn straight to VRAM, then page
+	; mode 0 (dialogue/battle): vanilla ▼ on the window + scroll up one line
 	ld a, '▼'
 	ldcoord_a 18, 16
 	call ProtectedDelay3
 	call ManualTextScroll
 	ld a, ' '
 	ldcoord_a 18, 16
-	vwf_farcall VWFEndBox
-	vwf_farcall VWFNewPage ; fresh page, but keep the overflowed word buffered
-	vwf_farcall VWFFlushWord ; now it fits at line 0
+	vwf_farcall VWFScroll ; scroll up one line (true scrolling, not a box clear)
+	vwf_farcall VWFFlushWord ; the buffered word now fits on the freed bottom line
 	pop de
+	ret
+.pageWait
+	call VWFDexPageWait ; blink the page-more ▼ at (18,16) and wait for A/B (mode 1 only)
+.pageOverflow
+	vwf_farcall VWFEndBox ; dex/movedex: clear the whole box and restart at line 0
+	vwf_farcall VWFNewPage ; (VWFNewPage keeps the word buffer, unlike VWFInitPool)
+	vwf_farcall VWFFlushWord ; re-flush the buffered word onto the fresh page
+	pop de
+	ret
+
+; Pokedex/Movedex "more pages" wait: blink the ▼ at the panel's bottom-right cell (18,16) until A
+; or B is pressed. The dex is drawn on the WINDOW and every visible cell is a bank-1 POOL tile
+; under the panel's fixed $0A attribute, so we blink by just swapping the cell's TILE BYTE between
+; the arrow pool tile and a blank pool tile (prepared by VWFDexArrowPrep). Writing wTileMap is
+; enough -- AutoBgMapTransfer carries it to the window exactly like the prose. Preserves de.
+VWFDexPageWait:
+	push de
+	vwf_farcall VWFDexArrowPrep ; build the '▼' + blank pool tiles just past the prose
+.blinkOn
+	ld a, VWF_DEX_ARROW_TILE
+	ldcoord_a 18, 16
+	ld c, 24
+	call .holdPoll
+	jr c, .done
+	ld a, VWF_DEX_BLANK_TILE
+	ldcoord_a 18, 16
+	ld c, 13
+	call .holdPoll
+	jr nc, .blinkOn
+.done
+	ld a, VWF_DEX_BLANK_TILE
+	ldcoord_a 18, 16 ; leave the cell blank
+	ld a, SFX_PRESS_AB
+	rst _PlaySound
+	pop de
+	ret
+.holdPoll ; hold c frames, polling for A/B each frame; returns carry set if pressed
+	push bc
+	call JoypadLowSensitivity
+	pop bc
+	ldh a, [hJoy5]
+	and PAD_A | PAD_B
+	jr nz, .pressed
+	rst _DelayFrame
+	dec c
+	jr nz, .holdPoll
+	and a ; clear carry: not pressed
+	ret
+.pressed
+	scf
 	ret
 
 VWFTextLineBreak: ; VWF Stage-2 REFLOW: in-paragraph <LINE>/<NEXT> are now SOFT. Just
@@ -245,7 +299,7 @@ VWFTextLineBreak: ; VWF Stage-2 REFLOW: in-paragraph <LINE>/<NEXT> are now SOFT.
 	call VWFFlushWordPaged
 	jp NextChar
 
-VWFTextPauseClear: ; VWF <PARA>/<CONT>: show all text, wait, clear, restart
+VWFTextPauseClear: ; VWF <PARA>: show all text, wait, CLEAR the whole box, restart at line 0
 	push de
 	call VWFFlushWordPaged ; place the pending buffered word before paging
 	vwf_farcall VWFFlushCurrent
@@ -292,8 +346,14 @@ PlaceMoveUsersName::
 	; fallthrough
 
 PlaceCommandCharacter::
-	ld hl, wVWFTextDepth ; entering an insert's nested PlaceString: its terminating @ must
-	inc [hl]             ; NOT place the buffered word (only the top-level @, depth 0, does)
+	push hl              ; Sunsette: PRESERVE the tilemap cursor. The wVWFTextDepth inc below
+	ld hl, wVWFTextDepth ; clobbers hl; in VWF mode the insert's chars are BUFFERED so hl is
+	inc [hl]             ; vestigial, but in FIXED-WIDTH mode PlaceString writes them to [hl] --
+	pop hl               ; without this restore the insert landed in WRAM (at wVWFTextDepth)
+	                     ; instead of the tilemap, so fixed-width shortcuts (start-menu #MON/
+	                     ; #DEX, etc.) rendered BLANK. (The dec after the call doesn't need this:
+	                     ; hl is reloaded from bc right after.) The depth guards the nested @:
+	                     ; its terminating @ must NOT place the buffered word (only top-level does).
 	call PlaceString
 	ld hl, wVWFTextDepth
 	dec [hl]
@@ -352,7 +412,7 @@ IsText::          db "i","s@" ; have to separate with a comma to avoid it enteri
 ContText::
 	ld a, [wVWFActive]
 	and a
-	jp nz, VWFTextPauseClear
+	jp nz, VWFTextPauseClear ; <CONT> = a fresh PAGE in VWF (most uses want a new page, not a scroll)
 	push de
 	ld b, h
 	ld c, l
@@ -482,7 +542,7 @@ _ContText::
 	; tiles until CloseTextDisplay, so a later scroll would still drag them up the map.
 	ld a, [wVWFBoxOpen]
 	and a
-	jp nz, VWFTextPauseClear
+	jp nz, VWFTextPauseClear ; <_CONT> = a fresh PAGE in VWF (same as <CONT>)
 	ld a, '▼'
 	ldcoord_a 18, 16
 	call ProtectedDelay3
@@ -492,6 +552,16 @@ _ContText::
 	ld a, ' '
 	ldcoord_a 18, 16
 _ContTextNoPause::
+	; <SCROLL> = the EXPLICIT scroll command. In VWF do one true scroll, no pause (matches its
+	; "no pause" semantics), then continue on the freed bottom line. (Fixed-width: scroll 2 rows.)
+	ld a, [wVWFBoxOpen]
+	and a
+	jr z, .fixed
+	push de
+	vwf_farcall VWFScroll
+	pop de
+	jp NextChar
+.fixed
 	push de
 	call ScrollTextUpOneLine
 	call ScrollTextUpOneLine
@@ -689,9 +759,22 @@ TextCommand_BCD::
 	ld h, b
 	ld l, c
 	ld c, a
+	ld a, [wVWFActive] ; Sunsette: route BCD digits through VWF too (see TextCommand_NUM)
+	and a
+	jr nz, .vwf
 	call PrintBCDNumber
 	ld b, h
 	ld c, l
+	pop hl
+	jp NextTextCommand
+.vwf
+	push hl ; tilemap cursor (vestigial under VWF)
+	ld hl, wStringBuffer
+	call PrintBCDNumber ; digits -> scratch; hl advances past them
+	ld [hl], '@' ; string terminator (char literal, like the rest of this file)
+	pop hl
+	ld de, wStringBuffer
+	call PlaceString ; VWF: buffer + composite the digits
 	pop hl
 	jp NextTextCommand
 
@@ -700,7 +783,7 @@ TextCommand_JUMP::
 	pop hl
 	hl_deref
 	push hl
-	jr TextCommand_START
+	jp TextCommand_START ; jp not jr: the VWF number-routing code above pushed this out of jr range
 
 ; PureRGBnote: ADDED: call different text in the same bank then come back
 TextCommand_CALL::
@@ -788,9 +871,22 @@ TextCommand_NUM::
 	swap a
 	set BIT_LEFT_ALIGN, a
 	ld b, a
-	call PrintNumber
+	ld a, [wVWFActive] ; Sunsette: in VWF mode the raw digit tiles PrintNumber writes to the
+	and a              ; (vestigial) tilemap cursor are invisible/garbage -- they must go through
+	jr nz, .vwf        ; the compositor. Render to a scratch string, then PlaceString it so the
+	call PrintNumber   ; digits are buffered + composited like any other glyphs.
 	ld b, h
 	ld c, l
+	pop hl
+	jp NextTextCommand
+.vwf
+	push hl ; save tilemap cursor (PlaceString uses it as dest; vestigial under VWF)
+	ld hl, wStringBuffer
+	call PrintNumber ; digits -> scratch (cf4b, WRAM0); hl advances past the last digit
+	ld [hl], '@' ; string terminator (char literal, like the rest of this file)
+	pop hl
+	ld de, wStringBuffer
+	call PlaceString ; VWF: buffers the digit glyphs -> composited at the next flush
 	pop hl
 	jp NextTextCommand
 

@@ -130,4 +130,5 @@ MoveEffectPointerTable:
 	dba EnergyFluxEffect_        ; ENERGY_FLUX_EFFECT ; Sunsette: 0-BP capacitor setup (discharge in the ApplyDamage hooks)
 	dba BugOffEffect_            ; BUG_OFF_EFFECT ; Sunsette: confuse + SPECIAL -1, then the user switches out
 	dba HydrobathEffect_         ; HYDROBATH_EFFECT ; Sunsette: turn-2 release - cure status + SPEED/SPECIAL +2 (turn-1 charge via HydrobathChargeTurn)
+	dba DegenerationEffect_      ; DEGENERATION_EFFECT ; Sunsette: foe stat-wipe + toxic-override + confuse + PP rot (user faints via ExplosionFaintModifier); fizzles vs POISON/GHOST
 	assert_table_length NUM_MOVE_EFFECTS

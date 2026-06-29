@@ -159,7 +159,11 @@ CloseTextDisplayPart1:
 	xor a
 	ld [wVWFBoxOpen], a
 	ld [wVWFActive], a
-	farcall VWFEndBox
+	vwf_farcall VWFEndBox ; MUST be vwf_farcall: VWFEndBox reads wVWFBoxLines + the cell/attr/pool
+	                      ; table pointers, which live in the bank-2 "VWF State" section. A plain
+	                      ; farcall left SVBK=1, so it read a GARBAGE line-count and sprayed WRAM
+	                      ; via garbage pointers -> IME-leak hang on text-box close (the "decline
+	                      ; starter" / save-specific "talk to Pokedex" crashes).
 .noVWF
 	ld a, [wCurMap]
 	call SwitchToMapRomBank

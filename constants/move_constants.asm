@@ -220,7 +220,10 @@
 	const PSYSHOCK     ; b9 ; Sunsette: PSYCHIC (special-category) move that hits the target's physical DEFENSE (PsyshockSwapDefender in the damage calc). Before STRUGGLE so only STRUGGLE shifts.
 	const FLUTTER_KICK ; ba ; Sunsette: FLYING clone of BONEMERANG (hits twice, 30% -SPEED). No Fly/Dig bypass; FLOATING users get STAB (ShouldMoveGetStabBoost). Before STRUGGLE so only STRUGGLE shifts.
 	const HYDROBATH    ; bb ; Sunsette: WATER two-turn no-damage setup (Goldeen/Seaking/Seel/Dewgong). Charges invulnerable like Dig but breached by ELECTRIC, not ground; surfaces to cure status + SPEED/SPECIAL +2. Before STRUGGLE so only STRUGGLE shifts.
-	const STRUGGLE     ; bc
+	const SLUDGE       ; bc ; Sunsette: NEW mid-tier POISON move (65 BP, ~20% poison) - fills the 50->90 hole below SLUDGE BOMB. Before STRUGGLE so only STRUGGLE shifts.
+	const POWER_WHIP   ; bd ; Sunsette: NEW grass top-end (100 BP, ~20% -DEF) - the heavy end of the Whip family (VINE WHIP 40 / POWER WHIP 100). Before STRUGGLE so only STRUGGLE shifts.
+	const DEGENERATION ; be ; Sunsette: NEW poison self-faint trump (MUK/WEEZING). Stat-wipe + toxic-override + confuse + PP rot; fails entirely vs POISON/GHOST but the user faints regardless. Before STRUGGLE so only STRUGGLE shifts.
+	const STRUGGLE     ; bf
 DEF NUM_ATTACKS EQU const_value - 1
 
 DEF CANNOT_MOVE EQU $ff

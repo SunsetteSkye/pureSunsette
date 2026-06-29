@@ -2407,6 +2407,10 @@ LoadMapData::
 	ld d, SET_PAL_OVERWORLD
 	call RunPaletteCommand
 	call LoadPlayerSpriteGraphics
+	; Sunsette: stage the lead party mon's follower tiles into the bank-1 vFollowerTiles pool on
+	; map entry. Self-guards: no-ops on an empty party or when the same species is already resident.
+	; Nothing draws them yet (the OAM draw is the next step); this only loads VRAM.
+	callfar LoadFollowerGraphics
 	ld a, [wStatusFlags6]
 	and (1 << BIT_FLY_WARP) | (1 << BIT_DUNGEON_WARP)
 	jr nz, .restoreRomBank

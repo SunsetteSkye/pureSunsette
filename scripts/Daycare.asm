@@ -46,7 +46,8 @@ DaycareGentlemanText:
 	rst _PrintText
 	ld a, 1
 	ld [wDayCareInUse], a
-	callfar StampDayCareDeposit ; Sunsette: record deposit play-time + save this mon's affection (before RemovePokemon shifts the array)
+	; Sunsette: no deposit hook - MoveMon (below) copies this mon's affection + stamps its
+	; deposit-time into its origin field as part of the party->daycare move.
 	ld a, PARTY_TO_DAYCARE
 	ld [wMoveMonType], a
 	call MoveMon
@@ -165,8 +166,7 @@ DaycareGentlemanText:
 	rst _PrintText
 	ld a, DAYCARE_TO_PARTY
 	ld [wMoveMonType], a
-	call MoveMon
-	callfar RestoreDayCareHappiness ; Sunsette: restore the daycare mon's (grown) affection to its new party slot
+	call MoveMon ; Sunsette: also carries the daycare mon's grown affection back to the party slot
 	ld a, [wDayCareMonSpecies]
 	ld [wCurPartySpecies], a
 	ld a, [wPartyCount]

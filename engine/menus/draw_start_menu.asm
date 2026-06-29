@@ -36,7 +36,29 @@ DrawStartMenu::
 	push bc
 	call PlaceString
 	pop hl ; pop bc into hl
-	ld de, wPlayerName ; player's name
+	; PureRGBnote: CHANGED: display the player's name in the start menu as ALL CAPS.
+	; Build an uppercased copy of wPlayerName into wBuffer (lowercase a-z -> A-Z;
+	; numbers/symbols are left untouched), then place that instead.
+	push hl
+	ld bc, wPlayerName
+	ld hl, wBuffer
+.uppercaseLoop
+	ld a, [bc]
+	inc bc
+	cp CHARVAL("@") ; name terminator
+	jr z, .uppercaseDone
+	cp CHARVAL("a")
+	jr c, .uppercaseStore ; below 'a' -> leave as-is
+	cp CHARVAL("z") + 1
+	jr nc, .uppercaseStore ; above 'z' -> leave as-is
+	sub CHARVAL("a") - CHARVAL("A") ; lowercase -> uppercase
+.uppercaseStore
+	ld [hli], a
+	jr .uppercaseLoop
+.uppercaseDone
+	ld [hl], a ; store the terminator
+	pop hl
+	ld de, wBuffer ; ALL CAPS player's name
 	push hl
 	call PlaceString
 	pop hl

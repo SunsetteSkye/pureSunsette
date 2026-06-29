@@ -123,6 +123,7 @@ RemappableMoves::
 	db SUPERNOVA, -1, -2, 2
 	db TOXIC, -1, -2, 4
 	db EXPLOSION, -1, -2, 14 ; Sunsette: vanilla EXPLOSION faints the user on use (ExplosionFaintModifier); the DEFENSE-halve is in core.asm's EXPLODE_EFFECT branch
+	db DEGENERATION, -1, -2, 14 ; Sunsette: DEGENERATION faints the user on use too (same ExplosionFaintModifier), even when its DegenerationEffect_ disruption fizzles vs a POISON/GHOST foe
 	db CRYSTALLIZE, -1, -2, 15 ; Sunsette: type1 -> CRYSTAL (Rock-like user) / ROCK (else); +2 DEF is the move's own DEFENSE_UP2_EFFECT
 	db AGILITY, -1, -2, 16 ; Sunsette: +2 SPEED is the move's own SPEED_UP2_EFFECT; this adds the type-keyed ADAPTATION brace (AgilityBrace)
 	db BARRIER, -1, -2, 17 ; Sunsette: +2 DEF is the move's own DEFENSE_UP2_EFFECT; this always braces NORMAL (BarrierBrace)

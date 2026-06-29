@@ -129,6 +129,96 @@ LoadFlyIconIntoBirdVRAM::
 	pop hl
 	ret
 
+; Sunsette: composite the lead party Pokemon's menu icon into the bank-1 vFollowerTiles pool
+; (see vram.asm) as placeholder overworld follower graphics. Reads wPartySpecies[0]; no-op on
+; an empty party, and skips the VRAM copies when the same species is already resident. The
+; wFollower* state lives in the bank-1 saved WRAM region, reached at the overworld default
+; SVBK=1, so no WRAM bank switching is needed (an earlier bank-2 home broke the VWF compositor).
+; The icon source pointer is kept in registers so SVBK is never disturbed across the VBlank-
+; waiting CopyVideoData calls. Precondition: called with SVBK=1 (overworld default).
+;
+; PLACEHOLDER SEAM: the party icon has only ONE facing (down) in two frames, so we load just
+; the down-standing (pool tile 0) and down-walking (pool tile 12) slots; the OAM draw clamps
+; every facing to down (matching seam in the follower draw). When the real per-species
+; overworld sheets arrive, also fill the up/left slots (tiles 4/8 stand, 16/20 walk) and drop
+; the draw clamp. Icon blob tile order: frame0={0,1,4,5}, frame1={2,3,6,7} (TL,TR,BL,BR).
+LoadFollowerGraphics::
+	; Sunsette DESIGN CONTRACT: there is no follower when the party is empty. The eventual
+	; per-frame draw/update MUST no-op the same way on wPartyCount==0 / an empty slot-0 species
+	; BEFORE it touches OAM -- drawing a follower from an empty slot 0 would garbage OAM and hang
+	; the next VBlank (cf. the VWF-session handoff). This loader already obeys it:
+	ld a, [wPartyCount]
+	and a
+	jr z, .clear        ; no party at all -> no follower
+	ld a, [wPartySpecies]
+	and a
+	jr z, .clear        ; empty / Missingno slot 0 -> no follower
+	cp $ff
+	jr z, .clear
+	ld b, a             ; b = live lead species
+	ld a, [wFollowerSpecies]
+	cp b
+	ret z               ; already resident; nothing to copy
+	push bc             ; save live species in b
+	ld a, b
+	ld de, 0
+	call PreparePartyMonSpriteCopy ; a = ROM bank, hl = icon src base (8 tiles)
+	ld b, a             ; b = ROM bank (CopyVideoData input)
+	ld c, 2             ; tiles per copy
+	ld a, 1
+	ldh [rVBK], a       ; route the tile copies to VRAM bank 1
+; frame0 top row (icon tiles 0,1) -> standing-down (vFollowerTiles tile 0)
+	push bc
+	push hl
+	ld d, h
+	ld e, l
+	ld hl, vFollowerTiles tile 0
+	call CopyVideoData
+	pop hl
+	pop bc
+; frame0 bottom row (icon tiles 4,5) -> standing-down (vFollowerTiles tile 2)
+	push bc
+	push hl
+	ld de, 4 tiles
+	add hl, de
+	ld d, h
+	ld e, l
+	ld hl, vFollowerTiles tile 2
+	call CopyVideoData
+	pop hl
+	pop bc
+; frame1 top row (icon tiles 2,3) -> walking-down (vFollowerTiles tile 12)
+	push bc
+	push hl
+	ld de, 2 tiles
+	add hl, de
+	ld d, h
+	ld e, l
+	ld hl, vFollowerTiles tile 12
+	call CopyVideoData
+	pop hl
+	pop bc
+; frame1 bottom row (icon tiles 6,7) -> walking-down (vFollowerTiles tile 14)
+	push hl
+	ld de, 6 tiles
+	add hl, de
+	ld d, h
+	ld e, l
+	ld hl, vFollowerTiles tile 14
+	call CopyVideoData
+	pop hl
+	xor a
+	ldh [rVBK], a       ; restore VRAM bank 0
+	pop bc              ; b = live species
+	ld a, b
+	ld [wFollowerSpecies], a ; mark resident species (bank-1, ambient SVBK)
+	ret
+.clear
+	xor a
+	ld [wFollowerSpecies], a
+	ld [wFollowerVisible], a
+	ret
+
 PreparePartyMonSpriteCopy:
 	push de
 	call GetPartyMonSpriteID ; a = per-species icon slot, 0..151 (dex order)

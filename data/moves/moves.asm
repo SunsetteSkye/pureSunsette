@@ -48,7 +48,7 @@ Moves:
 	move TACKLE,       NO_ADDITIONAL_EFFECT,        35, NORMAL,       100, 20
 	move BODY_SLAM,    PARALYZE_SIDE_EFFECT2,       95, NORMAL,       100, 15
 	move WRAP,         FLINCH_SIDE_EFFECT2,         25, NORMAL,        90, 10 ; Sunsette trapping rework -> 30% flinch + guaranteed target -1 SPEED (SpeciesMoveBonus)
-	move HEAT_RUSH,    HEAT_RUSH_EFFECT,            65, FIRE,         100, 15 ; -> HEAT RUSH ; Flame Charge: damage + raises user Speed
+	move HEAT_RUSH,    HEAT_RUSH_EFFECT,            50, FIRE,         100, 15 ; HEAT UP (was HEAT RUSH; const stays HEAT_RUSH): damage + grants the user FLOURISH regen + an ADAPTATION brace (FIRE user braces WATER, else ICE) + self-thaw. No +SPEED. HeatRushEffect_.
 	move INDIGNATION,       THRASH_PETAL_DANCE_EFFECT,   90, DRAGON,       100, 10 ; Sunsette: displayed INDIGNATION. 120->90 BP; the lock now resets the user's stats + cleanses its status/buffs on activation (IndignationCleanse, keeps FLOURISH). Self-confuse at lock end as ever.
 	move DOUBLE_EDGE,  RECOIL_EFFECT,          	   120, NORMAL,       100, 10
 	move TAIL_WHIP,    DEFENSE_DOWN1_EFFECT,         0, NORMAL,       100, 20
@@ -203,5 +203,8 @@ Moves:
 	move PSYSHOCK,     NO_ADDITIONAL_EFFECT,        80, PSYCHIC_TYPE, 100, 10 ; Sunsette: special-category PSYCHIC move that strikes the target's physical DEFENSE (PsyshockSwapDefender; Reflect protects, not Light Screen)
 	move FLUTTER_KICK, BONEMERANG_EFFECT,           35, FLYING,        90, 15 ; Sunsette: FLYING clone of BONEMERANG - hits twice, 30% -SPEED. FLOATING users get STAB (ShouldMoveGetStabBoost); no Fly/Dig bypass.
 	move HYDROBATH,    HYDROBATH_EFFECT,             0, WATER,        100, 10 ; Sunsette: two-turn no-damage setup. Turn 1 dives invulnerable (breached only by SWIFT/ELECTRIC); turn 2 surfaces, cures the user's status + SPEED/SPECIAL +2. 0 BP; accuracy is cosmetic (release never rolls). Charge via HydrobathChargeTurn; release via HydrobathEffect_.
+	move SLUDGE,       POISON_SIDE_EFFECT1,         65, POISON,        100, 20 ; Sunsette: NEW mid-tier poison nuke; fills the 50->90 hole below SLUDGE BOMB. ~20% poison (weaker proc; SLUDGE BOMB keeps the 40% POISON_SIDE_EFFECT2). Power AND reliability both climb the chain.
+	move POWER_WHIP,   DEFENSE_DOWN_SIDE_EFFECT,   100, GRASS,          90, 10 ; Sunsette: NEW grass top-end + heavy end of the Whip family (VINE WHIP 40 / POWER WHIP 100, shared DEFENSE_DOWN_SIDE_EFFECT). The def-drop is a support/erosion rider (grass hits Special).
+	move DEGENERATION, DEGENERATION_EFFECT,          0, POISON,        100,  5 ; Sunsette: NEW poison self-faint trump (MUK/WEEZING). User ALWAYS faints (ExplosionFaintModifier). Stat-wipe + CONFUSE + TOXIC-override + rot 2-5 PP/move on the foe; fails ENTIRELY vs POISON/GHOST (user still faints). DegenerationEffect_.
 	move STRUGGLE,     BIG_RECOIL_EFFECT,           50, TYPELESS,     100, 10
 	assert_table_length NUM_ATTACKS

@@ -21,6 +21,24 @@ DEF VWF_DLG_STARTCOL  EQU 1
 DEF VWF_DLG_ROW0      EQU 14 ; screen row of line 0
 DEF VWF_DLG_ROWSTEP   EQU 2  ; rows between text lines (matches vanilla spacing)
 DEF VWF_DLG_LINES     EQU 2
+; Pokedex description box (mode 1): a 4-line box DOUBLE-SPACED (rowstep 2) at rows 10,12,14,16,
+; drawn on the BG (not the WINDOW) inside the blue description panel (rows 10..16). The panel
+; uses BG palette slot 2 (PAL_DEXDESC, color 3 = white), so prose cells take attribute palette 2
+; | bank-1 bit 3 = $0A. Cols/startcol/linewidth are shared with the dialogue box (VWF_DLG_*).
+; The blank rows 11/13/15 between the lines give the prose vertical breathing room (the same
+; 2-row pitch the dialogue box uses); the page-more arrow blinks at (18,16) on the last line.
+DEF VWF_DEX_ROW0    EQU 10
+DEF VWF_DEX_ROWSTEP EQU 2
+DEF VWF_DEX_LINES   EQU 4
+DEF VWF_DEX_ATTR    EQU $0A ; palette 2 (white-on-blue dex panel) | VRAM bank 1
+DEF VWF_DEX_COLS      EQU 18 ; prose uses cols 1..18; cols 0 and 19 are the red dex border frame,
+DEF VWF_DEX_LINEWIDTH EQU VWF_DEX_COLS * 8 ; so they MUST stay clear (the last line reserves col 18
+                                           ; for the ▼ arrow). Same width as the dialogue box.
+; The page-more arrow lives in pool tiles just past the prose (poolMax = lines*cols = 72), so it
+; renders on the WINDOW under the panel's $0A attribute exactly like the prose (a bank-0 font tile
+; + attribute flip can't show -- the dex is drawn on the window, attrs are fixed at $0A).
+DEF VWF_DEX_ARROW_TILE EQU VWF_TILE_BASE + VWF_DEX_LINES * VWF_DEX_COLS ; pool tile 72 = the '▼'
+DEF VWF_DEX_BLANK_TILE EQU VWF_DEX_ARROW_TILE + 1 ; pool tile 73 = a blank (blink-OFF) tile
 
 DEF BLOCK_WIDTH EQU 4 ; tiles
 DEF BLOCK_HEIGHT EQU BLOCK_WIDTH ; tiles

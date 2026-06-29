@@ -242,11 +242,8 @@ FindTopAffectionMon:
 	pop de
 	pop bc
 	jr z, .next
-	push bc
-	ld b, 0
-	ld hl, wPartyMonHappiness
-	add hl, bc ; &happiness[slot]
-	pop bc
+	ld a, c
+	affection_addr ; hl = &affection[slot] (preserves bc/de)
 	ld a, [hl]
 	cp e
 	jr c, .next ; affection < best
@@ -276,11 +273,8 @@ DrainAffection16:
 	or [hl]
 	pop bc
 	jr z, .next ; fainted
-	push bc
-	ld b, 0
-	ld hl, wPartyMonHappiness
-	add hl, bc
-	pop bc
+	ld a, c
+	affection_addr ; hl = &affection[slot] (preserves bc/de)
 	ld a, [hl]
 	sub 16
 	jr nc, .store

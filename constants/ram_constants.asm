@@ -154,7 +154,8 @@ DEF BOX_NUM_MASK EQU %01111111
 	const BIT_STANDING_ON_DOOR ; 0
 	const BIT_EXITING_DOOR     ; 1
 	const BIT_STANDING_ON_WARP ; 2
-	const_skip 3               ; 3-5 ; unused
+	const BIT_FOLLOWER_ACTIVE  ; 3 ; Sunsette: the overworld follower OBJ occupies wShadowOAM sprites 36-39 this frame
+	const_skip 2               ; 4-5 ; unused
 	const BIT_LEDGE_OR_FISHING ; 6
 	const BIT_SPINNING         ; 7
 

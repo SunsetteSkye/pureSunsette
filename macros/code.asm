@@ -127,3 +127,22 @@ MACRO jp_de
 	push de
 	ret
 ENDM
+
+; Sunsette: hl = address of party slot a's affection byte, inside the repurposed
+; OT-name/origin field (wPartyMonOT + slot*NAME_LENGTH + MON_ORIGIN_AFFECTION).
+; in: a = party slot (0-5). out: hl. clobbers a; preserves bc and de.
+; (Affection used to be a contiguous wPartyMonHappiness array; it now rides in the
+; per-mon origin field so it saves per-mon and the WRAM array is freed.)
+MACRO affection_addr
+	push bc
+	ld hl, wPartyMonOT + MON_ORIGIN_AFFECTION
+	ld bc, NAME_LENGTH
+	and a
+	jr z, .aa_done\@
+.aa_loop\@
+	add hl, bc
+	dec a
+	jr nz, .aa_loop\@
+.aa_done\@
+	pop bc
+ENDM

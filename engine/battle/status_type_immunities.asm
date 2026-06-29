@@ -604,7 +604,7 @@ TargetIsWarded::
 	ld hl, wPlayerBattleStatus2
 .got
 	ld e, 0
-	bit BATTLESTATUS2_UNUSED_6, [hl]
+	bit STATUS_WARDED, [hl]
 	ret z
 	ld e, 1
 	ret

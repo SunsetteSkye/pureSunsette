@@ -1,7 +1,6 @@
 SECTION "Audio RAM", WRAM0
 
-wUnusedC000::
-wUnusedMusicByte:: db ; PureRGBnote: CHANGED: used for various temporary flags
+wSharedScratch:: db ; shared transient scratch passed between routines: ball-toss anim id (battle anims), pokecenter heal speed, fossil-room colour-change count, PC item-deposit trigger, AI HP fraction. (was wUnusedC000 / wUnusedMusicByte)
 
 wAudioWRAMStart::
 wSoundID:: db
@@ -560,7 +559,7 @@ wSimulatedJoypadStatesEnd::
 
 NEXTU
 ;wBoostExpByExpAll::
-wUnusedFlag:: db
+wVWFPageAction:: db ; VWF overflow action set by the compositor (0 = none, 1 = scroll, 2 = page); WRAM0 so it's bank-independent. (was wUnusedFlag)
 
 	ds 59
 
@@ -1344,7 +1343,6 @@ wExpAllActive:: db  ; nonzero once the Pokedex is obtained -> new distribution
 wTeamExpGained:: dw ; running total EXP for the single team message
 	ds 1 ; Sunsette: was wExpGrowthThreshold - MOVED to a stable saved-data byte (the $cf scratch here
 	     ; got clobbered on the battle->overworld transition, garbling the badge-dialogue number)
-wHappinessKeyScratch:: ds 5 ; Sunsette: transient {species,DVlo,DVhi,level,happiness} for the boxed-happiness cache
 wAffectionSurviveUsed:: db ; Sunsette: nonzero once the affection survive-at-1HP fired this switch-in
 wAffectionJustSurvived:: db ; Sunsette: transient - print the survive message after the HP bar animates
 	ds 2 ; unused 2 bytes
@@ -1655,7 +1653,7 @@ wPlayerToxicCounter:: db
 ; low nibble: disable turns left
 wPlayerDisabledMove:: db
 
-	ds 1 ; unused lone byte
+wFirstMoverTurn:: db ; Sunsette: which side acted FIRST this turn (0=player, 1=enemy, $ff=none yet). Set at the turn-order decision (.player/.enemyMovesFirst), reset to $ff at turn start. Read by EXTERMINATE's crit gate: attacker != first mover => moved second => high crit. (Reclaims the unused lone byte; same 1-byte footprint.)
 
 ; when the enemy is attacking multiple times, the number of attacks left
 wEnemyNumAttacksLeft:: db
@@ -2420,9 +2418,8 @@ wTilesetTalkingOverTiles:: ds 3
 
 wGrassTile:: db
 
-; Sunsette: time-based daycare (all 4 of these previously-unused saved bytes; no save-layout change)
-wDayCareDepositMinutes:: ds 3 ; 24-bit total play-minutes (hours*60+min) stamped at deposit (big-endian +0 hi/+1 mid/+2 lo)
-wDayCareMonHappiness:: db ; the daycare mon's affection (the stored box_struct has no happiness field), preserved + grown
+; (4 saved bytes freed here: the old daycare deposit-minutes[3] + happiness[1] - the daycare
+; mon's deposit time + affection now live in its origin field, carried by MoveMon.)
 
 UNION
 ;;;;; PureRGBnote: CHANGED: Box items were moved elsewhere to expand the pc item capacity in version 2.6.0.
@@ -2455,7 +2452,7 @@ wCurrentBoxNum:: db
 ; number of HOF teams
 wNumHoFTeams:: db
 
-wUnusedMapVariable:: db ; unused save file byte?
+wFieldMoveArmedFlags:: db ; field-move flags armed this map, cleared on map change: bit 0 = CONFUSE RAY, bit 1 = MYSTIC-invert (FLOURISH). (was wUnusedMapVariable)
 
 wPlayerCoins:: dw ; BCD
 
@@ -2463,10 +2460,23 @@ wPlayerCoins:: dw ; BCD
 wToggleableObjectFlags:: flag_array $100
 wToggleableObjectFlagsEnd::
 
-; Sunsette: happiness/affection per party slot (0-255) + per-step accumulator.
-; Repurposed from unused saved bytes, so it rides along in the existing save with no layout change.
-wPartyMonHappiness:: ds PARTY_LENGTH ; 6 bytes
-wHappinessStepCounter:: db          ; 1 byte
+; Sunsette: overworld follower-Pokemon state. Reclaims the freed wPartyMonHappiness bytes (affection
+; now lives in each mon's origin field). Bank-1 saved region = the overworld default SVBK=1, so the
+; follower update + OAM draw reach it with NO bank switching. (Its prior bank-2 home shifted the VWF
+; compositor off its fixed addresses and broke prose engine-wide.) Values are transient (reinit on
+; map load via LoadFollowerGraphics), so riding along in the save is harmless. The follower is a
+; bespoke OBJ in wShadowOAM sprites 36-39, drawn from the bank-1 vFollowerTiles VRAM pool.
+wFollowerSpecies:: db   ; species composited into vFollowerTiles ($00 = none); re-copy when lead changes
+wFollowerVisible:: db   ; nonzero when the follower is drawn + updated this frame
+wFollowerScreenY:: db   ; OAM screen pos (pixels), eased toward the target tile each frame
+wFollowerScreenX:: db
+wFollowerFacing:: db     ; $00 down / $04 up / $08 left / $0c right
+wFollowerAnimFrame:: db  ; 0 stand / 1 walk (2-frame placeholder)
+wFollowerStepCtr:: db    ; frames left in the current step (drives easing + anim toggle); 0 = standing
+wFollowerPrevY:: db      ; player's grid tile last frame (one-tile-lag trail; no ring buffer)
+wFollowerPrevX:: db
+
+wHappinessStepCounter:: db ; Sunsette: overworld step accumulator (+1 party-wide per 128 steps)
 
 ; saved copy of SPRITESTATEDATA1_IMAGEINDEX (used for sprite facing/anim)
 wSavedSpriteImageIndex:: db
@@ -2584,7 +2594,17 @@ wCeruleanCaveB1FCurScript:: db
 wVictoryRoad1FCurScript:: db
 	ds 1 ; unused save file byte
 wLancesRoomCurScript:: db
-	ds 4 ; unused save file 4 bytes
+; Sunsette: the 4 VWF control flags live here. They're accessed at SVBK=1 (the text
+; engine reads them in its own bank), so they need a bank-1 home that nothing else
+; aliases. Reclaimed from these unused save-file bytes (the flags are transient, reset
+; on every text print, so riding along in the save is harmless). Prior homes both failed:
+; bank-2 "VWF State" -> SVBK=1 access hit wNatureReaction* (starter crash); the WRAM0
+; wItemList union -> aliased wCurListMenuItem/wCurPartySpecies so the starter became
+; $a8/Mewtwo. This isolated, unused, non-list bank-1 spot avoids both.
+wVWFEnable:: db
+wVWFActive:: db
+wVWFBoxOpen:: db
+wVWFTextDepth:: db
 wSilphCo10FCurScript:: db
 wSilphCo11FCurScript:: db
 	ds 1 ; unused save file byte
@@ -3014,20 +3034,15 @@ ENDSECTION
 
 SECTION "VWF State", WRAMX
 
-; Variable-width font compositor state (see engine/gfx/vwf.asm). The game runs
-; with SVBK=1; this section lands in WRAM bank 2 (bank 1 / WRAM0 are full), so
-; the VWF routines set SVBK=2 around their work (they only touch this state +
-; WRAM0 + VRAM, never bank-1 WRAM) and the callers restore SVBK=1.
-wVWFEnable::      db ; per-print opt-in: only set by genuine prose-dialogue paths
-wVWFActive::      db ; 0 = fixed-width path; nonzero = VWF actively compositing THIS
-                    ; print. Cleared as soon as the dialogue print finishes so the
-                    ; PlaceNextChar hooks can't hijack a later menu's PlaceString.
-wVWFBoxOpen::     db ; a VWF dialogue box is rendered + needs teardown at CloseText.
-                    ; Outlives wVWFActive (which is cleared right after the print).
-wVWFTextDepth::   db ; insert-nesting depth (accessed at SVBK=1 like the flags above).
-                    ; PlaceCommandCharacter inc/decs it around each insert's PlaceString;
-                    ; the top-level @ (depth 0) places the last buffered word, an insert's
-                    ; @ (depth>0) must NOT (it would split a mid-word insert: <poke>dex).
+; Variable-width font COMPOSITOR state (see engine/gfx/vwf.asm), accessed at SVBK=2.
+; The game runs with SVBK=1; this section lands in WRAM bank 2 (bank 1 / WRAM0 are
+; full), so the VWF routines set SVBK=2 around their work (they only touch this state
+; + WRAM0 + VRAM, never bank-1 WRAM) and the callers restore SVBK=1. NOTE: the 4
+; Sunsette: 4 bytes of padding. The 4 SVBK=1 control flags moved OUT of here (to the
+; save-file unused block, near the map CurScript vars) -- bank-2 storage aliased the
+; Nature Reaction vars (crash). This padding keeps the compositor at its original,
+; GOTCHA-5-safe addresses (wVWFPenX=d084, wVWFCellPtr=d088).
+	ds 4
 wVWFPenX::        db ; pen X within the current line, in PIXELS
 wVWFLine::        db ; current line index within the prose box (0-based)
 wVWFCurPoolTile:: db ; pool tile index of the tile the pen is currently building
@@ -3044,5 +3059,23 @@ wVWFShadow::      ds 16
 wVWFWordWidth::   db ; accumulated pixel width of the buffered word
 wVWFWordLen::     db ; number of chars in wVWFWordBuf
 wVWFWordBuf::     ds VWF_WORD_BUFSIZE
+; True-scroll "ping-pong" phase (0/1). A scroll flips this; VWFSeedLine reads pool tiles
+; for display line L from pool half (L XOR phase). So a scroll instantly makes the top row
+; display the bottom row's glyphs (just re-point its cells) with no VRAM pixel copy.
+; Appended at the END of VWF State so the GOTCHA-5-safe addresses above don't shift.
+wVWFScrollPhase:: db
+; Resolved box-geometry config for the active box (set as one contiguous block by the
+; VWFInitPool* entry points, which copy a per-mode config record here). All compositor-only
+; (SVBK=2); the SVBK=1 home text engine never reads them -- the auto-overflow ACTION
+; (scroll vs page) is instead encoded by the compositor into the WRAM0 wVWFPageAction
+; (1 = scroll, 2 = page), which home already reads. ORDER MATTERS: the config copy in
+; VWFInitPool writes these 10 bytes in sequence, so keep them contiguous and in this order.
+wVWFBoxMode::    db ; 0 = dialogue/battle (2-line WINDOW box); 1 = Pokedex (6-line BG box)
+wVWFBoxLines::   db ; line count of the active box
+wVWFBoxPoolMax:: db ; pool-tile clamp = lines * VWF_DLG_COLS
+wVWFBoxAttr::    db ; BG/window attribute byte for prose cells (palette | bank-1 bit)
+wVWFCellTbl::    dw ; -> per-line wTileMap cell table (VWFLineCellPtrs / ...Dex)
+wVWFAttrTbl::    dw ; -> per-line attribute-cell table (window vBGMap1 or BG vBGMap0)
+wVWFPoolTbl::    dw ; -> per-line pool-base table (VWFLinePoolBase / ...Dex)
 
 ENDSECTION

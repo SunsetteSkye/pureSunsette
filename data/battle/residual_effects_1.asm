@@ -26,4 +26,5 @@ ResidualEffects1:
 	db ENERGY_FLUX_EFFECT ; Sunsette: no-damage capacitor setup (ENERGY FLUX) - type2->FLOATING + SPECIAL+2 + ENERGIZED; EnergyFluxEffect_
 	db BUG_OFF_EFFECT ; Sunsette: no-damage disrupt-and-pivot (BUG OFF) - confuse + SPECIAL -1 the target, then user switches out; BugOffEffect_
 	db HYDROBATH_EFFECT ; Sunsette: HYDROBATH's turn-2 release (skip damage/accuracy, run the self-buff); HydrobathEffect_ via the Haze trampoline. Turn 1 charged separately and never reaches here.
+	db DEGENERATION_EFFECT ; Sunsette: DEGENERATION - 0-BP foe disruption, always attempts (no accuracy test like Haze); DegenerationEffect_. The user's self-faint is separate (ExplosionFaintModifier).
 	db -1 ; end

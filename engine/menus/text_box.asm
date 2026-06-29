@@ -152,7 +152,7 @@ DisplayAmountLeftBox:
 	lb bc, 1, 6
 	call ClearScreenArea
 	hlcoord 10, 1
-	ld de, wUnusedC000
+	ld de, wSharedScratch
 	lb bc, 1, 2
 	call PrintNumber
 	hlcoord 12, 1

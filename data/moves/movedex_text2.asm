@@ -198,3 +198,36 @@ _HydrobathDexEntry::
 	next "raising SPEED and"
 	next "SPECIAL by two."
 	dex
+
+; Sunsette: SLUDGE - mid-tier poison nuke between SMOG/ACID and SLUDGE BOMB.
+_SludgeMoveDexEntry::
+	text "Unsanitary"
+	next "sludge is hurled"
+	next "at the foe."
+
+	bage "It may also"
+	next "poison the"
+	next "target."
+	dex
+
+; Sunsette: POWER WHIP - grass top-end; the heavy end of the Whip family.
+_PowerWhipDexEntry::
+	text "The foe is hit"
+	next "with a violent"
+	next "lashing vine."
+
+	bage "It may also"
+	next "lower the foe's"
+	next "DEFENSE."
+	dex
+
+; Sunsette: DEGENERATION - poison self-faint trump; the user always faints.
+_DegenerationDexEntry::
+	text "The user rots"
+	next "itself away to"
+	next "wrack the foe."
+
+	bage "It wipes stats,"
+	next "toxics, confuses"
+	next "and saps PP."
+	dex

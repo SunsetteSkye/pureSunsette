@@ -58,7 +58,7 @@
 ; --- Sunsette SSOT directives (parsed by tools/gen_pokemon_data.py) ---
 ;@ nature       NATURE_MOROSE NATURE_LAZY
 ;@ pal_battle   PAL_REDMON
-;@ pal_altbattle PAL_0F
+;@ pal_altbattle PAL_GRAYMON
 ;@ pal_icon     $FF
 ;@ pal_alticon  $FF
 ;@ evo         EVOLVE_ITEM, MOON_STONE, 1, VILEPLUME

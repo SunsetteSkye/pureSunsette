@@ -25,20 +25,9 @@ _AddPartyMon::
 	inc de
 	ld a, $ff ; terminator
 	ld [de], a
-	ld hl, wPartyMonOT
-	ld a, [wMonDataLocation]
-	and %1111
-	jr z, .next2
-	ld hl, wEnemyMonOT
-.next2
-	ldh a, [hNewPartyLength]
-	dec a
-	call SkipFixedLengthTextEntries
-	ld d, h
-	ld e, l
-	ld hl, wPlayerName
-	ld bc, NAME_LENGTH
-	rst _CopyData
+	; Sunsette: OT names are retired. The per-mon ORIGIN field (affection + caught
+	; location) is written by SetNewMonBaseHappiness for player-party adds, so there
+	; is no trainer name to copy here.
 	ld a, [wMonDataLocation]
 	and a
 	jr nz, .skipNaming
@@ -360,17 +349,20 @@ _AddEnemyMonToPlayerParty::
 	ld d, h
 	ld hl, wLoadedMon
 	rst _CopyData    ; write new mon's data (from wLoadedMon)
+	; Sunsette: a traded-in mon has no caught location - stamp its ORIGIN field
+	; (affection = default, location = Traded) rather than copy an OT name.
 	ld hl, wPartyMonOT
 	ld a, [wPartyCount]
 	dec a
-	call SkipFixedLengthTextEntries
-	ld d, h
-	ld e, l
-	ld hl, wEnemyMonOT
-	ld a, [wWhichPokemon]
-	call SkipFixedLengthTextEntries
-	ld bc, NAME_LENGTH
-	rst _CopyData    ; write new mon's OT name (from an enemy mon)
+	call SkipFixedLengthTextEntries ; hl = received mon's origin field
+	ld a, HAPPINESS_DEFAULT
+	ld [hl], a       ; MON_ORIGIN_AFFECTION
+	inc hl
+	ld a, ORIGIN_TRADED
+	ld [hl], a       ; MON_ORIGIN_LOCATION
+	inc hl
+	xor a
+	ld [hl], a       ; MON_ORIGIN_COOLDOWN = 0 (fresh party flag bits)
 	ld hl, wPartyMonNicks
 	ld a, [wPartyCount]
 	dec a
@@ -515,7 +507,21 @@ _MoveMon::
 	call SkipFixedLengthTextEntries
 .copyOT
 	ld bc, NAME_LENGTH
+	push de              ; Sunsette: save dest origin field for the cooldown-byte update
 	rst _CopyData
+	pop hl               ; hl = dest origin field
+	ld bc, MON_ORIGIN_COOLDOWN
+	add hl, bc           ; hl = dest dual-purpose cooldown/time byte
+	ld a, [wMoveMonType]
+	bit 0, a             ; PARTY_TO_* (1,3) odd = deposit; *_TO_PARTY (0,2) even = withdrawal
+	jr z, .cooldownToParty
+	ld a, [wPlayTimeHours + 1] ; deposit: stamp the play-clock hours (low byte) it was stored at
+	ld [hl], a
+	jr .cooldownDone
+.cooldownToParty
+	xor a                ; withdrawal: party mon starts with fresh (zeroed) cooldown bits
+	ld [hl], a
+.cooldownDone
 	ld a, [wMoveMonType]
 ; find nick dest
 	cp PARTY_TO_DAYCARE

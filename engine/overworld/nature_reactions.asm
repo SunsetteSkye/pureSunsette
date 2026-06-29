@@ -750,7 +750,14 @@ ShowMonNaturePure::
 	jp ShowMonSpriteLine
 
 ; input: a = overworld event id (NROW_*). Lead mon reacts with that event's nature pool.
+; Sunsette: guard on an empty party -- with no lead mon (e.g. after DECLINING the starter),
+; slot 0 is garbage and popping its sprite/cry hangs the next VBlank (DelayFrame lock).
 ShowOverworldNature::
+	ld b, a                      ; b = event id (preserved across the party check)
+	ld a, [wPartyCount]
+	and a
+	ret z                        ; no lead mon -> no overworld reaction
+	ld a, b
 	add a
 	ld e, a
 	ld d, 0

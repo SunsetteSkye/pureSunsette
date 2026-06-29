@@ -189,6 +189,9 @@ MovedexEntryPointers:
 	dw PsyshockDexEntry
 	dw FlutterKickDexEntry
 	dw HydrobathDexEntry
+	dw SludgeMoveDexEntry
+	dw PowerWhipDexEntry
+	dw DegenerationDexEntry
 	dw StruggleDexEntry
 	assert_table_length NUM_ATTACKS
 
@@ -938,6 +941,18 @@ PsyshockDexEntry:
 
 HydrobathDexEntry:
 	text_far _HydrobathDexEntry ; text body in movedex_text2.asm
+	text_end
+
+SludgeMoveDexEntry: ; Sunsette: the NEW SLUDGE move (SLUDGE BOMB already owns the SludgeDexEntry label)
+	text_far _SludgeMoveDexEntry
+	text_end
+
+PowerWhipDexEntry:
+	text_far _PowerWhipDexEntry
+	text_end
+
+DegenerationDexEntry:
+	text_far _DegenerationDexEntry
 	text_end
 
 StruggleDexEntry:

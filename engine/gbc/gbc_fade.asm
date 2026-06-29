@@ -910,8 +910,208 @@ ReadBufferColorGBC:
 	; ld a, [wGBCColorControl]
 	; inc a
 	; ret
-	
-	
+
+
+; ============================================================================
+; Sunsette: scroll-reading sepia dissolve.
+; Collapses every BGP0-3 + OBP0-7 colour onto a 4-shade sepia ramp (and melts
+; back), a few notches per frame, mirroring DecrementAllColorsGBC's structure.
+; Both directions share ONE blend ("step the captured colour C notches toward
+; its sepia shade"): C=0 leaves the scene untouched, C>=31 is full sepia. So
+; the IN driver ramps C up (scene -> sepia) and the OUT driver ramps it down
+; (sepia -> scene), reading the captured colours back from wGBCFullPalBuffer
+; the whole time (no extra RAM, no direction flag). SepiaDissolveToSepia
+; snapshots the live palettes first; SepiaDissolveFromSepia reuses that same
+; snapshot, so nothing may overwrite it between the two (only fades touch it,
+; and none run while a sign box is open). No-ops on DMG / GBC-fade-off.
+; ============================================================================
+
+SepiaRampGBC: ; colour 0 (lightest) -> colour 3 (darkest), each R,G,B as 5-bit
+	db 31, 30, 29 ; f8f0e8
+	db 29, 28, 27 ; e8e0d8
+	db 22, 20, 14 ; b0a070
+	db  9,  8,  6 ; 484030
+
+SepiaDissolveToSepia::
+	call CanDoGBCFade
+	ret nz
+	call SetFadeDoubleCPUSpeedIfNecessary
+	push af
+	push de
+	call DelayFrame ; let the player sprite refresh before the dissolve
+	ld de, FadePal4
+	farcall BufferAllPokeyellowColorsGBC ; snapshot the live scene's colours
+	call SepiaFadeBeginVBlankSkip
+	ld c, 3 ; ramp the notch budget up: captured colours -> sepia
+.loop
+	push bc
+	call SepiaBlendStep
+	pop bc
+	ld a, c
+	add 3
+	ld c, a
+	cp 34 ; 33 >= the 31 max channel distance, so the final step is full sepia
+	jr c, .loop
+	jr SepiaFadeFinish
+
+SepiaDissolveFromSepia::
+	call CanDoGBCFade
+	ret nz
+	call SetFadeDoubleCPUSpeedIfNecessary
+	push af
+	push de
+	call SepiaFadeBeginVBlankSkip
+	ld c, 30 ; ramp the notch budget down: sepia -> captured colours (C=0 = exact)
+.loop
+	push bc
+	call SepiaBlendStep
+	pop bc
+	ld a, c
+	sub 3
+	ld c, a
+	jr nc, .loop ; runs C = 30,27,...,3,0; the C=0 pass restores the scene exactly
+	; fall through
+SepiaFadeFinish:
+	ldh a, [hFlagsFFFA]
+	res 0, a
+	ldh [hFlagsFFFA], a ; restore the VBLANK OAM call
+	pop de
+	pop af
+	inc a
+	ret z ; 2x CPU was already on at entry; leave it
+	callfar GBCSetCPU1xSpeed
+	xor a
+	ret
+
+SepiaFadeBeginVBlankSkip:
+	ldh a, [hFlagsFFFA] ; skip the $FF80 OAM call in VBLANK while we rewrite palettes
+	set 0, a
+	ldh [hFlagsFFFA], a
+	ret
+
+; One frame of the dissolve: sweep BGP0-3 + OBP0-7, stepping each colour up to
+; C notches toward its sepia shade, then write it to hardware.
+SepiaBlendStep:
+	ldh a, [hGBC]
+	and a
+	ret z
+	ldh a, [rIE] ; disable interrupts and align to the first VBLANK scanline
+	push af
+	xor a
+	ldh [rIE], a
+.wait
+	ldh a, [rLY]
+	cp $90
+	jr nz, .wait
+
+	xor a ; start at colour 0 of BGP0
+.mainLoop
+	ld [wGBCColorControl], a
+	and %00100011
+	cp 32
+	jr z, .skipTransparent ; OBP colour 0 is always transparent
+	push bc
+	call ReadBufferColorGBC ; DE = the captured colour
+	call GetRGB             ; hRGB = its R,G,B
+	pop bc
+	push bc
+	call SepiaBlendOneColor ; step hRGB C notches toward its sepia shade
+	pop bc
+	call WriteRGB
+	call WriteColorGBC
+.skipTransparent
+	ld a, [wGBCColorControl]
+	inc a
+	cp 64
+	jr nc, .return ; done after OBP7
+	cp 16
+	jr nz, .next
+	add a ; skip the unused BGP4-7 (jump to colour 32 = OBP0)
+	inc a ; and skip OBP0's transparent colour 0
+.next
+	ld [wGBCColorControl], a
+	jr .mainLoop
+
+.return
+	pop af
+	ldh [rIE], a
+	ldh a, [rSPD] ; pace one frame, and keep music ticking in 1x mode (mirrors the fades)
+	bit 7, a
+	push af
+	call nz, DelayFrame
+	pop af
+	jr nz, .doneStep
+	farcall Audio1_UpdateMusic
+.doneStep
+	ret
+
+; hRGB holds the captured colour; C = notch budget. Step each channel up to C
+; notches toward this colour's sepia shade (read straight from ROM). Result
+; left in hRGB. Preserves nothing of note beyond hRGB.
+SepiaBlendOneColor:
+	ld a, [wGBCColorControl]
+	and %00000011 ; colour index 0-3
+	ld e, a
+	add a
+	add e ; e = index * 3 (R,G,B bytes per ramp shade)
+	ld e, a
+	ld d, 0
+	ld hl, SepiaRampGBC
+	add hl, de ; hl -> sepia R,G,B for this shade
+	ld de, hRGB
+	; red
+	push bc
+	ld a, [hli] ; target = sepia channel
+	ld b, a
+	ld a, [de]  ; current = captured channel
+	call SepiaStepTowardB
+	ld [de], a
+	pop bc
+	inc de
+	; green
+	push bc
+	ld a, [hli]
+	ld b, a
+	ld a, [de]
+	call SepiaStepTowardB
+	ld [de], a
+	pop bc
+	inc de
+	; blue
+	push bc
+	ld a, [hl]
+	ld b, a
+	ld a, [de]
+	call SepiaStepTowardB
+	ld [de], a
+	pop bc
+	ret
+
+; a = current channel value, b = target, c = budget -> a moved min(C, dist)
+; notches toward b. Guards C = 0 (no movement) so the OUT pass can land exact.
+SepiaStepTowardB:
+	push af
+	ld a, c
+	or a
+	jr z, .none ; no budget -> leave the channel where it is
+	pop af
+.step
+	cp b
+	ret z
+	jr c, .up
+	dec a
+	jr .tick
+.up
+	inc a
+.tick
+	dec c
+	ret z
+	jr .step
+.none
+	pop af
+	ret
+
+
 
 	
 	

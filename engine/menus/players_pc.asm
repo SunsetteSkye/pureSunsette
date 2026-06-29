@@ -1,6 +1,17 @@
 ; PureRGBnote: CHANGED: most of the players pc code was changed to remember your location in the item list after performing actions
 ; like withdrawing, depositing...etc.
 PlayerPC::
+	; Sunsette 2026-06-28: force the PC's OWN dialogue fixed-width. Unlike normal dialogue, the
+	; PC opens and drives a MENU while its text box is still live, and routing that text through
+	; the (recently reworked) VWF path corrupts state across the nested menu -- the menu's exit
+	; path then returns through a poisoned stack and jumps wild (the log-off crash, repro'd by
+	; just opening the PC and pressing B). The PC has been a recurring VWF trouble surface (menu
+	; hijack, leftover attrs), so keep this whole surface fixed-width: clear the opt-in gate +
+	; any stale box flags. The fixed-width .noVWF print path still blanks leftover VWF attrs.
+	xor a
+	ld [wVWFEnable], a  ; gate VWF OFF for every PlayerPC text print -> fixed-width
+	ld [wVWFActive], a
+	ld [wVWFBoxOpen], a
 	ld hl, wStatusFlags5
 	set BIT_NO_TEXT_DELAY, [hl]
 	call SaveScreenTilesToBuffer1
@@ -315,7 +326,7 @@ CheckButtonStartPressed::
 	jr nz, .dontDoAnything
 	pop af
 	ld a, 1 ; load an A button press into a
-	ld [wUnusedC000], a ; set the flag that tells the item menu code to trigger the item deposit
+	ld [wSharedScratch], a ; set the flag that tells the item menu code to trigger the item deposit
 .continue
 	scf ; set carry, item list code will continue as normal, and in the case of depositing an item, it will trigger the deposit after exiting the menu
 	ret

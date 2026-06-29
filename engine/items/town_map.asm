@@ -600,6 +600,107 @@ FarPrintTownMapEntry::
 	pop hl ; pop de into hl
 	jp PlaceString
 
+; Sunsette: status-screen "ORIGIN" value. Prints a mon's caught-location name,
+; greedily word-wrapped to up to ORIGIN_MAX_LINES lines of ORIGIN_LINE_WIDTH columns,
+; or "Traded" if the mon has no recorded caught location. Lives in the map-names bank
+; so the name-string read stays in-bank; reached via callfar from the status screen.
+; in: c = origin location byte (a map id, or ORIGIN_TRADED); de = top-left tilemap coord.
+DEF ORIGIN_LINE_WIDTH EQU 9
+DEF ORIGIN_MAX_LINES  EQU 3
+
+PrintCaughtLocation::
+	ld a, c
+	cp ORIGIN_TRADED
+	jr z, .traded
+	push de                  ; save tilemap coord
+	ld de, wBuffer           ; scratch for LoadTownMapEntry's coord byte (overwritten below)
+	call LoadTownMapEntry     ; in: a = map id; out: hl = name ptr
+	ld de, wBuffer           ; de = wrap-buffer write ptr
+	ld b, 0                  ; columns used on the current line
+	ld c, 1                  ; current line number (1..ORIGIN_MAX_LINES)
+.fillLoop
+	ld a, [hl]
+	cp '@'
+	jr z, .fillDone
+	cp ' '
+	jr z, .fillSpace
+	ld a, b                  ; letter: wrap if the line is full
+	cp ORIGIN_LINE_WIDTH
+	jr c, .putLetter
+	call .newlineBuf
+	jr z, .fillDone
+.putLetter
+	ld a, [hl]
+	ld [de], a
+	inc de
+	inc hl
+	inc b
+	jr .fillLoop
+.fillSpace
+	inc hl                   ; consume the space
+	ld a, b
+	and a
+	jr z, .fillLoop          ; at line start: drop leading spaces
+	call .measureWord        ; a = length of the upcoming word (hl preserved)
+	add b
+	inc a                    ; + the separating space
+	cp ORIGIN_LINE_WIDTH + 1
+	jr c, .putSpace          ; word fits on this line
+	call .newlineBuf         ; else break before it
+	jr z, .fillDone
+	jr .fillLoop
+.putSpace
+	ld a, ' '
+	ld [de], a
+	inc de
+	inc b
+	jr .fillLoop
+.fillDone
+	ld a, '@'
+	ld [de], a
+	pop hl                   ; tilemap coord
+	ld de, wBuffer
+	jp PlaceString
+.traded
+	ld h, d
+	ld l, e                  ; hl = tilemap coord (de held it)
+	ld de, .tradedText
+	jp PlaceString
+.tradedText: db "Traded@"
+
+; in: hl = word start (preserved). out: a = word length. preserves bc, de.
+.measureWord
+	push hl
+	push bc
+	ld b, 0
+.mwLoop
+	ld a, [hl]
+	cp '@'
+	jr z, .mwEnd
+	cp ' '
+	jr z, .mwEnd
+	inc hl
+	inc b
+	jr .mwLoop
+.mwEnd
+	ld a, b
+	pop bc
+	pop hl
+	ret
+
+; advance the buffer to a new line. out: z set = no lines left (stop). resets b, bumps c.
+.newlineBuf
+	ld a, c
+	cp ORIGIN_MAX_LINES
+	ret z                    ; already on the last line -> stop
+	ld a, '<NEXT>'
+	ld [de], a
+	inc de
+	inc c
+	ld b, 0
+	or a                     ; a = $4e -> nz (continue)
+	ret
+
 GetWildDataTownMapID:
 	cp FIRST_INDOOR_MAP
 	ret c

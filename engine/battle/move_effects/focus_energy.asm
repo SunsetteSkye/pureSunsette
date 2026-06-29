@@ -26,7 +26,7 @@ FocusEnergyEffect_:
 	ld hl, TailCoiledText
 .printText
 	call PrintText
-	jpfar FocusEnergyDefenseBonus ; Sunsette: FOCUS ENERGY also raises the user's DEFENSE by 1 (for EVERYONE now). Only on a fresh use, so the "already active -> fails" rule still prevents stacking the boost.
+	jpfar EkansLineFocusEnergyHeal ; Sunsette: FOCUS ENERGY no longer raises DEFENSE; the fresh-use path now only feeds the EKANS/ARBOK heal signature (no-op for every other species).
 .alreadyUsing
 	ld c, 50
 	rst _DelayFrames

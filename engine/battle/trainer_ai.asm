@@ -1992,7 +1992,7 @@ CheckIfPlayerHPBelowFraction::
 	ld de, wBattleMonHP + 1
 	jr CheckIfHPBelowFractionCommon
 
-; PureRGBnote: ADDED: if enemy HP is below a 1/[wUnusedC000], store 1 in wUnusedC000.
+; PureRGBnote: ADDED: if enemy HP is below a 1/[wSharedScratch], store 1 in wSharedScratch.
 ; used for checking whether the hyper ball item should guarantee success on use
 FarCheckIfEnemyHPBelowFraction::
 	ld a, d

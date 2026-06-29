@@ -19,9 +19,9 @@ IconPalettes:
 	db $FF              ; 13 WEEDLE
 	db $FF              ; 14 KAKUNA
 	db $FF              ; 15 BEEDRILL
-	db PAL_ICON_10      ; 16 PIDGEY
-	db PAL_ICON_10      ; 17 PIDGEOTTO
-	db PAL_ICON_10      ; 18 PIDGEOT
+	db PAL_ICON_15      ; 16 PIDGEY
+	db PAL_ICON_15      ; 17 PIDGEOTTO
+	db PAL_ICON_15      ; 18 PIDGEOT
 	db PAL_ICON_12      ; 19 RATTATA
 	db PAL_ICON_14      ; 20 RATICATE
 	db $FF              ; 21 SPEAROW
@@ -213,7 +213,7 @@ IconPalettesAlt:
 	db $FF              ; 51 DUGTRIO
 	db PAL_ICON_29      ; 52 MEOWTH
 	db PAL_ICON_29      ; 53 PERSIAN
-	db PAL_ICON_30      ; 54 PSYDUCK
+	db PAL_LEAFMON      ; 54 PSYDUCK
 	db PAL_ICON_31      ; 55 GOLDUCK
 	db $FF              ; 56 MANKEY
 	db $FF              ; 57 PRIMEAPE

@@ -393,6 +393,7 @@ HandlePokedexListMenu:
 .skipLearnsetIcon
 	call PokedexToIndex
 	call GetMonName
+	call DexUppercaseName ; PureRGBnote: ADDED: ALL CAPS species name in the dex index list
 .skipGettingName
 	pop hl
 	inc hl
@@ -542,6 +543,37 @@ PokedexMenuItemsText:
 	next "AREA"
 	next "QUIT@"
 
+; PureRGBnote: ADDED: build an ALL-CAPS copy of an @-terminated mon name into wBuffer
+; (lowercase a-z -> A-Z; everything else untouched), so the Pokedex header and index
+; show caps even though the names list is mixed-case. Same scheme as the start menu.
+; INPUT:  de = source name (@-terminated)
+; OUTPUT: de = wBuffer (uppercased name); hl, bc preserved
+DexUppercaseName:
+	push hl
+	push bc
+	ld h, d
+	ld l, e
+	ld bc, wBuffer
+.loop
+	ld a, [hli]
+	cp CHARVAL("@")
+	jr z, .done
+	cp CHARVAL("a")
+	jr c, .store ; below 'a' -> leave as-is
+	cp CHARVAL("z") + 1
+	jr nc, .store ; above 'z' -> leave as-is
+	sub CHARVAL("a") - CHARVAL("A") ; lowercase -> uppercase
+.store
+	ld [bc], a
+	inc bc
+	jr .loop
+.done
+	ld [bc], a ; store the terminator
+	ld de, wBuffer
+	pop bc
+	pop hl
+	ret
+
 ; tests if a pokemon's bit is set in the seen or owned pokemon bit fields
 ; INPUT:
 ; [wPokedexNum] = pokedex number
@@ -685,6 +717,7 @@ ShowNextPokemonData:
 	call PlaceString
 
 	call GetMonName
+	call DexUppercaseName ; PureRGBnote: ADDED: force the dex header species name to ALL CAPS
 	hlcoord 9, 2
 	call PlaceString
 
@@ -891,18 +924,47 @@ ShowNextPokemonData:
 	pop hl ; pop de into hl
 	push hl
 	inc hl ; hl = address of pokedex description text
-	; The dex description prints at (1,11) via TextCommandProcessor, NOT the VWF box.
-	; Hard-clear BOTH flags right here so a stale/re-set wVWFActive can't make
-	; PlaceNextChar composite the first chars into the pool (the "ABCDEFG" garbage).
+	; Sunsette: render the dex description PROSE through the VWF as a 6-line box on the BG
+	; panel (mode 1) so it auto-wraps + auto-pages proportionally. GBC-only; on DMG fall back
+	; to the fixed-width path (flags cleared). The base-stats / type pages close the box first
+	; (see .buttonTracking1 / .buttonTracking2 -> CloseDexDescBox) so their PlaceStrings stay
+	; fixed-width.
+	push hl
+	ldh a, [hGBC]
+	and a
+	jr z, .descFixedWidth
+	ld a, 1
+	ld [wVWFEnable], a
+	ld [wVWFActive], a
+	ld [wVWFBoxOpen], a
+	xor a
+	ld [wVWFTextDepth], a
+	vwf_farcall VWFInitPoolDex
+	jr .descPrint
+.descFixedWidth
 	xor a
 	ld [wVWFActive], a
 	ld [wVWFEnable], a
-	ld [wVWFBoxOpen], a ; also disarm the scroll gate (wVWFBoxOpen) so a stale box flag
-	                    ; can't page-clear a scrolling dex description
+	ld [wVWFBoxOpen], a
+.descPrint
+	pop hl
 	bccoord 1, 11
 	ld a, %10
 	ldh [hClearLetterPrintingDelayFlags], a
-	call TextCommandProcessor ; print pokedex description text
+	call TextCommandProcessor ; print pokedex description prose (VWF on GBC, fixed-width on DMG)
+	ld a, [wVWFActive]
+	and a
+	jr z, .descPrinted
+	; A description that ends inside an insert (e.g. "...why<...>") leaves wVWFTextDepth != 0, so
+	; the terminator's word-flush was skipped (.flushTileOnly) and the final word never placed.
+	; Force depth 0 and flush the final buffered word + its tile here. Use the PAGING flush
+	; (VWFFlushWordPaged), not a plain VWFFlushWord: if the final word doesn't fit on the last
+	; line it must reflow to a new page (show the ▼, wait, page) rather than fall off the edge.
+	xor a
+	ld [wVWFTextDepth], a
+	call VWFFlushWordPaged ; place the final buffered word, paging if it overflows the last line
+	vwf_farcall VWFFlushCurrent ; reveal its partial tile
+.descPrinted
 	CheckEvent EVENT_GOT_POKEDEX
 	jp z, .starterDisplay ; don't display additional page if we're showing the starters before getting the pokedex.
 	ld a, [wMenuWatchedKeys]
@@ -915,6 +977,11 @@ ShowNextPokemonData:
 	ldh a, [hJoy5]
 	ld b, a
 .buttonTracking1
+	; Sunsette: close the VWF description box before acting -- every path replaces (A=stats),
+	; tears down (B), or re-renders (L/R/SELECT) the description. Preserve b (pressed keys).
+	push bc
+	call .closeDexDescBox
+	pop bc
 	bit B_PAD_A, b
 	jr nz, .printBaseStats
 	bit B_PAD_B, b
@@ -1031,6 +1098,11 @@ ShowNextPokemonData:
 	and c
 	jr z, .waitForButtonPress2
 .buttonTracking2
+	; Sunsette: close the VWF box on the starter-display path too (it skips .buttonTracking1).
+	; No-op once the stats/type page has already closed it. Preserve b.
+	push bc
+	call .closeDexDescBox
+	pop bc
 	bit B_PAD_B, b
 	jp nz, .exitDataPage
 	bit B_PAD_LEFT, b
@@ -1054,6 +1126,20 @@ ShowNextPokemonData:
 	call LoadTextBoxTilePatterns
 	call GBPalNormal
 	jp MaxVolume
+; Sunsette: tear down the Pokedex VWF description box if one is open -- blanks the panel cells
+; (keeping the blue panel palette) and restores the dialogue geometry. No-op on DMG or when the
+; box isn't active, so it's safe to call on every navigation/exit path. LOCAL label so it stays
+; inside ShowNextPokemonData's scope (a non-local label here would reparent the locals below it).
+.closeDexDescBox
+	ld a, [wVWFActive]
+	and a
+	ret z
+	xor a
+	ld [wVWFActive], a
+	ld [wVWFBoxOpen], a
+	ld [wVWFEnable], a
+	vwf_farcall VWFCloseBoxDex
+	ret
 .switchMonSprite
 	ld a, [wPokedexNum]
 	push af

@@ -708,7 +708,7 @@ MapBallToAnimation:
 	add hl, bc 
 	ld a, [hl]
 	ld [wAnimationID], a
-	ld [wUnusedC000], a ; identifies to a couple places that we're doing a ball toss animation (and which)
+	ld [wSharedScratch], a ; identifies to a couple places that we're doing a ball toss animation (and which)
 	; also, while we're at it, mark the enemy pokemon's data with this ball type in case it gets caught
 	ld a, [wCurItem]
 	ld hl, BallDataMap - 1

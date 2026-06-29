@@ -161,16 +161,18 @@ StatusScreen:
 	ld e, l
 	hlcoord 9, 1
 	call PlaceString ; Pokémon name
+	; Sunsette: ORIGIN line replaces the OT name + ID number. (OT ID is still saved,
+	; just no longer shown.) Shows the caught-location name, or "Traded".
+	hlcoord 10, 13
+	ld de, OriginLabelText
+	call PlaceString ; "ORIGIN/"
 	ld hl, OTPointers
-	call .GetStringPointer
-	ld d, h
-	ld e, l
-	hlcoord 12, 16
-	call PlaceString ; OT
-	hlcoord 12, 14
-	ld de, wLoadedMonOTID
-	lb bc, LEADING_ZEROES | 2, 5
-	call PrintNumber ; ID Number
+	call .GetStringPointer ; hl = this mon's origin field (former OT entry); clobbers c
+	inc hl                 ; -> MON_ORIGIN_LOCATION
+	ld a, [hl]
+	ld c, a                ; c = caught-location byte (or ORIGIN_TRADED)
+	decoord 10, 14
+	callfar PrintCaughtLocation
 	ld d, STATUS_SCREEN_STATS_BOX
 	call PrintStatsBox
 ;;;;; PureRGBnote: ADDED: If the pokemon has max DVs, display the APEX prompt on their status screen.
@@ -230,9 +232,10 @@ NamePointers2:
 TypesIDNoOTText:
 	db   "TYPE1/"
 	next "TYPE2/"
-	next "<ID>№/"
-	next "OT/"
 	next "@"
+
+OriginLabelText:
+	db "ORIGIN/@"
 
 StatusText:
 	db "STATUS/@"

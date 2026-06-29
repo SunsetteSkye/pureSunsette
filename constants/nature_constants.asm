@@ -102,10 +102,10 @@ DEF NR_TYPE_WILDCARD EQU -2
 ; Sunsette: status-screen PAGE 3 (battle effects / eagerness / personality reaction).
 ; ===========================================================================================
 
-; Affection (wPartyMonHappiness, 0-255) buckets used by the eagerness and reaction pages.
+; Affection (per-mon origin field MON_ORIGIN_AFFECTION, 0-255) buckets used by the eagerness and reaction pages.
 DEF SP3_AFFECTION_LOW_MAX  EQU 84  ; <= 84 = LOW (aloof)
 DEF SP3_AFFECTION_HIGH_MIN EQU 200 ; >= 200 = HIGH (devoted); between = MID
-DEF SP3_AFFECTION_NEUTRAL  EQU 128 ; default used for box/daycare mons (no per-mon affection)
+DEF SP3_AFFECTION_NEUTRAL  EQU 128 ; default the eagerness page uses for box/daycare mons (not loaded as a party slot there)
 
 ; HP buckets, read off the HPBarLength predef result (0-48 pixels).
 DEF SP3_HP_HURT_MIN EQU 17 ; >= 17 px = HURT or better

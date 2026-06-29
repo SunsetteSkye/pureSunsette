@@ -25,7 +25,7 @@ ChoosePlayerName:
 	call IntroDisplayPicCenteredOrUpperRight
 .done
 	ld hl, YourNameIsText
-	jp PrintText
+	jp PrintIntroTextVWF ; Sunsette: VWF + tear down the box (not bare PrintText)
 
 YourNameIsText:
 	text_far _YourNameIsText
@@ -58,7 +58,7 @@ ChooseRivalName:
 	call IntroDisplayPicCenteredOrUpperRight
 .done
 	ld hl, HisNameIsText
-	jp PrintText
+	jp PrintIntroTextVWF ; Sunsette: VWF + tear down the box (not bare PrintText)
 
 HisNameIsText:
 	text_far _HisNameIsText

@@ -125,9 +125,7 @@ MainMenu:
 	jp nz, .mainMenuLoop
 	jr .inputLoop
 .pressedA
-	callfar SaveFileUpdateCheck
-	jp c, .mainMenuLoopResetCurrentMenuItem
-	jr nz, .saveUpdateWarp
+	; Sunsette: Save File Updater removed - load the save directly.
 	call .getReadyToLoad
 	ld a, [wNumHoFTeams]
 	and a
@@ -164,10 +162,6 @@ MainMenu:
 	ld bc, TILEMAP_AREA
 	call FillMemory
 	jp EnableLCD
-.saveUpdateWarp
-	call .getReadyToLoad
-	jr .palletTownWarp
-
 InitOptions:
 	ld a, TEXT_DELAY_FAST ; TODO: 1 << BIT_FAST_TEXT_DELAY  ?
 	ld [wLetterPrintingDelayFlags], a

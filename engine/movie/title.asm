@@ -349,7 +349,7 @@ ENDC
 	ld a, [wTitleMonSpecies]
 	push af
 	hlcoord $0C, $0A
-	lb bc, 7, 4
+	lb bc, 7, 5 ; Sunsette: 4 -> 5 cols so the wipe reaches col 16 (the standing pose moved to col 13); kills the transition garbage
 	call ClearScreenArea
 	call IsPureTitleScreenEnabled
 	call DrawPlayerCharacterAgain ; temporarily make the player a sprite so they dont disappear for a moment
@@ -484,7 +484,7 @@ DrawPlayerCharacterAgain:
 	ld hl, wShadowOAM
 	lb de, $60, $5A
 	jr z, .continue
-	lb de, $60, $60
+	lb de, $60, $68 ; Sunsette: pure(alt) transient sprite X $60 -> $68 (+8px) to match the standing BG at col 13; main (z) stays $5A
 .continue
 	xor a
 	ld [wPlayerCharacterOAMTile], a
@@ -538,14 +538,14 @@ DrawPlayerCharacterAgainAfterLogoAnimationSpritePortion:
 	ld [hli], a
 	dec b
 	jr nz, .innerLoop
-	ld a, 2 ; 2nd palette
+	ld a, 3 ; Sunsette: OBJ palette 3 = PAL_PLAYER (was 2 = mewmon) so the pokeball/hand match the player body
 	ld [hli], a
 	jr .outerLoop
 
 DrawPlayerCharacterAgainAfterLogoAnimationBGTiles:
 	lb bc, 7, 4
 	; copy the non-sprite tiles of the player
-	hlcoord $0C, $0A
+	hlcoord $0D, $0A ; Sunsette: col 12 -> 13, moves the standing pose 8px right to align with the pointing pose
 	ld a, $4F ; start at tile 4f
 	ld b, 7
 .outerLoop2
@@ -652,8 +652,8 @@ ENDC
 ; This prevents sliding pokemon across the screen behind the player at the moment (may change later)
 
 PureTitlePlayerSpritePortionOAMData:
-	db $74, $60, $0A 
-	db $78, $60, $0F 
+	db $74, $68, $0A ; Sunsette: hand/pokeball X $60 -> $68 (+8px) to follow the standing body to col 13
+	db $78, $68, $0F
 	db -1
 
 PureTitleScreenVersionAnimation:

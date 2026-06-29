@@ -1,5 +1,5 @@
 ; PureRGBnote: ADDED: function updated so holding B when talking to the pokemon center nurse speeds up the healing process.
-;                     wUnusedC000 is set earlier in pokemon center code and indicates whether to speed things up or not.
+;                     wSharedScratch is set earlier in pokemon center code and indicates whether to speed things up or not.
 AnimateHealingMachine:
 	ld de, PokeCenterFlashingMonitorAndHealBall
 	ld hl, vChars0 tile $74 ; Sunsette: was $7c, but that VRAM is the engine's 2nd 4-tile (still) sprite slot, now used by the couch NPC's lower half. $74-$76 is free scratch below the still-sprite slots in any pokecenter.
@@ -19,7 +19,7 @@ AnimateHealingMachine:
 	ld de, PokeCenterOAMData
 	call CopyHealingMachineOAM
 	ld c, 30
-	ld a, [wUnusedC000]
+	ld a, [wSharedScratch]
 	and a
 	ld a, 4
 	jr z, .normalFade ; NEW: if you're holding b when you start talking to the nurse, it'll do healing faster
@@ -37,7 +37,7 @@ AnimateHealingMachine:
 	call CopyHealingMachineOAM
 	ld a, SFX_HEALING_MACHINE
 	rst _PlaySound
-	ld a, [wUnusedC000]
+	ld a, [wSharedScratch]
 	and a
 	ld c, 5
 	jr nz, .doDelay ; NEW: if you're holding b when you start talking to the nurse, it'll do healing faster

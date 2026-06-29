@@ -61,7 +61,7 @@
 ;@ nature       NATURE_CAUTIOUS NATURE_GENTLE
 ;@ pal_battle   PAL_PIDGEYMON
 ;@ pal_altbattle PAL_BROWNMON2
-;@ pal_icon     PAL_ICON_10
+;@ pal_icon     PAL_ICON_15
 ;@ pal_alticon  PAL_ICON_11
 ;@ evo         EVOLVE_LEVEL, 24, PIDGEOTTO
 ;@ evo_move    HONE_EDGE

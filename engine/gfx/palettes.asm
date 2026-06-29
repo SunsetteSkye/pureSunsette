@@ -2050,6 +2050,25 @@ TranslatePalPacketToBGMapAttributes::
 .foundMatchingPointer
 	push de
 	ld d, c
+	; In battle this attribute packet resets the message box to its bank-0 palette,
+	; which exposes any stale VWF pool-index tiles ($80+) as bank-0 font (the "alphabet"
+	; flash). Blank the VWF box BEFORE the reload, not after: clearing the tile bytes to
+	; spaces first means the attribute reload lands on blank cells, so there is no frame
+	; where the box rows have bank-0 attrs over $80+ tiles. (Doing it after still left a
+	; flash window, e.g. the character spam after the win message while the trainer pic
+	; scrolls back in -- SET_PAL_BATTLE in _ScrollTrainerPicAfterBattle hits this path.)
+	; GBC-only; VWFEndBox is safe even if no VWF box is open. d holds the LoadBGMapAttributes
+	; argument, so preserve it across the vwf_farcall.
+	ldh a, [hGBC]
+	and a
+	jr z, .skipVWFClear
+	ld a, [wIsInBattle]
+	and a
+	jr z, .skipVWFClear
+	push de
+	vwf_farcall VWFEndBox
+	pop de
+.skipVWFClear
 	callfar LoadBGMapAttributes
 	pop de
 	ret

@@ -227,6 +227,149 @@ MiasmaPoisonedText:
 	text_far _MiasmaPoisonedText
 	text_end
 
+; Sunsette: DEGENERATION. The poison self-faint trump (MUK / WEEZING). The USER ALWAYS faints: DEGENERATION is
+; registered to ExplosionFaintModifier in remap_move_data (exactly like EXPLOSION), so the faint fires at
+; move-use, even when the disruption below fizzles. THIS routine (DEGENERATION_EFFECT, in ResidualEffects1 - no
+; accuracy test, pre-damage) is the FOE half: it FAILS ENTIRELY against a POISON- or GHOST-type foe (they shrug
+; it off; the user still faints). Otherwise it resets the foe's stat stages to neutral, badly-poisons it
+; (OVERRIDING any existing status), confuses it (2-5 turns), and rots 2-5 PP off each of its moves. The toxic is
+; set directly (it intentionally bypasses STATUS_WARDED - a trump should rot through a ward). hWhoseTurn = user.
+DegenerationEffect_::
+	callfar PlayCurrentMoveAnimation2
+	; --- gate: a POISON- or GHOST-type foe makes the whole disruption fail (the user still faints via the modifier) ---
+	ldh a, [hWhoseTurn]
+	and a
+	ld hl, wEnemyMonType1            ; player's turn -> foe = enemy
+	jr z, .gotFoeType
+	ld hl, wBattleMonType1
+.gotFoeType
+	ld a, [hli]
+	cp POISON
+	jp z, .fizzle
+	cp GHOST
+	jp z, .fizzle
+	ld a, [hl]
+	cp POISON
+	jp z, .fizzle
+	cp GHOST
+	jp z, .fizzle
+	; --- 1. stat wipe: reset the FOE's stat stages to neutral + recompute its battle stats (cf. MiasmaEffect_) ---
+	ldh a, [hWhoseTurn]
+	and a
+	ld hl, wEnemyMonAttackMod
+	ld de, wEnemyMonUnmodifiedAttack
+	ld bc, wEnemyMonAttack
+	jr z, .gotResetPtrs
+	ld hl, wPlayerMonAttackMod
+	ld de, wPlayerMonUnmodifiedAttack
+	ld bc, wBattleMonAttack
+.gotResetPtrs
+	push de
+	push bc
+	ld a, $7
+	ld b, NUM_STAT_MODS
+.resetModsLoop
+	ld [hli], a
+	dec b
+	jr nz, .resetModsLoop
+	pop hl
+	pop de
+	ld b, (NUM_STATS - 1) * 2
+.resetStatsLoop
+	ld a, [de]
+	inc de
+	ld [hli], a
+	dec b
+	jr nz, .resetStatsLoop
+	; --- 2. badly-poison the foe, OVERRIDING any existing status; reset its toxic counter ---
+	ldh a, [hWhoseTurn]
+	and a
+	ld hl, wEnemyMonStatus
+	ld de, wEnemyBattleStatus3
+	ld bc, wEnemyToxicCounter
+	jr z, .gotPsnPtrs
+	ld hl, wBattleMonStatus
+	ld de, wPlayerBattleStatus3
+	ld bc, wPlayerToxicCounter
+.gotPsnPtrs
+	xor a
+	ld [hl], a                      ; clear any existing status (override)
+	set PSN, [hl]                   ; poisoned...
+	ld a, [de]
+	set BADLY_POISONED, a
+	ld [de], a                      ; ...and badly so (toxic)
+	xor a
+	ld [bc], a                      ; toxic counter starts at 0
+	; --- 3. confuse the foe for 2-5 turns (formula copied from ConfusionEffect) ---
+	ldh a, [hWhoseTurn]
+	and a
+	ld hl, wEnemyBattleStatus1
+	ld bc, wEnemyConfusedCounter
+	jr z, .gotConfPtrs
+	ld hl, wPlayerBattleStatus1
+	ld bc, wPlayerConfusedCounter
+.gotConfPtrs
+	set CONFUSED, [hl]
+	call BattleRandom
+	and $3
+	inc a
+	inc a
+	ld [bc], a                      ; 2-5 turns (BattleRandom preserves bc)
+	; --- 4. rot 2-5 PP off EACH of the foe's moves (low-PP nukes hurt proportionally more) ---
+	ldh a, [hWhoseTurn]
+	and a
+	ld hl, wEnemyMonMoves
+	ld de, wEnemyMonPP
+	jr z, .gotPpPtrs
+	ld hl, wBattleMonMoves
+	ld de, wBattleMonPP
+.gotPpPtrs
+	ld a, 4
+.ppLoop
+	push af                         ; save the slot counter
+	ld a, [hl]                      ; move id (don't advance hl yet)
+	and a
+	jr z, .nextPp                   ; empty move slot
+	ld a, [de]                      ; PP byte (low 6 = current PP, high 2 = PP Up count)
+	push af
+	and PP_MASK
+	jr z, .popByteNext              ; already 0 -> nothing to rot
+	ld b, a                         ; b = current PP (BattleRandom preserves bc)
+	call BattleRandom
+	and $3
+	inc a
+	inc a                           ; a = 2-5 PP to remove
+	ld c, a
+	ld a, b
+	sub c                           ; current - removed
+	jr nc, .haveNewPp
+	xor a                           ; floored at 0
+.haveNewPp
+	ld b, a                         ; b = new current PP
+	pop af                          ; original PP byte
+	and %11000000                   ; keep the PP Up count bits
+	or b                            ; splice in the new current PP
+	ld [de], a
+	jr .nextPp
+.popByteNext
+	pop af                          ; discard the saved PP byte
+.nextPp
+	inc hl                          ; next move slot
+	inc de                          ; next PP slot
+	pop af                          ; restore the slot counter
+	dec a
+	jr nz, .ppLoop
+	ld hl, DegenerationText
+	rst _PrintText
+	ret
+.fizzle
+	jpfar PrintButItFailedText_
+
+DegenerationText:
+	text "Foul rot sets"
+	line "in deep!"
+	prompt
+
 ; Sunsette: PSYCHO SHIFT (PSYCHO_SHIFT_EFFECT). PSYCHIC, 0-BP. Reached via the Haze trampoline ->
 ; HazeFlinchEffect_ (in ResidualEffects1, so like Haze it runs with NO accuracy test - it always *attempts*).
 ; Transfers the USER's ailments onto the TARGET and cures the user of whatever lands:
@@ -698,13 +841,13 @@ AuroraMistEffect_::
 	res CONFUSED, [hl]
 	ld hl, wEnemyBattleStatus1
 	res CONFUSED, [hl]
-	; --- Mist (STAT_DOWN_IMMUNITY) + the UNUSED_6 ward on BOTH sides (set AFTER the resets so they survive) ---
+	; --- Mist (STAT_DOWN_IMMUNITY) + the STATUS_WARDED ward on BOTH sides (set AFTER the resets so they survive) ---
 	ld hl, wPlayerBattleStatus2
 	set STAT_DOWN_IMMUNITY, [hl]
-	set BATTLESTATUS2_UNUSED_6, [hl]
+	set STATUS_WARDED, [hl]
 	ld hl, wEnemyBattleStatus2
 	set STAT_DOWN_IMMUNITY, [hl]
-	set BATTLESTATUS2_UNUSED_6, [hl]
+	set STATUS_WARDED, [hl]
 	ld hl, AuroraMistText
 	rst _PrintText
 	; --- asymmetric tilt: an ICE or NORMAL user gets +1 SPEED ---

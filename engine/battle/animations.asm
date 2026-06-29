@@ -524,7 +524,7 @@ MoveAnimationContent:
 
 	; if throwing a Poké Ball, skip the regular animation code
 ;;;;;;;;;; PureRGBnote: ADDED: code related to custom ball toss animations/colors for each ball
-	ld a, [wUnusedC000] ; when throwing a ball this will be set
+	ld a, [wSharedScratch] ; when throwing a ball this will be set
 	and a
 	jr z, .moveAnimation
 .ballToss
@@ -927,7 +927,7 @@ DoPoofSpecialEffects:
 	jr z, .ballToss
 	cp 5
 	ret nz
-	ld a, [wUnusedC000]
+	ld a, [wSharedScratch]
 	cp MASTERTOSS_ANIM
 	jr z, .masterBallSFX
 	ld a, SFX_BALL_POOF
@@ -937,7 +937,7 @@ DoPoofSpecialEffects:
 	ld a, SFX_HORN_DRILL
 	jp PlaySoundResetSFXModifiers
 .ballToss
-	ld a, [wUnusedC000]
+	ld a, [wSharedScratch]
 	and a
 	ret z
 	ld b, a
@@ -984,7 +984,7 @@ DoPoofSpecialEffects:
 	call AnimationResetScreenPalette
 .done
 	xor a
-	ld [wUnusedC000], a ; we clear this so the potential second poof doesnt have the fancy animation again
+	ld [wSharedScratch], a ; we clear this so the potential second poof doesnt have the fancy animation again
 	ret
 ;;;;;;;;;;
 
@@ -1959,11 +1959,11 @@ AnimationResetMonPosition:
 AnimationSpiralFireInwardFast::
 	lb de, $72, 1
 	ld a, 1
-	ld [wUnusedC000], a
+	ld [wSharedScratch], a
 	ld c, a
 	call AnimationSpiralBallsInward
 	xor a
-	ld [wUnusedC000], a
+	ld [wSharedScratch], a
 	ret
 
 	
@@ -2076,7 +2076,7 @@ AnimationSpiralBallsInward:
 	ld c, a
 	cp 2
 	jr nz, .frameDelay
-	ld a, [wUnusedC000]
+	ld a, [wSharedScratch]
 	and a
 	jr nz, .frameDelay
 	ld a, $01
@@ -3213,6 +3213,13 @@ AnimationShakeEnemyHUD:
 	jr z, .notGBC2
 	ld d, 11
 	farcall LoadBGMapAttributes
+	; Sunsette: that reload stomped the message box back to bank 0, so a VWF message's pool
+	; tiles ($80+) would render as bank-0 font (the "alphabet" flash). Re-assert the VWF
+	; attributes on the box cells (keeps the text; only touches pool cells).
+	ld a, [wVWFBoxOpen]
+	and a
+	jr z, .notGBC2
+	vwf_farcall VWFReapplyBoxAttrs
 .notGBC2
 ;;;;;;;;;;
 
@@ -3302,7 +3309,7 @@ TossBallAnimation:
 	ld [wLastOBP0], a ; force reset OBP0 color
 	call UpdateGBCPal_OBP0
 	xor a
-	ld [wUnusedC000], a ; PureRGBnote: gbcnote: this value here was used to specify we're doing a ball toss animation, so reset it
+	ld [wSharedScratch], a ; PureRGBnote: gbcnote: this value here was used to specify we're doing a ball toss animation, so reset it
 ;;;;;;;;;;
 	ret
 
@@ -3317,7 +3324,7 @@ TossBallAnimation:
 	ld a, BLOCKBALL_ANIM
 	ld [wAnimationID], a
 	xor a
-	ld [wUnusedC000], a
+	ld [wSharedScratch], a
 	jp PlayAnimation
 
 PlayApplyingAttackSound:

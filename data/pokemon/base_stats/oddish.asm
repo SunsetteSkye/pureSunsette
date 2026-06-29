@@ -57,7 +57,7 @@
 ; --- Sunsette SSOT directives (parsed by tools/gen_pokemon_data.py) ---
 ;@ nature       NATURE_CAUTIOUS NATURE_MOROSE
 ;@ pal_battle   PAL_GREENMON
-;@ pal_altbattle PAL_0F
+;@ pal_altbattle PAL_GRAYMON
 ;@ pal_icon     $FF
 ;@ pal_alticon  $FF
 ;@ evo         EVOLVE_LEVEL, 21, GLOOM

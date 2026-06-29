@@ -187,10 +187,15 @@ MoveNameJumpTable::
 	dw PSYSHOCKName
 	dw FLUTTERKICKName
 	dw HYDROBATHName
+	dw SLUDGEName
+	dw POWERWHIPName
+	dw DEGENERATIONName
 	dw STRUGGLEName
 	assert_table_length NUM_ATTACKS
 
-  ; in-battle "used <move name>!" text can only fit 12 (MOVE_NAME_LENGTH - 2) characters
+  ; Move names fit 13 chars: MOVE_NAME_LENGTH (14) holds the name + "@", and the battle move
+  ; menu is 13 columns wide (box at col 6, right border col 19). The in-battle "used <move>!"
+  ; line is now proportional VWF, so it is no longer the limiting factor (was 12 fixed-width).
 
 SPARKName:
 	db "Spark@"
@@ -263,7 +268,7 @@ BODYSLAMName:
 WRAPName:
 	db "Wrap@"
 HEATRUSHName:
-	db "Heat Rush@"
+	db "Heat Up@"
 INDIGNATIONName: ; Sunsette: DRAGON thrash-lock move (const + display both INDIGNATION; was vanilla THRASH)
 	db "Indignation@"
 DOUBLEEDGEName:
@@ -323,7 +328,7 @@ PECKName:
 AIRDRILLName:
 	db "Air Drill@"
 COMBOBREAKERName:
-	db "ComboBreaker@"
+	db "Combo Breaker@"
 FINISHERName:
 	db "Finisher@"
 SHADOWBOXName:
@@ -361,7 +366,7 @@ RAZORLEAFName:
 SOLARBEAMName:
 	db "Solar Beam@"
 POISONPOWDERName:
-	db "PoisonPowder@"
+	db "Poison Powder@"
 STUNSPOREName:
 	db "Stun Spore@"
 SLEEPPOWDERName:
@@ -499,7 +504,7 @@ TRANSFORMName:
 BUBBLEName:
 	db "Bubble@"
 CLOBBERCLOCKName:
-	db "ClobberClock@"
+	db "Clobber Clock@"
 SPOREName:
 	db "Spore@"
 FLASHName:
@@ -551,7 +556,7 @@ QUICKATTACKName:
 PSYCHOSHIFTName:
 	db "Psycho Shift@"
 PSYCHOCRISISName:
-	db "PsychoCrisis@"
+	db "Psycho Crisis@"
 ROCKSMASHName:
 	db "Rock Smash@"
 SUPERPOWERName:
@@ -566,5 +571,11 @@ FLUTTERKICKName:
 	db "Flutter Kick@"
 HYDROBATHName:
 	db "Hydrobath@"
+SLUDGEName:
+	db "Sludge@"
+POWERWHIPName:
+	db "Power Whip@"
+DEGENERATIONName:
+	db "Degeneration@"
 STRUGGLEName:
 	db "Struggle@"

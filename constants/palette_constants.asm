@@ -138,7 +138,7 @@ DEF SET_PAL_DEFAULT EQU $ff
 	const PAL_THUNDERMON ; Sunsette: alt Pikachu/Raichu coloration (white / f8e800 / 68b8f8 / black)
 	const PAL_SOFTVIOSCAR ; Sunsette: default Venonat / alt Venomoth+Nidoqueen+Weedle coloration (white / e89068 / a888c0 / black)
 	const PAL_EKANSMON ; Sunsette: default Ekans battle + icon (white / f8d058 / b070b8 / black) [was PAL_ORCHIDMON]
-	const PAL_OLIVEMON ; OBSOLETE / UNUSED - free to repurpose (was alt Ekans/Arbok + alt Machop line; white / 90ab70 / 275854 / black). NB: PAL_OLIVEMON_REV is a separate, in-use constant
+	const PAL_TANGELAMON ; Sunsette: default Tangela battle (white / 58a0c8 / 4848a8 / black) [reused obsolete PAL_OLIVEMON slot]. NB: PAL_OLIVEMON_REV is a separate, in-use constant
 	const PAL_EMBERMON ; Sunsette: default Vulpix/Charmeleon coloration (white / e07039 / a94315 / black)
 	const PAL_FLAREMON ; Sunsette: default Charmander (white / f7bc68 / cf3f2f / black)
 	const PAL_GRAYVELVET ; Sunsette: alt Vulpix/Wigglytuff coloration (white / 9898ae / 464078 / black)
@@ -199,7 +199,7 @@ DEF SET_PAL_DEFAULT EQU $ff
 	const PAL_ICON_12
 	const PAL_ICON_13
 	const PAL_ICON_14
-	const PAL_ICON_15 ; OBSOLETE / UNUSED - free to repurpose (was Ekans/Arbok icon; Ekans folded into PAL_EKANSMON, Arbok icon now $FF)
+	const PAL_ICON_15 ; Sunsette: default Pidgey family icon (white / f8f0e0 / c07450 / black) [reused obsolete Ekans/Arbok icon slot]
 	const PAL_ICON_16
 	const PAL_ICON_17
 	const PAL_ICON_18

@@ -26,12 +26,11 @@ sBoxRenamedFlags:: flag_array NUM_BOXES ; 2 bytes
 sBoxRenamedFlagsEnd::
 sBoxNames:: ds NUM_BOXES * BOX_NAME_LENGTH ; 72 bytes
 
-; Sunsette: soft cache of recently-boxed mons' happiness so a quick PC trip doesn't floor it.
-; 8 entries of {species, DV lo, DV hi, level, happiness} + a ring write index.
-sHappinessCache:: ds 8 * 5
-sHappinessCacheNext:: db
+; Sunsette: the boxed-happiness cache (was 41 bytes here) is GONE - boxed mons now carry
+; affection in their origin field (MON_ORIGIN_AFFECTION). Those 41 bytes rejoined the free
+; pool below (this is the last used SRAM in the section, so nothing shifted).
 
-; still quite a bit of space left here, around 950 bytes
+; still quite a bit of space left here, around 990 bytes
 
 
 

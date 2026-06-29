@@ -188,6 +188,9 @@ MoveSoundTable:: ; Sunsette: exported so home/GetMoveSoundEntry can read it cros
 	db SFX_PSYCHIC_M,          $00, $80 ; PSYSHOCK (Sunsette: clones PSYCHIC's tone, matching its placeholder anim)
 	db SFX_BATTLE_17,          $f0, $40 ; FLUTTER_KICK (Sunsette: clones DOUBLE KICK's sfx, matching its placeholder anim)
 	db SFX_BATTLE_2C,          $00, $80 ; HYDROBATH (Sunsette: clones SURF's water sound, matching its placeholder splash anim)
+	db SFX_NOT_VERY_EFFECTIVE, $10, $ff ; SLUDGE (Sunsette: clones SMOG's poison sound, matching its placeholder sludge anim)
+	db SFX_VINE_WHIP,          $01, $80 ; POWER_WHIP (Sunsette: clones VINE WHIP's sfx, matching its placeholder anim)
+	db SFX_BATTLE_34,          $10, $ff ; DEGENERATION (Sunsette: clones EXPLOSION's sound, matching its self-faint placeholder anim)
 	db SFX_BATTLE_2C,          $20, $00 ; STRUGGLE ; actually used for HAZE
 	assert_table_length NUM_ATTACKS
 	db SFX_BATTLE_0B,          $00, $80

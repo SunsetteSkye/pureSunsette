@@ -111,13 +111,18 @@ RockOnBrace:
 	and a
 	ret z                            ; foe hasn't attacked yet -> nothing to brace against
 	ld a, [wEnemyMoveType]
-	jr .gotType
+	jr BraceUserAgainstType
 .enemyUser
 	ld a, [wPlayerUsedMove]
 	and a
 	ret z
 	ld a, [wPlayerMoveType]
-.gotType
+	; fall through to BraceUserAgainstType
+
+; Sunsette: store `a` (a type id) as the USER's ADAPTATION brace - (type+1) into wPlayer/EnemyAdaptType
+; (latest-wins) - then announce it ("It braced against <TYPE>!"). hWhoseTurn = the user. Exported so HEAT UP
+; (newCode) and LEECH SEED callfar it; ROCK ON falls straight through after picking the foe's last-move type.
+BraceUserAgainstType::
 	inc a                            ; type + 1 (0 = none)
 	ld b, a
 	ldh a, [hWhoseTurn]

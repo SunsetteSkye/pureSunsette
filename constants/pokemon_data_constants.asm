@@ -70,6 +70,28 @@ DEF PARTYMON_STRUCT_LENGTH EQU _RS ; $2c
 DEF PARTY_LENGTH EQU 6
 
 DEF MONS_PER_BOX EQU 20
+
+; Sunsette: OT names are retired. The per-mon OT-NAME field (NAME_LENGTH bytes;
+; the parallel arrays wPartyMonOT / wBoxMonOT / wDayCareMonOT, already part of the
+; saved party/box/daycare data) is repurposed as an "origin" block. Bytes 0-2 are
+; defined below; bytes 3..NAME_LENGTH-1 are free.
+;
+; PERSISTENCE: _MoveMon copies the WHOLE 11-byte origin field on every party<->box/daycare
+; move, so bytes 0, 1, and 3..NAME_LENGTH-1 PERSIST through boxing intact - they are durable
+; free per-mon storage. Byte 2 is the SOLE exception: _MoveMon deliberately overwrites it on
+; each transition (deposit -> stamp play-hours; withdraw -> clear to 0), so its PARTY meaning
+; (flag/cooldown bits) does NOT survive being boxed - it is the one truly transient slot.
+; To make another of bytes 3..NAME_LENGTH-1 behave like byte 2 (transient, repurposed while
+; stored), add explicit handling in _MoveMon's .copyOT block the way byte 2 is done.
+DEF MON_ORIGIN_AFFECTION EQU 0  ; affection / happiness, 0-255 (was in wPartyMonHappiness). Persists everywhere.
+DEF MON_ORIGIN_LOCATION  EQU 1  ; caught map id, or ORIGIN_TRADED. Persists everywhere.
+DEF ORIGIN_TRADED        EQU $ff ; location sentinel: traded / unknown origin -> shows "Traded"
+; Dual-purpose byte, managed by _MoveMon on every party<->box/daycare transition:
+;   - party (withdrawn) mon: free flag/cooldown BITS - the one transient slot (see
+;     PERSISTENCE above); cleared to 0 when the mon enters the party; nothing reads it yet.
+;   - PC / daycare mon: the play-clock HOURS (low byte) at the moment it was stored,
+;     so elapsed = (now hours - this) mod 256. (Frees the old 3-byte wDayCareDepositMinutes.)
+DEF MON_ORIGIN_COOLDOWN  EQU 2
 DEF NUM_BOXES    EQU 12
 
 DEF HOF_MON           EQU $10

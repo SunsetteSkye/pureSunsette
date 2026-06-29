@@ -196,9 +196,23 @@ CheckForHoverText::
 	ld a, [wListMenuHoverTextType]
 	and a
 	ret z ; if wListMenuHoverTextType is 0, we aren't in a list menu containing hover text.
-	; This func is in bank1, not home bank, but we'll only ever reach this code while bank1 is loaded due to how list menus behave
 	; keep in mind we only need to display TM names in a list menu, other menu types never need to
-	jp CheckLoadHoverText 
+	; Sunsette FIX 2026-06-28: CheckLoadHoverText lives in bank 1, but the hover-text routine it calls
+	; ends in `jpfar CheckDrawItemCount` (bank $3A) which never restores bank 1 -- so after the FIRST
+	; hover display the loaded bank is no longer 1. HandleMenuInput's own input loop can then reach
+	; CheckForHoverText again (cursor move + scroll) with a non-1 bank mapped, and the old tail
+	; `jp CheckLoadHoverText` jumped to $7BBA in the WRONG bank = a wild jump into data (crash, e.g.
+	; pulling items from the PC while mashing buttons; landed in bank-6 tile data). Switch to bank 1
+	; explicitly and restore the caller's bank on the way out, so this is safe no matter what bank is
+	; currently mapped. Same class of bug + same fix shape as GetMoveSoundEntry (home/bankswitch.asm).
+	ldh a, [hLoadedROMBank]
+	push af ; save the caller's bank
+	ld a, BANK(CheckLoadHoverText)
+	call SetCurBank
+	ld a, [wListMenuHoverTextType] ; CheckLoadHoverText takes the hover type in a (it `dec a`'s to index)
+	call CheckLoadHoverText
+	pop af
+	jp SetCurBank ; restore the caller's bank, then ret
 
 ; This is used to mark a menu cursor other than the one currently being
 ; manipulated. In the case of submenus, this is used to show the location of
@@ -290,24 +304,25 @@ PrintText::
 	call UpdateSpritesAndDelay3
 	pop hl
 PrintText_NoCreatingTextBox::
-; Stage 1: route ONLY opt-in prose dialogue (wVWFEnable, set by DisplayTextID's
-; NPC/sign text path) through the variable-width font, and only on GBC outside
-; battle. PrintText is shared by menus/intro/system text, so a broad gate here
-; would mis-composite those and corrupt VRAM -- the opt-in flag scopes it tight.
-; NOTE: battle VWF was SHELVED (see git branch battle-vwf-shelf + the VWF memory
-; file) -- it fought the battle's HP-bar/type/anim/VDMA-attribute rendering. Battle
-; text stays fixed-width until battle VWF is redesigned on a proven foundation.
+; Route prose through the variable-width font, GBC-only. Two surfaces:
+;   * overworld dialogue -- OPT-IN via wVWFEnable (DisplayTextID's NPC/sign path);
+;     PrintText is shared by menus/intro/system text, so the opt-in flag scopes it tight.
+;   * battle messages -- ALL battle PrintText (always the bottom box at (1,14)); the
+;     FIGHT/PKMN/ITEM/RUN menu + HP/name HUD use PlaceString, so they stay fixed-width.
+; Both render on the WINDOW layer (VWFAttrTable). Battle's attribute-reset flash is
+; handled in TranslatePalPacketToBGMapAttributes (engine/gfx/palettes.asm).
 	xor a
 	ld [wVWFActive], a
-	ld a, [wVWFEnable]
-	and a
-	jr z, .noVWF
 	ldh a, [hGBC]
 	and a
-	jr z, .noVWF
+	jr z, .noVWF ; CGB-only (DMG keeps fixed-width)
 	ld a, [wIsInBattle]
 	and a
-	jr nz, .noVWF
+	jr nz, .battleVWF ; battle: VWF ALL battle-message PrintText. The FIGHT/PKMN/ITEM/RUN
+	                  ; menu + HP/name HUD use PlaceString (not PrintText) so they stay fixed.
+	ld a, [wVWFEnable] ; overworld: opt-in only (set by DisplayTextID's NPC/sign path)
+	and a
+	jr z, .noVWF
 	ld a, 1
 	ld [wVWFActive], a
 	ld [wVWFBoxOpen], a ; box is rendered; CloseTextDisplay tears it down via this flag
@@ -321,6 +336,19 @@ PrintText_NoCreatingTextBox::
 	jr .noTeardown ; VWF box freshly set up -- DON'T fall into the fixed-width teardown
 	               ; below (it would clear wVWFBoxOpen + EndBox the box we just opened,
 	               ; disarming the scroll gate so post-print scrolls spray pool tiles).
+.battleVWF
+	; Battle reuses ONE message box with no per-message CloseTextDisplay, so VWFInitPoolBattle
+	; wipes the prior message's stale box (attrs + bytes) before composing the new one.
+	ld a, 1
+	ld [wVWFActive], a
+	xor a
+	ld [wVWFTextDepth], a
+	push hl
+	push de
+	vwf_farcall VWFInitPoolBattle
+	pop de
+	pop hl
+	jr .noTeardown
 .noVWF
 	; This print is FIXED-WIDTH (non-prose menu/system text). A prior VWF dialogue
 	; may have left bank-1 (pool) attributes + pool tile bytes on the message box;

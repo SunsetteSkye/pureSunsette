@@ -424,6 +424,14 @@ FightingDojoText::
 	text_end
 
 FightingDojoEnemiesScrollText:
+	text_asm
+	callfar SepiaDissolveToSepia ; Sunsette: read scrolls in old-parchment sepia (dissolve in/out)
+	bccoord 1, 14 ; the dissolve clobbered bc; restore the dialogue cursor
+	ld hl, .scroll
+	call TextCommandProcessor
+	callfar SepiaDissolveFromSepia
+	rst TextScriptEnd
+.scroll
 	text_far _FightingDojoCritFightingText ; Sunsette: repurposed - FIGHTING types crit twice as often
 	text_end
 
@@ -448,6 +456,14 @@ FightingDojoHitmonchanScrollText::
 	rst TextScriptEnd
 
 FightingDojoGoesAroundScrollText::
+	text_asm
+	callfar SepiaDissolveToSepia ; Sunsette: read scrolls in old-parchment sepia (dissolve in/out)
+	bccoord 1, 14 ; the dissolve clobbered bc; restore the dialogue cursor
+	ld hl, .scroll
+	call TextCommandProcessor
+	callfar SepiaDissolveFromSepia
+	rst TextScriptEnd
+.scroll
 	text_far _FightingDojoCritSpeedText ; Sunsette: repurposed - crit = +50% damage, rate from natural Speed
 	text_end
 

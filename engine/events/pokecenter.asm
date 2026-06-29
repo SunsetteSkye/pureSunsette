@@ -10,7 +10,7 @@ DisplayPokemonCenterDialogue_::
 	CheckEvent EVENT_DONATED_TO_POKECENTER_CHARITY ; must donate to pokecenter charity at rock tunnel pokecenter to be able to do this
 	jr z, .normalWelcome
 	ld a, 1
-	ld [wUnusedC000], a
+	ld [wSharedScratch], a
 	CheckEvent EVENT_BECAME_CHAMP
 	ld hl, PokemonCenterFastChampText
 	jr nz, .fastPrint
@@ -59,7 +59,7 @@ DisplayPokemonCenterDialogue_::
 	rst _PlaySound
 	CheckEvent EVENT_BECAME_CHAMP
 	jr nz, .skipFightingFit
-	ld a, [wUnusedC000]
+	ld a, [wSharedScratch]
 	and a
 	jr nz, .skipFightingFit ; NEW: if you're holding b when you start talking to the nurse, it'll skip right to healing.
 	ld hl, PokemonFightingFitText
@@ -95,7 +95,7 @@ DisplayPokemonCenterDialogue_::
 .printDone
 	rst _PrintText
 	xor a
-	ld [wUnusedC000], a
+	ld [wSharedScratch], a
 	jp UpdateSprites
 
 PokemonCenterWelcomeText:

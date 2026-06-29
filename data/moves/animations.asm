@@ -189,6 +189,9 @@ AttackAnimationPointers:
 	dw PsyshockAnim
 	dw FlutterKickAnim
 	dw HydrobathAnim
+	dw SludgeAnim
+	dw PowerWhipAnim
+	dw DegenerationAnim
 	dw StruggleAnim
 	assert_table_length NUM_ATTACKS
 	dw ShowPicAnim
@@ -517,11 +520,15 @@ PowerBindAnim:
 	battle_anim POWER_BIND, SUBANIM_0_BIND, 0, 4
 	db -1 ; end
 
-TempestAnim:
+TempestAnim: ; Sunsette: storm wire-up. Thunder crack + dark sky, then the whirl approximated by
+; SE_WAVY_SCREEN over the existing tornado/smoke, no new tiles. (gen2-animation-port)
+	battle_anim THUNDER, SE_DARK_SCREEN_PALETTE
 	battle_anim NO_MOVE, SE_MOVE_MON_HORIZONTALLY
 	battle_anim HURRICANE, SUBANIM_1_TORNADO, 1, 6
+	battle_anim NO_MOVE, SE_WAVY_SCREEN
 	battle_anim STUN_SPORE, SE_SMOKE_EVERYWHERE
 	battle_anim NO_MOVE, SE_RESET_MON_POSITION
+	battle_anim NO_MOVE, SE_RESET_SCREEN_PALETTE
 	db -1 ; end
 
 VineWhipAnim:
@@ -775,9 +782,13 @@ HydroPumpAnim:
 	battle_anim NO_MOVE, SE_LIGHT_SCREEN_FLASH
 	db -1 ; end
 
-SurfAnim:
+SurfAnim: ; Sunsette: Gen-2-idiomatic Surf. The crashing wave is approximated with SE_WAVY_SCREEN
+; (per-scanline SCX warp) under a blue palette wash, so it costs no new anim tiles. (gen2-animation-port)
+	battle_anim FLOOD_BLUE, SE_RED_SCREEN_PALETTE
 	battle_anim SURF, SE_WATER_DROPLETS_EVERYWHERE
+	battle_anim NO_MOVE, SE_WAVY_SCREEN
 	battle_anim HYDRO_PUMP, SUBANIM_0_WATER_COLUMNS, 0, 6
+	battle_anim NO_MOVE, SE_RESET_SCREEN_PALETTE
 	db -1 ; end
 
 IceBeamAnim:
@@ -952,8 +963,12 @@ MegaDrainAnim:
 	battle_anim NO_MOVE, SE_RESET_SCREEN_PALETTE
 	db -1 ; end
 
-GigaDrainAnim: ; Sunsette: placeholder - clones MEGA DRAIN's animation for now (own label, to be refined later)
+GigaDrainAnim: ; Sunsette: Giga Drain = Mega Drain's siphon visuals escalated for the stronger move:
+; a light-screen palette wash, a second drain pass and an extra flash. (gen2-animation-port)
 	battle_anim MEGA_DRAIN, SE_LIGHT_SCREEN_PALETTE
+	battle_anim NO_MOVE, SE_DARK_SCREEN_FLASH
+	battle_anim NO_MOVE, SUBANIM_0_CIRCLES_1_SQUARES_CENTERING_ENEMY, 0, 6
+	battle_anim NO_MOVE, SUBANIM_0_CIRCLE_1_SQUARE_TOSS_BACK, 0, 6
 	battle_anim NO_MOVE, SE_DARK_SCREEN_FLASH
 	battle_anim NO_MOVE, SUBANIM_0_CIRCLES_1_SQUARES_CENTERING_ENEMY, 0, 6
 	battle_anim NO_MOVE, SUBANIM_0_CIRCLE_1_SQUARE_TOSS_BACK, 0, 6
@@ -1469,6 +1484,29 @@ SludgeBombAnim:
 	battle_anim SLUDGE_BOMB, SUBANIM_1_BLOB_TOSS, 1, 6
 	battle_anim SLUDGE_BOMB, SUBANIM_1_BLOB_DRIP_ENEMY, 1, 6
 	battle_anim HARDEN, SE_SLIDE_ENEMY_MON_DOWN_AND_HIDE
+	battle_anim NO_MOVE, SE_RESET_SCREEN_PALETTE
+	db -1 ; end
+
+SludgeAnim: ; Sunsette: placeholder = SLUDGE BOMB's blob toss (own label; refine later)
+	battle_anim NO_MOVE, SE_DARKEN_MON_PALETTE
+	battle_anim SLUDGE_BOMB, SUBANIM_1_BLOB_TOSS, 1, 6
+	battle_anim NO_MOVE, SE_RESET_SCREEN_PALETTE
+	db -1 ; end
+
+PowerWhipAnim: ; Sunsette: Power Whip = Vine Whip's lash escalated for the heavy hit: a green palette
+; wash, a black flash and a screen shake. (gen2-animation-port)
+	battle_anim FLOOD_GREEN, SE_RED_SCREEN_PALETTE
+	battle_anim LEECH_SEED, SUBANIM_1_SEED_LAND, 1, 21
+	battle_anim VINE_WHIP, SUBANIM_0_SLICE, 0, 1
+	battle_anim NO_MOVE, SUBANIM_0_STAR_TWICE, 0, 8
+	battle_anim NO_MOVE, SE_DARK_SCREEN_FLASH
+	battle_anim NO_MOVE, SE_SHAKE_SCREEN
+	battle_anim NO_MOVE, SE_RESET_SCREEN_PALETTE
+	db -1 ; end
+
+DegenerationAnim: ; Sunsette: placeholder = SMOG's toxic cloud (own label; refine later)
+	battle_anim LEECH_SEED, SE_DARKEN_MON_PALETTE
+	battle_anim SMOG, SUBANIM_1_CLOUD_TOSS, 1, 6
 	battle_anim NO_MOVE, SE_RESET_SCREEN_PALETTE
 	db -1 ; end
 

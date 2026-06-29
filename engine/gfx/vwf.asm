@@ -31,7 +31,7 @@ VWFWidths::
 	INCBIN "gfx/font/vwf_widths.bin"
 VWFWidthsEnd::
 
-; Per-line start addresses for the dialogue/battle prose box (Stage 1: 2 lines).
+; Per-line start addresses for the dialogue/battle prose box (mode 0: 2 lines, WINDOW).
 VWFLineCellPtrs: ; WRAM tilemap cell of each line's first prose column
 	dw wTileMap + VWF_DLG_ROW0 * SCREEN_WIDTH + VWF_DLG_STARTCOL
 	dw wTileMap + (VWF_DLG_ROW0 + VWF_DLG_ROWSTEP) * SCREEN_WIDTH + VWF_DLG_STARTCOL
@@ -44,13 +44,62 @@ VWFLinePoolBase: ; pool tile index of each line's first column
 	db 0
 	db VWF_DLG_COLS
 
+; Per-line start addresses for the Pokedex description box (mode 1: 6 lines, rows 11..16,
+; packed). Drawn on the BG (vBGMap0), inside the blue panel -- NOT the window.
+VWFLineCellPtrsDex:
+FOR n, VWF_DEX_LINES
+	dw wTileMap + (VWF_DEX_ROW0 + n * VWF_DEX_ROWSTEP) * SCREEN_WIDTH + VWF_DLG_STARTCOL
+ENDR
+VWFLineAttrPtrsDex:
+FOR n, VWF_DEX_LINES
+	dw vBGMap0 + (VWF_DEX_ROW0 + n * VWF_DEX_ROWSTEP) * TILEMAP_WIDTH + VWF_DLG_STARTCOL
+ENDR
+VWFLinePoolBaseDex:
+FOR n, VWF_DEX_LINES
+	db n * VWF_DEX_COLS ; 19 pool tiles per line (4 lines = 76, fits the $80-$FF pool)
+ENDR
 
+; Per-mode config records copied into the wVWFBox* WRAM block by VWFInitPool / VWFInitPoolDex.
+; Layout MUST match the WRAM order: mode, lines, poolMax, attr, cellTbl, attrTbl, poolTbl (10 bytes).
+DEF VWF_CFG_SIZE EQU 10
+VWFConfigDialogue:
+	db 0
+	db VWF_DLG_LINES
+	db VWF_DLG_LINES * VWF_DLG_COLS
+	db VWF_ATTR
+	dw VWFLineCellPtrs
+	dw VWFLineAttrPtrs
+	dw VWFLinePoolBase
+VWFConfigDex:
+	db 1
+	db VWF_DEX_LINES
+	db VWF_DEX_LINES * VWF_DEX_COLS
+	db VWF_DEX_ATTR
+	dw VWFLineCellPtrsDex
+	dw VWFLineAttrPtrsDex
+	dw VWFLinePoolBaseDex
+
+
+; Open a Pokedex (mode 1) prose box: load the 6-line dex geometry, then init like any box.
+VWFInitPoolDex::
+	ld hl, VWFConfigDex
+	jr VWFInitPoolWithConfig
+; Battle message box: PrintText redraws the box's TILE BYTES but not its bank-1
+; ATTRIBUTES, and battle has NO per-message VWFEndBox (one box reused across messages),
+; so a prior message's VWF attributes would linger under the new text. Wipe the box
+; (attrs + bytes) first, then fall into the normal pool reset.
+VWFInitPoolBattle::
+	call VWFEndBox
+	; fall through
 ; Reset compositor state for a fresh prose box and seed line 0.
 ; Does not touch VRAM; cells stay blank (spaces) until each tile flushes.
 VWFInitPool::
+	ld hl, VWFConfigDialogue ; default = dialogue/battle 2-line WINDOW box
+VWFInitPoolWithConfig:
+	call VWFApplyConfig   ; copy the per-mode geometry into the wVWFBox* block
 	xor a
-	ld [wVWFWordLen], a   ; fresh dialogue: drop any word left buffered by an aborted box
-	ld [wVWFWordWidth], a ; (else a stale word composites into the next dialogue)
+	ld [wVWFWordLen], a   ; fresh box: drop any word left buffered by an aborted box
+	ld [wVWFWordWidth], a ; (else a stale word composites into the next box)
 	; fall through to the page setup, which KEEPS the buffer (so auto-page can re-flush
 	; the word that overflowed onto the new page).
 VWFNewPage::
@@ -58,6 +107,7 @@ VWFNewPage::
 	ld [wVWFPenX], a
 	ld [wVWFLine], a
 	ld [wVWFCurPoolTile], a
+	ld [wVWFScrollPhase], a ; a fresh box/page starts at phase 0 (line0=pool[0..], line1=pool[18..])
 	call VWFSeedLine
 	call VWFClearSpaceTile
 	; fall through to clear the shadow
@@ -74,24 +124,61 @@ VWFClearShadow:
 	jr nz, .loop
 	ret
 
+; Copy the VWF_CFG_SIZE-byte geometry record at hl into the wVWFBox* WRAM block
+; (mode, lines, poolMax, attr, cellTbl, attrTbl, poolTbl). SVBK=2.
+VWFApplyConfig:
+	ld de, wVWFBoxMode
+	ld c, VWF_CFG_SIZE
+.copy
+	ld a, [hli]
+	ld [de], a
+	inc de
+	dec c
+	jr nz, .copy
+	ret
+
+; Close the Pokedex box: blank its cells using the active (dex) geometry, then restore the
+; dialogue config so a later overworld/battle VWFEndBox clears the right (2-line) box and a
+; stale mode-1 can't make it wipe rows 11..16 of a battle/overworld screen. SVBK=2.
+VWFCloseBoxDex::
+	call VWFEndBox
+	ld hl, VWFConfigDialogue
+	jr VWFApplyConfig
+
 ; Point wVWFCellPtr / wVWFAttrPtr / wVWFCurPoolTile at the start of line wVWFLine.
+; Reads the active box's per-line tables from the cached pointers (wVWFCellTbl etc.).
 VWFSeedLine:
+	; pool base ping-pongs with the scroll phase: display line L reads pool half (L XOR phase),
+	; so a scroll shows the old bottom line on top by just flipping the phase (no VRAM copy).
+	; (Mode 1 never scrolls, so phase stays 0 and the index is just the line, 0..5.)
+	ld a, [wVWFPoolTbl]
+	ld l, a
+	ld a, [wVWFPoolTbl + 1]
+	ld h, a
 	ld a, [wVWFLine]
 	ld e, a
+	ld a, [wVWFScrollPhase]
+	xor e
+	ld e, a
 	ld d, 0
-	ld hl, VWFLinePoolBase
 	add hl, de
 	ld a, [hl]
 	ld [wVWFCurPoolTile], a
-	; cell ptr
-	ld hl, VWFLineCellPtrs
+	; cell ptr: the cell table indexed by 2 * display line
+	ld a, [wVWFCellTbl]
+	ld l, a
+	ld a, [wVWFCellTbl + 1]
+	ld h, a
+	ld a, [wVWFLine]
+	ld e, a
+	ld d, 0
 	add hl, de
 	add hl, de
 	ld a, [hli]
 	ld [wVWFCellPtr], a
 	ld a, [hl]
 	ld [wVWFCellPtr + 1], a
-	; attr ptr: the window-map (vBGMap1) attribute cell for this line
+	; attr ptr: the attribute-cell table (window vBGMap1 for mode 0, BG vBGMap0 for the dex)
 	call VWFAttrTable
 	add hl, de
 	add hl, de
@@ -101,13 +188,24 @@ VWFSeedLine:
 	ld [wVWFAttrPtr + 1], a
 	ret
 
-; hl = the per-line window-map (vBGMap1) attribute-cell table. BOTH overworld and
-; battle render the message box on the WINDOW: in battle the window covers the
-; whole screen (rWY=0), so the box and its attributes live on the window, not the
-; BG. (A BG-targeted table writes to the hidden BG layer, leaving the visible
-; window cells at bank-0 -> they fetch the font and show "ABCDEF…".)
+; hl = the active box's per-line attribute-cell table. Mode 0 (dialogue/battle) renders the
+; box on the WINDOW (vBGMap1): in battle the window covers the whole screen (rWY=0), so the
+; box and its attributes live on the window, not the BG. (A BG-targeted table there would
+; write to the hidden BG layer, leaving the visible window cells at bank-0 -> they fetch the
+; font and show "ABCDEF…".) Mode 1 (Pokedex) renders on the BG (vBGMap0) inside the panel.
 VWFAttrTable:
-	ld hl, VWFLineAttrPtrs
+	ld a, [wVWFAttrTbl]
+	ld l, a
+	ld a, [wVWFAttrTbl + 1]
+	ld h, a
+	ret
+
+; hl = the active box's per-line wTileMap cell table (VWFLineCellPtrs / ...Dex).
+VWFCellTable:
+	ld a, [wVWFCellTbl]
+	ld l, a
+	ld a, [wVWFCellTbl + 1]
+	ld h, a
 	ret
 
 ; Zero bank-1 pool tile $7F (the tile that prose cells reference while still
@@ -115,10 +213,15 @@ VWFAttrTable:
 ; lagging AutoBgMapTransfer of the tile byte rendering as blank, not garbage.
 VWFClearSpaceTile:
 	di
+	ldh a, [rLCDC]
+	add a ; bit 7 (LCD enable) -> carry
+	jr nc, .safe ; LCD OFF (e.g. the intro fades): VRAM is free; rLY is frozen so a
+	             ; wait-for-VBlank would HANG forever (the intro white-screen). Skip it.
 .wait
 	ldh a, [rLY]
 	cp $90
 	jr c, .wait ; wait for VBlank to touch VRAM bank 1
+.safe
 	ld a, 1
 	ldh [rVBK], a
 	ld hl, vVWFPool + $7F * 16
@@ -148,11 +251,23 @@ VWFClearSpaceTile:
 ; gen-1 text compression wrap correctly: they all feed chars through this same path.
 ; All three run with SVBK=2 (set by the caller's vwf_farcall).
 
+; a = the active box's pixel line width: dialogue/battle = 144 (18 cols), Pokedex = 152 (19 cols).
+; Clobbers only a. Reads wVWFBoxMode (bank 2 -> callers run at SVBK=2).
+VWFActiveLineWidth:
+	ld a, [wVWFBoxMode]
+	and a
+	ld a, VWF_DLG_LINEWIDTH
+	ret z
+	ld a, VWF_DEX_LINEWIDTH
+	ret
+
 ; Composite ONE glyph (char in c) at the pen, advance, flush the tile on a boundary.
 ; Assumes SVBK=2. (The old immediate-composite body; now driven per buffered glyph.)
 VWFCompositeGlyph:
+	call VWFActiveLineWidth
+	ld b, a
 	ld a, [wVWFPenX]
-	cp VWF_DLG_LINEWIDTH
+	cp b
 	ret nc ; safety clamp: a word wider than a whole line is dropped past the edge
 	       ; rather than spraying VRAM (can't fit anywhere; auto-wrap already tried)
 	ld a, c ; char
@@ -239,7 +354,7 @@ VWFAddChar::
 ; (so leading / repeated spaces collapse).
 VWFFlushWord::
 	xor a
-	ld [wUnusedFlag], a ; default: word placed, no page. wUnusedFlag = the VWF auto-page
+	ld [wVWFPageAction], a ; default: word placed, no page. wVWFPageAction = the VWF auto-page
 	                    ; signal -- a WRAM0/bank-independent byte readable by the home
 	                    ; caller at SVBK=1 (farcall clobbers b, so a register can't carry
 	                    ; it back; it's genuinely unused except a dead cable-club write).
@@ -256,30 +371,56 @@ VWFFlushWord::
 	add b
 	jr c, .needBreak
 	ld b, a ; b = required width = penX + space + word
-	; this line's pixel budget: the full box, except the LAST line keeps col 18 free for
-	; the ▼ "more" arrow (row 16). The top line(s) have no arrow, so they use all 18 cols.
+	; this line's pixel budget: the full box width (mode-aware: 144 dialogue / 152 dex), except
+	; the LAST line keeps the rightmost column free for the ▼ "more" arrow. Top lines use it all.
+	call VWFActiveLineWidth
+	ld d, a ; d = box line width (held across the carry-setting cp below)
+	ld a, [wVWFBoxLines]
+	dec a
+	ld c, a ; c = last line index of the active box
 	ld a, [wVWFLine]
-	cp VWF_DLG_LINES - 1
-	ld a, VWF_DLG_LINEWIDTH
-	jr c, .haveBudget
-	ld a, VWF_DLG_LINEWIDTH - 8 ; last line: reserve the ▼ column
+	cp c
+	ld a, d
+	jr c, .haveBudget ; not the last line: full width
+	sub 8 ; last line: reserve the ▼ column
 .haveBudget
 	cp b
 	jr nc, .leadingSpace ; budget >= required -> the word fits on this line
 .needBreak
 	; word won't fit on the rest of this line. If we're on the LAST line the box is full:
-	; signal home to PAGE (it shows the ▼, waits, clears, then re-flushes this still-
-	; buffered word onto the fresh page). Otherwise just advance to the next line.
+	; signal home to advance -- mode 0 SCROLLS one line; mode != 0 (dex) PAGES (shows the ▼,
+	; waits, clears, then re-flushes this still-buffered word onto the fresh page). Otherwise
+	; just advance to the next line.
+	ld a, [wVWFBoxLines]
+	dec a
+	ld b, a ; b = last line index
 	ld a, [wVWFLine]
-	cp VWF_DLG_LINES - 1
+	cp b
 	jr c, .doBreak
-	ld a, 1
-	ld [wUnusedFlag], a ; page needed; leave the word buffered for the re-flush
+	ld a, [wVWFBoxMode]
+	and a
+	ld a, 1 ; mode 0 -> wVWFPageAction = 1 (scroll)
+	jr z, .signalOverflow
+	ld a, 2 ; mode != 0 -> wVWFPageAction = 2 (page)
+.signalOverflow
+	ld [wVWFPageAction], a ; overflow action; leave the word buffered for the re-flush
 	ret
 .doBreak
 	call VWFLineBreak ; advance to the next line, penX -> 0
 	jr .place
 .leadingSpace
+	; Sunsette: closing punctuation (! ? . ,) glues to the previous word, so it must NOT get a
+	; leading space. Without this, a separate punctuation segment (e.g. "X used <move>" + "!", or
+	; "level " + <num> + "!") rendered as "<move> !" / "level 6 !". Skip the space for those.
+	ld a, [wVWFWordBuf] ; first char of the buffered word (SVBK=2 here, so this reads bank 2)
+	cp '!'
+	jr z, .place
+	cp '?'
+	jr z, .place
+	cp '.'
+	jr z, .place
+	cp ','
+	jr z, .place
 	ld c, ' '
 	call VWFCompositeGlyph
 .place
@@ -394,8 +535,10 @@ VWFQueueFlush:
 	; Hard safety clamp: never flush a pool tile past the box. This bounds
 	; wVWFCopyDest (pool), wVWFCellPtr (wTileMap) and wVWFAttrPtr (BG attr map)
 	; so a runaway can never spray VRAM/WRAM (the whole-screen corruption + crash).
+	ld a, [wVWFBoxPoolMax]
+	ld b, a
 	ld a, [wVWFCurPoolTile]
-	cp VWF_DLG_LINES * VWF_DLG_COLS
+	cp b
 	ret nc
 	; Write the composited tile (1bpp -> 2bpp), its attribute, its window-map tile
 	; byte, AND its wTileMap byte ALL inside one interrupt-disabled block, so
@@ -436,12 +579,13 @@ VWFQueueFlush:
 	inc de
 	dec b
 	jr nz, .copy
-	; attribute (bank 1), at the window-map cell
+	; attribute (bank 1), at the active box's attribute cell (window or BG plane)
 	ld a, [wVWFAttrPtr]
 	ld l, a
 	ld a, [wVWFAttrPtr + 1]
 	ld h, a
-	ld [hl], VWF_ATTR
+	ld a, [wVWFBoxAttr]
+	ld [hl], a
 	; window-map tile byte (bank 0), same cell
 	xor a
 	ldh [rVBK], a
@@ -465,9 +609,12 @@ VWFQueueFlush:
 ; advance to the next line (clamped), and reseed. No auto-wrap yet.
 VWFLineBreak::
 	call VWFFlushCurrent
+	ld a, [wVWFBoxLines]
+	dec a
+	ld b, a ; b = last line index of the active box
 	ld a, [wVWFLine]
-	cp VWF_DLG_LINES - 1
-	jr nc, .clamp ; already on the last line: stay (Stage 2 adds scroll)
+	cp b
+	jr nc, .clamp ; already on the last line: stay (auto-overflow scrolls/pages)
 	inc a
 	ld [wVWFLine], a
 .clamp
@@ -483,6 +630,165 @@ VWFParagraph::
 	call VWFEndBox ; clear attrs + blank the prose cells
 	jp VWFInitPool
 
+; True scroll (ping-pong). COPY the bottom display row's cells (its filled pool-tile refs AND
+; its trailing blanks) up onto the top row, so the top mirrors the bottom EXACTLY -- no stale
+; leftovers where the new top line is shorter. Then blank the bottom row, flip wVWFScrollPhase
+; (so the compositor's next bottom line uses the now-free pool half instead of the one the top
+; row is displaying), and reseed on the bottom row. No VRAM pixel copy; fits one VBlank. SVBK=2.
+;
+; .copyRow (de=dst row addr, hl=src row addr) copies VWF_DLG_COLS bytes at the current rVBK.
+VWFScroll::
+	call VWFFlushCurrent ; finalize the bottom row's partial tile before scrolling
+	di
+	ldh a, [rLCDC]
+	add a ; LCD enable -> carry
+	jr nc, .safe
+.wait
+	ldh a, [rLY]
+	cp $90
+	jr c, .wait
+.safe
+	; wTileMap (WRAM): bottom row -> top row
+	ld hl, VWFLineCellPtrs      ; [0] = top (dst)
+	ld a, [hli]
+	ld e, a
+	ld d, [hl]
+	ld hl, VWFLineCellPtrs + 2  ; [1] = bottom (src)
+	ld a, [hli]
+	ld h, [hl]
+	ld l, a
+	call .copyRow
+	; window-map tile bytes (bank 0): bottom -> top
+	xor a
+	ldh [rVBK], a
+	call .copyAttrRow
+	; window-map attributes (bank 1): bottom -> top
+	ld a, 1
+	ldh [rVBK], a
+	call .copyAttrRow
+	; --- blank the BOTTOM row (fresh for new text): attrs=0 (bank1), tile byte=space (bank0), wTileMap=space ---
+	ld hl, VWFLineAttrPtrs + 2
+	ld a, [hli]
+	ld h, [hl]
+	ld l, a
+	push hl
+	xor a            ; attr 0 (still rVBK=1)
+	ld b, VWF_DLG_COLS
+.botAttr
+	ld [hli], a
+	dec b
+	jr nz, .botAttr
+	xor a
+	ldh [rVBK], a    ; bank 0 for the tile bytes
+	pop hl
+	ld a, ' '
+	ld b, VWF_DLG_COLS
+.botWin
+	ld [hli], a
+	dec b
+	jr nz, .botWin
+	ld hl, VWFLineCellPtrs + 2
+	ld a, [hli]
+	ld h, [hl]
+	ld l, a
+	ld a, ' '
+	ld b, VWF_DLG_COLS
+.botMap
+	ld [hli], a
+	dec b
+	jr nz, .botMap
+	ei
+	; flip the phase so the new bottom line composites into the freed pool half (not the one now
+	; shown on top), then continue on the bottom display row.
+	ld a, [wVWFScrollPhase]
+	xor 1
+	ld [wVWFScrollPhase], a
+	ld a, 1
+	ld [wVWFLine], a
+	xor a
+	ld [wVWFPenX], a
+	call VWFSeedLine
+	jp VWFClearShadow
+
+; copy VWF_DLG_COLS bytes from the BOTTOM vBGMap1 row to the TOP vBGMap1 row at the current
+; rVBK (VWFLineAttrPtrs[1] -> [0]); then fall into .copyRow.
+.copyAttrRow:
+	ld hl, VWFLineAttrPtrs      ; [0] = top (dst)
+	ld a, [hli]
+	ld e, a
+	ld d, [hl]
+	ld hl, VWFLineAttrPtrs + 2  ; [1] = bottom (src)
+	ld a, [hli]
+	ld h, [hl]
+	ld l, a
+	; fall through
+.copyRow:
+	ld b, VWF_DLG_COLS
+.cr
+	ld a, [hli]
+	ld [de], a
+	inc de
+	dec b
+	jr nz, .cr
+	ret
+
+; Re-assert VWF_ATTR (bank 1) on every box cell that still holds a pool tile byte ($80+).
+; A battle attribute reload (BGMapAttributes_Battle, e.g. ShakeEnemyHUD / center-stage SEs)
+; stomps the box rows back to bank 0, so the pool tiles render as bank-0 FONT glyphs (the
+; "alphabet" flash) until the next message. This keeps the displayed message intact (unlike
+; VWFEndBox, which blanks it). Reads the tile byte from wTileMap (bank-independent) and only
+; touches pool cells, so space/border cells are left alone. SVBK=2. Caller gates on GBC +
+; wVWFBoxOpen so it only runs when a VWF battle message is actually on screen.
+VWFReapplyBoxAttrs::
+	di
+	ldh a, [rLCDC]
+	add a ; LCD enable -> carry
+	jr nc, .safe ; LCD off: VRAM free
+.wait
+	ldh a, [rLY]
+	cp $90
+	jr c, .wait
+.safe
+	ld a, 1
+	ldh [rVBK], a ; bank 1 (attribute plane) for the whole pass
+	; row 0: de = vBGMap1 cell (attr, write), hl = wTileMap cell (tile byte, read)
+	ld hl, VWFLineAttrPtrs
+	ld a, [hli]
+	ld e, a
+	ld d, [hl]
+	ld hl, VWFLineCellPtrs
+	ld a, [hli]
+	ld h, [hl]
+	ld l, a
+	call .doRow
+	; row 1
+	ld hl, VWFLineAttrPtrs + 2
+	ld a, [hli]
+	ld e, a
+	ld d, [hl]
+	ld hl, VWFLineCellPtrs + 2
+	ld a, [hli]
+	ld h, [hl]
+	ld l, a
+	call .doRow
+	xor a
+	ldh [rVBK], a
+	ei
+	ret
+.doRow:
+	ld c, VWF_DLG_COLS
+.dcell
+	ld a, [hli] ; wTileMap tile byte (bank-independent read)
+	cp VWF_TILE_BASE
+	jr c, .dnext ; < $80: space / border -> leave its attribute
+	ld a, VWF_ATTR
+	ld [de], a ; vBGMap1 attribute (bank 1)
+.dnext
+	inc de
+	dec c
+	jr nz, .dcell
+	ret
+
 ; Tear down / clear the prose box: blank every prose cell so it reverts to the
 ; fixed-width path. Three passes, all atomic, to avoid the inter-page flash:
 ;  (1) window-map attribute = 0 (bank 1),
@@ -491,16 +797,27 @@ VWFParagraph::
 ;  (3) wTileMap byte = space (WRAM) so AutoBgMapTransfer reasserts the same value.
 ; Safe to call even if no VWF box was open.
 VWFEndBox::
+	ld a, [wVWFBoxLines]
+	and a
+	ret z ; no box ever configured (lines = 0 at boot, before the first VWFInitPool): nothing
+	      ; to clear, and a 0 line-count would underflow VWFFillBoxFromTable into a 256-line spray.
 	di
+	ldh a, [rLCDC]
+	add a ; bit 7 (LCD enable) -> carry
+	jr nc, .safe ; LCD OFF: rLY frozen, so the wait below would hang. VRAM is free; skip it.
 .waitVBlank
 	ldh a, [rLY]
 	cp $90
 	jr c, .waitVBlank ; wait until VBlank to touch VRAM
-	; pass 1: clear attributes (active layer's map, bank 1)
+.safe
+	; pass 1: reset attributes to the box's BLANK attr (palette bits, bank 0 = fixed-width
+	; layer). For dialogue that's 0 (palette 0); for the dex it's $02 (the blue panel palette),
+	; so cleared cells keep the panel colour instead of reverting to palette 0.
 	ld a, 1
 	ldh [rVBK], a
 	call VWFAttrTable
-	xor a
+	ld a, [wVWFBoxAttr]
+	and $07
 	call VWFFillBoxFromTable
 	; pass 2: blank the layer's map tile bytes (same cells, bank 0)
 	xor a
@@ -508,9 +825,9 @@ VWFEndBox::
 	call VWFAttrTable
 	ld a, ' '
 	call VWFFillBoxFromTable
-	; pass 3: blank the WRAM tilemap box cells (the window is fed from wTileMap), so
-	; the box clears. Uses VWFLineCellPtrs (rows 14/16) -- the real box position.
-	ld hl, VWFLineCellPtrs
+	; pass 3: blank the WRAM tilemap box cells (the layer is fed from wTileMap), so the box
+	; clears. Uses the active box's cell table (mode 0 rows 14/16, mode 1 rows 11..16).
+	call VWFCellTable
 	ld a, ' '
 	call VWFFillBoxFromTable
 	ei
@@ -519,7 +836,8 @@ VWFEndBox::
 ; (each entry is a line's first cell address); writes VWF_DLG_COLS bytes per line.
 VWFFillBoxFromTable:
 	ld d, a ; d = fill value (held across lines)
-	ld b, VWF_DLG_LINES
+	ld a, [wVWFBoxLines]
+	ld b, a ; b = line count of the active box
 .lineLoop
 	ld a, [hli]
 	ld e, a ; e = cell lo
@@ -527,8 +845,14 @@ VWFFillBoxFromTable:
 	push hl ; save table ptr
 	ld h, a
 	ld l, e ; hl = this line's cell address
+	ld a, [wVWFBoxMode] ; clear the active box's full width: 18 cols dialogue, 19 cols dex
+	and a
+	ld a, VWF_DLG_COLS
+	jr z, .cols
+	ld a, VWF_DEX_COLS
+.cols
+	ld c, a
 	ld a, d ; fill value
-	ld c, VWF_DLG_COLS
 .fill
 	ld [hli], a
 	dec c
@@ -536,4 +860,53 @@ VWFFillBoxFromTable:
 	pop hl ; restore table ptr (advanced to next line)
 	dec b
 	jr nz, .lineLoop
+	ret
+
+; Prepare the Pokedex "more pages" arrow as POOL tiles. The dex is displayed on the WINDOW
+; (vBGMap1) and every visible prose cell is a bank-1 pool tile fetched under attribute $0A; the
+; panel's attribute map is fixed at $0A and the only thing that reaches the window is the tile
+; byte (via wTileMap -> AutoBgMapTransfer). So a bank-0 font '▼' / an attribute flip can never
+; show (the flip lands on the hidden BG, and on the window the cell stays attr $0A = a blank pool
+; tile). The fix: render the arrow the SAME way as the prose -- as a bank-1 pool tile. This copies
+; the regular-font '▼' (bank 0, tile $EE -> $8EE0 under $8800 addressing) into the first FREE pool
+; tile (index = poolMax, just past the prose), and zeroes the next one as the blink-OFF blank.
+; VWFDexPageWait then just sets the cell's tile byte to VWF_DEX_ARROW_TILE / VWF_DEX_BLANK_TILE.
+; VBlank-safe (di + LCD-off / VBlank wait), like the compositor. Only on the dex page path.
+VWFDexArrowPrep::
+	di
+	ldh a, [rLCDC]
+	add a ; bit 7 (LCD enable) -> carry
+	jr nc, .safe ; LCD off: VRAM is freely accessible
+.wait
+	ldh a, [rLY]
+	cp $90
+	jr c, .wait ; wait for VBlank before touching VRAM
+.safe
+	ld hl, $8EE0 ; bank 0: the regular font '▼' (tile $EE in $8800 signed addressing)
+	ld de, vVWFPool + (VWF_DEX_LINES * VWF_DEX_COLS) * 16 ; bank 1: first free pool tile (the arrow)
+	ld b, 16
+.copy
+	xor a
+	ldh [rVBK], a ; bank 0 to read the font glyph
+	ld a, [hl]
+	ld c, a
+	ld a, 1
+	ldh [rVBK], a ; bank 1 to write the pool tile
+	ld a, c
+	ld [de], a
+	inc hl
+	inc de
+	dec b
+	jr nz, .copy
+	; de now points at the next pool tile (still bank 1): zero it = the blink-OFF blank
+	ld b, 16
+	xor a
+.zero
+	ld [de], a
+	inc de
+	dec b
+	jr nz, .zero
+	xor a
+	ldh [rVBK], a ; restore bank 0
+	ei
 	ret

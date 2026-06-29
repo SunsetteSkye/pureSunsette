@@ -76,6 +76,6 @@ _TypeGuysHouseTypeGuysComputerText::
 	line "RAPIDASH  Lv75"
 	para "GOLDUCK   Lv77"
 	line "ELECTRODE Lv79"
-	para "MR.MIME   Lv75"
+	para "MR. MIME  Lv75"
 	line "PINSIR    Lv79"
 	done

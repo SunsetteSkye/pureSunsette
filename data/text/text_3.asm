@@ -112,8 +112,9 @@ _YoureAnExpertText::
 _LearnsetUnlockedText::
 	text "@"
 	text_ram_namebuffer
-	text "'s learn-"
-	line "set was recorded!"
+	text "'s"
+	line "learnset was"
+	cont "recorded!"
 	done
 
 _FellAsleepText::

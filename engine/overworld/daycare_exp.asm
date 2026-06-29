@@ -1,6 +1,8 @@
 ; Sunsette: TIME-BASED daycare (replaces the old per-step EXP tick). The deposited mon no longer trains
 ; per step; instead, at WITHDRAWAL we apply a one-shot reward based on how much PLAY-TIME elapsed since
-; deposit (play time advances during battles/fishing/slots/menus, not just walking) scaled by badges:
+; deposit (play time advances during battles/fishing/slots/menus, not just walking). Elapsed is measured
+; in whole play-clock HOURS now (stored in the mon's origin cooldown byte, not a separate save field),
+; converted to minutes (*60) for the formulas below; scaled by badges:
 ;   regular EXP   = elapsed_minutes * 2^(badge count)
 ;   HP stat exp   = elapsed_minutes * 2^(Cascade+Rainbow+Marsh+Earth count)   [the four "doubler" badges]
 ;   + the same gain to Attack/Speed/Defense/Special if you own Boulder/Thunder/Soul/Volcano respectively
@@ -10,81 +12,36 @@
 
 DEF DAYCARE_EXP_CEIL_HI EQU $50
 
-; Returns the 24-bit total play-minutes (hours*60 + minutes) big-endian in a (hi) : h (mid) : l (lo).
-; PlayTimeHours is a big-endian 2-byte value (+0 high, +1 low) that caps near $FF00 h, so hours*60 can
-; exceed 16 bits - we carry the full 24-bit Multiply product through (FF95 stays 0 for any valid playtime).
-DayCareNowMinutes:
+; No deposit hook needed: the deposited mon's AFFECTION rides in its origin field
+; (MON_ORIGIN_AFFECTION) and its deposit-TIME in the origin cooldown byte
+; (MON_ORIGIN_COOLDOWN), both copied into wDayCareMon* by the party->daycare MoveMon.
+; Affection grows in place below and the daycare->party MoveMon copies it back on withdrawal.
+
+; WITHDRAWAL hook - call BEFORE the script reads the mon / computes its level. Applies the
+; one-shot time reward directly into wDayCareMon (exp + stat exp) and the mon's affection.
+ApplyDayCareTimeGains::
+; elapsed minutes = (now play-hours - deposit play-hours) * 60. The deposit-hours
+; snapshot rode in with the mon (MoveMon stamped its origin cooldown byte). The 8-bit
+; subtraction wraps cleanly, so it is correct for any stay under ~256 play-hours; the
+; reward is now quantized to whole play-hours rather than minutes.
+	ld a, [wDayCareMonOT + MON_ORIGIN_COOLDOWN]
+	ld b, a
+	ld a, [wPlayTimeHours + 1]
+	sub b ; a = elapsed whole hours (0-255, mod 256)
+	jr z, .noElapsed
+	ldh [hMultiplicand + 2], a
 	xor a
 	ldh [hMultiplicand], a
-	ld a, [wPlayTimeHours]
 	ldh [hMultiplicand + 1], a
-	ld a, [wPlayTimeHours + 1]
-	ldh [hMultiplicand + 2], a
 	ld a, 60
 	ldh [hMultiplier], a
-	call Multiply ; 24-bit product at hMultiplicand+0 (hi) / +1 (mid) / +2 (lo)
-	ldh a, [hMultiplicand + 2]
-	ld l, a ; lo
+	call Multiply ; elapsed_hours * 60 -> minutes (24-bit; hi byte stays 0)
 	ldh a, [hMultiplicand + 1]
-	ld h, a ; mid
-	ldh a, [hMultiplicand]
-	ld b, a ; hi
-	ld a, [wPlayTimeMinutes]
-	add l
-	ld l, a
-	jr nc, .done
-	inc h
-	jr nz, .done
-	inc b
-.done
-	ld a, b ; a = hi, h = mid, l = lo
-	ret
-
-; DEPOSIT hook (party slot of the deposited mon in wWhichPokemon). Stamp the time + save its affection,
-; because the box_struct the daycare stores has no happiness field.
-StampDayCareDeposit::
-	call DayCareNowMinutes ; a = hi, h = mid, l = lo
-	ld [wDayCareDepositMinutes], a ; +0 hi
-	ld a, h
-	ld [wDayCareDepositMinutes + 1], a ; +1 mid
-	ld a, l
-	ld [wDayCareDepositMinutes + 2], a ; +2 lo
-	ld a, [wWhichPokemon]
-	ld e, a
-	ld d, 0
-	ld hl, wPartyMonHappiness
-	add hl, de
-	ld a, [hl]
-	ld [wDayCareMonHappiness], a
-	ret
-
-; WITHDRAWAL hook - call BEFORE the script reads the mon / computes its level. Applies the one-shot time
-; reward directly into wDayCareMon (exp + stat exp) and wDayCareMonHappiness.
-ApplyDayCareTimeGains::
-	call DayCareNowMinutes ; a = nowHi, h = nowMid, l = nowLo (24-bit)
 	ld d, a
-	ld b, h
-	ld c, l ; d:b:c = now (hi:mid:lo)
-	ld hl, wDayCareDepositMinutes + 2 ; deposit lo (stamp is big-endian +0 hi/+1 mid/+2 lo)
-	ld a, c
-	sub [hl]
-	ld e, a ; elapsed lo
-	dec hl
-	ld a, b
-	sbc [hl]
-	ld b, a ; elapsed mid
-	dec hl
-	ld a, d
-	sbc [hl] ; a = elapsed hi
-	jr c, .underflow ; deposit later than now (should never happen) -> fail safe to 0
-	and a
-	jr z, .fits16 ; elapsed fits in 16 bits
-	ld b, $ff ; > 16 bits elapsed (~45+ days in one deposit) -> clamp to the max
-	ld e, $ff
-.fits16
-	ld d, b ; de = 16-bit elapsed (d hi, e lo)
+	ldh a, [hMultiplicand + 2]
+	ld e, a ; de = 16-bit elapsed minutes
 	jr .haveElapsed
-.underflow
+.noElapsed
 	ld de, 0
 .haveElapsed
 	ld a, d ; stash elapsed in the (now-free) multiply scratch: +1 = hi, +2 = lo
@@ -98,13 +55,13 @@ ApplyDayCareTimeGains::
 	ld a, d
 	and a
 	jr nz, .happyCap ; elapsed > 255 -> straight to the cap
-	ld a, [wDayCareMonHappiness]
+	ld a, [wDayCareMonOT + MON_ORIGIN_AFFECTION]
 	add e
 	jr nc, .happyStore
 .happyCap
 	ld a, $ff
 .happyStore
-	ld [wDayCareMonHappiness], a
+	ld [wDayCareMonOT + MON_ORIGIN_AFFECTION], a
 ; --- regular EXP += elapsed << badgeCount ---
 	ld hl, wObtainedBadges
 	ld b, 1
@@ -190,18 +147,9 @@ ApplyDayCareTimeGains::
 .noSpc
 	ret
 
-; WITHDRAWAL hook - call AFTER the mon is added back to the party. Restores the saved+grown affection to
-; the new party slot (the mon is appended, so its slot is wPartyCount-1).
-RestoreDayCareHappiness::
-	ld a, [wPartyCount]
-	dec a
-	ld e, a
-	ld d, 0
-	ld hl, wPartyMonHappiness
-	add hl, de
-	ld a, [wDayCareMonHappiness]
-	ld [hl], a
-	ret
+; No withdrawal affection-restore hook needed: the grown affection lives in the daycare
+; mon's origin field (MON_ORIGIN_AFFECTION) and the daycare->party MoveMon copies it onto
+; the new party slot automatically.
 
 ; a = shift count. Returns c:d:e = (stashed elapsed at hMultiplicand+1/+2) << a (24-bit big-endian c:d:e),
 ; SATURATING at $FFFFFF if a bit would shift off the top (callers clamp this down to their field ceiling).

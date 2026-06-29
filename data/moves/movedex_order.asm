@@ -38,6 +38,7 @@ MovedexOrder:
 	db CRABHAMMER
 	db CRYSTALLIZE
 	db CUT
+	db DEGENERATION
 	db DEMOLISH
 	db DIG
 	db DISABLE
@@ -111,6 +112,7 @@ MovedexOrder:
 	db POISON_STING
 	db POISONPOWDER
 	db POWER_BIND
+	db POWER_WHIP
 	db PSYBEAM
 	db PSYCHIC_M
 	db PSYCHO_SHIFT
@@ -143,6 +145,7 @@ MovedexOrder:
 	db SLAM
 	db SLASH
 	db SLEEP_POWDER
+	db SLUDGE
 	db SLUDGE_BOMB
 	db SMOG
 	db SMOKESCREEN

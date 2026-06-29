@@ -1109,7 +1109,10 @@ _UsedInsteadText::
 
 _MoveNameText::
 	text_ram_stringbuffer
-	text "@"
+	text_end ; Sunsette: was `text "@"` -> that emits TX_START,"@" and the "@" is eaten as a STRING
+	         ; char, NOT as TX_END, so this far-text ran off into _ExclamationPointText below and
+	         ; printed "!" once, then PrintMoveName printed _ExclamationPointText again = "!!".
+	         ; text_end (a real TX_END) stops it here so the "!" is printed exactly once.
 
 _ExclamationPointText::
 	text "!"
@@ -1732,79 +1735,50 @@ _LinkCanceledText::
 	done
 
 _OakSpeechText1::
-	text "Hello there!"
-	line "Welcome to the"
-	cont "world of <Pokemon>!"
-
-	para "My name is Oak!"
-	line "People call me"
-	cont "the <Pokemon> Prof!"
+	text "Hello there! Welcome to the world of <Pokemon>!"
+	para "My name is Oak! People call me the <Pokemon> Professor!"
 	prompt
 
 _OakSpeechText2A::
-	text "This world is"
-	line "inhabited by"
-	cont "creatures called"
-	cont "<Pokemon>!@"
+	text "This world is inhabited by creatures called Pocket Monsters, or <Pokemon> for short!@"
 	text_end
 
 _OakSpeechText2B::
-	text "For some people,"
-	line "<Pokemon> are"
-	cont "pets. Others use"
-	cont "them for fights."
-
-	para "Myself<...>"
-
-	para "I study <Pokemon>"
-	line "as a profession."
+	text "For some people, <Pokemon> are pets. Others use them for fights. Myself<...>"
+	para "I study <Pokemon> as a profession."
 	prompt
 
 _IntroducePlayerText::
-	text "First, what is"
-	line "your name?"
+	text "First, what is your name?"
 	prompt
 
 _IntroduceRivalText::
-	text "This is my grand-"
-	line "son. He's been"
-	cont "your rival since"
-	cont "you were a baby."
-
-	para "<...>Erm, what is"
-	line "his name again?"
+	text "This is my grandson. He's been your rival since you were a baby."
+	para "<...>Erm, what is his name again?"
 	prompt
 
 _OakSpeechText3::
 	text "<PLAYER>!"
-
-	para "Your very own"
-	line "<Pokemon> legend is"
-	cont "about to unfold!"
-
-	para "A world of dreams"
-	line "and adventures"
-	cont "with <Pokemon>"
-	cont "awaits! Let's go!"
-	done
+	para "Your very own <Pokemon> legend starts now!"
+	para "A world of dreams and adventures with <Pokemon> awaits!"
+	para "Let's go!"
+	prompt ; Sunsette: was `done` -> PrintIntroTextVWF tears the box down the instant the text
+	       ; finishes, so "Let's go!" flashed away unread. prompt waits for a button first (the
+	       ; rest of the speech is button-paced too), then the shrink proceeds.
 
 _DoYouWantToNicknameText::
 	text "Do you want to"
-	line "give a nickname"
-	cont "to @"
+	line "nickname @"
 	text_ram_namebuffer
 	text "?"
 	done
 
 _YourNameIsText::
-	text "Right! So your"
-	line "name is <PLAYER>!"
+	text "Right! So your name is <PLAYER>!"
 	prompt
 
 _HisNameIsText::
-	text "That's right! I"
-	line "remember now! His"
-	cont "name is <RIVAL>!"
+	text "That's right! I remember now! He's <RIVAL>!"
 	prompt
 
 _WillBeTradedText::

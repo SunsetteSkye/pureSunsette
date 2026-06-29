@@ -390,6 +390,9 @@ MainInBattleLoop:
 	res FINISHER_INTERRUPTED, [hl]
 	ld hl, wEnemyBattleStatus1
 	res FINISHER_INTERRUPTED, [hl]
+; Sunsette: no side has acted yet this turn (EXTERMINATE's moved-second crit gate, set at the order decision)
+	ld a, $ff
+	ld [wFirstMoverTurn], a
 ; Sunsette: go-last moves (FINISHER, SAPPING COLD, OROCLASM, CLAY ARMOR) resolve last (negative priority,
 ; Focus-Punch style). If exactly one side committed to one, the other acts first; both go-last or neither
 ; falls to normal.
@@ -480,6 +483,7 @@ MainInBattleLoop:
 	jr nc, .playerMovesFirst
 .enemyMovesFirst
 	ld a, $1
+	ld [wFirstMoverTurn], a ; Sunsette: enemy acts first this turn (EXTERMINATE moved-second gate)
 	ldh [hWhoseTurn], a
 	callfar TrainerAI
 	jr c, .AIActionUsedEnemyFirst
@@ -507,7 +511,9 @@ MainInBattleLoop:
 	call CheckNumAttacksLeft
 	jp MainInBattleLoop
 ;;;;;;;;;; shinpokerednote: FIXED: reorganizing this so enemy AI item use and switching has priority over player moves
-.playerMovesFirst 
+.playerMovesFirst
+	xor a
+	ld [wFirstMoverTurn], a ; Sunsette: player acts first this turn (EXTERMINATE moved-second gate)
 ;#1 - handle enemy switching or using an item
 	ld a, 1
 	ldh [hWhoseTurn], a
@@ -682,39 +688,7 @@ HandlePoisonBurnLeechSeed_DecreaseOwnHP:
 .noToxic
 	CheckEvent FLAG_LEECH_SEED_DAMAGE_PROC
 	jr z, .doneToxic
-	push hl
-	push bc
-	ldh a, [hWhoseTurn]
-	and a
-	jr z, .playerTurn2
-	ld a, [wPlayerMoveType]
-	push af
-	ld a, GRASS
-	ld [wPlayerMoveType], a
-	call GetPlayerTypeEffectiveness
-	pop af
-	ld [wPlayerMoveType], a
-	jr .checkEffectiveness
-.playerTurn2
-	ld a, [wEnemyMoveType]
-	push af
-	ld a, GRASS
-	ld [wEnemyMoveType], a
-	call AIGetImmediateTypeEffectiveness
-	pop af
-	ld [wEnemyMoveType], a
-.checkEffectiveness
-	pop bc
-	pop hl
-	ld a, [wTypeEffectiveness]
-	cp NOT_VERY_EFFECTIVE + 1
-	jr c, .doneToxic ; NOT_VERY_EFFECTIVE or lower
-	cp EFFECTIVE
-	ld d, 2
-	jr z, .gotAdditionalLeechSeedDamage
-	inc d
-.gotAdditionalLeechSeedDamage
-	ld a, d
+	ld a, 2 ; Sunsette: LEECH SEED drains a FLAT 1/8 max HP (base maxHP/16 x2). Dropped PureRGB's Grass type-effectiveness scaling so the sap no longer whiffs on the bulky walls Grass most wants to seed.
 	call .multiplyDamage
 .doneToxic
 	pop hl
@@ -1111,7 +1085,13 @@ TrainerBattleVictory:
 	call ScrollTrainerPicAfterBattle
 	ld c, 40
 	rst _DelayFrames
-	farcall TryBattleWinReaction ; Sunsette: nature reaction for the active mon (tough trainers + rivals)
+	; Sunsette: in-battle nature-reaction dialogue UNHOOKED (2026-06-28). The nature system no longer
+	; interjects a reaction inside the battle interface on a win. The TryBattleWinReaction routine and
+	; ALL its data (NotableFightTable, descriptors, pools, and the reaction TEXT) are intentionally
+	; KEPT -- the planned follower system will be the chief reuser of that text. Only this in-combat
+	; call site is disabled. (Out-of-battle reactions -- field moves, evolution, heal, overworld plot,
+	; legendary sprite-pops -- are untouched.) To re-enable in battle: uncomment the farcall below.
+	; farcall TryBattleWinReaction
 	call PrintEndBattleText
 	CheckEvent EVENT_IN_FITNESS_BATTLE
 	ret nz ; no money earnings in fitness battles
@@ -4530,6 +4510,12 @@ GetDamageVarsForPlayerAttack:
 	callfar ScaleCritDamage ; e = level x1.5, or x2 for a NORMAL-type / FARFETCH'D attacker
 	pop bc
 .done
+	; Sunsette: the crit favorable-stat calls above (GetEnemyMonStat / Crit* / ScaleCritDamage)
+	; CLOBBER d, which was set to the move power at the top of this routine. Normal hits skip those
+	; calls so their power survives; crits reached CalculateDamage with a garbage power (a clobbered
+	; WRAM-pointer high byte) -> grossly inflated, variable crit damage. Re-read the power here.
+	ld a, [wPlayerMovePower]
+	ld d, a
 	ld a, 1
 	and a
 	ret
@@ -4692,6 +4678,8 @@ GetDamageVarsForEnemyAttack:
 	callfar ScaleCritDamage ; e = level x1.5, or x2 for a NORMAL-type / FARFETCH'D attacker
 	pop bc
 .done
+	ld a, [wEnemyMovePower] ; Sunsette: re-read power; the crit calls clobber d (see player path)
+	ld d, a
 	ld a, $1
 	and a
 	ret
@@ -7513,7 +7501,7 @@ CheckHazeMistImmunityGetArgs:
 	; fall through
 CheckHazeMistImmunity:
 	; Sunsette: the NORMAL/DRAGON Mist immunity is RETIRED - its BattleStatus2 bit (was NORMAL_DRAGON_IMMUNITY)
-	; was reclaimed (BATTLESTATUS2_UNUSED_6). Nothing ever set it once AURORA MIST stopped using vanilla Mist,
+	; was reclaimed by AURORA MIST's STATUS_WARDED ward. Nothing ever set it for the old NORMAL/DRAGON purpose,
 	; so this always reported "no immunity" anyway. Kept as a stub so the type-effectiveness call sites resolve.
 	and a ; clear carry = no immunity
 	ret

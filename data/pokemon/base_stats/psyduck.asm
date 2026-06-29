@@ -78,9 +78,9 @@
 ; --- Sunsette SSOT directives (parsed by tools/gen_pokemon_data.py) ---
 ;@ nature       NATURE_DITZ NATURE_CALCULATING
 ;@ pal_battle   PAL_SAFFRON
-;@ pal_altbattle PAL_THUNDERMON
+;@ pal_altbattle PAL_LEAFMON
 ;@ pal_icon     $FF
-;@ pal_alticon  PAL_ICON_30
+;@ pal_alticon  PAL_LEAFMON
 ;@ evo         EVOLVE_LEVEL, 25, GOLDUCK
 ;@ evo_move    NO_MOVE
 ;@ evo_react   NONE

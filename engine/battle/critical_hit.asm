@@ -131,21 +131,17 @@ CriticalHitTest:
 	ld b, a
 	jr .finishcalc
 .HighCritical
-; Sunsette: EXTERMINATE only earns its high-crit ratio if it MOVED SECOND this turn. We proxy "moved second"
-; with FINISHER_INTERRUPTED on the USER's side (set whenever a side takes a direct damaging hit, cleared at
-; turn start) - i.e. "the foe already struck it". If the user led the turn (no hit yet), Exterminate falls back
-; to the ordinary x1.5 crit rate. Every other high-crit move keeps its high-crit unconditionally.
+; Sunsette: EXTERMINATE only earns its high-crit ratio if it MOVED SECOND this turn - a true turn-order check.
+; wFirstMoverTurn records who acted first (0 player / 1 enemy), set at the order decision and reset at turn
+; start, so this fires even when the foe used a status move or whiffed (unlike the old FINISHER_INTERRUPTED
+; "took a hit" proxy). If the user led the turn it falls back to x1.5; every other high-crit move is uncond.
 	ld a, c                      ; c = move id
 	cp EXTERMINATE
 	jr nz, .doHighCrit
-	ldh a, [hWhoseTurn]
-	and a
-	ld a, [wPlayerBattleStatus1] ; user = player side
-	jr z, .gotExtStatus
-	ld a, [wEnemyBattleStatus1]
-.gotExtStatus
-	bit FINISHER_INTERRUPTED, a
-	jr z, .normalCritRate        ; user moved first (not yet hit) -> ordinary crit rate
+	ldh a, [hWhoseTurn]          ; a = current attacker (0 = player, 1 = enemy)
+	ld hl, wFirstMoverTurn
+	cp [hl]
+	jr z, .normalCritRate        ; attacker WAS the first mover -> moved first -> ordinary crit rate
 .doHighCrit
 	sla b                        ; x2
 	jr c, .capCritical

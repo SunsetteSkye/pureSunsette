@@ -189,12 +189,13 @@ PrepareOAMData::
 	ld de, OBJ_SIZE
 	ld b, SCREEN_HEIGHT_PX + OAM_Y_OFS
 	ld a, [wMovementFlags]
-	bit BIT_LEDGE_OR_FISHING, a
+	and (1 << BIT_LEDGE_OR_FISHING) | (1 << BIT_FOLLOWER_ACTIVE) ; Sunsette: also preserve the tail for the follower OBJ
 	ld a, LOW(wShadowOAMEnd)
 	jr z, .clear
 
 ; Don't clear the last 4 entries because they are used for the shadow in the
-; jumping down ledge animation and the rod in the fishing animation.
+; jumping down ledge animation, the rod in the fishing animation, or (Sunsette)
+; the overworld follower Pokemon.
 	ld a, LOW(wShadowOAMSprite36)
 
 .clear

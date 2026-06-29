@@ -56,7 +56,7 @@
 ; --- Sunsette SSOT directives (parsed by tools/gen_pokemon_data.py) ---
 ;@ nature       NATURE_CALCULATING NATURE_LAZY
 ;@ pal_battle   PAL_YELLOWMON
-;@ pal_altbattle PAL_0F
+;@ pal_altbattle PAL_GREENBAR
 ;@ pal_icon     $FF
 ;@ pal_alticon  $FF
 ;@ evo         EVOLVE_LEVEL, 26, HYPNO

@@ -154,7 +154,7 @@ CinnabarLabFossilRoomColorChangerText:
 	rst _PrintText
 .done
 	xor a
-	ld [wUnusedC000], a
+	ld [wSharedScratch], a
 	rst TextScriptEnd
 .noPartySelection
 	callfar InGameTrade_RestoreScreen
@@ -174,7 +174,7 @@ VasIsDas:
 
 
 
-; stores the amount of color changes available to use in wUnusedC000
+; stores the amount of color changes available to use in wSharedScratch
 GetAvailableColorChanges:
 	ld hl, wPokedexOwned
 	ld b, wPokedexOwnedEnd - wPokedexOwned
@@ -197,7 +197,7 @@ GetAvailableColorChanges:
 	ld c, a
 	ld a, b
 	sub c
-	ld [wUnusedC000], a
+	ld [wSharedScratch], a
 	ret
 
 ShowBeforeAfterImages:
@@ -258,9 +258,9 @@ DoColorSwap:
 	call GBFadeOutToBlack
 	call FiddlingAroundSounds
 	call GBFadeInFromBlack
-	ld a, [wUnusedC000] ; wUnusedC000 contains the number displayed in AMOUNT_LEFT_BOX currently
+	ld a, [wSharedScratch] ; wSharedScratch contains the number displayed in AMOUNT_LEFT_BOX currently
 	dec a
-	ld [wUnusedC000], a
+	ld [wSharedScratch], a
 	ld a, AMOUNT_LEFT_BOX
 	ld [wTextBoxID], a
 	call DisplayTextBoxID ; redisplay amount left box with decremented value

@@ -73,7 +73,7 @@ ENDC
 	call IntroDisplayPicCenteredOrUpperRight
 	call FadeInIntroPic
 	ld hl, OakSpeechText1
-	rst _PrintText
+	call PrintIntroTextVWF
 	call GBFadeOutToWhite
 	call ClearScreen
 	ld a, NIDORINO
@@ -83,8 +83,14 @@ ENDC
 	hlcoord 6, 4
 	call LoadFlippedFrontSpriteByMonIndex
 	call MovePicLeft
+	; Sunsette: play NIDORINO's cry the moment the sprite finishes sliding on screen, not
+	; buried mid-speech. The VWF print path defers the text_asm callback until the whole text
+	; group has shown, which pushed the cry to AFTER the speech lines; hoisting it here fires
+	; it on appearance as intended.
+	ld a, NIDORINO
+	call PlayCry
 	ld hl, OakSpeechText2
-	rst _PrintText
+	call PrintIntroTextVWF
 	call GBFadeOutToWhite
 	call ClearScreen
 	ld de, RedPicFront
@@ -92,7 +98,7 @@ ENDC
 	call IntroDisplayPicCenteredOrUpperRight
 	call MovePicLeft
 	ld hl, IntroducePlayerText
-	rst _PrintText
+	call PrintIntroTextVWF
 	call ChoosePlayerName
 	call GBFadeOutToWhite
 	call ClearScreen
@@ -101,7 +107,7 @@ ENDC
 	call IntroDisplayPicCenteredOrUpperRight
 	call FadeInIntroPic
 	ld hl, IntroduceRivalText
-	rst _PrintText
+	call PrintIntroTextVWF
 	call ChooseRivalName
 ;.skipSpeech
 	call GBFadeOutToWhite
@@ -114,7 +120,7 @@ ENDC
 	and a ; ???
 	jr nz, .next
 	ld hl, OakSpeechText3
-	rst _PrintText
+	call PrintIntroTextVWF
 .next
 	ldh a, [hLoadedROMBank]
 	push af
@@ -161,6 +167,11 @@ ENDC
 	lb bc, 7, 7
 	call ClearScreenArea
 	call LoadTextBoxTilePatterns
+	; Sunsette: load the overworld palette (wCurMap is already the bedroom here) BEFORE showing the
+	; player overworld sprite, so OBJ slot 1 holds the PLAYER's palette. Without this the sprite
+	; reused a stale intro OBP and rendered green during the shrink + fade-out into the bedroom.
+	ld d, SET_PAL_OVERWORLD
+	call RunPaletteCommand
 	call EnableSpriteUpdates
 	ld c, 50
 	rst _DelayFrames
@@ -174,17 +185,32 @@ OakSpeechText1:
 
 OakSpeechText2:
 	text_far _OakSpeechText2A
-	; BUG: The cry played does not match the sprite displayed. PureRGBnote: FIXED: Plays nidorino's cry now.
+	; Sunsette: NIDORINO's cry now fires on sprite appearance (see the PlayCry hoisted up by
+	; the MovePicLeft above), so this script just waits for the button and prints page 2B.
 	text_asm
-	ld a, NIDORINO
-	call PlayCry
 	call DisplayTextPromptButton
 	ld hl, .2b
-	rst _PrintText
+	call PrintIntroTextVWF
 	rst TextScriptEnd
 .2b
 	text_far _OakSpeechText2B
 	text_end
+
+; Sunsette: print one intro speech text through the VWF. Per-print opt-in (set, print,
+; clear) so the naming screens between speeches stay fixed-width. The PrintText path's
+; gate is GBC-only + battle-excluded, so this safely falls back to fixed-width on DMG.
+PrintIntroTextVWF::
+	ld a, 1
+	ld [wVWFEnable], a
+	rst _PrintText
+	xor a
+	ld [wVWFEnable], a
+	; The intro never CloseTextDisplays, so TEAR DOWN the VWF box here: otherwise its
+	; stale window pool tiles (rows 14/16) bleed onto the next bottom-box text (the naming
+	; confirmations gap/garble) and show blank where nothing repaints (the white page).
+	ld [wVWFBoxOpen], a ; a = 0
+	vwf_farcall VWFEndBox
+	ret
 
 IntroducePlayerText:
 	text_far _IntroducePlayerText

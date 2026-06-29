@@ -247,11 +247,8 @@ InGameTrade_CopyDataToReceivedMon:
 	ld hl, wInGameTradeMonNick
 	ld bc, NAME_LENGTH
 	rst _CopyData
-	ld hl, wPartyMonOT
-	ld bc, NAME_LENGTH
-	call InGameTrade_GetReceivedMonPointer
-	call GetInGameTradeTrainerName
-	rst _CopyData
+	; Sunsette: no OT name to copy - AddPartyMon already stamped this received mon's
+	; ORIGIN field to "Traded" (wMonDataLocation bit 7). The OT ID below is still kept.
 	ld hl, wPartyMon1OTID
 	ld bc, PARTYMON_STRUCT_LENGTH
 	call InGameTrade_GetReceivedMonPointer

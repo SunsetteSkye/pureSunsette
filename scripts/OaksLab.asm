@@ -306,19 +306,20 @@ OaksLabRivalChoosesStarterScript:
 	ld a, TEXT_OAKSLAB_RIVAL_ILL_TAKE_THIS_ONE
 	ldh [hTextID], a
 	call DisplayTextID
-	ld a, [wRivalStarterBallSpriteIndex]
+	ld a, [wRivalStarter] ; Sunsette: derive the rival's ball from the PERSISTENT starter species, not the
+	                      ; clobberable scratch wRivalStarterBallSpriteIndex (see the selection note). STARTERn
+	                      ; maps 1:1 to TOGGLE_STARTER_BALL_n (Charmander/Squirtle/Bulbasaur).
 	ld c, TOGGLE_STARTER_BALL_1
-	cp OAKSLAB_CHARMANDER_POKE_BALL
+	cp STARTER1
 	jr z, .hideBallAndContinue
 	inc c ; TOGGLE_STARTER_BALL_2
-	cp OAKSLAB_SQUIRTLE_POKE_BALL
+	cp STARTER2
 	jr z, .hideBallAndContinue
 	inc c ; TOGGLE_STARTER_BALL_3
 .hideBallAndContinue
 	call HideObject
 	call Delay3
-	ld a, [wRivalStarterTemp]
-	ld [wRivalStarter], a
+	ld a, [wRivalStarter] ; set at selection; the scratch wRivalStarterTemp is clobbered by AskName by now
 	ld [wCurPartySpecies], a
 	ld [wNamedObjectIndex], a
 	call GetMonName
@@ -786,6 +787,12 @@ OaksLabSelectedPokeBallScript:
 	ld [wPokedexNum], a
 	ld a, e
 	ld [wRivalStarterTemp], a
+	ld [wRivalStarter], a ; Sunsette: ALSO store the rival's starter in the PERSISTENT var here. The scratch
+	                      ; wRivalStarterTemp/wRivalStarterBallSpriteIndex live in the 30-byte trade/temp
+	                      ; union, which AskName (the nickname screen, run inside AddPartyMon) clobbers
+	                      ; before OaksLabRivalChoosesStarterScript reads them -- that left the rival's ball
+	                      ; sitting on the table whenever you nicknamed your own mon. wRivalStarter survives,
+	                      ; so the ball to hide + the rival's mon name are derived from it below.
 	ld a, d
 	ld [wRivalStarterBallSpriteIndex], a
 	ld a, b
@@ -852,6 +859,14 @@ OaksLabYouWantBulbasaurText:
 	text_end
 
 OaksLabMonChoiceMenu:
+	ld a, 1
+	ld [wVWFEnable], a ; Sunsette: this prompt prints into the big bottom box -> opt into VWF (the lab
+	                   ; grab uses rst _PrintText, not DisplayTextID, so VWF was never enabled and the
+	                   ; long line rendered fixed-width + got cut).
+	xor a
+	ld [wDoNotWaitForButtonPressAfterDisplayingText], a ; Sunsette: StarterDex (display_pokedex.asm) leaves
+	                   ; this set; clear it so the "So! You want ...?" VWF text crawls/pages FULLY before
+	                   ; the no-wait YES/NO menu takes over (else it freezes mid-text at "So! You want").
 	rst _PrintText
 	ld a, $1
 	ld [wDoNotWaitForButtonPressAfterDisplayingText], a

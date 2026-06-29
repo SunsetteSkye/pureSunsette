@@ -61,7 +61,7 @@
 ;@ nature       NATURE_ARROGANT NATURE_WISE
 ;@ pal_battle   PAL_BROWNGOLDMON
 ;@ pal_altbattle PAL_PIDGEOTMON
-;@ pal_icon     PAL_ICON_10
+;@ pal_icon     PAL_ICON_15
 ;@ pal_alticon  PAL_ICON_11
 ;@ evo_move    NO_MOVE
 ;@ evo_react   "A gust of wind" "sends debris up!"

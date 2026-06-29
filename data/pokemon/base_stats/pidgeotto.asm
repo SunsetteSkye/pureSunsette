@@ -60,7 +60,7 @@
 ;@ nature       NATURE_SCRAPPY NATURE_ARROGANT
 ;@ pal_battle   PAL_PIDGEOTTOMON
 ;@ pal_altbattle PAL_PIDGEOTMON
-;@ pal_icon     PAL_ICON_10
+;@ pal_icon     PAL_ICON_15
 ;@ pal_alticon  PAL_ICON_11
 ;@ evo         EVOLVE_LEVEL, 48, PIDGEOT
 ;@ evo_move    TEMPEST

@@ -111,8 +111,8 @@ TryDoWildEncounter:
 ; determine which wild pokemon (grass or water) can appear in the half-block we're standing in
 	ld c, [hl] ; c = slot * 2
 	; Sunsette: GROWTH field move inverts encounter rarity - flip the slot (rare<->common) while armed (FLOURISH)
-	; (wUnusedMapVariable bit 1; cleared on map change)
-	ld a, [wUnusedMapVariable]
+	; (wFieldMoveArmedFlags bit 1; cleared on map change)
+	ld a, [wFieldMoveArmedFlags]
 	bit 1, a
 	jr z, .gotFinalSlot
 	ld a, (NUM_WILDMONS - 1) * 2

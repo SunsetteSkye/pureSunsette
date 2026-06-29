@@ -318,10 +318,7 @@ SP3_AffectionBucket:
 	and a                        ; PLAYER_PARTY_DATA == 0
 	jr nz, .neutral
 	ld a, [wWhichPokemon]
-	ld e, a
-	ld d, 0
-	ld hl, wPartyMonHappiness
-	add hl, de
+	affection_addr ; hl = &affection (in the mon's origin field)
 	ld a, [hl]
 	jr .classify
 .neutral

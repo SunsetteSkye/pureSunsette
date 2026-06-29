@@ -18,8 +18,8 @@ _LearnsetBeautyTalk::
 
 _LearnsetLove::
 	text "Oh I just want"
-	line "to tell every-"
-	cont "one about @"
+	line "to tell everyone"
+	cont "about @"
 	text_ram_cont wNameBuffer
 	text "!"
 	para "I love it!"
